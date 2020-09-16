@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-community/google-signin';
-import SplashScreen from 'react-native-splash-screen';
 
 GoogleSignin.configure({
   scopes: ['openid', 'email', 'profile'],
   webClientId: '125095692098-jvns3h2vfqkf3ufrb0kcqhf1k2abicog.apps.googleusercontent.com',
 });
 
-export default function App() {
+export default function Home() {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -56,12 +55,10 @@ export default function App() {
   // Handle user state changes
   async function onAuthStateChanged(user) {
     setUser(user);
-   // console.log(await auth().currentUser.getIdToken(true));
     if (initializing) setInitializing(false);
   }
 
   useEffect(() => {
-    SplashScreen.hide();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
@@ -86,19 +83,19 @@ export default function App() {
 
   return (
     <View>
-      <Text>Welcome {user.email}</Text>
-      <Button
-        title="Signout"
-        onPress={() => auth().signOut().then(() => console.log('User signed out!'))}
+    <Text>Welcome {user.email}</Text>
+    <Button
+      title="Signout"
+      onPress={() => auth().signOut().then(() => console.log('User signed out!'))}
+    />
+    <Button
+        title="Email Sign-In"
+        onPress={() => onEmailButtonPress().then(() => console.log('Signed in with Email!'))}
       />
-      <Button
-          title="Email Sign-In"
-          onPress={() => onEmailButtonPress().then(() => console.log('Signed in with Email!'))}
-        />
-      <Button
-        title="Signout"
-        onPress={() => signOut()}
-      />
-    </View>
+    <Button
+      title="Signout"
+      onPress={() => signOut()}
+    />
+  </View>
   );
 }
