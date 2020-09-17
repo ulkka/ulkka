@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
-import Main from './navigation/Main';
+import Main from './redux/actions/mainNav';
 import SplashScreen from 'react-native-splash-screen';
+
+import { Provider } from 'react-redux';
+import store from './redux/reducers/index';
 
 export default function App() {
   useEffect(() => {
@@ -9,8 +12,10 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Main />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Main />
+      </SafeAreaView>
+    </Provider>
   );
 }
