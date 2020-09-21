@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-community/google-signin';
@@ -27,7 +27,7 @@ export default function SignIn(props) {
     if (authFlag) {
       authFlag = false;
       if (user) {
-        await auth().currentUser.getIdToken(true).then((id_token) => {
+        await auth().currentUser.getIdToken(false).then((id_token) => {
           props.addAuth(user, id_token);
           console.log('in user', user);
         }).catch((e) => {

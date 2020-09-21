@@ -1,7 +1,7 @@
 import * as Actions from '../actions/ActionTypes';
 
 const INITIAL_AUTH_STATE = {
-  auth_state: null,
+  auth_state: 'LOADING',
   user: null,
   id_token: null
 };
@@ -18,6 +18,7 @@ const authReducer = (state = INITIAL_AUTH_STATE, action) => {
     case Actions.addAuth:
       user = action.payload.user;
       id_token = action.payload.id_token;
+      console.log(id_token);
       auth_state = 'AUTHENTICATED';
      // let new_state = { auth_state, id_token, user };
       return { auth_state, id_token, user };
