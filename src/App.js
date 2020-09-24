@@ -3,8 +3,11 @@ import { SafeAreaView } from 'react-native';
 import Main from './redux/actions/mainNav';
 import SplashScreen from 'react-native-splash-screen';
 
-import { Provider } from 'react-redux';
+import { Provider as StoreProvider } from 'react-redux';
 import store from './redux/reducers/index';
+
+import { ThemeProvider } from 'react-native-elements';
+import theme from './theme/main';
 
 export default function App() {
   useEffect(() => {
@@ -12,10 +15,12 @@ export default function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Main />
-      </SafeAreaView>
-    </Provider>
+    <StoreProvider store={store} >
+      <ThemeProvider theme={theme} >
+        <SafeAreaView style={{ flex: 1 }}>
+          <Main />
+        </SafeAreaView>
+      </ThemeProvider>
+    </StoreProvider>
   );
 }

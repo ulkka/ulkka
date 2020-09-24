@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, LogBox } from 'react-native';
 import mainClient from '../../client/mainClient';
 
 
@@ -23,6 +23,7 @@ export default function createPost() {
                 name: name
             },
         }).then(response => {
+            
             console.log('response is', response.data);
         }).catch(error => {
             console.log(error);

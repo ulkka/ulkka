@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import mainClient from '../../client/mainClient';
+import { ThemeContext } from 'react-native-elements';
+import HeaderBar from '../../components/Header';
 
-export default function Home() {
+function Home({ navigation }) {
+
+    const { theme } = useContext(ThemeContext);
 
     const [feed, setFeed] = useState([]);
 
@@ -14,18 +18,26 @@ export default function Home() {
         }).catch(error => {
             console.log(error);
         });
+        console.log(theme.colors.primary);
     }
     useEffect(() => {
         loadFeed();
+
     }, []);
 
     const renderRow = ({ item }) => {
-        return (<View style={{ borderWidth: 1 }}>
-            <Text>Community - {item.community}</Text>
-            <Text>By - {item.author.name}</Text>
-            <Text>Text - {item.text}</Text>
-            <Text>Slug  - {item.slug}</Text>
-        </View>
+        return (
+            <View style={
+                {
+                    borderWidth: 1,
+                    backgroundColor: theme.colors.background
+                }
+            }>
+                <Text>Community - {item.community}</Text>
+                <Text>By - {item.author.name}</Text>
+                <Text>Text - {item.text}</Text>
+                <Text>Slug  - {item.slug}</Text>
+            </View>
 
         )
     };
@@ -37,6 +49,9 @@ export default function Home() {
     };
     return (
         <View>
+            <View>
+                <HeaderBar navigation={navigation} />
+            </View>
             <FlatList
                 data={feed}
                 renderItem={renderRow}
@@ -48,3 +63,5 @@ export default function Home() {
         </View>
     );
 }
+
+export default Home;
