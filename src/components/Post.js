@@ -21,13 +21,17 @@ export default function Post(props) {
                 <View style={{ flexDirection: "row" }}>
                     <Icon name="account-circle" color="#333" size={32} style={{ padding: 5 }} />
                     <View style={{ padding: 5 }}>
-                        <Text style={{ fontSize: 13, fontWeight: "bold", color: "#432" }}>
-                            Community Name Title
+                        <TouchableOpacity onPress={() => props.navigation.navigate('Community')}>
+                            <Text style={{ fontSize: 13, fontWeight: "bold", color: "#432" }}>
+                                Community Name Title
                         </Text>
+                        </TouchableOpacity>
                         <View style={{ flexDirection: "row", }}>
-                            <Text style={{ fontSize: 11, paddingRight: 10, color: "#555" }}>
-                                By - {props.item.author.name}
-                            </Text>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('Account')}>
+                                <Text style={{ fontSize: 11, paddingRight: 10, color: "#555" }}>
+                                    By - {props.item.author.name}
+                                </Text>
+                            </TouchableOpacity>
                             <Text style={{ fontSize: 11, color: "#555" }}>
                                 3h
                         </Text>
@@ -53,9 +57,9 @@ export default function Post(props) {
                 <View style={{ flex: 5 }}>
                     <Icon name="comment" type="material-community" color="#000" size={18} color="#888" />
                 </View>
-                <TouchableOpacity style={{ flex: 3, flexDirection:"row" }}>
+                <TouchableOpacity style={{ flex: 3, flexDirection: "row" }}>
                     <Icon name="share" type="font-awesome-5" size={18} color="#888" />
-                    <Text style={{fontSize:13,fontWeight:"bold", paddingLeft:12, color:"#777"}} >Share</Text>
+                    <Text style={{ fontSize: 13, fontWeight: "bold", paddingLeft: 12, color: "#777" }} >Share</Text>
                 </TouchableOpacity>
             </View>
         </View>
