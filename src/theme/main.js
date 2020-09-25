@@ -4,7 +4,7 @@ const theme = {
     colors: {
         primary: "#fff",
         accent: "#f1c40f",
-        background: "#ddd"
+        background: "#fff"
     },
 };
 

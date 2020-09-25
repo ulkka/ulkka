@@ -14,7 +14,7 @@ const HeaderBar = (props) => {
 
     const MenuComponent = () => {
         return (
-            <Icon name="menu" color="#111" onPress={() => props.navigation.toggleDrawer()} />
+            <Icon name="menu" color="#333" onPress={() => props.navigation.toggleDrawer()} />
         )
     }
 
@@ -24,30 +24,28 @@ const HeaderBar = (props) => {
                 <View style={
                     {
                         flex: 1,
-                        justifyContent:"center"
+                        justifyContent: "center"
                     }
                 }>
-                    <Text h4>Vellarikka Pattanam</Text>
+                    <Text style={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        color: "#333"
+                    }}>Vellarikka Pattanam</Text>
                 </View>
                 :
-                <View style={
-                    {
-                      //  flex: 1,
-                        width:"100%"
-                    }
-                }>
-                    <Search />
-                </View>
+
+                <Search />
         )
     }
 
     const SearchComponent = () => {
         return (
             searchMode == false ?
-                <Icon name="search" color="#111" onPress={() => _toggleSearch()} />
+                <Icon name="search" color="#333" onPress={() => _toggleSearch()} />
                 :
-                <TouchableOpacity onPress={() => _toggleSearch()}>
-                    <Text>Cancel</Text>
+                <TouchableOpacity onPress={() => _toggleSearch()}  >
+                    <Text style={{ fontSize: 13, color: "#444", fontWeight:"bold" , paddingTop:4}}> Cancel</Text>
                 </TouchableOpacity>
         )
     }
@@ -55,6 +53,10 @@ const HeaderBar = (props) => {
     return (
 
         <Header
+            containerStyle={{
+                height: 72,
+                borderBottomColor:'transparent'
+            }}
             statusBarProps={{ barStyle: "dark-content" }}
             barStyle="dark-content"
             placement="left"

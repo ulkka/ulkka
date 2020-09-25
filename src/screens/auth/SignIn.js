@@ -3,6 +3,9 @@ import { View, Text, Button } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-community/google-signin';
 
+import Header from '../../components/Header';
+
+
 GoogleSignin.configure({
   scopes: ['openid', 'email', 'profile'],
   webClientId: '125095692098-jvns3h2vfqkf3ufrb0kcqhf1k2abicog.apps.googleusercontent.com',
@@ -47,6 +50,7 @@ export default function SignIn(props) {
 
   return (
     <View>
+      <Header />
       <Text>Login</Text>
       <Button
         title="Google Sign-In"

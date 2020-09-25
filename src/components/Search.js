@@ -11,25 +11,30 @@ export default function Search() {
         setSearch(search);
     };
 
-    const CancelSearch = () => {
-        return (
-            <Icon name="menu" color="#111" />
-        )
-    };
-
     return (
         <SearchBar
-            placeholder="Type Here..."
+            placeholder="Search..."
             onChangeText={(text) => updateSearch(text)}
             value={search}
             lightTheme={true}
+            cancelButtonTitle='cancel'
             containerStyle={{
-                justifyContent:"center",
-                backgroundColor: theme.colors.primary,
-               // height:"50%"
+                backgroundColor: 'white',
+                borderTopColor: 'transparent',
+                borderBottomColor: 'transparent',
+                width: "100%",
             }}
+            inputContainerStyle={{
+                height: 30,
+                backgroundColor:"#eee"
+            }}
+            inputStyle={{
+                fontSize: 12
+            }}
+
             round={true}
-            leftIcon={CancelSearch}
+            showLoading={true}
+            searchIcon={{ size: 15 }}
         />
     );
 }
