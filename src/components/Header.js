@@ -45,7 +45,7 @@ const HeaderBar = (props) => {
                 <Icon name="search" color="#333" onPress={() => _toggleSearch()} />
                 :
                 <TouchableOpacity onPress={() => _toggleSearch()}  >
-                    <Text style={{ fontSize: 13, color: "#444", fontWeight:"bold" , paddingTop:4}}> Cancel</Text>
+                    <Text style={{ fontSize: 13, color: "#444", fontWeight:"bold" , paddingTop:4, }}> Cancel</Text>
                 </TouchableOpacity>
         )
     }

@@ -17,12 +17,12 @@ export default function Search() {
             onChangeText={(text) => updateSearch(text)}
             value={search}
             lightTheme={true}
-            cancelButtonTitle='cancel'
             containerStyle={{
                 backgroundColor: 'white',
                 borderTopColor: 'transparent',
                 borderBottomColor: 'transparent',
                 width: "100%",
+                paddingRight:0
             }}
             inputContainerStyle={{
                 height: 30,

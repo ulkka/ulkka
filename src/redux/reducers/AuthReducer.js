@@ -24,6 +24,7 @@ const authReducer = (state = INITIAL_AUTH_STATE, action) => {
       return { auth_state, id_token, user };
 
     case Actions.removeAuth:
+      console.log('removing auth');
       user = null;
       id_token = null;
       auth_state = 'UNAUTHENTICATED';

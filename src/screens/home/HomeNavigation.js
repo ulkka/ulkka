@@ -1,7 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+
+import CreatePostButtonOverlay from '../../components/CreatePostButtonOverlay';
+
 
 import Account from '../account/Account';
 import Community from '../community/Community';
@@ -9,6 +12,7 @@ import Community from '../community/Community';
 import HeaderBar from '../../components/Header';
 import Home from './tabs/Home';
 import Popular from './tabs/Popular';
+import TabBarNavigator from '../../components/TabBarNavigator';
 
 const Tab = createMaterialTopTabNavigator();
 const StackNav = createStackNavigator();
@@ -17,6 +21,7 @@ function HomeTabNavigation({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
+        //  tabBar={props => <TabBarNavigator {...props} />}
         tabBarOptions={{
           activeTintColor: "#444",
           inactiveTintColor: "grey",
@@ -30,13 +35,14 @@ function HomeTabNavigation({ navigation }) {
             padding: 0
           },
           style: {
-            height: 30,
+          //  height: 30,
           },
         }}
       >
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Popular" component={Popular} />
       </Tab.Navigator>
+        <CreatePostButtonOverlay />
     </View>
   );
 }
