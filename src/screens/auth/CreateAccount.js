@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
-import { SocialIcon } from 'react-native-elements';
-import { Icon, Input } from 'react-native-elements';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import { View, Text, KeyboardAvoidingView, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { Icon, Input, SocialIcon } from 'react-native-elements';
+import auth from '@react-native-firebase/auth';
+import Snackbar from 'react-native-snackbar';
+import mainClient from '../../client/mainClient';
 
 export default function CreateAccount() {
 
     const renderErrorMessage = false;
+    var authFlag = true;
 
     const emailErrorMessage = "Invalid Email";
     const passwordErrorMessage = "Min 6 characters";
     const confirmPasswordErrorMessage = "Passwords doesn't match";
-    const displayNameErrorMessage = "Invalid Display Name (Min 6 characters)";
+    const [displayNameErrorMessage, setDisplayNameErrorMessage] = useState("");
 
     const [secure, setSecure] = useState(true);
 
@@ -37,18 +38,41 @@ export default function CreateAccount() {
             setIsFormValid(false);
         }
 
-    }, [isEmailValid, isPasswordValid, isConfirmPasswordValid, isDisplayNameValid])
+    }, [isEmailValid, isPasswordValid, isConfirmPasswordValid, isDisplayNameValid]);
 
     useEffect(() => {
         if (confirmPassword == password && isPasswordValid) {
             setIsConfirmPasswordValid(true);
-        } else if (password == ""||isConfirmPasswordValid==null) {
+        } else if (password == "" || isConfirmPasswordValid == null) {
             setIsConfirmPasswordValid(null);
         } else {
             setIsConfirmPasswordValid(false);
         }
 
-    }, [password])
+    }, [password]);
+
+    useEffect(() => {
+        //  const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+        // return subscriber; // unsubscribe on unmount
+    }, []);
+
+    async function onAuthStateChanged(user) {
+        if (authFlag) {
+            authFlag = false;
+            if (user) {
+                await auth().currentUser.getIdToken(false).then((id_token) => {
+                    props.addAuth(user, id_token);
+                    console.log('in user', user);
+                }).catch((e) => {
+                    console.log(e);
+                })
+            } else {
+                console.log('null user');
+            }
+        }
+        authFlag = true;
+    }
+
 
     const validateEmail = (text) => {
         console.log(text);
@@ -98,11 +122,23 @@ export default function CreateAccount() {
         if (text.length < 6) {
             console.log("Display Name is Not Correct");
             setIsDisplayNameValid(false);
+            setDisplayNameErrorMessage("Invalid Display Name (Min 6 characters)");
             return false;
         }
         else {
             console.log("Display Name is Correct (Min 6 Characters)");
-            setIsDisplayNameValid(true);
+            mainClient.get('/user?query={"name":"' + text + '"}').then((res) => {
+                console.log(res.data, res.data.length);
+                if (res.data.length == 0) {
+                    setIsDisplayNameValid(true);
+                } else {
+                    setIsDisplayNameValid(false);
+                    setDisplayNameErrorMessage("Display name already in use");
+                }
+            }).catch((e) => {
+                console.log(e);
+            });
+            //setIsDisplayNameValid(true);
             return true;
         }
     }
@@ -130,6 +166,52 @@ export default function CreateAccount() {
                 return;
         }
 
+    }
+
+    const createAccount = async () => {
+
+        auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(async (user) => {
+
+                console.log('User account created & signed in!', user);
+
+              /*  auth().currentUser.sendEmailVerification({
+                    handleCodeInApp: true
+                });*/
+
+                var token = await auth().currentUser.getIdToken(false);
+                var data = JSON.stringify({
+                    "token": token
+                });
+
+                mainClient.post('user/signup', {
+                    data: data
+                }).then(res => {
+                    console.log('create account se -- ',res.data);
+                })
+
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                    Snackbar.show({
+                        text: 'Email address is already in use!',
+                        duration: Snackbar.LENGTH_LONG,
+                        action: {
+                            text: 'CHANGE',
+                            textColor: 'green',
+                            onPress: () => { Snackbar.dismiss() },
+                        },
+                    });
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                }
+
+                console.error(error);
+            });
     }
 
     return (
@@ -207,7 +289,7 @@ export default function CreateAccount() {
                         />
                     </KeyboardAvoidingView>
                     <View style={{ width: "60%", padding: 20 }}>
-                        <TouchableOpacity disabled={!isFormValid} onPress={() => console.log('hi')} style={{
+                        <TouchableOpacity disabled={false} onPress={() => createAccount()} style={{
                             backgroundColor: isFormValid ? "green" : "#d3d3d3",
                             borderRadius: 20, height: 40, alignItems: "center", justifyContent: "center", width: "100%"
                         }}>
