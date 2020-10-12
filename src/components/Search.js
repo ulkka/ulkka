@@ -1,40 +1,41 @@
-import React, { useContext, useState } from 'react';
-import { SearchBar } from 'react-native-elements';
-import { ThemeContext } from 'react-native-elements';
+import React, {useContext, useState} from 'react';
+import {SearchBar} from 'react-native-elements';
+import {ThemeContext} from 'react-native-elements';
 
 export default function Search() {
-    const { theme } = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContext);
 
-    const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('');
 
-    const updateSearch = (search) => {
-        setSearch(search);
-    };
+  const updateSearch = (search) => {
+    setSearch(search);
+  };
 
-    return (
-        <SearchBar
-            placeholder="Search..."
-            onChangeText={(text) => updateSearch(text)}
-            value={search}
-            lightTheme={true}
-            containerStyle={{
-                backgroundColor: 'white',
-                borderTopColor: 'transparent',
-                borderBottomColor: 'transparent',
-                width: "100%",
-                paddingRight:0
-            }}
-            inputContainerStyle={{
-                height: 30,
-                backgroundColor:"#eee"
-            }}
-            inputStyle={{
-                fontSize: 12
-            }}
-
-            round={true}
-            showLoading={true}
-            searchIcon={{ size: 15 }}
-        />
-    );
+  return (
+    <SearchBar
+      placeholder="Search..."
+      onChangeText={(text) => updateSearch(text)}
+      value={search}
+      lightTheme={true}
+      containerStyle={{
+        backgroundColor: 'white',
+        borderTopColor: 'transparent',
+        borderBottomColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '70%',
+        paddingRight: 0,
+        height: 22,
+      }}
+      inputContainerStyle={{
+        height: 30,
+        backgroundColor: '#eee',
+      }}
+      inputStyle={{
+        fontSize: 12,
+      }}
+      round={true}
+      searchIcon={{size: 15}}
+    />
+  );
 }

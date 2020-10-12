@@ -55,10 +55,10 @@ export default function Post(props) {
             >
                 <Image style={{
                     width: "100%",
-                    aspectRatio: 1,
+                    height:270 ,
                     resizeMode: "contain",
                 }}
-                    source={{ uri: "https://d1by7ovwgplzkj.cloudfront.net/assets/chaluunion/120132785_840032346765081_8283284046274907440_n.jpg" }}
+                    source={{ uri: "https://d1by7ovwgplzkj.cloudfront.net/assets/trollmalayalamofficial/121191949_1222980311404786_8919896763969967922_n.jpg" }}
                 />
             </TouchableHighlight>
             <View style={{ flexDirection: "row", padding: 10, borderTopWidth: 1, borderTopColor: "#eee", flex: 1, justifyContent: "space-evenly" }}>
