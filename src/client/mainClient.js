@@ -30,12 +30,12 @@ mainClient.interceptors.response.use(
         console.log(response.data);
         console.log(response.status);
         console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
+     //   console.log(response.headers);
+     //   console.log(response.config);
         return response;
     }, error => {
         console.log(error.response.status);
-        console.log(error.response.config);
+      //  console.log(error.response.config);
         console.log(error.response);
         return Promise.reject(error);
     },

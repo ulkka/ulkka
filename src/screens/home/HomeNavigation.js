@@ -29,14 +29,14 @@ function HomeTabNavigation({navigation}) {
           labelStyle: {
             width: '100%',
             fontWeight: 'bold',
-            fontSize:13
+            fontSize: 13,
           },
           tabStyle: {
             justifyContent: 'flex-start',
             padding: 0,
           },
           style: {
-             height: 35,
+            height: 35,
           },
         }}>
         <Tab.Screen name="Home" component={Home} />
@@ -61,7 +61,11 @@ function HomeStackNavigation({navigation}) {
         title="Community"
       />
       <StackNav.Screen name="Account" component={Account} title="Account" />
-      <StackNav.Screen name="CreatePost" component={CreatePost} title="Create Post" />
+      <StackNav.Screen
+        name="CreatePost"
+        component={CreatePost}
+        title="Create Post"
+      />
     </StackNav.Navigator>
   );
 }

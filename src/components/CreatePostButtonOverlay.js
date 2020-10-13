@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Icon, Overlay} from 'react-native-elements';
 import createPost from '../screens/create/CreatePost';
@@ -7,7 +7,6 @@ export default function CreatePostButtonOverlay(props) {
   const [enableOverlay, setEnableOverLay] = useState(false);
 
   const toggleOverlay = () => {
-    console.log('Toggling Overlay');
     setEnableOverLay(!enableOverlay);
   };
 
@@ -19,10 +18,10 @@ export default function CreatePostButtonOverlay(props) {
 
   const createPost = (type) => {
     setEnableOverLay(false);
-    props.navigation.navigate('CreatePost',{
-        type:type
-    })
-  }
+    props.navigation.navigate('CreatePost', {
+      type: type,
+    });
+  };
   return (
     <View>
       <Icon
@@ -79,8 +78,7 @@ export default function CreatePostButtonOverlay(props) {
               justifyContent: 'space-evenly',
               paddingBottom: 15,
             }}>
-            <TouchableOpacity
-              onPress={()=>createPost('text') }>
+            <TouchableOpacity onPress={() => createPost('text')}>
               <Icon
                 name="text"
                 type="material-community"
@@ -89,7 +87,7 @@ export default function CreatePostButtonOverlay(props) {
               />
               <Text style={styles.postType}>Text</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => createPost('link')}>
               <Icon
                 name="link"
                 type="font-awesome-5"
@@ -98,7 +96,7 @@ export default function CreatePostButtonOverlay(props) {
               />
               <Text style={styles.postType}>Link</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => createPost('image')}>
               <Icon
                 name="image"
                 type="font-awesome-5"
@@ -107,7 +105,7 @@ export default function CreatePostButtonOverlay(props) {
               />
               <Text style={styles.postType}>Image</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => createPost('gif')}>
               <Icon
                 name="image-filter-tilt-shift"
                 type="material-community"
@@ -116,7 +114,7 @@ export default function CreatePostButtonOverlay(props) {
               />
               <Text style={styles.postType}>GIF</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => createPost('video')}>
               <Icon
                 name="video"
                 type="font-awesome-5"
