@@ -20,23 +20,23 @@ function getUrl(config) {
 // Intercept all requests
 mainClient.interceptors.request.use(
     config => {
-        console.log("Config: ", config);
+       // console.log("Config: ", config);
         return config;
     }, error => Promise.reject(error));
 
 // Intercept all responses
 mainClient.interceptors.response.use(
     async response => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
+      //  console.log(response.data);
+      //  console.log(response.status);
+       // console.log(response.statusText);
      //   console.log(response.headers);
      //   console.log(response.config);
         return response;
     }, error => {
-        console.log(error.response.status);
+      //  console.log(error.response.status);
       //  console.log(error.response.config);
-        console.log(error.response);
+       // console.log(error.response);
         return Promise.reject(error);
     },
 );

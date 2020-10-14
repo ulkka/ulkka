@@ -28,7 +28,7 @@ export default function CreatePostButtonOverlay(props) {
         name="plus"
         type="font-awesome-5"
         size={25}
-        color="green"
+        color="lightblue"
         reverse
         onPress={toggleOverlay}
         containerStyle={{

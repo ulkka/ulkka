@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Image, TouchableOpacity, TouchableNativeFeedback, TouchableHighlight } from 'react-native';
+import { View, Image, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { ThemeContext, Icon, Text, } from 'react-native-elements';
 
 
@@ -59,6 +59,7 @@ export default function Post(props) {
                     resizeMode: "contain",
                 }}
                     source={{ uri: "https://d1by7ovwgplzkj.cloudfront.net/assets/trollmalayalamofficial/121191949_1222980311404786_8919896763969967922_n.jpg" }}
+               //     source={{uri:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif"}}
                 />
             </TouchableHighlight>
             <View style={{ flexDirection: "row", padding: 10, borderTopWidth: 1, borderTopColor: "#eee", flex: 1, justifyContent: "space-evenly" }}>

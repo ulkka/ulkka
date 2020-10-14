@@ -2,16 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  TextInput,
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ImageBackground,
-  Dimensions,
 } from 'react-native';
 import mainClient from '../../client/mainClient';
 import {Input, Icon, Button} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
+import Video from 'react-native-video';
 
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -21,7 +19,7 @@ export default function createPost({navigation, route}) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
-  const [image, setImage] = useState(null);
+  const [media, setMedia] = useState(null);
 
   const [
     selectCommunityModalVisible,
@@ -41,14 +39,27 @@ export default function createPost({navigation, route}) {
     },
   };
 
-  const pickImage = () => {
+  const pickMedia = (mediaType) => {
     ImagePicker.openPicker({
-      //cropping: true,
-      // cropperCircleOverlay: true,
-    }).then((image) => {
-      console.log(image);
-      setImage(image);
-    });
+      writeTempFile: false,
+      mediaType: mediaType,
+    })
+      .then((media) => {
+        // since ios and android responses are different and to accomodate gifs
+        if ("filename" in media) { 
+          let fileFormat = media.filename.split('.').pop();
+          if (
+            (fileFormat == 'gif' || fileFormat == 'GIF') &&
+            media.mime == 'image/jpeg'
+          ) {
+            media.path = media.sourceURL;
+          }
+        }
+        setMedia(media);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const submit = async () => {
@@ -67,6 +78,212 @@ export default function createPost({navigation, route}) {
         console.log(error);
       });
   };
+
+  const ViewTitle = (
+    <View
+      style={{
+        flex: 1,
+        height: 40,
+        padding: 10,
+        marginBottom: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Text style={{fontSize: 16, fontWeight: 'bold', color: '#444'}}>
+        Create Post
+      </Text>
+    </View>
+  );
+
+  const SelectCommunityField = (
+    <View style={{flex: 1}}>
+      <TouchableOpacity
+        onPress={() => setSelectCommunityModalVisible(true)}
+        style={{
+          height: 50,
+          width: '95%',
+          alignSelf: 'center',
+          marginBottom: 50,
+        }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <Text style={{color: '#555', fontSize: 18, fontWeight: 'bold'}}>
+            {community == null ? 'Select Community' : community.name}
+          </Text>
+          <Icon
+            name="angle-down"
+            size={18}
+            color="#333"
+            type="font-awesome-5"
+          />
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const PostTitleField = (
+    <View style={{flex: 1}}>
+      <Input
+        style={{
+          height: 40,
+        }}
+        inputContainerStyle={{
+          borderBottomColor: '#ddd',
+        }}
+        onChangeText={(text) => setTitle(text)}
+        value={title}
+        placeholder={'Title'}
+      />
+    </View>
+  );
+
+  const DescriptionField = (
+    <View style={{flex: 3}}>
+      <Input
+        style={{
+          maxHeight: 300,
+          minHeight: 150,
+        }}
+        inputContainerStyle={{
+          borderBottomColor: '#fff',
+        }}
+        onChangeText={(text) => setDescription(text)}
+        value={description}
+        placeholder={'Description'}
+        numberOfLines={10}
+        multiline={true}
+        maxLength={1000}
+      />
+    </View>
+  );
+
+  const MediaField = (mediaType) => {
+    return (
+      <View
+        style={{
+          flex: 3,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {media == null ? (
+          <TouchableOpacity onPress={() => pickMedia(mediaType)}>
+            <Icon
+              name="plus-square"
+              size={40}
+              reverse
+              color="lightblue"
+              type="font-awesome"
+            />
+          </TouchableOpacity>
+        ) : (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: '#eee',
+              width: Math.ceil((media.width * 250) / media.height),
+              height: 250,
+            }}>
+            {mediaType == 'video' ? (
+              <Video
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+                source={{uri: media.path}}
+                resizeMode="contain"
+                paused={false}
+                showPoster={true}
+                playWhenInactive={false}
+                muted={true}
+                repeat={true}
+              />
+            ) : mediaType == 'photo' ? (
+              <Image
+                source={{uri: media.path}}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  resizeMode: 'contain',
+                }}
+              />
+            ) : (
+              <View></View>
+            )}
+            <TouchableOpacity
+              onPress={() => setMedia(null)}
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+              }}>
+              <Icon
+                name="close"
+                type="font-awesome"
+                size={16}
+                color="lightblue"
+                reverse
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    );
+  };
+
+  const PostDetail = (
+    <View style={{flex: 6}}>
+      <SearchableDropdown
+        selectCommunityModalVisible={selectCommunityModalVisible}
+        setSelectCommunityModalVisible={setSelectCommunityModalVisible}
+        setCommunity={setCommunity}
+      />
+      {SelectCommunityField}
+      <KeyboardAvoidingView style={{flex: 6}}>
+        {PostTitleField}
+        {type == 'text' ? (
+          DescriptionField
+        ) : type == 'image' || type == 'gif' ? (
+          MediaField('photo')
+        ) : type == 'video' ? (
+          MediaField('video')
+        ) : (
+          <View></View>
+        )}
+      </KeyboardAvoidingView>
+    </View>
+  );
+
+  const PostButton = (
+    <View
+      style={{
+        flex: 1,
+        width: '40%',
+        alignSelf: 'center',
+        justifyContent: 'center',
+      }}>
+      <Button
+        icon={<Icon name="send" size={15} color="green" type="font-awesome" />}
+        raised
+        title="Post"
+        buttonStyle={{
+          backgroundColor: '#fff',
+          borderRadius: 20,
+          borderColor: '#ddd',
+          //padding:20
+        }}
+        titleStyle={{
+          color: 'green',
+          fontWeight: 'bold',
+          paddingLeft: 20,
+        }}
+        type="solid"
+        onPress={() => submit()}
+      />
+    </View>
+  );
+
   return (
     <View
       style={{
@@ -75,163 +292,9 @@ export default function createPost({navigation, route}) {
         width: '98%',
         alignSelf: 'center',
       }}>
-      <View
-        style={{
-          flex: 1,
-          height: 40,
-          padding: 10,
-          marginBottom: 10,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Text style={{fontSize: 16, fontWeight: 'bold', color: '#444'}}>
-          Create Post
-        </Text>
-      </View>
-      <View style={{flex: 4}}>
-        <SearchableDropdown
-          selectCommunityModalVisible={selectCommunityModalVisible}
-          setSelectCommunityModalVisible={setSelectCommunityModalVisible}
-          setCommunity={setCommunity}
-        />
-        <TouchableOpacity
-          onPress={() => setSelectCommunityModalVisible(true)}
-          style={{
-            // borderBottomWidth: 1,
-            height: 50,
-            width: '95%',
-            alignSelf: 'center',
-            marginBottom: 50,
-          }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-            <Text
-              style={{
-                color: '#555',
-                fontSize: 18,
-                fontWeight: 'bold',
-              }}>
-              {community == null ? 'Select Community' : community.name}
-            </Text>
-            <Icon
-              name="angle-down"
-              size={18}
-              color="#333"
-              type="font-awesome-5"
-            />
-          </View>
-        </TouchableOpacity>
-        <KeyboardAvoidingView>
-          <Input
-            style={{
-              height: 40,
-            }}
-            inputContainerStyle={{
-              borderBottomColor: '#ddd',
-            }}
-            onChangeText={(text) => setTitle(text)}
-            value={title}
-            placeholder={'Title'}
-          />
-          {type == 'text' ? (
-            <Input
-              style={{
-                maxHeight: 300,
-                minHeight: 150,
-              }}
-              inputContainerStyle={{
-                borderBottomColor: '#fff',
-              }}
-              onChangeText={(text) => setDescription(text)}
-              value={description}
-              placeholder={'Description'}
-              numberOfLines={10}
-              multiline={true}
-              maxLength={1000}
-            />
-          ) : type == 'image' ? (
-            <View
-              style={{
-                height: 300,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              {image == null ? (
-                <TouchableOpacity onPress={() => pickImage()}>
-                  <Icon
-                    name="plus-square"
-                    size={30}
-                    reverse
-                    color="lightblue"
-                    type="font-awesome"
-                  />
-                </TouchableOpacity>
-              ) : (
-                <View style={{
-                  flex:1,
-                  width:"80%",
-                  alignItems:"center",
-                  justifyContent:"center"
-                }}>
-                  <ImageBackground
-                    source={{uri: image.path}}
-                    style={{
-                      width: Math.ceil(image.width * 230 /image.height),
-                      height: 230,
-                      
-                    }}
-                    imageStyle={{
-                      resizeMode: 'contain',
-                    }}>
-                    <View
-                      style={{
-                        flex: 1,
-                        borderWidth: 2,
-                        alignItems: 'flex-end',
-                      }}>
-                      <TouchableOpacity onPress={() => setImage(null)}>
-                        <Icon
-                          name="close"
-                          type="font-awesome"
-                          size={16}
-                          color="lightblue"
-                          reverse
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </ImageBackground>
-                </View>
-              )}
-            </View>
-          ) : (
-            <View></View>
-          )}
-        </KeyboardAvoidingView>
-        <View
-          style={{
-            width: '40%',
-            alignSelf: 'center',
-          }}>
-          <Button
-            icon={
-              <Icon name="send" size={15} color="green" type="font-awesome" />
-            }
-            raised
-            title="Post"
-            buttonStyle={{
-              backgroundColor: '#fff',
-              borderRadius: 20,
-              borderColor: '#ddd',
-            }}
-            titleStyle={{
-              color: 'green',
-              fontWeight: 'bold',
-              paddingLeft: 20,
-            }}
-            type="solid"
-            onPress={() => submit()}
-          />
-        </View>
-      </View>
+      {ViewTitle}
+      {PostDetail}
+      {PostButton}
     </View>
   );
 }

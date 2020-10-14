@@ -13,12 +13,11 @@ function Popular({ navigation }) {
     const loadFeed = async () => {
         const client = await mainClient;
         client.get('post').then(response => {
-            console.log('response is', response.data);
+            console.log('Successfully got Popular Feed from server -', response.data.length);
             setFeed(response.data);
         }).catch(error => {
-            console.log(error);
+            console.log('Error getting Popular Feed from server - ', error);
         });
-        console.log(theme.colors.primary);
     }
     useEffect(() => {
         loadFeed();

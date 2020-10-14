@@ -12,12 +12,12 @@ export default function Splash(props) {
             if (user) {
                 await auth().currentUser.getIdToken(false).then((id_token) => {
                     props.addAuth(user, id_token);
-                    console.log('in user', user);
+                    console.log('User logged in - ', user.displayName);
                 }).catch((e) => {
                     console.log(e);
                 })
             } else {
-                console.log('null user');
+                console.log('unauthenticated user');
                 props.removeAuth();
             }
         }
