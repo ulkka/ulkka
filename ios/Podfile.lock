@@ -364,6 +364,8 @@ PODS:
     - React-Core (= 0.63.2)
     - React-cxxreact (= 0.63.2)
     - React-jsi (= 0.63.2)
+  - rn-fetch-blob (0.12.0):
+    - React-Core
   - RNCMaskedView (0.1.10):
     - React
   - RNFBApp (8.4.2):
@@ -450,6 +452,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
@@ -547,6 +550,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  rn-fetch-blob:
+    :path: "../node_modules/rn-fetch-blob"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNFBApp:
@@ -622,6 +627,7 @@ SPEC CHECKSUMS:
   React-RCTText: 1b6773e776e4b33f90468c20fe3b16ca3e224bb8
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNFBApp: 373cce42559cc7a9a42afc876746e3946de3e32e
   RNFBAuth: 701b29df3f364ef7b36992ad5e25628ce333ed89
@@ -636,6 +642,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 863869d27664bb3a098c8fda23885f081a52808e
+PODFILE CHECKSUM: 3c45cd2a2dd234a8926b8df5b4f515306f5c4f14
 
 COCOAPODS: 1.9.3

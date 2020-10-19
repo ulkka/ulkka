@@ -45,7 +45,7 @@ export default function Post(props) {
             </View>
             <View>
                 <Text style={{ fontSize: 16, padding: 10 }}>
-                    Text - {props.item.text}
+                    Title - {props.item.title}
                 </Text>
             </View>
             <TouchableHighlight
@@ -54,11 +54,12 @@ export default function Post(props) {
                 onPress={()=>console.log('hi')}
             >
                 <Image style={{
-                    width: "100%",
+                    width: "99%",
                     height:270 ,
-                    resizeMode: "contain",
+                    resizeMode: "cover",
+                    alignSelf:"center"
                 }}
-                    source={{ uri: "https://d1by7ovwgplzkj.cloudfront.net/assets/trollmalayalamofficial/121191949_1222980311404786_8919896763969967922_n.jpg" }}
+                    source={{ uri: "https://i.guim.co.uk/img/media/d143e03bccd1150ef52b8b6abd7f3e46885ea1b3/0_182_5472_3283/master/5472.jpg?width=1020&quality=85&auto=format&fit=max&s=5381baed444132de5bbf0830b0d990c7" }}
                //     source={{uri:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Rotating_earth_%28large%29.gif/200px-Rotating_earth_%28large%29.gif"}}
                 />
             </TouchableHighlight>

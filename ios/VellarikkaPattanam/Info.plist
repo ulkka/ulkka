@@ -51,7 +51,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -86,6 +86,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-		<string>Vellarikka Pattanam would like to access your photo gallery for uploading images to the app</string>
+	<string>Vellarikka Pattanam would like to access your photo gallery for uploading images to the app</string>
 </dict>
 </plist>

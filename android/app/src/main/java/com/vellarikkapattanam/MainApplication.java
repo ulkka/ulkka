@@ -13,6 +13,7 @@ import java.util.List;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.brentvatne.react.ReactVideoPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 

@@ -32,11 +32,6 @@ export default function Main(props) {
         }}>
         <DrawerNav.Screen name="Home" component={HomeNavigation} title="Home" />
         <DrawerNav.Screen
-          name="Create Post"
-          component={CreatePost}
-          title="Create Post"
-        />
-        <DrawerNav.Screen
           name="Create Community"
           component={CreateCommunity}
           title="Create Community"

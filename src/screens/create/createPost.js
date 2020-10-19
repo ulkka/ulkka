@@ -5,12 +5,14 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 import mainClient from '../../client/mainClient';
 import {Input, Icon, Button} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import Video from 'react-native-video';
-
+import FormData from 'form-data';
+import RNFetchBlob from 'rn-fetch-blob';
 import ImagePicker from 'react-native-image-crop-picker';
 
 export default function createPost({navigation, route}) {
@@ -20,6 +22,8 @@ export default function createPost({navigation, route}) {
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [media, setMedia] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('');
 
   const [
     selectCommunityModalVisible,
@@ -46,7 +50,7 @@ export default function createPost({navigation, route}) {
     })
       .then((media) => {
         // since ios and android responses are different and to accomodate gifs
-        if ("filename" in media) { 
+        if ('filename' in media) {
           let fileFormat = media.filename.split('.').pop();
           if (
             (fileFormat == 'gif' || fileFormat == 'GIF') &&
@@ -63,20 +67,73 @@ export default function createPost({navigation, route}) {
   };
 
   const submit = async () => {
+    setLoading(true);
+
     const client = await mainClient;
-    client
-      .post('post', {
-        community: community._id,
-        title: title,
-        description: description,
-        type: type,
-      })
-      .then((response) => {
-        console.log('response is', response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log('Uploading post type - ', type);
+
+    switch (type) {
+      case 'text':
+        client
+          .post('post', {
+            community: community._id,
+            title: title,
+            description: description,
+            type: type,
+          })
+          .then((response) => {
+            setLoading(false);
+            setSubmitStatus('success');
+            setTimeout(() => navigation.navigate('Home'), 5000);
+          })
+          .catch((error) => {
+            setLoading(false);
+            setSubmitStatus('fail');
+            setTimeout(navigation.navigate('Home'), 1000);
+          });
+        return;
+      case 'image':
+        const fs = RNFetchBlob.fs;
+        var data = new FormData();
+        console.log('uploading media from path - ', media.path);
+        data.append('file', {
+          uri: media.path,
+          type: 'image/jpeg',
+          name: media.filename,
+        });
+
+        client
+          .post('media/post/upload', data)
+          .then((response) => {
+            console.log('Uploaded to cloudinary - ', response.data.secure_url);
+            console.log('Posting to server');
+            client
+              .post('post', {
+                community: community._id,
+                title: title,
+                link: response.data.secure_url,
+                type: type,
+              })
+              .then((response) => {
+                console.log(response);
+                setLoading(false);
+                setSubmitStatus('success');
+                //setTimeout(() => navigation.navigate('Home'), 5000);
+              })
+              .catch((error) => {
+                console.log(error)
+                setLoading(false);
+                setSubmitStatus('fail');
+                //setTimeout(navigation.navigate('Home'), 1000);
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+            setLoading(false);
+            setSubmitStatus('fail');
+            setTimeout(navigation.navigate('Home'), 1000);
+          });
+    }
   };
 
   const ViewTitle = (
@@ -264,7 +321,9 @@ export default function createPost({navigation, route}) {
         justifyContent: 'center',
       }}>
       <Button
-        icon={<Icon name="send" size={15} color="green" type="font-awesome" />}
+        icon={
+          <Icon name="send" size={15} color={'green'} type="font-awesome" />
+        }
         raised
         title="Post"
         buttonStyle={{
@@ -279,12 +338,36 @@ export default function createPost({navigation, route}) {
           paddingLeft: 20,
         }}
         type="solid"
+        //  disabled={true}
         onPress={() => submit()}
       />
     </View>
   );
 
-  return (
+  const postSuccessComponent = (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Icon name="check-circle" size={100} type="font-awesome5" color="green" />
+      <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 50}}>
+        Successfully Posted to
+      </Text>
+      <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 10}}>
+        {community == null ? '' : community.name}
+      </Text>
+    </View>
+  );
+  const postFailComponent = (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Icon name="error" size={100} color="red" />
+      <Text style={{fontSize: 20, fontWeight: 'bold', padding: 50}}>
+        Failed to Post to
+      </Text>
+      <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 10}}>
+        {community == null ? '' : community.name}
+      </Text>
+    </View>
+  );
+
+  const createPostComponent = (
     <View
       style={{
         flex: 1,
@@ -295,6 +378,20 @@ export default function createPost({navigation, route}) {
       {ViewTitle}
       {PostDetail}
       {PostButton}
+    </View>
+  );
+
+  return !loading ? (
+    submitStatus == '' ? (
+      createPostComponent
+    ) : submitStatus == 'success' ? (
+      postSuccessComponent
+    ) : (
+      postFailComponent
+    )
+  ) : (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <ActivityIndicator size="large" color="#4285f4" />
     </View>
   );
 }

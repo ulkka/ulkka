@@ -7,8 +7,10 @@ const mapStateToProps = (state) => ({
   id_token:state.authReducer.id_token
 });
 
-const mapDispatchToProps = dispatch => ({
-  removeAuth: () => dispatch(Actions.removeAuth())
+const mapDispatchToProps = (dispatch) => ({
+  onUnAuthenticate: () => {
+    dispatch(Actions.unAuthenticate());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);

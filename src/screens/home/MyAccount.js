@@ -14,7 +14,7 @@ export default function MyAccount(props) {
     try {
       await GoogleSignin.signOut();
       auth().signOut().then(() => console.log('User signed out!'));
-      props.removeAuth();
+      props.onUnAuthenticate();
     } catch (error) {
       console.error(error);
     }

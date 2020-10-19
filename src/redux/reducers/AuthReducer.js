@@ -18,13 +18,11 @@ const authReducer = (state = INITIAL_AUTH_STATE, action) => {
     case Actions.addAuth:
       user = action.payload.user;
       id_token = action.payload.id_token;
-      console.log('In Actions.addAuth setting auth_state = AUTHENTICATED, id_token & user');
       auth_state = 'AUTHENTICATED';
      // let new_state = { auth_state, id_token, user };
       return { auth_state, id_token, user };
 
     case Actions.removeAuth:
-      console.log('Removing auth');
       user = null;
       id_token = null;
       auth_state = 'UNAUTHENTICATED';

@@ -37,14 +37,14 @@ export default function SignIn(props) {
         await auth()
           .currentUser.getIdToken(false)
           .then((id_token) => {
-            props.addAuth(user, id_token);
-            console.log('in user', user);
+            props.onAuthenticate(user, id_token);
+            console.log('User logged in - ', user.displayName);
           })
           .catch((e) => {
             console.log(e);
           });
       } else {
-        console.log('null user');
+        console.log('unauthenticated user');
       }
     }
     authFlag = true;
