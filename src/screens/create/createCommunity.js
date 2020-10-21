@@ -4,7 +4,7 @@ import mainClient from '../../client/mainClient';
 import { Button, Icon } from 'react-native-elements';
 import Header from '../../components/Header';
 
-export default function createCommunity({ navigation }) {
+export default function CreateCommunity({ navigation }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 

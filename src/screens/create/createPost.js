@@ -16,7 +16,7 @@ import FormData from 'form-data';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImagePicker from 'react-native-image-crop-picker';
 
-export default function createPost({navigation, route}) {
+export default function CreatePost({navigation, route}) {
   const [type, setType] = useState('');
   const [community, setCommunity] = useState(null);
   const [title, setTitle] = useState('');
@@ -102,8 +102,9 @@ export default function createPost({navigation, route}) {
           });
         return;
 
+      case 'gif':
+      case 'video':
       case 'image':
-        const fs = RNFetchBlob.fs;
         var data = new FormData();
         console.log('uploading media from path - ', media.path);
         data.append('file', {
@@ -128,7 +129,7 @@ export default function createPost({navigation, route}) {
                 type: type,
               })
               .then((response) => {
-                console.log(response);
+                console.log('Successfully Posted to server - ', response);
                 setLoading(false);
                 setSubmitStatus('success');
                 setTimeout(() => navigation.navigate('Home'), 1000);
