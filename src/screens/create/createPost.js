@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import mainClient from '../../client/mainClient';
 import {Input, Icon, Button} from 'react-native-elements';
@@ -50,15 +51,22 @@ export default function createPost({navigation, route}) {
     })
       .then((media) => {
         // since ios and android responses are different and to accomodate gifs
+        console.log('Selected Media - ', media);
         if ('filename' in media) {
           let fileFormat = media.filename.split('.').pop();
           if (
             (fileFormat == 'gif' || fileFormat == 'GIF') &&
             media.mime == 'image/jpeg'
           ) {
+            media.mime = 'image/gif';
             media.path = media.sourceURL;
           }
         }
+        let filename = media.path.substring(
+          media.path.lastIndexOf('/') + 1,
+          media.path.length,
+        );
+        media.filename = filename;
         setMedia(media);
       })
       .catch((error) => {
@@ -87,18 +95,23 @@ export default function createPost({navigation, route}) {
             setTimeout(() => navigation.navigate('Home'), 5000);
           })
           .catch((error) => {
+            console.log('Posting to server error - ', error);
             setLoading(false);
             setSubmitStatus('fail');
             setTimeout(navigation.navigate('Home'), 1000);
           });
         return;
+
       case 'image':
         const fs = RNFetchBlob.fs;
         var data = new FormData();
         console.log('uploading media from path - ', media.path);
         data.append('file', {
-          uri: media.path,
-          type: 'image/jpeg',
+          uri:
+            Platform.OS === 'android'
+              ? media.path
+              : media.path.replace('file://', ''),
+          type: media.mime,
           name: media.filename,
         });
 
@@ -118,17 +131,17 @@ export default function createPost({navigation, route}) {
                 console.log(response);
                 setLoading(false);
                 setSubmitStatus('success');
-                //setTimeout(() => navigation.navigate('Home'), 5000);
+                setTimeout(() => navigation.navigate('Home'), 1000);
               })
               .catch((error) => {
-                console.log(error)
+                console.log('Posting to server error - ', error);
                 setLoading(false);
                 setSubmitStatus('fail');
-                //setTimeout(navigation.navigate('Home'), 1000);
+                setTimeout(navigation.navigate('Home'), 1000);
               });
           })
           .catch((error) => {
-            console.log(error);
+            console.log('Media Upload Error - ', error);
             setLoading(false);
             setSubmitStatus('fail');
             setTimeout(navigation.navigate('Home'), 1000);
