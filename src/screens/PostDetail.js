@@ -1,0 +1,27 @@
+import React, {useState} from 'react';
+import {ScrollView, View} from 'react-native';
+import CommentList from '../components/CommentList';
+import Post from '../components/Post';
+import FloatingAddComment from '../components/FloatingAddComment';
+
+export default function PostDetail({route, navigation}) {
+  console.log('hi');
+  return (
+    <View style={{flex: 1}}>
+      <ScrollView
+        style={{
+          alignSelf: 'center',
+          borderBottomWidth: 1,
+          borderColor: '#ddd',
+          borderRadius: 10,
+          backgroundColor: '#fff',
+          width: '100%',
+          flex: 1,
+        }}>
+        <Post item={route.params.post} />
+        <CommentList navigation={navigation} />
+      </ScrollView>
+      <FloatingAddComment />
+    </View>
+  );
+}

@@ -4,32 +4,35 @@ import mainClient from '../../../client/mainClient';
 import {ThemeContext} from 'react-native-elements';
 import Post from '../../../components/Post';
 
-function Popular({navigation}) {
+function Posts({route, navigation}) {
   const {theme} = useContext(ThemeContext);
 
   const [feed, setFeed] = useState([]);
+  const [communityId, setCommunityId] = useState(null);
 
-  const loadFeed = async () => {
+  const loadFeed = async (communityId) => {
     const client = await mainClient;
     client
-      .get('post')
+      .get('post?query={"community":"' + communityId + '"}&populate=community')
       .then((response) => {
-        console.log(
-          'Successfully got Popular Feed from server -',
-          response.data.length,
-        );
         setFeed(response.data);
       })
       .catch((error) => {
-        console.log('Error getting Popular Feed from server - ', error);
+        console.log(error);
       });
   };
   useEffect(() => {
-    loadFeed();
+    setCommunityId(route.params.community_id);
   }, []);
+  useEffect(() => {
+    console.log('in effect communityid ', communityId);
+    if (communityId != null) {
+      loadFeed(communityId);
+    }
+  }, [communityId]);
 
   const renderRow = ({item}) => {
-    return <Post item={item} />;
+    return <Post item={item} navigation={navigation} />;
   };
   const separator = () => {
     return <View style={{padding: 5}}></View>;
@@ -50,7 +53,6 @@ function Popular({navigation}) {
       <View style={{flex: 1}}>
         <FlatList
           ListHeaderComponent={ListHeaderComponent}
-          listKey={'popularlist'}
           data={feed}
           renderItem={renderRow}
           ItemSeparatorComponent={separator}
@@ -63,4 +65,4 @@ function Popular({navigation}) {
   );
 }
 
-export default Popular;
+export default Posts;

@@ -12,7 +12,7 @@ function Home({navigation}) {
   const loadFeed = async () => {
     const client = await mainClient;
     client
-      .get('post')
+      .get('post?populate=community')
       .then((response) => {
         console.log(
           'Successfully got Home Feed from server - ',
@@ -50,6 +50,7 @@ function Home({navigation}) {
       <View style={{flex: 1}}>
         <FlatList
           ListHeaderComponent={ListHeaderComponent}
+          listKey={'homelist'}
           data={feed}
           renderItem={renderRow}
           ItemSeparatorComponent={separator}

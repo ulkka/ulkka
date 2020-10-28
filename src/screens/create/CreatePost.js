@@ -92,7 +92,7 @@ export default function CreatePost({navigation, route}) {
           .then((response) => {
             setLoading(false);
             setSubmitStatus('success');
-            setTimeout(() => navigation.navigate('Home'), 5000);
+            setTimeout(() => navigation.navigate('Home'), 1000);
           })
           .catch((error) => {
             console.log('Posting to server error - ', error);
@@ -395,17 +395,16 @@ export default function CreatePost({navigation, route}) {
     </View>
   );
 
-  return !loading ? (
-    submitStatus == '' ? (
-      createPostComponent
-    ) : submitStatus == 'success' ? (
-      postSuccessComponent
-    ) : (
-      postFailComponent
-    )
-  ) : (
+  const LoadingOverlay = (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <ActivityIndicator size="large" color="#4285f4" />
     </View>
   );
+  return !loading
+    ? submitStatus == ''
+      ? createPostComponent
+      : submitStatus == 'success'
+      ? postSuccessComponent
+      : postFailComponent
+    : LoadingOverlay;
 }
