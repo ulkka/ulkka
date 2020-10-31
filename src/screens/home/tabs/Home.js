@@ -3,6 +3,7 @@ import {View, FlatList, SafeAreaView, Text} from 'react-native';
 import mainClient from '../../../client/mainClient';
 import {ThemeContext} from 'react-native-elements';
 import Post from '../../../components/Post';
+import FeedFooter from '../../../components/FeedFooter';
 
 function Home({navigation}) {
   const {theme} = useContext(ThemeContext);
@@ -57,6 +58,7 @@ function Home({navigation}) {
           initialNumToRender={5}
           maxToRenderPerBatch={5}
           keyExtractor={(item) => item._id.toString()}
+          ListFooterComponent={<FeedFooter complete={true} />}
         />
       </View>
     </SafeAreaView>

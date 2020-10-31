@@ -1,16 +1,32 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import {View, Text} from 'react-native';
 import mainClient from '../../client/mainClient';
-import {Button, Icon, Input} from 'react-native-elements';
+import {Button, Input} from 'react-native-elements';
 import Header from '../../components/Header';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import SubmitStatus from '../../components/SubmitStatus';
 
 export default function CreateCommunity({navigation}) {
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(new Map());
+  const [status, setStatus] = useState({});
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        setLoading(false);
+        setStatus({});
+        setTitle('');
+        setDescription('');
+      };
+    }, []),
+  );
 
   const submit = async () => {
     setLoading(true);
@@ -22,20 +38,21 @@ export default function CreateCommunity({navigation}) {
       })
       .then((response) => {
         setLoading(false);
-        var statusData = new Map();
-        statusData.set('status', 'success');
-        statusData.set('message', 'Successfully Created Community');
-        statusData.set('entity', title);
+        var statusData = {
+          type: 'success',
+          message: 'Successfully Created Community',
+          entity: title,
+        };
         setStatus(statusData);
         setTimeout(() => navigation.navigate('Home'), 3000);
-        console.log('response is', response.data);
       })
       .catch((error) => {
         setLoading(false);
-        var statusData = new Map();
-        statusData.set('status', 'fail');
-        statusData.set('message', 'Failed to created community');
-        statusData.set('entity', title);
+        var statusData = {
+          type: 'fail',
+          message: 'Failed to create community',
+          entity: title,
+        };
         setStatus(statusData);
         console.log(error);
       });
@@ -119,7 +136,7 @@ export default function CreateCommunity({navigation}) {
         {Title}
         {Form}
       </View>
-      <LoadingOverlay loading={loading} />
+      <LoadingOverlay visible={loading} />
       <SubmitStatus data={status} />
     </View>
   );

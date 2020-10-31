@@ -5,7 +5,6 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ActivityIndicator,
   Platform,
 } from 'react-native';
 import mainClient from '../../client/mainClient';
@@ -13,18 +12,18 @@ import {Input, Icon, Button} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import Video from 'react-native-video';
 import FormData from 'form-data';
-import RNFetchBlob from 'rn-fetch-blob';
 import ImagePicker from 'react-native-image-crop-picker';
+import LoadingOverlay from '../../components/LoadingOverlay';
+import SubmitStatus from '../../components/SubmitStatus';
 
 export default function CreatePost({navigation, route}) {
   const [type, setType] = useState('');
   const [community, setCommunity] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [link, setLink] = useState('');
   const [media, setMedia] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState('');
+  const [statusData, setStatusData] = useState({});
 
   const [
     selectCommunityModalVisible,
@@ -34,15 +33,6 @@ export default function CreatePost({navigation, route}) {
   useEffect(() => {
     setType(route.params.type);
   }, []);
-
-  const options = {
-    title: 'Select Avatar',
-    customButtons: [{name: 'fb', title: 'Choose Photo from Facebook'}],
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
-  };
 
   const pickMedia = (mediaType) => {
     ImagePicker.openPicker({
@@ -91,14 +81,24 @@ export default function CreatePost({navigation, route}) {
           })
           .then((response) => {
             setLoading(false);
-            setSubmitStatus('success');
-            setTimeout(() => navigation.navigate('Home'), 1000);
+            var status = {
+              type: 'success',
+              message: 'Successfully Posted to',
+              entity: community.name,
+            };
+            setStatusData(status);
+            setTimeout(() => navigation.navigate('Home'), 2000);
           })
           .catch((error) => {
             console.log('Posting to server error - ', error);
             setLoading(false);
-            setSubmitStatus('fail');
-            setTimeout(navigation.navigate('Home'), 1000);
+            var status = {
+              type: 'fail',
+              message: 'Failed to post to',
+              entity: community.name,
+            };
+            setStatusData(status);
+            setTimeout(navigation.navigate('Home'), 2000);
           });
         return;
 
@@ -131,20 +131,35 @@ export default function CreatePost({navigation, route}) {
               .then((response) => {
                 console.log('Successfully Posted to server - ', response);
                 setLoading(false);
-                setSubmitStatus('success');
-                setTimeout(() => navigation.navigate('Home'), 1000);
+                var status = {
+                  type: 'success',
+                  message: 'Successfully Posted to',
+                  entity: title,
+                };
+                setStatusData(status);
+                setTimeout(() => navigation.navigate('Home'), 2000);
               })
               .catch((error) => {
                 console.log('Posting to server error - ', error);
                 setLoading(false);
-                setSubmitStatus('fail');
-                setTimeout(navigation.navigate('Home'), 1000);
+                var status = {
+                  type: 'fail',
+                  message: 'Failed to post to',
+                  entity: title,
+                };
+                setStatusData(status);
+                setTimeout(navigation.navigate('Home'), 2000);
               });
           })
           .catch((error) => {
             console.log('Media Upload Error - ', error);
             setLoading(false);
-            setSubmitStatus('fail');
+            var status = {
+              type: 'fail',
+              message: 'Failed to post to',
+              entity: title,
+            };
+            setStatusData(status);
             setTimeout(navigation.navigate('Home'), 1000);
           });
     }
@@ -358,29 +373,6 @@ export default function CreatePost({navigation, route}) {
     </View>
   );
 
-  const postSuccessComponent = (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Icon name="check-circle" size={100} type="font-awesome5" color="green" />
-      <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 50}}>
-        Successfully Posted to
-      </Text>
-      <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 10}}>
-        {community == null ? '' : community.name}
-      </Text>
-    </View>
-  );
-  const postFailComponent = (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Icon name="error" size={100} color="red" />
-      <Text style={{fontSize: 20, fontWeight: 'bold', padding: 50}}>
-        Failed to Post to
-      </Text>
-      <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 10}}>
-        {community == null ? '' : community.name}
-      </Text>
-    </View>
-  );
-
   const createPostComponent = (
     <View
       style={{
@@ -395,16 +387,15 @@ export default function CreatePost({navigation, route}) {
     </View>
   );
 
-  const LoadingOverlay = (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <ActivityIndicator size="large" color="#4285f4" />
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+      }}>
+      {createPostComponent}
+      <LoadingOverlay visible={loading} />
+      <SubmitStatus data={statusData} />
     </View>
   );
-  return !loading
-    ? submitStatus == ''
-      ? createPostComponent
-      : submitStatus == 'success'
-      ? postSuccessComponent
-      : postFailComponent
-    : LoadingOverlay;
 }

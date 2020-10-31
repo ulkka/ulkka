@@ -5,7 +5,6 @@ import Post from '../components/Post';
 import FloatingAddComment from '../components/FloatingAddComment';
 
 export default function PostDetail({route, navigation}) {
-  console.log('hi');
   return (
     <View style={{flex: 1}}>
       <ScrollView

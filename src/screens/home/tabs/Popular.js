@@ -12,7 +12,7 @@ function Popular({navigation}) {
   const loadFeed = async () => {
     const client = await mainClient;
     client
-      .get('post')
+      .get('post?populate=community')
       .then((response) => {
         console.log(
           'Successfully got Popular Feed from server -',

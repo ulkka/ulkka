@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, ActivityIndicator, Modal} from 'react-native';
 
 export default function LoadingOverlay(props) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    setVisible(props.visible);
+  }, [props.visible]);
+
   return (
-    <Modal
-      visible={props.loading}
-      transparent={false}
-      style={{}}
-      transparent={true}
-      animationType="fade">
+    <Modal visible={visible} transparent={true} animationType="none">
       <View
         style={{
           flex: 1,

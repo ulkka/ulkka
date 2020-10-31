@@ -3,15 +3,24 @@ import {View, Text, Modal} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 export default function SubmitStatus(props) {
+  const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState(new Map());
   useEffect(() => {
-    console.log('in use effect');
-    setStatus(props.data);
-    console.log(props.data, status.get('status'));
+    if (
+      !(
+        Object.keys(props.data).length === 0 &&
+        props.data.constructor === Object
+      )
+    ) {
+      setVisible(true);
+      setStatus(props.data);
+    } else {
+      setVisible(false);
+    }
   }, [props.data]);
 
   return (
-    <Modal visible={status.size} transparent={true} animationType="none">
+    <Modal visible={visible} transparent={false} animationType="none">
       <View
         style={{
           flex: 1,
@@ -20,7 +29,7 @@ export default function SubmitStatus(props) {
           backgroundColor: '#eee',
           opacity: 0.9,
         }}>
-        {status.get('status') == 'success' ? (
+        {status.type == 'success' ? (
           <Icon
             name="check-circle"
             size={100}
@@ -32,10 +41,10 @@ export default function SubmitStatus(props) {
         )}
 
         <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 50}}>
-          {status.get('message')}
+          {status.message}
         </Text>
         <Text style={{fontSize: 30, fontWeight: 'bold', paddingTop: 30}}>
-          {status.get('entity')}
+          {status.entity}
         </Text>
       </View>
     </Modal>
