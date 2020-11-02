@@ -58,10 +58,15 @@ export default function PostContent(props) {
     </View>
   );
 
+    const DefaultPost = (
+            <Text>{JSON.stringify(props.item)}</Text>
+    )
   switch (props.item.type) {
     case 'text':
       return TextPost;
     case 'image':
       return ImagePost;
+  default:
+      return DefaultPost;
   }
 }

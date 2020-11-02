@@ -22,7 +22,7 @@ export default function Post(props) {
               })
             }>
             <Text style={{fontSize: 13, fontWeight: 'bold', color: '#432'}}>
-              {props.item.community.name}
+              {props.item?.community?.name}
             </Text>
           </TouchableOpacity>
           <View style={{flexDirection: 'row'}}>
