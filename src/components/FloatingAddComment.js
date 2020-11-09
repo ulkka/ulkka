@@ -29,7 +29,7 @@ export default function FloatingAddComment(props) {
         borderTopEndRadius: 10,
       }}>
       {
-        //    AddCommentHeader
+        //AddCommentHeader
       }
       <View
         style={{

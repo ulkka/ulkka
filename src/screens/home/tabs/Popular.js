@@ -29,7 +29,7 @@ function Popular({navigation}) {
   }, []);
 
   const renderRow = ({item}) => {
-    return <Post item={item} />;
+    return <Post item={item} navigation={navigation} />;
   };
   const separator = () => {
     return <View style={{padding: 5}}></View>;

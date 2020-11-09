@@ -3,6 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import {ThemeContext, Icon, Text} from 'react-native-elements';
 import PostContent from './PostContent';
 import TimeAgo from '../components/TimeAgo';
+import Vote from './Vote';
 
 export default function Post(props) {
   const {theme} = useContext(ThemeContext);
@@ -55,6 +56,47 @@ export default function Post(props) {
     </View>
   );
 
+  const CommentSummary = (
+    <TouchableOpacity
+      onPress={() => {
+        props.navigation.navigate('PostDetail', {
+          post: props.item,
+        });
+      }}
+      style={{
+        flex: 6,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Icon
+        name="comment"
+        type="material-community"
+        color="#000"
+        size={18}
+        color="#888"
+      />
+      <Text style={{fontWeight: 'bold', color: '#888', paddingLeft: 15}}>
+        {props.item.commentCount}
+      </Text>
+    </TouchableOpacity>
+  );
+
+  const Share = (
+    <TouchableOpacity style={{flex: 3, flexDirection: 'row'}}>
+      <Icon name="share" type="font-awesome" size={18} color="#888" />
+      <Text
+        style={{
+          fontSize: 13,
+          fontWeight: 'bold',
+          paddingLeft: 12,
+          color: '#777',
+        }}>
+        Share
+      </Text>
+    </TouchableOpacity>
+  );
+
   const PostFooter = (
     <View
       style={{
@@ -64,60 +106,16 @@ export default function Post(props) {
         borderTopColor: '#eee',
         justifyContent: 'space-evenly',
       }}>
-      <View
+      <Vote
+        item={props.item}
+        type="post"
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
           flex: 3,
           paddingLeft: 10,
-          alignItems: 'center',
-        }}>
-        <Icon
-          name="arrow-up-bold"
-          type="material-community"
-          size={20}
-          color="#888"
-        />
-        <Text style={{fontWeight: 'bold', color: '#888'}}>
-          {props.item.voteCount}
-        </Text>
-        <Icon
-          name="arrow-down-bold"
-          type="material-community"
-          size={20}
-          color="#888"
-        />
-      </View>
-      <View
-        style={{
-          flex: 6,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Icon
-          name="comment"
-          type="material-community"
-          color="#000"
-          size={18}
-          color="#888"
-        />
-        <Text style={{fontWeight: 'bold', color: '#888', paddingLeft: 15}}>
-          {props.item.commentCount}
-        </Text>
-      </View>
-      <TouchableOpacity style={{flex: 3, flexDirection: 'row'}}>
-        <Icon name="share" type="font-awesome" size={18} color="#888" />
-        <Text
-          style={{
-            fontSize: 13,
-            fontWeight: 'bold',
-            paddingLeft: 12,
-            color: '#777',
-          }}>
-          Share
-        </Text>
-      </TouchableOpacity>
+        }}
+      />
+      {CommentSummary}
+      {Share}
     </View>
   );
   return (

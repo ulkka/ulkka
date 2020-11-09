@@ -1,8 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Comment, CommentGroup} from './Comment';
+import mainClient from '../client/mainClient';
 
 export default function CommentList(props) {
+  const [commentsOfPost, setCommentsOfPost] = useState([]);
+
+  useEffect(() => {
+    loadComments();
+  }, []);
+
+  loadComments = async () => {
+    const client = await mainClient;
+    client
+      .get('post/' + props.item._id + '/comments')
+      .then((response) => {
+        console.log(
+          'Successfully retrieved comments from Post - ',
+          props.item._id,
+          ', No of Parent Comments - ',
+          response.data.length,
+        );
+        setCommentsOfPost(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const CommentListTitle = (
     <View
       style={{
@@ -22,32 +47,26 @@ export default function CommentList(props) {
     </View>
   );
 
-  const CommentListView = (
-    <View>
-      {
-        <CommentGroup root={true}>
-          <Comment text="Hi first level comment">
-            <CommentGroup>
-              <Comment text="Hi second level comment">
-                <CommentGroup>
-                  <Comment text="hi third level comment"></Comment>
-                </CommentGroup>
-              </Comment>
-            </CommentGroup>
-          </Comment>
-          <Comment text="Hi first level comment">
-            <CommentGroup>
-              <Comment text="Hi second level comment"></Comment>
-              <Comment text="Hi second level comment">
-                <CommentGroup>
-                  <Comment text="Hi third level comment"></Comment>
-                </CommentGroup>
-              </Comment>
-            </CommentGroup>
-          </Comment>
+  const getComments = (item, index) => {
+    return (
+      <Comment key={index} comment={item}>
+        <CommentGroup>
+          {item.replies === undefined
+            ? null
+            : item.replies.map((item, index) => {
+                return getComments(item, index);
+              })}
         </CommentGroup>
-      }
-    </View>
+      </Comment>
+    );
+  };
+
+  const CommentListView = (
+    <CommentGroup root={true}>
+      {commentsOfPost.map((item, index) => {
+        return getComments(item, index);
+      })}
+    </CommentGroup>
   );
 
   return (
