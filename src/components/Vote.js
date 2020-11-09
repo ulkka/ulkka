@@ -12,13 +12,12 @@ export default function Vote(props) {
     if (selfVote == type) {
       type = 0;
     }
-    //var diff = type == 2 ? -1 : type;
-
+    var diff = type - props.item.userVote;
     client
-      .post(props.type + '/' + props.item._id + '/vote/' + type.toString())
+      .post(props.type + '/' + props.item._id + '/vote/' + type)
       .then((response) => {
         console.log(response);
-        setVoteCount(props.item.voteCount + type);
+        setVoteCount(props.item.voteCount + diff);
         setSelfVote(type);
       })
       .catch((error) => {

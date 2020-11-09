@@ -1,10 +1,10 @@
-import { connect } from 'react-redux';
-import * as Actions from './actions';
+import {connect} from 'react-redux';
+import * as Actions from './AuthActions';
 import MyAccount from '../../screens/home/MyAccount';
 
 const mapStateToProps = (state) => ({
   user: state.authReducer.user,
-  id_token:state.authReducer.id_token
+  id_token: state.authReducer.id_token,
 });
 
 const mapDispatchToProps = (dispatch) => ({

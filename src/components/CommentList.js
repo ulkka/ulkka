@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
-import {Comment, CommentGroup} from './Comment';
+import {CommentGroup} from './Comment';
 import mainClient from '../client/mainClient';
+import Comment from '../redux/actions/Comment';
 
 export default function CommentList(props) {
   const [commentsOfPost, setCommentsOfPost] = useState([]);
@@ -49,7 +50,7 @@ export default function CommentList(props) {
 
   const getComments = (item, index) => {
     return (
-      <Comment key={index} comment={item}>
+      <Comment key={index} comment={item} post={props.item}>
         <CommentGroup>
           {item.replies === undefined
             ? null

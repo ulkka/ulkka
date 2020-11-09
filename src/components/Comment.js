@@ -82,7 +82,16 @@ const Comment = (props) => {
       <TouchableOpacity style={{paddingHorizontal: 40}}>
         <Icon name="more-horiz" size={18} color="#888" />
       </TouchableOpacity>
-      <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
+      <TouchableOpacity
+        style={{flexDirection: 'row', alignItems: 'center'}}
+        onPress={() => {
+          props.prepareReply(
+            props.post._id,
+            props.post.title,
+            props.comment._id,
+            props.comment.author.name,
+          );
+        }}>
         <Icon name="reply" type="font-awesome" size={14} color="#777" />
         <Text style={{paddingHorizontal: 10, color: '#444', fontSize: 12}}>
           Reply

@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import * as Actions from './actions';
+import * as Actions from './AuthActions';
 import Splash from '../../screens/Splash';
 import {ActivityIndicator} from 'react-native';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView, View} from 'react-native';
 import CommentList from '../components/CommentList';
 import Post from '../components/Post';
-import FloatingAddComment from '../components/FloatingAddComment';
+import FloatingAddComment from '../redux/actions/FloatingAddComment';
 
 export default function PostDetail({route, navigation}) {
   return (
@@ -21,7 +21,7 @@ export default function PostDetail({route, navigation}) {
         <Post item={route.params.post} />
         <CommentList navigation={navigation} item={route.params.post} />
       </ScrollView>
-      <FloatingAddComment />
+      <FloatingAddComment item={route.params.post} />
     </View>
   );
 }
