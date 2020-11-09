@@ -96,6 +96,8 @@ export default function PostContent(props) {
     />
   );
 
+  const DefaultPost = <Text>{JSON.stringify(props.item)}</Text>;
+
   const PostType = () => {
     switch (props.item.type) {
       case 'text':
@@ -108,6 +110,8 @@ export default function PostContent(props) {
         return GifPost;
       case 'link':
         return LinkPost;
+      default:
+        return DefaultPost;
     }
   };
 

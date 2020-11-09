@@ -20,9 +20,9 @@ function Popular({navigation}) {
         );
         setFeed(response.data);
       })
-      .catch((error) => {
-        console.log('Error getting Popular Feed from server - ', error);
-      });
+      .catch(function(error) {
+              console.log('Error getting Popular Feed from server - ', error);
+          });
   };
   useEffect(() => {
     loadFeed();
