@@ -1175,10 +1175,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
   integrity sha512-rk4sWFsmtOw8oyx8SD3KSvawwaK7gRBSEIy2TAwURyGt+3TizssXP1r8nx3zY+R7v2vYYHXZ+k2/GULAT/bcaQ==
 
-"@react-native-firebase/app@^8.4.2":
-  version "8.4.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-8.4.2.tgz#3d7093062e403368f90947e2d999fb9101330bf4"
-  integrity sha512-toHk6bPdhLPQUWw9ZNljNisv58JrZdSDzDzZPa19xEB5465iAMx46tCBrKdoSdq0pMq9w1iYzgOhMg8lxzM2qw==
+"@react-native-firebase/app@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-9.0.0.tgz#12ecdd86eb99057cff783d66f3cc836b0b7f2f46"
+  integrity sha512-OanSnKv/1RmNuhoAD71AsKWoZxLy0dbOleJ+z2CprHhzPWFNlfSrAQCjs2tHvGkV1Auxt9U4K3Vod0KoQcsYmQ==
   dependencies:
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
@@ -1187,6 +1187,11 @@
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-9.2.2.tgz#ce8630fa2a60c694be3179d20a6ff57e1509d346"
   integrity sha512-pp1UW/TK6mwqpI0tZx3Y6UymLj8qktR4FuB85fzqElum6OwZ4QGq9P7fBY2PXGrTMagRNHyWtDMRBidv1GaXfA==
+
+"@react-native-firebase/messaging@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-8.0.1.tgz#845a31ed7464bf170823d0148056fa9f9c6d3f2e"
+  integrity sha512-Pq6oPZjOxPgUvnkT2fJvPxM2Ca/Nc5Pk9EqCwE3bDGKjyXfLW7qPRN73FBOzr2+AU+UxNqwXgfRkoYcBZwLQFA==
 
 "@react-navigation/core@^5.12.3":
   version "5.12.3"

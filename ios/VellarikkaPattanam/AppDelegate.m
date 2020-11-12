@@ -12,6 +12,9 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <Firebase.h>
+#if RCT_DEV
+#import <React/RCTDevLoadingView.h>
+#endif
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -29,16 +32,25 @@ static void InitializeFlipper(UIApplication *application) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   if([FIRApp defaultApp]==nil){
-      [FIRApp configure];
+     [FIRApp configure];
   }
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
 
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+NSURL *jsCodeLocation; 
+jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+ 
+RCTBridge *bridge = [[RCTBridge alloc] initWithBundleURL:jsCodeLocation
+                                            moduleProvider:nil
+                                            launchOptions:launchOptions];
+#if RCT_DEV
+  [bridge moduleForClass:[RCTDevLoadingView class]];
+#endif                                           
+
+RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"VellarikkaPattanam"
-                                            initialProperties:nil];
+                                                   initialProperties:nil];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 

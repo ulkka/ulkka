@@ -17,8 +17,9 @@ export default function FloatingAddComment(props) {
   useEffect(() => {
     if (props.reply_to == 'comment') {
       setActive(true);
+      inputRef.current.focus();
     }
-  }, [props.reply_to]);
+  }, [props.reply_to, props.comment_id]);
 
   const prepare = () => {
     inputRef.current.blur();
@@ -133,11 +134,12 @@ export default function FloatingAddComment(props) {
     <View
       style={{
         padding: 5,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
+        borderWidth: 1,
+        borderColor: '#eee',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        backgroundColor: '#fff',
       }}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {close}
@@ -164,13 +166,13 @@ export default function FloatingAddComment(props) {
       <View
         style={{
           padding: 5,
-          backgroundColor: '#ddd',
+          backgroundColor: '#fff',
         }}>
         <Input
           ref={inputRef}
           placeholder="Add a comment ..."
           containerStyle={{
-            backgroundColor: '#555',
+            backgroundColor: '#eee',
             padding: 5,
             borderRadius: 8,
           }}
@@ -181,11 +183,11 @@ export default function FloatingAddComment(props) {
           }}
           inputStyle={{
             fontSize: 14,
-            color: '#ddd',
+            color: '#333',
           }}
           // textAlignVertical={true}
           // multiline={true}
-          onBlur={() => setActive(false)}
+          onBlur={() => prepare()}
           onFocus={() => setActive(true)}
           value={comment}
           onChangeText={(text) => setComment(text)}

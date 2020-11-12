@@ -21,6 +21,9 @@ PODS:
     - FirebaseAuth (~> 6.8.0)
   - Firebase/CoreOnly (6.30.0):
     - FirebaseCore (= 6.10.0)
+  - Firebase/Messaging (6.30.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 4.6.1)
   - FirebaseAuth (6.8.0):
     - FirebaseCore (~> 6.10)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
@@ -35,6 +38,24 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/Logger (~> 6.7)
     - nanopb (~> 1.30906.0)
+  - FirebaseInstallations (1.7.0):
+    - FirebaseCore (~> 6.10)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
+    - PromisesObjC (~> 1.2)
+  - FirebaseInstanceID (4.8.0):
+    - FirebaseCore (~> 6.10)
+    - FirebaseInstallations (~> 1.6)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
+  - FirebaseMessaging (4.6.2):
+    - FirebaseCore (~> 6.10)
+    - FirebaseInstanceID (~> 4.6)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/Reachability (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
+    - Protobuf (>= 3.9.2, ~> 3.9)
   - Flipper (0.54.0):
     - Flipper-Folly (~> 2.2)
     - Flipper-RSocket (~> 1.1)
@@ -112,6 +133,8 @@ PODS:
   - "GoogleUtilities/NSData+zlib (6.7.2)"
   - GoogleUtilities/Reachability (6.7.2):
     - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (6.7.2):
+    - GoogleUtilities/Logger
   - GTMAppAuth (1.1.0):
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher (~> 1.4)
@@ -129,6 +152,7 @@ PODS:
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
   - PromisesObjC (1.2.11)
+  - Protobuf (3.13.0)
   - RCTRequired (0.63.3)
   - RCTTypeSafety (0.63.3):
     - FBLazyVector (= 0.63.3)
@@ -375,6 +399,10 @@ PODS:
     - Firebase/Auth (~> 6.30.0)
     - React
     - RNFBApp
+  - RNFBMessaging (8.0.1):
+    - Firebase/Messaging (~> 6.30.0)
+    - React-Core
+    - RNFBApp
   - RNGestureHandler (1.8.0):
     - React
   - RNGoogleSignin (4.0.3):
@@ -458,6 +486,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -478,6 +507,9 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseInstallations
+    - FirebaseInstanceID
+    - FirebaseMessaging
     - Flipper
     - Flipper-DoubleConversion
     - Flipper-Folly
@@ -493,6 +525,7 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
+    - Protobuf
     - TOCropViewController
     - YogaKit
 
@@ -561,6 +594,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
@@ -592,6 +627,9 @@ SPEC CHECKSUMS:
   FirebaseAuth: 300433de340c1b058dbb8aec224a3f1bcfda5184
   FirebaseCore: 9a41e2de78fef10f63cee30ab10e2945266bc1fc
   FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1
+  FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
+  FirebaseInstanceID: bd3ffc24367f901a43c063b36c640b345a4a5dd1
+  FirebaseMessaging: 82d75b3770a78bbce470769a6980429608b4c407
   Flipper: be611d4b742d8c87fbae2ca5f44603a02539e365
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: c12092ea368353b58e992843a990a3225d4533c3
@@ -609,6 +647,7 @@ SPEC CHECKSUMS:
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
+  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
   RCTTypeSafety: edf4b618033c2f1c5b7bc3d90d8e085ed95ba2ab
   React: f36e90f3ceb976546e97df3403e37d226f79d0e3
@@ -636,6 +675,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNFBApp: 373cce42559cc7a9a42afc876746e3946de3e32e
   RNFBAuth: 701b29df3f364ef7b36992ad5e25628ce333ed89
+  RNFBMessaging: 688b2421b8bb1fcbe5f2ca25a649aac313bece41
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNImageCropPicker: 89352ad050ea8dd9bc1728802c477f5b38cd7b4c

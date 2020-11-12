@@ -16,8 +16,10 @@ const CreateCommentReducer = (state = INITIAL_AUTH_STATE, action) => {
       reply_to = 'post';
       post_id = action.payload.post_id;
       post_title = action.payload.post_title;
+      comment_id = null;
+      comment_author = '';
 
-      return {reply_to, post_id, post_title};
+      return {reply_to, post_id, post_title, comment_id, comment_author};
 
     case Actions.PrepareReply:
       reply_to = 'comment';

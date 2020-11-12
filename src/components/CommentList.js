@@ -11,7 +11,7 @@ export default function CommentList(props) {
     loadComments();
   }, []);
 
-  loadComments = async () => {
+  const loadComments = async () => {
     const client = await mainClient;
     client
       .get('post/' + props.item._id + '/comments')
@@ -49,8 +49,9 @@ export default function CommentList(props) {
   );
 
   const getComments = (item, index) => {
+    console.log('index-  ', index);
     return (
-      <Comment key={index} comment={item} post={props.item}>
+      <Comment key={index} comment={item} post={props.item} index={index}>
         <CommentGroup>
           {item.replies === undefined
             ? null

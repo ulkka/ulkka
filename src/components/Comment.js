@@ -66,7 +66,7 @@ const Comment = (props) => {
   const CommentBody = (
     <View style={{paddingTop: 5}}>
       <Text style={{color: '#333', fontSize: 13, fontWeight: '400'}}>
-        {props.comment.text}
+        {props.index + props.comment.text}
       </Text>
     </View>
   );
