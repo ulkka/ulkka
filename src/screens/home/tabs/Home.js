@@ -4,6 +4,7 @@ import mainClient from '../../../client/mainClient';
 import {ThemeContext} from 'react-native-elements';
 import Post from '../../../components/Post';
 import FeedFooter from '../../../components/FeedFooter';
+import RegisterDeviceToken from '../../../components/RegisterDeviceToken';
 
 function Home({navigation}) {
   const {theme} = useContext(ThemeContext);
@@ -61,6 +62,7 @@ function Home({navigation}) {
           ListFooterComponent={<FeedFooter complete={true} />}
         />
       </View>
+      <RegisterDeviceToken />
     </SafeAreaView>
   );
 }

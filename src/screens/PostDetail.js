@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
-import CommentList from '../components/CommentList';
+import CommentList from '../redux/actions/CommentList';
 import Post from '../components/Post';
 import FloatingAddComment from '../redux/actions/FloatingAddComment';
 

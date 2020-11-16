@@ -13,7 +13,6 @@ import CreateAccount from '../screens/auth/CreateAccount';
 import {navigationRef} from '../screens/auth/AuthNavigation';
 import HomeNavigation from '../screens/home/HomeNavigation';
 import CreateCommunity from '../screens/create/CreateCommunity';
-import CreatePost from '../screens/create/CreatePost';
 
 const StackNav = createStackNavigator();
 const DrawerNav = createDrawerNavigator();
@@ -21,7 +20,7 @@ const DrawerNav = createDrawerNavigator();
 enableScreens();
 
 export default function Main(props) {
-  return props.auth_state == 'AUTHENTICATED' ? (
+  const AuthenticatedNavigation = (
     <NavigationContainer>
       <DrawerNav.Navigator
         initialRouteName="Home"
@@ -43,7 +42,9 @@ export default function Main(props) {
         />
       </DrawerNav.Navigator>
     </NavigationContainer>
-  ) : props.auth_state == 'UNAUTHENTICATED' ? (
+  );
+
+  const UnauthenticatedNavigation = (
     <NavigationContainer ref={navigationRef}>
       <StackNav.Navigator
         initialRouteName="SignIn"
@@ -58,7 +59,9 @@ export default function Main(props) {
         />
       </StackNav.Navigator>
     </NavigationContainer>
-  ) : (
+  );
+
+  const LoadingNavigation = (
     <NavigationContainer>
       <StackNav.Navigator
         initialRouteName="Splash"
@@ -67,4 +70,10 @@ export default function Main(props) {
       </StackNav.Navigator>
     </NavigationContainer>
   );
+
+  return props.auth_state == 'AUTHENTICATED'
+    ? AuthenticatedNavigation
+    : props.auth_state == 'UNAUTHENTICATED'
+    ? UnauthenticatedNavigation
+    : LoadingNavigation;
 }

@@ -8,6 +8,7 @@ const mapStateToProps = (state) => ({
   post_title: state.CreateCommentReducer.post_title,
   comment_id: state.CreateCommentReducer.comment_id,
   comment_author: state.CreateCommentReducer.comment_author,
+  comments: state.CommentReducer.comments,
 });
 
 const mapDispatchToProps = (dispatch) => ({

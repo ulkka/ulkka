@@ -3,15 +3,17 @@ import {View, Text} from 'react-native';
 import {CommentGroup} from './Comment';
 import mainClient from '../client/mainClient';
 import Comment from '../redux/actions/Comment';
+import LoadingOverlay from '../components/LoadingOverlay';
 
 export default function CommentList(props) {
-  const [commentsOfPost, setCommentsOfPost] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadComments();
   }, []);
 
   const loadComments = async () => {
+    props.AddComment([]);
     const client = await mainClient;
     client
       .get('post/' + props.item._id + '/comments')
@@ -22,7 +24,8 @@ export default function CommentList(props) {
           ', No of Parent Comments - ',
           response.data.length,
         );
-        setCommentsOfPost(response.data);
+        props.AddComment(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -48,15 +51,15 @@ export default function CommentList(props) {
     </View>
   );
 
-  const getComments = (item, index) => {
+  const getComments = (comment, index) => {
     console.log('index-  ', index);
     return (
-      <Comment key={index} comment={item} post={props.item} index={index}>
+      <Comment key={index} comment={comment} post={props.item} index={index}>
         <CommentGroup>
-          {item.replies === undefined
+          {comment.replies === undefined
             ? null
-            : item.replies.map((item, index) => {
-                return getComments(item, index);
+            : comment.replies.map((reply, index) => {
+                return getComments(reply, index);
               })}
         </CommentGroup>
       </Comment>
@@ -65,13 +68,15 @@ export default function CommentList(props) {
 
   const CommentListView = (
     <CommentGroup root={true}>
-      {commentsOfPost.map((item, index) => {
-        return getComments(item, index);
+      {props.comments.map((comment, index) => {
+        return getComments(comment, index);
       })}
     </CommentGroup>
   );
 
-  return (
+  return loading ? (
+    <LoadingOverlay visible={loading} />
+  ) : (
     <View>
       {CommentListTitle}
       {CommentListView}

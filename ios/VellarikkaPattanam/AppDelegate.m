@@ -12,6 +12,7 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <Firebase.h>
+#import "RNFBMessagingModule.h"
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
@@ -46,11 +47,17 @@ RCTBridge *bridge = [[RCTBridge alloc] initWithBundleURL:jsCodeLocation
                                             launchOptions:launchOptions];
 #if RCT_DEV
   [bridge moduleForClass:[RCTDevLoadingView class]];
-#endif                                           
+#endif                        
+
+// in "(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions" method
+// Use `addCustomPropsToUserProps` to pass in props for initialization of your app
+// Or pass in `nil` if you have none as per below example
+// For `withLaunchOptions` please pass in `launchOptions` object
+NSDictionary *appProperties = [RNFBMessagingModule addCustomPropsToUserProps:nil withLaunchOptions:launchOptions];
 
 RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"VellarikkaPattanam"
-                                                   initialProperties:nil];
+                                                   initialProperties:appProperties];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 

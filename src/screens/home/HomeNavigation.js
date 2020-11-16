@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
