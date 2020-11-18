@@ -6,6 +6,24 @@ import TimeAgo from './TimeAgo';
 import Vote from './Vote';
 
 const CommentGroup = (props) => {
+  console.log('parent id - ', props.parent);
+  var testcomment = {
+    _id: '5fa8f34fae462f16d35bda94',
+    voteCount: 0,
+    upvotes: [],
+    downvotes: [],
+    text: 'Hi man',
+    post: '5f9bdf4aff07535d74a01756',
+    parent: '5fa8f33cae462f16d35bda93',
+    author: {
+      user_id: '5f8975de1068712065b65f6d',
+      name: 'Arjun S Warrier',
+    },
+    level: 4,
+    created_at: '2020-11-09T07:44:15.767Z',
+    updated_at: '2020-11-09T07:44:15.767Z',
+    __v: 0,
+  };
   return (
     <View
       style={{
@@ -66,7 +84,7 @@ const Comment = (props) => {
   const CommentBody = (
     <View style={{paddingTop: 5}}>
       <Text style={{color: '#333', fontSize: 13, fontWeight: '400'}}>
-        {props.index + props.comment.text}
+        {props.comment.text}
       </Text>
     </View>
   );

@@ -1183,10 +1183,15 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^9.2.2":
-  version "9.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-9.2.2.tgz#ce8630fa2a60c694be3179d20a6ff57e1509d346"
-  integrity sha512-pp1UW/TK6mwqpI0tZx3Y6UymLj8qktR4FuB85fzqElum6OwZ4QGq9P7fBY2PXGrTMagRNHyWtDMRBidv1GaXfA==
+"@react-native-firebase/auth@^9.3.5":
+  version "9.3.5"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-9.3.5.tgz#4bd14b575a4cc33828e0b2d35b9b2c9c6a52d1ca"
+  integrity sha512-Z3ik2CASWFJ4YaMbuAMHY1DyBugv6BetPrz796zUIoEjNuAPUFOtYgGGhIcfBVLlj2W099fWgZUD1aKaOdHbwg==
+
+"@react-native-firebase/dynamic-links@^7.5.13":
+  version "7.5.13"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-7.5.13.tgz#4cb7eb300914071fb773672a0ca4d37f754279c9"
+  integrity sha512-GcUgQYgnHqeoYYDNTHvwMTplklkYsS89ETC7X8UkBInXKEqKxUHMUbxxCbyHmCTDlQnxyTXj0xlqIo355TLgTg==
 
 "@react-native-firebase/messaging@^8.0.1":
   version "8.0.1"

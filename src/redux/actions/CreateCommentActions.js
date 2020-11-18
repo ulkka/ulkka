@@ -22,3 +22,10 @@ export const prepareReply = (
     comment_author: comment_author,
   },
 });
+
+export const newComment = (new_comment) => ({
+  type: Actions.NewComment,
+  payload: {
+    new_comment: new_comment,
+  },
+});

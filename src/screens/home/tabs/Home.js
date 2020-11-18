@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {View, FlatList, SafeAreaView, Text} from 'react-native';
+import {View, FlatList, SafeAreaView, Text, RefreshControl} from 'react-native';
 import mainClient from '../../../client/mainClient';
 import {ThemeContext} from 'react-native-elements';
 import Post from '../../../components/Post';

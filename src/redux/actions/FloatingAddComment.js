@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
   comment_id: state.CreateCommentReducer.comment_id,
   comment_author: state.CreateCommentReducer.comment_author,
   comments: state.CommentReducer.comments,
+  new_comment: state.CreateCommentReducer.new_comment,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -19,6 +20,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(
       Actions.prepareReply(post_id, post_title, comment_id, comment_author),
     );
+  },
+  newComment: (new_comment) => {
+    dispatch(Actions.newComment(new_comment));
   },
 });
 

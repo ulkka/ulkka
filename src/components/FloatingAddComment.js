@@ -53,6 +53,7 @@ export default function FloatingAddComment(props) {
       .then((response) => {
         console.log(response);
         prepare();
+        props.newComment(true);
         Snackbar.show({
           text: 'Successfully commented',
           duration: Snackbar.LENGTH_LONG,
@@ -60,6 +61,7 @@ export default function FloatingAddComment(props) {
       })
       .catch((error) => {
         console.log(error);
+        props.newComment(false);
         Snackbar.show({
           text: 'Please check your network connection',
           duration: Snackbar.LENGTH_LONG,

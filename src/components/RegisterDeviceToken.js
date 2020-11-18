@@ -22,8 +22,6 @@ export default function RegisterDeviceToken() {
 
     const userId = await getUserIdFromServer(email);
 
-    console.log('userid from server - ', email, userId);
-
     const client = await mainClient;
     // Add the token to the users db
     client

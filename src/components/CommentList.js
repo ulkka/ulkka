@@ -12,6 +12,13 @@ export default function CommentList(props) {
     loadComments();
   }, []);
 
+  useEffect(() => {
+    if (props.new_comment) {
+      loadComments();
+      props.newComment(false);
+    }
+  }, [props.new_comment]);
+
   const loadComments = async () => {
     props.AddComment([]);
     const client = await mainClient;
@@ -52,10 +59,9 @@ export default function CommentList(props) {
   );
 
   const getComments = (comment, index) => {
-    console.log('index-  ', index);
     return (
       <Comment key={index} comment={comment} post={props.item} index={index}>
-        <CommentGroup>
+        <CommentGroup parent={comment._id}>
           {comment.replies === undefined
             ? null
             : comment.replies.map((reply, index) => {
@@ -67,7 +73,7 @@ export default function CommentList(props) {
   };
 
   const CommentListView = (
-    <CommentGroup root={true}>
+    <CommentGroup root={true} parent={'post'}>
       {props.comments.map((comment, index) => {
         return getComments(comment, index);
       })}

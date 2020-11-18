@@ -5,3 +5,5 @@ export const PrepareComment = 'PREPARE_COMMENT';
 export const PrepareReply = 'PREPARE_REPLY';
 
 export const AddComment = 'ADD_COMMENT';
+
+export const NewComment = 'NEW_COMMENT';

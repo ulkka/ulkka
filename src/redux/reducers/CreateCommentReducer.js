@@ -6,6 +6,7 @@ const INITIAL_AUTH_STATE = {
   post_title: '',
   comment_id: null,
   comment_author: '',
+  new_comment: false,
 };
 
 const CreateCommentReducer = (state = INITIAL_AUTH_STATE, action) => {
@@ -29,6 +30,10 @@ const CreateCommentReducer = (state = INITIAL_AUTH_STATE, action) => {
       comment_author = action.payload.comment_author;
 
       return {reply_to, post_id, post_title, comment_id, comment_author};
+
+    case Actions.NewComment:
+      new_comment = action.payload.new_comment;
+      return {new_comment};
 
     default:
       return state;

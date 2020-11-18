@@ -41,7 +41,7 @@ function HomeTabNavigation({navigation}) {
 function HomeList({navigation}) {
   return (
     <View style={{flex: 1}}>
-      <FlatList ListFooterComponent={HomeTabNavigation} />
+      <FlatList ListHeaderComponent={HomeTabNavigation} />
       <CreatePostButtonOverlay navigation={navigation} />
     </View>
   );

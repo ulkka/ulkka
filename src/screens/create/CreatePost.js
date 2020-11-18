@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from 'react-native';
 import mainClient from '../../client/mainClient';
 import {Input, Icon, Button} from 'react-native-elements';
@@ -24,6 +25,9 @@ export default function CreatePost({navigation, route}) {
   const [media, setMedia] = useState(null);
   const [loading, setLoading] = useState(false);
   const [statusData, setStatusData] = useState({});
+  const [link, setLink] = useState('');
+  const [preview, setPreview] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
 
   const [
     selectCommunityModalVisible,
@@ -33,6 +37,35 @@ export default function CreatePost({navigation, route}) {
   useEffect(() => {
     setType(route.params.type);
   }, []);
+
+  useEffect(() => {
+    getOgPreview(link);
+  }, [link]);
+
+  const getOgPreview = async (link) => {
+    setPreview(false);
+    setPreviewData(null);
+    console.log(link);
+    const client = await mainClient;
+    client
+      .post('utility/ogPreview', {
+        url: link,
+      })
+      .then((response) => {
+        console.log('Preview response - ', response.data);
+        if (response.data.ogImage.url === undefined) {
+          setPreviewData(null);
+        } else {
+          setPreviewData(response.data);
+          setPreview(true);
+        }
+      })
+      .catch((error) => {
+        setPreview(false);
+        setPreviewData(null);
+        console.log('Preview error - ', error);
+      });
+  };
 
   const pickMedia = (mediaType) => {
     ImagePicker.openPicker({
@@ -77,6 +110,36 @@ export default function CreatePost({navigation, route}) {
             community: community._id,
             title: title,
             description: description,
+            type: type,
+          })
+          .then((response) => {
+            setLoading(false);
+            var status = {
+              type: 'success',
+              message: 'Successfully Posted to',
+              entity: community.name,
+            };
+            setStatusData(status);
+            setTimeout(() => navigation.navigate('Home'), 2000);
+          })
+          .catch((error) => {
+            console.log('Posting to server error - ', error);
+            setLoading(false);
+            var status = {
+              type: 'fail',
+              message: 'Failed to post to',
+              entity: community.name,
+            };
+            setStatusData(status);
+            setTimeout(navigation.navigate('Home'), 2000);
+          });
+        return;
+      case 'link':
+        client
+          .post('post', {
+            community: community._id,
+            title: title,
+            link: link,
             type: type,
           })
           .then((response) => {
@@ -242,6 +305,77 @@ export default function CreatePost({navigation, route}) {
     </View>
   );
 
+  const PreviewField = (
+    <View
+      style={{
+        backgroundColor: '#fff',
+        borderColor: '#ccc',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+      }}>
+      <View
+        style={{
+          flex: 7,
+          justifyContent: 'center',
+          padding: 5,
+        }}>
+        <View style={{margin: 5}}>
+          <Text style={{fontWeight: 'bold', fontSize: 13, color: '#333'}}>
+            {previewData == null ? '' : previewData.ogTitle}
+          </Text>
+        </View>
+        <View style={{marginHorizontal: 5}}>
+          <Text style={{fontSize: 11, color: '#555'}}>
+            {previewData == null ? '' : previewData.ogDescription}
+          </Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flex: 5,
+          padding: 5,
+          alignItems: 'flex-start',
+        }}>
+        <Image
+          source={{uri: previewData == null ? '' : previewData.ogImage.url}}
+          style={{
+            height: 180,
+            aspectRatio: 1,
+            maxWidth: 160,
+            resizeMode: 'contain',
+          }}
+        />
+      </View>
+    </View>
+  );
+
+  const LinkField = (
+    <View style={{flex: 3}}>
+      <ScrollView>
+        <View>
+          <Input
+            style={{
+              maxHeight: 300,
+              minHeight: 50,
+            }}
+            inputContainerStyle={{
+              borderBottomColor: '#fff',
+            }}
+            onChangeText={(text) => setLink(text)}
+            value={link}
+            placeholder={'Add Link'}
+            numberOfLines={2}
+            multiline={true}
+            maxLength={1000}
+          />
+        </View>
+        {preview ? PreviewField : <View></View>}
+      </ScrollView>
+    </View>
+  );
+
   const MediaField = (mediaType) => {
     return (
       <View
@@ -334,6 +468,8 @@ export default function CreatePost({navigation, route}) {
           MediaField('photo')
         ) : type == 'video' ? (
           MediaField('video')
+        ) : type == 'link' ? (
+          LinkField
         ) : (
           <View></View>
         )}
