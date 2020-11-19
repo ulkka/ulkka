@@ -1,13 +1,13 @@
 import {connect} from 'react-redux';
-import * as Actions from './CreateCommentActions';
+import * as Actions from './CommentActions';
 import {Comment} from '../../components/Comment';
 
 const mapStateToProps = (state) => ({
-  reply_to: state.CreateCommentReducer.reply_to,
-  post_id: state.CreateCommentReducer.post_id,
-  post_title: state.CreateCommentReducer.post_title,
-  comment_id: state.CreateCommentReducer.comment_id,
-  comment_author: state.CreateCommentReducer.comment_author,
+  reply_to: state.CommentReducer.reply_to,
+  post_id: state.CommentReducer.post_id,
+  post_title: state.CommentReducer.post_title,
+  comment_id: state.CommentReducer.comment_id,
+  comment_author: state.CommentReducer.comment_author,
 });
 
 const mapDispatchToProps = (dispatch) => ({

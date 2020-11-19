@@ -89,13 +89,11 @@ export default function PostContent(props) {
   );
 
   const LinkPost = () => {
-    console.log('link post');
     return (
       <View
         style={{
           backgroundColor: '#fff',
           borderColor: '#ccc',
-          // flexDirection: 'row',
           justifyContent: 'center',
           borderWidth: 1,
           borderRadius: 5,
@@ -103,26 +101,21 @@ export default function PostContent(props) {
         <TouchableOpacity
           onPress={() => console.log('click link')}
           style={{
-            flex: 5,
             padding: 5,
             alignItems: 'flex-start',
-            backgroundColor: '#eee',
-            //borderWidth: 1,
+            backgroundColor: '#333',
           }}>
           <Image
             source={{uri: props.item.ogData.ogImage.url}}
             style={{
-              // borderWidth: 1,
-              width: '99%',
+              width: '100%',
               aspectRatio: 1,
-              //maxWidth: 160,
               resizeMode: 'contain',
             }}
           />
         </TouchableOpacity>
         <View
           style={{
-            flex: 1,
             justifyContent: 'center',
             padding: 5,
           }}>
@@ -132,8 +125,13 @@ export default function PostContent(props) {
             </Text>
           </View>
           <View style={{marginHorizontal: 5}}>
-            <Text style={{fontSize: 11, color: '#555'}}>
+            <Text style={{fontSize: 11, color: '#444'}}>
               {props.item.ogData.ogDescription}
+            </Text>
+          </View>
+          <View style={{marginVertical: 10, marginHorizontal: 5}}>
+            <Text style={{fontSize: 9, color: '#555'}}>
+              {props.item.ogData.ogUrl}
             </Text>
           </View>
         </View>

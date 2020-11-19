@@ -1,15 +1,13 @@
 import {connect} from 'react-redux';
-import * as Actions from './CreateCommentActions';
+import * as Actions from './CommentActions';
 import FloatingAddComment from '../../components/FloatingAddComment';
 
 const mapStateToProps = (state) => ({
-  reply_to: state.CreateCommentReducer.reply_to,
-  post_id: state.CreateCommentReducer.post_id,
-  post_title: state.CreateCommentReducer.post_title,
-  comment_id: state.CreateCommentReducer.comment_id,
-  comment_author: state.CreateCommentReducer.comment_author,
-  comments: state.CommentReducer.comments,
-  new_comment: state.CreateCommentReducer.new_comment,
+  reply_to: state.CommentReducer.reply_to,
+  post_id: state.CommentReducer.post_id,
+  post_title: state.CommentReducer.post_title,
+  comment_id: state.CommentReducer.comment_id,
+  comment_author: state.CommentReducer.comment_author,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -21,8 +19,8 @@ const mapDispatchToProps = (dispatch) => ({
       Actions.prepareReply(post_id, post_title, comment_id, comment_author),
     );
   },
-  newComment: (new_comment) => {
-    dispatch(Actions.newComment(new_comment));
+  newComment: (new_comment, parent) => {
+    dispatch(Actions.newComment(new_comment, parent));
   },
 });
 

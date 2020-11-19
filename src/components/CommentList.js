@@ -9,15 +9,9 @@ export default function CommentList(props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('initial comments - ', props.comments);
     loadComments();
   }, []);
-
-  useEffect(() => {
-    if (props.new_comment) {
-      loadComments();
-      props.newComment(false);
-    }
-  }, [props.new_comment]);
 
   const loadComments = async () => {
     props.AddComment([]);
