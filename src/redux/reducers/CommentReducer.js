@@ -1,6 +1,6 @@
 import * as Actions from '../actions/ActionTypes';
 
-const INITIAL_AUTH_STATE = {
+const INITIAL_COMMENT_STATE = {
   comments: [],
   reply_to: 'post',
   post_id: null,
@@ -10,7 +10,7 @@ const INITIAL_AUTH_STATE = {
   new_comment: null,
 };
 
-const CommentReducer = (state = INITIAL_AUTH_STATE, action) => {
+const CommentReducer = (state = INITIAL_COMMENT_STATE, action) => {
   let {
     reply_to,
     post_id,

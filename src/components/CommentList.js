@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {CommentGroup} from './Comment';
 import mainClient from '../client/mainClient';
-import Comment from '../redux/actions/Comment';
+import Comment from '../redux/connectors/Comment';
 import LoadingOverlay from '../components/LoadingOverlay';
 
 export default function CommentList(props) {

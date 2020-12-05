@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import * as Actions from './AuthActions';
+import * as Actions from '../actions/AuthActions';
 import SignIn from '../../screens/auth/SignIn';
 
 const mapDispatchToProps = (dispatch) => ({

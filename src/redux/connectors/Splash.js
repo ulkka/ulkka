@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
-import * as Actions from './AuthActions';
+import * as Actions from '../actions/AuthActions';
 import Splash from '../../screens/Splash';
-import {ActivityIndicator} from 'react-native';
 
 const mapStateToProps = (state) => ({
   user: state.authReducer.user,

@@ -51,13 +51,12 @@ export default function FloatingAddComment(props) {
     client
       .post('comment', payload)
       .then((response) => {
-        console.log(response);
-        prepare();
         if (props.reply_to == 'post') {
           props.newComment(response.data, 'post');
         } else {
           props.newComment(response.data, props.comment_id);
         }
+        prepare();
         Snackbar.show({
           text: 'Successfully commented',
           duration: Snackbar.LENGTH_LONG,
@@ -178,20 +177,19 @@ export default function FloatingAddComment(props) {
           placeholder="Add a comment ..."
           containerStyle={{
             backgroundColor: '#eee',
-            padding: 5,
             borderRadius: 8,
           }}
           inputContainerStyle={{
             borderBottomWidth: 0,
-            height: expanded ? 500 : 25,
-            //width: 400,
+            height: expanded ? 300 : 30,
+            marginTop: 10,
           }}
           inputStyle={{
-            fontSize: 14,
+            fontSize: 13,
             color: '#333',
           }}
           // textAlignVertical={true}
-          // multiline={true}
+          multiline={true}
           onBlur={() => prepare()}
           onFocus={() => setActive(true)}
           value={comment}
@@ -202,6 +200,7 @@ export default function FloatingAddComment(props) {
               name="send"
               color="green"
               size={15}
+              style={{marginBottom: 10}}
               onPress={() => submitComment()}
             />
           }

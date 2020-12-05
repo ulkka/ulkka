@@ -4,6 +4,7 @@ import Collapsible from 'react-native-collapsible';
 import {Icon, Divider} from 'react-native-elements';
 import TimeAgo from './TimeAgo';
 import Vote from './Vote';
+import PostExtraOptions from '../redux/connectors/PostExtraOptions';
 
 const CommentGroup = (props) => {
   return (
@@ -79,9 +80,9 @@ const Comment = (props) => {
         alignItems: 'center',
         marginTop: 5,
       }}>
-      <TouchableOpacity style={{paddingHorizontal: 40}}>
-        <Icon name="more-horiz" size={18} color="#888" />
-      </TouchableOpacity>
+      <View style={{paddingHorizontal: 40}}>
+        <PostExtraOptions item={props.comment} optionType="comment" />
+      </View>
       <TouchableOpacity
         style={{flexDirection: 'row', alignItems: 'center'}}
         onPress={() => {

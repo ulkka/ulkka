@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import * as Actions from './CommentActions';
+import * as Actions from '../actions/CommentActions';
 import FloatingAddComment from '../../components/FloatingAddComment';
 
 const mapStateToProps = (state) => ({

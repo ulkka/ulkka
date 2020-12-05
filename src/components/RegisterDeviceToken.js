@@ -1,29 +1,34 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import mainClient from '../client/mainClient';
 import messaging from '@react-native-firebase/messaging';
 
 export default function RegisterDeviceToken() {
-  const getUserIdFromServer = async (email) => {
+  const [userId, setUserId] = useState('');
+  const [email, setEmail] = useState('');
+  const [token, setToken] = useState('');
+
+  const getUserIdFromServer = async () => {
     const client = await mainClient;
-    const userIdResponse = await client
+    client
       .get('user?query={"email":"' + email + '"}')
+      .then((response) => {
+        setUserId(response.data[0]._id);
+      })
       .catch((error) => {
         console.log('error getting user id from server - ', error);
       });
-    const userId = userIdResponse.data[0]._id;
-    return userId;
   };
 
-  const saveTokenToDatabase = async (token) => {
+  const setTokenAndEmail = async (token) => {
     // Assume user is already signed in
-    const email = auth().currentUser.email;
+    setToken(token);
+    setEmail(auth().currentUser.email);
+  };
 
-    const userId = await getUserIdFromServer(email);
-
+  const saveTokenToDb = async () => {
     const client = await mainClient;
-    // Add the token to the users db
     client
       .put('user/' + userId, {
         pushMessageToken: token,
@@ -40,11 +45,23 @@ export default function RegisterDeviceToken() {
   };
 
   useEffect(() => {
+    if (userId != '') {
+      saveTokenToDb();
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (email != '') {
+      getUserIdFromServer();
+    }
+  }, [email]);
+
+  useEffect(() => {
     // Get the device token
     messaging()
       .getToken()
       .then((token) => {
-        return saveTokenToDatabase(token);
+        return setTokenAndEmail(token);
       });
 
     // If using other push notification providers (ie Amazon SNS, etc)
@@ -53,7 +70,7 @@ export default function RegisterDeviceToken() {
 
     // Listen to whether the token changes
     return messaging().onTokenRefresh((token) => {
-      saveTokenToDatabase(token);
+      setTokenAndEmail(token);
     });
   }, []);
 

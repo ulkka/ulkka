@@ -13,9 +13,6 @@ export default function LoadingOverlay(props) {
     <View
       style={{
         flex: 1,
-        borderRadius: 1,
-        borderWidth: 2,
-        borderColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff',

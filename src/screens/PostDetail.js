@@ -1,8 +1,8 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
-import CommentList from '../redux/actions/CommentList';
+import CommentList from '../redux/connectors/CommentList';
 import Post from '../components/Post';
-import FloatingAddComment from '../redux/actions/FloatingAddComment';
+import FloatingAddComment from '../redux/connectors/FloatingAddComment';
 
 export default function PostDetail({route, navigation}) {
   return (

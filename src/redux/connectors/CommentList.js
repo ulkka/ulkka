@@ -1,17 +1,15 @@
 import {connect} from 'react-redux';
-import * as Actions from './CommentActions';
+import * as Actions from '../actions/CommentActions';
 import CommentList from '../../components/CommentList';
 
 const mapStateToProps = (state) => ({
   comments: state.CommentReducer.comments,
+  new_comment: state.CommentReducer.new_comment,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   AddComment: (comments) => {
     dispatch(Actions.AddComment(comments));
-  },
-  newComment: (new_comment) => {
-    dispatch(Actions.newComment(new_comment));
   },
 });
 

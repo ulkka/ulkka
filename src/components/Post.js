@@ -4,6 +4,7 @@ import {ThemeContext, Icon, Text} from 'react-native-elements';
 import PostContent from './PostContent';
 import TimeAgo from '../components/TimeAgo';
 import Vote from './Vote';
+import PostExtraOptions from '../redux/connectors/PostExtraOptions';
 
 export default function Post(props) {
   const {theme} = useContext(ThemeContext);
@@ -37,9 +38,7 @@ export default function Post(props) {
           </View>
         </View>
       </View>
-      <View style={{padding: 5}}>
-        <Icon name="more-vert" size={18} color="#888" />
-      </View>
+      <PostExtraOptions item={props.item} optionType={'post'} />
     </View>
   );
   const PostTitle = (
