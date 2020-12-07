@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Icon, Input, SocialIcon} from 'react-native-elements';
 // import auth from '@react-native-firebase/auth';
-import Snackbar from 'react-native-snackbar';
+// import Snackbar from 'react-native-snackbar';
 import mainClient from '../../client/mainClient';
 
 export default function CreateAccount() {

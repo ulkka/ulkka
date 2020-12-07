@@ -5,13 +5,13 @@ import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {SocialIcon, Button, Divider, Input, Icon} from 'react-native-elements';
 import * as AuthNavigation from './AuthNavigation';
 
-GoogleSignin.configure({
-  scopes: ['openid', 'email', 'profile'],
-  iosClientId:
-    '125095692098-59niqmb4q23se9im25r19rcous61iotk.apps.googleusercontent.com',
-  webClientId:
-    '125095692098-jvns3h2vfqkf3ufrb0kcqhf1k2abicog.apps.googleusercontent.com',
-});
+// GoogleSignin.configure({
+//   scopes: ['openid', 'email', 'profile'],
+//   iosClientId:
+//     '125095692098-59niqmb4q23se9im25r19rcous61iotk.apps.googleusercontent.com',
+//   webClientId:
+//     '125095692098-jvns3h2vfqkf3ufrb0kcqhf1k2abicog.apps.googleusercontent.com',
+// });
 
 export default function SignIn(props) {
   var authFlag = true;

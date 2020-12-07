@@ -15,7 +15,6 @@ const withTM = require("next-transpile-modules")([
   "react-native-iphone-x-helper",
   "react-native-size-matters",
   "react-native-ratings",
-  "react-native-snackbar",
   "react-native-video",
   "react-native-image-crop-picker",
   "react-native-image-crop-picker",
