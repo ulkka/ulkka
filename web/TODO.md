@@ -1,0 +1,4 @@
+- Refactor out Firebase and Google Login
+- Fix Snackbar
+- Fix Video
+- Patch style
