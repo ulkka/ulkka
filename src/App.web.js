@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {SafeAreaView, Alert} from 'react-native';
 import Main from './redux/connectors/mainNav';
-import SplashScreen from 'react-native-splash-screen';
+//import SplashScreen from 'react-native-splash-screen';
 
 import {Provider as StoreProvider} from 'react-redux';
 import store from './redux/reducers/index';

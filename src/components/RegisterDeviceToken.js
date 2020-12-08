@@ -22,9 +22,14 @@ export default function RegisterDeviceToken() {
   };
 
   const setTokenAndEmail = async (token) => {
-    // Assume user is already signed in
     setToken(token);
-    setEmail(auth().currentUser.email);
+    try {
+      // Assume user is already signed in
+      const email = auth().currentUser.email;
+      setEmail(email);
+    } catch (error) {
+      console.log('Error getting email to register device token - ', error);
+    }
   };
 
   const saveTokenToDb = async () => {

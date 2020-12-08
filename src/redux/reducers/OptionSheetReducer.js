@@ -14,14 +14,12 @@ const optionSheetReducer = (state = INITIAL_OPTIONSHEET_STATE, action) => {
       isVisible = true;
       type = action.payload.type;
       id = action.payload.id;
-      // let new_state = { auth_state, id_token, user };
       return {isVisible, type, id};
 
     case Actions.hideOptionSheet:
       isVisible = false;
       type = null;
       id = null;
-      // let new_state = { auth_state, id_token, user };
       return {isVisible, type, id};
 
     default:
