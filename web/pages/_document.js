@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 // Generate required css
 import iconFont from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import materialFont from 'react-native-vector-icons/Fonts/MaterialIcons.ttf';
+import materialCommunityFont from 'react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf';
 const iconFontStyles = `@font-face {
   src: url(${iconFont});
   font-family: FontAwesome;
@@ -18,7 +19,10 @@ const iconFontStyles = `@font-face {
   src: url(${materialFont});
   font-family: MaterialIcons;
 }
-
+@font-face {
+  src: url(${materialCommunityFont});
+  font-family: MaterialCommunityIcons;
+}
 
 `;
 
