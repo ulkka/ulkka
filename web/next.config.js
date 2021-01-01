@@ -15,11 +15,8 @@ const withTM = require("next-transpile-modules")([
   "react-native-iphone-x-helper",
   "react-native-size-matters",
   "react-native-ratings",
-  "react-native-video",
-  "react-native-image-crop-picker",
   "react-native-image-crop-picker",
   "react-native-collapsible",
-  "react-native-splash-screen"
 ]);
 const webpack = require("webpack");
 const path = require("path");
