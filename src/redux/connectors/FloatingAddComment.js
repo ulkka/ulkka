@@ -19,8 +19,8 @@ const mapDispatchToProps = (dispatch) => ({
       Actions.prepareReply(post_id, post_title, comment_id, comment_author),
     );
   },
-  newComment: (new_comment, parent) => {
-    dispatch(Actions.newComment(new_comment, parent));
+  newComment: (new_comment, parent, postId) => {
+    dispatch(Actions.newComment(new_comment, parent, postId));
   },
 });
 

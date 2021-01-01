@@ -1,37 +1,19 @@
-import React, {useEffect, useState, useContext} from 'react';
-import {View, FlatList, SafeAreaView, Text, RefreshControl} from 'react-native';
-import mainClient from '../../../client/mainClient';
+import React, {useEffect, useContext} from 'react';
+import {View, FlatList, SafeAreaView} from 'react-native';
 import {ThemeContext} from 'react-native-elements';
 import Post from '../../../components/Post';
 import FeedFooter from '../../../components/FeedFooter';
 import RegisterDeviceToken from '../../../components/RegisterDeviceToken';
 
-function Home({navigation}) {
+function Home(props) {
   const {theme} = useContext(ThemeContext);
 
-  const [feed, setFeed] = useState([]);
-
-  const loadFeed = async () => {
-    const client = await mainClient;
-    client
-      .get('post?populate=community')
-      .then((response) => {
-        console.log(
-          'Successfully got Home Feed from server - ',
-          response.data.length,
-        );
-        setFeed(response.data);
-      })
-      .catch((error) => {
-        console.log('Error getting Home Feed from server -', error);
-      });
-  };
   useEffect(() => {
-    loadFeed();
+    props.feedFetch();
   }, []);
 
   const renderRow = ({item}) => {
-    return <Post item={item} navigation={navigation} />;
+    return <Post item={item} navigation={props.navigation} />;
   };
   const separator = () => {
     return <View style={{padding: 5}}></View>;
@@ -53,7 +35,7 @@ function Home({navigation}) {
         <FlatList
           ListHeaderComponent={ListHeaderComponent}
           listKey={'homelist'}
-          data={feed}
+          data={props.feed}
           renderItem={renderRow}
           ItemSeparatorComponent={separator}
           initialNumToRender={5}

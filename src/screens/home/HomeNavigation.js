@@ -9,10 +9,11 @@ import AccountNavigation from '../account/AccountNavigation';
 import CommunityNavigation from '../community/CommunityNavigation';
 
 import HeaderBar from '../../components/Header';
-import Home from './tabs/Home';
+//import Home from './tabs/Home';
+import Home from '../../redux/connectors/Home';
 import Popular from './tabs/Popular';
 import CreatePost from '../create/CreatePost';
-import PostDetail from '../PostDetail';
+import PostDetail from '../../redux/connectors/PostDetail';
 import OptionSheet from '../../redux/connectors/OptionSheet';
 
 const Tab = createMaterialTopTabNavigator();
@@ -51,33 +52,35 @@ function HomeList({navigation}) {
 
 function HomeStackNavigation({navigation}) {
   return (
-    <StackNav.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        header: () => <HeaderBar navigation={navigation} />,
-      }}>
-      <StackNav.Screen name="Home" component={HomeList} title="Home" />
-      <StackNav.Screen
-        name="Community"
-        component={CommunityNavigation}
-        title="Community"
-      />
-      <StackNav.Screen
-        name="Account"
-        component={AccountNavigation}
-        title="Account"
-      />
-      <StackNav.Screen
-        name="CreatePost"
-        component={CreatePost}
-        title="Create Post"
-      />
-      <StackNav.Screen
-        name="PostDetail"
-        component={PostDetail}
-        title="Post Detail"
-      />
-    </StackNav.Navigator>
+    <View style={{flex: 1}}>
+      <StackNav.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          header: () => <HeaderBar navigation={navigation} />,
+        }}>
+        <StackNav.Screen name="Home" component={HomeList} title="Home" />
+        <StackNav.Screen
+          name="Community"
+          component={CommunityNavigation}
+          title="Community"
+        />
+        <StackNav.Screen
+          name="Account"
+          component={AccountNavigation}
+          title="Account"
+        />
+        <StackNav.Screen
+          name="CreatePost"
+          component={CreatePost}
+          title="Create Post"
+        />
+        <StackNav.Screen
+          name="PostDetail"
+          component={PostDetail}
+          title="Post Detail"
+        />
+      </StackNav.Navigator>
+    </View>
   );
 }
 

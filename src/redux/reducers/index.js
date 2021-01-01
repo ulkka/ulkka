@@ -7,6 +7,8 @@ import CommentReducer from './CommentReducer';
 import optionSheetReducer from './OptionSheetReducer';
 import feedReducer from './FeedReducer';
 
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+
 const loggerMiddleware = createLogger();
 
 const AppReducers = combineReducers({
@@ -20,10 +22,15 @@ const rootReducer = (state, action) => {
   return AppReducers(state, action);
 };
 
-let store = createStore(
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [thunkMiddleware, loggerMiddleware],
+  //preloadedState,
+});
+/*let store = createStore(
   rootReducer,
-  //applyMiddleware(thunkMiddleware, loggerMiddleware),
-  applyMiddleware(thunkMiddleware),
-);
+  applyMiddleware(thunkMiddleware, loggerMiddleware),
+  // applyMiddleware(thunkMiddleware),
+);*/
 
 export default store;

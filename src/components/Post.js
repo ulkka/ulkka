@@ -3,7 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import {ThemeContext, Icon, Text} from 'react-native-elements';
 import PostContent from './PostContent';
 import TimeAgo from '../components/TimeAgo';
-import Vote from './Vote';
+import Vote from '../redux/connectors/Vote';
 import PostExtraOptions from '../redux/connectors/PostExtraOptions';
 
 export default function Post(props) {

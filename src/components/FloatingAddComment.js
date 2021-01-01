@@ -52,9 +52,9 @@ export default function FloatingAddComment(props) {
       .post('comment', payload)
       .then((response) => {
         if (props.reply_to == 'post') {
-          props.newComment(response.data, 'post');
+          props.newComment(response.data, 'post', props.item._id);
         } else {
-          props.newComment(response.data, props.comment_id);
+          props.newComment(response.data, props.comment_id, props.item._id);
         }
         prepare();
         Snackbar.show({

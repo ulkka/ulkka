@@ -30,10 +30,31 @@ export const prepareReply = (
   },
 });
 
-export const newComment = (new_comment, parent) => ({
+export const appendNewComment = (new_comment, parent) => ({
   type: Actions.NewComment,
   payload: {
     new_comment: new_comment,
     parent: parent,
+  },
+});
+
+export function newComment(new_comment, parent, postId) {
+  return (dispatch) => {
+    dispatch(appendNewComment(new_comment, parent));
+    dispatch(increaseCommentCount(postId));
+  };
+}
+
+export const increaseCommentCount = (postId) => ({
+  type: Actions.increaseCommentCount,
+  payload: {
+    postId: postId,
+  },
+});
+
+export const decreaseCommentCount = (postId) => ({
+  type: Actions.decreaseCommentCount,
+  payload: {
+    postId: postId,
   },
 });

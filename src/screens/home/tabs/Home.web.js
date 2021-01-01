@@ -47,21 +47,19 @@ function Home({navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1}}>
-        <FlatList
-          ListHeaderComponent={ListHeaderComponent}
-          listKey={'homelist'}
-          data={feed}
-          renderItem={renderRow}
-          ItemSeparatorComponent={separator}
-          initialNumToRender={5}
-          maxToRenderPerBatch={5}
-          keyExtractor={(item) => item._id.toString()}
-          ListFooterComponent={<FeedFooter complete={true} />}
-        />
-      </View>
-    </SafeAreaView>
+    <View style={{flex: 1}}>
+      <FlatList
+        ListHeaderComponent={ListHeaderComponent}
+        listKey={'homelist'}
+        data={feed}
+        renderItem={renderRow}
+        ItemSeparatorComponent={separator}
+        initialNumToRender={5}
+        maxToRenderPerBatch={5}
+        keyExtractor={(item) => item._id.toString()}
+        ListFooterComponent={<FeedFooter complete={true} />}
+      />
+    </View>
   );
 }
 

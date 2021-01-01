@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -37,38 +37,44 @@ export default function Main(props) {
   };
 
   const AuthenticatedNavigation = (
-    <NavigationContainer
-      linking={linking}
-      fallback={<Text>Loading...</Text>}
-      ref={navigationRef}>
-      <DrawerNav.Navigator
-        initialRouteName="Home"
-        drawerContentOptions={{
-          activeTintColor: '#e91e63',
-          itemStyle: {marginVertical: 5},
-          activeBackgroundColor: '#ffe',
-        }}>
-        <DrawerNav.Screen name="Home" component={HomeNavigation} title="Home" />
-        <DrawerNav.Screen
-          name="Create Community"
-          component={CreateCommunity}
-          title="Create Community"
-        />
-        {props.auth_state == 'AUTHENTICATED' ? (
+    <View style={{flex: 1}}>
+      <NavigationContainer
+        linking={linking}
+        fallback={<Text>Loading...</Text>}
+        ref={navigationRef}>
+        <DrawerNav.Navigator
+          initialRouteName="Home"
+          drawerContentOptions={{
+            activeTintColor: '#e91e63',
+            itemStyle: {marginVertical: 5},
+            activeBackgroundColor: '#ffe',
+          }}>
           <DrawerNav.Screen
-            name="My Account"
-            component={MyAccount}
-            title="MyAccount"
+            name="Home"
+            component={HomeNavigation}
+            title="Home"
           />
-        ) : (
           <DrawerNav.Screen
-            name="Signin"
-            component={UnauthenticatedNavigation}
-            title="Signin"
+            name="Create Community"
+            component={CreateCommunity}
+            title="Create Community"
           />
-        )}
-      </DrawerNav.Navigator>
-    </NavigationContainer>
+          {props.auth_state == 'AUTHENTICATED' ? (
+            <DrawerNav.Screen
+              name="My Account"
+              component={MyAccount}
+              title="MyAccount"
+            />
+          ) : (
+            <DrawerNav.Screen
+              name="Signin"
+              component={UnauthenticatedNavigation}
+              title="Signin"
+            />
+          )}
+        </DrawerNav.Navigator>
+      </NavigationContainer>
+    </View>
   );
 
   function UnauthenticatedNavigation() {

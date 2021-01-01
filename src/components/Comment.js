@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import {Icon, Divider} from 'react-native-elements';
 import TimeAgo from './TimeAgo';
-import Vote from './Vote';
+import Vote from '../redux/connectors/Vote';
 import PostExtraOptions from '../redux/connectors/PostExtraOptions';
 
 const CommentGroup = (props) => {

@@ -17,7 +17,7 @@ export default function RegisterDeviceToken() {
         setUserId(response.data[0]._id);
       })
       .catch((error) => {
-        console.log('error getting user id from server - ', error);
+        console.log('error getting user id from server - ', error, email);
       });
   };
 

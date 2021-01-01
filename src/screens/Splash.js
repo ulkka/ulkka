@@ -21,7 +21,7 @@ export default function Splash(props) {
           });
       } else {
         console.log('unauthenticated user - signing in anonymously');
-        /*  auth()
+        auth()
           .signInAnonymously()
           .then(() => {
             console.log('User signed in anonymously');
@@ -32,7 +32,7 @@ export default function Splash(props) {
             }
 
             console.error(error);
-          });*/
+          });
         props.removeAuth();
       }
     }
