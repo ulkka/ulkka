@@ -4,16 +4,21 @@ import {ThemeContext} from 'react-native-elements';
 import Post from '../../../components/Post';
 import FeedFooter from '../../../components/FeedFooter';
 import RegisterDeviceToken from '../../../components/RegisterDeviceToken';
+import {useSelector, useDispatch} from 'react-redux';
+import {selectPostIds, fetchPosts} from '../../../redux/reducers/PostReducer';
 
 function Home(props) {
   const {theme} = useContext(ThemeContext);
+  const postIds = useSelector(selectPostIds);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    props.feedFetch();
+    console.log('in home tab');
+    dispatch(fetchPosts());
   }, []);
 
   const renderRow = ({item}) => {
-    return <Post item={item} navigation={props.navigation} />;
+    return <Post item={item} navigation={props.navigation} caller="Home" />;
   };
   const separator = () => {
     return <View style={{padding: 5}}></View>;
@@ -35,12 +40,12 @@ function Home(props) {
         <FlatList
           ListHeaderComponent={ListHeaderComponent}
           listKey={'homelist'}
-          data={props.feed}
+          data={postIds}
           renderItem={renderRow}
           ItemSeparatorComponent={separator}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
-          keyExtractor={(item) => item._id.toString()}
+          keyExtractor={(item, index) => item}
           ListFooterComponent={<FeedFooter complete={true} />}
         />
       </View>

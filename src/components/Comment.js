@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import {Icon, Divider} from 'react-native-elements';
 import TimeAgo from './TimeAgo';
-import Vote from '../redux/connectors/Vote';
+import Vote from './Vote';
 import PostExtraOptions from '../redux/connectors/PostExtraOptions';
+import {useDispatch, useSelector} from 'react-redux';
+import {prepareReply} from '../redux/reducers/ReplySlice';
+import {selectUserById} from '../redux/reducers/UserReducer';
 
-const CommentGroup = (props) => {
+function unMemoizedCommentGroup(props) {
   return (
     <View
       style={{
@@ -18,10 +21,15 @@ const CommentGroup = (props) => {
       {props.children}
     </View>
   );
-};
+}
 
-const Comment = (props) => {
+function unMemoizedComment(props) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const comment = props.comment;
+  const dispatch = useDispatch();
+  const user = useSelector((state) =>
+    selectUserById(state, comment.author.user_id),
+  );
 
   const CommentMetadata = (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -38,7 +46,7 @@ const Comment = (props) => {
             fontWeight: '300',
             color: 'darkgreen',
           }}>
-          {props.comment.author.name}
+          {user.name}
         </Text>
         <Divider
           style={{
@@ -46,7 +54,7 @@ const Comment = (props) => {
             width: 15,
           }}
         />
-        <TimeAgo time={props.comment.created_at} />
+        <TimeAgo time={comment.created_at} />
       </TouchableOpacity>
       <TouchableOpacity
         style={{flex: 1, alignItems: 'flex-end'}}
@@ -67,7 +75,7 @@ const Comment = (props) => {
   const CommentBody = (
     <View style={{paddingTop: 5}}>
       <Text style={{color: '#333', fontSize: 13, fontWeight: '400'}}>
-        {props.comment.text}
+        {comment.text}
       </Text>
     </View>
   );
@@ -81,17 +89,12 @@ const Comment = (props) => {
         marginTop: 5,
       }}>
       <View style={{paddingHorizontal: 40}}>
-        <PostExtraOptions item={props.comment} optionType="comment" />
+        <PostExtraOptions item={comment} optionType="comment" />
       </View>
       <TouchableOpacity
         style={{flexDirection: 'row', alignItems: 'center'}}
         onPress={() => {
-          props.prepareReply(
-            props.post._id,
-            props.post.title,
-            props.comment._id,
-            props.comment.author.name,
-          );
+          dispatch(prepareReply({commentId: comment._id}));
         }}>
         <Icon name="reply" type="font-awesome" size={14} color="#777" />
         <Text style={{paddingHorizontal: 10, color: '#444', fontSize: 12}}>
@@ -99,7 +102,8 @@ const Comment = (props) => {
         </Text>
       </TouchableOpacity>
       <Vote
-        item={props.comment}
+        item={comment._id}
+        type="comment"
         style={{paddingHorizontal: 15}}
         type="comment"
       />
@@ -116,6 +120,7 @@ const Comment = (props) => {
       </Collapsible>
     </View>
   );
-};
+}
 
-export {Comment, CommentGroup};
+export const Comment = memo(unMemoizedComment);
+export const CommentGroup = memo(unMemoizedCommentGroup);

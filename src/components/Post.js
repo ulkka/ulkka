@@ -3,11 +3,22 @@ import {View, TouchableOpacity} from 'react-native';
 import {ThemeContext, Icon, Text} from 'react-native-elements';
 import PostContent from './PostContent';
 import TimeAgo from '../components/TimeAgo';
-import Vote from '../redux/connectors/Vote';
+import Vote from './Vote';
 import PostExtraOptions from '../redux/connectors/PostExtraOptions';
+import {useSelector} from 'react-redux';
+import {selectPostById} from '../redux/reducers/PostReducer';
+import {selectCommunityById} from '../redux/reducers/CommunityReducer';
+import {selectUserById} from '../redux/reducers/UserReducer';
 
 export default function Post(props) {
+  console.log('post loading');
+
   const {theme} = useContext(ThemeContext);
+  const post = useSelector((state) => selectPostById(state, props.item));
+  const community = useSelector((state) =>
+    selectCommunityById(state, post.community),
+  );
+  const user = useSelector((state) => selectUserById(state, post.author));
 
   const PostHeader = (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -20,25 +31,25 @@ export default function Post(props) {
           <TouchableOpacity
             onPress={() =>
               props.navigation.navigate('Community', {
-                community_id: props.item.community._id,
+                community_id: post.community,
               })
             }>
             <Text style={{fontSize: 13, fontWeight: 'bold', color: '#432'}}>
-              {props.item?.community?.name}
+              {community.name}
             </Text>
           </TouchableOpacity>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('Account')}>
               <Text style={{fontSize: 11, paddingRight: 10, color: '#555'}}>
-                {props.item.author.name}
+                {user.name}
               </Text>
             </TouchableOpacity>
-            <TimeAgo time={props.item.created_at} />
+            <TimeAgo time={post.created_at} />
           </View>
         </View>
       </View>
-      <PostExtraOptions item={props.item} optionType={'post'} />
+      <PostExtraOptions item={post} optionType={'post'} />
     </View>
   );
   const PostTitle = (
@@ -50,7 +61,7 @@ export default function Post(props) {
           fontWeight: 'bold',
           color: '#555',
         }}>
-        {props.item.title}
+        {post.title}
       </Text>
     </View>
   );
@@ -76,7 +87,7 @@ export default function Post(props) {
         color="#888"
       />
       <Text style={{fontWeight: 'bold', color: '#888', paddingLeft: 15}}>
-        {props.item.commentCount}
+        {post.commentCount}
       </Text>
     </TouchableOpacity>
   );

@@ -9,11 +9,11 @@ import AccountNavigation from '../account/AccountNavigation';
 import CommunityNavigation from '../community/CommunityNavigation';
 
 import HeaderBar from '../../components/Header';
-//import Home from './tabs/Home';
-import Home from '../../redux/connectors/Home';
+import Home from './tabs/Home';
+//import Home from '../../redux/connectors/Home';
 import Popular from './tabs/Popular';
 import CreatePost from '../create/CreatePost';
-import PostDetail from '../../redux/connectors/PostDetail';
+import PostDetail from '../PostDetail';
 import OptionSheet from '../../redux/connectors/OptionSheet';
 
 const Tab = createMaterialTopTabNavigator();
@@ -34,7 +34,9 @@ function HomeTabNavigation({navigation}) {
           },
         }}>
         <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Popular" component={Popular} />
+        {
+          //<Tab.Screen name="Popular" component={Popular} />
+        }
       </Tab.Navigator>
       <OptionSheet />
     </View>

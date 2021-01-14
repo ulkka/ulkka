@@ -1,32 +1,77 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon, Input} from 'react-native-elements';
-import mainClient from '../client/mainClient';
-import Snackbar from 'react-native-snackbar';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  prepareReply,
+  getCommentId,
+  createReply,
+  isActive,
+  activate,
+  deactivate,
+  isLoading,
+  getResetCommentToggle,
+} from '../redux/reducers/ReplySlice';
+import {selectPostById} from '../redux/reducers/PostReducer';
+import {selectCommentById} from '../redux/reducers/CommentSlice';
+import {selectUserById} from '../redux/reducers/UserReducer';
 
 export default function FloatingAddComment(props) {
+  const dispatch = useDispatch();
+
+  const postId = props.postId;
+  const commentId = useSelector(getCommentId);
+  const post = useSelector((state) => selectPostById(state, postId));
+  const parentComment = useSelector((state) =>
+    selectCommentById(state, commentId),
+  );
+
+  const reply_to = parentComment != undefined ? 'comment' : 'post';
+  const parentAuthorId =
+    parentComment != undefined ? parentComment.author : post.author;
+
+  const parentCommentAuthor = useSelector((state) =>
+    selectUserById(state, parentAuthorId),
+  );
+
+  const reply_to_text =
+    parentComment != undefined ? parentCommentAuthor.name : post.title;
+
   const inputRef = useRef(null);
-  const [active, setActive] = useState(false);
+  const active = useSelector(isActive);
+  const loading = useSelector(isLoading);
+  const resetCommentToggle = useSelector(getResetCommentToggle);
+
   const [comment, setComment] = useState('');
   const [expanded, setExpanded] = useState(false);
+  const disableForm = !active || comment.length == 0 || loading;
 
   useEffect(() => {
-    prepare();
+    reset();
   }, []);
 
   useEffect(() => {
-    if (props.reply_to == 'comment') {
-      setActive(true);
+    if (reply_to == 'comment') {
+      dispatch(activate());
       inputRef.current.focus();
     }
-  }, [props.reply_to, props.comment_id]);
+  }, [reply_to, commentId]);
 
-  const prepare = () => {
-    inputRef.current.blur();
-    setActive(false);
-    props.prepareComment(props.item._id, props.item.title);
+  useEffect(() => {
+    if (!active) {
+      inputRef.current.blur();
+      dispatch(prepareReply({postId: postId}));
+      setExpanded(false);
+    }
+  }, [active]);
+
+  useEffect(() => {
     setComment('');
-    setExpanded(false);
+    inputRef.current.shake();
+  }, [resetCommentToggle]);
+
+  const reset = () => {
+    dispatch(deactivate());
   };
 
   const expandForm = () => {
@@ -34,81 +79,39 @@ export default function FloatingAddComment(props) {
   };
 
   const submitComment = async () => {
-    const client = await mainClient;
-    var payload = {};
-    if (props.reply_to == 'post') {
-      payload = {
-        text: comment,
-        post: props.item._id,
+    var data = {};
+    if (reply_to == 'post') {
+      data = {
+        comment: comment,
+        postId: postId,
       };
     } else {
-      payload = {
-        text: comment,
-        post: props.item._id,
-        parent: props.comment_id,
+      data = {
+        comment: comment,
+        postId: postId,
+        parentCommentId: commentId,
       };
     }
-    client
-      .post('comment', payload)
-      .then((response) => {
-        if (props.reply_to == 'post') {
-          props.newComment(response.data, 'post', props.item._id);
-        } else {
-          props.newComment(response.data, props.comment_id, props.item._id);
-        }
-        prepare();
-        Snackbar.show({
-          text: 'Successfully commented',
-          duration: Snackbar.LENGTH_LONG,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        Snackbar.show({
-          text: 'Please check your network connection',
-          duration: Snackbar.LENGTH_LONG,
-        });
-      });
+    dispatch(createReply(data));
   };
-
-  const CommentPrompt = (
-    <View style={{flexDirection: 'row'}}>
-      <Text
-        style={{
-          color: '#666',
-          fontSize: 12,
-          fontWeight: '400',
-        }}>
-        Commenting on{' '}
-      </Text>
-      <Text
-        style={{
-          color: '#333',
-          fontSize: 12,
-          fontWeight: '400',
-        }}>
-        {props.post_title}
-      </Text>
-    </View>
-  );
 
   const ReplyPrompt = (
     <View style={{flexDirection: 'row'}}>
       <Text
         style={{
-          color: '#333',
+          color: reply_to == 'post' ? '#333' : '#666',
           fontSize: 12,
           fontWeight: '400',
         }}>
-        Replying to{' '}
+        {reply_to == 'post' ? 'Commenting on ' : 'Replying to '}
       </Text>
       <Text
         style={{
-          color: 'green',
+          color: reply_to == 'post' ? 'blue' : 'green',
           fontSize: 12,
           fontWeight: '400',
         }}>
-        {props.comment_author}
+        {reply_to_text}
       </Text>
     </View>
   );
@@ -127,9 +130,7 @@ export default function FloatingAddComment(props) {
   );
   const close = (
     <View>
-      <TouchableOpacity
-        style={{paddingHorizontal: 5}}
-        onPress={() => prepare()}>
+      <TouchableOpacity style={{paddingHorizontal: 5}} onPress={() => reset()}>
         <Icon name="close" size={16} color="#444" />
       </TouchableOpacity>
     </View>
@@ -147,7 +148,7 @@ export default function FloatingAddComment(props) {
       }}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {close}
-        {props.reply_to == 'post' ? CommentPrompt : ReplyPrompt}
+        {ReplyPrompt}
       </View>
       {expand}
     </View>
@@ -190,19 +191,33 @@ export default function FloatingAddComment(props) {
           }}
           // textAlignVertical={true}
           multiline={true}
-          onBlur={() => prepare()}
-          onFocus={() => setActive(true)}
+          onBlur={() => reset()}
+          onFocus={() => dispatch(activate())}
           value={comment}
           onChangeText={(text) => setComment(text)}
           renderErrorMessage={false}
           rightIcon={
-            <Icon
-              name="send"
-              color="green"
-              size={15}
-              style={{marginBottom: 10}}
-              onPress={() => submitComment()}
-            />
+            loading ? (
+              <Icon
+                name="loading1"
+                type="antdesign"
+                color={'green'}
+                size={15}
+                style={{marginBottom: 10}}
+              />
+            ) : (
+              <Icon
+                name="send"
+                color={disableForm ? 'grey' : 'green'}
+                disabled={disableForm}
+                disabledStyle={{
+                  backgroundColor: 'transparent',
+                }}
+                size={15}
+                style={{marginBottom: 10}}
+                onPress={() => submitComment()}
+              />
+            )
           }
         />
       </View>

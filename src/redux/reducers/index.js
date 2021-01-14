@@ -3,9 +3,13 @@ import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 
 import authReducer from './AuthReducer';
-import CommentReducer from './CommentReducer';
 import optionSheetReducer from './OptionSheetReducer';
-import feedReducer from './FeedReducer';
+import {postReducer} from './PostReducer';
+import {userReducer} from './UserReducer';
+import {comments} from './CommentSlice';
+import {replies} from './ReplySlice';
+
+import {communityReducer} from './CommunityReducer';
 
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
@@ -13,9 +17,12 @@ const loggerMiddleware = createLogger();
 
 const AppReducers = combineReducers({
   authReducer,
-  CommentReducer,
   optionSheetReducer,
-  feedReducer,
+  postReducer,
+  userReducer,
+  communityReducer,
+  comments,
+  replies,
 });
 
 const rootReducer = (state, action) => {

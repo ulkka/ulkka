@@ -1,37 +1,37 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
-import {CommentGroup} from './Comment';
-import mainClient from '../client/mainClient';
-import Comment from '../redux/connectors/Comment';
+import React, {useEffect} from 'react';
+import {View, Text, ActivityIndicator} from 'react-native';
+import {Comment, CommentGroup} from './Comment';
 import LoadingOverlay from '../components/LoadingOverlay';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  fetchComments,
+  selectCommentEntities,
+  isLoading,
+} from '../redux/reducers/CommentSlice';
+import {selectUserEntities} from '../redux/reducers/UserReducer';
+import {denormalize} from 'normalizr';
+import {comment} from '../redux/schema/CommentSchema';
 
 export default function CommentList(props) {
-  const [loading, setLoading] = useState(true);
+  const loading = useSelector(isLoading);
+
+  const dispatch = useDispatch();
+
+  const topLevelCommentIds = useSelector(
+    (state) => state.comments.topLevelCommentIds,
+  );
+  const normalisedComments = useSelector(selectCommentEntities);
+  const users = useSelector(selectUserEntities);
+  const denormalizedComments = denormalize(
+    {comments: topLevelCommentIds},
+    {comments: [comment]},
+    {comments: normalisedComments, users: users},
+  );
+  const comments = denormalizedComments.comments;
 
   useEffect(() => {
-    console.log('initial comments - ', props.comments);
-    loadComments();
+    dispatch(fetchComments(props.item));
   }, []);
-
-  const loadComments = async () => {
-    props.AddComment([]);
-    const client = await mainClient;
-    client
-      .get('post/' + props.item._id + '/comments')
-      .then((response) => {
-        console.log(
-          'Successfully retrieved comments from Post - ',
-          props.item._id,
-          ', No of Parent Comments - ',
-          response.data.length,
-        );
-        props.AddComment(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const CommentListTitle = (
     <View
@@ -52,34 +52,52 @@ export default function CommentList(props) {
     </View>
   );
 
-  const getComments = (comment, index) => {
+  function CommentThread({comment, index}) {
     return (
-      <Comment key={index} comment={comment} post={props.item} index={index}>
-        <CommentGroup parent={comment._id}>
-          {comment.replies === undefined
-            ? null
-            : comment.replies.map((reply, index) => {
-                return getComments(reply, index);
-              })}
-        </CommentGroup>
+      <Comment
+        key={comment._id}
+        comment={comment}
+        post={props.item}
+        index={index}>
+        {comment.replies === undefined ? null : (
+          <CommentGroup key={comment._id} parent={comment._id}>
+            {comment.replies.map((reply, index) => {
+              return (
+                <CommentThread key={reply._id} comment={reply} index={index} />
+              );
+            })}
+          </CommentGroup>
+        )}
       </Comment>
     );
-  };
+  }
 
-  const CommentListView = (
-    <CommentGroup root={true} parent={'post'}>
-      {props.comments.map((comment, index) => {
-        return getComments(comment, index);
-      })}
-    </CommentGroup>
-  );
+  function CommentListView() {
+    return (
+      <CommentGroup key={'root'} root={true} parent={'post'}>
+        {comments.map((comment, index) => {
+          return (
+            <CommentThread key={comment._id} comment={comment} index={index} />
+          );
+        })}
+      </CommentGroup>
+    );
+  }
 
   return loading ? (
-    <LoadingOverlay visible={loading} />
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 100,
+      }}>
+      <ActivityIndicator size="large" color="#4285f4" />
+    </View>
   ) : (
-    <View>
+    <View key="commentListView">
       {CommentListTitle}
-      {CommentListView}
+      <CommentListView />
     </View>
   );
 }

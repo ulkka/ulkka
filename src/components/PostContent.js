@@ -7,8 +7,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Video from 'react-native-video';
+import {useSelector} from 'react-redux';
+import {selectPostById} from '../redux/reducers/PostReducer';
 
 export default function PostContent(props) {
+  const post = useSelector((state) => selectPostById(state, props.item));
+
   const PostContentWrapper = (props) => {
     return (
       <View
@@ -40,7 +44,7 @@ export default function PostContent(props) {
         fontSize: 14,
         fontWeight: '400',
       }}>
-      {props.item.description}
+      {post.description}
     </Text>
   );
 
@@ -53,7 +57,7 @@ export default function PostContent(props) {
         alignSelf: 'center',
       }}
       source={{
-        uri: props.item.link,
+        uri: post.link,
       }}
     />
   );
@@ -64,7 +68,7 @@ export default function PostContent(props) {
         width: '100%',
         aspectRatio: 1,
       }}
-      source={{uri: props.item.link}}
+      source={{uri: post.link}}
       resizeMode="contain"
       paused={false}
       showPoster={true}
@@ -83,7 +87,7 @@ export default function PostContent(props) {
         alignSelf: 'center',
       }}
       source={{
-        uri: props.item.link,
+        uri: post.link,
       }}
     />
   );
@@ -106,7 +110,9 @@ export default function PostContent(props) {
             backgroundColor: '#333',
           }}>
           <Image
-            source={{uri: props.item.ogData.ogImage.url}}
+            source={{
+              uri: post.ogData.ogImage.url,
+            }}
             style={{
               width: '100%',
               aspectRatio: 1,
@@ -121,17 +127,17 @@ export default function PostContent(props) {
           }}>
           <View style={{margin: 5}}>
             <Text style={{fontWeight: 'bold', fontSize: 13, color: '#333'}}>
-              {props.item.ogData.ogTitle}
+              {post.ogData.ogTitle}
             </Text>
           </View>
           <View style={{marginHorizontal: 5}}>
             <Text style={{fontSize: 11, color: '#444'}}>
-              {props.item.ogData.ogDescription}
+              {post.ogData.ogDescription}
             </Text>
           </View>
           <View style={{marginVertical: 10, marginHorizontal: 5}}>
             <Text style={{fontSize: 9, color: '#555'}}>
-              {props.item.ogData.ogUrl}
+              {post.ogData.ogUrl}
             </Text>
           </View>
         </View>
@@ -142,7 +148,7 @@ export default function PostContent(props) {
   const DefaultPost = <Text>{JSON.stringify(props.item)}</Text>;
 
   const PostType = () => {
-    switch (props.item.type) {
+    switch (post.type) {
       case 'text':
         return TextPost;
       case 'image':

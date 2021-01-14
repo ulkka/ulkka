@@ -1,16 +1,35 @@
 import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
+import {useSelector, useDispatch} from 'react-redux';
+import {selectPostById, votePost} from '../redux/reducers/PostReducer';
+import {selectCommentById, voteComment} from '../redux/reducers/CommentSlice';
 
 export default function Vote(props) {
-  const [selfVote, setSelfVote] = useState(props.item.userVote);
-  const [voteCount, setVoteCount] = useState(props.item.voteCount);
+  const dispatch = useDispatch();
+  const entityType = props.type;
+  const entity =
+    entityType == 'post'
+      ? useSelector((state) => selectPostById(state, props.item))
+      : useSelector((state) => selectCommentById(state, props.item));
+  const [selfVote, setSelfVote] = useState(entity.userVote);
+  const [voteCount, setVoteCount] = useState(entity.voteCount);
 
   useEffect(() => {
-    setSelfVote(props.item.userVote);
-    setVoteCount(props.item.voteCount);
-  }, [props.item.userVote]);
+    setSelfVote(entity.userVote);
+    setVoteCount(entity.voteCount);
+  }, [entity.userVote]);
 
+  const vote = (type) => {
+    let voteType = selfVote == type ? 0 : type;
+    const payload = {id: entity._id, voteType: voteType};
+    if (entityType == 'post') {
+      dispatch(votePost(payload));
+    }
+    if (entityType == 'comment') {
+      dispatch(voteComment(payload));
+    }
+  };
   return (
     <View
       style={{
@@ -20,8 +39,7 @@ export default function Vote(props) {
         width: 120,
         ...props.style,
       }}>
-      <TouchableOpacity
-        onPress={() => props.vote(props.type, props.item._id, 1, selfVote)}>
+      <TouchableOpacity onPress={() => vote(1)}>
         <Icon
           name="arrow-up-bold"
           type="material-community"
@@ -37,8 +55,7 @@ export default function Vote(props) {
         }}>
         {voteCount}
       </Text>
-      <TouchableOpacity
-        onPress={() => props.vote(props.type, props.item._id, -1, selfVote)}>
+      <TouchableOpacity onPress={() => vote(-1)}>
         <Icon
           name="arrow-down-bold"
           type="material-community"
