@@ -31,6 +31,14 @@ export const voteComment = createAsyncThunk(
     let response = await postApi.comment.vote(id, voteType);
     return response;
   },
+  {
+    condition: ({id, voteType}, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      return access;
+    },
+    dispatchConditionRejection: true,
+  },
 );
 
 export const slice = createSlice({
@@ -68,6 +76,7 @@ export const slice = createSlice({
         state.entities[comment.parent].replies.push(comment._id);
       }
     },
+
     [voteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const comment = state.entities[id];
@@ -90,6 +99,4 @@ export const {
   selectTotal: selectTotalComments,
 } = commentAdapter.getSelectors((state) => state.comments);
 
-export function isLoading(state) {
-  return state.comments.loading;
-}
+export const isLoading = (state) => state.comments.loading;

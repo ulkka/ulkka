@@ -1,4 +1,4 @@
-import {fetchPosts} from './PostReducer';
+import {fetchPosts} from './PostSlice';
 import {fetchComments} from './CommentSlice';
 import {createReply} from './ReplySlice';
 
@@ -23,7 +23,7 @@ export const slice = createSlice({
   },
 });
 
-export const userReducer = slice.reducer;
+export const users = slice.reducer;
 
 export const {
   selectById: selectUserById,
@@ -31,4 +31,4 @@ export const {
   selectEntities: selectUserEntities,
   selectAll: selectAllUsers,
   selectTotal: selectTotalUsers,
-} = userAdapter.getSelectors((state) => state.userReducer);
+} = userAdapter.getSelectors((state) => state.users);

@@ -18,9 +18,17 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 
 export const votePost = createAsyncThunk(
   'posts/vote',
-  async ({id, voteType}) => {
+  async ({id, voteType}, thunkAPI) => {
     let response = await postApi.post.vote(id, voteType);
     return response;
+  },
+  {
+    condition: ({id, voteType}, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      return access;
+    },
+    dispatchConditionRejection: true,
   },
 );
 
@@ -36,21 +44,18 @@ export const slice = createSlice({
       postAdapter.upsertMany(state, action.payload.posts);
     },
     [votePost.fulfilled]: (state, action) => {
-      console.log('in votepost fulfilled - ', state, action);
       const id = action.payload.data._id;
       const post = state.entities[id];
       const currentVote = post.userVote;
       const newVote = action.payload.data.userVote;
       const diff = currentVote - newVote;
-
-      console.log('in votePost', id, post, currentVote, diff);
       state.entities[id].userVote = newVote;
       state.entities[id].voteCount = state.entities[id].voteCount - diff;
     },
   },
 });
 
-export const postReducer = slice.reducer;
+export const posts = slice.reducer;
 
 export const {
   selectById: selectPostById,
@@ -58,4 +63,4 @@ export const {
   selectEntities: selectPostEntities,
   selectAll: selectAllPosts,
   selectTotal: selectTotalPosts,
-} = postAdapter.getSelectors((state) => state.postReducer);
+} = postAdapter.getSelectors((state) => state.posts);

@@ -5,7 +5,7 @@ import Post from '../../../components/Post';
 import FeedFooter from '../../../components/FeedFooter';
 import RegisterDeviceToken from '../../../components/RegisterDeviceToken';
 import {useSelector, useDispatch} from 'react-redux';
-import {selectPostIds, fetchPosts} from '../../../redux/reducers/PostReducer';
+import {selectPostIds, fetchPosts} from '../../../redux/reducers/PostSlice';
 
 function Home(props) {
   const {theme} = useContext(ThemeContext);

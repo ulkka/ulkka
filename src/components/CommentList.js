@@ -8,7 +8,7 @@ import {
   selectCommentEntities,
   isLoading,
 } from '../redux/reducers/CommentSlice';
-import {selectUserEntities} from '../redux/reducers/UserReducer';
+import {selectUserEntities} from '../redux/reducers/UserSlice';
 import {denormalize} from 'normalizr';
 import {comment} from '../redux/schema/CommentSchema';
 

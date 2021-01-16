@@ -4,7 +4,7 @@ import CommentList from '../components/CommentList';
 import Post from '../components/Post';
 import FloatingAddComment from '../components/FloatingAddComment';
 import {useSelector} from 'react-redux';
-import {selectPostById} from '../redux/reducers/PostReducer';
+import {selectPostById} from '../redux/reducers/PostSlice';
 
 export default function PostDetail({route, navigation}) {
   const post = useSelector((state) => selectPostById(state, route.params.post));

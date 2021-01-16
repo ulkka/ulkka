@@ -1,12 +1,5 @@
 import postApi from '../../services/PostApi';
-import {normalize} from 'normalizr';
-import {
-  createSlice,
-  createEntityAdapter,
-  createAsyncThunk,
-  createSelector,
-} from '@reduxjs/toolkit';
-import {post} from '../schema/FeedSchema';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 
 export const prepareReply = createAsyncThunk(
   'replies/prepare',
@@ -34,6 +27,29 @@ export const createReply = createAsyncThunk(
     );
     return {data: data, response: response};
   },
+  {
+    condition: ({id, voteType}, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      return access;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const activate = createAsyncThunk(
+  'replies/activate',
+  async () => {
+    return true;
+  },
+  {
+    condition: (arg, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      return access;
+    },
+    dispatchConditionRejection: true,
+  },
 );
 
 export const slice = createSlice({
@@ -47,14 +63,14 @@ export const slice = createSlice({
     resetCommentToggle: false,
   },
   reducers: {
-    activate: (state, action) => {
-      state.active = true;
-    },
     deactivate: (state, action) => {
       state.active = false;
     },
   },
   extraReducers: {
+    [activate.fulfilled]: (state, action) => {
+      state.active = true;
+    },
     [prepareReply.fulfilled]: (state, action) => {
       const reply_to = action.payload.type;
       state.reply_to = reply_to;
@@ -83,20 +99,15 @@ export const slice = createSlice({
   },
 });
 
-export function getCommentId(state) {
-  return state.replies.comment_id;
-}
-export function isActive(state) {
-  return state.replies.active;
-}
-export function isLoading(state) {
-  return state.replies.loading;
-}
+export const getCommentId = (state) => state.replies.comment_id;
 
-export function getResetCommentToggle(state) {
-  return state.replies.resetCommentToggle;
-}
+export const isActive = (state) => state.replies.active;
+
+export const isLoading = (state) => state.replies.loading;
+
+export const getResetCommentToggle = (state) =>
+  state.replies.resetCommentToggle;
 
 export const replies = slice.reducer;
 
-export const {activate, deactivate} = slice.actions;
+export const {deactivate} = slice.actions;

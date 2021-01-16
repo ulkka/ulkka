@@ -6,13 +6,11 @@ import TimeAgo from '../components/TimeAgo';
 import Vote from './Vote';
 import PostExtraOptions from '../redux/connectors/PostExtraOptions';
 import {useSelector} from 'react-redux';
-import {selectPostById} from '../redux/reducers/PostReducer';
-import {selectCommunityById} from '../redux/reducers/CommunityReducer';
-import {selectUserById} from '../redux/reducers/UserReducer';
+import {selectPostById} from '../redux/reducers/PostSlice';
+import {selectCommunityById} from '../redux/reducers/CommunitySlice';
+import {selectUserById} from '../redux/reducers/UserSlice';
 
 export default function Post(props) {
-  console.log('post loading');
-
   const {theme} = useContext(ThemeContext);
   const post = useSelector((state) => selectPostById(state, props.item));
   const community = useSelector((state) =>

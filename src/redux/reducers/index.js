@@ -4,12 +4,13 @@ import {createLogger} from 'redux-logger';
 
 import authReducer from './AuthReducer';
 import optionSheetReducer from './OptionSheetReducer';
-import {postReducer} from './PostReducer';
-import {userReducer} from './UserReducer';
+import {posts} from './PostSlice';
+import {users} from './UserSlice';
 import {comments} from './CommentSlice';
 import {replies} from './ReplySlice';
+import {authorization} from './AuthSlice';
 
-import {communityReducer} from './CommunityReducer';
+import {communities} from './CommunitySlice';
 
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
@@ -18,11 +19,12 @@ const loggerMiddleware = createLogger();
 const AppReducers = combineReducers({
   authReducer,
   optionSheetReducer,
-  postReducer,
-  userReducer,
-  communityReducer,
+  posts,
+  users,
+  communities,
   comments,
   replies,
+  authorization,
 });
 
 const rootReducer = (state, action) => {

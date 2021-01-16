@@ -7,7 +7,7 @@ import Vote from './Vote';
 import PostExtraOptions from '../redux/connectors/PostExtraOptions';
 import {useDispatch, useSelector} from 'react-redux';
 import {prepareReply} from '../redux/reducers/ReplySlice';
-import {selectUserById} from '../redux/reducers/UserReducer';
+import {selectUserById} from '../redux/reducers/UserSlice';
 
 function unMemoizedCommentGroup(props) {
   return (

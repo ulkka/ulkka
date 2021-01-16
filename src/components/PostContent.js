@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Video from 'react-native-video';
 import {useSelector} from 'react-redux';
-import {selectPostById} from '../redux/reducers/PostReducer';
+import {selectPostById} from '../redux/reducers/PostSlice';
 
 export default function PostContent(props) {
   const post = useSelector((state) => selectPostById(state, props.item));

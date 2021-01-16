@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {selectPostById, votePost} from '../redux/reducers/PostReducer';
+import {selectPostById, votePost} from '../redux/reducers/PostSlice';
 import {selectCommentById, voteComment} from '../redux/reducers/CommentSlice';
 
 export default function Vote(props) {

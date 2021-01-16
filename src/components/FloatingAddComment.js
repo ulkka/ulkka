@@ -12,9 +12,10 @@ import {
   isLoading,
   getResetCommentToggle,
 } from '../redux/reducers/ReplySlice';
-import {selectPostById} from '../redux/reducers/PostReducer';
+import {selectPostById} from '../redux/reducers/PostSlice';
 import {selectCommentById} from '../redux/reducers/CommentSlice';
-import {selectUserById} from '../redux/reducers/UserReducer';
+import {selectUserById} from '../redux/reducers/UserSlice';
+import {useIsFocused} from '@react-navigation/native';
 
 export default function FloatingAddComment(props) {
   const dispatch = useDispatch();
@@ -43,22 +44,35 @@ export default function FloatingAddComment(props) {
   const resetCommentToggle = useSelector(getResetCommentToggle);
 
   const [comment, setComment] = useState('');
+  const [initialized, setInitialized] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const disableForm = !active || comment.length == 0 || loading;
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     reset();
+    return () => {
+      console.log('returning');
+      inputRef.current.blur();
+    };
   }, []);
 
   useEffect(() => {
+    console.log('isFocused - ', isFocused);
+    if (isFocused) inputRef.current.blur();
+  }, [isFocused]);
+
+  useEffect(() => {
     if (reply_to == 'comment') {
-      dispatch(activate());
-      inputRef.current.focus();
+      //inputRef.current.focus();
+      activateForm();
     }
   }, [reply_to, commentId]);
 
   useEffect(() => {
     if (!active) {
+      // reset();
       inputRef.current.blur();
       dispatch(prepareReply({postId: postId}));
       setExpanded(false);
@@ -68,10 +82,35 @@ export default function FloatingAddComment(props) {
   useEffect(() => {
     setComment('');
     inputRef.current.shake();
+    // reset();
   }, [resetCommentToggle]);
 
+  const initialize = () => {
+    inputRef.current.blur();
+    console.log('in activate form');
+    activateForm();
+  };
+
   const reset = () => {
+    console.log('in reset form');
+    //inputRef.current.blur();
+    //  dispatch(prepareReply({postId: postId}));
+    //setExpanded(false);
     dispatch(deactivate());
+  };
+
+  const activateForm = () => {
+    //inputRef.current.blur();
+    console.log('in activate form');
+    dispatch(activate()).then((result) => {
+      console.log('activate result - ', result);
+      if (result.error !== undefined) {
+        inputRef.current.blur();
+      } else {
+        setInitialized(true);
+        inputRef.current.focus();
+      }
+    });
   };
 
   const expandForm = () => {
@@ -168,59 +207,64 @@ export default function FloatingAddComment(props) {
         borderTopEndRadius: 10,
       }}>
       {AddCommentHeader}
-      <View
+      <TouchableOpacity
+        onPress={() => initialize()}
         style={{
           padding: 5,
           backgroundColor: '#fff',
         }}>
-        <Input
-          ref={inputRef}
-          placeholder="Add a comment ..."
-          containerStyle={{
-            backgroundColor: '#eee',
-            borderRadius: 8,
-          }}
-          inputContainerStyle={{
-            borderBottomWidth: 0,
-            height: expanded ? 300 : 30,
-            marginTop: 10,
-          }}
-          inputStyle={{
-            fontSize: 13,
-            color: '#333',
-          }}
-          // textAlignVertical={true}
-          multiline={true}
-          onBlur={() => reset()}
-          onFocus={() => dispatch(activate())}
-          value={comment}
-          onChangeText={(text) => setComment(text)}
-          renderErrorMessage={false}
-          rightIcon={
-            loading ? (
-              <Icon
-                name="loading1"
-                type="antdesign"
-                color={'green'}
-                size={15}
-                style={{marginBottom: 10}}
-              />
-            ) : (
-              <Icon
-                name="send"
-                color={disableForm ? 'grey' : 'green'}
-                disabled={disableForm}
-                disabledStyle={{
-                  backgroundColor: 'transparent',
-                }}
-                size={15}
-                style={{marginBottom: 10}}
-                onPress={() => submitComment()}
-              />
-            )
-          }
-        />
-      </View>
+        <View pointerEvents={initialized ? 'auto' : 'none'}>
+          <Input
+            ref={inputRef}
+            placeholder="Add a comment ..."
+            containerStyle={{
+              backgroundColor: '#eee',
+              borderRadius: 8,
+            }}
+            inputContainerStyle={{
+              borderBottomWidth: 0,
+              height: expanded ? 300 : 30,
+              marginTop: 10,
+            }}
+            inputStyle={{
+              fontSize: 13,
+              color: '#333',
+            }}
+            // textAlignVertical={true}
+            disabled={false}
+            //  editable={false}
+            multiline={true}
+            onBlur={() => reset()}
+            onFocus={() => activateForm()}
+            value={comment}
+            onChangeText={(text) => setComment(text)}
+            renderErrorMessage={false}
+            rightIcon={
+              loading ? (
+                <Icon
+                  name="loading1"
+                  type="antdesign"
+                  color={'green'}
+                  size={15}
+                  style={{marginBottom: 10}}
+                />
+              ) : (
+                <Icon
+                  name="send"
+                  color={disableForm ? 'grey' : 'green'}
+                  disabled={disableForm}
+                  disabledStyle={{
+                    backgroundColor: 'transparent',
+                  }}
+                  size={15}
+                  style={{marginBottom: 10}}
+                  onPress={() => submitComment()}
+                />
+              )
+            }
+          />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import {fetchPosts} from './PostReducer';
+import {fetchPosts} from './PostSlice';
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 const communityAdapter = createEntityAdapter({
@@ -16,7 +16,7 @@ export const slice = createSlice({
   },
 });
 
-export const communityReducer = slice.reducer;
+export const communities = slice.reducer;
 
 export const {
   selectById: selectCommunityById,
@@ -24,4 +24,4 @@ export const {
   selectEntities: selectCommunityEntities,
   selectAll: selectAllCommunities,
   selectTotal: selectTotalCommunites,
-} = communityAdapter.getSelectors((state) => state.communityReducer);
+} = communityAdapter.getSelectors((state) => state.communities);
