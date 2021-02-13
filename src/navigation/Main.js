@@ -6,18 +6,21 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {enableScreens} from 'react-native-screens';
 
-import MyAccount from '../redux/connectors/MyAccount';
+import MyAccount from '../screens/home/MyAccount';
 import Splash from '../screens/Splash';
-import SignIn from '../redux/connectors/SignIn';
-import CreateAccount from '../screens/auth/CreateAccount';
 
+import Login from '../screens/auth/Login';
 import {navigationRef} from '../screens/auth/AuthNavigation';
 import HomeNavigation from '../screens/home/HomeNavigation';
 import CreateCommunity from '../screens/create/CreateCommunity';
+import RegisterAccount from '../screens/auth/RegisterAccount';
 
-import {getAuthStatus} from '../redux/reducers/AuthSlice';
+import {
+  getAuthStatus,
+  getRegistrationStatus,
+} from '../redux/reducers/AuthSlice';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadAuth} from '../redux/reducers/AuthSlice';
+import {loadAuth} from '../redux/actions/AuthActions';
 
 const StackNav = createStackNavigator();
 const DrawerNav = createDrawerNavigator();
@@ -26,7 +29,9 @@ enableScreens();
 
 export default function Main(props) {
   const dispatch = useDispatch();
+
   const authStatus = useSelector(getAuthStatus);
+  const isRegistered = useSelector(getRegistrationStatus);
 
   useEffect(() => {
     dispatch(loadAuth());
@@ -58,19 +63,27 @@ export default function Main(props) {
 
   const SigninNavigation = () => {
     return (
-      <StackNav.Navigator initialRouteName="SignIn" mode="modal">
-        <StackNav.Screen name="SignIn" component={SignIn} title="SignIn" />
+      <StackNav.Navigator
+        initialRouteName="Authentication"
+        screenOptions={{
+          headerStyle: {
+            borderTopWidth: 1,
+            borderTopColor: '#ddd',
+            borderTopEndRadius: 15,
+            borderTopStartRadius: 15,
+          },
+        }}>
         <StackNav.Screen
-          name="CreateAccount"
-          component={CreateAccount}
-          title="CreateAccount"
+          name={authStatus != 'AUTHENTICATED' ? 'Login' : 'Registration'}
+          component={authStatus != 'AUTHENTICATED' ? Login : RegisterAccount}
+          title="Authentication"
         />
       </StackNav.Navigator>
     );
   };
 
   const UserNavigation =
-    authStatus == 'AUTHENTICATED' ? (
+    authStatus == 'AUTHENTICATED' && isRegistered == 1 ? (
       <DrawerNav.Screen
         name="My Account"
         component={MyAccount}
@@ -78,18 +91,17 @@ export default function Main(props) {
       />
     ) : (
       <DrawerNav.Screen
-        name="Signin"
+        name="Login / Register"
         component={SigninNavigation}
-        title="Signin"
-        options={{animationEnabled: true}}
+        title="Login / Register"
+        options={{
+          animationEnabled: true,
+        }}
       />
     );
 
-  const AppNavigation = (
-    <NavigationContainer
-      linking={linking}
-      fallback={<Text>Loading...</Text>}
-      ref={navigationRef}>
+  const DrawerAppNavigator = () => {
+    return (
       <DrawerNav.Navigator
         initialRouteName="Home"
         drawerContentOptions={{
@@ -105,6 +117,49 @@ export default function Main(props) {
         />
         {UserNavigation}
       </DrawerNav.Navigator>
+    );
+  };
+
+  const SignupModal =
+    isRegistered == 0 ? (
+      <StackNav.Screen
+        name="Signup"
+        component={SigninNavigation}
+        title="Signup"
+        options={{
+          headerShown: false,
+          cardStyle: {
+            paddingTop: 25,
+            backgroundColor: 'transparent',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 1,
+              height: 1,
+            },
+            shadowOpacity: 0.7,
+            shadowRadius: 5,
+          },
+        }}
+      />
+    ) : null;
+
+  const AppNavigation = (
+    <NavigationContainer
+      linking={linking}
+      fallback={<Text>Loading...</Text>}
+      ref={navigationRef}>
+      <StackNav.Navigator initialRouteName="Home" mode="modal">
+        <StackNav.Screen
+          name="Home"
+          component={DrawerAppNavigator}
+          title="Home"
+          options={{
+            headerShown: false,
+            animationEnabled: false,
+          }}
+        />
+        {SignupModal}
+      </StackNav.Navigator>
     </NavigationContainer>
   );
 

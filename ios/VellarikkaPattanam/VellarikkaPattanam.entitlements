@@ -7,6 +7,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>app.vellarikkapattanam.com</string>
+		<string>applinks:vellarikkapattanam.page.link</string>
 	</array>
 </dict>
 </plist>

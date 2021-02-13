@@ -1,12 +1,20 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
+import {showOptionSheet} from '../redux/reducers/OptionSheetSlice';
+import {useDispatch} from 'react-redux';
 
 export default function PostExtraOptions(props) {
+  const dispatch = useDispatch();
+  console.log('props to postextraoptions', props);
   return (
     <TouchableOpacity
       style={{padding: 5}}
-      onPress={() => props.showOptionSheet(props.optionType, props.item._id)}>
+      onPress={() =>
+        dispatch(
+          showOptionSheet({optionType: props.optionType, id: props.item._id}),
+        )
+      }>
       <Icon name="more-horiz" size={18} color="#888" />
     </TouchableOpacity>
   );

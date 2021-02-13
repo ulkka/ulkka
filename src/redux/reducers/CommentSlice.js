@@ -5,7 +5,6 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
-  createSelector,
 } from '@reduxjs/toolkit';
 import {createReply} from './ReplySlice';
 
@@ -53,18 +52,21 @@ export const slice = createSlice({
   extraReducers: {
     [fetchComments.pending]: (state, action) => {
       state.loading = true;
+      commentAdapter.removeAll(state);
+      state.topLevelCommentIds = [];
     },
     [fetchComments.fulfilled]: (state, action) => {
-      commentAdapter.upsertMany(
-        state,
-        action.payload.normalizedComments.comments,
-      );
+      if (action.payload.normalizedComments.comments !== undefined) {
+        commentAdapter.upsertMany(
+          state,
+          action.payload.normalizedComments.comments,
+        );
+      }
       state.topLevelCommentIds = action.payload.topLevelCommentIds;
       state.loading = false;
     },
     [createReply.fulfilled]: (state, action) => {
       var comment = action.payload.response.data;
-      console.log('after comment response in reply slice - ', comment, state);
       comment.userVote = 0;
       commentAdapter.addOne(state, comment);
       if (comment.parent === undefined) {

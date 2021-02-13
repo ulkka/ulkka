@@ -2,9 +2,8 @@ import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon, Input} from 'react-native-elements';
 import mainClient from '../client/mainClient';
-// import Snackbar from 'react-native-snackbar';
 
-export default function FloatingAddComment(props) {
+export default function CommentWriter(props) {
   const inputRef = useRef(null);
   const [active, setActive] = useState(false);
   const [comment, setComment] = useState('');

@@ -1,5 +1,11 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import {Icon, Input} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -15,9 +21,8 @@ import {
 import {selectPostById} from '../redux/reducers/PostSlice';
 import {selectCommentById} from '../redux/reducers/CommentSlice';
 import {selectUserById} from '../redux/reducers/UserSlice';
-import {useIsFocused} from '@react-navigation/native';
 
-export default function FloatingAddComment(props) {
+export default function CommentWriter(props) {
   const dispatch = useDispatch();
 
   const postId = props.postId;
@@ -48,31 +53,21 @@ export default function FloatingAddComment(props) {
   const [expanded, setExpanded] = useState(false);
   const disableForm = !active || comment.length == 0 || loading;
 
-  const isFocused = useIsFocused();
-
   useEffect(() => {
-    reset();
+    resetForm();
     return () => {
-      console.log('returning');
-      inputRef.current.blur();
+      resetForm();
     };
   }, []);
 
   useEffect(() => {
-    console.log('isFocused - ', isFocused);
-    if (isFocused) inputRef.current.blur();
-  }, [isFocused]);
-
-  useEffect(() => {
     if (reply_to == 'comment') {
-      //inputRef.current.focus();
       activateForm();
     }
   }, [reply_to, commentId]);
 
   useEffect(() => {
     if (!active) {
-      // reset();
       inputRef.current.blur();
       dispatch(prepareReply({postId: postId}));
       setExpanded(false);
@@ -82,28 +77,19 @@ export default function FloatingAddComment(props) {
   useEffect(() => {
     setComment('');
     inputRef.current.shake();
-    // reset();
   }, [resetCommentToggle]);
 
-  const initialize = () => {
+  const initializeForm = () => {
     inputRef.current.blur();
-    console.log('in activate form');
     activateForm();
   };
 
-  const reset = () => {
-    console.log('in reset form');
-    //inputRef.current.blur();
-    //  dispatch(prepareReply({postId: postId}));
-    //setExpanded(false);
+  const resetForm = () => {
     dispatch(deactivate());
   };
 
   const activateForm = () => {
-    //inputRef.current.blur();
-    console.log('in activate form');
     dispatch(activate()).then((result) => {
-      console.log('activate result - ', result);
       if (result.error !== undefined) {
         inputRef.current.blur();
       } else {
@@ -169,7 +155,9 @@ export default function FloatingAddComment(props) {
   );
   const close = (
     <View>
-      <TouchableOpacity style={{paddingHorizontal: 5}} onPress={() => reset()}>
+      <TouchableOpacity
+        style={{paddingHorizontal: 5}}
+        onPress={() => resetForm()}>
         <Icon name="close" size={16} color="#444" />
       </TouchableOpacity>
     </View>
@@ -195,7 +183,9 @@ export default function FloatingAddComment(props) {
   const whenInactive = <View></View>;
   const AddCommentHeader = active ? whenActive : whenInactive;
   return (
-    <View
+    <KeyboardAvoidingView
+      keyboardVerticalOffset={95}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{
         position: 'absolute',
         bottom: 0,
@@ -208,7 +198,8 @@ export default function FloatingAddComment(props) {
       }}>
       {AddCommentHeader}
       <TouchableOpacity
-        onPress={() => initialize()}
+        onPress={() => initializeForm()}
+        activeOpacity={0.8}
         style={{
           padding: 5,
           backgroundColor: '#fff',
@@ -230,11 +221,9 @@ export default function FloatingAddComment(props) {
               fontSize: 13,
               color: '#333',
             }}
-            // textAlignVertical={true}
             disabled={false}
-            //  editable={false}
             multiline={true}
-            onBlur={() => reset()}
+            onBlur={() => resetForm()}
             onFocus={() => activateForm()}
             value={comment}
             onChangeText={(text) => setComment(text)}
@@ -265,6 +254,6 @@ export default function FloatingAddComment(props) {
           />
         </View>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

@@ -15,7 +15,9 @@ export const slice = createSlice({
       userAdapter.upsertMany(state, action.payload.users);
     },
     [fetchComments.fulfilled]: (state, action) => {
-      userAdapter.upsertMany(state, action.payload.normalizedComments.users);
+      if (action.payload.normalizedComments.users !== undefined) {
+        userAdapter.upsertMany(state, action.payload.normalizedComments.users);
+      }
     },
     [createReply.fulfilled]: (state, action) => {
       // userAdapter.upsertOne(state, action.payload.response.data.author);

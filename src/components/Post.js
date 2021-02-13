@@ -4,11 +4,12 @@ import {ThemeContext, Icon, Text} from 'react-native-elements';
 import PostContent from './PostContent';
 import TimeAgo from '../components/TimeAgo';
 import Vote from './Vote';
-import PostExtraOptions from '../redux/connectors/PostExtraOptions';
+import PostExtraOptions from './PostExtraOptions';
 import {useSelector} from 'react-redux';
 import {selectPostById} from '../redux/reducers/PostSlice';
 import {selectCommunityById} from '../redux/reducers/CommunitySlice';
 import {selectUserById} from '../redux/reducers/UserSlice';
+import {selectTotalComments} from '../redux/reducers/CommentSlice';
 
 export default function Post(props) {
   const {theme} = useContext(ThemeContext);
@@ -17,6 +18,7 @@ export default function Post(props) {
     selectCommunityById(state, post.community),
   );
   const user = useSelector((state) => selectUserById(state, post.author));
+  const commentCount = useSelector(selectTotalComments);
 
   const PostHeader = (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>

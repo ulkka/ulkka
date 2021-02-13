@@ -4,7 +4,7 @@ import Collapsible from 'react-native-collapsible';
 import {Icon, Divider} from 'react-native-elements';
 import TimeAgo from './TimeAgo';
 import Vote from './Vote';
-import PostExtraOptions from '../redux/connectors/PostExtraOptions';
+import PostExtraOptions from './PostExtraOptions';
 import {useDispatch, useSelector} from 'react-redux';
 import {prepareReply} from '../redux/reducers/ReplySlice';
 import {selectUserById} from '../redux/reducers/UserSlice';

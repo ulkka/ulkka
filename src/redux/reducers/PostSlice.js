@@ -5,8 +5,9 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
-  createSelector,
 } from '@reduxjs/toolkit';
+import {createReply} from '../reducers/ReplySlice';
+import {signout} from '../actions/AuthActions';
 
 const postAdapter = createEntityAdapter({selectId: (post) => post._id});
 
@@ -26,6 +27,7 @@ export const votePost = createAsyncThunk(
     condition: ({id, voteType}, {getState}) => {
       const authStatus = getState().authorization.status;
       const access = authStatus == 'AUTHENTICATED' ? true : false;
+      console.log('access', access);
       return access;
     },
     dispatchConditionRejection: true,
@@ -40,9 +42,13 @@ export const slice = createSlice({
   },
   reducers: {},
   extraReducers: {
+    [createReply.fulfilled]: (state, action) => {
+      state.entities[action.payload.data.postId].commentCount += 1;
+    },
     [fetchPosts.fulfilled]: (state, action) => {
       postAdapter.upsertMany(state, action.payload.posts);
     },
+    [signout.fulfilled]: () => postAdapter.getInitialState(),
     [votePost.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const post = state.entities[id];
@@ -54,7 +60,6 @@ export const slice = createSlice({
     },
   },
 });
-
 export const posts = slice.reducer;
 
 export const {

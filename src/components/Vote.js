@@ -23,6 +23,7 @@ export default function Vote(props) {
   const vote = (type) => {
     let voteType = selfVote == type ? 0 : type;
     const payload = {id: entity._id, voteType: voteType};
+    //setSelfVote(voteType);
     if (entityType == 'post') {
       dispatch(votePost(payload));
     }

@@ -9,6 +9,8 @@ import store from './redux/reducers/index';
 import {ThemeProvider} from 'react-native-elements';
 import theme from './theme/main';
 import messaging from '@react-native-firebase/messaging';
+import EmailLinkHandler from './screens/auth/EmailLinkHandler';
+import LoadingOverlay from './components/LoadingOverlay';
 
 export default function App() {
   useEffect(() => {
@@ -26,6 +28,8 @@ export default function App() {
     <StoreProvider store={store}>
       <ThemeProvider theme={theme}>
         <SafeAreaView style={{flex: 1}}>
+          <LoadingOverlay />
+          <EmailLinkHandler />
           <Main />
         </SafeAreaView>
       </ThemeProvider>

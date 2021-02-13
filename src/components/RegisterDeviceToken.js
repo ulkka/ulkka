@@ -10,6 +10,9 @@ export default function RegisterDeviceToken() {
   const [token, setToken] = useState('');
 
   const getUserIdFromServer = async () => {
+    console.log(
+      'getting user details from server for registering device token for notifications',
+    );
     const client = await mainClient;
     client
       .get('user?query={"email":"' + email + '"}')

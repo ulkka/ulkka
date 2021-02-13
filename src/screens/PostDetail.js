@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView, View} from 'react-native';
 import CommentList from '../components/CommentList';
 import Post from '../components/Post';
-import FloatingAddComment from '../components/FloatingAddComment';
+import CommentWriter from '../components/CommentWriter';
 import {useSelector} from 'react-redux';
 import {selectPostById} from '../redux/reducers/PostSlice';
 
@@ -24,7 +24,7 @@ export default function PostDetail({route, navigation}) {
         <Post item={post._id} caller={'PostDetail'} />
         <CommentList navigation={navigation} item={post._id} key={post._id} />
       </ScrollView>
-      <FloatingAddComment postId={post._id} />
+      <CommentWriter postId={post._id} />
     </View>
   );
 }

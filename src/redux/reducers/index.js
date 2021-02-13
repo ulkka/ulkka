@@ -2,13 +2,13 @@ import {combineReducers, createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 
-import authReducer from './AuthReducer';
-import optionSheetReducer from './OptionSheetReducer';
 import {posts} from './PostSlice';
 import {users} from './UserSlice';
 import {comments} from './CommentSlice';
 import {replies} from './ReplySlice';
 import {authorization} from './AuthSlice';
+import {loadingOverlay} from './LoadingOverlaySlice';
+import {optionSheet} from './OptionSheetSlice';
 
 import {communities} from './CommunitySlice';
 
@@ -17,8 +17,8 @@ import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 const loggerMiddleware = createLogger();
 
 const AppReducers = combineReducers({
-  authReducer,
-  optionSheetReducer,
+  optionSheet,
+  loadingOverlay,
   posts,
   users,
   communities,

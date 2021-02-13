@@ -14,7 +14,7 @@ import Home from './tabs/Home';
 import Popular from './tabs/Popular';
 import CreatePost from '../create/CreatePost';
 import PostDetail from '../PostDetail';
-import OptionSheet from '../../redux/connectors/OptionSheet';
+import OptionSheet from '../../components/OptionSheet';
 
 const Tab = createMaterialTopTabNavigator();
 const StackNav = createStackNavigator();

@@ -1,29 +1,17 @@
-import {
-  createSlice,
-  createEntityAdapter,
-  createAsyncThunk,
-  createSelector,
-} from '@reduxjs/toolkit';
-import auth from '@react-native-firebase/auth';
+import {createSlice} from '@reduxjs/toolkit';
 import {voteComment} from './CommentSlice';
 import {votePost} from './PostSlice';
 import {createReply, activate} from './ReplySlice';
-import {navigate} from '../../screens/auth/AuthNavigation';
-
-export const loadAuth = createAsyncThunk('authorization/load', async () => {
-  const currentUser = await auth().currentUser;
-  if (currentUser) {
-    const idToken = await currentUser.getIdToken(false);
-    console.log('got idtoken - ', idToken);
-    return {currentUser: currentUser, idToken: idToken};
-  } else {
-    await auth().signInAnonymously();
-    const currentUser = await auth().currentUser;
-    const idToken = await currentUser.getIdToken(false);
-    console.log('got idtoken for new anonymous - ', idToken);
-    return {currentUser: currentUser, idToken: idToken};
-  }
-});
+import {
+  signout,
+  fulfillAuth,
+  loadAuth,
+  socialAuth,
+  emailLinkAuth,
+  registerUser,
+  showAuthScreen,
+} from '../actions/AuthActions';
+import Snackbar from 'react-native-snackbar';
 
 export const slice = createSlice({
   name: 'authorization',
@@ -31,39 +19,49 @@ export const slice = createSlice({
     status: 'UNAUTHENTICATED',
     user: null,
     idToken: null,
+    isRegistered: 0,
   },
   reducers: {},
   extraReducers: {
-    [loadAuth.fulfilled]: (state, action) => {
-      console.log('loadingauth fulfilled', state, action);
-      const currentUser = action.payload.currentUser;
-      const idToken = action.payload.idToken;
-      state.user = currentUser;
-      if (currentUser.isAnonymous) {
-        state.status = 'ANONYMOUS';
-      } else {
-        state.status = 'AUTHENTICATED';
-      }
-      state.idToken = idToken;
+    [registerUser.fulfilled]: (state, action) => {
+      state.isRegistered = 1;
+      Snackbar.show({
+        text: 'Welcome!',
+        duration: Snackbar.LENGTH_LONG,
+      });
     },
-    [votePost.rejected]: (state, action) => {
-      console.log('votePost rejected', state, action);
-      navigate('Signin');
+    [socialAuth.fulfilled]: (state, action) => {
+      fulfillAuth(state, action);
+      const type = action.meta.arg;
+      action.payload.isRegistered
+        ? Snackbar.show({
+            text: 'Welcome!',
+            duration: Snackbar.LENGTH_SHORT,
+          })
+        : Snackbar.show({
+            text: 'Successfully logged in with ' + type,
+            duration: Snackbar.LENGTH_SHORT,
+          });
     },
-    [voteComment.rejected]: (state, action) => {
-      console.log('votePost rejected', state, action);
-      navigate('Signin');
+    [loadAuth.fulfilled]: fulfillAuth,
+    [emailLinkAuth.fulfilled]: (state, action) => {
+      fulfillAuth(state, action);
+      Snackbar.show({
+        text: 'Successfully logged in with Email',
+        duration: Snackbar.LENGTH_SHORT,
+      });
     },
-    [createReply.rejected]: (state, action) => {
-      console.log('votePost rejected', state, action);
-      navigate('Signin');
+    [signout.fulfilled]: (state, action) => {
+      fulfillAuth(state, action);
     },
-    [activate.rejected]: (state, action) => {
-      console.log('votePost rejected', state, action);
-      navigate('Signin');
-    },
+    [votePost.rejected]: showAuthScreen,
+    [voteComment.rejected]: showAuthScreen,
+    [createReply.rejected]: showAuthScreen,
+    [activate.rejected]: showAuthScreen,
   },
 });
 
 export const authorization = slice.reducer;
 export const getAuthStatus = (state) => state.authorization.status;
+export const getRegistrationStatus = (state) =>
+  state.authorization.isRegistered;

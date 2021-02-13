@@ -1,5 +1,4 @@
 import mainClient from '../client/mainClient';
-import {vote} from '../redux/actions/ActionTypes';
 
 const POST_URI = '/post';
 const COMMENT_URI = '/comment';

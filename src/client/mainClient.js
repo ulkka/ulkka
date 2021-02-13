@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {axiosConfig} from '../config/axiosConfig';
 
-console.log('in client');
 const mainClient = axios.create({
   baseURL: axiosConfig.baseUrl,
   headers: {
     Accept: 'application/json',
+    //  Authorization: 'Bearer ' + idToken,
   },
 });
 
@@ -21,7 +21,7 @@ function getUrl(config) {
 // Intercept all requests
 mainClient.interceptors.request.use(
   (config) => {
-    //  console.log("Request Config: ", config);
+    //console.log('Request Config: ', config);
     return config;
   },
   (error) => Promise.reject(error),
@@ -30,7 +30,7 @@ mainClient.interceptors.request.use(
 // Intercept all responses
 mainClient.interceptors.response.use(
   async (response) => {
-    //  console.log(response.data);
+    //console.log(response.data);
     //  console.log(response.status);
     // console.log(response.statusText);
     //   console.log(response.headers);

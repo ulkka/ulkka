@@ -1,8 +1,12 @@
 import React from 'react';
 import {View} from 'react-native';
 import {ListItem, BottomSheet, Divider, Button} from 'react-native-elements';
+import {hideOptionSheet, isVisible} from '../redux/reducers/OptionSheetSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function OptionSheet(props) {
+  const dispatch = useDispatch();
+  const visible = useSelector(isVisible);
   const listItemStyle = {
     borderRadius: 5,
   };
@@ -19,7 +23,7 @@ export default function OptionSheet(props) {
     },
   ];
   return (
-    <BottomSheet isVisible={props.isVisible}>
+    <BottomSheet isVisible={visible}>
       <View
         style={{
           width: '98%',
@@ -44,7 +48,7 @@ export default function OptionSheet(props) {
           type="outline"
           containerStyle={{backgroundColor: '#fff'}}
           titleStyle={{fontSize: 14, color: '#EC5152'}}
-          onPress={() => props.hideOptionSheet()}
+          onPress={() => dispatch(hideOptionSheet())}
         />
       </View>
     </BottomSheet>
