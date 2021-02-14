@@ -34,7 +34,7 @@ const HeaderBar = (props) => {
             fontWeight: 'bold',
             color: '#333',
           }}>
-          Harsha
+          Vellarikka Pattanam
         </Text>
       </SafeAreaView>
     ) : (

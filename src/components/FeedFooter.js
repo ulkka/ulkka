@@ -18,7 +18,7 @@ function FeedFooterComponent(props) {
 }
 const styles = StyleSheet.create({
   listEmptyView: {
-    height: 40,
+    height: 120,
     alignItems: 'center',
     marginTop: 10,
     justifyContent: 'center',

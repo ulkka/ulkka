@@ -4,6 +4,9 @@ import auth from '@react-native-firebase/auth';
 import userApi from '../../services/UserApi';
 import {navigate} from '../../screens/auth/AuthNavigation';
 import mainClient from '../../client/mainClient';
+import {Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {openInbox} from 'react-native-email-link';
 
 GoogleSignin.configure({
   scopes: ['openid', 'email', 'profile'],
@@ -68,11 +71,7 @@ export const loadAuth = createAsyncThunk('authorization/load', initAuth);
 export const socialAuth = createAsyncThunk(
   'authorization/login/social',
   async (type, {rejectWithValue}) => {
-    const data = await GoogleSignin.signIn().catch((e) => {
-      console.log('Social Auth Error', e);
-      rejectWithValue('Social auth unsuccessful');
-      return;
-    });
+    const data = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
     await auth().signInWithCredential(googleCredential);
     return initAuth();
@@ -85,6 +84,49 @@ export const emailLinkAuth = createAsyncThunk(
     const {email, link} = data;
     await auth().signInWithEmailLink(email, link.url);
     return initAuth();
+  },
+);
+
+export const sendEmailSignInLink = createAsyncThunk(
+  'authorization/sendEmailSigninLink',
+  async (email, {rejectWithValue}) => {
+    const actionCodeSettings = {
+      handleCodeInApp: true,
+      // URL must be whitelisted in the Firebase Console.
+      url: 'https://vellarikkapattanam.page.link/naxz',
+      iOS: {
+        bundleId: 'org.reactjs.native.example.VellarikkaPattanam',
+      },
+      android: {
+        packageName: 'com.dubiousknight.vellarikkapattanam',
+        installApp: true,
+        //  minimumVersion: '12',
+      },
+    };
+    // Save the email for latter usage
+    const storeData = async (value) => {
+      try {
+        await AsyncStorage.setItem('emailForSignIn', value);
+      } catch (e) {
+        // saving error
+        console.log('error saving email in async storage', e);
+      }
+    };
+    storeData(email);
+    await auth()
+      .sendSignInLinkToEmail(email, actionCodeSettings)
+      .then(async () => {
+        await openInbox({
+          title: `Login link sent to ${email}`,
+          message:
+            'Please check your email and click on the link to login/register',
+        }).catch((error) => {
+          Alert.alert(
+            `Login link sent to ${email}.`,
+            'Please check your email and click on the link to login/register',
+          );
+        });
+      });
   },
 );
 

@@ -10,8 +10,7 @@ import CommunityNavigation from '../community/CommunityNavigation';
 
 import HeaderBar from '../../components/Header';
 import Home from './tabs/Home';
-//import Home from '../../redux/connectors/Home';
-import Popular from './tabs/Popular';
+//import Popular from './tabs/Popular';
 import CreatePost from '../create/CreatePost';
 import PostDetail from '../PostDetail';
 import OptionSheet from '../../components/OptionSheet';

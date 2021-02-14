@@ -510,7 +510,9 @@ export default function CreatePost({navigation, route}) {
   );
 
   const createPostComponent = (
-    <View
+    <KeyboardAvoidingView
+      keyboardVerticalOffset={95}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{
         flex: 1,
         backgroundColor: '#fff',
@@ -520,7 +522,7 @@ export default function CreatePost({navigation, route}) {
       {ViewTitle}
       {PostDetail}
       {PostButton}
-    </View>
+    </KeyboardAvoidingView>
   );
 
   return (

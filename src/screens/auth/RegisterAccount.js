@@ -3,8 +3,8 @@ import {Button, Text, View, KeyboardAvoidingView, Platform} from 'react-native';
 import {registerUser} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 import {Icon, Input} from 'react-native-elements';
-import mainClient from '../../client/mainClient';
 import ChangeAccount from './ChangeAcount';
+import userApi from '../../services/UserApi';
 
 const RegisterAccount = () => {
   const dispatch = useDispatch();
@@ -20,22 +20,17 @@ const RegisterAccount = () => {
       setDisplaynameErrorMessage('Invalid Display Name (Min 6 characters)');
       return false;
     } else {
-      mainClient
-        .get('/user?query={"name":"' + text + '"}')
-        .then((res) => {
-          console.log(res.data, res.data.length);
-          if (res.data.length == 0) {
-            setIsDisplaynameValid(true);
-          } else {
-            setIsDisplaynameValid(false);
-            setDisplaynameErrorMessage('Display name already in use');
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      setIsDisplaynameValid(true);
-      return true;
+      const response = await userApi.user.displaynameExists(text);
+      if (response.data.length == 0) {
+        console.log('displayname response', response);
+        setIsDisplaynameValid(true);
+        return true;
+      } else {
+        console.log('displayname already exists response', response);
+        setIsDisplaynameValid(false);
+        setDisplaynameErrorMessage('Display name already in use');
+        return false;
+      }
     }
   };
 

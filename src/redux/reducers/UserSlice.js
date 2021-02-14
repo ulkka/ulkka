@@ -20,7 +20,8 @@ export const slice = createSlice({
       }
     },
     [createReply.fulfilled]: (state, action) => {
-      // userAdapter.upsertOne(state, action.payload.response.data.author);
+      console.log('user in create reply', action);
+      userAdapter.upsertOne(state, action.payload.response.data.author);
     },
   },
 });

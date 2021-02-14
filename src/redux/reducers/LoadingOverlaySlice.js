@@ -4,6 +4,7 @@ import {
   emailLinkAuth,
   registerUser,
   signout,
+  sendEmailSignInLink,
 } from '../actions/AuthActions';
 
 const showLoadingOverlay = (state) => {
@@ -20,6 +21,15 @@ export const slice = createSlice({
   },
   reducers: {},
   extraReducers: {
+    [sendEmailSignInLink.pending]: (state, action) => {
+      showLoadingOverlay(state);
+    },
+    [sendEmailSignInLink.fulfilled]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
+    [sendEmailSignInLink.rejected]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
     [socialAuth.pending]: (state, action) => {
       showLoadingOverlay(state);
     },

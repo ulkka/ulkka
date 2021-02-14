@@ -6,7 +6,6 @@ import {useDispatch} from 'react-redux';
 
 export default function PostExtraOptions(props) {
   const dispatch = useDispatch();
-  console.log('props to postextraoptions', props);
   return (
     <TouchableOpacity
       style={{padding: 5}}

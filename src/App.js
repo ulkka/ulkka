@@ -11,10 +11,19 @@ import theme from './theme/main';
 import messaging from '@react-native-firebase/messaging';
 import EmailLinkHandler from './screens/auth/EmailLinkHandler';
 import LoadingOverlay from './components/LoadingOverlay';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 export default function App() {
   useEffect(() => {
     SplashScreen.hide();
+  }, []);
+
+  useEffect(() => {
+    dynamicLinks()
+      .getInitialLink()
+      .then((link) => {
+        console.log('initial dynamic link', link);
+      });
   }, []);
 
   useEffect(() => {
