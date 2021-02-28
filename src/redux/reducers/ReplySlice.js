@@ -15,6 +15,17 @@ export const prepareReply = createAsyncThunk(
     }
     return res;
   },
+  {
+    condition: ({postId, commentId}, {getState}) => {
+      if (commentId != undefined) {
+        const authStatus = getState().authorization.status;
+        const access = authStatus == 'AUTHENTICATED' ? true : false;
+        return access;
+      }
+      return true;
+    },
+    dispatchConditionRejection: true,
+  },
 );
 
 export const createReply = createAsyncThunk(

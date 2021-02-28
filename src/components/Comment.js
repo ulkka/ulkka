@@ -28,7 +28,7 @@ function unMemoizedComment(props) {
   const comment = props.comment;
   const dispatch = useDispatch();
   const user = useSelector((state) =>
-    selectUserById(state, comment.author.user_id),
+    selectUserById(state, comment.author._id),
   );
 
   const CommentMetadata = (
@@ -46,7 +46,7 @@ function unMemoizedComment(props) {
             fontWeight: '300',
             color: 'darkgreen',
           }}>
-          {user.name}
+          {user.displayname}
         </Text>
         <Divider
           style={{

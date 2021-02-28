@@ -11,7 +11,7 @@ import Splash from '../redux/connectors/Splash';
 import SignIn from '../redux/connectors/SignIn';
 import CreateAccount from '../screens/auth/CreateAccount';
 
-import {navigationRef} from '../screens/auth/AuthNavigation';
+import {navigationRef} from './AuthNavigation';
 import HomeNavigation from '../screens/home/HomeNavigation';
 import CreateCommunity from '../screens/create/CreateCommunity';
 

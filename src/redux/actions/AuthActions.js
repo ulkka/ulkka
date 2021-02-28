@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 import userApi from '../../services/UserApi';
-import {navigate} from '../../screens/auth/AuthNavigation';
+import {navigate} from '../../navigation/Ref';
 import mainClient from '../../client/mainClient';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -27,8 +27,8 @@ const getCurrentUser = async () => {
 
 const isUserRegistered = async (currentUser) => {
   let isRegistered = 0;
-  const userEmail = await currentUser.email;
   if (!currentUser.isAnonymous) {
+    const userEmail = await currentUser.email;
     const response = await userApi.user.accountExists(userEmail);
     isRegistered = response.data.length;
   }
@@ -37,7 +37,7 @@ const isUserRegistered = async (currentUser) => {
 
 const initAuth = async () => {
   const currentUser = await getCurrentUser();
-  const idToken = await currentUser.getIdToken(false);
+  const idToken = await currentUser.getIdToken(true);
   const isRegistered = await isUserRegistered(currentUser);
   return {
     currentUser: currentUser,
@@ -51,7 +51,6 @@ export const fulfillAuth = (state, action) => {
   const idToken = action.payload.idToken;
   const isRegistered = action.payload.isRegistered;
   state.user = currentUser;
-  console.log('curent user email -- ', currentUser);
   if (currentUser.isAnonymous) {
     state.status = 'ANONYMOUS';
   } else {
@@ -64,6 +63,7 @@ export const fulfillAuth = (state, action) => {
 
 export const showAuthScreen = (state, action) => {
   navigate('Signup');
+  //navigate('Login / Register');
 };
 
 export const loadAuth = createAsyncThunk('authorization/load', initAuth);
@@ -133,7 +133,7 @@ export const sendEmailSignInLink = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   'authorization/register',
   async (displayname) => {
-    await userApi.user.signup({displayname: displayname});
+    await userApi.user.signup(displayname);
   },
 );
 

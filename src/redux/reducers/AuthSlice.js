@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {voteComment} from './CommentSlice';
 import {votePost} from './PostSlice';
-import {createReply, activate} from './ReplySlice';
+import {createReply, activate, prepareReply} from './ReplySlice';
 import {
   signout,
   fulfillAuth,
@@ -57,6 +57,7 @@ export const slice = createSlice({
     [votePost.rejected]: showAuthScreen,
     [voteComment.rejected]: showAuthScreen,
     [createReply.rejected]: showAuthScreen,
+    [prepareReply.rejected]: showAuthScreen,
     [activate.rejected]: showAuthScreen,
   },
 });

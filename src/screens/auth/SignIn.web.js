@@ -3,7 +3,7 @@ import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 // import auth from '@react-native-firebase/auth';
 // import {GoogleSignin} from '@react-native-community/google-signin';
 import {SocialIcon, Button, Divider, Input, Icon} from 'react-native-elements';
-import * as AuthNavigation from './AuthNavigation';
+import * as AuthNavigation from '../../navigation/AuthNavigation';
 
 // GoogleSignin.configure({
 //   scopes: ['openid', 'email', 'profile'],

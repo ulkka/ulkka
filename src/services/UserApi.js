@@ -4,9 +4,11 @@ const USER_URI = '/user';
 
 const userApi = {
   user: {
-    async signup(data) {
+    async signup(displayname) {
       const client = await mainClient;
-      let response = await client.post(`${USER_URI}/signup`, {data: data});
+      let response = await client.post(`${USER_URI}/signup`, {
+        displayname: displayname,
+      });
       return response;
     },
     async accountExists(email) {

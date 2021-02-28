@@ -9,7 +9,6 @@ import {useSelector} from 'react-redux';
 import {selectPostById} from '../redux/reducers/PostSlice';
 import {selectCommunityById} from '../redux/reducers/CommunitySlice';
 import {selectUserById} from '../redux/reducers/UserSlice';
-import {selectTotalComments} from '../redux/reducers/CommentSlice';
 
 export default function Post(props) {
   const {theme} = useContext(ThemeContext);
@@ -18,7 +17,6 @@ export default function Post(props) {
     selectCommunityById(state, post.community),
   );
   const user = useSelector((state) => selectUserById(state, post.author));
-  const commentCount = useSelector(selectTotalComments);
 
   const PostHeader = (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -42,7 +40,7 @@ export default function Post(props) {
             <TouchableOpacity
               onPress={() => props.navigation.navigate('Account')}>
               <Text style={{fontSize: 11, paddingRight: 10, color: '#555'}}>
-                {user.name}
+                {user.displayname}
               </Text>
             </TouchableOpacity>
             <TimeAgo time={post.created_at} />

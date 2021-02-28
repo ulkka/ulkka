@@ -18,7 +18,12 @@
 		2DCD954D1E0B4F2C00145EB5 /* VellarikkaPattanamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VellarikkaPattanamTests.m */; };
 		512442608C5DE0952D81AF87 /* libPods-VellarikkaPattanam-VellarikkaPattanamTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1561533A2A66D6CE7A046963 /* libPods-VellarikkaPattanam-VellarikkaPattanamTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		950AE3FFA322ADF05742A81B /* libPods-Vellarikka Pattanam.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B01901DFD5D63EEEB6688D8 /* libPods-Vellarikka Pattanam.a */; };
 		D3A24EAF6C194A5F7E1E89B9 /* libPods-VellarikkaPattanam.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABF186B2CA217DDF1C4906A /* libPods-VellarikkaPattanam.a */; };
+		DC42B6F625E3C40E00355024 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC42B6F425E3C40E00355024 /* MainInterface.storyboard */; };
+		DC42B6FA25E3C40E00355024 /* Vellarikka Pattanam.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DC42B6F025E3C40E00355024 /* Vellarikka Pattanam.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DC42B70525E3C5FF00355024 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC42B70425E3C5FF00355024 /* ShareViewController.swift */; };
+		DC42B77B25E3DFB000355024 /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC42B77A25E3DFB000355024 /* ReactShareViewController.swift */; };
 		DCD3F8AD25308E6800F2B910 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */; };
 		FE620FE51A453DE548F068A8 /* libPods-VellarikkaPattanam-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7491B29334765ADD66AEFC2 /* libPods-VellarikkaPattanam-tvOS.a */; };
 /* End PBXBuildFile section */
@@ -38,7 +43,28 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "VellarikkaPattanam-tvOS";
 		};
+		DC42B6F825E3C40E00355024 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC42B6EF25E3C40E00355024;
+			remoteInfo = "Vellarikka Pattanam";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DC42B6FB25E3C40E00355024 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DC42B6FA25E3C40E00355024 /* Vellarikka Pattanam.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -60,8 +86,10 @@
 		1D1535744267C05A9A86D686 /* Pods-VellarikkaPattanam-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VellarikkaPattanam-tvOS.release.xcconfig"; path = "Target Support Files/Pods-VellarikkaPattanam-tvOS/Pods-VellarikkaPattanam-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		22C14041299946A9858E0CC3 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		2A204A285969A010ADD66BDD /* Pods-VellarikkaPattanam-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VellarikkaPattanam-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-VellarikkaPattanam-tvOS/Pods-VellarikkaPattanam-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		2B01901DFD5D63EEEB6688D8 /* libPods-Vellarikka Pattanam.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Vellarikka Pattanam.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* VellarikkaPattanam-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VellarikkaPattanam-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* VellarikkaPattanam-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VellarikkaPattanam-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31E57045CB3683109170F09A /* Pods-Vellarikka Pattanam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vellarikka Pattanam.release.xcconfig"; path = "Target Support Files/Pods-Vellarikka Pattanam/Pods-Vellarikka Pattanam.release.xcconfig"; sourceTree = "<group>"; };
 		344950A048D14E8891C0DFA2 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		430B57C88304C9F2CA262FF2 /* Pods-VellarikkaPattanam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VellarikkaPattanam.debug.xcconfig"; path = "Target Support Files/Pods-VellarikkaPattanam/Pods-VellarikkaPattanam.debug.xcconfig"; sourceTree = "<group>"; };
 		52C71C17E12A4FF086728AF2 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -71,6 +99,7 @@
 		77D84411C37FCA669711632B /* Pods-VellarikkaPattanam-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VellarikkaPattanam-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-VellarikkaPattanam-tvOSTests/Pods-VellarikkaPattanam-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		7F5F4AC14B554008A8E744C6 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = VellarikkaPattanam/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		93907D974BF63989412DCD43 /* Pods-Vellarikka Pattanam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vellarikka Pattanam.debug.xcconfig"; path = "Target Support Files/Pods-Vellarikka Pattanam/Pods-Vellarikka Pattanam.debug.xcconfig"; sourceTree = "<group>"; };
 		94F414301AAC66B7D81E4DFB /* Pods-VellarikkaPattanam-VellarikkaPattanamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VellarikkaPattanam-VellarikkaPattanamTests.debug.xcconfig"; path = "Target Support Files/Pods-VellarikkaPattanam-VellarikkaPattanamTests/Pods-VellarikkaPattanam-VellarikkaPattanamTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9574EEC137AA46E18405A3EC /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		A9D1679D557948EC89421E2D /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -78,6 +107,13 @@
 		BF26FC4D492C4463B96102E4 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		C1367AA5B9CE8A3D71AF205D /* Pods-VellarikkaPattanam-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VellarikkaPattanam-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-VellarikkaPattanam-tvOSTests/Pods-VellarikkaPattanam-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D6C8F4B9C0644BA18D57125B /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		DC42B6F025E3C40E00355024 /* Vellarikka Pattanam.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Vellarikka Pattanam.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC42B6F525E3C40E00355024 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		DC42B6F725E3C40E00355024 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC42B70425E3C5FF00355024 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
+		DC42B76725E3C74D00355024 /* Vellarikka Pattanam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Vellarikka Pattanam.entitlements"; sourceTree = "<group>"; };
+		DC42B76D25E3DF5C00355024 /* Vellarikka Pattanam-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Vellarikka Pattanam-Bridging-Header.h"; sourceTree = "<group>"; };
+		DC42B77A25E3DFB000355024 /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
 		DCBF758D253D890E00079307 /* libRNFBApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFBApp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DCDDB8E3255D19120066F9DD /* VellarikkaPattanam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = VellarikkaPattanam.entitlements; path = VellarikkaPattanam/VellarikkaPattanam.entitlements; sourceTree = "<group>"; };
@@ -119,6 +155,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F8ED9CEB1A6C17425AB1EFA /* libPods-VellarikkaPattanam-tvOSTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC42B6ED25E3C40E00355024 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				950AE3FFA322ADF05742A81B /* libPods-Vellarikka Pattanam.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +234,7 @@
 				1561533A2A66D6CE7A046963 /* libPods-VellarikkaPattanam-VellarikkaPattanamTests.a */,
 				E7491B29334765ADD66AEFC2 /* libPods-VellarikkaPattanam-tvOS.a */,
 				F977EA88FD8CD35AD27F6B0B /* libPods-VellarikkaPattanam-tvOSTests.a */,
+				2B01901DFD5D63EEEB6688D8 /* libPods-Vellarikka Pattanam.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -205,6 +250,8 @@
 				1D1535744267C05A9A86D686 /* Pods-VellarikkaPattanam-tvOS.release.xcconfig */,
 				C1367AA5B9CE8A3D71AF205D /* Pods-VellarikkaPattanam-tvOSTests.debug.xcconfig */,
 				77D84411C37FCA669711632B /* Pods-VellarikkaPattanam-tvOSTests.release.xcconfig */,
+				93907D974BF63989412DCD43 /* Pods-Vellarikka Pattanam.debug.xcconfig */,
+				31E57045CB3683109170F09A /* Pods-Vellarikka Pattanam.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -223,6 +270,7 @@
 				13B07FAE1A68108700A75B9A /* VellarikkaPattanam */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* VellarikkaPattanamTests */,
+				DC42B6F125E3C40E00355024 /* Vellarikka Pattanam */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				52F949E132FA5342A9D6A9FA /* Pods */,
@@ -240,8 +288,22 @@
 				00E356EE1AD99517003FC87E /* VellarikkaPattanamTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* VellarikkaPattanam-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* VellarikkaPattanam-tvOSTests.xctest */,
+				DC42B6F025E3C40E00355024 /* Vellarikka Pattanam.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DC42B6F125E3C40E00355024 /* Vellarikka Pattanam */ = {
+			isa = PBXGroup;
+			children = (
+				DC42B77A25E3DFB000355024 /* ReactShareViewController.swift */,
+				DC42B76725E3C74D00355024 /* Vellarikka Pattanam.entitlements */,
+				DC42B70425E3C5FF00355024 /* ShareViewController.swift */,
+				DC42B6F425E3C40E00355024 /* MainInterface.storyboard */,
+				DC42B6F725E3C40E00355024 /* Info.plist */,
+				DC42B76D25E3DF5C00355024 /* Vellarikka Pattanam-Bridging-Header.h */,
+			);
+			path = "Vellarikka Pattanam";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +318,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				306ACC03355EDB3E0C9959AC /* [CP] Copy Pods Resources */,
+				060538AD660F57B18587A013 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -279,10 +342,13 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				4EB91788EED14D69F9093AC5 /* [CP] Copy Pods Resources */,
 				910BA20D906985E0146A7A17 /* [CP-User] [RNFB] Core Configuration */,
+				DC42B6FB25E3C40E00355024 /* Embed App Extensions */,
+				4A9CA1B093EFB5429C80222F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DC42B6F925E3C40E00355024 /* PBXTargetDependency */,
 			);
 			name = VellarikkaPattanam;
 			productName = VellarikkaPattanam;
@@ -328,12 +394,33 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* VellarikkaPattanam-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		DC42B6EF25E3C40E00355024 /* Vellarikka Pattanam */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC42B6FE25E3C40E00355024 /* Build configuration list for PBXNativeTarget "Vellarikka Pattanam" */;
+			buildPhases = (
+				91F43B92A89DE376636EB8B6 /* [CP] Check Pods Manifest.lock */,
+				DC42B6EC25E3C40E00355024 /* Sources */,
+				DC42B6ED25E3C40E00355024 /* Frameworks */,
+				DC42B6EE25E3C40E00355024 /* Resources */,
+				DC42B78125E3E10B00355024 /* Bundle React Native code and images */,
+				1B1E2D1CA6A6BB6FEBFB503C /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Vellarikka Pattanam";
+			productName = "Vellarikka Pattanam";
+			productReference = DC42B6F025E3C40E00355024 /* Vellarikka Pattanam.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -354,6 +441,12 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
+					DC42B6EF25E3C40E00355024 = {
+						CreatedOnToolsVersion = 12.4;
+						DevelopmentTeam = CHF7KM5PF5;
+						LastSwiftMigration = 1240;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VellarikkaPattanam" */;
@@ -373,6 +466,7 @@
 				00E356ED1AD99517003FC87E /* VellarikkaPattanamTests */,
 				2D02E47A1E0B4A5D006451C7 /* VellarikkaPattanam-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* VellarikkaPattanam-tvOSTests */,
+				DC42B6EF25E3C40E00355024 /* Vellarikka Pattanam */,
 			);
 		};
 /* End PBXProject section */
@@ -410,6 +504,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DC42B6EE25E3C40E00355024 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC42B6F625E3C40E00355024 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -426,6 +528,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		060538AD660F57B18587A013 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam-VellarikkaPattanamTests/Pods-VellarikkaPattanam-VellarikkaPattanamTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam-VellarikkaPattanamTests/Pods-VellarikkaPattanam-VellarikkaPattanamTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1B1E2D1CA6A6BB6FEBFB503C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Vellarikka Pattanam/Pods-Vellarikka Pattanam-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Vellarikka Pattanam/Pods-Vellarikka Pattanam-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -497,6 +635,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam-VellarikkaPattanamTests/Pods-VellarikkaPattanam-VellarikkaPattanamTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4A9CA1B093EFB5429C80222F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam/Pods-VellarikkaPattanam-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam/Pods-VellarikkaPattanam-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4EB91788EED14D69F9093AC5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -563,6 +719,28 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\n\n  # config.admob_delay_app_measurement_init\n  _ADMOB_DELAY_APP_MEASUREMENT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"admob_delay_app_measurement_init\")\n  if [[ $_ADMOB_DELAY_APP_MEASUREMENT == \"true\" ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GADDelayAppMeasurementInit\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"YES\")\n  fi\n\n  # config.admob_ios_app_id\n  _ADMOB_IOS_APP_ID=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"admob_ios_app_id\")\n  if [[ $_ADMOB_IOS_APP_ID ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GADApplicationIdentifier\")\n    _PLIST_ENTRY_TYPES+=(\"string\")\n    _PLIST_ENTRY_VALUES+=(\"$_ADMOB_IOS_APP_ID\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
 		};
+		91F43B92A89DE376636EB8B6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Vellarikka Pattanam-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B0F0CF1AA5CC80EA8AD60355 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -606,6 +784,24 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		DC42B78125E3E10B00355024 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport NODE_BINARY=node\nexport ENTRY_FILE=index.share.js\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		E40BDAD7EF756DC96577F8B4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -726,6 +922,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DC42B6EC25E3C40E00355024 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC42B77B25E3DFB000355024 /* ReactShareViewController.swift in Sources */,
+				DC42B70525E3C5FF00355024 /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -739,7 +944,23 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* VellarikkaPattanam-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		DC42B6F925E3C40E00355024 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DC42B6EF25E3C40E00355024 /* Vellarikka Pattanam */;
+			targetProxy = DC42B6F825E3C40E00355024 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DC42B6F425E3C40E00355024 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DC42B6F525E3C40E00355024 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
@@ -791,6 +1012,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 430B57C88304C9F2CA262FF2 /* Pods-VellarikkaPattanam.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VellarikkaPattanam/VellarikkaPattanam.entitlements;
@@ -820,6 +1042,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 17211D8091CC86AC54B9194E /* Pods-VellarikkaPattanam.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VellarikkaPattanam/VellarikkaPattanam.entitlements;
@@ -1070,6 +1293,73 @@
 			};
 			name = Release;
 		};
+		DC42B6FC25E3C40E00355024 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93907D974BF63989412DCD43 /* Pods-Vellarikka Pattanam.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "Vellarikka Pattanam/Vellarikka Pattanam.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = CHF7KM5PF5;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "Vellarikka Pattanam/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.VellarikkaPattanam.Vellarikka-Pattanam";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "Vellarikka Pattanam/Vellarikka Pattanam-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DC42B6FD25E3C40E00355024 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31E57045CB3683109170F09A /* Pods-Vellarikka Pattanam.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "Vellarikka Pattanam/Vellarikka Pattanam.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = CHF7KM5PF5;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "Vellarikka Pattanam/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.VellarikkaPattanam.Vellarikka-Pattanam";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Vellarikka Pattanam/Vellarikka Pattanam-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1114,6 +1404,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DC42B6FE25E3C40E00355024 /* Build configuration list for PBXNativeTarget "Vellarikka Pattanam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC42B6FC25E3C40E00355024 /* Debug */,
+				DC42B6FD25E3C40E00355024 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

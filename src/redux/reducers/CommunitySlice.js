@@ -11,7 +11,9 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchPosts.fulfilled]: (state, action) => {
-      communityAdapter.upsertMany(state, action.payload.communities);
+      if (action.payload.communities !== undefined) {
+        communityAdapter.upsertMany(state, action.payload.communities);
+      }
     },
   },
 });

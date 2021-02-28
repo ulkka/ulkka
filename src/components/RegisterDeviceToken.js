@@ -17,6 +17,7 @@ export default function RegisterDeviceToken() {
     client
       .get('user?query={"email":"' + email + '"}')
       .then((response) => {
+        console.log('registerdevicetoken response', response);
         setUserId(response.data[0]._id);
       })
       .catch((error) => {

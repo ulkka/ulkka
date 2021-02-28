@@ -3,19 +3,25 @@ import {View, FlatList, SafeAreaView} from 'react-native';
 import {ThemeContext} from 'react-native-elements';
 import Post from '../../../components/Post';
 import FeedFooter from '../../../components/FeedFooter';
-import RegisterDeviceToken from '../../../components/RegisterDeviceToken';
 import {useSelector, useDispatch} from 'react-redux';
 import {selectPostIds, fetchPosts} from '../../../redux/reducers/PostSlice';
+import {
+  getAuthStatus,
+  getRegistrationStatus,
+} from '../../../redux/reducers/AuthSlice';
 
 function Home(props) {
   const {theme} = useContext(ThemeContext);
   const postIds = useSelector(selectPostIds);
   const dispatch = useDispatch();
+  const authStatus = useSelector(getAuthStatus);
+  const isRegistered = useSelector(getRegistrationStatus);
 
   useEffect(() => {
-    console.log('in home tab');
-    dispatch(fetchPosts());
-  }, []);
+    if (authStatus != 'UNAUTHENTICATED') {
+      dispatch(fetchPosts('home'));
+    }
+  }, [authStatus]);
 
   const renderRow = ({item}) => {
     return <Post item={item} navigation={props.navigation} caller="Home" />;
@@ -39,7 +45,7 @@ function Home(props) {
       <View style={{flex: 1}}>
         <FlatList
           ListHeaderComponent={ListHeaderComponent}
-          listKey={'homelist'}
+          listKey="home"
           data={postIds}
           renderItem={renderRow}
           ItemSeparatorComponent={separator}
@@ -49,7 +55,6 @@ function Home(props) {
           ListFooterComponent={<FeedFooter complete={true} />}
         />
       </View>
-      <RegisterDeviceToken />
     </SafeAreaView>
   );
 }

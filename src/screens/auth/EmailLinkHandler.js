@@ -37,17 +37,17 @@ const useEmailLinkEffect = () => {
     }
   };
   useEffect(() => {
+    // const initUrl = await getInitialURL();
+    //  console.log('init url', initUrl);
     const handleDynamicLink = async (link) => {
       console.log('link', link, auth().isSignInWithEmailLink(link.url));
       console.log('url', link.url);
       // Check and handle if the link is a email login link
       if (auth().isSignInWithEmailLink(link.url)) {
         setLoading(true);
-        console.log('inside if');
         try {
           // use the email we saved earlier
           const email = await getData();
-          console.log('got email new', email, link);
           dispatch(emailLinkAuth({email: email, link: link}));
           //  await auth().signInWithEmailLink(email, link.url);
 
@@ -61,7 +61,6 @@ const useEmailLinkEffect = () => {
         }
       }
     };
-
     const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
 
     /* When the app is not running and is launched by a magic link the `onLink`
@@ -79,7 +78,7 @@ const useEmailLinkEffect = () => {
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFill,
+    //  ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(250,250,250,0.33)',
     justifyContent: 'center',
     alignItems: 'center',

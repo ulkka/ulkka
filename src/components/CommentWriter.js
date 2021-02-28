@@ -41,7 +41,7 @@ export default function CommentWriter(props) {
   );
 
   const reply_to_text =
-    parentComment != undefined ? parentCommentAuthor.name : post.title;
+    parentComment != undefined ? parentCommentAuthor.displayname : post.title;
 
   const inputRef = useRef(null);
   const active = useSelector(isActive);

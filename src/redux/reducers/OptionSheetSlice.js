@@ -9,7 +9,6 @@ export const slice = createSlice({
   },
   reducers: {
     showOptionSheet(state, action) {
-      console.log('state,action in option sheet slice', state, action);
       state.visible = true;
       state.type = action.payload.type;
       state.id = action.payload.id;

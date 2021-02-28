@@ -120,7 +120,7 @@ export default function CreatePost({navigation, route}) {
               entity: community.name,
             };
             setStatusData(status);
-            setTimeout(() => navigation.navigate('Home'), 2000);
+            setTimeout(() => navigation.navigate('Feed'), 2000);
           })
           .catch((error) => {
             console.log('Posting to server error - ', error);
@@ -131,7 +131,7 @@ export default function CreatePost({navigation, route}) {
               entity: community.name,
             };
             setStatusData(status);
-            setTimeout(navigation.navigate('Home'), 2000);
+            setTimeout(navigation.navigate('Feed'), 2000);
           });
         return;
       case 'link':
@@ -150,7 +150,7 @@ export default function CreatePost({navigation, route}) {
               entity: community.name,
             };
             setStatusData(status);
-            setTimeout(() => navigation.navigate('Home'), 2000);
+            setTimeout(() => navigation.navigate('Feed'), 2000);
           })
           .catch((error) => {
             console.log('Posting to server error - ', error);
@@ -161,7 +161,7 @@ export default function CreatePost({navigation, route}) {
               entity: community.name,
             };
             setStatusData(status);
-            setTimeout(navigation.navigate('Home'), 2000);
+            setTimeout(navigation.navigate('Feed'), 2000);
           });
         return;
 
@@ -200,7 +200,7 @@ export default function CreatePost({navigation, route}) {
                   entity: title,
                 };
                 setStatusData(status);
-                setTimeout(() => navigation.navigate('Home'), 2000);
+                setTimeout(() => navigation.navigate('Feed'), 2000);
               })
               .catch((error) => {
                 console.log('Posting to server error - ', error);
@@ -211,7 +211,7 @@ export default function CreatePost({navigation, route}) {
                   entity: title,
                 };
                 setStatusData(status);
-                setTimeout(navigation.navigate('Home'), 2000);
+                setTimeout(navigation.navigate('Feed'), 2000);
               });
           })
           .catch((error) => {
@@ -223,7 +223,7 @@ export default function CreatePost({navigation, route}) {
               entity: title,
             };
             setStatusData(status);
-            setTimeout(navigation.navigate('Home'), 1000);
+            setTimeout(navigation.navigate('Feed'), 1000);
           });
     }
   };

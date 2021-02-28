@@ -15,6 +15,7 @@
 #import "RNFBMessagingModule.h"
 
 #import <React/RCTLinkingManager.h>
+#import <RNShareMenu/ShareMenuManager.h>
 
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
@@ -85,6 +86,14 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
+  //  Check if the passed url is a vellarikkapattanamshare://- or a Deeplink
+  NSString *urlString = url.absoluteString;
+
+  //  If it contains vellarikkapattanamshare:// handle it with the ShareMenuManager
+  if ([urlString hasPrefix:@"vellarikkapattanamshare://"]) {
+    return [ShareMenuManager application:application openURL:url options:options];
+  }
+  //  Else handle with deeplink contains vellarikkapattanam:// handle it with the RCTLinkingManager
   return [RCTLinkingManager application:application openURL:url options:options];
 }
 

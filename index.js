@@ -13,6 +13,7 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 
 function HeadlessCheck({isHeadless}) {
   if (isHeadless) {
+    console.log('im headless nick!');
     // App has been launched in the background by iOS, ignore
     return null;
   }

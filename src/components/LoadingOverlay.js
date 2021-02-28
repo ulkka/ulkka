@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, ActivityIndicator, Modal} from 'react-native';
 import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/LoadingOverlaySlice';
 
 export default function LoadingOverlay() {
   const visible = useSelector(isVisible);
-
+  useEffect(() => {
+    console.log('loading overlay visible', visible);
+  }, [visible]);
   const LoadingView = (
     <View
       style={{

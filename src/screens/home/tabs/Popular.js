@@ -1,35 +1,22 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View, FlatList, SafeAreaView} from 'react-native';
-import mainClient from '../../../client/mainClient';
 import {ThemeContext} from 'react-native-elements';
 import Post from '../../../components/Post';
+import FeedFooter from '../../../components/FeedFooter';
+import {useSelector, useDispatch} from 'react-redux';
+import {selectPostIds, fetchPosts} from '../../../redux/reducers/PostSlice';
 
-function Popular({navigation}) {
+function Popular(props) {
   const {theme} = useContext(ThemeContext);
+  const postIds = useSelector(selectPostIds);
+  const dispatch = useDispatch();
 
-  const [feed, setFeed] = useState([]);
-
-  const loadFeed = async () => {
-    const client = await mainClient;
-    client
-      .get('post?populate=community')
-      .then((response) => {
-        console.log(
-          'Successfully got Popular Feed from server -',
-          response.data.length,
-        );
-        setFeed(response.data);
-      })
-      .catch(function (error) {
-        console.log('Error getting Popular Feed from server - ', error);
-      });
-  };
   useEffect(() => {
-    loadFeed();
+    dispatch(fetchPosts());
   }, []);
 
   const renderRow = ({item}) => {
-    return <Post item={item} navigation={navigation} />;
+    return <Post item={item} navigation={props.navigation} caller="Home" />;
   };
   const separator = () => {
     return <View style={{padding: 5}}></View>;
@@ -50,13 +37,14 @@ function Popular({navigation}) {
       <View style={{flex: 1}}>
         <FlatList
           ListHeaderComponent={ListHeaderComponent}
-          listKey={'popularlist'}
-          data={feed}
+          listKey={'popular'}
+          data={postIds}
           renderItem={renderRow}
           ItemSeparatorComponent={separator}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
-          keyExtractor={(item) => item._id.toString()}
+          keyExtractor={(item, index) => item}
+          ListFooterComponent={<FeedFooter complete={true} />}
         />
       </View>
     </SafeAreaView>

@@ -7,15 +7,27 @@ import {
   createAsyncThunk,
 } from '@reduxjs/toolkit';
 import {createReply} from '../reducers/ReplySlice';
-import {signout} from '../actions/AuthActions';
+import {registerUser, signout, socialAuth} from '../actions/AuthActions';
 
 const postAdapter = createEntityAdapter({selectId: (post) => post._id});
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  let response = await postApi.post.fetch();
-  const normalized = normalize(response.data, [post]);
-  return normalized.entities;
-});
+export const fetchPosts = createAsyncThunk(
+  'posts/fetchPosts',
+  async (type) => {
+    let response = await postApi.post.fetch();
+    const normalized = normalize(response.data, [post]);
+    return normalized.entities;
+  },
+  {
+    condition: (type, {getState}) => {
+      const authStatus = getState().authorization.status;
+      console.log('auth sttaus in fetch posts condition', authStatus);
+      const access = authStatus == 'UNAUTHENTICATED' ? false : true;
+      return access;
+    },
+    dispatchConditionRejection: true,
+  },
+);
 
 export const votePost = createAsyncThunk(
   'posts/vote',
@@ -27,7 +39,6 @@ export const votePost = createAsyncThunk(
     condition: ({id, voteType}, {getState}) => {
       const authStatus = getState().authorization.status;
       const access = authStatus == 'AUTHENTICATED' ? true : false;
-      console.log('access', access);
       return access;
     },
     dispatchConditionRejection: true,
@@ -46,9 +57,13 @@ export const slice = createSlice({
       state.entities[action.payload.data.postId].commentCount += 1;
     },
     [fetchPosts.fulfilled]: (state, action) => {
-      postAdapter.upsertMany(state, action.payload.posts);
+      if (action.payload.posts !== undefined) {
+        postAdapter.upsertMany(state, action.payload.posts);
+      }
     },
     [signout.fulfilled]: () => postAdapter.getInitialState(),
+    // [socialAuth.fulfilled]: () => postAdapter.getInitialState(),
+    [registerUser.fulfilled]: () => postAdapter.getInitialState(),
     [votePost.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const post = state.entities[id];

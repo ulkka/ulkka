@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView, ViewPagerAndroid} from 'react-native';
 import mainClient from '../../client/mainClient';
 import {Button, Input} from 'react-native-elements';
 import Header from '../../components/Header';
@@ -132,10 +132,13 @@ export default function CreateCommunity({navigation}) {
         backgroundColor: '#fff',
       }}>
       <Header navigation={navigation} />
-      <View style={{flex: 1, width: '100%', padding: 25}}>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={140}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{flex: 1, width: '100%', padding: 25}}>
         {Title}
         {Form}
-      </View>
+      </KeyboardAvoidingView>
       <LoadingOverlay visible={loading} />
       <SubmitStatus data={status} />
     </View>

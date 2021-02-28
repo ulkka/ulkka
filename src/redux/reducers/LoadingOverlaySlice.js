@@ -5,6 +5,7 @@ import {
   registerUser,
   signout,
   sendEmailSignInLink,
+  loadAuth,
 } from '../actions/AuthActions';
 
 const showLoadingOverlay = (state) => {
@@ -21,6 +22,15 @@ export const slice = createSlice({
   },
   reducers: {},
   extraReducers: {
+    [loadAuth.pending]: (state, action) => {
+      showLoadingOverlay(state);
+    },
+    [loadAuth.fulfilled]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
+    [loadAuth.rejected]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
     [sendEmailSignInLink.pending]: (state, action) => {
       showLoadingOverlay(state);
     },

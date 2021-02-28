@@ -1,6 +1,6 @@
 import {normalize, schema} from 'normalizr';
 
-export const user = new schema.Entity('users', {}, {idAttribute: 'user_id'});
+export const user = new schema.Entity('users', {}, {idAttribute: '_id'});
 export const community = new schema.Entity(
   'communities',
   {},
