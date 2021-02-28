@@ -9,9 +9,10 @@ const userApi = {
       let response = await client.post(`${USER_URI}/signup`, {
         displayname: displayname,
       });
+      console.log('signup response', response);
       return response;
     },
-    async accountExists(email) {
+    async getUserByEmail(email) {
       const client = await mainClient;
       let response = await client.get(`${USER_URI}?query={"email":"${email}"}`);
       return response;

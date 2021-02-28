@@ -25,12 +25,26 @@ const getCurrentUser = async () => {
   return currentUser;
 };
 
+const getRegisteredUser = async (currentUser) => {
+  let registeredUser = {};
+  if (!currentUser.isAnonymous) {
+    const userEmail = await currentUser.email;
+    const response = await userApi.user.getUserByEmail(userEmail);
+    console.log('isuseregd response', response);
+    if (response.data.length) {
+      registeredUser = response.data[0];
+    }
+  }
+  return registeredUser;
+};
+
 const isUserRegistered = async (currentUser) => {
   let isRegistered = 0;
   if (!currentUser.isAnonymous) {
-    const userEmail = await currentUser.email;
-    const response = await userApi.user.accountExists(userEmail);
-    isRegistered = response.data.length;
+    const registeredUser = await getRegisteredUser(currentUser);
+    if (registeredUser.displayname !== undefined) {
+      isRegistered = 1;
+    }
   }
   return isRegistered;
 };
@@ -39,17 +53,17 @@ const initAuth = async () => {
   const currentUser = await getCurrentUser();
   const idToken = await currentUser.getIdToken(true);
   const isRegistered = await isUserRegistered(currentUser);
+  const registeredUser = await getRegisteredUser(currentUser);
   return {
     currentUser: currentUser,
     idToken: idToken,
     isRegistered: isRegistered,
+    registeredUser: registeredUser,
   };
 };
 
 export const fulfillAuth = (state, action) => {
-  const currentUser = action.payload.currentUser;
-  const idToken = action.payload.idToken;
-  const isRegistered = action.payload.isRegistered;
+  const {currentUser, idToken, isRegistered, registeredUser} = action.payload;
   state.user = currentUser;
   if (currentUser.isAnonymous) {
     state.status = 'ANONYMOUS';
@@ -58,12 +72,13 @@ export const fulfillAuth = (state, action) => {
   }
   state.idToken = idToken;
   state.isRegistered = isRegistered;
+  state.registeredUser = registeredUser;
   mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
 };
 
 export const showAuthScreen = (state, action) => {
-  navigate('Signup');
-  //navigate('Login / Register');
+  //navigate('Signup');
+  navigate('Authentication');
 };
 
 export const loadAuth = createAsyncThunk('authorization/load', initAuth);
@@ -134,6 +149,7 @@ export const registerUser = createAsyncThunk(
   'authorization/register',
   async (displayname) => {
     await userApi.user.signup(displayname);
+    return initAuth();
   },
 );
 

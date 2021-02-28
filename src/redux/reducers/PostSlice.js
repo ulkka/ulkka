@@ -37,8 +37,8 @@ export const votePost = createAsyncThunk(
   },
   {
     condition: ({id, voteType}, {getState}) => {
-      const authStatus = getState().authorization.status;
-      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      const isRegistered = getState().authorization.isRegistered;
+      const access = isRegistered ? true : false;
       return access;
     },
     dispatchConditionRejection: true,
@@ -63,7 +63,7 @@ export const slice = createSlice({
     },
     [signout.fulfilled]: () => postAdapter.getInitialState(),
     // [socialAuth.fulfilled]: () => postAdapter.getInitialState(),
-    [registerUser.fulfilled]: () => postAdapter.getInitialState(),
+    // [registerUser.fulfilled]: () => postAdapter.getInitialState(),
     [votePost.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const post = state.entities[id];

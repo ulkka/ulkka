@@ -95,7 +95,13 @@ export default function CommentList(props) {
       <ActivityIndicator size="large" color="#4285f4" />
     </View>
   ) : (
-    <View key="commentListView">
+    <View
+      key="commentListView"
+      style={{
+        paddingBottom: 15,
+        borderBottomColor: '#ddd',
+        borderBottomWidth: 1,
+      }}>
       {CommentListTitle}
       <CommentListView />
     </View>

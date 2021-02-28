@@ -39,7 +39,7 @@ export const createReply = createAsyncThunk(
     return {data: data, response: response};
   },
   {
-    condition: ({id, voteType}, {getState}) => {
+    condition: ({postId, commentId}, {getState}) => {
       const authStatus = getState().authorization.status;
       const access = authStatus == 'AUTHENTICATED' ? true : false;
       return access;

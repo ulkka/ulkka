@@ -32,7 +32,12 @@ function unMemoizedComment(props) {
   );
 
   const CommentMetadata = (
-    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingBottom: isCollapsed ? 10 : 0,
+      }}>
       <TouchableOpacity
         onPress={() => props.navigation.navigate('Account')}
         style={{

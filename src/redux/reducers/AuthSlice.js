@@ -12,6 +12,7 @@ import {
   showAuthScreen,
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
+import {goBackFromAuthToHome} from '../../navigation/Ref';
 
 export const slice = createSlice({
   name: 'authorization',
@@ -20,36 +21,49 @@ export const slice = createSlice({
     user: null,
     idToken: null,
     isRegistered: 0,
+    registeredUser: {},
   },
   reducers: {},
   extraReducers: {
     [registerUser.fulfilled]: (state, action) => {
-      state.isRegistered = 1;
+      fulfillAuth(state, action);
+      goBackFromAuthToHome();
       Snackbar.show({
-        text: 'Welcome!',
+        text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
         duration: Snackbar.LENGTH_LONG,
       });
     },
     [socialAuth.fulfilled]: (state, action) => {
       fulfillAuth(state, action);
       const type = action.meta.arg;
-      action.payload.isRegistered
-        ? Snackbar.show({
-            text: 'Welcome!',
-            duration: Snackbar.LENGTH_SHORT,
-          })
-        : Snackbar.show({
-            text: 'Successfully logged in with ' + type,
-            duration: Snackbar.LENGTH_SHORT,
-          });
+      if (action.payload.isRegistered) {
+        goBackFromAuthToHome();
+        Snackbar.show({
+          text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      } else {
+        Snackbar.show({
+          text: 'Successfully logged in with ' + type,
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      }
     },
     [loadAuth.fulfilled]: fulfillAuth,
     [emailLinkAuth.fulfilled]: (state, action) => {
       fulfillAuth(state, action);
-      Snackbar.show({
-        text: 'Successfully logged in with Email',
-        duration: Snackbar.LENGTH_SHORT,
-      });
+      if (action.payload.isRegistered) {
+        goBackFromAuthToHome();
+        Snackbar.show({
+          text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      } else {
+        Snackbar.show({
+          text: 'Successfully logged in with Email',
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      }
     },
     [signout.fulfilled]: (state, action) => {
       fulfillAuth(state, action);

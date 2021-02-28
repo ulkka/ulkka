@@ -40,9 +40,7 @@ export default function App() {
     <StoreProvider store={store}>
       <ThemeProvider theme={theme}>
         <View style={{flex: 1}}>
-          {
-            //<LoadingOverlay />
-          }
+          <LoadingOverlay />
           <EmailLinkHandler />
           <RegisterDeviceToken />
           <ShareMenuHandler />

@@ -1,15 +1,7 @@
 import React from 'react';
-import {View, Text, Button, Alert} from 'react-native';
-import auth from '@react-native-firebase/auth';
-import {GoogleSignin} from '@react-native-community/google-signin';
+import {SafeAreaView, Text, Button, Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {signout} from '../../redux/actions/AuthActions';
-
-GoogleSignin.configure({
-  scopes: ['openid', 'email', 'profile'],
-  webClientId:
-    '125095692098-jvns3h2vfqkf3ufrb0kcqhf1k2abicog.apps.googleusercontent.com',
-});
 
 export default function MyAccount(props) {
   const dispatch = useDispatch();
@@ -33,9 +25,9 @@ export default function MyAccount(props) {
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <Text>Hi Home </Text>
       <Button title="Log out" onPress={() => signoutConfirmationAlert()} />
-    </View>
+    </SafeAreaView>
   );
 }
