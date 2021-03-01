@@ -42,26 +42,27 @@ export default function Vote(props) {
       }}>
       <TouchableOpacity onPress={() => vote(1)}>
         <Icon
-          name="arrow-up-bold"
+          name={selfVote == 1 ? 'arrow-up-bold' : 'arrow-up-bold-outline'}
           type="material-community"
           size={20}
-          color={selfVote == 1 ? 'red' : '#888'}
+          color={selfVote == 1 ? '#00acee' : '#888'}
         />
       </TouchableOpacity>
       <Text
         style={{
           fontWeight: 'bold',
-          color: '#888',
+          color:
+            selfVote == 1 ? '#00acee' : selfVote == -1 ? '#ff4301' : '#888',
           paddingHorizontal: 10,
         }}>
         {voteCount}
       </Text>
       <TouchableOpacity onPress={() => vote(-1)}>
         <Icon
-          name="arrow-down-bold"
+          name={selfVote == -1 ? 'arrow-down-bold' : 'arrow-down-bold-outline'}
           type="material-community"
           size={20}
-          color={selfVote == -1 ? 'pink' : '#888'}
+          color={selfVote == -1 ? '#ff4301' : '#888'}
         />
       </TouchableOpacity>
     </View>

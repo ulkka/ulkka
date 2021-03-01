@@ -7,7 +7,7 @@ import AccountNavigation from '../screens/account/AccountNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import HeaderBar from '../components/Header';
 import Home from '../screens/home/tabs/Home';
-//import Popular from './tabs/Popular';
+import Popular from '../screens/home/tabs/Popular';
 import CreatePost from '../screens/create/CreatePost';
 import PostDetail from '../screens/PostDetail';
 import OptionSheet from '../components/OptionSheet';
@@ -30,9 +30,7 @@ function HomeTabNavigation({navigation}) {
           },
         }}>
         <Tab.Screen name="Home" component={Home} />
-        {
-          // <Tab.Screen name="Popular" component={Popular} />
-        }
+        {<Tab.Screen name="Popular" component={Popular} />}
       </Tab.Navigator>
     </View>
   );
@@ -51,7 +49,7 @@ function FeedList({navigation}) {
 function HomeNavigation({navigation}) {
   return (
     <StackNav.Navigator
-      initialRouteName="Home"
+      initialRouteName="Feed"
       screenOptions={{
         header: () => <HeaderBar navigation={navigation} />,
       }}>

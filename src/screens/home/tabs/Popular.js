@@ -5,18 +5,26 @@ import Post from '../../../components/Post';
 import FeedFooter from '../../../components/FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
 import {selectPostIds, fetchPosts} from '../../../redux/reducers/PostSlice';
+import {
+  getAuthStatus,
+  getRegistrationStatus,
+} from '../../../redux/reducers/AuthSlice';
 
 function Popular(props) {
   const {theme} = useContext(ThemeContext);
   const postIds = useSelector(selectPostIds);
   const dispatch = useDispatch();
+  const authStatus = useSelector(getAuthStatus);
+  const isRegistered = useSelector(getRegistrationStatus);
 
   useEffect(() => {
-    dispatch(fetchPosts());
-  }, []);
+    if (authStatus != 'UNAUTHENTICATED') {
+      dispatch(fetchPosts('popular'));
+    }
+  }, [authStatus]);
 
   const renderRow = ({item}) => {
-    return <Post item={item} navigation={props.navigation} caller="Home" />;
+    return <Post item={item} navigation={props.navigation} caller="Popular" />;
   };
   const separator = () => {
     return <View style={{padding: 5}}></View>;
@@ -37,7 +45,7 @@ function Popular(props) {
       <View style={{flex: 1}}>
         <FlatList
           ListHeaderComponent={ListHeaderComponent}
-          listKey={'popular'}
+          listKey="popular"
           data={postIds}
           renderItem={renderRow}
           ItemSeparatorComponent={separator}

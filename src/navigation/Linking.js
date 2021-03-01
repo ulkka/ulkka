@@ -2,26 +2,20 @@ const config = {
   screens: {
     Main: {
       screens: {
-        Home: {
+        CreatePost: 'create/post',
+        PostDetail: 'postdetail',
+        Feed: {
           screens: {
-            CreatePost: 'create/post',
-            PostDetail: 'postdetail',
-            Feed: {
-              screens: {
-                Home: 'home',
-                Popular: 'popular',
-              },
-            },
-            Community: 'community',
-            Account: 'account',
+            Home: 'home',
+            Popular: 'popular',
           },
         },
-        'Create Community': 'create/community',
-        'My Account': 'myaccount',
-        'Login / Register': 'login',
+        Community: 'community',
+        Account: 'account',
       },
     },
-    Signup: 'signup',
+    Authentication: 'myaccount',
+    'Create Community': 'create/community',
   },
 };
 

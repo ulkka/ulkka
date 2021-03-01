@@ -9,10 +9,9 @@ import {
   socialAuth,
   emailLinkAuth,
   registerUser,
-  showAuthScreen,
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
-import {goBackFromAuthToHome} from '../../navigation/Ref';
+import {goBackFromAuthToHome, showAuthScreen} from '../../navigation/Ref';
 
 export const slice = createSlice({
   name: 'authorization',
@@ -67,6 +66,11 @@ export const slice = createSlice({
     },
     [signout.fulfilled]: (state, action) => {
       fulfillAuth(state, action);
+      goBackFromAuthToHome();
+      Snackbar.show({
+        text: 'Signed out',
+        duration: Snackbar.LENGTH_SHORT,
+      });
     },
     [votePost.rejected]: showAuthScreen,
     [voteComment.rejected]: showAuthScreen,
@@ -80,3 +84,4 @@ export const authorization = slice.reducer;
 export const getAuthStatus = (state) => state.authorization.status;
 export const getRegistrationStatus = (state) =>
   state.authorization.isRegistered;
+export const getRegisteredUser = (state) => state.authorization.registeredUser;

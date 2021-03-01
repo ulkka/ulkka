@@ -30,7 +30,6 @@ const getRegisteredUser = async (currentUser) => {
   if (!currentUser.isAnonymous) {
     const userEmail = await currentUser.email;
     const response = await userApi.user.getUserByEmail(userEmail);
-    console.log('isuseregd response', response);
     if (response.data.length) {
       registeredUser = response.data[0];
     }
@@ -74,11 +73,6 @@ export const fulfillAuth = (state, action) => {
   state.isRegistered = isRegistered;
   state.registeredUser = registeredUser;
   mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
-};
-
-export const showAuthScreen = (state, action) => {
-  //navigate('Signup');
-  navigate('Authentication');
 };
 
 export const loadAuth = createAsyncThunk('authorization/load', initAuth);

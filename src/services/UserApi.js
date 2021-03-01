@@ -9,7 +9,6 @@ const userApi = {
       let response = await client.post(`${USER_URI}/signup`, {
         displayname: displayname,
       });
-      console.log('signup response', response);
       return response;
     },
     async getUserByEmail(email) {
@@ -22,6 +21,17 @@ const userApi = {
       let response = await client.get(
         `${USER_URI}?query={"displayname":"${displayname}"}`,
       );
+      return response;
+    },
+    async registerDeviceTokenForNotifications(userId, token) {
+      const client = await mainClient;
+      const response = client
+        .put('user/' + userId, {
+          pushMessageToken: token,
+        })
+        .catch((error) => {
+          console.log('error saving device token for push notification', error);
+        });
       return response;
     },
   },

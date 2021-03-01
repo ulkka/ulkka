@@ -51,8 +51,3 @@ export const AuthNavigation = () => {
     </StackNav.Navigator>
   );
 };
-
-export const getRouteName = () => {
-  const isRegistered = useSelector(getRegistrationStatus);
-  return isRegistered ? 'My Account' : 'Login / Register';
-};

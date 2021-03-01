@@ -11,6 +11,7 @@ import EmailLinkHandler from './screens/auth/EmailLinkHandler';
 import LoadingOverlay from './components/LoadingOverlay';
 import RegisterDeviceToken from './components/RegisterDeviceToken';
 import ShareMenuHandler from './components/ShareMenuHandler';
+import OptionSheet from './components/OptionSheet';
 
 export default function App() {
   useEffect(() => {
@@ -44,6 +45,7 @@ export default function App() {
           <EmailLinkHandler />
           <RegisterDeviceToken />
           <ShareMenuHandler />
+          <OptionSheet />
           <Main />
         </View>
       </ThemeProvider>

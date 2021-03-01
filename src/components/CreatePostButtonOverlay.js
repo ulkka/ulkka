@@ -94,7 +94,7 @@ export default function CreatePostButtonOverlay(props) {
         position: 'absolute',
         bottom: 0,
         alignSelf: 'center',
-        marginBottom: 10,
+        marginBottom: 20,
       }}
     />
   );

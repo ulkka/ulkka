@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 import {selectPostById} from '../redux/reducers/PostSlice';
 import {selectCommunityById} from '../redux/reducers/CommunitySlice';
 import {selectUserById} from '../redux/reducers/UserSlice';
+import {navigate} from '../navigation/Ref';
 
 export default function Post(props) {
   const {theme} = useContext(ThemeContext);
@@ -28,7 +29,7 @@ export default function Post(props) {
           }}>
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate('Community', {
+              navigate('Community', {
                 community_id: post.community,
               })
             }>
@@ -37,8 +38,7 @@ export default function Post(props) {
             </Text>
           </TouchableOpacity>
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Account')}>
+            <TouchableOpacity onPress={() => navigate('Account')}>
               <Text style={{fontSize: 11, paddingRight: 10, color: '#555'}}>
                 {user.displayname}
               </Text>
@@ -67,9 +67,11 @@ export default function Post(props) {
   const CommentSummary = (
     <TouchableOpacity
       onPress={() => {
-        props.navigation.navigate('PostDetail', {
-          post: props.item,
-        });
+        if (props.caller != 'PostDetail') {
+          navigate('PostDetail', {
+            post: props.item,
+          });
+        }
       }}
       style={{
         flex: 6,

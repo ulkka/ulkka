@@ -7,7 +7,7 @@ import {
   createAsyncThunk,
 } from '@reduxjs/toolkit';
 import {createReply} from '../reducers/ReplySlice';
-import {registerUser, signout, socialAuth} from '../actions/AuthActions';
+import {signout} from '../actions/AuthActions';
 
 const postAdapter = createEntityAdapter({selectId: (post) => post._id});
 
@@ -21,7 +21,6 @@ export const fetchPosts = createAsyncThunk(
   {
     condition: (type, {getState}) => {
       const authStatus = getState().authorization.status;
-      console.log('auth sttaus in fetch posts condition', authStatus);
       const access = authStatus == 'UNAUTHENTICATED' ? false : true;
       return access;
     },

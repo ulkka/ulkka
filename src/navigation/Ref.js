@@ -19,3 +19,7 @@ export function goBackFromAuthToHome() {
     navigationRef.current.goBack();
   }
 }
+
+export const showAuthScreen = () => {
+  navigationRef.current?.navigate('Authentication');
+};

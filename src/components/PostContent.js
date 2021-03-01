@@ -9,6 +9,7 @@ import {
 import Video from 'react-native-video';
 import {useSelector} from 'react-redux';
 import {selectPostById} from '../redux/reducers/PostSlice';
+import {navigate} from '../navigation/Ref';
 
 export default function PostContent(props) {
   const post = useSelector((state) => selectPostById(state, props.item));
@@ -28,7 +29,7 @@ export default function PostContent(props) {
           activeOpacity={0.9}
           underlayColor="#fff"
           onPress={() =>
-            props.navigation.navigate('PostDetail', {
+            navigate('PostDetail', {
               post: props.item,
             })
           }>

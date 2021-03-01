@@ -2,23 +2,27 @@ import React, {useState} from 'react';
 import {SafeAreaView, TouchableOpacity, StatusBar} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import Search from './Search';
+import {showAuthScreen} from '../navigation/Ref';
+import {useSelector} from 'react-redux';
+import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 
 const HeaderBar = (props) => {
   const [searchMode, setSearchMode] = useState(false);
-
-  const _goBack = () => console.log('Went back');
-
+  const isRegistered = useSelector(getRegistrationStatus);
   const _toggleSearch = () => setSearchMode(!searchMode);
 
-  const _handleMore = () => console.log('Shown more');
-
-  const MenuComponent = () => {
+  const AccountComponent = () => {
     return (
-      <Icon
-        name="menu"
-        color="#333"
-        onPress={() => props.navigation.toggleDrawer()}
-      />
+      <TouchableOpacity
+        style={{paddingLeft: 5}}
+        onPress={() => showAuthScreen()}>
+        <Icon
+          name="user-alt"
+          type="font-awesome-5"
+          color={isRegistered ? 'green' : '#444'}
+          size={18}
+        />
+      </TouchableOpacity>
     );
   };
 
@@ -74,7 +78,7 @@ const HeaderBar = (props) => {
           backgroundColor: '#fff',
           margin: 10,
         }}>
-        <MenuComponent />
+        <AccountComponent />
         <TitleComponent />
         <SearchComponent />
       </SafeAreaView>
