@@ -1,5 +1,7 @@
 import postApi from '../../services/PostApi';
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {normalize} from 'normalizr';
+import {comment} from '../schema/CommentSchema';
 
 export const prepareReply = createAsyncThunk(
   'replies/prepare',
@@ -36,7 +38,14 @@ export const createReply = createAsyncThunk(
       data.postId,
       data.parentCommentId,
     );
-    return {data: data, response: response};
+    console.log('createreply response', response);
+    const normalized = normalize(response.data, comment);
+    return {
+      data: data,
+      response: response,
+      normalizedComment: normalized.entities,
+      result: normalized.result,
+    };
   },
   {
     condition: ({postId, commentId}, {getState}) => {

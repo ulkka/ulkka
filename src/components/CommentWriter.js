@@ -188,10 +188,10 @@ export default function CommentWriter(props) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{
         position: 'absolute',
-        bottom: 20,
+        bottom: Platform.OS === 'ios' ? 20 : 0,
         alignSelf: 'center',
         flex: 1,
-        backgroundColor: '#ddd',
+        backgroundColor: '#fff',
         width: '100%',
         borderTopStartRadius: 10,
         borderTopEndRadius: 10,

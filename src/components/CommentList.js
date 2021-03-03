@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
 import {Comment, CommentGroup} from './Comment';
-import LoadingOverlay from '../components/LoadingOverlay';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   fetchComments,
@@ -9,14 +8,15 @@ import {
   isLoading,
 } from '../redux/reducers/CommentSlice';
 import {selectUserEntities} from '../redux/reducers/UserSlice';
+import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 import {denormalize} from 'normalizr';
 import {comment} from '../redux/schema/CommentSchema';
 
 export default function CommentList(props) {
-  const loading = useSelector(isLoading);
-
   const dispatch = useDispatch();
 
+  const loading = useSelector(isLoading);
+  const isRegistered = useSelector(getRegistrationStatus);
   const topLevelCommentIds = useSelector(
     (state) => state.comments.topLevelCommentIds,
   );
@@ -32,6 +32,9 @@ export default function CommentList(props) {
   useEffect(() => {
     dispatch(fetchComments(props.item));
   }, []);
+  useEffect(() => {
+    dispatch(fetchComments(props.item));
+  }, [isRegistered]);
 
   const CommentListTitle = (
     <View
@@ -98,7 +101,7 @@ export default function CommentList(props) {
     <View
       key="commentListView"
       style={{
-        paddingBottom: 15,
+        marginBottom: 25,
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
       }}>

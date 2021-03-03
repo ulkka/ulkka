@@ -66,16 +66,19 @@ export const slice = createSlice({
       state.loading = false;
     },
     [createReply.fulfilled]: (state, action) => {
-      var comment = action.payload.response.data;
-      comment.userVote = 0;
-      commentAdapter.addOne(state, comment);
-      if (comment.parent === undefined) {
-        state.topLevelCommentIds.push(comment._id);
+      console.log('normalized comments', action.payload);
+      const newCommentId = action.payload.result;
+      const newComment =
+        action.payload.normalizedComment.comments[newCommentId];
+      newComment.userVote = 0;
+      commentAdapter.addOne(state, newComment);
+      if (newComment.parent === undefined) {
+        state.topLevelCommentIds.push(newComment._id);
       } else {
-        if (state.entities[comment.parent].replies === undefined) {
-          state.entities[comment.parent].replies = [];
+        if (state.entities[newComment.parent].replies === undefined) {
+          state.entities[newComment.parent].replies = [];
         }
-        state.entities[comment.parent].replies.push(comment._id);
+        state.entities[newComment.parent].replies.push(newComment._id);
       }
     },
 

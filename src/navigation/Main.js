@@ -16,7 +16,7 @@ const StackNav = createStackNavigator();
 
 enableScreens();
 
-export default function Main(props) {
+export default function Main() {
   const dispatch = useDispatch();
   useReduxDevToolsExtension(navigationRef);
 

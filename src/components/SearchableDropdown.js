@@ -5,7 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Modal,
-  SafeAreaView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {SearchBar, Button, Icon, Divider} from 'react-native-elements';
 import mainClient from '../client/mainClient';
@@ -50,14 +50,130 @@ export default function SearchableDropdown(props) {
     props.setCommunity(community);
   };
 
+  function _renderItem() {
+    return ({item}) => {
+      return (
+        <TouchableOpacity style={{}} onPress={() => setCommunityToPost(item)}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text
+              style={{
+                color: '#222',
+              }}>
+              {item.name}
+            </Text>
+
+            <Icon
+              name="arrow-right"
+              type="font-awesome-5"
+              color="#333"
+              size={12}
+              style={{padding: 5}}
+            />
+          </View>
+        </TouchableOpacity>
+      );
+    };
+  }
+
+  const SearchBarView = (
+    <View
+      style={{
+        width: '100%',
+        marginBottom: 15,
+      }}>
+      <SearchBar
+        showCancel={true}
+        value={value}
+        onChangeText={(text) => searchHandle(text)}
+        placeholder="Select Community"
+        round={true}
+        lightTheme={true}
+        containerStyle={{
+          backgroundColor: 'white',
+          borderTopColor: 'transparent',
+          borderBottomColor: 'transparent',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: 22,
+        }}
+        inputContainerStyle={{
+          height: 30,
+          backgroundColor: '#eee',
+        }}
+        inputStyle={{
+          fontSize: 15,
+        }}
+        round={true}
+        searchIcon={{size: 15}}
+      />
+    </View>
+  );
+
+  const _itemSeperatorComponent = () => {
+    return (
+      <View
+        style={{
+          height: 30,
+          justifyContent: 'center',
+        }}>
+        <Divider
+          style={{
+            backgroundColor: '#ddd',
+          }}
+        />
+      </View>
+    );
+  };
+  const ResultsView = (
+    <View
+      style={{
+        height: '80%',
+        width: '100%',
+      }}>
+      <FlatList
+        scrollEnabled={true}
+        showsVerticalScrollIndicator={true}
+        data={items}
+        keyExtractor={(item) => item._id}
+        ItemSeparatorComponent={_itemSeperatorComponent}
+        contentContainerStyle={{
+          opacity: 0.8,
+          padding: 10,
+        }}
+        renderItem={_renderItem()}
+      />
+    </View>
+  );
+
+  const CloseButtonView = (
+    <View style={{marginBottom: 20}}>
+      <Button
+        title="Close"
+        color="red"
+        titleStyle={{
+          color: 'green',
+        }}
+        onPress={() => {
+          toggleModal();
+        }}
+      />
+    </View>
+  );
+
   return (
-    <SafeAreaView style={{}}>
+    <View style={{}}>
       <Modal
         transparent={true}
         animationType="slide"
         visible={visible}
         onRequestClose={() => disableFilterMode()}>
-        <View
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{
             margin: 45,
             height: '80%',
@@ -75,113 +191,11 @@ export default function SearchableDropdown(props) {
             shadowRadius: 3.84,
             elevation: 5,
           }}>
-          <View
-            style={{
-              width: '100%',
-              marginBottom: 15,
-            }}>
-            <SearchBar
-              showCancel={true}
-              value={value}
-              onChangeText={(text) => searchHandle(text)}
-              placeholder="Select Community"
-              round={true}
-              lightTheme={true}
-              containerStyle={{
-                backgroundColor: 'white',
-                borderTopColor: 'transparent',
-                borderBottomColor: 'transparent',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: 22,
-              }}
-              inputContainerStyle={{
-                height: 30,
-                backgroundColor: '#eee',
-              }}
-              inputStyle={{
-                fontSize: 15,
-              }}
-              round={true}
-              searchIcon={{size: 15}}
-            />
-          </View>
-          <View
-            style={{
-              height: '80%',
-              width: '100%',
-            }}>
-            <FlatList
-              scrollEnabled={true}
-              showsVerticalScrollIndicator={true}
-              data={items}
-              keyExtractor={(item) => item._id}
-              ItemSeparatorComponent={() => {
-                return (
-                  <View
-                    style={{
-                      height: 30,
-                      justifyContent: 'center',
-                    }}>
-                    <Divider
-                      style={{
-                        backgroundColor: '#ddd',
-                      }}
-                    />
-                  </View>
-                );
-              }}
-              contentContainerStyle={{
-                opacity: 0.8,
-                padding: 10,
-              }}
-              renderItem={({item}) => {
-                let id = item._id;
-                return (
-                  <TouchableOpacity
-                    style={{}}
-                    onPress={() => setCommunityToPost(item)}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text
-                        style={{
-                          color: '#222',
-                          // borderWidth: 1,
-                        }}>
-                        {item.name}
-                      </Text>
-
-                      <Icon
-                        name="arrow-right"
-                        type="font-awesome-5"
-                        color="#333"
-                        size={12}
-                        style={{padding: 5}}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
-          <View style={{}}>
-            <Button
-              title="Close"
-              color="red"
-              titleStyle={{
-                color: 'green',
-              }}
-              onPress={() => {
-                toggleModal();
-              }}
-            />
-          </View>
-        </View>
+          {SearchBarView}
+          {ResultsView}
+          {CloseButtonView}
+        </KeyboardAvoidingView>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 }

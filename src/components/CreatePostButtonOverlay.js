@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import {Icon, Overlay} from 'react-native-elements';
 
 export default function CreatePostButtonOverlay(props) {
@@ -53,7 +53,7 @@ export default function CreatePostButtonOverlay(props) {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        paddingBottom: 15,
+        marginBottom: 30,
       }}>
       <TouchableOpacity onPress={() => createPost('text')}>
         <Icon name="text" type="material-community" size={20} color={'#444'} />
@@ -83,20 +83,24 @@ export default function CreatePostButtonOverlay(props) {
     </View>
   );
   const CreatePostIcon = (
-    <Icon
-      name="plus"
-      type="font-awesome-5"
-      size={25}
-      color="green"
-      reverse
+    <TouchableOpacity
       onPress={toggleOverlay}
-      containerStyle={{
-        position: 'absolute',
-        bottom: 0,
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
         alignSelf: 'center',
-        marginBottom: 20,
-      }}
-    />
+        position: 'absolute',
+        bottom: 20,
+        backgroundColor: 'transparent',
+        borderRadius: 30,
+        shadowColor: '#000',
+        textShadowOffset: {height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: Platform.OS == 'ios' ? 2 : 0,
+      }}>
+      <Icon name="plus" type="font-awesome-5" size={25} color="green" reverse />
+    </TouchableOpacity>
   );
   const PopupView = (
     <Overlay
@@ -110,8 +114,8 @@ export default function CreatePostButtonOverlay(props) {
         borderTopRightRadius: 10,
       }}
       backdropStyle={{
-        backgroundColor: '#888',
-        opacity: 0.3,
+        backgroundColor: '#000',
+        opacity: 0.2,
       }}>
       <View>
         {Header}

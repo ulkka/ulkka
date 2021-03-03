@@ -48,7 +48,12 @@ const HeaderBar = (props) => {
 
   const SearchComponent = () => {
     return searchMode == false ? (
-      <Icon name="search" color="#333" onPress={() => _toggleSearch()} />
+      <Icon
+        name="search"
+        color="#333"
+        onPress={() => _toggleSearch()}
+        size={22}
+      />
     ) : (
       <TouchableOpacity onPress={() => _toggleSearch()}>
         <Text

@@ -22,7 +22,7 @@ export const slice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [loadAuth.pending]: (state, action) => {
+    /* [loadAuth.pending]: (state, action) => {
       showLoadingOverlay(state);
     },
     [loadAuth.fulfilled]: (state, action) => {
@@ -30,7 +30,7 @@ export const slice = createSlice({
     },
     [loadAuth.rejected]: (state, action) => {
       hideLoadingOverlay(state);
-    },
+    },*/
     [sendEmailSignInLink.pending]: (state, action) => {
       showLoadingOverlay(state);
     },

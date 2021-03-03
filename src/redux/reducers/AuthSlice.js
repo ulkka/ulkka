@@ -11,7 +11,7 @@ import {
   registerUser,
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
-import {goBackFromAuthToHome, showAuthScreen} from '../../navigation/Ref';
+import {goBack, showAuthScreen} from '../../navigation/Ref';
 
 export const slice = createSlice({
   name: 'authorization',
@@ -24,49 +24,51 @@ export const slice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [registerUser.fulfilled]: (state, action) => {
-      fulfillAuth(state, action);
-      goBackFromAuthToHome();
-      Snackbar.show({
-        text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
-        duration: Snackbar.LENGTH_LONG,
-      });
-    },
+    [loadAuth.fulfilled]: fulfillAuth,
     [socialAuth.fulfilled]: (state, action) => {
       fulfillAuth(state, action);
       const type = action.meta.arg;
       if (action.payload.isRegistered) {
-        goBackFromAuthToHome();
+        goBack();
         Snackbar.show({
           text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
           duration: Snackbar.LENGTH_SHORT,
         });
       } else {
+        showAuthScreen();
         Snackbar.show({
           text: 'Successfully logged in with ' + type,
           duration: Snackbar.LENGTH_SHORT,
         });
       }
     },
-    [loadAuth.fulfilled]: fulfillAuth,
     [emailLinkAuth.fulfilled]: (state, action) => {
       fulfillAuth(state, action);
       if (action.payload.isRegistered) {
-        goBackFromAuthToHome();
+        goBack();
         Snackbar.show({
           text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
           duration: Snackbar.LENGTH_SHORT,
         });
       } else {
+        showAuthScreen();
         Snackbar.show({
           text: 'Successfully logged in with Email',
           duration: Snackbar.LENGTH_SHORT,
         });
       }
     },
+    [registerUser.fulfilled]: (state, action) => {
+      fulfillAuth(state, action);
+      goBack();
+      Snackbar.show({
+        text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
+        duration: Snackbar.LENGTH_LONG,
+      });
+    },
     [signout.fulfilled]: (state, action) => {
       fulfillAuth(state, action);
-      goBackFromAuthToHome();
+      goBack();
       Snackbar.show({
         text: 'Signed out',
         duration: Snackbar.LENGTH_SHORT,
@@ -77,6 +79,13 @@ export const slice = createSlice({
     [createReply.rejected]: showAuthScreen,
     [prepareReply.rejected]: showAuthScreen,
     [activate.rejected]: showAuthScreen,
+    [loadAuth.rejected]: (state, action) => {
+      console.log('load auth rejected', action.error.message);
+      Snackbar.show({
+        text: 'Sorry, please try again later! ' + action.error.message,
+        duration: Snackbar.LENGTH_LONG,
+      });
+    },
   },
 });
 

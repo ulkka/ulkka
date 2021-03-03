@@ -13,18 +13,26 @@ const postAdapter = createEntityAdapter({selectId: (post) => post._id});
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async (type) => {
-    let response = await postApi.post.fetch();
-    const normalized = normalize(response.data, [post]);
-    return normalized.entities;
+  async (type, {getState}) => {
+    const {page, limit} = getState().posts.metadata;
+    const nextPage = page + 1;
+    let response = await postApi.post.fetch(nextPage, limit);
+    const normalized = normalize(response.data.data, [post]);
+    return {
+      normalizedPosts: normalized.entities,
+      metadata: response.data.metadata[0],
+    };
   },
   {
     condition: (type, {getState}) => {
       const authStatus = getState().authorization.status;
-      const access = authStatus == 'UNAUTHENTICATED' ? false : true;
-      return access;
+      const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
+
+      const feedAccess =
+        !getState().posts.complete && !getState().posts.loading;
+      return authAccess && feedAccess;
     },
-    dispatchConditionRejection: true,
+    dispatchConditionRejection: false,
   },
 );
 
@@ -49,18 +57,38 @@ export const slice = createSlice({
   initialState: {
     ids: [],
     entities: {},
+    metadata: {
+      page: 0,
+      complete: -1,
+      limit: 2,
+    },
+    complete: false,
+    loading: false,
   },
   reducers: {},
   extraReducers: {
     [createReply.fulfilled]: (state, action) => {
       state.entities[action.payload.data.postId].commentCount += 1;
     },
+    [fetchPosts.pending]: (state, action) => {
+      state.loading = true;
+    },
     [fetchPosts.fulfilled]: (state, action) => {
-      if (action.payload.posts !== undefined) {
-        postAdapter.upsertMany(state, action.payload.posts);
+      state.loading = false;
+      if (action.payload.normalizedPosts !== undefined) {
+        postAdapter.upsertMany(state, action.payload.normalizedPosts.posts);
+        state.metadata = action.payload.metadata;
+        const {page, total, limit} = action.payload.metadata;
+        if (page * limit >= total) {
+          state.complete = true;
+        }
       }
     },
-    [signout.fulfilled]: () => postAdapter.getInitialState(),
+    [fetchPosts.rejected]: (state, action) => {
+      state.loading = false;
+    },
+    [signout.fulfilled]: (state, action) =>
+      postAdapter.setAll(state, {userVote: 0}),
     // [socialAuth.fulfilled]: () => postAdapter.getInitialState(),
     // [registerUser.fulfilled]: () => postAdapter.getInitialState(),
     [votePost.fulfilled]: (state, action) => {
@@ -83,3 +111,6 @@ export const {
   selectAll: selectAllPosts,
   selectTotal: selectTotalPosts,
 } = postAdapter.getSelectors((state) => state.posts);
+
+export const isComplete = (state) => state.posts.complete;
+export const isLoading = (state) => state.posts.loading;

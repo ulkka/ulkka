@@ -45,14 +45,14 @@ export default function Vote(props) {
           name={selfVote == 1 ? 'arrow-up-bold' : 'arrow-up-bold-outline'}
           type="material-community"
           size={20}
-          color={selfVote == 1 ? '#00acee' : '#888'}
+          color={selfVote == 1 ? '#ff4301' : '#888'}
         />
       </TouchableOpacity>
       <Text
         style={{
           fontWeight: 'bold',
           color:
-            selfVote == 1 ? '#00acee' : selfVote == -1 ? '#ff4301' : '#888',
+            selfVote == 1 ? '#ff4301' : selfVote == -1 ? '#3b5998' : '#888',
           paddingHorizontal: 10,
         }}>
         {voteCount}
@@ -62,7 +62,7 @@ export default function Vote(props) {
           name={selfVote == -1 ? 'arrow-down-bold' : 'arrow-down-bold-outline'}
           type="material-community"
           size={20}
-          color={selfVote == -1 ? '#ff4301' : '#888'}
+          color={selfVote == -1 ? '#3b5998' : '#888'}
         />
       </TouchableOpacity>
     </View>

@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
   },
   loadingView: {
-    marginTop: 10,
-    height: 80,
+    flex: 1,
+    marginTop: 20,
   },
 });
 export default memo(FeedFooterComponent);

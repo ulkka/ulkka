@@ -12,8 +12,8 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchPosts.fulfilled]: (state, action) => {
-      if (action.payload.users !== undefined) {
-        userAdapter.upsertMany(state, action.payload.users);
+      if (action.payload.normalizedPosts !== undefined) {
+        userAdapter.upsertMany(state, action.payload.normalizedPosts.users);
       }
     },
     [fetchComments.fulfilled]: (state, action) => {
@@ -22,7 +22,13 @@ export const slice = createSlice({
       }
     },
     [createReply.fulfilled]: (state, action) => {
-      userAdapter.upsertOne(state, action.payload.response.data.author);
+      const newCommentId = action.payload.result;
+      const newComment =
+        action.payload.normalizedComment.comments[newCommentId];
+      const newCommentAuthorId = newComment.author;
+      const newCommentAuthor =
+        action.payload.normalizedComment.users[newCommentAuthorId];
+      userAdapter.upsertOne(state, newCommentAuthor);
     },
   },
 });

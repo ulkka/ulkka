@@ -10,7 +10,6 @@ import Home from '../screens/home/tabs/Home';
 import Popular from '../screens/home/tabs/Popular';
 import CreatePost from '../screens/create/CreatePost';
 import PostDetail from '../screens/PostDetail';
-import OptionSheet from '../components/OptionSheet';
 
 const Tab = createMaterialTopTabNavigator();
 const StackNav = createStackNavigator();
@@ -38,10 +37,9 @@ function HomeTabNavigation({navigation}) {
 
 function FeedList({navigation}) {
   return (
-    <View style={{flex: 1}}>
-      <FlatList listKey="feed" ListHeaderComponent={HomeTabNavigation} />
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <FlatList listKey="feed" ListFooterComponent={HomeTabNavigation} />
       <CreatePostButtonOverlay navigation={navigation} />
-      <OptionSheet />
     </View>
   );
 }

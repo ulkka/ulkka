@@ -2,12 +2,15 @@ import mainClient from '../client/mainClient';
 
 const POST_URI = '/post';
 const COMMENT_URI = '/comment';
+const POPULAR_URI = '/popular';
 
 const postApi = {
   post: {
-    async fetch() {
+    async fetch(page, limit) {
       const client = await mainClient;
-      let response = await client.get(POST_URI + '?populate=community');
+      let response = await client.get(
+        POST_URI + POPULAR_URI + '?page=' + page + '&limit=' + limit,
+      );
       return response;
     },
     async vote(postId, voteType) {

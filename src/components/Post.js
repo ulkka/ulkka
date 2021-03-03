@@ -18,7 +18,6 @@ export default function Post(props) {
     selectCommunityById(state, post.community),
   );
   const user = useSelector((state) => selectUserById(state, post.author));
-
   const PostHeader = (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
       <View style={{flexDirection: 'row'}}>
@@ -142,7 +141,7 @@ export default function Post(props) {
         {PostHeader}
         {PostTitle}
       </View>
-      {<PostContent item={props.item} navigation={props.navigation} />}
+      <PostContent item={props.item} caller={props.caller} />
       {PostFooter}
     </View>
   );

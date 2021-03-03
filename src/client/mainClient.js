@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {axiosConfig} from '../config/axiosConfig';
+import {axiosConfig} from './axiosConfig';
 
 const mainClient = axios.create({
   baseURL: axiosConfig.baseUrl,
@@ -7,6 +7,7 @@ const mainClient = axios.create({
     Accept: 'application/json',
     //  Authorization: 'Bearer ' + idToken,
   },
+  //  timeout: 2000,
 });
 
 export default mainClient;

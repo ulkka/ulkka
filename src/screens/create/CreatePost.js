@@ -182,7 +182,7 @@ export default function CreatePost({navigation, route}) {
         client
           .post('media/post/upload', data)
           .then((response) => {
-            console.log('Uploaded to cloudinary - ', response.data.secure_url);
+            console.log('Uploaded to cloudinary - ', response.data);
             console.log('Posting to server');
             client
               .post('post', {
@@ -190,6 +190,7 @@ export default function CreatePost({navigation, route}) {
                 title: title,
                 link: response.data.secure_url,
                 type: type,
+                mediaMetadata: response.data,
               })
               .then((response) => {
                 console.log('Successfully Posted to server - ', response);
@@ -460,7 +461,7 @@ export default function CreatePost({navigation, route}) {
         setCommunity={setCommunity}
       />
       {SelectCommunityField}
-      <KeyboardAvoidingView style={{flex: 6}}>
+      <View style={{flex: 6}}>
         {PostTitleField}
         {type == 'text' ? (
           DescriptionField
@@ -473,7 +474,7 @@ export default function CreatePost({navigation, route}) {
         ) : (
           <View></View>
         )}
-      </KeyboardAvoidingView>
+      </View>
     </View>
   );
 
