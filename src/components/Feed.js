@@ -23,6 +23,7 @@ function Feed(props) {
   const complete = useSelector(isComplete);
 
   useEffect(() => {
+    console.log('authstatus changed', authStatus);
     if (authStatus != 'UNAUTHENTICATED') {
       dispatch(fetchPosts(props.screen));
     }

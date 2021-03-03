@@ -59,7 +59,7 @@ export const slice = createSlice({
     entities: {},
     metadata: {
       page: 0,
-      complete: -1,
+      total: -1,
       limit: 2,
     },
     complete: false,
@@ -87,8 +87,18 @@ export const slice = createSlice({
     [fetchPosts.rejected]: (state, action) => {
       state.loading = false;
     },
-    [signout.fulfilled]: (state, action) =>
-      postAdapter.setAll(state, {userVote: 0}),
+    [signout.fulfilled]: (state, action) => {
+      // set initial state on signout
+      state.ids = [];
+      state.entities = {};
+      state.metadata = {
+        page: 0,
+        total: -1,
+        limit: 2,
+      };
+      state.complete = false;
+      state.loading = false;
+    },
     // [socialAuth.fulfilled]: () => postAdapter.getInitialState(),
     // [registerUser.fulfilled]: () => postAdapter.getInitialState(),
     [votePost.fulfilled]: (state, action) => {
