@@ -64,7 +64,7 @@ export default function PostContent(props) {
   };
 
   const onTextLayout = useCallback((e) => {
-    setLengthMore(e.nativeEvent.lines.length >= 10); //to check the text is more than 4 lines or not
+    setLengthMore(e.nativeEvent.lines.length >= 4); //to check the text is more than 4 lines or not
     // console.log(e.nativeEvent);
   }, []);
 
@@ -72,7 +72,7 @@ export default function PostContent(props) {
     <View>
       <Text
         onTextLayout={onTextLayout}
-        numberOfLines={textShown ? undefined : 11}
+        numberOfLines={textShown ? undefined : 5}
         style={{
           color: '#444',
           fontSize: 14,
