@@ -94,7 +94,7 @@ export default function CreatePostButtonOverlay(props) {
         backgroundColor: 'transparent',
         borderRadius: 30,
         shadowColor: '#000',
-        textShadowOffset: {height: 2},
+        shadowOffset: {height: 5},
         shadowOpacity: 0.5,
         shadowRadius: 2,
         elevation: Platform.OS == 'ios' ? 2 : 0,

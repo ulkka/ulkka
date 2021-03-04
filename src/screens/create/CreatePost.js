@@ -39,7 +39,7 @@ export default function CreatePost({navigation, route}) {
   }, []);
 
   useEffect(() => {
-    getOgPreview(link);
+    route.params.type == 'link' && link != '' ? getOgPreview(link) : null;
   }, [link]);
 
   const getOgPreview = async (link) => {
@@ -239,9 +239,9 @@ export default function CreatePost({navigation, route}) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <Text style={{fontSize: 16, fontWeight: 'bold', color: '#444'}}>
-        Create Post
-      </Text>
+      {/*  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#444' }}>
+          Create Post
+      </Text>*/}
     </View>
   );
 

@@ -1,29 +1,36 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {selectPostById, votePost} from '../redux/reducers/PostSlice';
-import {selectCommentById, voteComment} from '../redux/reducers/CommentSlice';
+import {
+  votePost,
+  getPostVoteCount,
+  getPostUserVote,
+} from '../redux/reducers/PostSlice';
+import {
+  getCommentUserVote,
+  getCommentVoteCount,
+  voteComment,
+} from '../redux/reducers/CommentSlice';
 
 export default function Vote(props) {
   const dispatch = useDispatch();
+  const id = props.id;
   const entityType = props.type;
-  const entity =
-    entityType == 'post'
-      ? useSelector((state) => selectPostById(state, props.item))
-      : useSelector((state) => selectCommentById(state, props.item));
-  const [selfVote, setSelfVote] = useState(entity.userVote);
-  const [voteCount, setVoteCount] = useState(entity.voteCount);
 
-  useEffect(() => {
-    setSelfVote(entity.userVote);
-    setVoteCount(entity.voteCount);
-  }, [entity.userVote]);
+  const selfVote =
+    entityType == 'post'
+      ? useSelector((state) => getPostUserVote(state, id))
+      : useSelector((state) => getCommentUserVote(state, id));
+
+  const voteCount =
+    entityType == 'post'
+      ? useSelector((state) => getPostVoteCount(state, id))
+      : useSelector((state) => getCommentVoteCount(state, id));
 
   const vote = (type) => {
     let voteType = selfVote == type ? 0 : type;
-    const payload = {id: entity._id, voteType: voteType};
-    //setSelfVote(voteType);
+    const payload = {id: id, voteType: voteType};
     if (entityType == 'post') {
       dispatch(votePost(payload));
     }
@@ -31,6 +38,40 @@ export default function Vote(props) {
       dispatch(voteComment(payload));
     }
   };
+
+  const UpvoteButton = (
+    <TouchableOpacity onPress={() => vote(1)}>
+      <Icon
+        name={selfVote == 1 ? 'arrow-up-bold' : 'arrow-up-bold-outline'}
+        type="material-community"
+        size={20}
+        color={selfVote == 1 ? '#ff4301' : '#888'}
+      />
+    </TouchableOpacity>
+  );
+
+  const TotalVoteCount = (
+    <Text
+      style={{
+        fontWeight: 'bold',
+        color: selfVote == 1 ? '#ff4301' : selfVote == -1 ? '#3b5998' : '#888',
+        paddingHorizontal: 10,
+      }}>
+      {voteCount}
+    </Text>
+  );
+
+  const DownVoteButton = (
+    <TouchableOpacity onPress={() => vote(-1)}>
+      <Icon
+        name={selfVote == -1 ? 'arrow-down-bold' : 'arrow-down-bold-outline'}
+        type="material-community"
+        size={20}
+        color={selfVote == -1 ? '#3b5998' : '#888'}
+      />
+    </TouchableOpacity>
+  );
+
   return (
     <View
       style={{
@@ -40,31 +81,9 @@ export default function Vote(props) {
         width: 120,
         ...props.style,
       }}>
-      <TouchableOpacity onPress={() => vote(1)}>
-        <Icon
-          name={selfVote == 1 ? 'arrow-up-bold' : 'arrow-up-bold-outline'}
-          type="material-community"
-          size={20}
-          color={selfVote == 1 ? '#ff4301' : '#888'}
-        />
-      </TouchableOpacity>
-      <Text
-        style={{
-          fontWeight: 'bold',
-          color:
-            selfVote == 1 ? '#ff4301' : selfVote == -1 ? '#3b5998' : '#888',
-          paddingHorizontal: 10,
-        }}>
-        {voteCount}
-      </Text>
-      <TouchableOpacity onPress={() => vote(-1)}>
-        <Icon
-          name={selfVote == -1 ? 'arrow-down-bold' : 'arrow-down-bold-outline'}
-          type="material-community"
-          size={20}
-          color={selfVote == -1 ? '#3b5998' : '#888'}
-        />
-      </TouchableOpacity>
+      {UpvoteButton}
+      {TotalVoteCount}
+      {DownVoteButton}
     </View>
   );
 }

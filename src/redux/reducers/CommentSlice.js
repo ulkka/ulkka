@@ -5,6 +5,7 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
+  createSelector,
 } from '@reduxjs/toolkit';
 import {createReply} from './ReplySlice';
 
@@ -19,7 +20,6 @@ export const fetchComments = createAsyncThunk(
     const normalized = normalize(response.data, [comment]);
     return {
       normalizedComments: normalized.entities,
-      topLevelCommentIds: normalized.result,
     };
   },
 );
@@ -46,14 +46,12 @@ export const slice = createSlice({
     loading: true,
     ids: [],
     entities: {},
-    topLevelCommentIds: [],
   },
   reducers: {},
   extraReducers: {
     [fetchComments.pending]: (state, action) => {
       state.loading = true;
       commentAdapter.removeAll(state);
-      state.topLevelCommentIds = [];
     },
     [fetchComments.fulfilled]: (state, action) => {
       if (action.payload.normalizedComments.comments !== undefined) {
@@ -62,34 +60,50 @@ export const slice = createSlice({
           action.payload.normalizedComments.comments,
         );
       }
-      state.topLevelCommentIds = action.payload.topLevelCommentIds;
       state.loading = false;
     },
     [createReply.fulfilled]: (state, action) => {
-      console.log('normalized comments', action.payload);
       const newCommentId = action.payload.result;
+      const parentCommentId = action.payload.data.parentCommentId;
       const newComment =
         action.payload.normalizedComment.comments[newCommentId];
       newComment.userVote = 0;
+
       commentAdapter.addOne(state, newComment);
-      if (newComment.parent === undefined) {
-        state.topLevelCommentIds.push(newComment._id);
-      } else {
-        if (state.entities[newComment.parent].replies === undefined) {
-          state.entities[newComment.parent].replies = [];
-        }
-        state.entities[newComment.parent].replies.push(newComment._id);
+
+      if (parentCommentId !== undefined) {
+        const parentComment = commentAdapter
+          .getSelectors()
+          .selectById(state, parentCommentId);
+
+        const newReplyList =
+          parentComment.replies === undefined
+            ? [newCommentId]
+            : [...parentComment.replies, ...[newCommentId]];
+
+        commentAdapter.updateOne(state, {
+          id: parentCommentId,
+          changes: {
+            replies: newReplyList,
+          },
+        });
       }
     },
 
     [voteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const comment = state.entities[id];
-      const currentVote = comment.userVote;
-      const newVote = action.payload.data.userVote;
-      const diff = currentVote - newVote;
-      state.entities[id].userVote = newVote;
-      state.entities[id].voteCount = state.entities[id].voteCount - diff;
+      const currentUserVote = comment.userVote;
+      const newUserVote = action.payload.data.userVote;
+      const diff = currentUserVote - newUserVote;
+      const newVoteCount = state.entities[id].voteCount - diff;
+      commentAdapter.updateOne(state, {
+        id: id,
+        changes: {
+          userVote: newUserVote,
+          voteCount: newVoteCount,
+        },
+      });
     },
   },
 });
@@ -103,5 +117,25 @@ export const {
   selectAll: selectAllComments,
   selectTotal: selectTotalComments,
 } = commentAdapter.getSelectors((state) => state.comments);
+
+export const getCommentUserVote = createSelector(
+  selectCommentById,
+  (item) => item.userVote,
+);
+
+export const getCommentVoteCount = createSelector(
+  selectCommentById,
+  (item) => item.voteCount,
+);
+
+export const getCommentReplies = createSelector(
+  selectCommentById,
+  (item) => item.replies,
+);
+
+export const getCommentParent = createSelector(
+  selectCommentById,
+  (item) => item.parent,
+);
 
 export const isLoading = (state) => state.comments.loading;

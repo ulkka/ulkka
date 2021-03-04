@@ -8,9 +8,15 @@ import HomeNavigation from './HomeNavigation';
 import {AuthNavigation} from './AuthNavigation';
 import Splash from '../screens/Splash';
 import CreateCommunity from '../screens/create/CreateCommunity';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {loadAuth} from '../redux/actions/AuthActions';
-import {useReduxDevToolsExtension} from '@react-navigation/devtools';
+//import {useReduxDevToolsExtension} from '@react-navigation/devtools';
+/*import {
+  getAuthStatus,
+  //getRegistrationStatus
+} from '../redux/reducers/AuthSlice';
+import {reset} from './Ref';
+import {showOverlay, hideOverlay} from '../redux/reducers/LoadingOverlaySlice';*/
 
 const StackNav = createStackNavigator();
 
@@ -18,7 +24,10 @@ enableScreens();
 
 export default function Main() {
   const dispatch = useDispatch();
-  useReduxDevToolsExtension(navigationRef);
+  // useReduxDevToolsExtension(navigationRef);
+
+  //const authStatus = useSelector(getAuthStatus);
+  //const registrationStatus = useSelector(getRegistrationStatus);
 
   useEffect(() => {
     dispatch(loadAuth());

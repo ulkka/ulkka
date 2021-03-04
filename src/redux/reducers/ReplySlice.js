@@ -38,7 +38,6 @@ export const createReply = createAsyncThunk(
       data.postId,
       data.parentCommentId,
     );
-    console.log('createreply response', response);
     const normalized = normalize(response.data, comment);
     return {
       data: data,

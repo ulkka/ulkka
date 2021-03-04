@@ -1,15 +1,12 @@
-import React, {memo, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import Collapsible from 'react-native-collapsible';
+//import Collapsible from 'react-native-collapsible';
 import {Icon, Divider} from 'react-native-elements';
-import TimeAgo from './TimeAgo';
-import Vote from './Vote';
-import PostExtraOptions from './PostExtraOptions';
-import {useDispatch, useSelector} from 'react-redux';
-import {prepareReply} from '../redux/reducers/ReplySlice';
-import {selectUserById} from '../redux/reducers/UserSlice';
+import TimeAgo from '../TimeAgo';
+import Vote from '../Vote';
+import PostExtraOptions from '../redux/connectors/PostExtraOptions';
 
-function unMemoizedCommentGroup(props) {
+const CommentGroup = (props) => {
   return (
     <View
       style={{
@@ -21,23 +18,13 @@ function unMemoizedCommentGroup(props) {
       {props.children}
     </View>
   );
-}
+};
 
-function unMemoizedComment(props) {
+const Comment = (props) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const comment = props.comment;
-  const dispatch = useDispatch();
-  const user = useSelector((state) =>
-    selectUserById(state, comment.author._id),
-  );
 
   const CommentMetadata = (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingBottom: isCollapsed ? 10 : 0,
-      }}>
+    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
       <TouchableOpacity
         onPress={() => props.navigation.navigate('Account')}
         style={{
@@ -51,7 +38,7 @@ function unMemoizedComment(props) {
             fontWeight: '300',
             color: 'darkgreen',
           }}>
-          {user.displayname}
+          {props.comment.author.name}
         </Text>
         <Divider
           style={{
@@ -59,7 +46,7 @@ function unMemoizedComment(props) {
             width: 15,
           }}
         />
-        <TimeAgo time={comment.created_at} />
+        <TimeAgo time={props.comment.created_at} />
       </TouchableOpacity>
       <TouchableOpacity
         style={{flex: 1, alignItems: 'flex-end'}}
@@ -80,7 +67,7 @@ function unMemoizedComment(props) {
   const CommentBody = (
     <View style={{paddingTop: 5}}>
       <Text style={{color: '#333', fontSize: 13, fontWeight: '400'}}>
-        {comment.text}
+        {props.comment.text}
       </Text>
     </View>
   );
@@ -94,12 +81,17 @@ function unMemoizedComment(props) {
         marginTop: 5,
       }}>
       <View style={{paddingHorizontal: 40}}>
-        <PostExtraOptions item={comment} optionType="comment" />
+        <PostExtraOptions item={props.comment} optionType="comment" />
       </View>
       <TouchableOpacity
         style={{flexDirection: 'row', alignItems: 'center'}}
         onPress={() => {
-          dispatch(prepareReply({commentId: comment._id}));
+          props.prepareReply(
+            props.post._id,
+            props.post.title,
+            props.comment._id,
+            props.comment.author.name,
+          );
         }}>
         <Icon name="reply" type="font-awesome" size={14} color="#777" />
         <Text style={{paddingHorizontal: 10, color: '#444', fontSize: 12}}>
@@ -107,8 +99,7 @@ function unMemoizedComment(props) {
         </Text>
       </TouchableOpacity>
       <Vote
-        item={comment._id}
-        type="comment"
+        item={props.comment}
         style={{paddingHorizontal: 15}}
         type="comment"
       />
@@ -118,14 +109,13 @@ function unMemoizedComment(props) {
   return (
     <View style={{paddingLeft: 10}}>
       {CommentMetadata}
-      <Collapsible collapsed={isCollapsed}>
+      <View collapsed={isCollapsed}>
         {CommentBody}
         {CommentActions}
         {props.children}
-      </Collapsible>
+      </View>
     </View>
   );
-}
+};
 
-export const Comment = memo(unMemoizedComment);
-export const CommentGroup = memo(unMemoizedCommentGroup);
+export {Comment, CommentGroup};

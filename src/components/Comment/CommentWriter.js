@@ -17,10 +17,10 @@ import {
   deactivate,
   isLoading,
   getResetCommentToggle,
-} from '../redux/reducers/ReplySlice';
-import {selectPostById} from '../redux/reducers/PostSlice';
-import {selectCommentById} from '../redux/reducers/CommentSlice';
-import {selectUserById} from '../redux/reducers/UserSlice';
+} from '../../redux/reducers/ReplySlice';
+import {selectPostById} from '../../redux/reducers/PostSlice';
+import {selectCommentById} from '../../redux/reducers/CommentSlice';
+import {selectUserById} from '../../redux/reducers/UserSlice';
 
 export default function CommentWriter(props) {
   const dispatch = useDispatch();

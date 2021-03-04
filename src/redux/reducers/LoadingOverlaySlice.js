@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {
   socialAuth,
   emailLinkAuth,
@@ -20,9 +20,16 @@ export const slice = createSlice({
   initialState: {
     visible: false,
   },
-  reducers: {},
+  reducers: {
+    showOverlay(state) {
+      state.visible = true;
+    },
+    hideOverlay(state) {
+      state.visible = false;
+    },
+  },
   extraReducers: {
-    /* [loadAuth.pending]: (state, action) => {
+    /*[loadAuth.pending]: (state, action) => {
       showLoadingOverlay(state);
     },
     [loadAuth.fulfilled]: (state, action) => {
@@ -80,4 +87,5 @@ export const slice = createSlice({
 });
 
 export const loadingOverlay = slice.reducer;
+//export const {showOverlay, hideOverlay} = slice.actions;
 export const isVisible = (state) => state.loadingOverlay.visible;

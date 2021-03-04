@@ -11,7 +11,7 @@ import {
   registerUser,
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
-import {goBack, showAuthScreen} from '../../navigation/Ref';
+import {goBack, reset, showAuthScreen} from '../../navigation/Ref';
 
 export const slice = createSlice({
   name: 'authorization',
@@ -26,10 +26,10 @@ export const slice = createSlice({
   extraReducers: {
     [loadAuth.fulfilled]: fulfillAuth,
     [socialAuth.fulfilled]: (state, action) => {
-      fulfillAuth(state, action);
       const type = action.meta.arg;
       if (action.payload.isRegistered) {
         goBack();
+        // reset();
         Snackbar.show({
           text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
           duration: Snackbar.LENGTH_SHORT,
@@ -41,6 +41,7 @@ export const slice = createSlice({
           duration: Snackbar.LENGTH_SHORT,
         });
       }
+      fulfillAuth(state, action);
     },
     [emailLinkAuth.fulfilled]: (state, action) => {
       fulfillAuth(state, action);
@@ -67,12 +68,13 @@ export const slice = createSlice({
       });
     },
     [signout.fulfilled]: (state, action) => {
-      fulfillAuth(state, action);
       goBack();
+      //reset();
       Snackbar.show({
         text: 'Signed out',
         duration: Snackbar.LENGTH_SHORT,
       });
+      fulfillAuth(state, action);
     },
     [votePost.rejected]: showAuthScreen,
     [voteComment.rejected]: showAuthScreen,

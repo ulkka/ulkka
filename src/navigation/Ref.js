@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {CommonActions} from '@react-navigation/native';
 
 export const navigationRef = React.createRef();
 
@@ -14,4 +15,17 @@ export function goBack() {
 
 export const showAuthScreen = () => {
   navigationRef.current?.navigate('Authentication');
+};
+
+const resetAction = CommonActions.reset({
+  index: 0,
+  routes: [{name: 'Main'}],
+});
+
+export const reset = () => {
+  // navigationRef.current?.dispatch(resetAction);
+  navigationRef.current?.resetRoot({
+    index: 0,
+    routes: [{name: 'Main'}],
+  });
 };

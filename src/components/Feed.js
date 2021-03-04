@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react';
-import {View, FlatList, SafeAreaView} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {ThemeContext} from 'react-native-elements';
-import Post from './Post';
+import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -9,6 +9,7 @@ import {
   fetchPosts,
   isComplete,
   isLoading,
+  resetFeed,
 } from '../redux/reducers/PostSlice';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 
@@ -23,16 +24,14 @@ function Feed(props) {
   const complete = useSelector(isComplete);
 
   useEffect(() => {
-    console.log('authstatus changed', authStatus);
     if (authStatus != 'UNAUTHENTICATED') {
+      dispatch(resetFeed());
       dispatch(fetchPosts(props.screen));
     }
   }, [authStatus]);
 
   const renderRow = ({item}) => {
-    return (
-      <Post item={item} navigation={props.navigation} caller={props.screen} />
-    );
+    return <Post postId={item} caller={props.screen} />;
   };
   const separator = () => {
     return <View style={{padding: 5}}></View>;
@@ -63,10 +62,10 @@ function Feed(props) {
         renderItem={renderRow}
         ItemSeparatorComponent={separator}
         onEndReached={() => handleLoadMore()}
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={0.5}
         //  initialNumToRender={5}
         //  maxToRenderPerBatch={5}
-        keyExtractor={(item, index) => item}
+        keyExtractor={(postId, index) => postId}
         ListFooterComponent={<FeedFooter complete={complete} />}
       />
     </View>

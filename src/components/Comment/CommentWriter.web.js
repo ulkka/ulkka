@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon, Input} from 'react-native-elements';
-import mainClient from '../client/mainClient';
+import mainClient from '../../client/mainClient';
 
 export default function CommentWriter(props) {
   const inputRef = useRef(null);

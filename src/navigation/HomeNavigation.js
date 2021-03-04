@@ -1,13 +1,13 @@
 import React from 'react';
 import {View, FlatList} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
-import CreatePostButtonOverlay from '../components/CreatePostButtonOverlay';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
 import AccountNavigation from '../screens/account/AccountNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import HeaderBar from '../components/Header';
 import Home from '../screens/home/tabs/Home';
-import Popular from '../screens/home/tabs/Popular';
+//import Popular from '../screens/home/tabs/Popular';
 import CreatePost from '../screens/create/CreatePost';
 import PostDetail from '../screens/PostDetail';
 
@@ -29,7 +29,9 @@ function HomeTabNavigation({navigation}) {
           },
         }}>
         <Tab.Screen name="Home" component={Home} />
-        {<Tab.Screen name="Popular" component={Popular} />}
+        {
+          //  <Tab.Screen name="Popular" component={Popular} />
+        }
       </Tab.Navigator>
     </View>
   );
@@ -46,12 +48,15 @@ function FeedList({navigation}) {
 
 function HomeNavigation({navigation}) {
   return (
-    <StackNav.Navigator
-      initialRouteName="Feed"
-      screenOptions={{
-        header: () => <HeaderBar navigation={navigation} />,
-      }}>
-      <StackNav.Screen name="Feed" component={FeedList} title="Home" />
+    <StackNav.Navigator initialRouteName="Feed">
+      <StackNav.Screen
+        name="Feed"
+        component={FeedList}
+        title="Home"
+        options={{
+          header: () => <HeaderBar navigation={navigation} />,
+        }}
+      />
       <StackNav.Screen
         name="Community"
         component={CommunityNavigation}
@@ -66,11 +71,25 @@ function HomeNavigation({navigation}) {
         name="CreatePost"
         component={CreatePost}
         title="Create Post"
+        options={{
+          headerTitle: 'Create Post',
+          headerBackTitle: '',
+          headerBackTitleStyle: {
+            fontSize: 16,
+          },
+        }}
       />
       <StackNav.Screen
         name="PostDetail"
         component={PostDetail}
         title="Post Detail"
+        options={{
+          headerTitle: '',
+          headerBackTitle: '',
+          headerBackTitleStyle: {
+            fontSize: 16,
+          },
+        }}
       />
     </StackNav.Navigator>
   );

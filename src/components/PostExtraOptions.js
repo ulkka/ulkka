@@ -11,7 +11,7 @@ export default function PostExtraOptions(props) {
       style={{padding: 5}}
       onPress={() =>
         dispatch(
-          showOptionSheet({optionType: props.optionType, id: props.item._id}),
+          showOptionSheet({optionType: props.optionType, id: props.postId}),
         )
       }>
       <Icon name="more-horiz" size={18} color="#888" />
