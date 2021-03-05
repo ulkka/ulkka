@@ -7,18 +7,14 @@ import {navigate} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {selectCommunityById} from '../../redux/reducers/CommunitySlice';
 import {selectUserById} from '../../redux/reducers/UserSlice';
-import {
-  getPostAuthorId,
-  getPostCommunityId,
-  getPostCreatedAt,
-} from '../../redux/reducers/PostSlice';
+import {getPostField} from '../../redux/reducers/PostSlice';
 
 const PostHeader = (props) => {
   const postId = props.postId;
 
-  const communityId = useSelector((state) => getPostCommunityId(state, postId));
-  const authorid = useSelector((state) => getPostAuthorId(state, postId));
-  const postCreatedAt = useSelector((state) => getPostCreatedAt(state, postId));
+  const communityId = useSelector(getPostField(postId, 'community'));
+  const authorid = useSelector(getPostField(postId, 'author'));
+  const postCreatedAt = useSelector(getPostField(postId, 'created_at'));
 
   const community = useSelector((state) =>
     selectCommunityById(state, communityId),

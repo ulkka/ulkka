@@ -1,13 +1,11 @@
 import React from 'react';
 import {View, Image, Dimensions} from 'react-native';
-import {getPostMediaMetadata} from '../../redux/reducers/PostSlice';
+import {getPostField} from '../../redux/reducers/PostSlice';
 import {useSelector} from 'react-redux';
 
 const ImagePostContent = (props) => {
   const postId = props.postId;
-  const mediaMetadata = useSelector((state) =>
-    getPostMediaMetadata(state, postId),
-  );
+  const mediaMetadata = useSelector(getPostField(postId, 'mediaMetadata'));
 
   const height = Math.ceil(
     (mediaMetadata.height * Dimensions.get('window').width) /

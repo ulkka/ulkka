@@ -2,7 +2,7 @@ import React from 'react';
 import Video from 'react-native-video';
 
 const VideoPostContent = (props) => {
-  const post = props.post;
+  const postId = props.postId;
   return (
     <Video
       style={{

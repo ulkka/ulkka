@@ -1,4 +1,4 @@
-import {fetchPosts} from './PostSlice';
+import {fetchFeed} from './FeedSlice';
 import {fetchComments} from './CommentSlice';
 import {createReply} from './ReplySlice';
 
@@ -11,7 +11,7 @@ export const slice = createSlice({
   initialState: userAdapter.getInitialState(),
   reducers: {},
   extraReducers: {
-    [fetchPosts.fulfilled]: (state, action) => {
+    [fetchFeed.fulfilled]: (state, action) => {
       if (action.payload.normalizedPosts !== undefined) {
         userAdapter.upsertMany(state, action.payload.normalizedPosts.users);
       }

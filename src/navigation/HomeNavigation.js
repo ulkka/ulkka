@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, FlatList} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
 import AccountNavigation from '../screens/account/AccountNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
@@ -30,7 +30,7 @@ function HomeTabNavigation({navigation}) {
         }}>
         <Tab.Screen name="Home" component={Home} />
         {
-          //  <Tab.Screen name="Popular" component={Popular} />
+          //<Tab.Screen name="Popular" component={Popular} />
         }
       </Tab.Navigator>
     </View>

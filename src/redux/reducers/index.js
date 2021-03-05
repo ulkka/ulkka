@@ -9,7 +9,7 @@ import {replies} from './ReplySlice';
 import {authorization} from './AuthSlice';
 import {loadingOverlay} from './LoadingOverlaySlice';
 import {optionSheet} from './OptionSheetSlice';
-
+import {feed} from './FeedSlice';
 import {communities} from './CommunitySlice';
 
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
@@ -17,14 +17,15 @@ import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 const loggerMiddleware = createLogger();
 
 const AppReducers = combineReducers({
-  optionSheet,
-  loadingOverlay,
+  authorization,
+  feed,
   posts,
   users,
   communities,
   comments,
   replies,
-  authorization,
+  optionSheet,
+  loadingOverlay,
 });
 
 const rootReducer = (state, action) => {

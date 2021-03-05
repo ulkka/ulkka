@@ -1,4 +1,4 @@
-import {fetchPosts} from './PostSlice';
+import {fetchFeed} from './FeedSlice';
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 const communityAdapter = createEntityAdapter({
@@ -10,7 +10,7 @@ export const slice = createSlice({
   initialState: communityAdapter.getInitialState(),
   reducers: {},
   extraReducers: {
-    [fetchPosts.fulfilled]: (state, action) => {
+    [fetchFeed.fulfilled]: (state, action) => {
       if (action.payload.normalizedPosts !== undefined) {
         communityAdapter.upsertMany(
           state,

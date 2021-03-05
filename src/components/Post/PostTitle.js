@@ -1,10 +1,11 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import {getPostTitle} from '../../redux/reducers/PostSlice';
+import {getPostField} from '../../redux/reducers/PostSlice';
 import {useSelector} from 'react-redux';
 
 const PostTitle = (props) => {
-  const postTitle = useSelector((state) => getPostTitle(state, props.postId));
+  const postId = props.postId;
+  const postTitle = useSelector(getPostField(postId, 'title'));
 
   return (
     <View>

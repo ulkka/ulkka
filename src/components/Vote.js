@@ -2,11 +2,7 @@ import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {
-  votePost,
-  getPostVoteCount,
-  getPostUserVote,
-} from '../redux/reducers/PostSlice';
+import {votePost, getPostField} from '../redux/reducers/PostSlice';
 import {
   getCommentUserVote,
   getCommentVoteCount,
@@ -20,13 +16,15 @@ export default function Vote(props) {
 
   const selfVote =
     entityType == 'post'
-      ? useSelector((state) => getPostUserVote(state, id))
+      ? useSelector(getPostField(id, 'userVote'))
       : useSelector((state) => getCommentUserVote(state, id));
 
   const voteCount =
     entityType == 'post'
-      ? useSelector((state) => getPostVoteCount(state, id))
+      ? useSelector(getPostField(id, 'voteCount'))
       : useSelector((state) => getCommentVoteCount(state, id));
+
+  //console.log(selfVote);
 
   const vote = (type) => {
     let voteType = selfVote == type ? 0 : type;

@@ -3,7 +3,7 @@ import {TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 
 const SharePost = (props) => {
-  const post = props.post;
+  const postId = props.postId;
   return (
     <TouchableOpacity style={{flex: 3, flexDirection: 'row'}}>
       <Icon name="share" type="font-awesome" size={18} color="#888" />

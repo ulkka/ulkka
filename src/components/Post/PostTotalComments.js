@@ -2,14 +2,12 @@ import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {navigate} from '../../navigation/Ref';
-import {getPostCommentCount} from '../../redux/reducers/PostSlice';
+import {getPostField} from '../../redux/reducers/PostSlice';
 import {useSelector} from 'react-redux';
 
 const PostTotalComments = (props) => {
   const postId = props.postId;
-  const commentCount = useSelector((state) =>
-    getPostCommentCount(state, postId),
-  );
+  const commentCount = useSelector(getPostField(postId, 'commentCount'));
   return (
     <TouchableOpacity
       onPress={() => {

@@ -1,42 +1,15 @@
-import {post} from '../schema/FeedSchema';
 import postApi from '../../services/PostApi';
-import {normalize} from 'normalizr';
 import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
   createSelector,
 } from '@reduxjs/toolkit';
-import {createReply} from '../reducers/ReplySlice';
+import {fetchFeed} from './FeedSlice';
+import {createReply} from './ReplySlice';
 import {signout, socialAuth} from '../actions/AuthActions';
 
 const postAdapter = createEntityAdapter({selectId: (post) => post._id});
-
-export const fetchPosts = createAsyncThunk(
-  'posts/fetchPosts',
-  async (type, {getState}) => {
-    const {page, limit} = getState().posts.metadata;
-    const nextPage = page + 1;
-    let response = await postApi.post.fetch(nextPage, limit);
-    const normalized = normalize(response.data.data, [post]);
-    return {
-      normalizedPosts: normalized.entities,
-      metadata: response.data.metadata[0],
-      type: type,
-    };
-  },
-  {
-    condition: (type, {getState}) => {
-      const authStatus = getState().authorization.status;
-      const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
-
-      const feedAccess =
-        !getState().posts.complete && !getState().posts.loading;
-      return authAccess && feedAccess;
-    },
-    dispatchConditionRejection: false,
-  },
-);
 
 export const votePost = createAsyncThunk(
   'posts/vote',
@@ -54,15 +27,8 @@ export const votePost = createAsyncThunk(
   },
 );
 
-function resetState(state) {
+function resetState(state, type) {
   postAdapter.removeAll(state);
-  state.metadata = {
-    page: 0,
-    total: -1,
-    limit: 10,
-  };
-  state.complete = false;
-  state.loading = false;
 }
 
 export const slice = createSlice({
@@ -70,70 +36,38 @@ export const slice = createSlice({
   initialState: {
     ids: [],
     entities: {},
-    metadata: {
-      page: 0,
-      total: -1,
-      limit: 10,
-    },
-    complete: false,
-    loading: false,
   },
-  reducers: {
-    resetFeed(state) {
-      resetState(state);
-    },
-  },
+  reducers: {},
   extraReducers: {
     [createReply.fulfilled]: (state, action) => {
-      state.entities[action.payload.data.postId].commentCount += 1;
-    },
-    [fetchPosts.pending]: (state, action) => {
-      state.loading = true;
-      console.log('state, action fetchposts pending', state, action);
-      state[action.meta.arg] = {
-        ids: [],
-        entities: {},
-        metadata: {
-          page: 0,
-          total: -1,
-          limit: 10,
+      const postId = action.payload.data.postId;
+      const post = postAdapter.getSelectors().selectById(state, postId);
+      postAdapter.updateOne(state, {
+        id: postId,
+        changes: {
+          commentCount: post.commentCount + 1,
         },
-        complete: false,
-        loading: false,
-      };
+      });
     },
-    [fetchPosts.fulfilled]: (state, action) => {
-      state.loading = false;
+    [fetchFeed.fulfilled]: (state, action) => {
       if (action.payload.normalizedPosts !== undefined) {
-        postAdapter.upsertMany(state, action.payload.normalizedPosts.posts);
-
-        postAdapter.upsertMany(
-          state[action.payload.type],
-          action.payload.normalizedPosts.posts,
-        );
-        state.metadata = action.payload.metadata;
-        const {page, total, limit} = action.payload.metadata;
-        if (page * limit >= total) {
-          state.complete = true;
-        }
+        const posts = action.payload.normalizedPosts.posts;
+        postAdapter.upsertMany(state, posts);
       }
     },
-    [fetchPosts.rejected]: (state, action) => {
-      state.loading = false;
-    },
     [signout.fulfilled]: (state) => {
-      resetState(state);
+      //resetAllFeeds(state);
     },
     // [registerUser.fulfilled]: () => postAdapter.getInitialState(),
     [votePost.fulfilled]: (state, action) => {
-      const id = action.payload.data._id;
-      const post = state.entities[id];
+      const postId = action.payload.data._id;
+      const post = postAdapter.getSelectors().selectById(state, postId);
       const currentUserVote = post.userVote;
       const newUserVote = action.payload.data.userVote;
       const diff = currentUserVote - newUserVote;
-      const newVoteCount = state.entities[id].voteCount - diff;
+      const newVoteCount = post.voteCount - diff;
       postAdapter.updateOne(state, {
-        id: id,
+        id: postId,
         changes: {
           userVote: newUserVote,
           voteCount: newVoteCount,
@@ -152,53 +86,10 @@ export const {
   selectTotal: selectTotalPosts,
 } = postAdapter.getSelectors((state) => state.posts);
 
-export const getPostTitle = createSelector(
-  selectPostById,
-  (item) => item.title,
-);
-
-export const getPostVoteCount = createSelector(
-  selectPostById,
-  (item) => item.voteCount,
-);
-
-export const getPostUserVote = createSelector(
-  selectPostById,
-  (item) => item.userVote,
-);
-
-export const getPostCreatedAt = createSelector(
-  selectPostById,
-  (item) => item.created_at,
-);
-
-export const getPostCommunityId = createSelector(
-  selectPostById,
-  (item) => item.community,
-);
-
-export const getPostAuthorId = createSelector(
-  selectPostById,
-  (item) => item.author,
-);
-
-export const getPostType = createSelector(selectPostById, (item) => item.type);
-
-export const getPostDescription = createSelector(
-  selectPostById,
-  (item) => item.description,
-);
-
-export const getPostMediaMetadata = createSelector(
-  selectPostById,
-  (item) => item.mediaMetadata,
-);
-
-export const getPostCommentCount = createSelector(
-  selectPostById,
-  (item) => item.commentCount,
-);
-
-export const isComplete = (state) => state.posts.complete;
-export const isLoading = (state) => state.posts.loading;
-export const {resetFeed} = slice.actions;
+export const getPostField = (id, field) =>
+  createSelector(
+    (state) => selectPostById(state, id),
+    (post) => {
+      return post[field];
+    },
+  );

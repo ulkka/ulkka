@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableHighlight} from 'react-native';
 import {useSelector} from 'react-redux';
 import {navigate} from '../../navigation/Ref';
-import {getPostType} from '../../redux/reducers/PostSlice';
+import {getPostField} from '../../redux/reducers/PostSlice';
 import LinkPostContent from './LinkPostContent';
 import TextPostContent from './TextPostContent';
 import ImagePostContent from './ImagePostContent';
@@ -12,7 +12,7 @@ import GifPostContent from './GifPostContent';
 export default function PostContent(props) {
   const postId = props.postId;
   const caller = props.caller;
-  const postType = useSelector((state) => getPostType(state, postId));
+  const postType = useSelector(getPostField(postId, 'type'));
 
   const ContentType =
     postType == 'image' || postType == 'video' || postType == 'gif'

@@ -1,23 +1,21 @@
 import React, {useState, useCallback} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {getPostDescription} from '../../redux/reducers/PostSlice';
+import {getPostField} from '../../redux/reducers/PostSlice';
 import {useSelector} from 'react-redux';
 
 const TextPostContent = (props) => {
   const postId = props.postId;
-  const postDescription = useSelector((state) =>
-    getPostDescription(state, postId),
-  );
-  const [textShown, setTextShown] = useState(false); //To show ur remaining Text
-  const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
+  const postDescription = useSelector(getPostField(postId, 'description'));
+  const [hideText, setHideText] = useState(true); //To show ur remaining Text
+  const [limitLength, setLimitLength] = useState(true); //to show the "Read more & Less Line"
 
   const toggleNumberOfLines = () => {
     //To toggle the show text or hide it
-    setTextShown(!textShown);
+    setHideText(!hideText);
   };
 
   const onTextLayout = useCallback((e) => {
-    setLengthMore(e.nativeEvent.lines.length >= 4); //to check the text is more than 4 lines or not
+    setLimitLength(e.nativeEvent.lines.length >= 4); //to check the text is more than 4 lines or not
     // console.log(e.nativeEvent);
   }, []);
 
@@ -25,7 +23,7 @@ const TextPostContent = (props) => {
     <View>
       <Text
         onTextLayout={onTextLayout}
-        numberOfLines={textShown ? undefined : 5}
+        numberOfLines={hideText ? 5 : undefined}
         style={{
           color: '#444',
           fontSize: 14,
@@ -34,7 +32,7 @@ const TextPostContent = (props) => {
         }}>
         {postDescription}
       </Text>
-      {lengthMore ? (
+      {limitLength ? (
         <TouchableOpacity
           onPress={toggleNumberOfLines}
           style={{
@@ -45,7 +43,10 @@ const TextPostContent = (props) => {
               lineHeight: 21,
               color: '#035aa6',
             }}>
-            {textShown ? 'Read less...' : 'Read more...'}
+            {
+              hideText ? 'Read more...' : 'Read less...'
+              //'Read More'
+            }
           </Text>
         </TouchableOpacity>
       ) : null}

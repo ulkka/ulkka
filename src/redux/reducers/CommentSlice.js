@@ -8,6 +8,7 @@ import {
   createSelector,
 } from '@reduxjs/toolkit';
 import {createReply} from './ReplySlice';
+import Snackbar from 'react-native-snackbar';
 
 const commentAdapter = createEntityAdapter({
   selectId: (comment) => comment._id,
@@ -65,13 +66,14 @@ export const slice = createSlice({
     [createReply.fulfilled]: (state, action) => {
       const newCommentId = action.payload.result;
       const parentCommentId = action.payload.data.parentCommentId;
+      const type = parentCommentId === undefined ? 'Comment' : 'Reply';
       const newComment =
         action.payload.normalizedComment.comments[newCommentId];
       newComment.userVote = 0;
 
       commentAdapter.addOne(state, newComment);
 
-      if (parentCommentId !== undefined) {
+      if (type == 'Reply') {
         const parentComment = commentAdapter
           .getSelectors()
           .selectById(state, parentCommentId);
@@ -88,6 +90,10 @@ export const slice = createSlice({
           },
         });
       }
+      Snackbar.show({
+        text: type + ' Added',
+        duration: Snackbar.LENGTH_SHORT,
+      });
     },
 
     [voteComment.fulfilled]: (state, action) => {
