@@ -69,12 +69,15 @@ function Feed(props) {
         renderItem={renderRow}
         ItemSeparatorComponent={separator}
         onEndReached={() => handleLoadMore()}
-        onEndReachedThreshold={0.3}
+        onEndReachedThreshold={0.5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={100}
         windowSize={11}
         initialNumToRender={2}
         maxToRenderPerBatch={2}
+        viewabilityConfig={{
+          viewAreaCoveragePercentThreshold: 50,
+        }}
         keyExtractor={(postId, index) => postId}
         ListFooterComponent={<FeedFooter complete={complete} />}
       />

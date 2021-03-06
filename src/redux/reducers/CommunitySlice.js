@@ -11,7 +11,14 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchFeed.fulfilled]: (state, action) => {
-      if (action.payload.normalizedPosts !== undefined) {
+      const normalizedPosts = action.payload.normalizedPosts;
+
+      const isFeedEmpty =
+        normalizedPosts &&
+        Object.keys(normalizedPosts).length === 0 &&
+        normalizedPosts.constructor === Object;
+
+      if (!isFeedEmpty) {
         communityAdapter.upsertMany(
           state,
           action.payload.normalizedPosts.communities,

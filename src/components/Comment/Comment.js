@@ -1,23 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {View} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import CommentMetadata from './CommentMetadata';
 import CommentBody from './CommentBody';
 import CommentFooter from './CommentFooter';
-
-function CommentGroup(props) {
-  return (
-    <View
-      style={{
-        borderLeftWidth: 1,
-        borderColor: '#eee',
-        paddingVertical: 5,
-        marginLeft: props.root ? 0 : 10,
-      }}>
-      {props.children}
-    </View>
-  );
-}
 
 function Comment(props) {
   const commentId = props.commentId;
@@ -47,4 +33,4 @@ function Comment(props) {
   );
 }
 
-export {Comment, CommentGroup};
+export default Comment;

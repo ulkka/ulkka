@@ -19,8 +19,10 @@ export const fetchComments = createAsyncThunk(
   async (post_id) => {
     let response = await postApi.comment.fetch(post_id);
     const normalized = normalize(response.data, [comment]);
+    console.log('normalied comments', normalized);
     return {
       normalizedComments: normalized.entities,
+      parentComments: normalized.result,
     };
   },
 );
@@ -47,6 +49,7 @@ export const slice = createSlice({
     loading: true,
     ids: [],
     entities: {},
+    parentComments: [],
   },
   reducers: {},
   extraReducers: {
@@ -61,6 +64,7 @@ export const slice = createSlice({
           action.payload.normalizedComments.comments,
         );
       }
+      state.parentComments = action.payload.parentComments;
       state.loading = false;
     },
     [createReply.fulfilled]: (state, action) => {
@@ -89,6 +93,8 @@ export const slice = createSlice({
             replies: newReplyList,
           },
         });
+      } else {
+        state.parentComments.push(newCommentId);
       }
       Snackbar.show({
         text: type + ' Added',
@@ -123,6 +129,8 @@ export const {
   selectAll: selectAllComments,
   selectTotal: selectTotalComments,
 } = commentAdapter.getSelectors((state) => state.comments);
+
+export const getParentComments = (state) => state.comments.parentComments;
 
 export const getCommentUserVote = createSelector(
   selectCommentById,

@@ -1,22 +1,23 @@
-import React from 'react';
-import {Comment, CommentGroup} from './Comment';
+import React, {memo} from 'react';
+import Comment from './Comment';
+import CommentGroup from './CommentGroup';
 import {useSelector} from 'react-redux';
 import {getCommentReplies} from '../../redux/reducers/CommentSlice';
 
-function ReplyTree(reply, index) {
-  return <CommentTree key={reply} commentId={reply} index={index} />;
-}
+const CommentTree = ({commentId}) => {
+  return <CommentWithReplies key={commentId} commentId={commentId} />;
+};
 
-function CommentTree(props) {
-  const {commentId, index} = props;
+function CommentWithReplies(props) {
+  const {commentId} = props;
   const replies = useSelector((state) => getCommentReplies(state, commentId));
 
   return (
-    <Comment commentId={commentId} index={index}>
+    <Comment commentId={commentId} key={commentId}>
       {replies === undefined ? null : (
-        <CommentGroup parent={commentId}>
-          {replies.map((reply, index) => {
-            return ReplyTree(reply, index);
+        <CommentGroup parent={commentId} key={commentId}>
+          {replies.map((replyId) => {
+            return <CommentTree commentId={replyId} key={replyId} />;
           })}
         </CommentGroup>
       )}

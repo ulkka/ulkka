@@ -25,21 +25,27 @@ export const fetchFeed = createAsyncThunk(
       const authStatus = getState().authorization.status;
       const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
 
-      const complete =
-        getState().feed.screens[type] == undefined
-          ? false
-          : getState().feed.screens[type].complete;
-      const loading =
-        getState().feed.screens[type] == undefined
-          ? false
-          : getState().feed.screens[type].loading;
+      const screen = getState().feed.screens[type];
+      const feedAccess =
+        screen === undefined ? true : !screen.complete && !screen.loading;
 
-      const feedAccess = !complete && !loading;
       return authAccess && feedAccess;
     },
     dispatchConditionRejection: true,
   },
 );
+
+const initialState = {
+  ids: [],
+  metadata: {
+    page: 0,
+    total: -1,
+    limit: 2,
+  },
+  complete: false,
+  loading: false,
+  initialised: false,
+};
 
 export const slice = createSlice({
   name: 'feed',
@@ -50,18 +56,9 @@ export const slice = createSlice({
   reducers: {
     initialiseFeed(state, action) {
       const type = action.payload;
-      if (state.screens[type] === undefined) {
-        state.screens[type] = {
-          ids: [],
-          metadata: {
-            page: 0,
-            total: -1,
-            limit: 2,
-          },
-          complete: false,
-          loading: false,
-          initialised: false,
-        };
+      const screen = state.screens[type];
+      if (screen === undefined) {
+        state.screens[type] = initialState;
       }
     },
   },
@@ -69,28 +66,33 @@ export const slice = createSlice({
   extraReducers: {
     [fetchFeed.pending]: (state, action) => {
       const type = action.meta.arg;
-      state.screens[type].loading = true;
+      const screen = state.screens[type];
+      screen.loading = true;
     },
     [fetchFeed.fulfilled]: (state, action) => {
       const type = action.payload.type;
-      state.screens[type].loading = false;
+      const screen = state.screens[type];
+      const normalizedPosts = action.payload.normalizedPosts;
 
-      if (action.payload.normalizedPosts !== undefined) {
+      const isFeedEmpty =
+        normalizedPosts &&
+        Object.keys(normalizedPosts).length === 0 &&
+        normalizedPosts.constructor === Object;
+
+      if (!isFeedEmpty) {
         const postIds = action.payload.postIds;
-
-        state.screens[type].ids = state.screens[type].ids.concat(postIds);
-        state.screens[type].metadata = action.payload.metadata;
-        const {page, total, limit} = action.payload.metadata;
-        if (page * limit >= total) {
-          state.screens[type].complete = true;
-        }
+        screen.ids = state.screens[type].ids.concat(postIds);
+        screen.metadata = action.payload.metadata;
+      } else {
+        screen.complete = true;
       }
-
-      state.screens[type].initialised = true;
+      screen.loading = false;
+      screen.initialised = true;
     },
     [fetchFeed.rejected]: (state, action) => {
       const type = action.meta.arg;
-      state.screens[type].loading = false;
+      const screen = state.screens[type];
+      screen.loading = false;
     },
     [signout.fulfilled]: (state) => {
       //resetAllFeeds(state);

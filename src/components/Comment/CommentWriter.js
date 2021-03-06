@@ -43,6 +43,11 @@ export default function CommentWriter(props) {
   const reply_to_text =
     parentComment != undefined ? parentCommentAuthor.displayname : post.title;
 
+  const reply_to_text_shrunk =
+    reply_to_text.length > 38
+      ? reply_to_text.substring(0, 40).concat('...')
+      : reply_to_text;
+
   const inputRef = useRef(null);
   const active = useSelector(isActive);
   const loading = useSelector(isLoading);
@@ -136,7 +141,7 @@ export default function CommentWriter(props) {
           fontSize: 12,
           fontWeight: '400',
         }}>
-        {reply_to_text}
+        {reply_to_text_shrunk}
       </Text>
     </View>
   );
@@ -222,6 +227,7 @@ export default function CommentWriter(props) {
               color: '#333',
             }}
             disabled={false}
+            maxLength={10000}
             multiline={true}
             onBlur={() => resetForm()}
             onFocus={() => activateForm()}

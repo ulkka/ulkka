@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon, Divider} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';

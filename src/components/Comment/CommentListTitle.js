@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {Text, View} from 'react-native';
 
 const CommentListTitle = () => {
@@ -22,4 +22,4 @@ const CommentListTitle = () => {
   );
 };
 
-export default CommentListTitle;
+export default memo(CommentListTitle);

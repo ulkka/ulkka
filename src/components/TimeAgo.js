@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-export default function TimeAgo(props) {
+function TimeAgo(props) {
   const DisplayTime = (props) => {
     var currentTime = Date.now();
     var posted_at = new Date(props.time).getTime();
@@ -42,3 +42,5 @@ export default function TimeAgo(props) {
     </View>
   );
 }
+
+export default TimeAgo;

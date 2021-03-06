@@ -51,8 +51,17 @@ export const slice = createSlice({
     },
     [fetchFeed.fulfilled]: (state, action) => {
       if (action.payload.normalizedPosts !== undefined) {
-        const posts = action.payload.normalizedPosts.posts;
-        postAdapter.upsertMany(state, posts);
+        const normalizedPosts = action.payload.normalizedPosts;
+
+        const isFeedEmpty =
+          normalizedPosts &&
+          Object.keys(normalizedPosts).length === 0 &&
+          normalizedPosts.constructor === Object;
+
+        if (!isFeedEmpty) {
+          const posts = normalizedPosts.posts;
+          postAdapter.upsertMany(state, posts);
+        }
       }
     },
     [signout.fulfilled]: (state) => {
@@ -62,10 +71,12 @@ export const slice = createSlice({
     [votePost.fulfilled]: (state, action) => {
       const postId = action.payload.data._id;
       const post = postAdapter.getSelectors().selectById(state, postId);
+
       const currentUserVote = post.userVote;
       const newUserVote = action.payload.data.userVote;
       const diff = currentUserVote - newUserVote;
       const newVoteCount = post.voteCount - diff;
+
       postAdapter.updateOne(state, {
         id: postId,
         changes: {

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, memo} from 'react';
 import {View} from 'react-native';
 import {ThemeContext} from 'react-native-elements';
 import PostContent from './PostContent';
@@ -6,7 +6,7 @@ import PostHeader from './PostHeader';
 import PostTitle from './PostTitle';
 import PostFooter from './PostFooter';
 
-export default function Post(props) {
+function Post(props) {
   const {theme} = useContext(ThemeContext);
   const postId = props.postId;
 
@@ -29,3 +29,5 @@ export default function Post(props) {
     </View>
   );
 }
+
+export default memo(Post);

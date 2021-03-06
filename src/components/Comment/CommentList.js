@@ -4,34 +4,22 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   fetchComments,
   isLoading,
-  selectCommentIds,
-  getCommentParent,
+  getParentComments,
 } from '../../redux/reducers/CommentSlice';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import CommentListTitle from './CommentListTitle';
 import CommentTree from './CommentTree';
 
-export default function CommentList(props) {
+function CommentList(props) {
   const dispatch = useDispatch();
 
   const loading = useSelector(isLoading);
   const isRegistered = useSelector(getRegistrationStatus);
-  const allCommentIds = useSelector(selectCommentIds);
+  const parentCommentIds = useSelector(getParentComments);
 
   useEffect(() => {
     dispatch(fetchComments(props.postId));
   }, [isRegistered]);
-
-  function CommentThread() {
-    return allCommentIds.map((commentId, index) => {
-      const parent = useSelector((state) => getCommentParent(state, commentId));
-      if (parent == undefined) {
-        return (
-          <CommentTree commentId={commentId} index={index} key={commentId} />
-        );
-      }
-    });
-  }
 
   const LoadingView = (
     <View
@@ -45,6 +33,14 @@ export default function CommentList(props) {
     </View>
   );
 
+  function renderComments() {
+    return parentCommentIds !== undefined
+      ? parentCommentIds.map((commentId, index) => {
+          return <CommentTree commentId={commentId} key={commentId} />;
+        })
+      : null;
+  }
+
   return loading ? (
     LoadingView
   ) : (
@@ -55,7 +51,9 @@ export default function CommentList(props) {
         borderBottomWidth: 1,
       }}>
       <CommentListTitle />
-      <CommentThread />
+      {renderComments()}
     </View>
   );
 }
+
+export default CommentList;

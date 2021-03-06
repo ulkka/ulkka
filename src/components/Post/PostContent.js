@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text, TouchableHighlight} from 'react-native';
 import {useSelector} from 'react-redux';
 import {navigate} from '../../navigation/Ref';
@@ -9,7 +9,7 @@ import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
 import GifPostContent from './GifPostContent';
 
-export default function PostContent(props) {
+function PostContent(props) {
   const postId = props.postId;
   const caller = props.caller;
   const postType = useSelector(getPostField(postId, 'type'));
@@ -74,3 +74,5 @@ export default function PostContent(props) {
     </PostContentWrapper>
   );
 }
+
+export default memo(PostContent);

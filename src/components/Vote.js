@@ -9,7 +9,7 @@ import {
   voteComment,
 } from '../redux/reducers/CommentSlice';
 
-export default function Vote(props) {
+export function Vote(props) {
   const dispatch = useDispatch();
   const id = props.id;
   const entityType = props.type;
@@ -23,8 +23,6 @@ export default function Vote(props) {
     entityType == 'post'
       ? useSelector(getPostField(id, 'voteCount'))
       : useSelector((state) => getCommentVoteCount(state, id));
-
-  //console.log(selfVote);
 
   const vote = (type) => {
     let voteType = selfVote == type ? 0 : type;
@@ -85,3 +83,5 @@ export default function Vote(props) {
     </View>
   );
 }
+
+export default Vote;

@@ -282,6 +282,7 @@ export default function CreatePost({navigation, route}) {
         onChangeText={(text) => setTitle(text)}
         value={title}
         placeholder={'Title'}
+        maxLength={300}
       />
     </View>
   );
@@ -301,7 +302,7 @@ export default function CreatePost({navigation, route}) {
         placeholder={'Description'}
         numberOfLines={10}
         multiline={true}
-        maxLength={1000}
+        maxLength={10000}
       />
     </View>
   );
