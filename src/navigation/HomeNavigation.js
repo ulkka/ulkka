@@ -41,7 +41,7 @@ function FeedList({navigation}) {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList listKey="feed" ListFooterComponent={HomeTabNavigation} />
-      <CreatePostButtonOverlay navigation={navigation} />
+      <CreatePostButtonOverlay />
     </View>
   );
 }
@@ -51,7 +51,7 @@ function HomeNavigation({navigation}) {
     <StackNav.Navigator initialRouteName="Feed">
       <StackNav.Screen
         name="Feed"
-        component={FeedList}
+        component={Home}
         title="Home"
         options={{
           header: () => <HeaderBar navigation={navigation} />,

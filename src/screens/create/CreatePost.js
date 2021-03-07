@@ -16,8 +16,9 @@ import FormData from 'form-data';
 import ImagePicker from 'react-native-image-crop-picker';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import SubmitStatus from '../../components/SubmitStatus';
+import {navigate} from '../../navigation/Ref';
 
-export default function CreatePost({navigation, route}) {
+export default function CreatePost({route}) {
   const [type, setType] = useState('');
   const [community, setCommunity] = useState(null);
   const [title, setTitle] = useState('');
@@ -120,7 +121,7 @@ export default function CreatePost({navigation, route}) {
               entity: community.name,
             };
             setStatusData(status);
-            setTimeout(() => navigation.navigate('Feed'), 2000);
+            setTimeout(() => navigate('Feed'), 2000);
           })
           .catch((error) => {
             console.log('Posting to server error - ', error);
@@ -131,7 +132,7 @@ export default function CreatePost({navigation, route}) {
               entity: community.name,
             };
             setStatusData(status);
-            setTimeout(navigation.navigate('Feed'), 2000);
+            setTimeout(navigate('Feed'), 2000);
           });
         return;
       case 'link':
@@ -150,7 +151,7 @@ export default function CreatePost({navigation, route}) {
               entity: community.name,
             };
             setStatusData(status);
-            setTimeout(() => navigation.navigate('Feed'), 2000);
+            setTimeout(() => navigate('Feed'), 2000);
           })
           .catch((error) => {
             console.log('Posting to server error - ', error);
@@ -161,7 +162,7 @@ export default function CreatePost({navigation, route}) {
               entity: community.name,
             };
             setStatusData(status);
-            setTimeout(navigation.navigate('Feed'), 2000);
+            setTimeout(navigate('Feed'), 2000);
           });
         return;
 
@@ -201,7 +202,7 @@ export default function CreatePost({navigation, route}) {
                   entity: title,
                 };
                 setStatusData(status);
-                setTimeout(() => navigation.navigate('Feed'), 2000);
+                setTimeout(() => navigate('Feed'), 2000);
               })
               .catch((error) => {
                 console.log('Posting to server error - ', error);
@@ -212,7 +213,7 @@ export default function CreatePost({navigation, route}) {
                   entity: title,
                 };
                 setStatusData(status);
-                setTimeout(navigation.navigate('Feed'), 2000);
+                setTimeout(navigate('Feed'), 2000);
               });
           })
           .catch((error) => {
@@ -224,7 +225,7 @@ export default function CreatePost({navigation, route}) {
               entity: title,
             };
             setStatusData(status);
-            setTimeout(navigation.navigate('Feed'), 1000);
+            setTimeout(navigate('Feed'), 1000);
           });
     }
   };

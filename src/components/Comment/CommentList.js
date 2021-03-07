@@ -14,12 +14,14 @@ import {Divider} from 'react-native-elements';
 function CommentList(props) {
   const dispatch = useDispatch();
 
-  const loading = useSelector(isLoading);
+  const {postId} = props;
+
+  const loading = useSelector(isLoading(postId));
   const isRegistered = useSelector(getRegistrationStatus);
-  const parentCommentIds = useSelector(getParentComments);
+  const parentCommentIds = useSelector(getParentComments(postId));
 
   useEffect(() => {
-    dispatch(fetchComments(props.postId));
+    dispatch(fetchComments(postId));
   }, [isRegistered]);
 
   const LoadingView = (
@@ -39,7 +41,11 @@ function CommentList(props) {
       ? parentCommentIds.map((commentId, index) => {
           return (
             <View key={commentId}>
-              <SingleCommentThread commentId={commentId} key={commentId} />
+              <SingleCommentThread
+                commentId={commentId}
+                key={commentId}
+                postId={postId}
+              />
               <Divider style={{backgroundColor: '#eee', height: 5}} />
             </View>
           );
@@ -55,7 +61,6 @@ function CommentList(props) {
         marginBottom: 25,
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
-        paddingBottom: 10,
       }}>
       <CommentListTitle />
       {multiCommentThread()}

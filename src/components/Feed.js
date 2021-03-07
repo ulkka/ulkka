@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react';
-import {View, FlatList} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {View, FlatList, RefreshControl} from 'react-native';
+import {ThemeContext, Divider} from 'react-native-elements';
 import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
@@ -12,11 +12,14 @@ import {
   initialiseFeed,
 } from '../redux/reducers/FeedSlice';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
+import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
+import ScrollToTop from './ScrollToTop';
 
 function Feed(props) {
   const {theme} = useContext(ThemeContext);
 
   const dispatch = useDispatch();
+  const feedListRef = React.createRef();
 
   const screen = props.screen;
 
@@ -39,13 +42,17 @@ function Feed(props) {
     return <Post postId={item} caller={screen} />;
   };
   const separator = () => {
-    return <View style={{padding: 5}}></View>;
+    return <Divider style={{backgroundColor: '#eee', height: 5}} />;
   };
 
   const handleLoadMore = () => {
     if (authStatus != 'UNAUTHENTICATED' && !complete && !loading) {
       dispatch(fetchFeed(screen));
     }
+  };
+
+  const refreshFeed = () => {
+    console.log('refreshing feed');
   };
 
   const ListHeaderComponent = () => {
@@ -62,11 +69,12 @@ function Feed(props) {
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
         ListHeaderComponent={ListHeaderComponent}
+        ref={feedListRef}
         listKey={screen}
         data={postIds}
         renderItem={renderRow}
         ItemSeparatorComponent={separator}
-        onEndReached={() => handleLoadMore()}
+        onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={100}
@@ -78,7 +86,12 @@ function Feed(props) {
         }}
         keyExtractor={(postId, index) => postId}
         ListFooterComponent={<FeedFooter complete={complete} />}
+        refreshControl={
+          <RefreshControl refreshing={false} onRefresh={refreshFeed} />
+        }
       />
+      <CreatePostButtonOverlay />
+      <ScrollToTop listRef={feedListRef} />
     </View>
   );
 }

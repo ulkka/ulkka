@@ -1,0 +1,40 @@
+import React from 'react';
+import {View, TouchableOpacity} from 'react-native';
+import {Icon} from 'react-native-elements';
+
+const ScrollToTop = (props) => {
+  const {listRef} = props;
+
+  const scrollAllTheWayUp = () => {
+    listRef.current.scrollToIndex({
+      index: 0,
+    });
+  };
+
+  const ScrollToTopButton = (
+    <TouchableOpacity
+      onPress={scrollAllTheWayUp}
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        position: 'absolute',
+        bottom: 25,
+        right: 20,
+        backgroundColor: 'transparent',
+        borderRadius: 30,
+      }}>
+      <Icon
+        name="angle-double-up"
+        type="font-awesome-5"
+        size={18}
+        color="#555"
+        reverse
+        style={{opacity: 0.55}}
+      />
+    </TouchableOpacity>
+  );
+  return <View>{ScrollToTopButton}</View>;
+};
+
+export default ScrollToTop;

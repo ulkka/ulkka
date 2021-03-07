@@ -1,7 +1,7 @@
 import {post} from '../schema/FeedSchema';
 import postApi from '../../services/PostApi';
 import {normalize} from 'normalizr';
-import {createSlice, createAsyncThunk, createSelector} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {signout, socialAuth} from '../actions/AuthActions';
 
 export const fetchFeed = createAsyncThunk(
@@ -26,10 +26,10 @@ export const fetchFeed = createAsyncThunk(
       const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
 
       const screen = getState().feed.screens[type];
-      const feedAccess =
+      const requestAccess =
         screen === undefined ? true : !screen.complete && !screen.loading;
 
-      return authAccess && feedAccess;
+      return authAccess && requestAccess;
     },
     dispatchConditionRejection: true,
   },
@@ -104,14 +104,10 @@ export const slice = createSlice({
 export const feed = slice.reducer;
 export const {resetFeed, initialiseFeed} = slice.actions;
 
-export const makeFeed = (screen) =>
-  createSelector(
-    (state) =>
-      state.feed.screens[screen] === undefined
-        ? []
-        : state.feed.screens[screen].ids,
-    (ids) => ids,
-  );
+export const makeFeed = (screen) => (state) =>
+  state.feed.screens[screen] === undefined
+    ? []
+    : state.feed.screens[screen].ids;
 
 export const isComplete = (screen) => (state) =>
   state.feed.screens[screen] === undefined

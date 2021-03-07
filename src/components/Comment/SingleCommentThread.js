@@ -4,12 +4,14 @@ import CommentGroup from './CommentGroup';
 import {useSelector} from 'react-redux';
 import {selectCommentById} from '../../redux/reducers/CommentSlice';
 
-const SingleCommentThread = ({commentId}) => {
-  return <SingleCommentTree key={commentId} commentId={commentId} />;
+const SingleCommentThread = ({commentId, postId}) => {
+  return (
+    <SingleCommentTree key={commentId} commentId={commentId} postId={postId} />
+  );
 };
 
 function SingleCommentTree(props) {
-  const {commentId} = props;
+  const {commentId, postId} = props;
   const comment = useSelector((state) => selectCommentById(state, commentId));
   const replies = comment.replies;
 
@@ -22,7 +24,7 @@ function SingleCommentTree(props) {
               <SingleCommentThread
                 commentId={replyId}
                 key={replyId}
-                comment={comment}
+                postId={postId}
               />
             );
           })}

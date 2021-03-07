@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, RefreshControl} from 'react-native';
 import CommentList from '../components/Comment/CommentList';
 import Post from '../components/Post/Post';
 import CommentWriter from '../components/Comment/CommentWriter';
@@ -7,11 +7,15 @@ import CommentWriter from '../components/Comment/CommentWriter';
 export default function PostDetail({route, navigation}) {
   const postId = route.params.postId;
 
-  console.log('running post detail');
-
   return (
     <View style={{flex: 1}}>
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={() => console.log('refreshing post detail')}
+          />
+        }
         style={{
           alignSelf: 'center',
           borderBottomWidth: 1,

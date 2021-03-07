@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import {Icon, Overlay} from 'react-native-elements';
+import {navigate} from '../../navigation/Ref';
 
 export default function CreatePostButtonOverlay(props) {
   const [enableOverlay, setEnableOverLay] = useState(false);
@@ -17,10 +18,11 @@ export default function CreatePostButtonOverlay(props) {
 
   const createPost = (type) => {
     setEnableOverLay(false);
-    props.navigation.navigate('CreatePost', {
+    navigate('CreatePost', {
       type: type,
     });
   };
+
   const Header = (
     <View style={{flexDirection: 'row'}}>
       <View

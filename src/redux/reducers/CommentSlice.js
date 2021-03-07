@@ -5,7 +5,6 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
-  createSelector,
 } from '@reduxjs/toolkit';
 import {createReply} from './ReplySlice';
 import Snackbar from 'react-native-snackbar';
@@ -16,13 +15,26 @@ const commentAdapter = createEntityAdapter({
 
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
-  async (post_id) => {
-    let response = await postApi.comment.fetch(post_id);
+  async (postId) => {
+    let response = await postApi.comment.fetch(postId);
     const normalized = normalize(response.data, [comment]);
     return {
       normalizedComments: normalized.entities,
       parentComments: normalized.result,
     };
+  },
+  {
+    condition: (postId, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
+
+      const postComments = getState().comments.posts[postId];
+      const requestAccess =
+        postComments === undefined ? true : !postComments.loading;
+
+      return authAccess && requestAccess;
+    },
+    dispatchConditionRejection: true,
   },
 );
 
@@ -42,37 +54,51 @@ export const voteComment = createAsyncThunk(
   },
 );
 
+const initialState = {
+  loading: true,
+  parentComments: [],
+};
+
 export const slice = createSlice({
   name: 'comments',
   initialState: {
-    loading: true,
+    loading: false,
     ids: [],
     entities: {},
     parentComments: [],
+    posts: {},
   },
   reducers: {},
   extraReducers: {
     [fetchComments.pending]: (state, action) => {
+      const postId = action.meta.arg;
       state.loading = true;
-      commentAdapter.removeAll(state);
+      const postComments = state.posts[postId];
+      if (postComments === undefined) {
+        state.posts[postId] = initialState;
+      }
     },
     [fetchComments.fulfilled]: (state, action) => {
-      if (action.payload.normalizedComments.comments !== undefined) {
-        commentAdapter.upsertMany(
-          state,
-          action.payload.normalizedComments.comments,
-        );
+      const comments = action.payload.normalizedComments.comments;
+      const postId = action.meta.arg;
+      const postComments = state.posts[postId];
+
+      if (comments !== undefined) {
+        commentAdapter.upsertMany(state, comments);
       }
-      state.parentComments = action.payload.parentComments;
-      state.loading = false;
+      postComments.parentComments = action.payload.parentComments;
+      postComments.loading = false;
     },
     [createReply.fulfilled]: (state, action) => {
       const newCommentId = action.payload.result;
       const parentCommentId = action.payload.data.parentCommentId;
+
       const type = parentCommentId === undefined ? 'Comment' : 'Reply';
       const newComment =
         action.payload.normalizedComment.comments[newCommentId];
       newComment.userVote = 0;
+
+      const postId = newComment.post;
 
       commentAdapter.addOne(state, newComment);
 
@@ -84,7 +110,7 @@ export const slice = createSlice({
         const newReplyList =
           parentComment.replies === undefined
             ? [newCommentId]
-            : [...parentComment.replies, ...[newCommentId]];
+            : [...[newCommentId], ...parentComment.replies];
 
         commentAdapter.updateOne(state, {
           id: parentCommentId,
@@ -93,8 +119,9 @@ export const slice = createSlice({
           },
         });
       } else {
-        state.parentComments.push(newCommentId);
+        state.posts[postId].parentComments.unshift(newCommentId);
       }
+
       Snackbar.show({
         text: type + ' Added',
         duration: Snackbar.LENGTH_SHORT,
@@ -129,26 +156,12 @@ export const {
   selectTotal: selectTotalComments,
 } = commentAdapter.getSelectors((state) => state.comments);
 
-export const getParentComments = (state) => state.comments.parentComments;
+export const getParentComments = (postId) => (state) =>
+  state.comments.posts[postId] === undefined
+    ? []
+    : state.comments.posts[postId].parentComments;
 
-export const getCommentUserVote = createSelector(
-  selectCommentById,
-  (item) => item.userVote,
-);
-
-export const getCommentVoteCount = createSelector(
-  selectCommentById,
-  (item) => item.voteCount,
-);
-
-export const getCommentReplies = createSelector(
-  selectCommentById,
-  (item) => item.replies,
-);
-
-export const getCommentParent = createSelector(
-  selectCommentById,
-  (item) => item.parent,
-);
-
-export const isLoading = (state) => state.comments.loading;
+export const isLoading = (postId) => (state) =>
+  state.comments.posts[postId] === undefined
+    ? false
+    : state.comments.posts[postId].loading;
