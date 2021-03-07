@@ -1,15 +1,14 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {navigate} from '../../navigation/Ref';
-import {getPostField} from '../../redux/reducers/PostSlice';
-import {useSelector} from 'react-redux';
 
 const PostTotalComments = (props) => {
-  const postId = props.postId;
-  const commentCount = useSelector(getPostField(postId, 'commentCount'));
+  const {commentCount, postId} = props;
+
   return (
     <TouchableOpacity
+      hitSlop={{top: 20, bottom: 20}}
       onPress={() => {
         if (props.caller != 'PostDetail') {
           navigate('PostDetail', {
@@ -18,7 +17,8 @@ const PostTotalComments = (props) => {
         }
       }}
       style={{
-        flex: 6,
+        marginHorizontal: 20,
+        flex: 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -37,4 +37,4 @@ const PostTotalComments = (props) => {
   );
 };
 
-export default PostTotalComments;
+export default memo(PostTotalComments);

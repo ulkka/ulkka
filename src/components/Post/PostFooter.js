@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View} from 'react-native';
 import Vote from '../Vote';
 import PostTotalComments from './PostTotalComments';
 import SharePost from './SharePost';
 
 const PostFooter = (props) => {
-  const postId = props.postId;
+  const {postId, userVote, voteCount, commentCount} = props;
 
   return (
     <View
@@ -18,16 +18,18 @@ const PostFooter = (props) => {
       }}>
       <Vote
         id={postId}
-        type="post"
+        userVote={userVote}
+        voteCount={voteCount}
+        entityType="post"
         style={{
           flex: 3,
           paddingLeft: 10,
         }}
       />
-      <PostTotalComments postId={postId} />
+      <PostTotalComments commentCount={commentCount} postId={postId} />
       <SharePost postId={postId} />
     </View>
   );
 };
 
-export default PostFooter;
+export default memo(PostFooter);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 
@@ -20,4 +20,4 @@ const SharePost = (props) => {
   );
 };
 
-export default SharePost;
+export default memo(SharePost);

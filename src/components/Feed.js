@@ -7,12 +7,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   isComplete,
   isLoading,
-  resetFeed,
   makeFeed,
   fetchFeed,
   initialiseFeed,
 } from '../redux/reducers/FeedSlice';
-
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 
 function Feed(props) {

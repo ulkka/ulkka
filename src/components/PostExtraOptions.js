@@ -9,6 +9,7 @@ export default function PostExtraOptions(props) {
   return (
     <TouchableOpacity
       style={{padding: 5}}
+      hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
       onPress={() =>
         dispatch(
           showOptionSheet({optionType: props.optionType, id: props.postId}),

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
@@ -7,19 +7,14 @@ import {navigate} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {selectCommunityById} from '../../redux/reducers/CommunitySlice';
 import {selectUserById} from '../../redux/reducers/UserSlice';
-import {getPostField} from '../../redux/reducers/PostSlice';
 
 const PostHeader = (props) => {
-  const postId = props.postId;
-
-  const communityId = useSelector(getPostField(postId, 'community'));
-  const authorid = useSelector(getPostField(postId, 'author'));
-  const postCreatedAt = useSelector(getPostField(postId, 'created_at'));
+  const {postId, createdAt, communityId, authorId} = props;
 
   const community = useSelector((state) =>
     selectCommunityById(state, communityId),
   );
-  const user = useSelector((state) => selectUserById(state, authorid));
+  const user = useSelector((state) => selectUserById(state, authorId));
 
   const CommunityName = (
     <TouchableOpacity
@@ -53,7 +48,7 @@ const PostHeader = (props) => {
           {CommunityName}
           <View style={{flexDirection: 'row'}}>
             {UserDisplayName}
-            <TimeAgo time={postCreatedAt} />
+            <TimeAgo time={createdAt} />
           </View>
         </View>
       </View>
@@ -62,4 +57,4 @@ const PostHeader = (props) => {
   );
 };
 
-export default PostHeader;
+export default memo(PostHeader);

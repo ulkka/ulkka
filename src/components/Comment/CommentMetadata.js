@@ -5,14 +5,12 @@ import TimeAgo from '../TimeAgo';
 import {useSelector} from 'react-redux';
 import {selectUserById} from '../../redux/reducers/UserSlice';
 import {navigate} from '../../navigation/Ref';
-import {selectCommentById} from '../../redux/reducers/CommentSlice';
 
 const CommentMetadata = (props) => {
-  const commentId = props.commentId;
+  const {author, createdAt} = props;
   const isCollapsed = props.isCollapsed;
 
-  const comment = useSelector((state) => selectCommentById(state, commentId));
-  const user = useSelector((state) => selectUserById(state, comment.author));
+  const user = useSelector((state) => selectUserById(state, author));
 
   const CommentAuthor = (
     <Text
@@ -34,7 +32,7 @@ const CommentMetadata = (props) => {
     />
   );
 
-  const CreatedAt = <TimeAgo time={comment.created_at} />;
+  const CreatedAt = <TimeAgo time={createdAt} />;
 
   const HeaderLeft = (
     <TouchableOpacity
@@ -53,11 +51,12 @@ const CommentMetadata = (props) => {
   const HeaderRight = (
     <TouchableOpacity
       style={{flex: 1, alignItems: 'flex-end'}}
+      hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
       onPress={props.onPressToggleCollapse}>
       {
         <Icon
           name={isCollapsed ? 'expand-more' : 'expand-less'}
-          size={16}
+          size={20}
           color="#888"
         />
       }
@@ -76,4 +75,4 @@ const CommentMetadata = (props) => {
   );
 };
 
-export default CommentMetadata;
+export default memo(CommentMetadata);

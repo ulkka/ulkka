@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import Video from 'react-native-video';
 
 const VideoPostContent = (props) => {
@@ -20,4 +20,4 @@ const VideoPostContent = (props) => {
   );
 };
 
-export default VideoPostContent;
+export default memo(VideoPostContent);

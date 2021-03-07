@@ -1,11 +1,8 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text} from 'react-native';
-import {getPostField} from '../../redux/reducers/PostSlice';
-import {useSelector} from 'react-redux';
 
 const PostTitle = (props) => {
-  const postId = props.postId;
-  const postTitle = useSelector(getPostField(postId, 'title'));
+  const {postTitle} = props;
 
   return (
     <View>
@@ -22,4 +19,4 @@ const PostTitle = (props) => {
   );
 };
 
-export default PostTitle;
+export default memo(PostTitle);

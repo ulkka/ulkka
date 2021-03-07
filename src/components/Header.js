@@ -14,6 +14,7 @@ const HeaderBar = (props) => {
   const AccountComponent = () => {
     return (
       <TouchableOpacity
+        hitSlop={{top: 20, bottom: 30, left: 20, right: 40}}
         style={{paddingLeft: 5}}
         onPress={() => showAuthScreen()}>
         <Icon

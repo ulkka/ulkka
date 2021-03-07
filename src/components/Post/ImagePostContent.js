@@ -1,11 +1,8 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Image, Dimensions} from 'react-native';
-import {getPostField} from '../../redux/reducers/PostSlice';
-import {useSelector} from 'react-redux';
 
 const ImagePostContent = (props) => {
-  const postId = props.postId;
-  const mediaMetadata = useSelector(getPostField(postId, 'mediaMetadata'));
+  const {mediaMetadata} = props;
 
   const height = Math.ceil(
     (mediaMetadata.height * Dimensions.get('window').width) /
@@ -36,4 +33,4 @@ const ImagePostContent = (props) => {
   );
 };
 
-export default ImagePostContent;
+export default memo(ImagePostContent);

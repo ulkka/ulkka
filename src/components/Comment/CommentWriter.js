@@ -148,7 +148,9 @@ export default function CommentWriter(props) {
 
   const expand = (
     <View style={{paddingHorizontal: 10}}>
-      <TouchableOpacity onPress={() => expandForm()}>
+      <TouchableOpacity
+        hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+        onPress={() => expandForm()}>
         <Icon
           name={expanded ? 'compress' : 'expand'}
           size={18}
@@ -161,6 +163,7 @@ export default function CommentWriter(props) {
   const close = (
     <View>
       <TouchableOpacity
+        hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
         style={{paddingHorizontal: 5}}
         onPress={() => resetForm()}>
         <Icon name="close" size={16} color="#444" />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Vote from '../Vote';
@@ -9,11 +9,12 @@ import {useDispatch} from 'react-redux';
 const CommentFooter = (props) => {
   const dispatch = useDispatch();
 
-  const commentId = props.commentId;
+  const {commentId, userVote, voteCount} = props;
 
   const ReplyToComment = (
     <TouchableOpacity
       style={{flexDirection: 'row', alignItems: 'center'}}
+      hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
       onPress={() => {
         dispatch(prepareReply({commentId: commentId}));
       }}>
@@ -27,9 +28,10 @@ const CommentFooter = (props) => {
   const VoteComment = (
     <Vote
       id={commentId}
-      type="comment"
+      userVote={userVote}
+      voteCount={voteCount}
+      entityType="comment"
       style={{paddingHorizontal: 15}}
-      type="comment"
     />
   );
 
@@ -54,4 +56,4 @@ const CommentFooter = (props) => {
   );
 };
 
-export default CommentFooter;
+export default memo(CommentFooter);

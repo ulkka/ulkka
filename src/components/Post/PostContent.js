@@ -1,8 +1,6 @@
 import React, {memo} from 'react';
 import {View, Text, TouchableHighlight} from 'react-native';
-import {useSelector} from 'react-redux';
 import {navigate} from '../../navigation/Ref';
-import {getPostField} from '../../redux/reducers/PostSlice';
 import LinkPostContent from './LinkPostContent';
 import TextPostContent from './TextPostContent';
 import ImagePostContent from './ImagePostContent';
@@ -10,14 +8,10 @@ import VideoPostContent from './VideoPostContent';
 import GifPostContent from './GifPostContent';
 
 function PostContent(props) {
-  const postId = props.postId;
-  const caller = props.caller;
-  const postType = useSelector(getPostField(postId, 'type'));
+  const {postId, caller, type, description, mediaMetadata, ogData} = props;
 
   const ContentType =
-    postType == 'image' || postType == 'video' || postType == 'gif'
-      ? 'media'
-      : 'textual';
+    type == 'image' || type == 'video' || type == 'gif' ? 'media' : 'textual';
 
   const DefaultPost = <Text>{JSON.stringify(postId)}</Text>;
 
@@ -52,17 +46,17 @@ function PostContent(props) {
   };
 
   const PostType = () => {
-    switch (postType) {
+    switch (type) {
       case 'text':
-        return <TextPostContent postId={postId} />;
+        return <TextPostContent description={description} />;
       case 'image':
-        return <ImagePostContent postId={postId} />;
+        return <ImagePostContent mediaMetadata={mediaMetadata} />;
       case 'video':
-        return <VideoPostContent postId={postId} />;
+        return <VideoPostContent mediaMetadata={mediaMetadata} />;
       case 'gif':
-        return <GifPostContent postId={postId} />;
+        return <GifPostContent mediaMetadata={mediaMetadata} />;
       case 'link':
-        return <LinkPostContent postId={postId} />;
+        return <LinkPostContent ogData={ogData} />;
       default:
         return DefaultPost;
     }

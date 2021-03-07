@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 
 const LinkPostContent = (props) => {
@@ -68,4 +68,4 @@ const LinkPostContent = (props) => {
   );
 };
 
-export default LinkPostContent;
+export default memo(LinkPostContent);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text} from 'react-native';
 
 function TimeAgo(props) {
@@ -43,4 +43,4 @@ function TimeAgo(props) {
   );
 }
 
-export default TimeAgo;
+export default memo(TimeAgo);

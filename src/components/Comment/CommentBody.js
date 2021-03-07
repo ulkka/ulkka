@@ -1,14 +1,9 @@
 import React, {memo} from 'react';
 import {View, Text} from 'react-native';
-import {useSelector} from 'react-redux';
-import {selectCommentById} from '../../redux/reducers/CommentSlice';
 import ReadMoreText from '../ReadMoreText';
 
 const CommentBody = (props) => {
-  const commentId = props.commentId;
-  const comment = useSelector((state) => selectCommentById(state, commentId));
-
-  console.log('commentbody', comment.text);
+  const {text} = props;
 
   return (
     <View style={{paddingTop: 5}}>
@@ -20,7 +15,7 @@ const CommentBody = (props) => {
             fontWeight: '400',
             lineHeight: 18,
           }}>
-          {comment.text}
+          {text}
         </Text>
       </ReadMoreText>
     </View>

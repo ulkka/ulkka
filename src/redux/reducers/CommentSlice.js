@@ -19,7 +19,6 @@ export const fetchComments = createAsyncThunk(
   async (post_id) => {
     let response = await postApi.comment.fetch(post_id);
     const normalized = normalize(response.data, [comment]);
-    console.log('normalied comments', normalized);
     return {
       normalizedComments: normalized.entities,
       parentComments: normalized.result,

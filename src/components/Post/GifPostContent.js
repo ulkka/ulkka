@@ -1,3 +1,4 @@
+import React, {memo} from 'react';
 import {Image} from 'react-native';
 
 const GifPostContent = (props) => {
@@ -17,4 +18,4 @@ const GifPostContent = (props) => {
   );
 };
 
-export default GifPostContent;
+export default memo(GifPostContent);

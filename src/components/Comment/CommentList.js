@@ -8,7 +8,8 @@ import {
 } from '../../redux/reducers/CommentSlice';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import CommentListTitle from './CommentListTitle';
-import CommentTree from './CommentTree';
+import SingleCommentThread from './SingleCommentThread';
+import {Divider} from 'react-native-elements';
 
 function CommentList(props) {
   const dispatch = useDispatch();
@@ -33,10 +34,15 @@ function CommentList(props) {
     </View>
   );
 
-  function renderComments() {
+  function multiCommentThread() {
     return parentCommentIds !== undefined
       ? parentCommentIds.map((commentId, index) => {
-          return <CommentTree commentId={commentId} key={commentId} />;
+          return (
+            <View key={commentId}>
+              <SingleCommentThread commentId={commentId} key={commentId} />
+              <Divider style={{backgroundColor: '#eee', height: 5}} />
+            </View>
+          );
         })
       : null;
   }
@@ -49,9 +55,10 @@ function CommentList(props) {
         marginBottom: 25,
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
+        paddingBottom: 10,
       }}>
       <CommentListTitle />
-      {renderComments()}
+      {multiCommentThread()}
     </View>
   );
 }
