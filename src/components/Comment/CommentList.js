@@ -56,7 +56,7 @@ function CommentList(props) {
   const emptyCommentView = (
     <View
       style={{
-        marginTop: '15%',
+        paddingTop: '10%',
         alignItems: 'center',
         justifyContent: 'center',
       }}>

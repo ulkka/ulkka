@@ -6,6 +6,11 @@ const POPULAR_URI = '/popular';
 
 const postApi = {
   post: {
+    async create(payload) {
+      const client = await mainClient;
+      let response = await client.post(POST_URI, payload);
+      return response;
+    },
     async fetch(page, limit) {
       const client = await mainClient;
       let response = await client.get(

@@ -53,7 +53,10 @@ export default function SearchableDropdown(props) {
   function _renderItem() {
     return ({item}) => {
       return (
-        <TouchableOpacity style={{}} onPress={() => setCommunityToPost(item)}>
+        <TouchableOpacity
+          hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+          style={{}}
+          onPress={() => setCommunityToPost(item)}>
           <View
             style={{
               flexDirection: 'row',

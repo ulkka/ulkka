@@ -1,6 +1,7 @@
 import {fetchFeed} from '../actions/FeedActions';
 import {fetchComments} from './CommentSlice';
 import {createReply} from './ReplySlice';
+import {createPost} from '../actions/PostActions';
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 export const userAdapter = createEntityAdapter({
@@ -12,6 +13,10 @@ export const slice = createSlice({
   initialState: userAdapter.getInitialState(),
   reducers: {},
   extraReducers: {
+    [createPost.fulfilled]: (state, action) => {
+      const newUser = action.payload.normalizedPost.posts.users;
+      userAdapter.upsertOne(state, newUser);
+    },
     [fetchFeed.fulfilled]: (state, action) => {
       const normalizedPosts = action.payload.normalizedPosts;
 

@@ -2,7 +2,7 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import {fetchFeed} from '../actions/FeedActions';
 import {createReply} from './ReplySlice';
 import {signout, socialAuth} from '../actions/AuthActions';
-import {votePost} from '../actions/PostActions';
+import {votePost, createPost} from '../actions/PostActions';
 
 const postAdapter = createEntityAdapter({selectId: (post) => post._id});
 
@@ -14,6 +14,12 @@ export const slice = createSlice({
   },
   reducers: {},
   extraReducers: {
+    [createPost.fulfilled]: (state, action) => {
+      const newPostId = action.payload.newPostId;
+      const newPost = action.payload.normalizedPost.posts[newPostId];
+      newPost.userVote = 0;
+      postAdapter.addOne(state, newPost);
+    },
     [createReply.fulfilled]: (state, action) => {
       const postId = action.payload.data.postId;
       const post = postAdapter.getSelectors().selectById(state, postId);

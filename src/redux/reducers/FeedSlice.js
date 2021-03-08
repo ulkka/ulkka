@@ -1,13 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {signout} from '../actions/AuthActions';
 import {fetchFeed} from '../actions/FeedActions';
+import {createPost} from '../actions/PostActions';
 
 const initialState = {
   ids: [],
   metadata: {
     page: 0,
     total: -1,
-    limit: 2,
+    limit: 5,
   },
   complete: false,
   loading: false,
@@ -48,7 +49,14 @@ export const slice = createSlice({
 
       if (!isFeedEmpty) {
         const postIds = action.payload.postIds;
-        screen.ids = state.screens[type].ids.concat(postIds);
+        postIds.map((postId, index) => {
+          screen.ids.includes(postId)
+            ? console.log(
+                'found duplicate id in feed array, so skipping',
+                postId,
+              )
+            : (screen.ids = state.screens[type].ids.concat(postId));
+        });
         screen.metadata = action.payload.metadata;
       } else {
         screen.complete = true;
@@ -60,6 +68,11 @@ export const slice = createSlice({
       const type = action.meta.arg;
       const screen = state.screens[type];
       screen.loading = false;
+    },
+    [createPost.fulfilled]: (state, action) => {
+      const newPostId = action.payload.newPostId;
+      const homeScreen = state.screens['home'];
+      homeScreen.ids.unshift(newPostId);
     },
     [signout.fulfilled]: (state) => {
       //resetAllFeeds(state);

@@ -10,6 +10,7 @@ const PostTitle = (props) => {
         style={{
           fontSize: 15,
           paddingVertical: 10,
+          marginLeft: 4,
           fontWeight: 'bold',
           color: '#555',
         }}>

@@ -4,17 +4,20 @@ import ReadMoreText from '../ReadMoreText';
 
 const TextPostContent = (props) => {
   const {description} = props;
+  console.log('running text post content');
   return (
     <View>
-      <ReadMoreText numberOfLines={10}>
-        <Text
-          style={{
-            fontSize: 14,
-            lineHeight: 21,
-          }}>
-          {description}
-        </Text>
-      </ReadMoreText>
+      {
+        <ReadMoreText numberOfLines={10}>
+          <Text
+            style={{
+              fontSize: 14,
+              lineHeight: 21,
+            }}>
+            {description}
+          </Text>
+        </ReadMoreText>
+      }
     </View>
   );
 };

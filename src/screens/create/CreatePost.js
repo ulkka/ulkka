@@ -17,8 +17,12 @@ import ImagePicker from 'react-native-image-crop-picker';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import SubmitStatus from '../../components/SubmitStatus';
 import {navigate} from '../../navigation/Ref';
+import {useDispatch} from 'react-redux';
+import {createPost} from '../../redux/actions/PostActions';
 
 export default function CreatePost({route}) {
+  const dispatch = useDispatch();
+
   const [type, setType] = useState('');
   const [community, setCommunity] = useState(null);
   const [title, setTitle] = useState('');
@@ -106,13 +110,13 @@ export default function CreatePost({route}) {
 
     switch (type) {
       case 'text':
-        client
-          .post('post', {
-            community: community._id,
-            title: title,
-            description: description,
-            type: type,
-          })
+        const payload = {
+          community: community._id,
+          title: title,
+          description: description,
+          type: type,
+        };
+        dispatch(createPost(payload))
           .then((response) => {
             setLoading(false);
             var status = {
@@ -388,7 +392,9 @@ export default function CreatePost({route}) {
           justifyContent: 'center',
         }}>
         {media == null ? (
-          <TouchableOpacity onPress={() => pickMedia(mediaType)}>
+          <TouchableOpacity
+            hitSlop={{top: 75, bottom: 100, left: 100, right: 100}}
+            onPress={() => pickMedia(mediaType)}>
             <Icon
               name="plus-square"
               size={40}
