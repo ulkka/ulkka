@@ -6,13 +6,14 @@ import PostContent from './PostContent';
 import PostHeader from './PostHeader';
 import PostTitle from './PostTitle';
 import PostFooter from './PostFooter';
-import {selectPostById} from '../../redux/reducers/PostSlice';
+import {selectFlatPostById} from '../../redux/selectors/PostSelectors';
 
 function Post(props) {
   const {theme} = useContext(ThemeContext);
 
   const {postId, caller} = props;
-  const post = useSelector((state) => selectPostById(state, postId));
+  const post = useSelector(selectFlatPostById(postId));
+
   const {
     community,
     author,
@@ -27,6 +28,9 @@ function Post(props) {
     commentCount,
   } = post;
 
+  const {_id: communityId, name: communityName} = community;
+  const {_id: authorId, displayname: authorDisplayname} = author;
+
   return (
     <View
       style={{
@@ -35,14 +39,17 @@ function Post(props) {
         borderColor: '#ddd',
         backgroundColor: theme.colors.background,
         width: '100%',
-        paddingVertical: 10,
+        paddingTop: 10,
+        paddingBottom: 3,
       }}>
       <View style={{paddingHorizontal: 5}}>
         <PostHeader
           postId={postId}
-          communityId={community}
+          communityId={communityId}
+          communityName={communityName}
           createdAt={created_at}
-          authorId={author}
+          authorId={authorId}
+          authorDisplayname={authorDisplayname}
         />
         <PostTitle postTitle={title} />
       </View>

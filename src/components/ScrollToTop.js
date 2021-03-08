@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Platform} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 const ScrollToTop = (props) => {
@@ -19,7 +19,7 @@ const ScrollToTop = (props) => {
         justifyContent: 'center',
         alignSelf: 'center',
         position: 'absolute',
-        bottom: 25,
+        bottom: Platform.OS == 'ios' ? 25 : 5,
         right: 20,
         backgroundColor: 'transparent',
         borderRadius: 30,

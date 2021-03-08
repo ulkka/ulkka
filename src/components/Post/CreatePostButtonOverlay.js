@@ -92,7 +92,7 @@ export default function CreatePostButtonOverlay(props) {
         justifyContent: 'center',
         alignSelf: 'center',
         position: 'absolute',
-        bottom: 20,
+        bottom: Platform.OS == 'ios' ? 20 : 0,
         backgroundColor: 'transparent',
         borderRadius: 30,
         shadowColor: '#000',

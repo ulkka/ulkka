@@ -8,9 +8,9 @@ import {
   isComplete,
   isLoading,
   makeFeed,
-  fetchFeed,
-  initialiseFeed,
-} from '../redux/reducers/FeedSlice';
+} from '../redux/selectors/FeedSelectors';
+import {initialiseFeed} from '../redux/reducers/FeedSlice';
+import {fetchFeed} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
 import ScrollToTop from './ScrollToTop';

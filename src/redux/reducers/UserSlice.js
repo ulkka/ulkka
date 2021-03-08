@@ -1,10 +1,11 @@
-import {fetchFeed} from './FeedSlice';
+import {fetchFeed} from '../actions/FeedActions';
 import {fetchComments} from './CommentSlice';
 import {createReply} from './ReplySlice';
-
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
-const userAdapter = createEntityAdapter({selectId: (user) => user._id});
+export const userAdapter = createEntityAdapter({
+  selectId: (user) => user._id,
+});
 
 export const slice = createSlice({
   name: 'user',

@@ -4,35 +4,39 @@ import {Icon, Text} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
 import PostExtraOptions from '../PostExtraOptions';
 import {navigate} from '../../navigation/Ref';
-import {useSelector} from 'react-redux';
-import {selectCommunityById} from '../../redux/reducers/CommunitySlice';
-import {selectUserById} from '../../redux/reducers/UserSlice';
 
 const PostHeader = (props) => {
-  const {postId, createdAt, communityId, authorId} = props;
-
-  const community = useSelector((state) =>
-    selectCommunityById(state, communityId),
-  );
-  const user = useSelector((state) => selectUserById(state, authorId));
+  const {
+    postId,
+    createdAt,
+    communityName,
+    authorDisplayname,
+    communityId,
+    authorId,
+  } = props;
 
   const CommunityName = (
     <TouchableOpacity
       onPress={() =>
         navigate('Community', {
-          communityId: community._id,
+          communityId: communityId,
         })
       }>
       <Text style={{fontSize: 13, fontWeight: 'bold', color: '#432'}}>
-        {community.name}
+        {communityName}
       </Text>
     </TouchableOpacity>
   );
 
   const UserDisplayName = (
-    <TouchableOpacity onPress={() => navigate('Account')}>
+    <TouchableOpacity
+      onPress={() =>
+        navigate('Account', {
+          userId: authorId,
+        })
+      }>
       <Text style={{fontSize: 11, paddingRight: 10, color: '#555'}}>
-        {user.displayname}
+        {authorDisplayname}
       </Text>
     </TouchableOpacity>
   );

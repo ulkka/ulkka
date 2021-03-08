@@ -2,15 +2,11 @@ import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon, Divider} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
-import {useSelector} from 'react-redux';
-import {selectUserById} from '../../redux/reducers/UserSlice';
 import {navigate} from '../../navigation/Ref';
 
 const CommentMetadata = (props) => {
-  const {author, createdAt} = props;
+  const {authorDisplayname, createdAt} = props;
   const isCollapsed = props.isCollapsed;
-
-  const user = useSelector((state) => selectUserById(state, author));
 
   const CommentAuthor = (
     <Text
@@ -19,7 +15,7 @@ const CommentMetadata = (props) => {
         fontWeight: '300',
         color: 'darkgreen',
       }}>
-      {user.displayname}
+      {authorDisplayname}
     </Text>
   );
 

@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  fetchComments,
   isLoading,
   getParentComments,
-} from '../../redux/reducers/CommentSlice';
+} from '../../redux/selectors/CommentSelectors';
+import {fetchComments} from '../../redux/reducers/CommentSlice';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import CommentListTitle from './CommentListTitle';
 import SingleCommentThread from './SingleCommentThread';
@@ -53,9 +53,27 @@ function CommentList(props) {
       : null;
   }
 
-  return loading ? (
-    LoadingView
-  ) : (
+  const emptyCommentView = (
+    <View
+      style={{
+        marginTop: '15%',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Text
+        style={{
+          color: '#555',
+          fontWeight: 'bold',
+          fontSize: 14,
+          textAlign: 'center',
+          lineHeight: 30,
+        }}>
+        No comments yet {'\n'}Be the first to comment!
+      </Text>
+    </View>
+  );
+
+  const nonEmptyCommentView = (
     <View
       style={{
         marginBottom: 25,
@@ -66,6 +84,12 @@ function CommentList(props) {
       {multiCommentThread()}
     </View>
   );
+
+  return loading
+    ? LoadingView
+    : parentCommentIds.length == 0
+    ? emptyCommentView
+    : nonEmptyCommentView;
 }
 
 export default CommentList;

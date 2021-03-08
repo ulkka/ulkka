@@ -1,4 +1,4 @@
-import {fetchFeed} from './FeedSlice';
+import {fetchFeed} from '../actions/FeedActions';
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 const communityAdapter = createEntityAdapter({

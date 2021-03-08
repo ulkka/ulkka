@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {voteComment} from './CommentSlice';
-import {votePost} from './PostSlice';
+import {votePost} from '../actions/PostActions';
 import {createReply, activate, prepareReply} from './ReplySlice';
 import {
   signout,

@@ -5,14 +5,14 @@ const CommentListTitle = () => {
   return (
     <View
       style={{
-        paddingVertical: 5,
+        paddingVertical: 6,
         paddingHorizontal: 10,
         backgroundColor: '#eee',
       }}>
       <Text
         style={{
           fontWeight: 'bold',
-          color: '#888',
+          color: '#777',
           fontSize: 13,
           width: '100%',
         }}>

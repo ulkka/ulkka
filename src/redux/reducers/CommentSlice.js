@@ -155,13 +155,3 @@ export const {
   selectAll: selectAllComments,
   selectTotal: selectTotalComments,
 } = commentAdapter.getSelectors((state) => state.comments);
-
-export const getParentComments = (postId) => (state) =>
-  state.comments.posts[postId] === undefined
-    ? []
-    : state.comments.posts[postId].parentComments;
-
-export const isLoading = (postId) => (state) =>
-  state.comments.posts[postId] === undefined
-    ? false
-    : state.comments.posts[postId].loading;

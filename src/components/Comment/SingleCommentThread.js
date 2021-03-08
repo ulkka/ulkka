@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import Comment from './Comment';
 import CommentGroup from './CommentGroup';
 import {useSelector} from 'react-redux';
-import {selectCommentById} from '../../redux/reducers/CommentSlice';
+import {selectFlatCommentById} from '../../redux/selectors/CommentSelectors';
 
 const SingleCommentThread = ({commentId, postId}) => {
   return (
@@ -10,15 +10,23 @@ const SingleCommentThread = ({commentId, postId}) => {
   );
 };
 
-function SingleCommentTree(props) {
+const SingleCommentTree = React.memo((props) => {
   const {commentId, postId} = props;
-  const comment = useSelector((state) => selectCommentById(state, commentId));
-  const replies = comment.replies;
+  const comment = useSelector(selectFlatCommentById(commentId));
+  const {author, created_at, text, userVote, voteCount, replies} = comment;
+  const {displayname} = author;
 
   return (
-    <Comment commentId={commentId} key={commentId} comment={comment}>
+    <Comment
+      commentId={commentId}
+      key={commentId}
+      authorDisplayname={displayname}
+      created_at={created_at}
+      text={text}
+      userVote={userVote}
+      voteCount={voteCount}>
       {replies === undefined ? null : (
-        <CommentGroup parent={commentId} key={commentId} comment={comment}>
+        <CommentGroup parent={commentId} key={commentId}>
           {replies.map((replyId) => {
             return (
               <SingleCommentThread
@@ -32,6 +40,6 @@ function SingleCommentTree(props) {
       )}
     </Comment>
   );
-}
+});
 
 export default memo(SingleCommentThread);

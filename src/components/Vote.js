@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import {votePost} from '../redux/reducers/PostSlice';
+import {votePost} from '../redux/actions/PostActions';
 import {voteComment} from '../redux/reducers/CommentSlice';
 
 export function Vote(props) {
@@ -39,7 +39,6 @@ export function Vote(props) {
         fontWeight: 'bold',
         color: userVote == 1 ? '#ff4301' : userVote == -1 ? '#3b5998' : '#888',
         paddingHorizontal: 10,
-        fontSize: 15,
       }}>
       {voteCount}
     </Text>

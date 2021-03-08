@@ -1,35 +1,10 @@
-import postApi from '../../services/PostApi';
-import {
-  createSlice,
-  createEntityAdapter,
-  createAsyncThunk,
-  createSelector,
-} from '@reduxjs/toolkit';
-import {fetchFeed} from './FeedSlice';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
+import {fetchFeed} from '../actions/FeedActions';
 import {createReply} from './ReplySlice';
 import {signout, socialAuth} from '../actions/AuthActions';
+import {votePost} from '../actions/PostActions';
 
 const postAdapter = createEntityAdapter({selectId: (post) => post._id});
-
-export const votePost = createAsyncThunk(
-  'posts/vote',
-  async ({id, voteType}, thunkAPI) => {
-    let response = await postApi.post.vote(id, voteType);
-    return response;
-  },
-  {
-    condition: ({id, voteType}, {getState}) => {
-      const isRegistered = getState().authorization.isRegistered;
-      const access = isRegistered ? true : false;
-      return access;
-    },
-    dispatchConditionRejection: true,
-  },
-);
-
-function resetState(state, type) {
-  postAdapter.removeAll(state);
-}
 
 export const slice = createSlice({
   name: 'posts',
@@ -96,11 +71,3 @@ export const {
   selectAll: selectAllPosts,
   selectTotal: selectTotalPosts,
 } = postAdapter.getSelectors((state) => state.posts);
-
-export const getPostField = (id, field) =>
-  createSelector(
-    (state) => selectPostById(state, id),
-    (post) => {
-      return post[field];
-    },
-  );

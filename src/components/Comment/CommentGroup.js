@@ -15,4 +15,4 @@ function CommentGroup(props) {
   );
 }
 
-export default CommentGroup;
+export default memo(CommentGroup);
