@@ -1,0 +1,60 @@
+import React from 'react';
+import {View, Text, ActivityIndicator} from 'react-native';
+import {Overlay} from 'react-native-elements';
+import {Button} from 'react-native';
+
+export const uploadProgress = (_setUploadProgress) => (progressEvent) => {
+  const percentFraction = progressEvent.loaded / progressEvent.total;
+  _setUploadProgress(parseInt(percentFraction * 100));
+};
+
+export const SubmitProgress = (props) => {
+  const {percent, isVisible, onCancel, showUploadProgress} = props;
+
+  return (
+    <Overlay
+      isVisible={isVisible}
+      animationType="none"
+      fullScreen
+      overlayStyle={{
+        opacity: 0.8,
+      }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: showUploadProgress ? 'flex-end' : 'center',
+            marginBottom: 75,
+          }}>
+          <ActivityIndicator size="large" color="#4285f4" />
+        </View>
+        {showUploadProgress ? (
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <Text style={{fontSize: 16, fontWeight: 'bold', color: '#333'}}>
+                {percent != 100 ? percent + '% Uploaded' : 'Processing ...'}
+              </Text>
+            </View>
+            <View
+              style={{
+                bottom: 20,
+              }}>
+              <Button title="Cancel Upload" onPress={onCancel} />
+            </View>
+          </View>
+        ) : null}
+      </View>
+    </Overlay>
+  );
+};

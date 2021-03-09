@@ -20,6 +20,8 @@ function Comment(props) {
     setIsCollapsed(!isCollapsed);
   };
 
+  console.log('running comment');
+
   return (
     <View
       style={{

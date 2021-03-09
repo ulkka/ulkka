@@ -4,7 +4,6 @@ import ReadMoreText from '../ReadMoreText';
 
 const TextPostContent = (props) => {
   const {description} = props;
-  console.log('running text post content');
   return (
     <View>
       {

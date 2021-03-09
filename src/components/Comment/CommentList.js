@@ -5,7 +5,7 @@ import {
   isLoading,
   getParentComments,
 } from '../../redux/selectors/CommentSelectors';
-import {fetchComments} from '../../redux/reducers/CommentSlice';
+import {fetchComments} from '../../redux/actions/CommentActions';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import CommentListTitle from './CommentListTitle';
 import SingleCommentThread from './SingleCommentThread';

@@ -1,0 +1,131 @@
+import React, {useEffect, useState} from 'react';
+import {View, Text, Image, ScrollView, ActivityIndicator} from 'react-native';
+import {Input} from 'react-native-elements';
+import utilityApi from '../../services/UtilityApi';
+
+export const LinkField = (props) => {
+  const [preview, setPreview] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const {onChangeText, link} = props;
+
+  useEffect(() => {
+    link != '' ? getOgPreview(link) : null;
+  }, [link]);
+
+  const getOgPreview = async (link) => {
+    setLoading(true);
+    setPreview(false);
+    setPreviewData(null);
+    const response = await utilityApi.og.preview(link);
+    if (!response.error) {
+      if (!response.data.ogImage) {
+        setPreviewData(null);
+      } else {
+        setPreviewData(response.data);
+        setPreview(true);
+      }
+      setLoading(false);
+    } else {
+      setPreview(false);
+      setPreviewData(null);
+      setLoading(false);
+      console.log('Preview error');
+    }
+  };
+
+  const ogTitleField = (
+    <View style={{margin: 5}}>
+      <Text style={{fontWeight: 'bold', fontSize: 13, color: '#333'}}>
+        {previewData == null ? '' : previewData.ogTitle}
+      </Text>
+    </View>
+  );
+
+  const ogDescriptionField = (
+    <View style={{marginHorizontal: 5}}>
+      <Text style={{fontSize: 11, color: '#555'}}>
+        {previewData == null ? '' : previewData.ogDescription}
+      </Text>
+    </View>
+  );
+
+  const ogImageField = (
+    <View
+      style={{
+        flex: 5,
+        padding: 5,
+        alignItems: 'flex-start',
+      }}>
+      <Image
+        source={{uri: previewData == null ? '' : previewData.ogImage.url}}
+        style={{
+          height: 180,
+          aspectRatio: 1,
+          maxWidth: 160,
+          resizeMode: 'contain',
+        }}
+      />
+    </View>
+  );
+
+  const PreviewField = loading ? (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+        opacity: 0.8,
+        marginTop: 75,
+      }}>
+      <ActivityIndicator size="large" color="#4285f4" />
+    </View>
+  ) : (
+    <View
+      style={{
+        backgroundColor: '#fff',
+        borderColor: '#ccc',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+      }}>
+      <View
+        style={{
+          flex: 7,
+          justifyContent: 'center',
+          padding: 5,
+        }}>
+        {ogTitleField}
+        {ogDescriptionField}
+      </View>
+      {ogImageField}
+    </View>
+  );
+
+  return (
+    <View style={{flex: 3}}>
+      <ScrollView>
+        <View>
+          <Input
+            style={{
+              maxHeight: 300,
+              minHeight: 50,
+            }}
+            inputContainerStyle={{
+              borderBottomColor: '#fff',
+            }}
+            onChangeText={onChangeText}
+            value={link}
+            placeholder={'Add Link'}
+            numberOfLines={2}
+            multiline={true}
+            maxLength={1000}
+          />
+        </View>
+        {preview || loading ? PreviewField : <View></View>}
+      </ScrollView>
+    </View>
+  );
+};

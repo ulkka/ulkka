@@ -1,5 +1,5 @@
 import {fetchFeed} from '../actions/FeedActions';
-import {fetchComments} from './CommentSlice';
+import {fetchComments} from '../actions/CommentActions';
 import {createReply} from './ReplySlice';
 import {createPost} from '../actions/PostActions';
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
@@ -14,7 +14,10 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: {
     [createPost.fulfilled]: (state, action) => {
-      const newUser = action.payload.normalizedPost.posts.users;
+      const newPostId = action.payload.newPostId;
+      const newPost = action.payload.normalizedPost.posts[newPostId];
+      const newUserId = newPost.author;
+      const newUser = action.payload.normalizedPost.users[newUserId];
       userAdapter.upsertOne(state, newUser);
     },
     [fetchFeed.fulfilled]: (state, action) => {

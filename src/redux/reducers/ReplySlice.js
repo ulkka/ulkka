@@ -4,7 +4,7 @@ import {normalize} from 'normalizr';
 import {comment} from '../schema/CommentSchema';
 
 export const prepareReply = createAsyncThunk(
-  'replies/prepare',
+  'commentCreator/prepare',
   async (data, thunkAPI) => {
     var res = {};
     if (data.postId != undefined) {
@@ -31,7 +31,7 @@ export const prepareReply = createAsyncThunk(
 );
 
 export const createReply = createAsyncThunk(
-  'replies/create',
+  'commentCreator/create',
   async (data, thunkAPI) => {
     const response = await postApi.comment.create(
       data.comment,
@@ -57,7 +57,7 @@ export const createReply = createAsyncThunk(
 );
 
 export const activate = createAsyncThunk(
-  'replies/activate',
+  'commentCreator/activate',
   async () => {
     return true;
   },
@@ -72,7 +72,7 @@ export const activate = createAsyncThunk(
 );
 
 export const slice = createSlice({
-  name: 'replies',
+  name: 'commentCreator',
   initialState: {
     reply_to: 'post',
     post_id: null,
@@ -118,15 +118,15 @@ export const slice = createSlice({
   },
 });
 
-export const getCommentId = (state) => state.replies.comment_id;
+export const getCommentId = (state) => state.commentCreator.comment_id;
 
-export const isActive = (state) => state.replies.active;
+export const isActive = (state) => state.commentCreator.active;
 
-export const isLoading = (state) => state.replies.loading;
+export const isLoading = (state) => state.commentCreator.loading;
 
 export const getResetCommentToggle = (state) =>
-  state.replies.resetCommentToggle;
+  state.commentCreator.resetCommentToggle;
 
-export const replies = slice.reducer;
+export const commentCreator = slice.reducer;
 
 export const {deactivate} = slice.actions;
