@@ -43,7 +43,7 @@ export const MediaField = (props) => {
       style={{
         position: 'absolute',
         top: 0,
-        right: 0,
+        right: 20,
       }}>
       <Icon
         name="close"
@@ -76,7 +76,8 @@ export const MediaField = (props) => {
       source={{uri: media.path}}
       style={{
         width: '100%',
-        height: '100%',
+        aspectRatio: 1,
+        // height: '100%',
         resizeMode: 'contain',
       }}
     />

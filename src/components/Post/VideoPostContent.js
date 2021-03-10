@@ -2,14 +2,15 @@ import React, {memo} from 'react';
 import Video from 'react-native-video';
 
 const VideoPostContent = (props) => {
-  const postId = props.postId;
+  const {mediaMetadata} = props;
+  console.log('video link', mediaMetadata.secure_url);
   return (
     <Video
       style={{
         width: '100%',
         aspectRatio: 1,
       }}
-      source={{uri: post.link}}
+      source={{uri: mediaMetadata.secure_url}}
       resizeMode="contain"
       paused={false}
       showPoster={true}

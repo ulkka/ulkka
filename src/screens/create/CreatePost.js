@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, KeyboardAvoidingView, Platform} from 'react-native';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import FormData from 'form-data';
-import SubmitStatus from '../../components/SubmitStatus';
+import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
 import {navigate} from '../../navigation/Ref';
 import {useDispatch} from 'react-redux';
 import {createPost} from '../../redux/actions/PostActions';
@@ -16,7 +16,7 @@ import {CommunityField} from '../../components/PostCreator/CommunityField';
 import utilityApi from '../../services/UtilityApi';
 import {
   uploadProgress,
-  SubmitProgress,
+  ShowSubmitProgress,
 } from '../../components/PostCreator/UploadProgress';
 import Snackbar from 'react-native-snackbar';
 import axios from 'axios';
@@ -44,6 +44,24 @@ export default function CreatePost({route}) {
     setType(route.params.type);
   }, []);
 
+  const showSnackBar = (message) => {
+    if (Platform.OS == 'ios') {
+      Snackbar.show({
+        text: message,
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    } else {
+      setTimeout(
+        () =>
+          Snackbar.show({
+            text: message,
+            duration: Snackbar.LENGTH_SHORT,
+          }),
+        10,
+      );
+    }
+  };
+
   const postSuccess = () => {
     setLoading(false);
     var status = {
@@ -58,25 +76,16 @@ export default function CreatePost({route}) {
 
   const postFail = (error) => {
     console.log('Posting to server error - ', error);
-    setLoading(false);
-    var status = {
-      type: 'fail',
-      message: 'Failed to post to',
-      entity: community.name,
-    };
-    setStatusData(status);
     setUploadPercent(0);
-    setTimeout(navigate('Feed'), 2000);
+    setLoading(false);
+    showSnackBar('Request failed. Please try again later');
   };
 
   const uploadCancelled = (error) => {
-    console.log('Error uploading media', error);
+    console.log('Media Upload Cancelled - ', error);
     setLoading(false);
     setUploadPercent(0);
-    Snackbar.show({
-      text: 'Upload cancelled',
-      duration: Snackbar.LENGTH_SHORT,
-    });
+    showSnackBar('Upload Cancelled');
   };
 
   const payloadCreator = (type, response) => {
@@ -120,9 +129,16 @@ export default function CreatePost({route}) {
           ? media.path
           : media.path.replace('file://', ''),
       type: media.mime,
+      // type: 'video',
       name: media.filename,
     });
     return data;
+  }
+
+  function createNewAxiosClientSource() {
+    let source = axios.CancelToken.source();
+    setClientSource(source);
+    return source;
   }
 
   const dispatchPost = (payload) => {
@@ -150,7 +166,7 @@ export default function CreatePost({route}) {
       case 'image':
         console.log('uploading media from path - ', media.path);
         var data = fileFormDataCreator();
-        let source = createNewSource();
+        let source = createNewAxiosClientSource();
 
         response = await utilityApi.media.upload(
           data,
@@ -158,7 +174,8 @@ export default function CreatePost({route}) {
           source.token,
         );
 
-        if (!response.error) {
+        console.log('respone after media uplaod', response);
+        if (!(response.error || response.data.name == 'Error')) {
           dispatchPost(payloadCreator(type, response));
         } else {
           const error = response.error;
@@ -239,8 +256,8 @@ export default function CreatePost({route}) {
         backgroundColor: '#fff',
       }}>
       {createPostComponent}
-      <SubmitStatus data={statusData} />
-      <SubmitProgress
+      <ShowSubmitStatus data={statusData} />
+      <ShowSubmitProgress
         percent={uploadPercent}
         showUploadProgress={uploadPercent > 0 ? true : false}
         isVisible={loading}
@@ -249,10 +266,4 @@ export default function CreatePost({route}) {
       />
     </View>
   );
-
-  function createNewSource() {
-    let source = axios.CancelToken.source();
-    setClientSource(source);
-    return source;
-  }
 }

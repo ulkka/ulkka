@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Modal} from 'react-native';
 import {Icon} from 'react-native-elements';
 
-export default function SubmitStatus(props) {
+export default function ShowSubmitStatus(props) {
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState(new Map());
   useEffect(() => {

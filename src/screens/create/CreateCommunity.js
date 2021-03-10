@@ -5,7 +5,7 @@ import mainClient from '../../client/mainClient';
 import {Button, Input} from 'react-native-elements';
 import Header from '../../components/Header';
 import LoadingOverlay from '../../components/LoadingOverlay';
-import SubmitStatus from '../../components/SubmitStatus';
+import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
 
 export default function CreateCommunity({navigation}) {
   const [loading, setLoading] = useState(false);
@@ -140,7 +140,7 @@ export default function CreateCommunity({navigation}) {
         {Form}
       </KeyboardAvoidingView>
       <LoadingOverlay visible={loading} />
-      <SubmitStatus data={status} />
+      <ShowSubmitStatus data={status} />
     </View>
   );
 }

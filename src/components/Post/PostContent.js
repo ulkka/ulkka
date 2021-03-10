@@ -8,7 +8,15 @@ import VideoPostContent from './VideoPostContent';
 import GifPostContent from './GifPostContent';
 
 function PostContent(props) {
-  const {postId, caller, type, description, mediaMetadata, ogData} = props;
+  const {
+    postId,
+    caller,
+    type,
+    description,
+    mediaMetadata,
+    ogData,
+    link,
+  } = props;
 
   const ContentType =
     type == 'image' || type == 'video' || type == 'gif' ? 'media' : 'textual';
@@ -56,7 +64,7 @@ function PostContent(props) {
       case 'gif':
         return <GifPostContent mediaMetadata={mediaMetadata} />;
       case 'link':
-        return <LinkPostContent ogData={ogData} />;
+        return <LinkPostContent ogData={ogData} link={link} />;
       default:
         return DefaultPost;
     }

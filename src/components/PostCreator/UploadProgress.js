@@ -8,7 +8,7 @@ export const uploadProgress = (_setUploadProgress) => (progressEvent) => {
   _setUploadProgress(parseInt(percentFraction * 100));
 };
 
-export const SubmitProgress = (props) => {
+export const ShowSubmitProgress = (props) => {
   const {percent, isVisible, onCancel, showUploadProgress} = props;
 
   return (

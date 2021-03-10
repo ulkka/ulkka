@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
-import {View, Image, Dimensions} from 'react-native';
+import {View, Dimensions, ActivityIndicator} from 'react-native';
+import {Image} from 'react-native-elements';
 
 const ImagePostContent = (props) => {
   const {mediaMetadata} = props;
@@ -10,24 +11,23 @@ const ImagePostContent = (props) => {
   );
 
   return (
-    <View
-      style={{
-        height: height,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
+    <View>
       <Image
         style={{
           height: height,
           width: '100%',
           resizeMode: 'contain',
           alignSelf: 'center',
-          backgroundColor: 'rgba(241, 243, 280, 1)',
         }}
         source={{
           uri: mediaMetadata.secure_url,
         }}
+        placeholderStyle={{
+          backgroundColor: '#fff',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        PlaceholderContent={<ActivityIndicator size="large" color="#4285f4" />}
       />
     </View>
   );

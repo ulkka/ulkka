@@ -21,6 +21,7 @@ function Post(props) {
     title,
     type,
     description,
+    link,
     mediaMetadata,
     ogData,
     userVote,
@@ -30,6 +31,8 @@ function Post(props) {
 
   const {_id: communityId, name: communityName} = community;
   const {_id: authorId, displayname: authorDisplayname} = author;
+
+  //console.log('running post');
 
   return (
     <View
@@ -60,6 +63,7 @@ function Post(props) {
         description={description}
         mediaMetadata={mediaMetadata}
         ogData={ogData}
+        link={link}
       />
       <PostFooter
         postId={postId}
