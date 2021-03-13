@@ -1,4 +1,4 @@
-export const makeFeed = (screen) => (state) =>
+export const getFeedPostIds = (screen) => (state) =>
   state.feed.screens[screen] === undefined
     ? []
     : state.feed.screens[screen].ids;

@@ -43,7 +43,7 @@ export const ShowSubmitProgress = (props) => {
             }}>
             <View>
               <Text style={{fontSize: 16, fontWeight: 'bold', color: '#333'}}>
-                {percent != 100 ? percent + '% Uploaded' : 'Processing ...'}
+                {percent != 100 ? percent + '% Uploaded' : 'Processing...'}
               </Text>
             </View>
             <View

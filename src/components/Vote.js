@@ -1,13 +1,25 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {votePost} from '../redux/actions/PostActions';
 import {voteComment} from '../redux/actions/CommentActions';
+import {getPostField} from '../redux/selectors/PostSelectors';
+import {getCommentField} from '../redux/selectors/CommentSelectors';
 
 export function Vote(props) {
   const dispatch = useDispatch();
   const {id, entityType, userVote, voteCount} = props;
+
+  /*const userVote =
+    entityType == 'post'
+      ? useSelector(getPostField(id, 'userVote'))
+      : useSelector(getCommentField(id, 'userVote'));
+
+  const voteCount =
+    entityType == 'post'
+      ? useSelector(getPostField(id, 'voteCount'))
+      : useSelector(getCommentField(id, 'voteCount'));*/
 
   const vote = (type) => {
     let voteType = userVote == type ? 0 : type;
@@ -73,4 +85,4 @@ export function Vote(props) {
   );
 }
 
-export default Vote;
+export default memo(Vote);

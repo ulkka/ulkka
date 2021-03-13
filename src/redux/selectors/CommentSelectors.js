@@ -12,6 +12,14 @@ export const isLoading = (postId) => (state) =>
     ? false
     : state.comments.posts[postId].loading;
 
+export const getCommentField = (id, field) => {
+  console.log('id,field', id, field);
+  return createSelector(
+    (state) => selectCommentById(state, id),
+    (comment) => comment[field],
+  );
+};
+
 export const selectFlatCommentById = (id) => {
   return createSelector(
     (state) => {

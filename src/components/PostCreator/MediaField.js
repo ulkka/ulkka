@@ -43,7 +43,7 @@ export const MediaField = (props) => {
       style={{
         position: 'absolute',
         top: 0,
-        right: 20,
+        right: 10,
       }}>
       <Icon
         name="close"

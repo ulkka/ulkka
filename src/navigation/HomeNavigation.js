@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, FlatList} from 'react-native';
+import {View, FlatList, Platform} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
 import AccountNavigation from '../screens/account/AccountNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
@@ -46,9 +46,28 @@ function FeedList({navigation}) {
   );
 }
 
+const presets =
+  Platform.OS == 'ios'
+    ? TransitionPresets.SlideFromRightIOS
+    : TransitionPresets.ScaleFromCenterAndroid;
+
 function HomeNavigation({navigation}) {
   return (
-    <StackNav.Navigator initialRouteName="Feed">
+    <StackNav.Navigator
+      initialRouteName="Feed"
+      screenOptions={{
+        headerStyle:
+          Platform.OS == 'android'
+            ? {
+                height: 40,
+              }
+            : {},
+        headerTitleStyle: {
+          fontSize: Platform.OS == 'ios' ? 17 : 15,
+          color: '#444',
+        },
+        ...presets,
+      }}>
       <StackNav.Screen
         name="Feed"
         component={Home}
@@ -74,9 +93,6 @@ function HomeNavigation({navigation}) {
         options={{
           headerTitle: 'Create Post',
           headerBackTitle: '',
-          headerBackTitleStyle: {
-            fontSize: 16,
-          },
         }}
       />
       <StackNav.Screen

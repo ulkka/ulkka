@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 
 const PostTitle = (props) => {
   const {postTitle} = props;
@@ -10,7 +10,7 @@ const PostTitle = (props) => {
         style={{
           fontSize: 15,
           paddingVertical: 10,
-          marginLeft: 4,
+          marginLeft: Platform.OS == 'ios' ? 3 : 0,
           fontWeight: 'bold',
           color: '#555',
         }}>

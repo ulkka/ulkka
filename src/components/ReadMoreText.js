@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text} from 'react-native';
 import ReadMore from 'react-native-read-more-text';
 
@@ -31,4 +31,4 @@ const ReadMoreText = (props) => {
   );
 };
 
-export default ReadMoreText;
+export default memo(ReadMoreText);

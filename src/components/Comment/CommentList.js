@@ -37,7 +37,7 @@ function CommentList(props) {
   );
 
   function multiCommentThread() {
-    return parentCommentIds !== undefined
+    return parentCommentIds
       ? parentCommentIds.map((commentId, index) => {
           return (
             <View key={commentId}>
@@ -56,7 +56,8 @@ function CommentList(props) {
   const emptyCommentView = (
     <View
       style={{
-        paddingTop: '10%',
+        marginTop: '10%',
+        marginBottom: 45,
         alignItems: 'center',
         justifyContent: 'center',
       }}>

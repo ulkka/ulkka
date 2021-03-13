@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {View, Text, TouchableHighlight} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {navigate} from '../../navigation/Ref';
 import LinkPostContent from './LinkPostContent';
 import TextPostContent from './TextPostContent';
@@ -14,6 +14,8 @@ function PostContent(props) {
     type,
     description,
     mediaMetadata,
+    height,
+    width,
     ogData,
     link,
   } = props;
@@ -35,20 +37,22 @@ function PostContent(props) {
     return (
       <View
         style={{
-          paddingVertical: ContentType == 'media' ? 0 : 15,
-          paddingTop: ContentType == 'media' ? 5 : 0,
-          borderLeftWidth: ContentType == 'media' ? 0 : 1,
-          borderColor: '#eee',
+          paddingBottom: ContentType == 'media' ? 0 : 10,
           width: ContentType == 'media' ? '100%' : '97%',
+          paddingHorizontal: ContentType == 'media' ? 0 : 5,
+          backgroundColor: type == 'video' ? '#111' : '#fff',
           alignSelf: 'center',
-          padding: ContentType == 'media' ? 0 : 3,
         }}>
-        <TouchableHighlight
+        <TouchableOpacity
           activeOpacity={0.9}
           underlayColor="#fff"
-          onPress={() => navigateToPostDetail()}>
+          onPress={() =>
+            type == 'video'
+              ? console.log('video type, so not navigating')
+              : navigateToPostDetail()
+          }>
           {props.children}
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -58,16 +62,43 @@ function PostContent(props) {
       case 'text':
         return <TextPostContent description={description} />;
       case 'image':
-        return <ImagePostContent mediaMetadata={mediaMetadata} />;
+        return (
+          <ImagePostContent
+            mediaMetadata={mediaMetadata}
+            height={height}
+            width={width}
+          />
+        );
       case 'video':
-        return <VideoPostContent mediaMetadata={mediaMetadata} />;
+        return (
+          <VideoPostContent
+            mediaMetadata={mediaMetadata}
+            link={link}
+            height={height}
+            width={width}
+          />
+        );
       case 'gif':
-        return <GifPostContent mediaMetadata={mediaMetadata} />;
+        return (
+          <GifPostContent
+            mediaMetadata={mediaMetadata}
+            height={height}
+            width={width}
+          />
+        );
       case 'link':
-        return <LinkPostContent ogData={ogData} link={link} />;
+        return (
+          <LinkPostContent
+            ogData={ogData}
+            link={link}
+            height={height}
+            width={width}
+          />
+        );
       default:
         return DefaultPost;
     }
+    r;
   };
 
   return (

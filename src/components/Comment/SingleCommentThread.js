@@ -4,13 +4,7 @@ import CommentGroup from './CommentGroup';
 import {useSelector} from 'react-redux';
 import {selectFlatCommentById} from '../../redux/selectors/CommentSelectors';
 
-const SingleCommentThread = ({commentId, postId}) => {
-  return (
-    <SingleCommentTree key={commentId} commentId={commentId} postId={postId} />
-  );
-};
-
-const SingleCommentTree = React.memo((props) => {
+const SingleCommentThread = (props) => {
   const {commentId, postId} = props;
   const comment = useSelector(selectFlatCommentById(commentId));
   const {author, created_at, text, userVote, voteCount, replies} = comment;
@@ -40,6 +34,6 @@ const SingleCommentTree = React.memo((props) => {
       )}
     </Comment>
   );
-});
+};
 
 export default memo(SingleCommentThread);

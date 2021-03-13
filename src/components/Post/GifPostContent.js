@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {Image} from 'react-native';
 
 const GifPostContent = (props) => {
-  const post = props.post;
+  const {mediaMetadata, height, width} = props;
   return (
     <Image
       style={{
@@ -12,7 +12,7 @@ const GifPostContent = (props) => {
         alignSelf: 'center',
       }}
       source={{
-        uri: post.link,
+        uri: mediaMetadata.secure_url,
       }}
     />
   );

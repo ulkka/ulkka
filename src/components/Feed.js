@@ -1,19 +1,17 @@
 import React, {useEffect, useContext} from 'react';
-import {View, FlatList, RefreshControl} from 'react-native';
+import {View, FlatList, RefreshControl, Dimensions} from 'react-native';
 import {ThemeContext, Divider} from 'react-native-elements';
 import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
-import {
-  isComplete,
-  isLoading,
-  makeFeed,
-} from '../redux/selectors/FeedSelectors';
+import {isComplete, isLoading} from '../redux/selectors/FeedSelectors';
+import {selectFlatPosts} from '../redux/selectors/PostSelectors';
 import {initialiseFeed} from '../redux/reducers/FeedSlice';
 import {fetchFeed} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
 import ScrollToTop from './ScrollToTop';
+import {scaleHeightAndWidthAccordingToDimensions} from './Post/helpers';
 
 function Feed(props) {
   const {theme} = useContext(ThemeContext);
@@ -27,7 +25,7 @@ function Feed(props) {
 
   const loading = useSelector(isLoading(screen));
   const complete = useSelector(isComplete(screen));
-  const postIds = useSelector(makeFeed(screen));
+  const posts = useSelector(selectFlatPosts(screen));
 
   console.log('running feed');
 
@@ -39,8 +37,53 @@ function Feed(props) {
   }, [authStatus]);
 
   const renderRow = ({item}) => {
-    return <Post postId={item} caller={screen} />;
+    const {
+      _id,
+      created_at,
+      title,
+      type,
+      description,
+      link,
+      mediaMetadata,
+      ogData,
+      userVote,
+      voteCount,
+      commentCount,
+      communityDetail,
+      authorDetail,
+    } = item;
+
+    const {_id: communityId, name: communityName} = communityDetail;
+    const {_id: authorId, displayname: authorDisplayname} = authorDetail;
+
+    let {height, width} = scaleHeightAndWidthAccordingToDimensions(
+      mediaMetadata,
+    );
+
+    return (
+      <Post
+        postId={_id}
+        caller={screen}
+        communityName={communityName}
+        communityId={communityId}
+        authorDisplayname={authorDisplayname}
+        authorId={authorId}
+        created_at={created_at}
+        title={title}
+        type={type}
+        description={description}
+        mediaMetadata={mediaMetadata}
+        height={height}
+        width={width}
+        ogData={ogData}
+        link={link}
+        userVote={userVote}
+        voteCount={voteCount}
+        commentCount={commentCount}
+      />
+    );
   };
+
   const separator = () => {
     return <Divider style={{backgroundColor: '#eee', height: 5}} />;
   };
@@ -71,18 +114,18 @@ function Feed(props) {
         ListHeaderComponent={ListHeaderComponent}
         ref={feedListRef}
         listKey={screen}
-        data={postIds}
+        data={posts}
         renderItem={renderRow}
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={100}
-        //windowSize={11} // causes flickering with read more text while scrolling up, fix that before uncommenting
+        windowSize={15} // causes flickering with read more text while scrolling up, fix that before uncommenting
         initialNumToRender={5}
         maxToRenderPerBatch={5}
         viewabilityConfig={{viewAreaCoveragePercentThreshold: 50}}
-        keyExtractor={(postId, index) => postId}
+        keyExtractor={(post, index) => post._id}
         ListFooterComponent={<FeedFooter complete={complete} />}
         refreshControl={
           <RefreshControl refreshing={false} onRefresh={refreshFeed} />

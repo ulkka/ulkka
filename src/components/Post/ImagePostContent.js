@@ -1,33 +1,25 @@
 import React, {memo} from 'react';
-import {View, Dimensions, ActivityIndicator} from 'react-native';
-import {Image} from 'react-native-elements';
+import {View, ActivityIndicator, Image} from 'react-native';
+import FastImage from 'react-native-fast-image';
+//import {Image} from 'react-native-elements';
 
 const ImagePostContent = (props) => {
-  const {mediaMetadata} = props;
-
-  const height = Math.ceil(
-    (mediaMetadata.height * Dimensions.get('window').width) /
-      mediaMetadata.width,
-  );
+  const {mediaMetadata, height, width} = props;
 
   return (
-    <View>
-      <Image
+    <View style={{alignSelf: 'center', height: height, width: width}}>
+      <FastImage
         style={{
           height: height,
-          width: '100%',
-          resizeMode: 'contain',
+          width: width,
+          //resizeMode: 'contain',
           alignSelf: 'center',
         }}
         source={{
           uri: mediaMetadata.secure_url,
+          priority: FastImage.priority.normal,
         }}
-        placeholderStyle={{
-          backgroundColor: '#fff',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        PlaceholderContent={<ActivityIndicator size="large" color="#4285f4" />}
+        resizeMode={FastImage.resizeMode.contain}
       />
     </View>
   );

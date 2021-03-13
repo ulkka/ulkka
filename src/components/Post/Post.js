@@ -1,49 +1,47 @@
 import React, {useContext, memo} from 'react';
 import {View} from 'react-native';
 import {ThemeContext} from 'react-native-elements';
-import {useSelector} from 'react-redux';
 import PostContent from './PostContent';
 import PostHeader from './PostHeader';
 import PostTitle from './PostTitle';
 import PostFooter from './PostFooter';
-import {selectFlatPostById} from '../../redux/selectors/PostSelectors';
 
 function Post(props) {
   const {theme} = useContext(ThemeContext);
 
-  const {postId, caller} = props;
-  const post = useSelector(selectFlatPostById(postId));
-
   const {
-    community,
-    author,
+    postId,
+    caller,
     created_at,
     title,
     type,
     description,
     link,
     mediaMetadata,
+    height,
+    width,
     ogData,
     userVote,
     voteCount,
     commentCount,
-  } = post;
+    communityId,
+    communityName,
+    authorId,
+    authorDisplayname,
+  } = props;
 
-  const {_id: communityId, name: communityName} = community;
-  const {_id: authorId, displayname: authorDisplayname} = author;
-
-  //console.log('running post');
+  console.log('running post', postId);
 
   return (
     <View
       style={{
         alignSelf: 'center',
-        borderBottomWidth: 1,
-        borderColor: '#ddd',
         backgroundColor: theme.colors.background,
         width: '100%',
         paddingTop: 10,
         paddingBottom: 3,
+        borderBottomColor: '#eee',
+        borderBottomWidth: 1,
       }}>
       <View style={{paddingHorizontal: 5}}>
         <PostHeader
@@ -62,6 +60,8 @@ function Post(props) {
         type={type}
         description={description}
         mediaMetadata={mediaMetadata}
+        height={height}
+        width={width}
         ogData={ogData}
         link={link}
       />

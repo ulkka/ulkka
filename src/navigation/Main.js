@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {Platform} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {enableScreens} from 'react-native-screens';
@@ -24,6 +25,11 @@ export default function Main() {
     dispatch(loadAuth());
   }, []);
 
+  const presets =
+    Platform.OS == 'ios'
+      ? TransitionPresets.ModalPresentationIOS
+      : TransitionPresets.RevealFromBottomAndroid;
+
   const AppNavigation = (
     <NavigationContainer
       linking={linking}
@@ -32,9 +38,10 @@ export default function Main() {
       <StackNav.Navigator
         initialRouteName="Main"
         screenOptions={() => ({
+          // cardStyle: {backgroundColor: 'transparent'},
           gestureEnabled: true,
           cardOverlayEnabled: true,
-          ...TransitionPresets.ModalPresentationIOS,
+          ...presets,
         })}
         mode="modal">
         <StackNav.Screen

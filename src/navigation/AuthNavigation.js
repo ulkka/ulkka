@@ -1,4 +1,5 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
   getAuthStatus,
@@ -13,16 +14,26 @@ export const AuthNavigation = () => {
   const StackNav = createStackNavigator();
   const isRegistered = useSelector(getRegistrationStatus);
   const authStatus = useSelector(getAuthStatus);
+
+  const headerStyle =
+    Platform.OS == 'ios'
+      ? {
+          borderTopWidth: 1,
+          borderTopColor: '#ddd',
+          borderTopEndRadius: 15,
+          borderTopStartRadius: 15,
+        }
+      : {};
+
   return (
     <StackNav.Navigator
       screenOptions={{
         headerBackTitle: '',
         headerStatusBarHeight: 0,
-        headerStyle: {
-          borderTopWidth: 1,
-          borderTopColor: '#ddd',
-          borderTopEndRadius: 15,
-          borderTopStartRadius: 15,
+        headerStyle: headerStyle,
+        headerTitleStyle: {
+          fontSize: Platform.OS == 'ios' ? 17 : 15,
+          color: '#444',
         },
       }}>
       <StackNav.Screen

@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
-import {SafeAreaView, TouchableOpacity, StatusBar} from 'react-native';
+import {
+  SafeAreaView,
+  TouchableOpacity,
+  StatusBar,
+  Platform,
+} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import Search from './Search';
 import {showAuthScreen} from '../navigation/Ref';
@@ -35,7 +40,7 @@ const HeaderBar = (props) => {
         }}>
         <Text
           style={{
-            fontSize: 17,
+            fontSize: Platform.OS == 'ios' ? 17 : 16,
             fontWeight: 'bold',
             color: '#333',
           }}>
