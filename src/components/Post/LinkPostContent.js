@@ -66,7 +66,7 @@ const LinkPostContent = (props) => {
             style={{
               width: width - 21,
               height: 350,
-              resizeMode: 'contain',
+              resizeMode: 'cover',
             }}
           />
         </TouchableOpacity>
