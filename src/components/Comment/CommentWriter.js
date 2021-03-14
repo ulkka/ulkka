@@ -136,11 +136,11 @@ export default function CommentWriter(props) {
           fontSize: 12,
           fontWeight: '400',
         }}>
-        {reply_to == 'post' ? 'Commenting on ' : 'Replying to '}
+        {reply_to == 'post' ? 'Commenting on  ' : 'Replying to  '}
       </Text>
       <Text
         style={{
-          color: reply_to == 'post' ? 'blue' : 'green',
+          color: reply_to == 'post' ? '#026aa7' : '#77c063',
           fontSize: 12,
           fontWeight: '400',
         }}>
@@ -192,33 +192,67 @@ export default function CommentWriter(props) {
     </View>
   );
 
-  const SubmitButton = active ? (
-    <View style={{flex: 1, alignItems: 'flex-end'}}>
-      <TouchableOpacity
-        onPress={() => submitComment()}
-        disabled={disableForm}
-        hitSlop={{left: 20, right: 20, bottom: 20}}
-        style={{paddingRight: 15, paddingBottom: 8}}>
-        {!loading ? (
+  const SubmitButton = () => {
+    const LoadingView = (
+      <View
+        style={{
+          flex: 1,
+          paddingVertical: 10,
+          paddingHorizontal: 16,
+        }}>
+        <ActivityIndicator size="small" color="#4285f4" />
+      </View>
+    );
+
+    const Button = (
+      <View
+        style={{
+          alignItems: 'center',
+          backgroundColor: 'white',
+          borderColor: '#666',
+          marginRight: 8,
+          marginBottom: 5,
+          borderRadius: 25,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 2,
+            height: 2,
+          },
+          shadowOpacity: 0.3,
+          shadowRadius: 3.84,
+          elevation: 5,
+        }}>
+        <TouchableOpacity
+          onPress={() => submitComment()}
+          disabled={disableForm}
+          hitSlop={{left: 20, right: 20, bottom: 20}}
+          style={{
+            paddingHorizontal: 15,
+            paddingVertical: 5,
+          }}>
           <Text
             style={{
-              color: disableForm ? 'grey' : '#77c063',
+              color: disableForm ? '#666' : '#77c063',
               fontWeight: 'bold',
-              width: 40,
+              fontSize: 15,
+              letterSpacing: 0.25,
+              width: 44,
             }}>
             Reply
           </Text>
-        ) : (
-          <View
-            style={{
-              flex: 1,
-            }}>
-            <ActivityIndicator size="small" color="#4285f4" />
-          </View>
-        )}
-      </TouchableOpacity>
-    </View>
-  ) : null;
+        </TouchableOpacity>
+      </View>
+    );
+
+    return active ? (
+      <View
+        style={{
+          alignItems: 'flex-end',
+        }}>
+        {!loading ? Button : LoadingView}
+      </View>
+    ) : null;
+  };
 
   const whenInactive = <View></View>;
   const AddCommentHeader = active ? whenActive : whenInactive;
@@ -275,7 +309,7 @@ export default function CommentWriter(props) {
           />
         </View>
       </TouchableOpacity>
-      {SubmitButton}
+      <SubmitButton />
     </KeyboardAvoidingView>
   );
 }

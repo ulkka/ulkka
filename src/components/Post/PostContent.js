@@ -23,15 +23,12 @@ function PostContent(props) {
   const ContentType =
     type == 'image' || type == 'video' || type == 'gif' ? 'media' : 'textual';
 
-  console.log('running post conetent');
   const DefaultPost = <Text>{JSON.stringify(postId)}</Text>;
 
   function navigateToPostDetail() {
-    if (caller != 'PostDetail') {
-      navigate('PostDetail', {
-        postId: postId,
-      });
-    }
+    navigate('PostDetail', {
+      postId: postId,
+    });
   }
 
   const PostContentWrapper = (props) => {
@@ -46,10 +43,11 @@ function PostContent(props) {
         }}>
         <TouchableOpacity
           activeOpacity={0.9}
+          disabled={caller == 'PostDetail' ? true : false}
           underlayColor="#fff"
           onPress={() =>
-            type == 'video'
-              ? console.log('video type, so not navigating')
+            type == 'video' || type == 'link'
+              ? console.log('video/link type, so not navigating')
               : navigateToPostDetail()
           }>
           {props.children}

@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Image} from 'react-native-elements';
 import WebView from 'react-native-webview';
+import Video from 'react-native-video';
 
 const LinkPostContent = (props) => {
   const {ogData, link, width} = props;
@@ -23,7 +24,8 @@ const LinkPostContent = (props) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <WebView
+          {
+            /* <WebView
             style={{
               //   marginTop: Platform.OS == 'ios' ? 20 : 0,
               width: width - 21,
@@ -34,8 +36,31 @@ const LinkPostContent = (props) => {
             domStorageEnabled={true}
             scalesPageToFit={false}
             scrollEnabled={false}
-            source={{uri: ogData.ogVideo.url}}
-          />
+            allowsFullscreenVideo={false}
+            onShouldStartLoadWithRequest={false}
+            startInLoadingState={false}
+            allowsInlineMediaPlayback={true}
+            mediaPlaybackRequiresUserAction={true}
+            source={{ uri: ogData.ogVideo.url }}
+          />*/
+            <Video
+              style={{
+                width: width - 21,
+                height: 350,
+              }}
+              source={{uri: ogData.ogVideo.url}}
+              //source={{uri: 'https://www.youtube.com/embed/35npVaFGHMY'}}
+              resizeMode="contain"
+              paused={false}
+              poster={ogData.ogImage.url}
+              showPoster={true}
+              playWhenInactive={false}
+              muted={true}
+              repeat={true}
+              //controls={true}
+              playWhenInactive={false}
+            />
+          }
         </View>
       ) : (
         <></>
