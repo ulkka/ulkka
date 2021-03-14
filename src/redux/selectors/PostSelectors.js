@@ -15,6 +15,22 @@ export const getPostField = (id, field) => {
   );
 };
 
+export const getPostCommunityDetail = (id) => {
+  console.log('community detail selector', id);
+  return createSelector(
+    (state) => selectPostById(state, id),
+    (post) => selectCommunityById(post.community),
+  );
+};
+
+export const getPostAuthorDetail = (id) => {
+  console.log('author detail selector', id);
+  return createSelector(
+    (state) => selectPostById(state, id),
+    (post) => selectUserById(post.author),
+  );
+};
+
 export const selectFlatPostById = (id) => {
   return createSelector(
     (state) => {

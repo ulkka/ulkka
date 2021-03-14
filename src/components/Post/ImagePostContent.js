@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {View, ActivityIndicator, Image} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import FastImage from 'react-native-fast-image'; // delete extra lines from android/app/proguard-rules.pro if uninstalling
 //import {Image} from 'react-native-elements';
 
 const ImagePostContent = (props) => {

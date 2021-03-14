@@ -9,9 +9,13 @@ import {getCommentField} from '../redux/selectors/CommentSelectors';
 
 export function Vote(props) {
   const dispatch = useDispatch();
-  const {id, entityType, userVote, voteCount} = props;
+  const {
+    id,
+    entityType,
+    //  userVote, voteCount
+  } = props;
 
-  /*const userVote =
+  const userVote =
     entityType == 'post'
       ? useSelector(getPostField(id, 'userVote'))
       : useSelector(getCommentField(id, 'userVote'));
@@ -19,7 +23,7 @@ export function Vote(props) {
   const voteCount =
     entityType == 'post'
       ? useSelector(getPostField(id, 'voteCount'))
-      : useSelector(getCommentField(id, 'voteCount'));*/
+      : useSelector(getCommentField(id, 'voteCount'));
 
   const vote = (type) => {
     let voteType = userVote == type ? 0 : type;
