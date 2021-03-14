@@ -8,7 +8,6 @@ import {selectPostById, selectPostEntities} from '../reducers/PostSlice';
 import {getFeedPostIds} from './FeedSelectors';
 
 export const getPostField = (id, field) => {
-  console.log('id,field', id, field);
   return createSelector(
     (state) => selectPostById(state, id),
     (post) => post[field],
@@ -16,18 +15,20 @@ export const getPostField = (id, field) => {
 };
 
 export const getPostCommunityDetail = (id) => {
-  console.log('community detail selector', id);
   return createSelector(
-    (state) => selectPostById(state, id),
-    (post) => selectCommunityById(post.community),
+    (state) => {
+      return {post: selectPostById(state, id), state};
+    },
+    ({post, state}) => selectCommunityById(state, post.community),
   );
 };
 
 export const getPostAuthorDetail = (id) => {
-  console.log('author detail selector', id);
   return createSelector(
-    (state) => selectPostById(state, id),
-    (post) => selectUserById(post.author),
+    (state) => {
+      return {post: selectPostById(state, id), state};
+    },
+    ({post, state}) => selectUserById(state, post.author),
   );
 };
 

@@ -14,7 +14,7 @@ export const SubmitButton = (props) => {
       }}>
       <Button
         icon={
-          <Icon name="send" size={15} color={'green'} type="font-awesome" />
+          <Icon name="send" size={15} color={'#77c063'} type="font-awesome" />
         }
         raised
         title="Post"
@@ -25,7 +25,7 @@ export const SubmitButton = (props) => {
           //padding:20
         }}
         titleStyle={{
-          color: 'green',
+          color: '#77c063',
           fontWeight: 'bold',
           paddingLeft: 20,
         }}

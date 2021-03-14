@@ -37,13 +37,13 @@ const VideoPostContent = (props) => {
         source={{uri: mediaMetadata.secure_url}}
         //source={{uri: 'https://www.youtube.com/embed/35npVaFGHMY'}}
         resizeMode="contain"
-        paused={paused}
+        paused={true}
         poster={posterUrl}
         showPoster={true}
         playWhenInactive={false}
         muted={true}
         repeat={true}
-        controls={Platform.OS == 'ios' ? true : false}
+        controls={true}
         playWhenInactive={false}
       />
     </View>
@@ -69,13 +69,13 @@ const VideoPostContent = (props) => {
           }}
           source={{uri: mediaMetadata.secure_url}}
           resizeMode="contain"
-          paused={paused}
+          paused={true}
           poster={posterUrl}
           showPoster={true}
           playWhenInactive={false}
           muted={true}
           repeat={true}
-          controls={Platform.OS == 'ios' ? true : false}
+          controls={false}
           playWhenInactive={false}
         />
       </ImageBackground>

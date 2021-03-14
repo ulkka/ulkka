@@ -25,7 +25,7 @@ const HeaderBar = (props) => {
         <Icon
           name="user-alt"
           type="font-awesome-5"
-          color={isRegistered ? 'green' : '#444'}
+          color={isRegistered ? '#77c063' : '#444'}
           size={18}
         />
       </TouchableOpacity>

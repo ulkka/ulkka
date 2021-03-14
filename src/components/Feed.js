@@ -1,5 +1,5 @@
-import React, {useEffect, useContext} from 'react';
-import {View, FlatList, RefreshControl, Dimensions} from 'react-native';
+import React, {useEffect, useContext, memo} from 'react';
+import {View, FlatList, RefreshControl} from 'react-native';
 import {ThemeContext, Divider} from 'react-native-elements';
 import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
@@ -137,4 +137,4 @@ function Feed(props) {
   );
 }
 
-export default Feed;
+export default memo(Feed);

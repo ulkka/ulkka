@@ -9,11 +9,7 @@ import {getCommentField} from '../redux/selectors/CommentSelectors';
 
 export function Vote(props) {
   const dispatch = useDispatch();
-  const {
-    id,
-    entityType,
-    //  userVote, voteCount
-  } = props;
+  const {id, entityType} = props;
 
   const userVote =
     entityType == 'post'

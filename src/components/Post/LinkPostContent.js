@@ -17,16 +17,22 @@ const LinkPostContent = (props) => {
   const LinkVideo = ogData ? (
     ogData.ogVideo ? (
       ogData.ogVideo.url ? (
-        <View style={{flex: 1}}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
           <WebView
             style={{
               //   marginTop: Platform.OS == 'ios' ? 20 : 0,
-              width: '100%',
-              aspectRatio: 1,
+              width: width - 21,
+              height: 350,
+              // aspectRatio: 1,
             }}
             javaScriptEnabled={true}
             domStorageEnabled={true}
-            scalesPageToFit={true}
+            scalesPageToFit={false}
             scrollEnabled={false}
             source={{uri: ogData.ogVideo.url}}
           />
@@ -41,17 +47,16 @@ const LinkPostContent = (props) => {
     <></>
   );
 
-  console.log('running link post content', type, ogData);
-
   const LinkImage = ogData ? (
     ogData.ogImage ? (
       ogData.ogImage.url ? (
         <TouchableOpacity
           onPress={() => console.log('click link')}
           style={{
-            width: width - 21,
-            height: 300,
-            alignItems: 'flex-start',
+            //  width: width - 21,
+            // /  height: 400,
+            alignItems: 'center',
+            justifyContent: 'center',
             backgroundColor: '#222',
           }}>
           <Image
@@ -60,7 +65,7 @@ const LinkPostContent = (props) => {
             }}
             style={{
               width: width - 21,
-              height: 300,
+              height: 350,
               resizeMode: 'contain',
             }}
           />
@@ -135,8 +140,18 @@ const LinkPostContent = (props) => {
         borderWidth: 1,
         borderRadius: 5,
         alignItems: 'center',
+        // height: 400,
+        //width: width,
       }}>
-      {type == 'image' ? LinkImage : LinkVideo}
+      <View
+        style={{
+          height: 350,
+          width: width - 21,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {type == 'image' ? LinkImage : LinkVideo}
+      </View>
       {LinkDetails}
     </View>
   );

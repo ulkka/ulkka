@@ -101,7 +101,13 @@ export default function CreatePostButtonOverlay(props) {
         shadowRadius: 2,
         elevation: Platform.OS == 'ios' ? 2 : 0,
       }}>
-      <Icon name="plus" type="font-awesome-5" size={25} color="green" reverse />
+      <Icon
+        name="plus"
+        type="font-awesome-5"
+        size={25}
+        color="#77c063"
+        reverse
+      />
     </TouchableOpacity>
   );
   const PopupView = (

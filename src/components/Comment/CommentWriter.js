@@ -21,6 +21,7 @@ import {
 import {selectPostById} from '../../redux/reducers/PostSlice';
 import {selectCommentById} from '../../redux/reducers/CommentSlice';
 import {selectUserById} from '../../redux/reducers/UserSlice';
+import {ActivityIndicator} from 'react-native';
 
 export default function CommentWriter(props) {
   const dispatch = useDispatch();
@@ -85,8 +86,10 @@ export default function CommentWriter(props) {
   }, [resetCommentToggle]);
 
   const initializeForm = () => {
-    inputRef.current.blur();
-    activateForm();
+    if (!initialized) {
+      inputRef.current.blur();
+      activateForm();
+    }
   };
 
   const resetForm = () => {
@@ -166,7 +169,7 @@ export default function CommentWriter(props) {
         hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
         style={{paddingHorizontal: 5}}
         onPress={() => resetForm()}>
-        <Icon name="close" size={16} color="#444" />
+        <Icon name="close" size={20} color="#444" />
       </TouchableOpacity>
     </View>
   );
@@ -188,8 +191,38 @@ export default function CommentWriter(props) {
       {expand}
     </View>
   );
+
+  const SubmitButton = active ? (
+    <View style={{flex: 1, alignItems: 'flex-end'}}>
+      <TouchableOpacity
+        onPress={() => submitComment()}
+        disabled={disableForm}
+        hitSlop={{left: 20, right: 20, bottom: 20}}
+        style={{paddingRight: 15, paddingBottom: 8}}>
+        {!loading ? (
+          <Text
+            style={{
+              color: disableForm ? 'grey' : '#77c063',
+              fontWeight: 'bold',
+              width: 40,
+            }}>
+            Reply
+          </Text>
+        ) : (
+          <View
+            style={{
+              flex: 1,
+            }}>
+            <ActivityIndicator size="small" color="#4285f4" />
+          </View>
+        )}
+      </TouchableOpacity>
+    </View>
+  ) : null;
+
   const whenInactive = <View></View>;
   const AddCommentHeader = active ? whenActive : whenInactive;
+
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={95}
@@ -224,7 +257,7 @@ export default function CommentWriter(props) {
             }}
             inputContainerStyle={{
               borderBottomWidth: 0,
-              height: expanded ? 300 : 30,
+              height: expanded ? 150 : 30,
               marginTop: 10,
             }}
             inputStyle={{
@@ -239,32 +272,10 @@ export default function CommentWriter(props) {
             value={comment}
             onChangeText={(text) => setComment(text)}
             renderErrorMessage={false}
-            rightIcon={
-              loading ? (
-                <Icon
-                  name="loading1"
-                  type="antdesign"
-                  color={'green'}
-                  size={15}
-                  style={{marginBottom: 10}}
-                />
-              ) : (
-                <Icon
-                  name="send"
-                  color={disableForm ? 'grey' : 'green'}
-                  disabled={disableForm}
-                  disabledStyle={{
-                    backgroundColor: 'transparent',
-                  }}
-                  size={15}
-                  style={{marginBottom: 10}}
-                  onPress={() => submitComment()}
-                />
-              )
-            }
           />
         </View>
       </TouchableOpacity>
+      {SubmitButton}
     </KeyboardAvoidingView>
   );
 }

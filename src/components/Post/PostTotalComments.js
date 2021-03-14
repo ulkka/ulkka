@@ -2,10 +2,13 @@ import React, {memo} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {navigate} from '../../navigation/Ref';
+import {useSelector} from 'react-redux';
+import {getPostField} from '../../redux/selectors/PostSelectors';
 
 const PostTotalComments = (props) => {
-  const {commentCount, postId} = props;
+  const {postId} = props;
 
+  const commentCount = useSelector(getPostField(postId, 'commentCount'));
   return (
     <TouchableOpacity
       hitSlop={{top: 20, bottom: 20}}
