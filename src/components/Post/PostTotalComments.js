@@ -8,7 +8,9 @@ import {getPostField} from '../../redux/selectors/PostSelectors';
 const PostTotalComments = (props) => {
   const {postId} = props;
 
-  const commentCount = useSelector(getPostField(postId, 'commentCount'));
+  const commentCount = useSelector((state) =>
+    getPostField(state, postId, 'commentCount'),
+  );
   return (
     <TouchableOpacity
       hitSlop={{top: 20, bottom: 20}}

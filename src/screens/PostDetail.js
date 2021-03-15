@@ -12,33 +12,12 @@ import {useSelector} from 'react-redux';
 import {selectFlatPostById} from '../redux/selectors/PostSelectors';
 import {scaleHeightAndWidthAccordingToDimensions} from '../components/Post/helpers';
 
-export default function PostDetail({route, navigation}) {
+export default function PostDetail({route}) {
   const postId = route.params.postId;
-  const flatPost = useSelector(selectFlatPostById(postId));
+  const flatPost = useSelector((state) => selectFlatPostById(state, postId));
   let post = flatPost ? flatPost : {};
 
-  const {
-    _id,
-    created_at,
-    title,
-    type,
-    description,
-    link,
-    mediaMetadata,
-    ogData,
-    userVote,
-    voteCount,
-    commentCount,
-    communityDetail,
-    authorDetail,
-  } = post;
-
-  const {_id: communityId, name: communityName} = flatPost
-    ? communityDetail
-    : {};
-  const {_id: authorId, displayname: authorDisplayname} = flatPost
-    ? authorDetail
-    : {};
+  const {mediaMetadata} = post;
 
   let {height, width} = scaleHeightAndWidthAccordingToDimensions(mediaMetadata);
 
@@ -65,22 +44,9 @@ export default function PostDetail({route, navigation}) {
           <Post
             postId={postId}
             caller={'PostDetail'}
-            communityName={communityName}
-            communityId={communityId}
-            authorDisplayname={authorDisplayname}
-            authorId={authorId}
-            created_at={created_at}
-            title={title}
-            type={type}
-            description={description}
-            mediaMetadata={mediaMetadata}
             height={height}
             width={width}
-            ogData={ogData}
-            link={link}
-            userVote={userVote}
-            voteCount={voteCount}
-            commentCount={commentCount}
+            {...post}
           />
         ) : (
           <View
@@ -92,7 +58,7 @@ export default function PostDetail({route, navigation}) {
             <ActivityIndicator size="large" color="#4285f4" />
           </View>
         )}
-        <CommentList navigation={navigation} postId={postId} key={postId} />
+        <CommentList postId={postId} key={postId} />
       </ScrollView>
       <CommentWriter postId={postId} />
     </View>

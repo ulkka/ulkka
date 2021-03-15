@@ -20,6 +20,7 @@ function PostContent(props) {
     link,
   } = props;
 
+  console.log('running post content', postId);
   const ContentType =
     type == 'image' || type == 'video' || type == 'gif' ? 'media' : 'textual';
 
@@ -71,6 +72,7 @@ function PostContent(props) {
       case 'video':
         return (
           <VideoPostContent
+            postId={postId}
             mediaMetadata={mediaMetadata}
             link={link}
             height={height}

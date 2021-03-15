@@ -51,7 +51,7 @@ const LinkPostContent = (props) => {
               source={{uri: ogData.ogVideo.url}}
               //source={{uri: 'https://www.youtube.com/embed/35npVaFGHMY'}}
               resizeMode="contain"
-              paused={false}
+              paused={true}
               poster={ogData.ogImage.url}
               showPoster={true}
               playWhenInactive={false}

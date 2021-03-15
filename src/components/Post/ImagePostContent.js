@@ -7,7 +7,7 @@ const ImagePostContent = (props) => {
   const {mediaMetadata, height, width} = props;
 
   const [loaded, setLoaded] = useState(false);
-
+  console.log('running image post content');
   return (
     <View
       style={{

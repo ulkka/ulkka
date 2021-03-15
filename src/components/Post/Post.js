@@ -24,10 +24,8 @@ function Post(props) {
     userVote,
     voteCount,
     commentCount,
-    communityId,
-    communityName,
-    authorId,
-    authorDisplayname,
+    communityDetail,
+    authorDetail,
   } = props;
 
   console.log('running post', postId);
@@ -46,11 +44,9 @@ function Post(props) {
       <View style={{paddingHorizontal: 5}}>
         <PostHeader
           postId={postId}
-          communityId={communityId}
-          communityName={communityName}
           createdAt={created_at}
-          authorId={authorId}
-          authorDisplayname={authorDisplayname}
+          communityDetail={communityDetail}
+          authorDetail={authorDetail}
         />
         <PostTitle postTitle={title} />
       </View>

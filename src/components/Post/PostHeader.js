@@ -6,14 +6,9 @@ import PostExtraOptions from '../PostExtraOptions';
 import {navigate} from '../../navigation/Ref';
 
 const PostHeader = (props) => {
-  const {
-    postId,
-    createdAt,
-    communityName,
-    authorDisplayname,
-    communityId,
-    authorId,
-  } = props;
+  const {postId, createdAt, authorDetail, communityDetail} = props;
+  const {_id: communityId, name: communityName} = communityDetail;
+  const {_id: authorId, displayname: authorDisplayname} = authorDetail;
 
   const CommunityName = (
     <TouchableOpacity

@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
@@ -11,17 +11,24 @@ export function Vote(props) {
   const dispatch = useDispatch();
   const {id, entityType} = props;
 
+  //const [userVote, setUserVote] = useState(props.userVote);
+
+  //const [voteCount, setVoteCount] = useState(props.voteCount);
+
   const userVote =
     entityType == 'post'
-      ? useSelector(getPostField(id, 'userVote'))
+      ? useSelector((state) => getPostField(state, id, 'userVote'))
       : useSelector(getCommentField(id, 'userVote'));
 
   const voteCount =
     entityType == 'post'
-      ? useSelector(getPostField(id, 'voteCount'))
+      ? useSelector((state) => getPostField(state, id, 'voteCount'))
       : useSelector(getCommentField(id, 'voteCount'));
 
   const vote = (type) => {
+    // setUserVote(type);
+    const prevVoteCount = voteCount;
+    const prevUserVote = userVote;
     let voteType = userVote == type ? 0 : type;
     const payload = {id: id, voteType: voteType};
     if (entityType == 'post') {

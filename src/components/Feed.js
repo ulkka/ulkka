@@ -6,7 +6,7 @@ import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
 import {isComplete, isLoading} from '../redux/selectors/FeedSelectors';
 import {selectFlatPosts} from '../redux/selectors/PostSelectors';
-import {initialiseFeed} from '../redux/reducers/FeedSlice';
+import {initialiseFeed, setViewableItems} from '../redux/reducers/FeedSlice';
 import {fetchFeed} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
@@ -23,9 +23,14 @@ function Feed(props) {
 
   const authStatus = useSelector(getAuthStatus);
 
-  const loading = useSelector(isLoading(screen));
-  const complete = useSelector(isComplete(screen));
-  const posts = useSelector(selectFlatPosts(screen));
+  const loading = useSelector((state) => isLoading(state, screen));
+  const complete = useSelector((state) => isComplete(state, screen));
+  const posts = useSelector((state) => selectFlatPosts(state, screen));
+
+  const viewabilityConfigRef = React.useRef({
+    viewAreaCoveragePercentThreshold: 50,
+  });
+  const onViewableItemsChangedRef = React.useRef(_onViewableItemsChanged());
 
   console.log('running feed');
 
@@ -37,24 +42,7 @@ function Feed(props) {
   }, [authStatus]);
 
   const renderRow = ({item}) => {
-    const {
-      _id,
-      created_at,
-      title,
-      type,
-      description,
-      link,
-      mediaMetadata,
-      ogData,
-      userVote,
-      voteCount,
-      commentCount,
-      communityDetail,
-      authorDetail,
-    } = item;
-
-    const {_id: communityId, name: communityName} = communityDetail;
-    const {_id: authorId, displayname: authorDisplayname} = authorDetail;
+    const {_id, mediaMetadata} = item;
 
     let {height, width} = scaleHeightAndWidthAccordingToDimensions(
       mediaMetadata,
@@ -62,24 +50,11 @@ function Feed(props) {
 
     return (
       <Post
+        {...item}
         postId={_id}
         caller={screen}
-        communityName={communityName}
-        communityId={communityId}
-        authorDisplayname={authorDisplayname}
-        authorId={authorId}
-        created_at={created_at}
-        title={title}
-        type={type}
-        description={description}
-        mediaMetadata={mediaMetadata}
         height={height}
         width={width}
-        ogData={ogData}
-        link={link}
-        userVote={userVote}
-        voteCount={voteCount}
-        commentCount={commentCount}
       />
     );
   };
@@ -108,6 +83,12 @@ function Feed(props) {
     );
   };
 
+  function _onViewableItemsChanged() {
+    return (items) => {
+      dispatch(setViewableItems({items: items, type: screen}));
+    };
+  }
+
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
@@ -121,10 +102,11 @@ function Feed(props) {
         onEndReachedThreshold={0.5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={100}
-        windowSize={15} // causes flickering with read more text while scrolling up, fix that before uncommenting
-        initialNumToRender={5}
-        maxToRenderPerBatch={5}
-        viewabilityConfig={{viewAreaCoveragePercentThreshold: 50}}
+        windowSize={31} // causes flickering with read more text while scrolling up, fix that before uncommenting
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        viewabilityConfig={viewabilityConfigRef.current}
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
         keyExtractor={(post, index) => post._id}
         ListFooterComponent={<FeedFooter complete={complete} />}
         refreshControl={

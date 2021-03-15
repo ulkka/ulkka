@@ -1,76 +1,38 @@
 import {createSelector} from '@reduxjs/toolkit';
-import {selectUserById, selectUserEntities} from '../reducers/UserSlice';
-import {
-  selectCommunityById,
-  selectCommunityEntities,
-} from '../reducers/CommunitySlice';
-import {selectPostById, selectPostEntities} from '../reducers/PostSlice';
+import {selectUserEntities} from '../reducers/UserSlice';
+import {selectCommunityEntities} from '../reducers/CommunitySlice';
+import {selectPostById, selectAllPosts} from '../reducers/PostSlice';
 import {getFeedPostIds} from './FeedSelectors';
 
-export const getPostField = (id, field) => {
-  return createSelector(
-    (state) => selectPostById(state, id),
-    (post) => post[field],
-  );
-};
+//  So far we have only seen selectors receive the Redux store state as an argument, but a selector can receive props too.
+//  refactor https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 
-export const getPostCommunityDetail = (id) => {
-  return createSelector(
-    (state) => {
-      return {post: selectPostById(state, id), state};
-    },
-    ({post, state}) => selectCommunityById(state, post.community),
-  );
-};
+export const getPostField = (state, id, field) =>
+  selectPostById(state, id)[field];
 
-export const getPostAuthorDetail = (id) => {
-  return createSelector(
-    (state) => {
-      return {post: selectPostById(state, id), state};
-    },
-    ({post, state}) => selectUserById(state, post.author),
-  );
-};
+export const selectFlatPostById = createSelector(
+  [selectPostById, selectCommunityEntities, selectUserEntities],
+  (post, communityEnitities, userEntities) => {
+    return {
+      ...post,
+      communityDetail: communityEnitities[post.community],
+      authorDetail: userEntities[post.author],
+    };
+  },
+);
 
-export const selectFlatPostById = (id) => {
-  return createSelector(
-    (state) => {
-      return {post: selectPostById(state, id), state};
-    },
-    ({post, state}) => {
-      const community = selectCommunityById(state, post.community);
-      const author = selectUserById(state, post.author);
-      const flatPost = {
-        ...post,
-        communityDetail: community,
-        authorDetail: author,
-      };
-      return flatPost;
-    },
-  );
-};
-
-export const selectFlatPosts = (screen) => {
-  return createSelector(
-    [
-      getFeedPostIds(screen),
-      selectPostEntities,
-      selectCommunityEntities,
-      selectUserEntities,
-    ],
-    (postIds, postEntities, communityEnitities, userEntities) => {
-      let posts = [];
-      postIds.map((postId) => {
-        let post = postEntities[postId];
-        let communityDetail = communityEnitities[post.community];
-        let authorDetail = userEntities[post.author];
-        posts.push({
+//  So far we have only seen selectors receive the Redux store state as an argument, but a selector can receive props too.
+//  refactor https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
+export const selectFlatPosts = createSelector(
+  [getFeedPostIds, selectAllPosts, selectCommunityEntities, selectUserEntities],
+  (postIds, allPosts, communityEnitities, userEntities) =>
+    allPosts
+      .filter((post) => postIds.includes(post._id))
+      .map((post) => {
+        return {
           ...post,
-          communityDetail: communityDetail,
-          authorDetail: authorDetail,
-        });
-      });
-      return posts;
-    },
-  );
-};
+          communityDetail: communityEnitities[post.community],
+          authorDetail: userEntities[post.author],
+        };
+      }),
+);

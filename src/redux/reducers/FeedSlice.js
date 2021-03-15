@@ -1,10 +1,13 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import {signout} from '../actions/AuthActions';
 import {fetchFeed} from '../actions/FeedActions';
 import {createPost} from '../actions/PostActions';
 
+const feedAdapter = createEntityAdapter({selectId: (post) => post._id});
+
 const initialState = {
   ids: [],
+  entities: {},
   metadata: {
     page: 0,
     total: -1,
@@ -29,6 +32,27 @@ export const slice = createSlice({
         state.screens[type] = initialState;
       }
     },
+    setViewableItems(state, action) {
+      const {items, type} = action.payload;
+      const screen = state.screens[type];
+
+      const {viewableItems, changed} = items;
+      changed.map((item) => {
+        const postId = item.item._id;
+        feedAdapter.updateOne(screen, {
+          id: postId,
+          changes: {isViewable: item.isViewable},
+        });
+      });
+      viewableItems.map((item) => {
+        const postId = item.item._id;
+
+        feedAdapter.updateOne(screen, {
+          id: postId,
+          changes: {isViewable: item.isViewable},
+        });
+      });
+    },
   },
 
   extraReducers: {
@@ -47,20 +71,28 @@ export const slice = createSlice({
         Object.keys(normalizedPosts).length === 0 &&
         normalizedPosts.constructor === Object;
 
+      let posts = {};
       if (!isFeedEmpty) {
         const postIds = action.payload.postIds;
         postIds.map((postId, index) => {
-          screen.ids.includes(postId)
-            ? console.log(
-                'found duplicate id in feed array, so skipping',
-                postId,
-              )
-            : (screen.ids = state.screens[type].ids.concat(postId));
+          if (screen.ids.includes(postId)) {
+            console.log(
+              'found duplicate id in feed array, so skipping',
+              postId,
+            );
+          } else {
+            posts[postId] = {
+              _id: postId,
+              loaded: false,
+              isViewable: false,
+            };
+          }
         });
         screen.metadata = action.payload.metadata;
       } else {
         screen.complete = true;
       }
+      feedAdapter.upsertMany(screen, posts);
       screen.loading = false;
       screen.initialised = true;
     },
@@ -82,4 +114,15 @@ export const slice = createSlice({
 });
 
 export const feed = slice.reducer;
-export const {resetFeed, initialiseFeed} = slice.actions;
+export const {setViewableItems, initialiseFeed} = slice.actions;
+
+export const {
+  selectById: selectFeedPostById,
+  selectIds: selectFeedPostIds,
+  selectEntities: selectFeedPostEntities,
+  selectAll: selectAllPosts,
+  selectTotal: selectTotalPosts,
+} = feedAdapter.getSelectors((state) => state);
+
+export const getFeedPostField = (state, id, field) =>
+  selectFeedPostById(state, id)[field];

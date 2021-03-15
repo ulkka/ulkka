@@ -85,30 +85,37 @@ export default function CreatePostButtonOverlay(props) {
     </View>
   );
   const CreatePostIcon = (
-    <TouchableOpacity
-      onPress={toggleOverlay}
+    <View
       style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'center',
         position: 'absolute',
+        alignSelf: 'center',
         bottom: Platform.OS == 'ios' ? 20 : 0,
         backgroundColor: 'transparent',
-        borderRadius: 30,
+        borderColor: '#eee',
+        borderRadius: 33,
         shadowColor: '#000',
-        shadowOffset: {height: 5},
+        shadowOffset: {
+          height: 2,
+        },
         shadowOpacity: 0.5,
-        shadowRadius: 2,
-        elevation: Platform.OS == 'ios' ? 2 : 0,
+        elevation: 15,
       }}>
-      <Icon
-        name="plus"
-        type="font-awesome-5"
-        size={25}
-        color="#77c063"
-        reverse
-      />
-    </TouchableOpacity>
+      <TouchableOpacity
+        onPress={toggleOverlay}
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          alignSelf: 'center',
+        }}>
+        <Icon
+          name="plus"
+          type="font-awesome-5"
+          size={25}
+          color="#77c063"
+          reverse
+        />
+      </TouchableOpacity>
+    </View>
   );
   const PopupView = (
     <Overlay
