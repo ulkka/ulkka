@@ -25,7 +25,7 @@ export default function SearchableDropdown(props) {
   }, [props.selectCommunityModalVisible]);
 
   useEffect(() => {
-    if (value.length > 3) {
+    if (value.length > 2) {
       searchForCommunity(value);
     } else {
       setItems([]);
