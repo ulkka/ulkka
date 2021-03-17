@@ -5,13 +5,14 @@ import {useIsFocused} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
 import {ActivityIndicator} from 'react-native';
 import {useSelector} from 'react-redux';
-import {getFeedPostField} from '../../redux/selectors/FeedSelectors';
+import {getFeedPostFieldSelector} from '../../redux/selectors/FeedSelectors';
 
 const VideoPostContent = (props) => {
   const {mediaMetadata, height, width, postId, screen} = props;
   const [paused, setPaused] = useState(true);
   const [loading, setLoading] = useState(true);
 
+  const getFeedPostField = getFeedPostFieldSelector();
   const isViewable =
     screen == 'PostDetail'
       ? true

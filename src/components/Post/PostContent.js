@@ -90,10 +90,12 @@ function PostContent(props) {
       case 'link':
         return (
           <LinkPostContent
+            postId={postId}
             ogData={ogData}
             link={link}
             height={height}
             width={width}
+            screen={screen}
           />
         );
       default:

@@ -20,5 +20,5 @@ export const isNewPostAdded = (state, screen) =>
     ? false
     : state.feed.screens[screen].newPostAdded;
 
-export const getFeedPostField = (state, id, field) =>
+export const getFeedPostFieldSelector = () => (state, id, field) =>
   selectFeedPostById(state, id)[field];
