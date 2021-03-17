@@ -16,9 +16,11 @@ function CommentList(props) {
 
   const {postId} = props;
 
-  const loading = useSelector(isLoading(postId));
+  const loading = useSelector((state) => isLoading(state, postId));
   const isRegistered = useSelector(getRegistrationStatus);
-  const parentCommentIds = useSelector(getParentComments(postId));
+  const parentCommentIds = useSelector((state) =>
+    getParentComments(state, postId),
+  );
 
   useEffect(() => {
     dispatch(fetchComments(postId));
@@ -37,20 +39,21 @@ function CommentList(props) {
   );
 
   function multiCommentThread() {
-    return parentCommentIds
-      ? parentCommentIds.map((commentId, index) => {
-          return (
-            <View key={commentId}>
-              <SingleCommentThread
-                commentId={commentId}
-                key={commentId}
-                postId={postId}
-              />
-              <Divider style={{backgroundColor: '#eee', height: 5}} />
-            </View>
-          );
-        })
-      : null;
+    return (
+      parentCommentIds &&
+      parentCommentIds.map((commentId, index) => {
+        return (
+          <View key={commentId}>
+            <SingleCommentThread
+              commentId={commentId}
+              key={commentId}
+              postId={postId}
+            />
+            <Divider style={{backgroundColor: '#eee', height: 5}} />
+          </View>
+        );
+      })
+    );
   }
 
   const emptyCommentView = (

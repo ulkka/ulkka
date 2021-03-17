@@ -6,21 +6,12 @@ import CommentBody from './CommentBody';
 import CommentFooter from './CommentFooter';
 
 function Comment(props) {
-  const {
-    commentId,
-    authorDisplayname,
-    created_at,
-    text,
-    userVote,
-    voteCount,
-  } = props;
+  const {commentId, authorDisplayname, created_at, text} = props;
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
-
-  console.log('running comment');
 
   return (
     <View
@@ -37,11 +28,7 @@ function Comment(props) {
       />
       <Collapsible collapsed={isCollapsed} duration={50} collapsedHeight={5}>
         <CommentBody text={text} />
-        <CommentFooter
-          commentId={commentId}
-          userVote={userVote}
-          voteCount={voteCount}
-        />
+        <CommentFooter commentId={commentId} />
         {props.children}
       </Collapsible>
     </View>

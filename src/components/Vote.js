@@ -14,12 +14,12 @@ export function Vote(props) {
   const userVote =
     entityType == 'post'
       ? useSelector((state) => getPostField(state, id, 'userVote'))
-      : useSelector(getCommentField(id, 'userVote'));
+      : useSelector((state) => getCommentField(state, id, 'userVote'));
 
   const voteCount =
     entityType == 'post'
       ? useSelector((state) => getPostField(state, id, 'voteCount'))
-      : useSelector(getCommentField(id, 'voteCount'));
+      : useSelector((state) => getCommentField(state, id, 'voteCount'));
 
   const vote = (type) => {
     let voteType = userVote == type ? 0 : type;

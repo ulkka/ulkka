@@ -5,19 +5,6 @@ import {selectPostById, selectAllPosts} from '../reducers/PostSlice';
 import {getFeedPostIds} from './FeedSelectors';
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 
-// return true if length of prev and next array is same
-const createDeepEqualSelector = createSelectorCreator(
-  defaultMemoize,
-  (a, b) => {
-    return a.length == b.length;
-  },
-);
-
-const memoizedSelectAllPosts = createDeepEqualSelector(
-  selectAllPosts,
-  (posts) => posts,
-);
-
 export const getPostField = (state, id, field) =>
   selectPostById(state, id)[field];
 
@@ -32,8 +19,23 @@ export const selectFlatPostById = createSelector(
   },
 );
 
-//  So far we have only seen selectors receive the Redux store state as an argument, but a selector can receive props too.
 //  refactor https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
+//  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
+//  return true if length of prev and next array is same
+//  might need update while working with multuple feeds- watch out!
+
+const createDeepEqualSelector = createSelectorCreator(
+  defaultMemoize,
+  (a, b) => {
+    return a.length == b.length;
+  },
+);
+
+const memoizedSelectAllPosts = createDeepEqualSelector(
+  selectAllPosts,
+  (posts) => posts,
+);
+
 export const selectFlatPosts = createSelector(
   [
     getFeedPostIds,

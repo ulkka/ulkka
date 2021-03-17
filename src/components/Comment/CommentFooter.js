@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 const CommentFooter = (props) => {
   const dispatch = useDispatch();
 
-  const {commentId, userVote, voteCount} = props;
+  const {commentId} = props;
 
   const ReplyToComment = (
     <TouchableOpacity
@@ -26,13 +26,7 @@ const CommentFooter = (props) => {
   );
 
   const VoteComment = (
-    <Vote
-      id={commentId}
-      userVote={userVote}
-      voteCount={voteCount}
-      entityType="comment"
-      style={{paddingHorizontal: 15}}
-    />
+    <Vote id={commentId} entityType="comment" style={{paddingHorizontal: 15}} />
   );
 
   const ExtraOptions = (

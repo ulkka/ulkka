@@ -2,13 +2,17 @@ import React, {memo} from 'react';
 import Comment from './Comment';
 import CommentGroup from './CommentGroup';
 import {useSelector} from 'react-redux';
-import {selectFlatCommentById} from '../../redux/selectors/CommentSelectors';
+import {selectFlatCommentByIdSelector} from '../../redux/selectors/CommentSelectors';
 
-const SingleCommentThread = (props) => {
+const SingleCommentThread = memo((props) => {
   const {commentId, postId} = props;
-  const comment = useSelector(selectFlatCommentById(commentId));
-  const {author, created_at, text, userVote, voteCount, replies} = comment;
-  const {displayname} = author;
+
+  const getFlatCommentSelector = selectFlatCommentByIdSelector();
+  const comment = useSelector((state) =>
+    getFlatCommentSelector(state, commentId),
+  );
+  const {authorDetail, created_at, text, replies} = comment;
+  const {displayname} = authorDetail;
 
   return (
     <Comment
@@ -16,9 +20,7 @@ const SingleCommentThread = (props) => {
       key={commentId}
       authorDisplayname={displayname}
       created_at={created_at}
-      text={text}
-      userVote={userVote}
-      voteCount={voteCount}>
+      text={text}>
       {replies === undefined ? null : (
         <CommentGroup parent={commentId} key={commentId}>
           {replies.map((replyId) => {
@@ -34,6 +36,6 @@ const SingleCommentThread = (props) => {
       )}
     </Comment>
   );
-};
+});
 
-export default memo(SingleCommentThread);
+export default SingleCommentThread;

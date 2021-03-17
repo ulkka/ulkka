@@ -1,34 +1,45 @@
 import {createSelector} from '@reduxjs/toolkit';
-import {selectCommentById} from '../reducers/CommentSlice';
-import {selectUserById} from '../reducers/UserSlice';
+import {selectCommentById, selectAllComments} from '../reducers/CommentSlice';
+import {selectUserEntities} from '../reducers/UserSlice';
 
-export const getParentComments = (postId) => (state) =>
+export const getParentComments = (state, postId) =>
   state.comments.posts[postId] === undefined
     ? []
-    : state.comments.posts[postId].parentComments;
+    : state.comments.posts[postId].parentCommenIds;
 
-export const isLoading = (postId) => (state) =>
+export const isLoading = (state, postId) =>
   state.comments.posts[postId] === undefined
     ? false
     : state.comments.posts[postId].loading;
 
-export const getCommentField = (id, field) => {
-  console.log('id,field', id, field);
-  return createSelector(
-    (state) => selectCommentById(state, id),
-    (comment) => comment[field],
-  );
-};
+export const getCommentField = (state, id, field) =>
+  selectCommentById(state, id)[field];
 
-export const selectFlatCommentById = (id) => {
+// return the selector so that each comment thread would have different selectors
+// and memoize can work properly https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
+export const selectFlatCommentByIdSelector = () => {
   return createSelector(
-    (state) => {
-      return {comment: selectCommentById(state, id), state: state};
-    },
-    ({comment, state}) => {
-      const author = selectUserById(state, comment.author);
-      const flatComment = {...comment, author: author};
+    [selectCommentById, selectUserEntities],
+    (comment, userEntities) => {
+      const flatComment = {
+        ...comment,
+        authorDetail: userEntities[comment.author],
+      };
       return flatComment;
     },
   );
 };
+
+export const selectFlatComments = createSelector(
+  [getParentComments, selectAllComments, selectUserEntities],
+  (parentCommentIds, allComments, userEntities) => {
+    return allComments
+      .filter((comment) => parentCommentIds.includes(comment._id))
+      .map((comment) => {
+        return {
+          ...comment,
+          authorDetail: userEntities[comment.author],
+        };
+      });
+  },
+);

@@ -12,13 +12,31 @@ const initialState = {
   parentComments: [],
 };
 
+function addReply(state, parentCommentId, newCommentId) {
+  const parentComment = commentAdapter
+    .getSelectors()
+    .selectById(state, parentCommentId);
+
+  const newReplyList =
+    parentComment.replies === undefined
+      ? [newCommentId]
+      : [...[newCommentId], ...parentComment.replies];
+
+  commentAdapter.updateOne(state, {
+    id: parentCommentId,
+    changes: {
+      replies: newReplyList,
+    },
+  });
+}
+
 export const slice = createSlice({
   name: 'comments',
   initialState: {
     loading: false,
     ids: [],
     entities: {},
-    parentComments: [],
+    parentCommenIds: [],
     posts: {},
   },
   reducers: {},
@@ -39,7 +57,7 @@ export const slice = createSlice({
       if (comments !== undefined) {
         commentAdapter.upsertMany(state, comments);
       }
-      postComments.parentComments = action.payload.parentComments;
+      postComments.parentCommenIds = action.payload.parentComments;
       postComments.loading = false;
     },
     [createReply.fulfilled]: (state, action) => {
@@ -56,23 +74,9 @@ export const slice = createSlice({
       commentAdapter.addOne(state, newComment);
 
       if (type == 'Reply') {
-        const parentComment = commentAdapter
-          .getSelectors()
-          .selectById(state, parentCommentId);
-
-        const newReplyList =
-          parentComment.replies === undefined
-            ? [newCommentId]
-            : [...[newCommentId], ...parentComment.replies];
-
-        commentAdapter.updateOne(state, {
-          id: parentCommentId,
-          changes: {
-            replies: newReplyList,
-          },
-        });
+        addReply(state, parentCommentId, newCommentId);
       } else {
-        state.posts[postId].parentComments.unshift(newCommentId);
+        state.posts[postId].parentCommenIds.unshift(newCommentId);
       }
 
       Snackbar.show({
