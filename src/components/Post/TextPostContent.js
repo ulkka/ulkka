@@ -8,6 +8,7 @@ const TextPostContent = (props) => {
     <View
       style={{
         alignItems: 'flex-start',
+        paddingLeft: 5,
       }}>
       {
         //  <ReadMoreText numberOfLines={10}>

@@ -35,8 +35,8 @@ function PostContent(props) {
     return (
       <View
         style={{
-          paddingBottom: ContentType == 'media' ? 0 : 10,
-          width: ContentType == 'media' ? '100%' : '97%',
+          paddingBottom: type == 'text' ? 10 : 0,
+          width: '100%',
           paddingHorizontal: ContentType == 'media' ? 0 : 5,
           backgroundColor: type == 'video' ? '#111' : '#fff',
           alignSelf: 'center',
@@ -63,7 +63,7 @@ function PostContent(props) {
       case 'image':
         return (
           <ImagePostContent
-            mediaMetadata={mediaMetadata}
+            imageUrl={mediaMetadata.secure_url}
             height={height}
             width={width}
           />
@@ -72,7 +72,7 @@ function PostContent(props) {
         return (
           <VideoPostContent
             postId={postId}
-            mediaMetadata={mediaMetadata}
+            videoUrl={mediaMetadata.secure_url}
             link={link}
             height={height}
             width={width}
@@ -101,7 +101,6 @@ function PostContent(props) {
       default:
         return DefaultPost;
     }
-    r;
   };
 
   return (

@@ -1,29 +1,17 @@
-import React, {useState, useEffect, memo} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Platform,
-  ActivityIndicator,
-} from 'react-native';
-import {Image} from 'react-native-elements';
-import Video from 'react-native-video';
+import React, {memo} from 'react';
+import {View, Text, TouchableOpacity, Linking} from 'react-native';
+import {Icon} from 'react-native-elements';
 import {scaleHeightAndWidthAccordingToDimensions} from './helpers';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import {useIsFocused} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {getFeedPostFieldSelector} from '../../redux/selectors/FeedSelectors';
-import {Icon} from 'react-native-elements';
+import ImagePostContent from './ImagePostContent';
+import VideoPostContent from './VideoPostContent';
 
 const LinkPostContent = (props) => {
   const {ogData, link, screen, postId} = props;
 
-  const [paused, setPaused] = useState(true);
-  const [loading, setLoading] = useState(true);
-
   const title = ogData?.ogTitle;
   const description = ogData?.ogDescription;
-  const url = ogData?.ogUrl;
+  const url = ogData?.ogUrl ? ogData.ogUrl : link;
 
   const videoUrl = ogData?.ogVideo?.url;
   const videoHeight = ogData?.ogVideo?.height;
@@ -57,112 +45,45 @@ const LinkPostContent = (props) => {
       ? videoUrl.substring(videoUrl.lastIndexOf('/') + 1, videoUrl.length)
       : null;
 
-  const getFeedPostField = getFeedPostFieldSelector();
-  const isViewable =
-    screen == 'PostDetail'
-      ? true
-      : useSelector((state) =>
-          getFeedPostField(state.feed.screens[screen], postId, 'isViewable'),
-        );
-
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    if (!isFocused) {
-      setPaused(true);
-    }
-  }, [isFocused]);
-
-  useEffect(() => {
-    console.log(' link post viewabality', postId, isViewable);
-    if (!isViewable && !paused) {
-      console.log(' link post viewabality going to pause', postId, isViewable);
-
-      setPaused(true);
-    }
-  }, [isViewable]);
-
-  const videoPlayer = (
-    <Video
-      style={{
-        width: width - 27,
-        height: height,
-      }}
-      source={{uri: ogData.ogVideo.url}}
-      resizeMode="cover"
-      paused={paused}
-      onLoad={() => setLoading(false)}
-      poster={ogData.ogImage.url}
-      showPoster={true}
-      playWhenInactive={false}
-      muted={false}
-      repeat={true}
-      controls={Platform.OS == 'ios' ? true : false}
-    />
-  );
-
-  const PlayerControls = loading ? (
+  const LinkVideo = (
     <View
       style={{
-        position: 'absolute',
+        flex: 1,
+        backgroundColor: '#222',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
-      <ActivityIndicator size="large" color="#4285f4" />
-    </View>
-  ) : (
-    <TouchableOpacity
-      hitSlop={{
-        top: height / 4,
-        bottom: height / 4,
-        left: width / 2,
-        right: width / 2,
-      }}
-      style={{position: 'absolute'}}
-      onPress={() => setPaused(!paused)}>
-      {paused &&
-        Platform.OS != 'ios' && ( // dot show play button when on ios
-          <Icon name="play" type="font-awesome-5" size={50} color="#fff" />
-        )}
-    </TouchableOpacity>
-  );
-
-  const LinkVideo = (
-    <View>
       {domain == 'youtube.com' ? (
         <YoutubePlayer
-          height={height}
-          width={width - 21}
+          height={height - 10}
+          width={width - 10}
           play={false}
           videoId={videoId}
-          // onChangeState={onStateChange}
         />
       ) : (
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          {videoPlayer}
-          {PlayerControls}
-        </View>
+        <VideoPostContent
+          videoUrl={videoUrl}
+          height={height - 10}
+          width={width - 10}
+          postId={postId}
+          screen={screen}
+        />
       )}
     </View>
   );
 
   const LinkImage = (
-    <TouchableOpacity
-      onPress={() => console.log('click link')}
+    <View
       style={{
-        alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: '#222',
       }}>
-      <Image
-        source={{
-          uri: ogData.ogImage.url,
-        }}
-        style={{
-          width: width - 21,
-          height: height,
-          resizeMode: 'contain',
-        }}
+      <ImagePostContent
+        imageUrl={imageUrl}
+        height={height - 10}
+        width={width - 10}
       />
-    </TouchableOpacity>
+    </View>
   );
 
   const LinkTitle = (
@@ -184,8 +105,11 @@ const LinkPostContent = (props) => {
 
   const LinkUrl = (
     <View style={{marginVertical: 10, marginHorizontal: 5}}>
-      <Text style={{fontSize: 9, color: '#555'}}>
-        {ogData ? (ogData.ogUrl ? ogData.ogUrl : link) : link}
+      <Text
+        style={{fontSize: 9, color: '#555', maxWidth: '70%'}}
+        ellipsizeMode="tail"
+        numberOfLines={1}>
+        {link}
       </Text>
     </View>
   );
@@ -193,8 +117,9 @@ const LinkPostContent = (props) => {
   const LinkDetails = (
     <View
       style={{
-        justifyContent: 'center',
         padding: 5,
+        alignItems: 'flex-start',
+        marginBottom: 5,
       }}>
       {title && LinkTitle}
       {description && LinkDescription}
@@ -205,25 +130,55 @@ const LinkPostContent = (props) => {
   const linkMedia = (
     <View
       style={{
-        height: height,
-        width: width - 21,
+        height: height - 10,
+        width: '100%',
+        alignSelf: 'center',
+        alignItems: 'center',
       }}>
       {type == 'image' ? LinkImage : LinkVideo}
     </View>
   );
 
+  const handleOpenLink = () => {
+    Linking.openURL(link);
+  };
+
+  const openLink = (
+    <TouchableOpacity
+      hitSlop={{top: 10, bottom: 20, left: 10, right: 10}}
+      onPress={handleOpenLink}
+      style={{
+        position: 'absolute',
+        top: 5,
+        right: 5,
+        backgroundColor: '#fff',
+        padding: 3,
+        paddingLeft: 5,
+        opacity: 0.7,
+        borderRadius: 7,
+      }}>
+      <Icon type="font-awesome" name="external-link" size={18} color="#444" />
+    </TouchableOpacity>
+  );
   return (
     <View
       style={{
+        width: '100%',
+        minHeight: 40,
         backgroundColor: '#fff',
-        borderColor: '#ccc',
+        //borderColor: '#ccc',
         justifyContent: 'center',
+        borderColor: '#ddd',
         borderWidth: 1,
+        borderBottomWidth: 0,
         borderRadius: 5,
-        alignItems: 'center',
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        alignSelf: 'center',
       }}>
       {type && linkMedia}
       {LinkDetails}
+      {openLink}
     </View>
   );
 };

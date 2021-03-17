@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 import {getFeedPostFieldSelector} from '../../redux/selectors/FeedSelectors';
 
 const VideoPostContent = (props) => {
-  const {mediaMetadata, height, width, postId, screen} = props;
+  const {videoUrl, height, width, postId, screen} = props;
   const [paused, setPaused] = useState(true);
   const [loading, setLoading] = useState(true);
 
@@ -33,11 +33,7 @@ const VideoPostContent = (props) => {
     }
   }, [isViewable]);
 
-  const posterUrl =
-    mediaMetadata.secure_url.substring(
-      0,
-      mediaMetadata.secure_url.lastIndexOf('.'),
-    ) + '.jpg';
+  const posterUrl = videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
 
   const VideoComponent = (
     <Video
@@ -45,7 +41,7 @@ const VideoPostContent = (props) => {
         width: width,
         height: height,
       }}
-      source={{uri: mediaMetadata.secure_url}}
+      source={{uri: videoUrl}}
       resizeMode="contain"
       paused={paused}
       onLoad={() => setLoading(false)}

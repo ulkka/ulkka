@@ -1,11 +1,11 @@
 import {Dimensions} from 'react-native';
 
-export function scaleHeightAndWidthAccordingToDimensions(mediaMetadata) {
+export function scaleHeightAndWidthAccordingToDimensions(mediaDimensions) {
   let {height, width} = Dimensions.get('window');
-  if (mediaMetadata) {
+  if (mediaDimensions?.height && mediaDimensions?.width) {
     height = Math.ceil(
-      (mediaMetadata.height * Dimensions.get('window').width) /
-        mediaMetadata.width,
+      (mediaDimensions.height * Dimensions.get('window').width) /
+        mediaDimensions.width,
     );
     const heightPercentOfTotalWindowHeight =
       (height / Dimensions.get('window').height) * 100;
@@ -15,7 +15,9 @@ export function scaleHeightAndWidthAccordingToDimensions(mediaMetadata) {
         ? Dimensions.get('window').height / 1.865
         : height;
 
-    width = (height * mediaMetadata.width) / mediaMetadata.height;
+    width = (height * mediaDimensions.width) / mediaDimensions.height;
+  } else {
+    return {height: 400, width: width};
   }
   return {height, width};
 }

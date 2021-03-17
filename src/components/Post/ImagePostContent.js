@@ -3,7 +3,7 @@ import {View, ActivityIndicator} from 'react-native';
 import FastImage from 'react-native-fast-image'; // delete extra lines from android/app/proguard-rules.pro if uninstalling
 
 const ImagePostContent = (props) => {
-  const {mediaMetadata, height, width} = props;
+  const {imageUrl, height, width} = props;
 
   const [loaded, setLoaded] = useState(false);
   return (
@@ -23,7 +23,7 @@ const ImagePostContent = (props) => {
         }}
         onLoad={() => setLoaded(true)}
         source={{
-          uri: mediaMetadata.secure_url,
+          uri: imageUrl,
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.web,
         }}

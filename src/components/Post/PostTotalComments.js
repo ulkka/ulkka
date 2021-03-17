@@ -29,7 +29,7 @@ const PostTotalComments = (props) => {
         justifyContent: 'center',
       }}>
       <Icon
-        name="comment"
+        name="comment-outline"
         type="material-community"
         color="#000"
         size={18}
