@@ -29,8 +29,6 @@ const styles = StyleSheet.create({
     padding: 9,
     justifyContent: 'center',
     fontWeight: 'bold',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
   },
   loadingView: {
     flex: 1,

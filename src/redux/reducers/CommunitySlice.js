@@ -12,11 +12,12 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: {
     [createPost.fulfilled]: (state, action) => {
-      //const newCommunity = action.payload.normalizedPost.posts.communities;
-      //communityAdapter.upsertOne(state, newCommunity);
-      console.log(
-        'createpost fulfilled in community slice currently commented waiting for maveli to fix response to populate community',
-      );
+      /*   const newPostId = action.payload.newPostId;
+      const newPost = action.payload.normalizedPost.posts[newPostId];
+      const newCommunityId = newPost.community;
+      const newCommunity =
+        action.payload.normalizedPost.communities[newCommunityId];
+      communityAdapter.upsertOne(state, newCommunity);*/
     },
     [fetchFeed.fulfilled]: (state, action) => {
       const normalizedPosts = action.payload.normalizedPosts;

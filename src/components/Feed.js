@@ -19,7 +19,7 @@ function Feed(props) {
   const dispatch = useDispatch();
   const feedListRef = React.createRef();
 
-  const screen = props.screen;
+  const {screen} = props;
 
   const authStatus = useSelector(getAuthStatus);
 
@@ -52,7 +52,7 @@ function Feed(props) {
       <Post
         {...item}
         postId={_id}
-        caller={screen}
+        screen={screen}
         height={height}
         width={width}
       />
@@ -102,13 +102,16 @@ function Feed(props) {
         onEndReachedThreshold={0.5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={100}
-        windowSize={31} // causes flickering with read more text while scrolling up, fix that before uncommenting
+        windowSize={11} // causes flickering with read more text while scrolling up, fix that before uncommenting
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         viewabilityConfig={viewabilityConfigRef.current}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         keyExtractor={(post, index) => post._id}
         ListFooterComponent={<FeedFooter complete={complete} />}
+        onScrollToIndexFailed={(info) =>
+          console.log('scroll to index failed', info)
+        }
         refreshControl={
           <RefreshControl refreshing={false} onRefresh={refreshFeed} />
         }

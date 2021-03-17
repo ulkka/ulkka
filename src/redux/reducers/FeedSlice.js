@@ -3,7 +3,9 @@ import {signout} from '../actions/AuthActions';
 import {fetchFeed} from '../actions/FeedActions';
 import {createPost} from '../actions/PostActions';
 
-const feedAdapter = createEntityAdapter({selectId: (post) => post._id});
+const feedAdapter = createEntityAdapter({
+  selectId: (post) => post._id,
+});
 
 const initialState = {
   ids: [],
@@ -16,6 +18,14 @@ const initialState = {
   complete: false,
   loading: false,
   initialised: false,
+};
+
+const intialEntityState = (postId) => {
+  return {
+    _id: postId,
+    loaded: false,
+    isViewable: false,
+  };
 };
 
 export const slice = createSlice({
@@ -81,11 +91,7 @@ export const slice = createSlice({
               postId,
             );
           } else {
-            posts[postId] = {
-              _id: postId,
-              loaded: false,
-              isViewable: false,
-            };
+            posts[postId] = intialEntityState(postId);
           }
         });
         screen.metadata = action.payload.metadata;
@@ -104,7 +110,9 @@ export const slice = createSlice({
     [createPost.fulfilled]: (state, action) => {
       const newPostId = action.payload.newPostId;
       const homeScreen = state.screens['home'];
-      homeScreen.ids.unshift(newPostId);
+      const newPost = intialEntityState(newPostId);
+      homeScreen.entities[newPostId] = newPost;
+      homeScreen.ids.unshift(newPostId); // to bring the newly added post to the top of current users home feed
     },
     [signout.fulfilled]: (state) => {
       //resetAllFeeds(state);
@@ -123,6 +131,3 @@ export const {
   selectAll: selectAllPosts,
   selectTotal: selectTotalPosts,
 } = feedAdapter.getSelectors((state) => state);
-
-export const getFeedPostField = (state, id, field) =>
-  selectFeedPostById(state, id)[field];

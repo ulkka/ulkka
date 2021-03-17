@@ -10,7 +10,7 @@ import GifPostContent from './GifPostContent';
 function PostContent(props) {
   const {
     postId,
-    caller,
+    screen,
     type,
     description,
     mediaMetadata,
@@ -20,7 +20,6 @@ function PostContent(props) {
     link,
   } = props;
 
-  console.log('running post content', postId);
   const ContentType =
     type == 'image' || type == 'video' || type == 'gif' ? 'media' : 'textual';
 
@@ -44,7 +43,7 @@ function PostContent(props) {
         }}>
         <TouchableOpacity
           activeOpacity={0.9}
-          disabled={caller == 'PostDetail' ? true : false}
+          disabled={screen == 'PostDetail' ? true : false}
           underlayColor="#fff"
           onPress={() =>
             type == 'video' || type == 'link'
@@ -77,6 +76,7 @@ function PostContent(props) {
             link={link}
             height={height}
             width={width}
+            screen={screen}
           />
         );
       case 'gif':

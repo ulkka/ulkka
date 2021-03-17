@@ -11,7 +11,7 @@ function Post(props) {
 
   const {
     postId,
-    caller,
+    screen,
     created_at,
     title,
     type,
@@ -27,8 +27,6 @@ function Post(props) {
     communityDetail,
     authorDetail,
   } = props;
-
-  console.log('running post', postId);
 
   return (
     <View
@@ -52,7 +50,7 @@ function Post(props) {
       </View>
       <PostContent
         postId={postId}
-        caller={caller}
+        screen={screen}
         type={type}
         description={description}
         mediaMetadata={mediaMetadata}

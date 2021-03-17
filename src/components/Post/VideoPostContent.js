@@ -4,19 +4,20 @@ import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
 import {ActivityIndicator} from 'react-native';
-import VideoPlayerComponent from './VideoPlayerComponent';
 import {useSelector} from 'react-redux';
-import {getFeedPostField} from '../../redux/reducers/FeedSlice';
+import {getFeedPostField} from '../../redux/selectors/FeedSelectors';
 
 const VideoPostContent = (props) => {
-  const {mediaMetadata, height, width, postId} = props;
+  const {mediaMetadata, height, width, postId, screen} = props;
   const [paused, setPaused] = useState(true);
   const [loading, setLoading] = useState(true);
 
-  const isViewable = useSelector((state) =>
-    getFeedPostField(state.feed.screens['home'], postId, 'isViewable'),
-  );
-  console.log('isViewabe of postId', isViewable, postId);
+  const isViewable =
+    screen == 'PostDetail'
+      ? true
+      : useSelector((state) =>
+          getFeedPostField(state.feed.screens[screen], postId, 'isViewable'),
+        );
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -48,11 +49,11 @@ const VideoPostContent = (props) => {
       paused={paused}
       onLoad={() => setLoading(false)}
       poster={posterUrl}
-      showPoster={Platform.OS == 'ios' ? true : true}
+      showPoster={true}
       playWhenInactive={false}
-      muted={true}
+      muted={false}
       repeat={true}
-      controls={Platform.OS == 'ios' ? false : false}
+      controls={Platform.OS == 'ios' ? true : false}
     />
   );
 
@@ -73,9 +74,10 @@ const VideoPostContent = (props) => {
       }}
       style={{position: 'absolute'}}
       onPress={() => setPaused(!paused)}>
-      {paused && (
-        <Icon name="play" type="font-awesome-5" size={50} color="#fff" />
-      )}
+      {paused &&
+        Platform.OS != 'ios' && ( // dot show play button when on ios
+          <Icon name="play" type="font-awesome-5" size={50} color="#fff" />
+        )}
     </TouchableOpacity>
   );
 
@@ -87,25 +89,18 @@ const VideoPostContent = (props) => {
         height: height,
         width: width,
       }}>
-      {Platform.OS == 'android' ? (
-        <ImageBackground
-          source={{uri: posterUrl}}
-          style={{
-            resizeMode: 'contain',
-            height: height,
-            width: width,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          {VideoComponent}
-          {PlayerControls}
-        </ImageBackground>
-      ) : (
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          {VideoComponent}
-          {PlayerControls}
-        </View>
-      )}
+      <ImageBackground
+        source={{uri: posterUrl}}
+        style={{
+          resizeMode: 'contain',
+          height: height,
+          width: width,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {VideoComponent}
+        {PlayerControls}
+      </ImageBackground>
     </View>
   );
 };

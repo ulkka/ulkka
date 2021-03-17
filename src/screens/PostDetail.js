@@ -43,7 +43,7 @@ export default function PostDetail({route}) {
         {flatPost ? (
           <Post
             postId={postId}
-            caller={'PostDetail'}
+            screen={'PostDetail'}
             height={height}
             width={width}
             {...post}

@@ -11,6 +11,7 @@ export const createPost = createAsyncThunk(
   'posts/create',
   async (payload, thunkAPI) => {
     let response = await postApi.post.create(payload);
+    console.log('createpost response', response);
     const normalized = normalize(response.data, post);
     return {
       normalizedPost: normalized.entities,
