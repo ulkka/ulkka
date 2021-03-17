@@ -2,12 +2,12 @@ import React, {memo} from 'react';
 import Comment from './Comment';
 import CommentGroup from './CommentGroup';
 import {useSelector} from 'react-redux';
-import {selectFlatCommentByIdSelector} from '../../redux/selectors/CommentSelectors';
+import {getFlatCommentByIdSelector} from '../../redux/selectors/CommentSelectors';
 
 const SingleCommentThread = memo((props) => {
   const {commentId, postId} = props;
 
-  const getFlatCommentSelector = selectFlatCommentByIdSelector();
+  const getFlatCommentSelector = getFlatCommentByIdSelector();
   const comment = useSelector((state) =>
     getFlatCommentSelector(state, commentId),
   );

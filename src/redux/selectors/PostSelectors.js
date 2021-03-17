@@ -8,51 +8,69 @@ import {createSelectorCreator, defaultMemoize} from 'reselect';
 export const getPostField = (state, id, field) =>
   selectPostById(state, id)[field];
 
-export const selectFlatPostById = createSelector(
-  [selectPostById, selectCommunityEntities, selectUserEntities],
-  (post, communityEnitities, userEntities) => {
-    return {
-      ...post,
-      communityDetail: communityEnitities[post.community],
-      authorDetail: userEntities[post.author],
-    };
+//  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
+//  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
+//  return true if length of prev and next array is same
+//  this might support when multiple feeds are enabled, but if some issue, investigate here
+
+// return true so post will remain same so post detail wont refresh after new comment/reply added
+const createPostByIdEqualitySelector = createSelectorCreator(
+  defaultMemoize,
+  () => {
+    return true;
   },
 );
 
-//  refactor https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
+const memoizedFlatPostById = () =>
+  createPostByIdEqualitySelector(selectPostById, (post) => post);
+
+export const getFlatPostByIdSelector = () => {
+  return createSelector(
+    [memoizedFlatPostById(), selectCommunityEntities, selectUserEntities],
+    (post, communityEnitities, userEntities) => {
+      return {
+        ...post,
+        communityDetail: communityEnitities[post.community],
+        authorDetail: userEntities[post.author],
+      };
+    },
+  );
+};
+
+//  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 //  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
 //  return true if length of prev and next array is same
 //  might need update while working with multuple feeds- watch out!
 
-const createDeepEqualSelector = createSelectorCreator(
+const createAllPostsEqualitySelector = createSelectorCreator(
   defaultMemoize,
   (a, b) => {
     return a.length == b.length;
   },
 );
 
-const memoizedSelectAllPosts = createDeepEqualSelector(
-  selectAllPosts,
-  (posts) => posts,
-);
+const memoizedSelectAllPosts = () =>
+  createAllPostsEqualitySelector(selectAllPosts, (posts) => posts);
 
-export const selectFlatPosts = createSelector(
-  [
-    getFeedPostIds,
-    memoizedSelectAllPosts, //this will change only if length of array changes
-    selectCommunityEntities,
-    selectUserEntities,
-  ],
-  (postIds, allPosts, communityEnitities, userEntities) => {
-    return allPosts
-      .filter((post) => postIds.includes(post._id))
-      .map((post) => {
-        return {
-          ...post,
-          communityDetail: communityEnitities[post.community],
-          authorDetail: userEntities[post.author],
-        };
-      })
-      .sort((a, b) => postIds.indexOf(a._id) - postIds.indexOf(b._id)); // to sort according to order of Ids in feed IDs array
-  },
-);
+export const getFlatPostsSelector = () => {
+  return createSelector(
+    [
+      getFeedPostIds,
+      memoizedSelectAllPosts(), //this will change only if length of array changes
+      selectCommunityEntities,
+      selectUserEntities,
+    ],
+    (postIds, allPosts, communityEnitities, userEntities) => {
+      return allPosts
+        .filter((post) => postIds.includes(post._id))
+        .map((post) => {
+          return {
+            ...post,
+            communityDetail: communityEnitities[post.community],
+            authorDetail: userEntities[post.author],
+          };
+        })
+        .sort((a, b) => postIds.indexOf(a._id) - postIds.indexOf(b._id)); // to sort according to order of Ids in feed IDs array
+    },
+  );
+};

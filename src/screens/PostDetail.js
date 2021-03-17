@@ -9,11 +9,13 @@ import CommentList from '../components/Comment/CommentList';
 import Post from '../components/Post/Post';
 import CommentWriter from '../components/Comment/CommentWriter';
 import {useSelector} from 'react-redux';
-import {selectFlatPostById} from '../redux/selectors/PostSelectors';
+import {getFlatPostByIdSelector} from '../redux/selectors/PostSelectors';
 import {scaleHeightAndWidthAccordingToDimensions} from '../components/Post/helpers';
 
 export default function PostDetail({route}) {
   const postId = route.params.postId;
+
+  const selectFlatPostById = getFlatPostByIdSelector();
   const flatPost = useSelector((state) => selectFlatPostById(state, postId));
   let post = flatPost ? flatPost : {};
 

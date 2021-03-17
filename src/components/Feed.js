@@ -5,7 +5,7 @@ import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
 import {isComplete, isLoading} from '../redux/selectors/FeedSelectors';
-import {selectFlatPosts} from '../redux/selectors/PostSelectors';
+import {getFlatPostsSelector} from '../redux/selectors/PostSelectors';
 import {initialiseFeed, setViewableItems} from '../redux/reducers/FeedSlice';
 import {fetchFeed} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
@@ -25,6 +25,8 @@ function Feed(props) {
 
   const loading = useSelector((state) => isLoading(state, screen));
   const complete = useSelector((state) => isComplete(state, screen));
+
+  const selectFlatPosts = getFlatPostsSelector();
   const posts = useSelector((state) => selectFlatPosts(state, screen));
 
   const viewabilityConfigRef = React.useRef({

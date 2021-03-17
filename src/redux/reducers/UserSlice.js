@@ -1,25 +1,32 @@
 import {fetchFeed} from '../actions/FeedActions';
+import {
+  loadAuth,
+  socialAuth,
+  emailLinkAuth,
+  registerUser,
+  signout,
+} from '../actions/AuthActions';
 import {fetchComments} from '../actions/CommentActions';
-import {createReply} from './ReplySlice';
-import {createPost} from '../actions/PostActions';
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 export const userAdapter = createEntityAdapter({
   selectId: (user) => user._id,
 });
 
+const addRegisteredUserToSlice = (state, action) => {
+  const registeredUser = action.payload.registeredUser;
+  userAdapter.upsertOne(state, registeredUser);
+};
+
 export const slice = createSlice({
   name: 'user',
   initialState: userAdapter.getInitialState(),
   reducers: {},
   extraReducers: {
-    [createPost.fulfilled]: (state, action) => {
-      const newPostId = action.payload.newPostId;
-      const newPost = action.payload.normalizedPost.posts[newPostId];
-      const newUserId = newPost.author;
-      const newUser = action.payload.normalizedPost.users[newUserId];
-      userAdapter.upsertOne(state, newUser);
-    },
+    [loadAuth.fulfilled]: addRegisteredUserToSlice,
+    [socialAuth.fulfilled]: addRegisteredUserToSlice,
+    [emailLinkAuth.fulfilled]: addRegisteredUserToSlice,
+    [registerUser.fulfilled]: addRegisteredUserToSlice,
     [fetchFeed.fulfilled]: (state, action) => {
       const normalizedPosts = action.payload.normalizedPosts;
 
@@ -36,15 +43,6 @@ export const slice = createSlice({
       if (action.payload.normalizedComments.users !== undefined) {
         userAdapter.upsertMany(state, action.payload.normalizedComments.users);
       }
-    },
-    [createReply.fulfilled]: (state, action) => {
-      const newCommentId = action.payload.result;
-      const newComment =
-        action.payload.normalizedComment.comments[newCommentId];
-      const newCommentAuthorId = newComment.author;
-      const newCommentAuthor =
-        action.payload.normalizedComment.users[newCommentAuthorId];
-      userAdapter.upsertOne(state, newCommentAuthor);
     },
   },
 });
