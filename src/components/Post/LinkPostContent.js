@@ -1,35 +1,21 @@
 import React, {memo} from 'react';
 import {View, Text, TouchableOpacity, Linking} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {scaleHeightAndWidthAccordingToDimensions} from './helpers';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
 
 const LinkPostContent = (props) => {
-  const {ogData, link, screen, postId} = props;
+  const {ogData, link, screen, postId, height, width} = props;
 
   const title = ogData?.ogTitle;
   const description = ogData?.ogDescription;
   const url = ogData?.ogUrl ? ogData.ogUrl : link;
-
   const videoUrl = ogData?.ogVideo?.url;
-  const videoHeight = ogData?.ogVideo?.height;
-  const videoWidth = ogData?.ogVideo?.width;
-
   const imageUrl = ogData?.ogImage?.url;
-  const imageHeight = ogData?.ogImage?.height;
-  const imageWidth = ogData?.ogImage?.width;
-
   const type = videoUrl ? 'video' : imageUrl ? 'image' : undefined;
 
-  const metadata = type
-    ? type == 'video'
-      ? {height: videoHeight, width: videoWidth}
-      : {height: imageHeight, width: imageWidth}
-    : undefined;
-
-  const {height, width} = scaleHeightAndWidthAccordingToDimensions(metadata);
+  console.log('running link post content');
 
   const getHostnameFromRegex = (url) => {
     // run against regex
@@ -50,7 +36,8 @@ const LinkPostContent = (props) => {
       style={{
         flex: 1,
         backgroundColor: '#222',
-        width: '100%',
+        width: width - 10,
+        height: height - 10,
         alignItems: 'center',
         justifyContent: 'center',
       }}>
@@ -60,6 +47,7 @@ const LinkPostContent = (props) => {
           width={width - 10}
           play={false}
           videoId={videoId}
+          modestbranding={true}
         />
       ) : (
         <VideoPostContent
@@ -68,6 +56,7 @@ const LinkPostContent = (props) => {
           width={width - 10}
           postId={postId}
           screen={screen}
+          imageUrl={imageUrl}
         />
       )}
     </View>
@@ -77,6 +66,8 @@ const LinkPostContent = (props) => {
     <View
       style={{
         backgroundColor: '#222',
+        height: height - 10,
+        width: width - 10,
       }}>
       <ImagePostContent
         imageUrl={imageUrl}
@@ -91,7 +82,10 @@ const LinkPostContent = (props) => {
       style={{
         margin: 5,
       }}>
-      <Text style={{fontWeight: 'bold', fontSize: 13, color: '#333'}}>
+      <Text
+        style={{fontWeight: 'bold', fontSize: 13, color: '#333'}}
+        ellipsizeMode="tail"
+        numberOfLines={3}>
         {ogData.ogTitle}
       </Text>
     </View>
@@ -99,7 +93,12 @@ const LinkPostContent = (props) => {
 
   const LinkDescription = (
     <View style={{marginHorizontal: 5}}>
-      <Text style={{fontSize: 11, color: '#444'}}>{ogData.ogDescription}</Text>
+      <Text
+        style={{fontSize: 11, color: '#444'}}
+        ellipsizeMode="tail"
+        numberOfLines={3}>
+        {ogData.ogDescription}
+      </Text>
     </View>
   );
 
@@ -131,7 +130,7 @@ const LinkPostContent = (props) => {
     <View
       style={{
         height: height - 10,
-        width: '100%',
+        width: width - 10,
         alignSelf: 'center',
         alignItems: 'center',
       }}>
@@ -166,15 +165,12 @@ const LinkPostContent = (props) => {
         width: '100%',
         minHeight: 40,
         backgroundColor: '#fff',
-        //borderColor: '#ccc',
         justifyContent: 'center',
         borderColor: '#ddd',
         borderWidth: 1,
-        borderBottomWidth: 0,
         borderRadius: 5,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
         alignSelf: 'center',
+        marginBottom: 7,
       }}>
       {type && linkMedia}
       {LinkDetails}

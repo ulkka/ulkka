@@ -44,11 +44,12 @@ function Feed(props) {
   }, [authStatus]);
 
   const renderRow = ({item}) => {
-    const {_id, mediaMetadata} = item;
+    const {_id, mediaMetadata, type, ogData} = item;
 
-    let {height, width} = scaleHeightAndWidthAccordingToDimensions(
-      mediaMetadata,
-    );
+    let {height, width} =
+      type == 'link'
+        ? scaleHeightAndWidthAccordingToDimensions(ogData, 'og')
+        : scaleHeightAndWidthAccordingToDimensions(mediaMetadata, 'media');
 
     return (
       <Post
@@ -104,7 +105,7 @@ function Feed(props) {
         onEndReachedThreshold={0.5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={100}
-        windowSize={11} // causes flickering with read more text while scrolling up, fix that before uncommenting
+        windowSize={21} // causes flickering with read more text while scrolling up, fix that before uncommenting
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         viewabilityConfig={viewabilityConfigRef.current}

@@ -19,9 +19,12 @@ export default function PostDetail({route}) {
   const flatPost = useSelector((state) => selectFlatPostById(state, postId));
   let post = flatPost ? flatPost : {};
 
-  const {mediaMetadata} = post;
+  const {mediaMetadata, type, ogData} = post;
 
-  let {height, width} = scaleHeightAndWidthAccordingToDimensions(mediaMetadata);
+  let {height, width} =
+    type == 'link'
+      ? scaleHeightAndWidthAccordingToDimensions(ogData, 'og')
+      : scaleHeightAndWidthAccordingToDimensions(mediaMetadata, 'media');
 
   return (
     <View style={{flex: 1}}>

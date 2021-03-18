@@ -20,5 +20,8 @@ export const isNewPostAdded = (state, screen) =>
     ? false
     : state.feed.screens[screen].newPostAdded;
 
-export const getFeedPostFieldSelector = () => (state, id, field) =>
-  selectFeedPostById(state, id)[field];
+export const getIsViewableSelector = () => (state, screen, id) =>
+  selectFeedPostById(state.feed.screens[screen], id).isViewable;
+
+export const getIsPausedSelector = () => (state, screen, id) =>
+  selectFeedPostById(state.feed.screens[screen], id).paused;

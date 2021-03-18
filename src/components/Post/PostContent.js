@@ -37,13 +37,17 @@ function PostContent(props) {
         style={{
           paddingBottom: type == 'text' ? 10 : 0,
           width: '100%',
-          paddingHorizontal: ContentType == 'media' ? 0 : 5,
+          paddingHorizontal: ContentType == 'media' ? 0 : 4,
           backgroundColor: type == 'video' ? '#111' : '#fff',
           alignSelf: 'center',
         }}>
         <TouchableOpacity
           activeOpacity={0.9}
-          disabled={screen == 'PostDetail' ? true : false}
+          disabled={
+            screen == 'PostDetail' || type == 'video' || type == 'link'
+              ? true
+              : false
+          }
           underlayColor="#fff"
           onPress={() =>
             type == 'video' || type == 'link'

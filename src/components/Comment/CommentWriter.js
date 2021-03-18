@@ -44,11 +44,6 @@ export default function CommentWriter(props) {
   const reply_to_text =
     parentComment != undefined ? parentCommentAuthor.displayname : post.title;
 
-  const reply_to_text_shrunk =
-    reply_to_text.length > 38
-      ? reply_to_text.substring(0, 40).concat('...')
-      : reply_to_text;
-
   const inputRef = useRef(null);
   const active = useSelector(isActive);
   const loading = useSelector(isLoading);
@@ -139,12 +134,15 @@ export default function CommentWriter(props) {
         {reply_to == 'post' ? 'Commenting on  ' : 'Replying to  '}
       </Text>
       <Text
+        ellipsizeMode={'tail'}
+        numberOfLines={1}
         style={{
           color: reply_to == 'post' ? '#026aa7' : '#77c063',
           fontSize: 12,
           fontWeight: '400',
+          maxWidth: '60%',
         }}>
-        {reply_to_text_shrunk}
+        {reply_to_text}
       </Text>
     </View>
   );

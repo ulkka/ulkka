@@ -1,26 +1,42 @@
-import React, {memo} from 'react';
-import {View, Text} from 'react-native';
-import ReadMoreText from '../ReadMoreText';
+import React, {memo, useState, useCallback} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 
 const TextPostContent = (props) => {
   const {description} = props;
+  const [showMore, setShowMore] = useState(false);
+  const [textHidden, setTextHidden] = useState(true);
+
+  const onTextLayout = useCallback((e) => {
+    setShowMore(e.nativeEvent.lines.length > 10);
+  }, []);
+
+  console.log('running text post content');
+
   return (
     <View
       style={{
         alignItems: 'flex-start',
         paddingLeft: 5,
       }}>
-      {
-        //  <ReadMoreText numberOfLines={10}>
-        <Text
-          style={{
-            fontSize: 14,
-            lineHeight: 21,
-          }}>
-          {description}
-        </Text>
-        //   </ReadMoreText>
-      }
+      <Text
+        onTextLayout={onTextLayout}
+        ellipsizeMode={'tail'}
+        numberOfLines={textHidden ? 10 : undefined}
+        style={{
+          fontSize: 14,
+          lineHeight: 21,
+        }}>
+        {description}
+      </Text>
+      {showMore && (
+        <TouchableOpacity
+          style={{paddingVertical: 5}}
+          onPress={() => setTextHidden(!textHidden)}>
+          <Text style={{color: '#68cbf8'}}>
+            {textHidden ? 'See More' : 'See Less'}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

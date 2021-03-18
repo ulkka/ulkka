@@ -4,36 +4,42 @@ import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
 import {ActivityIndicator} from 'react-native';
-import {useSelector} from 'react-redux';
-import {getFeedPostFieldSelector} from '../../redux/selectors/FeedSelectors';
+import {useSelector, useDispatch} from 'react-redux';
+import {getIsPausedSelector} from '../../redux/selectors/FeedSelectors';
+import {togglePause, pauseVideo} from '../../redux/reducers/FeedSlice';
 
 const VideoPostContent = (props) => {
-  const {videoUrl, height, width, postId, screen} = props;
-  const [paused, setPaused] = useState(true);
+  const dispatch = useDispatch();
+  const {videoUrl, imageUrl, height, width, postId, screen} = props;
+
+  const postDetailScreen = screen == 'PostDetail' ? true : false;
+
   const [loading, setLoading] = useState(true);
+  const [postDetailPaused, setPostDetailPaused] = useState(true); // play/pause handler for post detail screens
 
-  const getFeedPostField = getFeedPostFieldSelector();
-  const isViewable =
-    screen == 'PostDetail'
-      ? true
-      : useSelector((state) =>
-          getFeedPostField(state.feed.screens[screen], postId, 'isViewable'),
-        );
+  const getIsPaused = getIsPausedSelector();
+  const paused = postDetailScreen
+    ? postDetailPaused
+    : useSelector((state) => getIsPaused(state, screen, postId));
+
   const isFocused = useIsFocused();
-
   useEffect(() => {
-    if (!isFocused) {
-      setPaused(true);
+    if (!isFocused && !postDetailScreen) {
+      dispatch(pauseVideo({postId: postId, type: screen}));
     }
   }, [isFocused]);
 
-  useEffect(() => {
-    if (!isViewable && !paused) {
-      setPaused(true);
-    }
-  }, [isViewable]);
+  const posterUrl = imageUrl
+    ? imageUrl
+    : videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
 
-  const posterUrl = videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
+  const togglePlay = () => {
+    if (postDetailScreen) {
+      setPostDetailPaused(!postDetailPaused);
+    } else {
+      dispatch(togglePause({postId: postId, type: screen}));
+    }
+  };
 
   const VideoComponent = (
     <Video
@@ -47,6 +53,7 @@ const VideoPostContent = (props) => {
       onLoad={() => setLoading(false)}
       poster={posterUrl}
       showPoster={true}
+      posterResizeMode={'contain'}
       playWhenInactive={false}
       muted={false}
       repeat={true}
@@ -70,7 +77,7 @@ const VideoPostContent = (props) => {
         right: width / 2,
       }}
       style={{position: 'absolute'}}
-      onPress={() => setPaused(!paused)}>
+      onPress={togglePlay}>
       {paused &&
         Platform.OS != 'ios' && ( // dot show play button when on ios
           <Icon name="play" type="font-awesome-5" size={50} color="#fff" />

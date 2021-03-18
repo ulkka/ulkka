@@ -25,6 +25,7 @@ const intialEntityState = (postId) => {
     _id: postId,
     loaded: false,
     isViewable: false,
+    paused: true,
   };
 };
 
@@ -46,21 +47,44 @@ export const slice = createSlice({
       const {items, type} = action.payload;
       const screen = state.screens[type];
 
-      const {viewableItems, changed} = items;
+      const {changed} = items;
+
+      let updates = [];
+
       changed.map((item) => {
-        const postId = item.item._id;
-        feedAdapter.updateOne(screen, {
+        const {key: postId, isViewable} = item;
+        const pauseStatus = feedAdapter
+          .getSelectors()
+          .selectById(screen, postId).paused;
+        let paused = !isViewable ? true : pauseStatus; // pause video if not viewable but still playing
+        updates.push({
           id: postId,
-          changes: {isViewable: item.isViewable},
+          changes: {isViewable: isViewable, paused: paused},
         });
       });
-      viewableItems.map((item) => {
-        const postId = item.item._id;
 
-        feedAdapter.updateOne(screen, {
-          id: postId,
-          changes: {isViewable: item.isViewable},
-        });
+      feedAdapter.updateMany(screen, updates);
+    },
+    togglePause(state, action) {
+      const {postId, type} = action.payload;
+      const screen = state.screens[type];
+      const paused = feedAdapter.getSelectors().selectById(screen, postId)
+        .paused;
+      feedAdapter.updateOne(screen, {
+        id: postId,
+        changes: {
+          paused: !paused,
+        },
+      });
+    },
+    pauseVideo(state, action) {
+      const {postId, type} = action.payload;
+      const screen = state.screens[type];
+      feedAdapter.updateOne(screen, {
+        id: postId,
+        changes: {
+          paused: true,
+        },
       });
     },
   },
@@ -122,7 +146,12 @@ export const slice = createSlice({
 });
 
 export const feed = slice.reducer;
-export const {setViewableItems, initialiseFeed} = slice.actions;
+export const {
+  setViewableItems,
+  initialiseFeed,
+  togglePause,
+  pauseVideo,
+} = slice.actions;
 
 export const {
   selectById: selectFeedPostById,
