@@ -65,6 +65,7 @@ function PostContent(props) {
       case 'text':
         return <TextPostContent description={description} />;
       case 'image':
+      case 'gif':
         return (
           <ImagePostContent
             imageUrl={mediaMetadata.secure_url}
@@ -81,14 +82,6 @@ function PostContent(props) {
             height={height}
             width={width}
             screen={screen}
-          />
-        );
-      case 'gif':
-        return (
-          <GifPostContent
-            mediaMetadata={mediaMetadata}
-            height={height}
-            width={width}
           />
         );
       case 'link':

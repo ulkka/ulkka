@@ -6,8 +6,8 @@ const GifPostContent = (props) => {
   return (
     <Image
       style={{
-        width: '100%',
-        aspectRatio: 1,
+        width: width,
+        height: height,
         resizeMode: 'contain',
         alignSelf: 'center',
       }}
