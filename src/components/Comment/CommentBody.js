@@ -11,7 +11,7 @@ const CommentBody = (props) => {
   }, []);
 
   return (
-    <View style={{paddingTop: 5}}>
+    <View style={{paddingTop: 8}}>
       <Text
         onTextLayout={onTextLayout}
         ellipsizeMode={'tail'}

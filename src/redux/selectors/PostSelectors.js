@@ -5,6 +5,11 @@ import {selectPostById, selectAllPosts} from '../reducers/PostSlice';
 import {getFeedPostIds} from './FeedSelectors';
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 
+//  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
+//  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
+//  return true if length of prev and next array is same
+//  this might support when multiple feeds are enabled, but if some issue, investigate here
+
 export const getPostUserVoteSelector = () => {
   return createSelector(selectPostById, (post) => post.userVote);
 };
@@ -16,11 +21,6 @@ export const getPostVoteCountSelector = () => {
 export const getPostCommentCountSelector = () => {
   return createSelector(selectPostById, (post) => post.commentCount);
 };
-
-//  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
-//  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
-//  return true if length of prev and next array is same
-//  this might support when multiple feeds are enabled, but if some issue, investigate here
 
 // return true so post will remain same so post detail wont refresh after new comment/reply added
 const createPostByIdEqualitySelector = createSelectorCreator(
@@ -71,7 +71,7 @@ export const getFlatPostsSelector = () => {
     ],
     (postIds, allPosts, communityEnitities, userEntities) => {
       return allPosts
-        .filter((post) => postIds.includes(post._id))
+        .filter((post) => postIds?.includes(post._id))
         .map((post) => {
           return {
             ...post,

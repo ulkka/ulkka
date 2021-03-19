@@ -7,7 +7,12 @@ import {
   signout,
 } from '../actions/AuthActions';
 import {fetchComments} from '../actions/CommentActions';
-import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createEntityAdapter,
+  createAsyncThunk,
+} from '@reduxjs/toolkit';
+import userApi from '../../services/UserApi';
 
 export const userAdapter = createEntityAdapter({
   selectId: (user) => user._id,
@@ -18,11 +23,20 @@ const addRegisteredUserToSlice = (state, action) => {
   userAdapter.upsertOne(state, registeredUser);
 };
 
+export const fetchUserById = createAsyncThunk('user/fetchById', async (id) => {
+  const response = await userApi.user.getUserById(id);
+  return response.data[0];
+});
+
 export const slice = createSlice({
   name: 'user',
   initialState: userAdapter.getInitialState(),
   reducers: {},
   extraReducers: {
+    [fetchUserById.fulfilled]: (state, action) => {
+      const user = action.payload;
+      userAdapter.upsertOne(state, user);
+    },
     [loadAuth.fulfilled]: addRegisteredUserToSlice,
     [socialAuth.fulfilled]: addRegisteredUserToSlice,
     [emailLinkAuth.fulfilled]: addRegisteredUserToSlice,

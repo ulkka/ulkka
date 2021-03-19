@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View, Image} from 'react-native';
 import FastImage from 'react-native-fast-image'; // delete extra lines from android/app/proguard-rules.pro if uninstalling
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -23,6 +23,26 @@ const ImagePostContent = (props) => {
     console.log('error loading image');
     dispatch(setError({postId: postId, type: screen}));
   };
+
+  const loadingIndicator = !loaded && !error && (
+    <View
+      style={{
+        position: 'absolute',
+      }}>
+      {
+        /*<ActivityIndicator
+          size="large"
+          color="#4285f4"
+          animating={!loaded && !error}
+        />*/
+        // Not showing activity indicator here becuase it flickers scroll on android
+        <Image
+          source={require('../../../assets/loading.gif')}
+          style={{height: 40, width: 40}}
+        />
+      }
+    </View>
+  );
 
   return (
     <View
@@ -48,16 +68,8 @@ const ImagePostContent = (props) => {
         resizeMode={FastImage.resizeMode.contain}
         onError={onError}
       />
-      {!loaded ? (
-        <View
-          style={{
-            position: 'absolute',
-          }}>
-          <ActivityIndicator size="large" color="#4285f4" />
-        </View>
-      ) : (
-        error && <MediaLoadError type="Image" />
-      )}
+      {loadingIndicator}
+      {error && <MediaLoadError type="Image" />}
     </View>
   );
 };

@@ -41,10 +41,10 @@ export default function ShowSubmitStatus(props) {
         )}
 
         <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 50}}>
-          {status.message}
+          {status.message}{' '}
         </Text>
         <Text style={{fontSize: 30, fontWeight: 'bold', paddingTop: 30}}>
-          {status.entity}
+          {status.entity}{' '}
         </Text>
       </View>
     </Modal>

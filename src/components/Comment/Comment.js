@@ -17,7 +17,7 @@ function Comment(props) {
     <View
       style={{
         paddingLeft: 10,
-        marginTop: 5,
+        marginTop: 2,
         paddingBottom: 5,
       }}>
       <CommentMetadata

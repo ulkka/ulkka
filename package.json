@@ -36,7 +36,7 @@
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "^3.1.7",
     "react-native-screens": "^2.10.1",
-    "react-native-share": "^4.0.4",
+    "react-native-share": "^5.1.4",
     "react-native-share-menu": "^5.0.3",
     "react-native-snackbar": "^2.4.0",
     "react-native-splash-screen": "^3.2.0",

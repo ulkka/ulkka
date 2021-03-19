@@ -3,7 +3,7 @@ import {View, FlatList, Platform} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
-import AccountNavigation from './AccountNavigation';
+import UserDetail from '../screens/account/UserDetail';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import HeaderBar from '../components/Header';
 import Home from '../screens/home/tabs/Home';
@@ -77,11 +77,17 @@ function HomeNavigation({navigation}) {
         title="Community"
       />
       <StackNav.Screen
-        name="Account"
-        component={AccountNavigation}
-        title="Account"
+        name="UserDetail"
+        component={UserDetail}
+        title="UserDetail"
         options={{
           headerTitle: '',
+          headerStyle:
+            Platform.OS == 'android'
+              ? {
+                  height: 40,
+                }
+              : {},
         }}
       />
       <StackNav.Screen

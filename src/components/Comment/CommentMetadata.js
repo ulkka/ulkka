@@ -2,11 +2,10 @@ import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon, Divider} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
-import {navigate} from '../../navigation/Ref';
+import {push} from '../../navigation/Ref';
 
 const CommentMetadata = (props) => {
-  const {authorDisplayname, createdAt} = props;
-  const isCollapsed = props.isCollapsed;
+  const {authorDisplayname, createdAt, isCollapsed} = props;
 
   const CommentAuthor = (
     <Text
@@ -15,7 +14,7 @@ const CommentMetadata = (props) => {
         fontWeight: '300',
         color: 'darkgreen',
       }}>
-      {authorDisplayname}
+      {authorDisplayname}{' '}
     </Text>
   );
 
@@ -32,11 +31,11 @@ const CommentMetadata = (props) => {
 
   const HeaderLeft = (
     <TouchableOpacity
-      onPress={() => navigate('Account')}
+      onPress={() => push('UserDetail')}
       style={{
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-end',
       }}>
       {CommentAuthor}
       {Seperator}

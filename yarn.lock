@@ -6062,10 +6062,10 @@ react-native-share-menu@^5.0.3:
   resolved "https://registry.yarnpkg.com/react-native-share-menu/-/react-native-share-menu-5.0.3.tgz#c128e0dd12335f6e3c2eb8d5d6518ade9977310a"
   integrity sha512-NtL/jLbcApe6WalXLFCNYo8yFfhLGIIbi9AJgSpRLaf1+V141d7vtoJnd1fYObSGxcZJcKLSW2bkeJrpfbmZnw==
 
-react-native-share@^4.0.4:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-4.1.2.tgz#674bffd7b0cb5f812381569961c341ce3d188dd7"
-  integrity sha512-wfOMrlzxe2lMNTrHnd7sDrRmiOmG1XUmEwqfmUFFypp5y7OOe9prJCjsp3usG83DRkl3bInX1/VOM8DJYIEtfw==
+react-native-share@^5.1.4:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-5.1.4.tgz#0b9d51f6ca724728cb0c5b3ed3a883ee54d7a11b"
+  integrity sha512-/eNBTuimOmzeeBbnZkwW6hbzSZvJnhfkx5cSdQkFS45KRHekD9twP6F8QHn+zJxeJGAP+EgpVCXoA7yCrgKrhQ==
 
 react-native-snackbar@^2.4.0:
   version "2.4.0"

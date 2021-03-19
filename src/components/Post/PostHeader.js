@@ -3,7 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
 import PostExtraOptions from '../PostExtraOptions';
-import {navigate} from '../../navigation/Ref';
+import {push} from '../../navigation/Ref';
 
 const PostHeader = (props) => {
   const {postId, createdAt, authorDetail, communityDetail} = props;
@@ -13,7 +13,7 @@ const PostHeader = (props) => {
   const CommunityName = (
     <TouchableOpacity
       onPress={() =>
-        navigate('Community', {
+        push('Community', {
           communityId: communityId,
         })
       }>
@@ -26,7 +26,7 @@ const PostHeader = (props) => {
   const UserDisplayName = (
     <TouchableOpacity
       onPress={() =>
-        navigate('Account', {
+        push('UserDetail', {
           userId: authorId,
         })
       }>

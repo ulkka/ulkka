@@ -3,7 +3,7 @@ const config = {
     Main: {
       screens: {
         CreatePost: 'create/post',
-        PostDetail: 'postdetail',
+        PostDetail: 'post/:postId',
         Feed: {
           screens: {
             Home: 'home',
@@ -11,7 +11,7 @@ const config = {
           },
         },
         Community: 'community',
-        Account: 'account',
+        UserDetail: 'user',
       },
     },
     Authentication: 'myaccount',

@@ -18,6 +18,7 @@ export const CommunityField = (props) => {
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
           <Text style={{color: '#555', fontSize: 18, fontWeight: 'bold'}}>
             {community == null ? 'Select Community' : community.name}
+            {'  '}
           </Text>
           <Icon
             name="angle-down"

@@ -10,8 +10,6 @@ const TextPostContent = (props) => {
     setShowMore(e.nativeEvent.lines.length > 9);
   }, []);
 
-  console.log('running text post content');
-
   return (
     <View
       style={{

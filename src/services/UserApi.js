@@ -16,6 +16,11 @@ const userApi = {
       let response = await client.get(`${USER_URI}?query={"email":"${email}"}`);
       return response;
     },
+    async getUserById(id) {
+      const client = await mainClient;
+      let response = await client.get(`${USER_URI}?query={"_id":"${id}"}`);
+      return response;
+    },
     async displaynameExists(displayname) {
       const client = await mainClient;
       let response = await client.get(

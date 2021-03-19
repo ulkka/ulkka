@@ -1,5 +1,11 @@
 import React, {memo, useEffect} from 'react';
-import {View, ImageBackground, TouchableOpacity, Platform} from 'react-native';
+import {
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Platform,
+  Image,
+} from 'react-native';
 import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
@@ -71,18 +77,27 @@ const VideoPostContent = (props) => {
     />
   );
 
-  const PlayerControls = !loaded ? (
-    error ? (
-      <MediaLoadError type="Video" />
-    ) : (
-      <View
-        style={{
-          position: 'absolute',
-        }}>
-        <ActivityIndicator size="large" color="#4285f4" />
-      </View>
-    )
-  ) : (
+  const videoLoadingIndicator = !loaded && !error && (
+    <View
+      style={{
+        position: 'absolute',
+      }}>
+      {
+        /*<ActivityIndicator
+          size="large"
+          color="#4285f4"
+          animating={!loaded && !error}
+        />*/
+        // Not showing activity indicator here becuase it flickers scroll on android
+        <Image
+          source={require('../../../assets/loading.gif')}
+          style={{height: 40, width: 40}}
+        />
+      }
+    </View>
+  );
+
+  const playerControls = loaded && (
     <TouchableOpacity
       hitSlop={{
         top: height / 4,
@@ -117,7 +132,9 @@ const VideoPostContent = (props) => {
           justifyContent: 'center',
         }}>
         {!error && VideoComponent}
-        {PlayerControls}
+        {videoLoadingIndicator}
+        {error && <MediaLoadError type="Video" />}
+        {playerControls}
       </ImageBackground>
     </View>
   );

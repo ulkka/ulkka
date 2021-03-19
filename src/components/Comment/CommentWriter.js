@@ -140,7 +140,7 @@ export default function CommentWriter(props) {
           color: reply_to == 'post' ? '#026aa7' : '#77c063',
           fontSize: 12,
           fontWeight: '400',
-          maxWidth: 200,
+          width: 200,
         }}>
         {reply_to_text}
       </Text>
@@ -234,9 +234,9 @@ export default function CommentWriter(props) {
               fontWeight: 'bold',
               fontSize: 15,
               letterSpacing: 0.25,
-              width: 44,
             }}>
-            Reply
+            {' '}
+            Reply{' '}
           </Text>
         </TouchableOpacity>
       </View>

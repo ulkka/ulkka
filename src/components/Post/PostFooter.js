@@ -5,7 +5,18 @@ import PostTotalComments from './PostTotalComments';
 import SharePost from './SharePost';
 
 const PostFooter = (props) => {
-  const {postId, userVote, voteCount, commentCount} = props;
+  const {
+    postId,
+    userVote,
+    voteCount,
+    commentCount,
+    title,
+    description,
+    mediaMetadata,
+    link,
+    ogData,
+    type,
+  } = props;
 
   return (
     <View
@@ -27,7 +38,15 @@ const PostFooter = (props) => {
         }}
       />
       <PostTotalComments commentCount={commentCount} postId={postId} />
-      <SharePost postId={postId} />
+      <SharePost
+        postId={postId}
+        title={title}
+        description={description}
+        mediaMetadata={mediaMetadata}
+        link={link}
+        ogData={ogData}
+        type={type}
+      />
     </View>
   );
 };

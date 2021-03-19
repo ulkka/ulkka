@@ -444,7 +444,7 @@ PODS:
     - React-Core
   - RNScreens (2.17.1):
     - React-Core
-  - RNShare (4.1.2):
+  - RNShare (5.1.4):
     - React-Core
   - RNShareMenu (5.0.3):
     - React
@@ -735,7 +735,7 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: b6c9607e6fe47c1b6e2f1910d2acd46dd7ecea3a
-  RNShare: d22507fa5e80c72f236b5622556cf831de5b1e93
+  RNShare: 8af5349f05fc042d230674dd650d19789187ff9c
   RNShareMenu: 555df30344da0d60947ccc781b0447ee9e5cd48f
   RNSnackbar: be3333a21a453ccc272f41a8add5a71f7d44dfcd
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59

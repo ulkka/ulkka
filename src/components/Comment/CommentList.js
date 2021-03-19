@@ -76,7 +76,7 @@ function CommentList(props) {
           textAlign: 'center',
           lineHeight: 30,
         }}>
-        No comments yet {'\n'}Be the first to comment!
+        No comments yet {'\n'}Be the first to comment!{'  '}
       </Text>
     </View>
   );

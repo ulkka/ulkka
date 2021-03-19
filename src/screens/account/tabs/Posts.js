@@ -2,8 +2,9 @@ import React, {memo} from 'react';
 import Feed from '../../../components/Feed';
 
 function Posts(props) {
-  console.log(props);
-  return <Feed screen="home" />;
+  const userId = props?.route?.params?.params?.userId;
+  const screenName = 'UserDetail-' + userId;
+  return <Feed screen={screenName} />;
 }
 
 export default memo(Posts);

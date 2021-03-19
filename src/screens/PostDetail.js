@@ -27,7 +27,7 @@ export default function PostDetail({route}) {
     return () => dispatch(removeFromPostDetail(postId));
   }, []);
 
-  const selectFlatPostById = getFlatPostByIdSelector();
+  const selectFlatPostById = getFlatPostByIdSelector(); // do get post detail if post doesnt exist in post slice, for eg, while opening this screen directly through a link
   const flatPost = useSelector((state) => selectFlatPostById(state, postId));
 
   let post = flatPost ? flatPost : {};

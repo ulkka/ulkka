@@ -15,8 +15,6 @@ const LinkPostContent = (props) => {
   const imageUrl = ogData?.ogImage?.url;
   const type = videoUrl ? 'video' : imageUrl ? 'image' : undefined;
 
-  console.log('running link post content');
-
   const getHostnameFromRegex = (url) => {
     // run against regex
     const matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);

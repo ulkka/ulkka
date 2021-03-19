@@ -61,9 +61,15 @@ function Post(props) {
       />
       <PostFooter
         postId={postId}
+        title={title}
+        description={description}
         userVote={userVote}
         voteCount={voteCount}
+        mediaMetadata={mediaMetadata}
         commentCount={commentCount}
+        type={type}
+        link={link}
+        ogData={ogData}
       />
     </View>
   );
