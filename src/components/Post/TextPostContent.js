@@ -7,7 +7,7 @@ const TextPostContent = (props) => {
   const [textHidden, setTextHidden] = useState(true);
 
   const onTextLayout = useCallback((e) => {
-    setShowMore(e.nativeEvent.lines.length > 10);
+    setShowMore(e.nativeEvent.lines.length > 9);
   }, []);
 
   console.log('running text post content');
@@ -24,7 +24,7 @@ const TextPostContent = (props) => {
         numberOfLines={textHidden ? 10 : undefined}
         style={{
           fontSize: 14,
-          lineHeight: 21,
+          lineHeight: 22,
         }}>
         {description}
       </Text>

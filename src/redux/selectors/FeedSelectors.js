@@ -1,27 +1,32 @@
+import {createSelector} from 'reselect';
 import {selectFeedPostById} from '../reducers/FeedSlice';
 
-export const getFeedPostIds = (state, screen) =>
-  state.feed.screens[screen] === undefined
-    ? []
-    : state.feed.screens[screen].ids;
+export const getFeedPostIds = () => (state, screen) =>
+  state.feed.screens[screen]?.ids;
 
-export const isComplete = (state, screen) =>
-  state.feed.screens[screen] === undefined
-    ? false
-    : state.feed.screens[screen].complete;
+export const isCompleteSelector = () => (state, screen) =>
+  state.feed.screens[screen]?.complete;
 
-export const isLoading = (state, screen) =>
-  state.feed.screens[screen] === undefined
-    ? false
-    : state.feed.screens[screen].loading;
+export const isLoadingSelector = () => (state, screen) =>
+  state.feed.screens[screen]?.loading;
 
-export const isNewPostAdded = (state, screen) =>
-  state.feed.screens[screen] === undefined
-    ? false
-    : state.feed.screens[screen].newPostAdded;
+export const getIsPausedSelector = () => (screen, id) => {
+  return createSelector(
+    (state) => selectFeedPostById(state.feed.screens[screen], id),
+    (post) => post.paused,
+  );
+};
 
-export const getIsViewableSelector = () => (state, screen, id) =>
-  selectFeedPostById(state.feed.screens[screen], id).isViewable;
+export const getIsLoadedSelector = () => (screen, id) => {
+  return createSelector(
+    (state) => selectFeedPostById(state.feed.screens[screen], id),
+    (post) => post.loaded,
+  );
+};
 
-export const getIsPausedSelector = () => (state, screen, id) =>
-  selectFeedPostById(state.feed.screens[screen], id).paused;
+export const getIsErrorSelector = () => (screen, id) => {
+  return createSelector(
+    (state) => selectFeedPostById(state.feed.screens[screen], id),
+    (post) => post.error,
+  );
+};

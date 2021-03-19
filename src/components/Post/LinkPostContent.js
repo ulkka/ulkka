@@ -48,6 +48,9 @@ const LinkPostContent = (props) => {
           play={false}
           videoId={videoId}
           modestbranding={true}
+          onShouldStartLoadWithRequest={false}
+          startInLoadingState={true}
+          shouldStartLoad={false}
         />
       ) : (
         <VideoPostContent
@@ -73,6 +76,8 @@ const LinkPostContent = (props) => {
         imageUrl={imageUrl}
         height={height - 10}
         width={width - 10}
+        postId={postId}
+        screen={screen}
       />
     </View>
   );

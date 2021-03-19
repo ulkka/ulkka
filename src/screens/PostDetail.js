@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   ScrollView,
   View,
@@ -8,15 +8,28 @@ import {
 import CommentList from '../components/Comment/CommentList';
 import Post from '../components/Post/Post';
 import CommentWriter from '../components/Comment/CommentWriter';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {getFlatPostByIdSelector} from '../redux/selectors/PostSelectors';
 import {scaleHeightAndWidthAccordingToDimensions} from '../components/Post/helpers';
+import {
+  initialisePostDetail,
+  removeFromPostDetail,
+} from '../redux/reducers/FeedSlice';
 
 export default function PostDetail({route}) {
+  const dispatch = useDispatch();
+
   const postId = route.params.postId;
+
+  dispatch(initialisePostDetail(postId));
+
+  useEffect(() => {
+    return () => dispatch(removeFromPostDetail(postId));
+  }, []);
 
   const selectFlatPostById = getFlatPostByIdSelector();
   const flatPost = useSelector((state) => selectFlatPostById(state, postId));
+
   let post = flatPost ? flatPost : {};
 
   const {mediaMetadata, type, ogData} = post;

@@ -2,17 +2,27 @@ import React from 'react';
 import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Icon, Divider} from 'react-native-elements';
-import About from './tabs/About';
-import Posts from './tabs/Posts';
-import Comments from './tabs/Comments';
+import About from '../screens/account/tabs/About';
+import Posts from '../screens/account/tabs/Posts';
+import Comments from '../screens/account/tabs/Comments';
+import {useSelector} from 'react-redux';
+import {selectUserById} from '../redux/reducers/UserSlice';
+import TimeAgo from '../components/TimeAgo';
 
 const Tab = createMaterialTopTabNavigator();
 
-function AccountNavigation({route, navigation}) {
+function AccountNavigation(props) {
+  const {route} = props;
+
+  const user = useSelector((state) =>
+    selectUserById(state, route.params.userId),
+  );
+  console.log('user', user);
+
   const AccountDetail = (
     <View
       style={{
-        backgroundColor: 'lightgreen',
+        backgroundColor: '#fff',
         borderColor: '#ddd',
         borderBottomWidth: 1,
         borderTopWidth: 1,
@@ -39,7 +49,7 @@ function AccountNavigation({route, navigation}) {
               color: '#444',
               paddingHorizontal: 10,
             }}>
-            User Display Name
+            {user.displayname}
           </Text>
         </View>
         <TouchableOpacity
@@ -53,15 +63,19 @@ function AccountNavigation({route, navigation}) {
           <Text>Join</Text>
         </TouchableOpacity>
       </View>
-      <View style={{paddingHorizontal: 20, flexDirection: 'row'}}>
-        <Text style={{fontSize: 12, color: '#777'}}>3123 karma</Text>
-        <Divider width={20}></Divider>
-        <Text style={{fontSize: 12, color: '#777'}}>1 month</Text>
-      </View>
-      <View style={{paddingHorizontal: 20, paddingVertical: 20}}>
-        <Text>
-          Toddlers who are just too young to understand whats going on
+      <View
+        style={{
+          paddingHorizontal: 20,
+          flexDirection: 'row',
+          paddingBottom: 20,
+        }}>
+        <Text style={{fontSize: 12, color: '#777'}}>
+          {user.postKarma + user.commentKarma} karma
         </Text>
+        <Divider width={20}></Divider>
+        <Text style={{color: '#555', fontSize: 11}}>Joined </Text>
+        <TimeAgo time={user.created_at} />
+        <Text style={{color: '#555', fontSize: 11}}> ago</Text>
       </View>
     </View>
   );
@@ -88,7 +102,7 @@ function AccountNavigation({route, navigation}) {
         <Tab.Screen
           name="Posts"
           component={Posts}
-          //initialParams={{account_id: route.params.Account_id}}
+          initialParams={{params: route.params}}
         />
         <Tab.Screen name="Comments" component={Comments} />
         <Tab.Screen name="About" component={About} />

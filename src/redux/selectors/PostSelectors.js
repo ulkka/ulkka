@@ -5,8 +5,17 @@ import {selectPostById, selectAllPosts} from '../reducers/PostSlice';
 import {getFeedPostIds} from './FeedSelectors';
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 
-export const getPostField = (state, id, field) =>
-  selectPostById(state, id)[field];
+export const getPostUserVoteSelector = () => {
+  return createSelector(selectPostById, (post) => post.userVote);
+};
+
+export const getPostVoteCountSelector = () => {
+  return createSelector(selectPostById, (post) => post.voteCount);
+};
+
+export const getPostCommentCountSelector = () => {
+  return createSelector(selectPostById, (post) => post.commentCount);
+};
 
 //  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 //  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
@@ -55,7 +64,7 @@ const memoizedSelectAllPosts = () =>
 export const getFlatPostsSelector = () => {
   return createSelector(
     [
-      getFeedPostIds,
+      getFeedPostIds(),
       memoizedSelectAllPosts(), //this will change only if length of array changes
       selectCommunityEntities,
       selectUserEntities,

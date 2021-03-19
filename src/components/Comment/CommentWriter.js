@@ -140,7 +140,7 @@ export default function CommentWriter(props) {
           color: reply_to == 'post' ? '#026aa7' : '#77c063',
           fontSize: 12,
           fontWeight: '400',
-          maxWidth: '60%',
+          maxWidth: 200,
         }}>
         {reply_to_text}
       </Text>

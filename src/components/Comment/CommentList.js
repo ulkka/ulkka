@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {View, ActivityIndicator, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  isLoading,
-  getParentCommentIds,
+  isLoadingSelector,
+  getParentCommentIdsSelector,
 } from '../../redux/selectors/CommentSelectors';
 import {fetchComments} from '../../redux/actions/CommentActions';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
@@ -16,7 +16,10 @@ function CommentList(props) {
 
   const {postId} = props;
 
-  const loading = useSelector((state) => isLoading(state, postId));
+  const getIsLoading = isLoadingSelector();
+  const getParentCommentIds = getParentCommentIdsSelector();
+
+  const loading = useSelector((state) => getIsLoading(state, postId));
   const isRegistered = useSelector(getRegistrationStatus);
 
   const parentCommentIds = useSelector((state) =>
@@ -92,7 +95,7 @@ function CommentList(props) {
 
   return loading
     ? LoadingView
-    : parentCommentIds.length == 0
+    : parentCommentIds?.length == 0
     ? emptyCommentView
     : nonEmptyCommentView;
 }

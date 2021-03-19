@@ -4,22 +4,35 @@ import {Icon, Text} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {votePost} from '../redux/actions/PostActions';
 import {voteComment} from '../redux/actions/CommentActions';
-import {getPostField} from '../redux/selectors/PostSelectors';
-import {getCommentField} from '../redux/selectors/CommentSelectors';
+import {
+  getPostUserVoteSelector,
+  getPostVoteCountSelector,
+} from '../redux/selectors/PostSelectors';
+import {
+  getCommentUserVoteSelector,
+  getCommentVoteCountSelector,
+} from '../redux/selectors/CommentSelectors';
 
 export function Vote(props) {
   const dispatch = useDispatch();
   const {id, entityType} = props;
 
+  console.log('running vote');
+  const postUserVoteSelector = getPostUserVoteSelector();
+  const voteCountSelector = getPostVoteCountSelector();
+
+  const commentUserVoteSelector = getCommentUserVoteSelector();
+  const commentVoteCountSelector = getCommentVoteCountSelector();
+
   const userVote =
     entityType == 'post'
-      ? useSelector((state) => getPostField(state, id, 'userVote'))
-      : useSelector((state) => getCommentField(state, id, 'userVote'));
+      ? useSelector((state) => postUserVoteSelector(state, id))
+      : useSelector((state) => commentUserVoteSelector(state, id));
 
   const voteCount =
     entityType == 'post'
-      ? useSelector((state) => getPostField(state, id, 'voteCount'))
-      : useSelector((state) => getCommentField(state, id, 'voteCount'));
+      ? useSelector((state) => voteCountSelector(state, id))
+      : useSelector((state) => commentVoteCountSelector(state, id));
 
   const vote = (type) => {
     let voteType = userVote == type ? 0 : type;

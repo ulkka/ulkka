@@ -13,7 +13,6 @@ const SingleCommentThread = memo((props) => {
   );
   const {authorDetail, created_at, text, replies} = comment;
   const {displayname} = authorDetail;
-
   return (
     <Comment
       commentId={commentId}

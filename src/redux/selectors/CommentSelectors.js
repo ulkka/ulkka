@@ -1,20 +1,21 @@
 import {createSelector} from '@reduxjs/toolkit';
-import {selectCommentById, selectAllComments} from '../reducers/CommentSlice';
+import {selectCommentById} from '../reducers/CommentSlice';
 import {selectUserEntities} from '../reducers/UserSlice';
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 
-export const getParentCommentIds = (state, postId) =>
-  state.comments.posts[postId] === undefined
-    ? []
-    : state.comments.posts[postId].parentCommenIds;
+export const getParentCommentIdsSelector = () => (state, postId) =>
+  state.comments.posts[postId]?.parentCommenIds;
 
-export const isLoading = (state, postId) =>
-  state.comments.posts[postId] === undefined
-    ? false
-    : state.comments.posts[postId].loading;
+export const isLoadingSelector = () => (state, postId) =>
+  state.comments.posts[postId]?.loading;
 
-export const getCommentField = (state, id, field) =>
-  selectCommentById(state, id)[field];
+export const getCommentUserVoteSelector = () => {
+  return createSelector(selectCommentById, (comment) => comment.userVote);
+};
+
+export const getCommentVoteCountSelector = () => {
+  return createSelector(selectCommentById, (comment) => comment.voteCount);
+};
 
 // return the selector so that each comment thread would have different selectors
 // and memoize can work properly https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
@@ -40,17 +41,3 @@ export const getFlatCommentByIdSelector = () => {
     },
   );
 };
-
-export const selectFlatComments = createSelector(
-  [getParentCommentIds, selectAllComments, selectUserEntities],
-  (parentCommentIds, allComments, userEntities) => {
-    return allComments
-      .filter((comment) => parentCommentIds.includes(comment._id))
-      .map((comment) => {
-        return {
-          ...comment,
-          authorDetail: userEntities[comment.author],
-        };
-      });
-  },
-);

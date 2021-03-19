@@ -1,30 +1,38 @@
-import React, {memo, useState, useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {View, ImageBackground, TouchableOpacity, Platform} from 'react-native';
 import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
 import {ActivityIndicator} from 'react-native';
+import MediaLoadError from './MediaLoadError';
 import {useSelector, useDispatch} from 'react-redux';
-import {getIsPausedSelector} from '../../redux/selectors/FeedSelectors';
-import {togglePause, pauseVideo} from '../../redux/reducers/FeedSlice';
+import {
+  getIsPausedSelector,
+  getIsLoadedSelector,
+  getIsErrorSelector,
+} from '../../redux/selectors/FeedSelectors';
+import {
+  togglePause,
+  pauseVideo,
+  setLoaded,
+  setError,
+} from '../../redux/reducers/FeedSlice';
 
 const VideoPostContent = (props) => {
   const dispatch = useDispatch();
   const {videoUrl, imageUrl, height, width, postId, screen} = props;
 
-  const postDetailScreen = screen == 'PostDetail' ? true : false;
-
-  const [loading, setLoading] = useState(true);
-  const [postDetailPaused, setPostDetailPaused] = useState(true); // play/pause handler for post detail screens
-
+  const getIsLoading = getIsLoadedSelector();
   const getIsPaused = getIsPausedSelector();
-  const paused = postDetailScreen
-    ? postDetailPaused
-    : useSelector((state) => getIsPaused(state, screen, postId));
+  const getIsError = getIsErrorSelector();
+
+  const loaded = useSelector(getIsLoading(screen, postId));
+  const paused = useSelector(getIsPaused(screen, postId));
+  const error = useSelector(getIsError(screen, postId));
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    if (!isFocused && !postDetailScreen) {
+    if (!isFocused) {
       dispatch(pauseVideo({postId: postId, type: screen}));
     }
   }, [isFocused]);
@@ -34,11 +42,12 @@ const VideoPostContent = (props) => {
     : videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
 
   const togglePlay = () => {
-    if (postDetailScreen) {
-      setPostDetailPaused(!postDetailPaused);
-    } else {
-      dispatch(togglePause({postId: postId, type: screen}));
-    }
+    dispatch(togglePause({postId: postId, type: screen}));
+  };
+
+  const onError = () => {
+    console.log('error loading video');
+    dispatch(setError({postId: postId, type: screen}));
   };
 
   const VideoComponent = (
@@ -50,7 +59,8 @@ const VideoPostContent = (props) => {
       source={{uri: videoUrl}}
       resizeMode="contain"
       paused={paused}
-      onLoad={() => setLoading(false)}
+      onLoad={() => dispatch(setLoaded({postId: postId, type: screen}))}
+      onError={onError}
       poster={posterUrl}
       showPoster={true}
       posterResizeMode={'contain'}
@@ -61,13 +71,17 @@ const VideoPostContent = (props) => {
     />
   );
 
-  const PlayerControls = loading ? (
-    <View
-      style={{
-        position: 'absolute',
-      }}>
-      <ActivityIndicator size="large" color="#4285f4" />
-    </View>
+  const PlayerControls = !loaded ? (
+    error ? (
+      <MediaLoadError type="Video" />
+    ) : (
+      <View
+        style={{
+          position: 'absolute',
+        }}>
+        <ActivityIndicator size="large" color="#4285f4" />
+      </View>
+    )
   ) : (
     <TouchableOpacity
       hitSlop={{
@@ -102,7 +116,7 @@ const VideoPostContent = (props) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        {VideoComponent}
+        {!error && VideoComponent}
         {PlayerControls}
       </ImageBackground>
     </View>

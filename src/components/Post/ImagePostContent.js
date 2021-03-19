@@ -1,11 +1,29 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {View, ActivityIndicator} from 'react-native';
 import FastImage from 'react-native-fast-image'; // delete extra lines from android/app/proguard-rules.pro if uninstalling
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getIsLoadedSelector,
+  getIsErrorSelector,
+} from '../../redux/selectors/FeedSelectors';
+import {setLoaded, setError} from '../../redux/reducers/FeedSlice';
+import MediaLoadError from './MediaLoadError';
 
 const ImagePostContent = (props) => {
-  const {imageUrl, height, width} = props;
+  const dispatch = useDispatch();
+  const {imageUrl, height, width, screen, postId} = props;
 
-  const [loaded, setLoaded] = useState(false);
+  const getIsLoading = getIsLoadedSelector();
+  const loaded = useSelector(getIsLoading(screen, postId));
+
+  const getIsError = getIsErrorSelector();
+  const error = useSelector(getIsError(screen, postId));
+
+  const onError = () => {
+    console.log('error loading image');
+    dispatch(setError({postId: postId, type: screen}));
+  };
+
   return (
     <View
       style={{
@@ -21,21 +39,24 @@ const ImagePostContent = (props) => {
           width: width,
           alignSelf: 'center',
         }}
-        onLoad={() => setLoaded(true)}
+        onLoad={() => dispatch(setLoaded({postId: postId, type: screen}))}
         source={{
           uri: imageUrl,
           priority: FastImage.priority.normal,
-          cache: FastImage.cacheControl.web,
+          cache: FastImage.cacheControl.immutable,
         }}
         resizeMode={FastImage.resizeMode.contain}
+        onError={onError}
       />
-      {!loaded && (
+      {!loaded ? (
         <View
           style={{
             position: 'absolute',
           }}>
           <ActivityIndicator size="large" color="#4285f4" />
         </View>
+      ) : (
+        error && <MediaLoadError type="Image" />
       )}
     </View>
   );

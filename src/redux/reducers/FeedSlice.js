@@ -20,28 +20,66 @@ const initialState = {
   initialised: false,
 };
 
-const intialEntityState = (postId) => {
+const intialEntityState = (postId, screen) => {
   return {
     _id: postId,
     loaded: false,
-    isViewable: false,
+    isViewable: screen == 'PostDetail' ? true : false,
     paused: true,
+    error: false,
   };
 };
 
 export const slice = createSlice({
   name: 'feed',
   initialState: {
-    screens: {},
+    screens: {
+      PostDetail: {ids: [], entities: {}},
+    },
   },
 
   reducers: {
     initialiseFeed(state, action) {
       const type = action.payload;
       const screen = state.screens[type];
-      if (screen === undefined) {
+      if (!screen) {
         state.screens[type] = initialState;
       }
+    },
+    initialisePostDetail(state, action) {
+      const postId = action.payload;
+      const screen = state.screens['PostDetail'];
+      const post = feedAdapter.getSelectors().selectById(screen, postId);
+      if (!post) {
+        feedAdapter.addOne(screen, intialEntityState(postId, 'PostDetail'));
+      }
+    },
+    removeFromPostDetail(state, action) {
+      const postId = action.payload;
+      const screen = state.screens['PostDetail'];
+      const post = feedAdapter.getSelectors().selectById(screen, postId);
+      if (post) {
+        feedAdapter.removeOne(screen, postId);
+      }
+    },
+    removePostFromFeed(state, action) {
+      const {postId, type} = action.payload;
+      const screen = state.screens[type];
+      const post = feedAdapter.getSelectors().selectById(screen, postId);
+      if (post) {
+        feedAdapter.removeOne(screen, postId);
+      }
+    },
+    setError(state, action) {
+      const {postId, type} = action.payload;
+      const screen = state.screens[type];
+
+      feedAdapter.updateOne(screen, {
+        id: postId,
+        changes: {
+          error: true,
+        },
+      });
     },
     setViewableItems(state, action) {
       const {items, type} = action.payload;
@@ -53,9 +91,11 @@ export const slice = createSlice({
 
       changed.map((item) => {
         const {key: postId, isViewable} = item;
-        const pauseStatus = feedAdapter
-          .getSelectors()
-          .selectById(screen, postId).paused;
+        const post = feedAdapter.getSelectors().selectById(screen, postId);
+        if (!post) {
+          return;
+        }
+        const pauseStatus = post.paused;
         let paused = !isViewable ? true : pauseStatus; // pause video if not viewable but still playing
         updates.push({
           id: postId,
@@ -87,6 +127,16 @@ export const slice = createSlice({
         },
       });
     },
+    setLoaded(state, action) {
+      const {postId, type} = action.payload;
+      const screen = state.screens[type];
+      feedAdapter.updateOne(screen, {
+        id: postId,
+        changes: {
+          loaded: true,
+        },
+      });
+    },
   },
 
   extraReducers: {
@@ -115,7 +165,7 @@ export const slice = createSlice({
               postId,
             );
           } else {
-            posts[postId] = intialEntityState(postId);
+            posts[postId] = intialEntityState(postId, screen);
           }
         });
         screen.metadata = action.payload.metadata;
@@ -151,6 +201,11 @@ export const {
   initialiseFeed,
   togglePause,
   pauseVideo,
+  setLoaded,
+  initialisePostDetail,
+  removeFromPostDetail,
+  removePostFromFeed,
+  setError,
 } = slice.actions;
 
 export const {

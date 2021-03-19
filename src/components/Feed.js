@@ -4,7 +4,10 @@ import {ThemeContext, Divider} from 'react-native-elements';
 import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
-import {isComplete, isLoading} from '../redux/selectors/FeedSelectors';
+import {
+  isCompleteSelector,
+  isLoadingSelector,
+} from '../redux/selectors/FeedSelectors';
 import {getFlatPostsSelector} from '../redux/selectors/PostSelectors';
 import {initialiseFeed, setViewableItems} from '../redux/reducers/FeedSlice';
 import {fetchFeed} from '../redux/actions/FeedActions';
@@ -15,24 +18,27 @@ import {scaleHeightAndWidthAccordingToDimensions} from './Post/helpers';
 
 function Feed(props) {
   const {theme} = useContext(ThemeContext);
-
   const dispatch = useDispatch();
-  const feedListRef = React.createRef();
-
   const {screen} = props;
 
   const authStatus = useSelector(getAuthStatus);
 
-  const loading = useSelector((state) => isLoading(state, screen));
-  const complete = useSelector((state) => isComplete(state, screen));
+  const getIsLoading = isLoadingSelector();
+  const getIsComplete = isCompleteSelector();
+  const loading = useSelector((state) => getIsLoading(state, screen));
+  const complete = useSelector((state) => getIsComplete(state, screen));
 
   const selectFlatPosts = getFlatPostsSelector();
   const posts = useSelector((state) => selectFlatPosts(state, screen));
 
   const viewabilityConfigRef = React.useRef({
+    minimumViewTime: 750,
     viewAreaCoveragePercentThreshold: 50,
+    waitForInteraction: true,
   });
   const onViewableItemsChangedRef = React.useRef(_onViewableItemsChanged());
+
+  const feedListRef = React.createRef();
 
   console.log('running feed');
 

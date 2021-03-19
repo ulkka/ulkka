@@ -68,9 +68,11 @@ function PostContent(props) {
       case 'gif':
         return (
           <ImagePostContent
+            postId={postId}
             imageUrl={mediaMetadata.secure_url}
             height={height}
             width={width}
+            screen={screen}
           />
         );
       case 'video':
