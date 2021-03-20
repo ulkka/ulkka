@@ -12,6 +12,7 @@ function Post(props) {
   const {
     postId,
     screen,
+    screenId,
     created_at,
     title,
     type,
@@ -51,6 +52,7 @@ function Post(props) {
       <PostContent
         postId={postId}
         screen={screen}
+        screenId={screenId}
         type={type}
         description={description}
         mediaMetadata={mediaMetadata}

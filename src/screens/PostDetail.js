@@ -13,18 +13,23 @@ import {memoizedGetFlatPostByIdSelector} from '../redux/selectors/PostSelectors'
 import {scaleHeightAndWidthAccordingToDimensions} from '../components/Post/helpers';
 import {
   initialisePostDetail,
-  removeFromPostDetail,
+  populatePostDetail,
+  removePostDetail,
 } from '../redux/reducers/FeedSlice';
+import {makeId} from '../components/Post/helpers';
 
 export default function PostDetail({route}) {
   const dispatch = useDispatch();
 
   const postId = route.params.postId;
 
-  dispatch(initialisePostDetail(postId));
+  const screenId = 'PostDetail-' + postId + '-' + makeId(5);
+
+  dispatch(initialisePostDetail(screenId));
+  dispatch(populatePostDetail({screenId, postId}));
 
   useEffect(() => {
-    return () => dispatch(removeFromPostDetail(postId));
+    return () => dispatch(removePostDetail(screenId));
   }, []);
 
   const selectFlatPostById = memoizedGetFlatPostByIdSelector(); // do get post detail if post doesnt exist in post slice, for eg, while opening this screen directly through a link
@@ -32,6 +37,7 @@ export default function PostDetail({route}) {
 
   let post = flatPost ? flatPost : {};
 
+  console.log('running post detail -', screenId);
   const {mediaMetadata, type, ogData} = post;
 
   let {height, width} = scaleHeightAndWidthAccordingToDimensions(
@@ -63,6 +69,7 @@ export default function PostDetail({route}) {
           <Post
             postId={postId}
             screen={'PostDetail'}
+            screenId={screenId}
             height={height}
             width={width}
             {...post}

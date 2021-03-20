@@ -33,9 +33,7 @@ const intialEntityState = (postId, screen) => {
 export const slice = createSlice({
   name: 'feed',
   initialState: {
-    screens: {
-      PostDetail: {ids: [], entities: {}},
-    },
+    screens: {},
   },
 
   reducers: {
@@ -47,20 +45,22 @@ export const slice = createSlice({
       }
     },
     initialisePostDetail(state, action) {
-      const postId = action.payload;
-      const screen = state.screens['PostDetail'];
+      const screenId = action.payload;
+      state.screens[screenId] = initialState;
+    },
+    populatePostDetail(state, action) {
+      const {screenId, postId} = action.payload;
+      const screen = state.screens[screenId];
+      const postEntity = intialEntityState(postId, 'PostDetail');
       const post = feedAdapter.getSelectors().selectById(screen, postId);
       if (!post) {
-        feedAdapter.addOne(screen, intialEntityState(postId, 'PostDetail'));
+        console.log('initialising postdetail');
+        feedAdapter.addOne(state.screens[screenId], postEntity);
       }
     },
-    removeFromPostDetail(state, action) {
-      const postId = action.payload;
-      const screen = state.screens['PostDetail'];
-      const post = feedAdapter.getSelectors().selectById(screen, postId);
-      if (post) {
-        feedAdapter.removeOne(screen, postId);
-      }
+    removePostDetail(state, action) {
+      const screenId = action.payload;
+      delete state.screens[screenId];
     },
     removePostFromFeed(state, action) {
       const {postId, type} = action.payload;
@@ -207,10 +207,11 @@ export const {
   pauseVideo,
   setLoaded,
   initialisePostDetail,
-  removeFromPostDetail,
+  removePostDetail,
   removePostFromFeed,
   setError,
   removeFeed,
+  populatePostDetail,
 } = slice.actions;
 
 export const {

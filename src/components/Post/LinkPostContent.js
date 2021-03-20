@@ -6,7 +6,7 @@ import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
 
 const LinkPostContent = (props) => {
-  const {ogData, link, screen, postId, height, width} = props;
+  const {ogData, link, screen, postId, height, width, screenId} = props;
 
   const title = ogData?.ogTitle;
   const description = ogData?.ogDescription;
@@ -57,6 +57,7 @@ const LinkPostContent = (props) => {
           width={width - 10}
           postId={postId}
           screen={screen}
+          screenId={screenId}
           imageUrl={imageUrl}
         />
       )}
@@ -76,6 +77,7 @@ const LinkPostContent = (props) => {
         width={width - 10}
         postId={postId}
         screen={screen}
+        screenId={screenId}
       />
     </View>
   );

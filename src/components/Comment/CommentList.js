@@ -25,6 +25,7 @@ function CommentList(props) {
   const parentCommentIds = useSelector((state) =>
     getParentCommentIds(state, postId),
   );
+  console.log('running commentList');
 
   useEffect(() => {
     dispatch(fetchComments(postId));

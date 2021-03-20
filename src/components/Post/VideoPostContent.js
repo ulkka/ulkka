@@ -26,20 +26,22 @@ import {
 
 const VideoPostContent = (props) => {
   const dispatch = useDispatch();
-  const {videoUrl, imageUrl, height, width, postId, screen} = props;
+  const {videoUrl, imageUrl, height, width, postId, screen, screenId} = props;
+
+  const currentScreen = screenId ? screenId : screen;
 
   const getIsLoading = getIsLoadedSelector();
   const getIsPaused = getIsPausedSelector();
   const getIsError = getIsErrorSelector();
 
-  const loaded = useSelector(getIsLoading(screen, postId));
-  const paused = useSelector(getIsPaused(screen, postId));
-  const error = useSelector(getIsError(screen, postId));
+  const loaded = useSelector(getIsLoading(currentScreen, postId));
+  const paused = useSelector(getIsPaused(currentScreen, postId));
+  const error = useSelector(getIsError(currentScreen, postId));
 
   const isFocused = useIsFocused();
   useEffect(() => {
     if (!isFocused) {
-      dispatch(pauseVideo({postId: postId, type: screen}));
+      dispatch(pauseVideo({postId: postId, type: currentScreen}));
     }
   }, [isFocused]);
 
@@ -48,13 +50,16 @@ const VideoPostContent = (props) => {
     : videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
 
   const togglePlay = () => {
-    dispatch(togglePause({postId: postId, type: screen}));
+    dispatch(togglePause({postId: postId, type: currentScreen}));
   };
 
   const onError = () => {
     console.log('error loading video');
-    dispatch(setError({postId: postId, type: screen}));
+    dispatch(setError({postId: postId, type: currentScreen}));
   };
+
+  const onLoad = () =>
+    dispatch(setLoaded({postId: postId, type: currentScreen}));
 
   const VideoComponent = (
     <Video
@@ -65,10 +70,10 @@ const VideoPostContent = (props) => {
       source={{uri: videoUrl}}
       resizeMode="contain"
       paused={paused}
-      onLoad={() => dispatch(setLoaded({postId: postId, type: screen}))}
+      onLoad={onLoad}
       onError={onError}
-      // poster={posterUrl}
-      showPoster={false}
+      poster={posterUrl}
+      showPoster={true}
       posterResizeMode={'contain'}
       playWhenInactive={false}
       muted={false}

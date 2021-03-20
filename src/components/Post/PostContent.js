@@ -17,6 +17,7 @@ function PostContent(props) {
     width,
     ogData,
     link,
+    screenId,
   } = props;
 
   const ContentType =
@@ -72,6 +73,7 @@ function PostContent(props) {
             height={height}
             width={width}
             screen={screen}
+            screenId={screenId}
           />
         );
       case 'video':
@@ -83,6 +85,7 @@ function PostContent(props) {
             height={height}
             width={width}
             screen={screen}
+            screenId={screenId}
           />
         );
       case 'link':
@@ -94,6 +97,7 @@ function PostContent(props) {
             height={height}
             width={width}
             screen={screen}
+            screenId={screenId}
           />
         );
       default:

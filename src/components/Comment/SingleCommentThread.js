@@ -13,7 +13,7 @@ const SingleCommentThread = memo((props) => {
   );
   const {authorDetail, created_at, text, replies} = comment;
   const {_id: authorId, displayname} = authorDetail;
-  console.log('running single commentthread');
+  console.log('running single comment thread');
   return (
     <Comment
       commentId={commentId}

@@ -11,18 +11,22 @@ import MediaLoadError from './MediaLoadError';
 
 const ImagePostContent = (props) => {
   const dispatch = useDispatch();
-  const {imageUrl, height, width, screen, postId} = props;
+  const {imageUrl, height, width, screen, postId, screenId} = props;
+
+  const currentScreen = screenId ? screenId : screen;
 
   const getIsLoading = getIsLoadedSelector();
-  const loaded = useSelector(getIsLoading(screen, postId));
+  const loaded = useSelector(getIsLoading(currentScreen, postId));
 
   const getIsError = getIsErrorSelector();
-  const error = useSelector(getIsError(screen, postId));
+  const error = useSelector(getIsError(currentScreen, postId));
 
   const onError = () => {
     console.log('error loading image');
-    dispatch(setError({postId: postId, type: screen}));
+    dispatch(setError({postId: postId, type: currentScreen}));
   };
+  const onLoad = () =>
+    dispatch(setLoaded({postId: postId, type: currentScreen}));
 
   const loadingIndicator = !loaded && !error && (
     <View
@@ -59,7 +63,7 @@ const ImagePostContent = (props) => {
           width: width,
           alignSelf: 'center',
         }}
-        onLoad={() => dispatch(setLoaded({postId: postId, type: screen}))}
+        onLoad={onLoad}
         source={{
           uri: imageUrl,
           priority: FastImage.priority.normal,
