@@ -67,8 +67,8 @@ const VideoPostContent = (props) => {
       paused={paused}
       onLoad={() => dispatch(setLoaded({postId: postId, type: screen}))}
       onError={onError}
-      poster={posterUrl}
-      showPoster={true}
+      // poster={posterUrl}
+      showPoster={false}
       posterResizeMode={'contain'}
       playWhenInactive={false}
       muted={false}

@@ -81,6 +81,10 @@ export const slice = createSlice({
         },
       });
     },
+    removeFeed(state, action) {
+      const type = action.payload;
+      delete state.screens[type];
+    },
     setViewableItems(state, action) {
       const {items, type} = action.payload;
       const screen = state.screens[type];
@@ -206,6 +210,7 @@ export const {
   removeFromPostDetail,
   removePostFromFeed,
   setError,
+  removeFeed,
 } = slice.actions;
 
 export const {

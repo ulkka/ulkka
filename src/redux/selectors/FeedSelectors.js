@@ -1,8 +1,12 @@
 import {createSelector} from 'reselect';
-import {selectFeedPostById} from '../reducers/FeedSlice';
+import {selectFeedPostById, selectFeedPostIds} from '../reducers/FeedSlice';
+
+//export const getFeedPostIds =()=> (state, screen) =>
+// state.feed.screens[screen]?.ids;
+export const getFeed = () => (state, screen) => state.feed.screens[screen];
 
 export const getFeedPostIds = () => (state, screen) =>
-  state.feed.screens[screen]?.ids;
+  selectFeedPostIds(state.feed.screens[screen]);
 
 export const isCompleteSelector = () => (state, screen) =>
   state.feed.screens[screen]?.complete;

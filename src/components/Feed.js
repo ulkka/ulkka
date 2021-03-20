@@ -4,12 +4,13 @@ import {ThemeContext, Divider} from 'react-native-elements';
 import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
+import {isCompleteSelector} from '../redux/selectors/FeedSelectors';
+import {memoizedSelectAllFlatPosts} from '../redux/selectors/PostSelectors';
 import {
-  isCompleteSelector,
-  isLoadingSelector,
-} from '../redux/selectors/FeedSelectors';
-import {getFlatPostsSelector} from '../redux/selectors/PostSelectors';
-import {initialiseFeed, setViewableItems} from '../redux/reducers/FeedSlice';
+  initialiseFeed,
+  removeFeed,
+  setViewableItems,
+} from '../redux/reducers/FeedSlice';
 import {fetchFeed} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
@@ -19,16 +20,16 @@ import {scaleHeightAndWidthAccordingToDimensions} from './Post/helpers';
 function Feed(props) {
   const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
+
   const {screen} = props;
+  dispatch(initialiseFeed(screen));
 
   const authStatus = useSelector(getAuthStatus);
 
-  const getIsLoading = isLoadingSelector();
   const getIsComplete = isCompleteSelector();
-  const loading = useSelector((state) => getIsLoading(state, screen));
   const complete = useSelector((state) => getIsComplete(state, screen));
 
-  const selectFlatPosts = getFlatPostsSelector();
+  const selectFlatPosts = memoizedSelectAllFlatPosts();
   const posts = useSelector((state) => selectFlatPosts(state, screen));
 
   const viewabilityConfigRef = React.useRef({
@@ -40,11 +41,15 @@ function Feed(props) {
 
   const feedListRef = React.createRef();
 
-  console.log('running feed');
+  console.log('running feed', screen);
 
   useEffect(() => {
+    return () => dispatch(removeFeed(screen));
+  }, []);
+
+  useEffect(() => {
+    console.log('authstatus changed ', screen, authStatus);
     if (authStatus != 'UNAUTHENTICATED') {
-      dispatch(initialiseFeed(screen));
       dispatch(fetchFeed(screen));
     }
   }, [authStatus]);
@@ -52,10 +57,10 @@ function Feed(props) {
   const renderRow = ({item}) => {
     const {_id, mediaMetadata, type, ogData} = item;
 
-    let {height, width} =
-      type == 'link'
-        ? scaleHeightAndWidthAccordingToDimensions(ogData, 'og')
-        : scaleHeightAndWidthAccordingToDimensions(mediaMetadata, 'media');
+    let {height, width} = scaleHeightAndWidthAccordingToDimensions(
+      type == 'link' ? ogData : mediaMetadata,
+      type,
+    );
 
     return (
       <Post
@@ -73,7 +78,7 @@ function Feed(props) {
   };
 
   const handleLoadMore = () => {
-    if (authStatus != 'UNAUTHENTICATED' && !complete && !loading) {
+    if (authStatus != 'UNAUTHENTICATED' && !complete) {
       dispatch(fetchFeed(screen));
     }
   };
@@ -125,8 +130,10 @@ function Feed(props) {
           <RefreshControl refreshing={false} onRefresh={refreshFeed} />
         }
       />
-      <CreatePostButtonOverlay />
-      <ScrollToTop listRef={feedListRef} />
+      <ScrollToTop
+        listRef={feedListRef}
+        visible={screen == 'home' ? true : false}
+      />
     </View>
   );
 }

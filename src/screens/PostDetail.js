@@ -34,10 +34,11 @@ export default function PostDetail({route}) {
 
   const {mediaMetadata, type, ogData} = post;
 
-  let {height, width} =
-    type == 'link'
-      ? scaleHeightAndWidthAccordingToDimensions(ogData, 'og')
-      : scaleHeightAndWidthAccordingToDimensions(mediaMetadata, 'media');
+  let {height, width} = scaleHeightAndWidthAccordingToDimensions(
+    type == 'link' ? ogData : mediaMetadata,
+    type,
+    'PostDetail',
+  );
 
   return (
     <View style={{flex: 1}}>

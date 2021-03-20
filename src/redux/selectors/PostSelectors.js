@@ -83,3 +83,7 @@ export const getFlatPostsSelector = () => {
     },
   );
 };
+
+//this will change only if length of array changes, to support memoization of multiple feeds
+export const memoizedSelectAllFlatPosts = () =>
+  createAllPostsEqualitySelector(getFlatPostsSelector(), (posts) => posts);

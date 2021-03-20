@@ -1,12 +1,12 @@
 import {Dimensions} from 'react-native';
 
-export function scaleHeightAndWidthAccordingToDimensions(data, type) {
+export function scaleHeightAndWidthAccordingToDimensions(data, type, screen) {
   if (data == undefined) {
     return {height: undefined, width: undefined};
   }
 
   const getMediaDimensions = (data, type) => {
-    if (type == 'media') {
+    if (type != 'link') {
       return data;
     } else {
       const videoUrl = data?.ogVideo?.url;
@@ -31,7 +31,15 @@ export function scaleHeightAndWidthAccordingToDimensions(data, type) {
   let mediaDimensions = getMediaDimensions(data, type);
 
   let {height, width} = Dimensions.get('window');
+
   if (mediaDimensions?.height && mediaDimensions?.width) {
+    if (screen == 'PostDetail') {
+      console.log('screen is post detail in helper');
+      if (type != 'video' && !data?.ogVideo?.url) {
+        height = (width * mediaDimensions.height) / mediaDimensions.width;
+        return {height, width};
+      }
+    }
     height = Math.ceil(
       (mediaDimensions.height * Dimensions.get('window').width) /
         mediaDimensions.width,
@@ -39,9 +47,10 @@ export function scaleHeightAndWidthAccordingToDimensions(data, type) {
     const heightPercentOfTotalWindowHeight =
       (height / Dimensions.get('window').height) * 100;
 
+    const heightThreshold = screen == 'PostDetail' ? 75 : 65;
     height =
-      heightPercentOfTotalWindowHeight > 50
-        ? Dimensions.get('window').height / 1.865
+      heightPercentOfTotalWindowHeight > heightThreshold
+        ? Dimensions.get('window').height / (100 / heightThreshold)
         : height;
 
     width = (height * mediaDimensions.width) / mediaDimensions.height;

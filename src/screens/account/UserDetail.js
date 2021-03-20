@@ -23,7 +23,7 @@ function UserDetail(props) {
   const initialized = user.created_at ? true : false;
 
   const userKarma = initialized ? (
-    <Text style={{fontSize: 12, color: '#777'}}>
+    <Text style={{fontSize: 12, color: '#555'}}>
       {user.postKarma + user.commentKarma} karma
     </Text>
   ) : (
@@ -95,28 +95,26 @@ function UserDetail(props) {
   );
 
   const AccountTabbedNavigation = (
-    <View style={{flex: 1}}>
-      <Tab.Navigator
-        tabBarOptions={{
-          activeTintColor: '#444',
-          inactiveTintColor: 'grey',
-          labelStyle: {
-            fontWeight: 'bold',
-            fontSize: 13,
-          },
-        }}>
-        <Tab.Screen
-          name=" Posts "
-          component={Posts}
-          initialParams={{params: route.params}}
-        />
-        <Tab.Screen name=" Comments " component={Comments} />
-      </Tab.Navigator>
-    </View>
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: '#444',
+        inactiveTintColor: 'grey',
+        labelStyle: {
+          fontWeight: 'bold',
+          fontSize: 13,
+        },
+      }}>
+      <Tab.Screen
+        name=" Posts "
+        component={Posts}
+        initialParams={{params: route.params}}
+      />
+      <Tab.Screen name=" Comments " component={Comments} />
+    </Tab.Navigator>
   );
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
         ListHeaderComponent={AccountDetail}
         ListFooterComponent={AccountTabbedNavigation}

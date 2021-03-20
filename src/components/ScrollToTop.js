@@ -3,7 +3,7 @@ import {View, TouchableOpacity, Platform} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 const ScrollToTop = (props) => {
-  const {listRef} = props;
+  const {listRef, visible} = props;
 
   const scrollAllTheWayUp = () => {
     listRef.current.scrollToIndex({
@@ -34,7 +34,7 @@ const ScrollToTop = (props) => {
       />
     </TouchableOpacity>
   );
-  return <View>{ScrollToTopButton}</View>;
+  return visible && <View>{ScrollToTopButton}</View>;
 };
 
 export default ScrollToTop;

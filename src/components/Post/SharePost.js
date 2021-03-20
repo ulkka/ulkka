@@ -8,7 +8,6 @@ const SharePost = (props) => {
   const {postId, title, description, mediaMetadata} = props;
   const os = Platform.OS;
 
-  console.log('media metadata in share', mediaMetadata);
   const platFormIcon =
     os == 'ios' ? (
       <Icon name="share-outline" type="ionicon" size={19} color="#888" />
