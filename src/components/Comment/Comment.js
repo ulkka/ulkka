@@ -6,7 +6,7 @@ import CommentBody from './CommentBody';
 import CommentFooter from './CommentFooter';
 
 function Comment(props) {
-  const {commentId, authorDisplayname, created_at, text} = props;
+  const {commentId, authorDisplayname, created_at, text, authorId} = props;
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapse = () => {
@@ -25,6 +25,7 @@ function Comment(props) {
         isCollapsed={isCollapsed}
         authorDisplayname={authorDisplayname}
         createdAt={created_at}
+        authorId={authorId}
       />
       <Collapsible collapsed={isCollapsed} duration={50} collapsedHeight={5}>
         <CommentBody text={text} />

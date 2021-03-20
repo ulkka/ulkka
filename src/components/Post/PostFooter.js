@@ -7,6 +7,7 @@ import SharePost from './SharePost';
 const PostFooter = (props) => {
   const {
     postId,
+    screen,
     userVote,
     voteCount,
     commentCount,
@@ -37,7 +38,11 @@ const PostFooter = (props) => {
           paddingLeft: 10,
         }}
       />
-      <PostTotalComments commentCount={commentCount} postId={postId} />
+      <PostTotalComments
+        commentCount={commentCount}
+        postId={postId}
+        screen={screen}
+      />
       <SharePost
         postId={postId}
         title={title}

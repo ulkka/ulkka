@@ -29,7 +29,7 @@ const createCommentByIdEqualitySelector = createSelectorCreator(
 const memoizedSelectCommentById = () =>
   createCommentByIdEqualitySelector(selectCommentById, (comment) => comment);
 
-export const getFlatCommentByIdSelector = () => {
+const getFlatCommentByIdSelector = () => {
   return createSelector(
     [memoizedSelectCommentById(), selectUserEntities],
     (comment, userEntities) => {
@@ -41,3 +41,9 @@ export const getFlatCommentByIdSelector = () => {
     },
   );
 };
+
+export const memoizedGetFlatCommentByIdSelector = () =>
+  createCommentByIdEqualitySelector(
+    getFlatCommentByIdSelector(),
+    (comment) => comment,
+  );

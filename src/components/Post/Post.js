@@ -70,6 +70,7 @@ function Post(props) {
         type={type}
         link={link}
         ogData={ogData}
+        screen={screen}
       />
     </View>
   );

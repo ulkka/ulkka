@@ -13,7 +13,7 @@ const initialState = {
   metadata: {
     page: 0,
     total: -1,
-    limit: 5,
+    limit: 10,
   },
   complete: false,
   loading: false,

@@ -9,7 +9,7 @@ import CommentList from '../components/Comment/CommentList';
 import Post from '../components/Post/Post';
 import CommentWriter from '../components/Comment/CommentWriter';
 import {useSelector, useDispatch} from 'react-redux';
-import {getFlatPostByIdSelector} from '../redux/selectors/PostSelectors';
+import {memoizedGetFlatPostByIdSelector} from '../redux/selectors/PostSelectors';
 import {scaleHeightAndWidthAccordingToDimensions} from '../components/Post/helpers';
 import {
   initialisePostDetail,
@@ -27,7 +27,7 @@ export default function PostDetail({route}) {
     return () => dispatch(removeFromPostDetail(postId));
   }, []);
 
-  const selectFlatPostById = getFlatPostByIdSelector(); // do get post detail if post doesnt exist in post slice, for eg, while opening this screen directly through a link
+  const selectFlatPostById = memoizedGetFlatPostByIdSelector(); // do get post detail if post doesnt exist in post slice, for eg, while opening this screen directly through a link
   const flatPost = useSelector((state) => selectFlatPostById(state, postId));
 
   let post = flatPost ? flatPost : {};

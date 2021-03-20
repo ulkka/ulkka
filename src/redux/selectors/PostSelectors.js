@@ -33,7 +33,7 @@ const createPostByIdEqualitySelector = createSelectorCreator(
 const memoizedFlatPostById = () =>
   createPostByIdEqualitySelector(selectPostById, (post) => post);
 
-export const getFlatPostByIdSelector = () => {
+const getFlatPostByIdSelector = () => {
   return createSelector(
     [memoizedFlatPostById(), selectCommunityEntities, selectUserEntities],
     (post, communityEnitities, userEntities) => {
@@ -45,6 +45,8 @@ export const getFlatPostByIdSelector = () => {
     },
   );
 };
+export const memoizedGetFlatPostByIdSelector = () =>
+  createPostByIdEqualitySelector(getFlatPostByIdSelector(), (post) => post);
 
 //  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 //  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
@@ -61,7 +63,7 @@ const createAllPostsEqualitySelector = createSelectorCreator(
 const memoizedSelectAllPosts = () =>
   createAllPostsEqualitySelector(selectAllPosts, (posts) => posts);
 
-export const getFlatPostsSelector = () => {
+const getFlatPostsSelector = () => {
   return createSelector(
     [
       getFeedPostIds(),

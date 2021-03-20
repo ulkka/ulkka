@@ -1,11 +1,10 @@
 import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {navigate} from '../../navigation/Ref';
+import {push} from '../../navigation/Ref';
 import LinkPostContent from './LinkPostContent';
 import TextPostContent from './TextPostContent';
 import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
-import GifPostContent from './GifPostContent';
 
 function PostContent(props) {
   const {
@@ -26,7 +25,7 @@ function PostContent(props) {
   const DefaultPost = <Text>{JSON.stringify(postId)}</Text>;
 
   function navigateToPostDetail() {
-    navigate('PostDetail', {
+    push('PostDetail', {
       postId: postId,
     });
   }

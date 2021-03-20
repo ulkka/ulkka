@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
-import {navigate} from '../../navigation/Ref';
+import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostCommentCountSelector} from '../../redux/selectors/PostSelectors';
 
 const PostTotalComments = (props) => {
-  const {postId} = props;
+  const {postId, screen} = props;
   const commentCountSelector = getPostCommentCountSelector();
   const commentCount = useSelector((state) =>
     commentCountSelector(state, postId),
@@ -14,13 +14,12 @@ const PostTotalComments = (props) => {
 
   return (
     <TouchableOpacity
+      disabled={screen == 'PostDetail' ? true : false}
       hitSlop={{top: 20, bottom: 20}}
       onPress={() => {
-        if (props.caller != 'PostDetail') {
-          navigate('PostDetail', {
-            postId: postId,
-          });
-        }
+        push('PostDetail', {
+          postId: postId,
+        });
       }}
       style={{
         marginHorizontal: 20,

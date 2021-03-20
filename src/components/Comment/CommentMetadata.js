@@ -5,7 +5,7 @@ import TimeAgo from '../TimeAgo';
 import {push} from '../../navigation/Ref';
 
 const CommentMetadata = (props) => {
-  const {authorDisplayname, createdAt, isCollapsed} = props;
+  const {authorDisplayname, createdAt, isCollapsed, authorId} = props;
 
   const CommentAuthor = (
     <Text
@@ -31,7 +31,7 @@ const CommentMetadata = (props) => {
 
   const HeaderLeft = (
     <TouchableOpacity
-      onPress={() => push('UserDetail')}
+      onPress={() => push('UserDetail', {userId: authorId})}
       style={{
         flexDirection: 'row',
         justifyContent: 'center',

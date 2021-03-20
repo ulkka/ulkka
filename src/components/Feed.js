@@ -116,8 +116,8 @@ function Feed(props) {
         onEndReachedThreshold={0.5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={100}
-        windowSize={21} // causes flickering with read more text while scrolling up, fix that before uncommenting
-        initialNumToRender={10}
+        windowSize={11} // causes flickering with read more text while scrolling up, fix that before uncommenting
+        initialNumToRender={5}
         maxToRenderPerBatch={10}
         viewabilityConfig={viewabilityConfigRef.current}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
