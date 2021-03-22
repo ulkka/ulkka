@@ -9,7 +9,6 @@ import {
 import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
 import {Icon} from 'react-native-elements';
-import {ActivityIndicator} from 'react-native';
 import MediaLoadError from './MediaLoadError';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -40,7 +39,7 @@ const VideoPostContent = (props) => {
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    if (!isFocused) {
+    if (!isFocused && !paused) {
       dispatch(pauseVideo({postId: postId, type: currentScreen}));
     }
   }, [isFocused]);

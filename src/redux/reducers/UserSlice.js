@@ -12,6 +12,7 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
+import {createSelectorCreator, defaultMemoize} from 'reselect';
 import userApi from '../../services/UserApi';
 
 export const userAdapter = createEntityAdapter({
@@ -50,12 +51,12 @@ export const slice = createSlice({
         normalizedPosts.constructor === Object;
 
       if (!isFeedEmpty) {
-        userAdapter.upsertMany(state, action.payload.normalizedPosts.users);
+        userAdapter.addMany(state, action.payload.normalizedPosts.users);
       }
     },
     [fetchComments.fulfilled]: (state, action) => {
       if (action.payload.normalizedComments.users !== undefined) {
-        userAdapter.upsertMany(state, action.payload.normalizedComments.users);
+        userAdapter.addMany(state, action.payload.normalizedComments.users);
       }
     },
   },
@@ -70,3 +71,13 @@ export const {
   selectAll: selectAllUsers,
   selectTotal: selectTotalUsers,
 } = userAdapter.getSelectors((state) => state.users);
+
+const createUserByIdEqualitySelector = createSelectorCreator(
+  defaultMemoize,
+  () => {
+    return true;
+  },
+);
+
+export const memoizedFlatUserByIdSelector = () =>
+  createUserByIdEqualitySelector(selectUserById, (user) => user);

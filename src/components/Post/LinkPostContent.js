@@ -1,9 +1,17 @@
 import React, {memo} from 'react';
-import {View, Text, TouchableOpacity, Linking} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Linking,
+  ImageBackground,
+  Platform,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
+import {YouTubeStandaloneAndroid} from 'react-native-youtube';
 
 const LinkPostContent = (props) => {
   const {ogData, link, screen, postId, height, width, screenId} = props;
@@ -29,6 +37,18 @@ const LinkPostContent = (props) => {
       ? videoUrl.substring(videoUrl.lastIndexOf('/') + 1, videoUrl.length)
       : null;
 
+  const playYoutubeVideo = (videoId) => {
+    YouTubeStandaloneAndroid.playVideo({
+      apiKey: 'AIzaSyDfmMGyNCTSqRonVxD5s484jOP8ByT1IP', // Your YouTube Developer API Key
+      videoId: videoId, // YouTube video ID
+      autoplay: true, // Autoplay the video
+      startTime: 0, // Starting point of video (in seconds)
+      lightboxMode: true,
+    })
+      .then(() => console.log('Standalone Player Exited'))
+      .catch((errorMessage) => console.error(errorMessage));
+  };
+
   const LinkVideo = (
     <View
       style={{
@@ -40,16 +60,36 @@ const LinkPostContent = (props) => {
         justifyContent: 'center',
       }}>
       {domain == 'youtube.com' ? (
-        <YoutubePlayer
-          height={height - 10}
-          width={width - 10}
-          play={false}
-          videoId={videoId}
-          modestbranding={true}
-          onShouldStartLoadWithRequest={false}
-          startInLoadingState={true}
-          shouldStartLoad={false}
-        />
+        Platform.OS != 'android' ? (
+          <YoutubePlayer
+            height={height - 10}
+            width={width - 10}
+            play={false}
+            videoId={videoId}
+            modestbranding={true}
+            onShouldStartLoadWithRequest={false}
+            startInLoadingState={true}
+            shouldStartLoad={false}
+          />
+        ) : (
+          <TouchableOpacity onPress={() => playYoutubeVideo(videoId)}>
+            <ImageBackground
+              source={{uri: imageUrl}}
+              style={{
+                height: height - 10,
+                width: width - 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Icon
+                name="youtube-play"
+                type="font-awesome"
+                color="#ff0000"
+                size={45}
+              />
+            </ImageBackground>
+          </TouchableOpacity>
+        )
       ) : (
         <VideoPostContent
           videoUrl={videoUrl}

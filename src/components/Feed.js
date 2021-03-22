@@ -5,7 +5,10 @@ import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
 import {isCompleteSelector} from '../redux/selectors/FeedSelectors';
-import {memoizedSelectAllFlatPosts} from '../redux/selectors/PostSelectors';
+import {
+  memoizedSelectAllFlatPosts,
+  getFlatPostsSelector,
+} from '../redux/selectors/PostSelectors';
 import {
   initialiseFeed,
   removeFeed,
@@ -13,9 +16,22 @@ import {
 } from '../redux/reducers/FeedSlice';
 import {fetchFeed} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
-import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
 import ScrollToTop from './ScrollToTop';
 import {scaleHeightAndWidthAccordingToDimensions} from './Post/helpers';
+
+const ListHeaderComponent = memo(() => {
+  return (
+    <View
+      style={{
+        height: 10,
+        backgroundColor: '#fff',
+      }}></View>
+  );
+});
+
+const separator = memo(() => {
+  return <Divider style={{backgroundColor: '#eee', height: 5}} />;
+});
 
 function Feed(props) {
   const {theme} = useContext(ThemeContext);
@@ -33,7 +49,7 @@ function Feed(props) {
   const posts = useSelector((state) => selectFlatPosts(state, screen));
 
   const viewabilityConfigRef = React.useRef({
-    minimumViewTime: 750,
+    //  minimumViewTime: 750,
     viewAreaCoveragePercentThreshold: 50,
     waitForInteraction: true,
   });
@@ -48,7 +64,6 @@ function Feed(props) {
   }, []);
 
   useEffect(() => {
-    console.log('authstatus changed ', screen, authStatus);
     if (authStatus != 'UNAUTHENTICATED') {
       dispatch(fetchFeed(screen));
     }
@@ -73,10 +88,6 @@ function Feed(props) {
     );
   };
 
-  const separator = () => {
-    return <Divider style={{backgroundColor: '#eee', height: 5}} />;
-  };
-
   const handleLoadMore = () => {
     if (authStatus != 'UNAUTHENTICATED' && !complete) {
       dispatch(fetchFeed(screen));
@@ -85,16 +96,6 @@ function Feed(props) {
 
   const refreshFeed = () => {
     console.log('refreshing feed');
-  };
-
-  const ListHeaderComponent = () => {
-    return (
-      <View
-        style={{
-          height: 10,
-          backgroundColor: '#fff',
-        }}></View>
-    );
   };
 
   function _onViewableItemsChanged() {
@@ -138,4 +139,4 @@ function Feed(props) {
   );
 }
 
-export default memo(Feed);
+export default Feed;

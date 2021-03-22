@@ -1,27 +1,22 @@
-import React, {useEffect} from 'react';
-import {View, Text, FlatList, ActivityIndicator} from 'react-native';
+import React, {useEffect, memo} from 'react';
+import {View, Text, ActivityIndicator, FlatList} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Icon, Divider} from 'react-native-elements';
 import Posts from './tabs/Posts';
 import Comments from './tabs/Comments';
 import {useSelector, useDispatch} from 'react-redux';
-import {selectUserById, fetchUserById} from '../../redux/reducers/UserSlice';
+import {
+  selectUserById,
+  fetchUserById,
+  memoizedFlatUserByIdSelector,
+} from '../../redux/reducers/UserSlice';
 import TimeAgo from '../../components/TimeAgo';
 
 const Tab = createMaterialTopTabNavigator();
 
-function UserDetail(props) {
-  const dispatch = useDispatch();
-  const {route} = props;
-  const userId = route.params.userId;
-
-  useEffect(() => {
-    dispatch(fetchUserById(userId));
-  }, []);
-
-  const user = useSelector((state) => selectUserById(state, userId));
-  const initialized = user.created_at ? true : false;
-
+const AccountDetail = memo((props) => {
+  console.log('running account detail in userdetail.js');
+  const {initialized, ...user} = props;
   const userKarma = initialized ? (
     <Text style={{fontSize: 12, color: '#555'}}>
       {user.postKarma + user.commentKarma} karma
@@ -69,7 +64,7 @@ function UserDetail(props) {
     <ActivityIndicator size="small" color="#4285f4" />
   );
 
-  const AccountDetail = (
+  return (
     <View
       style={{
         backgroundColor: '#fff',
@@ -93,31 +88,60 @@ function UserDetail(props) {
       </View>
     </View>
   );
+});
 
-  const AccountTabbedNavigation = (
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: '#444',
-        inactiveTintColor: 'grey',
-        labelStyle: {
-          fontWeight: 'bold',
-          fontSize: 13,
-        },
-      }}>
-      <Tab.Screen
-        name=" Posts "
-        component={Posts}
-        initialParams={{params: route.params}}
-      />
-      <Tab.Screen name=" Comments " component={Comments} />
-    </Tab.Navigator>
-  );
+const AccountTabbedNavigation = memo((props) => (
+  <Tab.Navigator
+    animationEnabled={false}
+    tabBarOptions={{
+      animationEnabled: false,
+      activeTintColor: '#444',
+      inactiveTintColor: 'grey',
+      labelStyle: {
+        fontWeight: 'bold',
+        fontSize: 13,
+      },
+    }}>
+    <Tab.Screen
+      name=" Posts "
+      component={Posts}
+      initialParams={{params: props.params}}
+    />
+    <Tab.Screen name=" Comments " component={Comments} />
+  </Tab.Navigator>
+));
+
+function UserDetail(props) {
+  const dispatch = useDispatch();
+  const {route} = props;
+  const userId = route.params.userId;
+
+  console.log('running userdetail ', userId);
+  useEffect(() => {
+    dispatch(fetchUserById(userId));
+  }, []);
+
+  const getUserSelector = memoizedFlatUserByIdSelector();
+  const user = useSelector((state) => getUserSelector(state, userId));
+  const initialized = user.created_at ? true : false;
+
+  useEffect(() => {
+    console.log('user changed', user);
+  }, [user]);
+  /* return (
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      {AccountDetail}
+      {AccountTabbedNavigation}
+    </View>
+  );*/
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
-        ListHeaderComponent={AccountDetail}
-        ListFooterComponent={AccountTabbedNavigation}
+        ListHeaderComponent={
+          <AccountDetail {...user} initialized={initialized} />
+        }
+        ListFooterComponent={<AccountTabbedNavigation params={route.params} />}
       />
     </View>
   );

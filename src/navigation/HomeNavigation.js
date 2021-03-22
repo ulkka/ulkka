@@ -46,6 +46,10 @@ function FeedList({navigation}) {
   );
 }
 
+const presets =
+  Platform.OS == 'android'
+    ? TransitionPresets.RevealFromBottomAndroid
+    : TransitionPresets.SlideFromRightIOS;
 function HomeNavigation({navigation}) {
   return (
     <StackNav.Navigator
@@ -61,7 +65,7 @@ function HomeNavigation({navigation}) {
           fontSize: Platform.OS == 'ios' ? 17 : 15,
           color: '#444',
         },
-        ...TransitionPresets.SlideFromRightIOS,
+        ...presets,
       }}>
       <StackNav.Screen
         name="Feed"

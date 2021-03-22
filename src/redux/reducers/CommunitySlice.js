@@ -28,7 +28,7 @@ export const slice = createSlice({
         normalizedPosts.constructor === Object;
 
       if (!isFeedEmpty) {
-        communityAdapter.upsertMany(
+        communityAdapter.addMany(
           state,
           action.payload.normalizedPosts.communities,
         );

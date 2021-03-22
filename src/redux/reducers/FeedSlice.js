@@ -176,7 +176,7 @@ export const slice = createSlice({
       } else {
         screen.complete = true;
       }
-      feedAdapter.upsertMany(screen, posts);
+      feedAdapter.addMany(screen, posts);
       screen.loading = false;
       screen.initialised = true;
     },

@@ -21,6 +21,8 @@
 #import <React/RCTDevLoadingView.h>
 #endif
 
+#import <AVFoundation/AVFoundation.h>
+
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -42,6 +44,7 @@ static void InitializeFlipper(UIApplication *application) {
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
+[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error: nil]; //OPTIONAL: Activated sound when iPhone (iOS) is on vibrate mode react-native-youtube
 
 NSURL *jsCodeLocation; 
 jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];

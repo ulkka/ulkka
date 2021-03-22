@@ -63,7 +63,7 @@ const createAllPostsEqualitySelector = createSelectorCreator(
 const memoizedSelectAllPosts = () =>
   createAllPostsEqualitySelector(selectAllPosts, (posts) => posts);
 
-const getFlatPostsSelector = () => {
+export const getFlatPostsSelector = () => {
   return createSelector(
     [
       getFeedPostIds(),
