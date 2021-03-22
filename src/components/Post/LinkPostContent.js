@@ -224,7 +224,7 @@ const LinkPostContent = (props) => {
         minHeight: 40,
         backgroundColor: '#fff',
         justifyContent: 'center',
-        borderColor: '#ddd',
+        borderColor: '#eee',
         borderWidth: 1,
         borderRadius: 5,
         alignSelf: 'center',

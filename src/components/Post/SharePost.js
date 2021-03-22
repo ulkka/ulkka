@@ -3,10 +3,24 @@ import {TouchableOpacity, Platform} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import Share from 'react-native-share';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {useSelector} from 'react-redux';
+import {
+  getPostTitle,
+  getPostDescription,
+  getPostMediaMetadata,
+  getPostType,
+} from '../../redux/selectors/PostSelectors';
 
 const SharePost = (props) => {
-  const {postId, title, description, mediaMetadata} = props;
+  const {postId} = props;
   const os = Platform.OS;
+
+  const title = useSelector((state) => getPostTitle(state, postId));
+  const description = useSelector((state) => getPostDescription(state, postId));
+  const mediaMetadata = useSelector((state) =>
+    getPostMediaMetadata(state, postId),
+  );
+  const type = useSelector((state) => getPostType(state, postId));
 
   const platFormIcon =
     os == 'ios' ? (
@@ -16,6 +30,8 @@ const SharePost = (props) => {
     );
 
   async function buildLink(postId) {
+    const mediaUrl = mediaMetadata?.secure_url;
+
     const link = await dynamicLinks().buildShortLink(
       {
         link: 'https://vellarikkapattanam.com/post/' + postId,
@@ -29,7 +45,10 @@ const SharePost = (props) => {
         social: {
           title: title,
           descriptionText: description,
-          imageUrl: mediaMetadata?.secure_url,
+          imageUrl:
+            type == 'video'
+              ? mediaUrl.substring(0, mediaUrl.lastIndexOf('.')) + '.jpg'
+              : mediaUrl,
         },
       },
       dynamicLinks.ShortLinkType.UNGUESSABLE,

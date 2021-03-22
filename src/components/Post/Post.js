@@ -17,7 +17,7 @@ function Post(props) {
         width: '100%',
         paddingTop: 10,
         paddingBottom: 3,
-        borderBottomColor: '#eee',
+        borderBottomColor: '#fafafa',
         borderBottomWidth: 1,
       }}>
       <View style={{paddingHorizontal: 5}}>

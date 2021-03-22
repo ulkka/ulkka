@@ -5,19 +5,7 @@ import PostTotalComments from './PostTotalComments';
 import SharePost from './SharePost';
 
 const PostFooter = (props) => {
-  const {
-    postId,
-    screen,
-    userVote,
-    voteCount,
-    commentCount,
-    title,
-    description,
-    mediaMetadata,
-    link,
-    ogData,
-    type,
-  } = props;
+  const {postId} = props;
 
   return (
     <View
@@ -25,33 +13,20 @@ const PostFooter = (props) => {
         flexDirection: 'row',
         padding: 10,
         borderTopWidth: 1,
-        borderTopColor: '#eee',
+        borderTopColor: '#fafafa',
         justifyContent: 'space-evenly',
       }}>
       <Vote
         id={postId}
-        userVote={userVote}
-        voteCount={voteCount}
+        {...props}
         entityType="post"
         style={{
           flex: 3,
           paddingLeft: 10,
         }}
       />
-      <PostTotalComments
-        commentCount={commentCount}
-        postId={postId}
-        screen={screen}
-      />
-      <SharePost
-        postId={postId}
-        title={title}
-        description={description}
-        mediaMetadata={mediaMetadata}
-        link={link}
-        ogData={ogData}
-        type={type}
-      />
+      <PostTotalComments {...props} />
+      <SharePost {...props} />
     </View>
   );
 };

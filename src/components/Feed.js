@@ -25,7 +25,7 @@ const ListHeaderComponent = memo(() => {
 });
 
 const separator = memo(() => {
-  return <Divider style={{backgroundColor: '#eee', height: 5}} />;
+  return <Divider style={{backgroundColor: '#fafafa', height: 5}} />;
 });
 
 function Feed(props) {

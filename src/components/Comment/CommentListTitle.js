@@ -7,7 +7,7 @@ const CommentListTitle = () => {
       style={{
         paddingVertical: 6,
         paddingHorizontal: 10,
-        backgroundColor: '#eee',
+        backgroundColor: '#f5f5f5',
       }}>
       <Text
         style={{
