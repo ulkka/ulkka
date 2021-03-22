@@ -115,7 +115,11 @@ const AccountTabbedNavigation = memo((props) => (
       component={Posts}
       initialParams={{params: props.params}}
     />
-    <Tab.Screen name=" Comments " component={Comments} />
+    <Tab.Screen
+      name=" Comments "
+      component={Comments}
+      initialParams={{params: props.params}}
+    />
   </Tab.Navigator>
 ));
 

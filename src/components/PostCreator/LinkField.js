@@ -53,16 +53,15 @@ export const LinkField = (props) => {
   const ogImageField = (
     <View
       style={{
-        flex: 5,
-        padding: 5,
+        paddingHorizontal: 10,
         alignItems: 'flex-start',
       }}>
       <Image
         source={{uri: previewData == null ? '' : previewData.ogImage.url}}
         style={{
-          height: 180,
+          width: '100%',
           aspectRatio: 1,
-          maxWidth: 160,
+          maxWidth: 180,
           resizeMode: 'contain',
         }}
       />

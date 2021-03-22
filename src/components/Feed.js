@@ -1,5 +1,5 @@
 import React, {useEffect, useContext, memo} from 'react';
-import {View, FlatList, RefreshControl} from 'react-native';
+import {View, FlatList, RefreshControl, Platform} from 'react-native';
 import {ThemeContext, Divider} from 'react-native-elements';
 import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
@@ -92,7 +92,7 @@ function Feed(props) {
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={screen == 'home' ? 0.5 : 0.1}
-        removeClippedSubviews={true}
+        removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
         updateCellsBatchingPeriod={500}
         windowSize={25}
         initialNumToRender={5}

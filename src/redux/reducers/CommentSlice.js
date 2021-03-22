@@ -7,9 +7,14 @@ const commentAdapter = createEntityAdapter({
   selectId: (comment) => comment._id,
 });
 
-const initialState = {
+const initialStatePostComments = {
   loading: true,
-  parentComments: [],
+  parentCommentIds: [],
+};
+
+const initialStateUserComments = {
+  loading: true,
+  commentIds: [],
 };
 
 function addReply(state, parentCommentId, newCommentId) {
@@ -33,32 +38,38 @@ function addReply(state, parentCommentId, newCommentId) {
 export const slice = createSlice({
   name: 'comments',
   initialState: {
-    loading: false,
     ids: [],
     entities: {},
-    parentCommentIds: [],
     posts: {},
+    users: {},
   },
   reducers: {},
   extraReducers: {
     [fetchComments.pending]: (state, action) => {
-      const postId = action.meta.arg;
-      state.loading = true;
-      const postComments = state.posts[postId];
-      if (postComments === undefined) {
-        state.posts[postId] = initialState;
+      const {postId, userId} = action.meta.arg;
+      const entity = postId ? 'posts' : 'users';
+      const entityId = entity == 'posts' ? postId : userId;
+
+      const commentState = state[entity][entityId];
+      if (!commentState) {
+        state[entity][entityId] = initialStatePostComments;
       }
     },
     [fetchComments.fulfilled]: (state, action) => {
       const comments = action.payload.normalizedComments.comments;
-      const postId = action.meta.arg;
-      const postComments = state.posts[postId];
 
-      if (comments !== undefined) {
-        commentAdapter.addMany(state, comments);
+      const {postId, userId} = action.meta.arg;
+      const entity = postId ? 'posts' : 'users';
+      const entityId = entity == 'posts' ? postId : userId;
+
+      const commentState = state[entity][entityId];
+
+      if (comments) {
+        commentAdapter.upsertMany(state, comments);
       }
-      postComments.parentCommentIds = action.payload.parentComments;
-      postComments.loading = false;
+
+      commentState.parentCommentIds = action.payload.parentComments;
+      commentState.loading = false;
     },
     [createReply.fulfilled]: (state, action) => {
       const newCommentId = action.payload.result;

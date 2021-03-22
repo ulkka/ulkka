@@ -6,6 +6,9 @@ import {createSelectorCreator, defaultMemoize} from 'reselect';
 export const getParentCommentIdsSelector = () => (state, postId) =>
   state.comments.posts[postId]?.parentCommentIds;
 
+export const getUserCommentsSelector = () => (state, userId) =>
+  state.comments.users[userId]?.parentCommentIds;
+
 export const isLoadingSelector = () => (state, postId) =>
   state.comments.posts[postId]?.loading;
 

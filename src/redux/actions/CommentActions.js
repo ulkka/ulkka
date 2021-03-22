@@ -1,26 +1,36 @@
 import {comment} from '../schema/CommentSchema';
 import postApi from '../../services/PostApi';
+import userApi from '../../services/UserApi';
 import {normalize} from 'normalizr';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
-  async (postId) => {
-    let response = await postApi.comment.fetch(postId);
-    const normalized = normalize(response.data, [comment]);
+  async ({postId, userId}) => {
+    const entity = postId ? 'posts' : 'users';
+    const entityId = entity == 'posts' ? postId : userId;
+
+    let response =
+      entity == 'posts'
+        ? await postApi.comment.fetch(entityId)
+        : await userApi.comment.fetchUserComments(entityId, 1, 100);
+    const data = entity == 'posts' ? response.data : response.data.data;
+    const normalized = normalize(data, [comment]);
     return {
       normalizedComments: normalized.entities,
       parentComments: normalized.result,
     };
   },
   {
-    condition: (postId, {getState}) => {
+    condition: ({postId, userId}, {getState}) => {
       const authStatus = getState().authorization.status;
       const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
 
-      const postComments = getState().comments.posts[postId];
-      const requestAccess =
-        postComments === undefined ? true : !postComments.loading;
+      const entity = postId ? 'posts' : 'users';
+      const entityId = entity == 'posts' ? postId : userId;
+
+      const comments = getState().comments[entity][entityId];
+      const requestAccess = comments === undefined ? true : !comments.loading;
 
       return authAccess && requestAccess;
     },

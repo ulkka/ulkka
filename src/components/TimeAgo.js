@@ -36,7 +36,7 @@ function TimeAgo(props) {
 
   return (
     <View>
-      <Text style={{fontSize: 11, color: '#555'}}>
+      <Text style={{fontSize: props.size ? props.size : 11, color: '#555'}}>
         <DisplayTime time={props.time} />
       </Text>
     </View>

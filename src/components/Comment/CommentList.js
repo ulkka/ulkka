@@ -28,7 +28,7 @@ function CommentList(props) {
   console.log('running commentList');
 
   useEffect(() => {
-    dispatch(fetchComments(postId));
+    dispatch(fetchComments({postId: postId}));
   }, [isRegistered]);
 
   const LoadingView = (
