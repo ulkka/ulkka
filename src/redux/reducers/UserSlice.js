@@ -14,6 +14,7 @@ import {
 } from '@reduxjs/toolkit';
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 import userApi from '../../services/UserApi';
+import {createCachedSelector} from 're-reselect';
 
 export const userAdapter = createEntityAdapter({
   selectId: (user) => user._id,
@@ -81,3 +82,19 @@ const createUserByIdEqualitySelector = createSelectorCreator(
 
 export const memoizedFlatUserByIdSelector = () =>
   createUserByIdEqualitySelector(selectUserById, (user) => user);
+
+export const getUserCreatedAt = (state, id) =>
+  selectUserById(state, id).created_at;
+
+export const getUserDisplayname = (state, id) =>
+  selectUserById(state, id).displayname;
+
+const getUserPostKarma = (state, id) => selectUserById(state, id).postKarma;
+const getUserCommentKarma = (state, id) =>
+  selectUserById(state, id).commentKarma;
+
+export const getUserTotalKarma = createCachedSelector(
+  getUserPostKarma,
+  getUserCommentKarma,
+  (postKarma, commentKarma) => postKarma + commentKarma,
+)((state, id) => id);

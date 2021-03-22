@@ -16,7 +16,6 @@ import {
 export function Vote(props) {
   const dispatch = useDispatch();
   const {id, entityType} = props;
-
   const commentUserVoteSelector = getCommentUserVoteSelector();
   const commentVoteCountSelector = getCommentVoteCountSelector();
 

@@ -67,6 +67,7 @@ function Feed(props) {
 
   const handleLoadMore = () => {
     if (authStatus != 'UNAUTHENTICATED' && !complete) {
+      console.log('loading more');
       dispatch(fetchFeed(screen));
     }
   };
@@ -91,9 +92,9 @@ function Feed(props) {
         renderItem={renderRow}
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={screen == 'home' ? 0.5 : 0.1}
         removeClippedSubviews={true}
-        updateCellsBatchingPeriod={100}
+        updateCellsBatchingPeriod={500}
         windowSize={25}
         initialNumToRender={5}
         maxToRenderPerBatch={10}

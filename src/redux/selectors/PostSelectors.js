@@ -34,14 +34,19 @@ export const getPostType = (state, id) => selectPostById(state, id).type;
 export const getPostCreatedAt = (state, id) =>
   selectPostById(state, id).created_at;
 
-export const getPostAuthorDetail = createCachedSelector(
+export const getPostAuthorId = (state, id) => selectPostById(state, id).author;
+
+export const getPostCommunityId = (state, id) =>
+  selectPostById(state, id).community;
+
+export const getPostAuthorDisplayname = createCachedSelector(
   (state) => state,
-  selectPostById,
-  (state, post) => selectUserById(state, post.author),
+  getPostAuthorId,
+  (state, authorId) => selectUserById(state, authorId).displayname,
 )((state, id) => id);
 
-export const getPostCommunityDetail = createCachedSelector(
+export const getPostCommunityName = createCachedSelector(
   (state) => state,
-  selectPostById,
-  (state, post) => selectCommunityById(state, post.community),
+  getPostCommunityId,
+  (state, communityId) => selectCommunityById(state, communityId).name,
 )((state, id) => id);
