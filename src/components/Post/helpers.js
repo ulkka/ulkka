@@ -34,7 +34,6 @@ export function scaleHeightAndWidthAccordingToDimensions(data, type, screen) {
 
   if (mediaDimensions?.height && mediaDimensions?.width) {
     if (screen == 'PostDetail') {
-      console.log('screen is post detail in helper');
       if (type != 'video' && !data?.ogVideo?.url) {
         height = (width * mediaDimensions.height) / mediaDimensions.width;
         return {height, width};

@@ -6,9 +6,10 @@ import Posts from './tabs/Posts';
 import Comments from './tabs/Comments';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  selectUserById,
   fetchUserById,
-  memoizedFlatUserByIdSelector,
+  getUserCreatedAt,
+  getUserDisplayname,
+  getUserTotalKarma,
 } from '../../redux/reducers/UserSlice';
 import TimeAgo from '../../components/TimeAgo';
 
@@ -16,16 +17,23 @@ const Tab = createMaterialTopTabNavigator();
 
 const AccountDetail = memo((props) => {
   console.log('running account detail in userdetail.js');
-  const {initialized, ...user} = props;
-  const userKarma = initialized ? (
-    <Text style={{fontSize: 12, color: '#555'}}>
-      {user.postKarma + user.commentKarma} karma
-    </Text>
+  const {userId} = props;
+
+  const userTotalKarma = useSelector((state) =>
+    getUserTotalKarma(state, userId),
+  );
+  const userCreatedAt = useSelector((state) => getUserCreatedAt(state, userId));
+  const userDisplayname = useSelector((state) =>
+    getUserDisplayname(state, userId),
+  );
+
+  const userKarmaField = userTotalKarma ? (
+    <Text style={{fontSize: 12, color: '#555'}}>{userTotalKarma} karma</Text>
   ) : (
     <ActivityIndicator size="small" color="#4285f4" />
   );
 
-  const userDisplayname = (
+  const userDisplaynameField = (
     <Text
       style={{
         fontSize: 16,
@@ -33,7 +41,7 @@ const AccountDetail = memo((props) => {
         color: '#444',
         paddingHorizontal: 10,
       }}>
-      {user.displayname}
+      {userDisplayname}
       {'  '}
     </Text>
   );
@@ -47,17 +55,17 @@ const AccountDetail = memo((props) => {
         alignItems: 'center',
       }}>
       {userAvatar}
-      {userDisplayname}
+      {userDisplaynameField}
     </View>
   );
 
-  const userJoinedTimeAgo = initialized ? (
+  const userJoinedTimeAgo = userCreatedAt ? (
     <View
       style={{
         flexDirection: 'row',
       }}>
       <Text style={{color: '#555', fontSize: 11}}>Joined </Text>
-      <TimeAgo time={user.created_at} />
+      <TimeAgo time={userCreatedAt} />
       <Text style={{color: '#555', fontSize: 11}}> ago</Text>
     </View>
   ) : (
@@ -82,7 +90,7 @@ const AccountDetail = memo((props) => {
           paddingTop: 20,
           paddingHorizontal: 5,
         }}>
-        {userKarma}
+        {userKarmaField}
         <Divider width={20} height={0}></Divider>
         {userJoinedTimeAgo}
       </View>
@@ -121,13 +129,6 @@ function UserDetail(props) {
     dispatch(fetchUserById(userId));
   }, []);
 
-  const getUserSelector = memoizedFlatUserByIdSelector();
-  const user = useSelector((state) => getUserSelector(state, userId));
-  const initialized = user.created_at ? true : false;
-
-  useEffect(() => {
-    console.log('user changed', user);
-  }, [user]);
   /* return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       {AccountDetail}
@@ -138,9 +139,8 @@ function UserDetail(props) {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
-        ListHeaderComponent={
-          <AccountDetail {...user} initialized={initialized} />
-        }
+        ListHeaderComponent={<AccountDetail userId={userId} />}
+        onEndReachedThreshold={0.9}
         ListFooterComponent={<AccountTabbedNavigation params={route.params} />}
       />
     </View>

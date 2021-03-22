@@ -6,8 +6,10 @@ import PostExtraOptions from '../PostExtraOptions';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {
-  getPostAuthorDetail,
-  getPostCommunityDetail,
+  getPostAuthorId,
+  getPostAuthorDisplayname,
+  getPostCommunityId,
+  getPostCommunityName,
   getPostCreatedAt,
 } from '../../redux/selectors/PostSelectors';
 
@@ -15,15 +17,16 @@ const PostHeader = (props) => {
   const {postId} = props;
 
   const createdAt = useSelector((state) => getPostCreatedAt(state, postId));
-  const communityDetail = useSelector((state) =>
-    getPostCommunityDetail(state, postId),
-  );
-  const authorDetail = useSelector((state) =>
-    getPostAuthorDetail(state, postId),
+
+  const communityId = useSelector((state) => getPostCommunityId(state, postId));
+  const communityName = useSelector((state) =>
+    getPostCommunityName(state, postId),
   );
 
-  const {_id: communityId, name: communityName} = communityDetail;
-  const {_id: authorId, displayname: authorDisplayname} = authorDetail;
+  const authorId = useSelector((state) => getPostAuthorId(state, postId));
+  const authorDisplayname = useSelector((state) =>
+    getPostAuthorDisplayname(state, postId),
+  );
 
   const CommunityName = (
     <TouchableOpacity
