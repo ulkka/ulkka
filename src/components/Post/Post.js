@@ -9,26 +9,6 @@ import PostFooter from './PostFooter';
 function Post(props) {
   const {theme} = useContext(ThemeContext);
 
-  const {
-    postId,
-    screen,
-    screenId,
-    created_at,
-    title,
-    type,
-    description,
-    link,
-    mediaMetadata,
-    height,
-    width,
-    ogData,
-    userVote,
-    voteCount,
-    commentCount,
-    communityDetail,
-    authorDetail,
-  } = props;
-
   return (
     <View
       style={{
@@ -41,39 +21,11 @@ function Post(props) {
         borderBottomWidth: 1,
       }}>
       <View style={{paddingHorizontal: 5}}>
-        <PostHeader
-          postId={postId}
-          createdAt={created_at}
-          communityDetail={communityDetail}
-          authorDetail={authorDetail}
-        />
-        <PostTitle postTitle={title} />
+        <PostHeader {...props} />
+        <PostTitle {...props} />
       </View>
-      <PostContent
-        postId={postId}
-        screen={screen}
-        screenId={screenId}
-        type={type}
-        description={description}
-        mediaMetadata={mediaMetadata}
-        height={height}
-        width={width}
-        ogData={ogData}
-        link={link}
-      />
-      <PostFooter
-        postId={postId}
-        title={title}
-        description={description}
-        userVote={userVote}
-        voteCount={voteCount}
-        mediaMetadata={mediaMetadata}
-        commentCount={commentCount}
-        type={type}
-        link={link}
-        ogData={ogData}
-        screen={screen}
-      />
+      <PostContent {...props} />
+      <PostFooter {...props} />
     </View>
   );
 }

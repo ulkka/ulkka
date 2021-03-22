@@ -12,9 +12,9 @@ import {Icon} from 'react-native-elements';
 import MediaLoadError from './MediaLoadError';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  getIsPausedSelector,
-  getIsLoadedSelector,
-  getIsErrorSelector,
+  getIsPostInFeedPaused,
+  getIsPostInFeedLoaded,
+  getIsPostInFeedError,
 } from '../../redux/selectors/FeedSelectors';
 import {
   togglePause,
@@ -22,20 +22,52 @@ import {
   setLoaded,
   setError,
 } from '../../redux/reducers/FeedSlice';
+import {getPostMediaMetadata} from '../../redux/selectors/PostSelectors';
+import {scaleHeightAndWidthAccordingToDimensions} from './helpers';
 
 const VideoPostContent = (props) => {
   const dispatch = useDispatch();
-  const {videoUrl, imageUrl, height, width, postId, screen, screenId} = props;
+  const {
+    ogImageUrl,
+    postId,
+    screen,
+    screenId,
+    type,
+    ogVideoUrl,
+    ogHeight,
+    ogWidth,
+  } = props;
+
+  const mediaMetadata =
+    type != 'link' &&
+    useSelector((state) => getPostMediaMetadata(state, postId));
+
+  const videoUrl = type == 'link' ? ogVideoUrl : mediaMetadata.url;
+
+  const posterUrl = ogImageUrl
+    ? ogImageUrl
+    : videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
+
+  const {height, width} =
+    type == 'link'
+      ? {height: ogHeight, width: ogWidth}
+      : scaleHeightAndWidthAccordingToDimensions(
+          mediaMetadata,
+          'video',
+          screen,
+        );
 
   const currentScreen = screenId ? screenId : screen;
 
-  const getIsLoading = getIsLoadedSelector();
-  const getIsPaused = getIsPausedSelector();
-  const getIsError = getIsErrorSelector();
-
-  const loaded = useSelector(getIsLoading(currentScreen, postId));
-  const paused = useSelector(getIsPaused(currentScreen, postId));
-  const error = useSelector(getIsError(currentScreen, postId));
+  const loaded = useSelector((state) =>
+    getIsPostInFeedLoaded(state, currentScreen, postId),
+  );
+  const paused = useSelector((state) =>
+    getIsPostInFeedPaused(state, currentScreen, postId),
+  );
+  const error = useSelector((state) =>
+    getIsPostInFeedError(state, currentScreen, postId),
+  );
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -43,10 +75,6 @@ const VideoPostContent = (props) => {
       dispatch(pauseVideo({postId: postId, type: currentScreen}));
     }
   }, [isFocused]);
-
-  const posterUrl = imageUrl
-    ? imageUrl
-    : videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
 
   const togglePlay = () => {
     dispatch(togglePause({postId: postId, type: currentScreen}));

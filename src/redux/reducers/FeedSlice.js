@@ -101,10 +101,11 @@ export const slice = createSlice({
         }
         const pauseStatus = post.paused;
         let paused = !isViewable ? true : pauseStatus; // pause video if not viewable but still playing
-        updates.push({
-          id: postId,
-          changes: {isViewable: isViewable, paused: paused},
-        });
+        paused != pauseStatus &&
+          updates.push({
+            id: postId,
+            changes: {isViewable: isViewable, paused: paused},
+          });
       });
 
       feedAdapter.updateMany(screen, updates);

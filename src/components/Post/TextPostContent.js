@@ -1,8 +1,11 @@
 import React, {memo, useState, useCallback} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {useSelector} from 'react-redux';
+import {getPostDescription} from '../../redux/selectors/PostSelectors';
 
 const TextPostContent = (props) => {
-  const {description} = props;
+  const {postId} = props;
+  const description = useSelector((state) => getPostDescription(state, postId));
   const [showMore, setShowMore] = useState(false);
   const [textHidden, setTextHidden] = useState(true);
 

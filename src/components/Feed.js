@@ -4,11 +4,7 @@ import {ThemeContext, Divider} from 'react-native-elements';
 import Post from './Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
-import {isCompleteSelector} from '../redux/selectors/FeedSelectors';
-import {
-  memoizedSelectAllFlatPosts,
-  getFlatPostsSelector,
-} from '../redux/selectors/PostSelectors';
+import {isFeedComplete, getFeedPostIds} from '../redux/selectors/FeedSelectors';
 import {
   initialiseFeed,
   removeFeed,
@@ -17,7 +13,6 @@ import {
 import {fetchFeed} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 import ScrollToTop from './ScrollToTop';
-import {scaleHeightAndWidthAccordingToDimensions} from './Post/helpers';
 
 const ListHeaderComponent = memo(() => {
   return (
@@ -42,14 +37,11 @@ function Feed(props) {
 
   const authStatus = useSelector(getAuthStatus);
 
-  const getIsComplete = isCompleteSelector();
-  const complete = useSelector((state) => getIsComplete(state, screen));
-
-  const selectFlatPosts = memoizedSelectAllFlatPosts();
-  const posts = useSelector((state) => selectFlatPosts(state, screen));
+  const complete = useSelector((state) => isFeedComplete(state, screen));
+  const postIds = useSelector((state) => getFeedPostIds(state, screen));
 
   const viewabilityConfigRef = React.useRef({
-    //  minimumViewTime: 750,
+    minimumViewTime: 250,
     viewAreaCoveragePercentThreshold: 50,
     waitForInteraction: true,
   });
@@ -70,22 +62,7 @@ function Feed(props) {
   }, [authStatus]);
 
   const renderRow = ({item}) => {
-    const {_id, mediaMetadata, type, ogData} = item;
-
-    let {height, width} = scaleHeightAndWidthAccordingToDimensions(
-      type == 'link' ? ogData : mediaMetadata,
-      type,
-    );
-
-    return (
-      <Post
-        {...item}
-        postId={_id}
-        screen={screen}
-        height={height}
-        width={width}
-      />
-    );
+    return <Post postId={item} screen={screen} />;
   };
 
   const handleLoadMore = () => {
@@ -110,19 +87,19 @@ function Feed(props) {
         ListHeaderComponent={ListHeaderComponent}
         ref={feedListRef}
         listKey={screen}
-        data={posts}
+        data={postIds}
         renderItem={renderRow}
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={100}
-        windowSize={11}
+        windowSize={25}
         initialNumToRender={5}
         maxToRenderPerBatch={10}
         viewabilityConfig={viewabilityConfigRef.current}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
-        keyExtractor={(post, index) => post._id}
+        keyExtractor={(postId, index) => postId}
         ListFooterComponent={<FeedFooter complete={complete} />}
         onScrollToIndexFailed={(info) =>
           console.log('scroll to index failed', info)

@@ -32,19 +32,7 @@ export default function PostDetail({route}) {
     return () => dispatch(removePostDetail(screenId));
   }, []);
 
-  const selectFlatPostById = memoizedGetFlatPostByIdSelector(); // do get post detail if post doesnt exist in post slice, for eg, while opening this screen directly through a link
-  const flatPost = useSelector((state) => selectFlatPostById(state, postId));
-
-  let post = flatPost ? flatPost : {};
-
   console.log('running post detail -', screenId);
-  const {mediaMetadata, type, ogData} = post;
-
-  let {height, width} = scaleHeightAndWidthAccordingToDimensions(
-    type == 'link' ? ogData : mediaMetadata,
-    type,
-    'PostDetail',
-  );
 
   return (
     <View style={{flex: 1}}>
@@ -65,25 +53,7 @@ export default function PostDetail({route}) {
             onRefresh={() => console.log('refreshing post detail')}
           />
         }>
-        {flatPost ? (
-          <Post
-            postId={postId}
-            screen={'PostDetail'}
-            screenId={screenId}
-            height={height}
-            width={width}
-            {...post}
-          />
-        ) : (
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: 300,
-            }}>
-            <ActivityIndicator size="large" color="#4285f4" />
-          </View>
-        )}
+        <Post postId={postId} screen={'PostDetail'} screenId={screenId} />
         <CommentList postId={postId} key={postId} />
       </ScrollView>
       <CommentWriter postId={postId} />

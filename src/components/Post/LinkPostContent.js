@@ -12,9 +12,24 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
 import {YouTubeStandaloneAndroid} from 'react-native-youtube';
+import {useSelector} from 'react-redux';
+import {getPostOgData, getPostLink} from '../../redux/selectors/PostSelectors';
+import {
+  scaleHeightAndWidthAccordingToDimensions,
+  getHostnameFromRegex,
+} from './helpers';
 
 const LinkPostContent = (props) => {
-  const {ogData, link, screen, postId, height, width, screenId} = props;
+  const {screen, postId, screenId} = props;
+
+  const ogData = useSelector((state) => getPostOgData(state, postId));
+  const link = useSelector((state) => getPostLink(state, postId));
+
+  const {height, width} = scaleHeightAndWidthAccordingToDimensions(
+    ogData,
+    'link',
+    screen,
+  );
 
   const title = ogData?.ogTitle;
   const description = ogData?.ogDescription;
@@ -22,13 +37,6 @@ const LinkPostContent = (props) => {
   const videoUrl = ogData?.ogVideo?.url;
   const imageUrl = ogData?.ogImage?.url;
   const type = videoUrl ? 'video' : imageUrl ? 'image' : undefined;
-
-  const getHostnameFromRegex = (url) => {
-    // run against regex
-    const matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
-    // extract hostname (will be null if no match is found)
-    return matches && matches[1];
-  };
 
   const domain = getHostnameFromRegex(url).replace('www.', '');
 
@@ -49,6 +57,42 @@ const LinkPostContent = (props) => {
       .catch((errorMessage) => console.error(errorMessage));
   };
 
+  const YTWebView = (
+    <YoutubePlayer
+      height={height - 10}
+      width={width - 10}
+      play={false}
+      videoId={videoId}
+      modestbranding={true}
+      onShouldStartLoadWithRequest={false}
+      startInLoadingState={true}
+      shouldStartLoad={false}
+    />
+  );
+
+  const YTStandaloneAndroid = (
+    <TouchableOpacity onPress={() => playYoutubeVideo(videoId)}>
+      <ImageBackground
+        source={{uri: imageUrl}}
+        style={{
+          height: height - 10,
+          width: width - 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Icon
+          name="youtube-play"
+          type="font-awesome"
+          color="#ff0000"
+          size={45}
+        />
+      </ImageBackground>
+    </TouchableOpacity>
+  );
+
+  const YoutubeVideo =
+    Platform.OS != 'android' ? YTWebView : YTStandaloneAndroid;
+
   const LinkVideo = (
     <View
       style={{
@@ -60,45 +104,15 @@ const LinkPostContent = (props) => {
         justifyContent: 'center',
       }}>
       {domain == 'youtube.com' ? (
-        Platform.OS != 'android' ? (
-          <YoutubePlayer
-            height={height - 10}
-            width={width - 10}
-            play={false}
-            videoId={videoId}
-            modestbranding={true}
-            onShouldStartLoadWithRequest={false}
-            startInLoadingState={true}
-            shouldStartLoad={false}
-          />
-        ) : (
-          <TouchableOpacity onPress={() => playYoutubeVideo(videoId)}>
-            <ImageBackground
-              source={{uri: imageUrl}}
-              style={{
-                height: height - 10,
-                width: width - 10,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Icon
-                name="youtube-play"
-                type="font-awesome"
-                color="#ff0000"
-                size={45}
-              />
-            </ImageBackground>
-          </TouchableOpacity>
-        )
+        YoutubeVideo
       ) : (
         <VideoPostContent
-          videoUrl={videoUrl}
-          height={height - 10}
-          width={width - 10}
-          postId={postId}
-          screen={screen}
-          screenId={screenId}
-          imageUrl={imageUrl}
+          {...props}
+          ogVideoUrl={videoUrl}
+          ogHeight={height - 10}
+          ogWidth={width - 10}
+          type={'link'}
+          ogImageUrl={imageUrl}
         />
       )}
     </View>
@@ -112,12 +126,11 @@ const LinkPostContent = (props) => {
         width: width - 10,
       }}>
       <ImagePostContent
-        imageUrl={imageUrl}
-        height={height - 10}
-        width={width - 10}
-        postId={postId}
-        screen={screen}
-        screenId={screenId}
+        {...props}
+        ogImageUrl={imageUrl}
+        ogHeight={height - 10}
+        ogWidth={width - 10}
+        type={'link'}
       />
     </View>
   );
