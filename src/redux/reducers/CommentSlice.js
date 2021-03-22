@@ -36,7 +36,7 @@ export const slice = createSlice({
     loading: false,
     ids: [],
     entities: {},
-    parentCommenIds: [],
+    parentCommentIds: [],
     posts: {},
   },
   reducers: {},
@@ -55,9 +55,9 @@ export const slice = createSlice({
       const postComments = state.posts[postId];
 
       if (comments !== undefined) {
-        commentAdapter.upsertMany(state, comments);
+        commentAdapter.addMany(state, comments);
       }
-      postComments.parentCommenIds = action.payload.parentComments;
+      postComments.parentCommentIds = action.payload.parentComments;
       postComments.loading = false;
     },
     [createReply.fulfilled]: (state, action) => {
@@ -76,7 +76,7 @@ export const slice = createSlice({
       if (type == 'Reply') {
         addReply(state, parentCommentId, newCommentId);
       } else {
-        state.posts[postId].parentCommenIds.unshift(newCommentId);
+        state.posts[postId].parentCommentIds.unshift(newCommentId);
       }
 
       Snackbar.show({

@@ -1,5 +1,6 @@
 import {post} from '../schema/FeedSchema';
 import postApi from '../../services/PostApi';
+import userApi from '../../services/UserApi';
 import {normalize} from 'normalizr';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
@@ -9,7 +10,14 @@ export const fetchFeed = createAsyncThunk(
     const {page, limit} = getState().feed.screens[type].metadata;
     const nextPage = page + 1;
 
-    let response = await postApi.post.fetch(nextPage, limit);
+    const isUserDetail = type.includes('UserDetail') ? true : false;
+    const userId =
+      isUserDetail &&
+      type.substring(type.indexOf('-') + 1, type.lastIndexOf('-'));
+
+    let response = isUserDetail
+      ? await userApi.post.fetchUserPosts(userId, nextPage, limit)
+      : await postApi.post.fetch(nextPage, limit);
     const normalized = normalize(response.data.data, [post]);
 
     return {

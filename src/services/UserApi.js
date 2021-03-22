@@ -1,7 +1,8 @@
 import mainClient from '../client/mainClient';
 
 const USER_URI = '/user';
-
+const POST_URI = '/posts';
+const COMMENT_URI = '/comments';
 const userApi = {
   user: {
     async signup(displayname) {
@@ -28,6 +29,7 @@ const userApi = {
       );
       return response;
     },
+
     async registerDeviceTokenForNotifications(userId, token) {
       const client = await mainClient;
       const response = client
@@ -37,6 +39,38 @@ const userApi = {
         .catch((error) => {
           console.log('error saving device token for push notification', error);
         });
+      return response;
+    },
+  },
+  post: {
+    async fetchUserPosts(userId, page, limit) {
+      const client = await mainClient;
+      let response = await client.get(
+        USER_URI +
+          '/' +
+          userId +
+          POST_URI +
+          '?page=' +
+          page +
+          '&limit=' +
+          limit,
+      );
+      return response;
+    },
+  },
+  comment: {
+    async fetchUserComments(userId, page, limit) {
+      const client = await mainClient;
+      let response = await client.get(
+        USER_URI +
+          '/' +
+          userId +
+          COMMENT_URI +
+          '?page=' +
+          page +
+          '&limit=' +
+          limit,
+      );
       return response;
     },
   },

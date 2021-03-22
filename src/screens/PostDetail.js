@@ -1,16 +1,9 @@
 import React, {useEffect} from 'react';
-import {
-  ScrollView,
-  View,
-  RefreshControl,
-  ActivityIndicator,
-} from 'react-native';
+import {ScrollView, View, RefreshControl} from 'react-native';
 import CommentList from '../components/Comment/CommentList';
 import Post from '../components/Post/Post';
 import CommentWriter from '../components/Comment/CommentWriter';
-import {useSelector, useDispatch} from 'react-redux';
-import {memoizedGetFlatPostByIdSelector} from '../redux/selectors/PostSelectors';
-import {scaleHeightAndWidthAccordingToDimensions} from '../components/Post/helpers';
+import {useDispatch} from 'react-redux';
 import {
   initialisePostDetail,
   populatePostDetail,

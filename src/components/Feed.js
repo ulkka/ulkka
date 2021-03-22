@@ -67,7 +67,6 @@ function Feed(props) {
 
   const handleLoadMore = () => {
     if (authStatus != 'UNAUTHENTICATED' && !complete) {
-      console.log('loading more');
       dispatch(fetchFeed(screen));
     }
   };
@@ -117,4 +116,4 @@ function Feed(props) {
   );
 }
 
-export default Feed;
+export default memo(Feed);

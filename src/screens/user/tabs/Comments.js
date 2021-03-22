@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-export default function About() {
+export default function Comments() {
   return (
     <View>
       <Text>Hi</Text>
