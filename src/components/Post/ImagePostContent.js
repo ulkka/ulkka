@@ -3,23 +3,42 @@ import {View, Image} from 'react-native';
 import FastImage from 'react-native-fast-image'; // delete extra lines from android/app/proguard-rules.pro if uninstalling
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  getIsLoadedSelector,
-  getIsErrorSelector,
+  getIsPostInFeedLoaded,
+  getIsPostInFeedError,
 } from '../../redux/selectors/FeedSelectors';
 import {setLoaded, setError} from '../../redux/reducers/FeedSlice';
 import MediaLoadError from './MediaLoadError';
+import {getPostMediaMetadata} from '../../redux/selectors/PostSelectors';
+import {scaleHeightAndWidthAccordingToDimensions} from './helpers';
 
 const ImagePostContent = (props) => {
   const dispatch = useDispatch();
-  const {imageUrl, height, width, screen, postId, screenId} = props;
+  const {screen, postId, screenId, ogImageUrl, type, ogHeight, ogWidth} = props;
+
+  const mediaMetadata =
+    type != 'link' &&
+    useSelector((state) => getPostMediaMetadata(state, postId));
+
+  const imageUrl = type == 'link' ? ogImageUrl : mediaMetadata.secure_url;
+
+  const {height, width} =
+    type == 'link'
+      ? {height: ogHeight, width: ogWidth}
+      : scaleHeightAndWidthAccordingToDimensions(
+          mediaMetadata,
+          'image',
+          screen,
+        );
 
   const currentScreen = screenId ? screenId : screen;
 
-  const getIsLoading = getIsLoadedSelector();
-  const loaded = useSelector(getIsLoading(currentScreen, postId));
+  const loaded = useSelector((state) =>
+    getIsPostInFeedLoaded(state, currentScreen, postId),
+  );
 
-  const getIsError = getIsErrorSelector();
-  const error = useSelector(getIsError(currentScreen, postId));
+  const error = useSelector((state) =>
+    getIsPostInFeedError(state, currentScreen, postId),
+  );
 
   const onError = () => {
     console.log('error loading image');

@@ -5,8 +5,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {votePost} from '../redux/actions/PostActions';
 import {voteComment} from '../redux/actions/CommentActions';
 import {
-  getPostUserVoteSelector,
-  getPostVoteCountSelector,
+  getPostUserVote,
+  getPostVoteCount,
 } from '../redux/selectors/PostSelectors';
 import {
   getCommentUserVoteSelector,
@@ -17,20 +17,17 @@ export function Vote(props) {
   const dispatch = useDispatch();
   const {id, entityType} = props;
 
-  const postUserVoteSelector = getPostUserVoteSelector();
-  const voteCountSelector = getPostVoteCountSelector();
-
   const commentUserVoteSelector = getCommentUserVoteSelector();
   const commentVoteCountSelector = getCommentVoteCountSelector();
 
   const userVote =
     entityType == 'post'
-      ? useSelector((state) => postUserVoteSelector(state, id))
+      ? useSelector((state) => getPostUserVote(state, id))
       : useSelector((state) => commentUserVoteSelector(state, id));
 
   const voteCount =
     entityType == 'post'
-      ? useSelector((state) => voteCountSelector(state, id))
+      ? useSelector((state) => getPostVoteCount(state, id))
       : useSelector((state) => commentVoteCountSelector(state, id));
 
   const vote = (type) => {

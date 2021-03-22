@@ -25,6 +25,7 @@
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.20.0",
     "normalizr": "^3.6.1",
+    "re-reselect": "^4.0.0",
     "react": "16.13.1",
     "react-native": "^0.63.3",
     "react-native-collapsible": "^1.5.3",

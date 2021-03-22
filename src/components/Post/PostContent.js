@@ -5,20 +5,13 @@ import LinkPostContent from './LinkPostContent';
 import TextPostContent from './TextPostContent';
 import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
+import {useSelector} from 'react-redux';
+import {getPostType} from '../../redux/selectors/PostSelectors';
 
 function PostContent(props) {
-  const {
-    postId,
-    screen,
-    type,
-    description,
-    mediaMetadata,
-    height,
-    width,
-    ogData,
-    link,
-    screenId,
-  } = props;
+  const {postId, screen} = props;
+
+  const type = useSelector((state) => getPostType(state, postId));
 
   const ContentType =
     type == 'image' || type == 'video' || type == 'gif' ? 'media' : 'textual';
@@ -63,43 +56,14 @@ function PostContent(props) {
   const PostType = () => {
     switch (type) {
       case 'text':
-        return <TextPostContent description={description} />;
+        return <TextPostContent {...props} />;
       case 'image':
       case 'gif':
-        return (
-          <ImagePostContent
-            postId={postId}
-            imageUrl={mediaMetadata.secure_url}
-            height={height}
-            width={width}
-            screen={screen}
-            screenId={screenId}
-          />
-        );
+        return <ImagePostContent {...props} />;
       case 'video':
-        return (
-          <VideoPostContent
-            postId={postId}
-            videoUrl={mediaMetadata.secure_url}
-            link={link}
-            height={height}
-            width={width}
-            screen={screen}
-            screenId={screenId}
-          />
-        );
+        return <VideoPostContent {...props} />;
       case 'link':
-        return (
-          <LinkPostContent
-            postId={postId}
-            ogData={ogData}
-            link={link}
-            height={height}
-            width={width}
-            screen={screen}
-            screenId={screenId}
-          />
-        );
+        return <LinkPostContent {...props} />;
       default:
         return DefaultPost;
     }

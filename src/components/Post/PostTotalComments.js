@@ -3,13 +3,13 @@ import {TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
-import {getPostCommentCountSelector} from '../../redux/selectors/PostSelectors';
+import {getPostCommentCount} from '../../redux/selectors/PostSelectors';
 
 const PostTotalComments = (props) => {
   const {postId, screen} = props;
-  const commentCountSelector = getPostCommentCountSelector();
+
   const commentCount = useSelector((state) =>
-    commentCountSelector(state, postId),
+    getPostCommentCount(state, postId),
   );
 
   return (

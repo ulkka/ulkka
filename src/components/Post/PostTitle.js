@@ -1,9 +1,11 @@
 import React, {memo} from 'react';
 import {View, Text, Platform} from 'react-native';
+import {useSelector} from 'react-redux';
+import {getPostTitle} from '../../redux/selectors/PostSelectors';
 
 const PostTitle = (props) => {
-  const {postTitle} = props;
-
+  const {postId} = props;
+  const postTitle = useSelector((state) => getPostTitle(state, postId));
   return (
     <View>
       <Text

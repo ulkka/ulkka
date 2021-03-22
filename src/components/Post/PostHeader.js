@@ -4,9 +4,24 @@ import {Icon, Text} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
 import PostExtraOptions from '../PostExtraOptions';
 import {push} from '../../navigation/Ref';
+import {useSelector} from 'react-redux';
+import {
+  getPostAuthorDetail,
+  getPostCommunityDetail,
+  getPostCreatedAt,
+} from '../../redux/selectors/PostSelectors';
 
 const PostHeader = (props) => {
-  const {postId, createdAt, authorDetail, communityDetail} = props;
+  const {postId} = props;
+
+  const createdAt = useSelector((state) => getPostCreatedAt(state, postId));
+  const communityDetail = useSelector((state) =>
+    getPostCommunityDetail(state, postId),
+  );
+  const authorDetail = useSelector((state) =>
+    getPostAuthorDetail(state, postId),
+  );
+
   const {_id: communityId, name: communityName} = communityDetail;
   const {_id: authorId, displayname: authorDisplayname} = authorDetail;
 

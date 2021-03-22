@@ -1,91 +1,47 @@
-import {createSelector} from '@reduxjs/toolkit';
-import {selectUserEntities} from '../reducers/UserSlice';
-import {selectCommunityEntities} from '../reducers/CommunitySlice';
-import {selectPostById, selectAllPosts} from '../reducers/PostSlice';
-import {getFeedPostIds} from './FeedSelectors';
-import {createSelectorCreator, defaultMemoize} from 'reselect';
+import {selectUserById} from '../reducers/UserSlice';
+import {selectCommunityById} from '../reducers/CommunitySlice';
+import {selectPostById} from '../reducers/PostSlice';
+import {createCachedSelector} from 're-reselect';
 
 //  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 //  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
 //  return true if length of prev and next array is same
 //  this might support when multiple feeds are enabled, but if some issue, investigate here
 
-export const getPostUserVoteSelector = () => {
-  return createSelector(selectPostById, (post) => post.userVote);
-};
+export const getPostUserVote = (state, id) =>
+  selectPostById(state, id).userVote;
 
-export const getPostVoteCountSelector = () => {
-  return createSelector(selectPostById, (post) => post.voteCount);
-};
+export const getPostVoteCount = (state, id) =>
+  selectPostById(state, id).voteCount;
 
-export const getPostCommentCountSelector = () => {
-  return createSelector(selectPostById, (post) => post.commentCount);
-};
+export const getPostCommentCount = (state, id) =>
+  selectPostById(state, id).commentCount;
 
-// return true so post will remain same so post detail wont refresh after new comment/reply added
-const createPostByIdEqualitySelector = createSelectorCreator(
-  defaultMemoize,
-  () => {
-    return true;
-  },
-);
+export const getPostTitle = (state, id) => selectPostById(state, id).title;
 
-const memoizedFlatPostById = () =>
-  createPostByIdEqualitySelector(selectPostById, (post) => post);
+export const getPostDescription = (state, id) =>
+  selectPostById(state, id).description;
 
-const getFlatPostByIdSelector = () => {
-  return createSelector(
-    [memoizedFlatPostById(), selectCommunityEntities, selectUserEntities],
-    (post, communityEnitities, userEntities) => {
-      return {
-        ...post,
-        communityDetail: communityEnitities[post.community],
-        authorDetail: userEntities[post.author],
-      };
-    },
-  );
-};
-export const memoizedGetFlatPostByIdSelector = () =>
-  createPostByIdEqualitySelector(getFlatPostByIdSelector(), (post) => post);
+export const getPostLink = (state, id) => selectPostById(state, id).link;
 
-//  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
-//  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
-//  return true if length of prev and next array is same
-//  might need update while working with multuple feeds- watch out!
+export const getPostMediaMetadata = (state, id) =>
+  selectPostById(state, id).mediaMetadata;
 
-const createAllPostsEqualitySelector = createSelectorCreator(
-  defaultMemoize,
-  (a, b) => {
-    return a.length == b.length;
-  },
-);
+export const getPostOgData = (state, id) => selectPostById(state, id).ogData;
 
-const memoizedSelectAllPosts = () =>
-  createAllPostsEqualitySelector(selectAllPosts, (posts) => posts);
+export const getPostType = (state, id) => selectPostById(state, id).type;
 
-export const getFlatPostsSelector = () => {
-  return createSelector(
-    [
-      getFeedPostIds(),
-      memoizedSelectAllPosts(), //this will change only if length of array changes
-      selectCommunityEntities,
-      selectUserEntities,
-    ],
-    (postIds, allPosts, communityEnitities, userEntities) => {
-      return allPosts
-        .filter((post) => postIds?.includes(post._id))
-        .map((post) => {
-          return {
-            ...post,
-            communityDetail: communityEnitities[post.community],
-            authorDetail: userEntities[post.author],
-          };
-        })
-        .sort((a, b) => postIds.indexOf(a._id) - postIds.indexOf(b._id)); // to sort according to order of Ids in feed IDs array
-    },
-  );
-};
+export const getPostCreatedAt = (state, id) =>
+  selectPostById(state, id).created_at;
 
-//this will change only if length of array changes, to support memoization of multiple feeds
-export const memoizedSelectAllFlatPosts = () =>
-  createAllPostsEqualitySelector(getFlatPostsSelector(), (posts) => posts);
+export const getPostAuthorDetail = createCachedSelector(
+  (state) => state,
+  selectPostById,
+  (state, post) => selectUserById(state, post.author),
+)((state, id) => id);
+
+export const getPostCommunityDetail = createCachedSelector(
+  (state) => state,
+  selectPostById,
+  (state, post) => selectCommunityById(state, post.community),
+)((state, id) => id);
