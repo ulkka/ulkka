@@ -2,7 +2,6 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 import userApi from '../../services/UserApi';
-import {navigate} from '../../navigation/Ref';
 import mainClient from '../../client/mainClient';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,7 +25,7 @@ const getCurrentUser = async () => {
 };
 
 const getRegisteredUser = async (currentUser) => {
-  let registeredUser = {};
+  let registeredUser = undefined;
   if (!currentUser.isAnonymous) {
     const userEmail = await currentUser.email;
     const response = await userApi.user.getUserByEmail(userEmail);

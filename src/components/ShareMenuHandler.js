@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import ShareMenu from 'react-native-share-menu';
+import {navigate} from '../navigation/Ref';
 
 type SharedItem = {
   mimeType: string,
@@ -18,12 +19,11 @@ const ShareMenuHandler: () => React$Node = () => {
     }
 
     const {mimeType, data, extraData} = item;
-    console.log(
-      'handleShare mimtype,data,extradata',
-      mimeType,
-      data,
-      extraData,
-    );
+
+    navigate('CreatePost', {
+      type: 'text',
+      item: item,
+    });
 
     setSharedData(data);
     setSharedExtraData(extraData);

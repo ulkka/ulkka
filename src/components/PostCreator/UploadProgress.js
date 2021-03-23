@@ -41,9 +41,21 @@ export const ShowSubmitProgress = (props) => {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <View>
-              <Text style={{fontSize: 16, fontWeight: 'bold', color: '#333'}}>
-                {percent != 100 ? percent + '% Uploaded' : 'Processing...'}
+            <View
+              style={{
+                flex: 1,
+                width: '100%',
+              }}>
+              <Text
+                style={{
+                  flex: 1,
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  color: '#333',
+                }}>
+                {percent != 100
+                  ? percent + ' %   Uploaded  '
+                  : ' Processing...'}
               </Text>
             </View>
             <View

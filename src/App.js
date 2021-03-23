@@ -10,7 +10,7 @@ import messaging from '@react-native-firebase/messaging';
 import EmailLinkHandler from './screens/auth/EmailLinkHandler';
 import LoadingOverlay from './components/LoadingOverlay';
 import RegisterDeviceToken from './components/RegisterDeviceToken';
-import ShareMenuHandler from './components/ShareMenuHandler';
+//import ShareMenuHandler from './components/ShareMenuHandler';
 import OptionSheet from './components/OptionSheet';
 
 export default function App() {
@@ -47,7 +47,6 @@ export default function App() {
           <LoadingOverlay />
           <EmailLinkHandler />
           <RegisterDeviceToken />
-          <ShareMenuHandler />
           <OptionSheet />
           <Main />
         </View>

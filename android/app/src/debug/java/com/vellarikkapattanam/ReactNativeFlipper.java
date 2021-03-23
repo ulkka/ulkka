@@ -40,7 +40,7 @@ public class ReactNativeFlipper {
           new NetworkingModule.CustomClientBuilder() {
             @Override
             public void apply(OkHttpClient.Builder builder) {
-              builder.addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin));
+              builder.addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin)); // commenting out to fix network error while uploading content through share
             }
           });
       client.addPlugin(networkFlipperPlugin);

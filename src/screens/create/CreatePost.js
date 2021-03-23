@@ -24,7 +24,10 @@ import axios from 'axios';
 export default function CreatePost({route}) {
   const dispatch = useDispatch();
 
-  const [type, setType] = useState('');
+  const item = route?.params?.item;
+  let postType = route?.params?.type ? route.params.type : 'text';
+
+  const [type, setType] = useState(postType);
   const [community, setCommunity] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -40,9 +43,59 @@ export default function CreatePost({route}) {
     setSelectCommunityModalVisible,
   ] = useState(false);
 
+  const getTypeFromMime = (mimeType) => {
+    return mimeType.substring(mimeType.lastIndexOf('/') + 1) == 'gif'
+      ? 'gif'
+      : mimeType.substring(0, mimeType.indexOf('/'));
+  };
+
+  const getLinkFromText = (text) => {
+    return text.indexOf('https://') == 0
+      ? text.substring(
+          0,
+          text.indexOf(' ') == -1 ? text.length : text.indexOf(' '),
+        )
+      : '';
+  };
+
   useEffect(() => {
-    setType(route.params.type);
-  }, []);
+    if (item) {
+      console.log('shared item', item);
+      handleSharedItem(item);
+    }
+  }, [item]);
+
+  function handleSharedItem(item) {
+    const {data, mimeType} = item;
+    const type = getTypeFromMime(mimeType);
+    console.log('type', type);
+    switch (type) {
+      case 'image':
+      case 'video':
+      case 'gif':
+        const filename = data.substring(data.lastIndexOf('/') + 1, data.length);
+        const media = {
+          mime: mimeType,
+          path: data,
+          filename: filename,
+        };
+        setType(type);
+        setMedia(media);
+        return;
+      case 'text':
+        const sharedText = item.data;
+        const link = getLinkFromText(sharedText);
+        console.log('link', link);
+        if (link.length) {
+          // checking if shared text is link
+          setLink(link);
+          setType('link');
+        } else {
+          setDescription(sharedText);
+          setType(type);
+        }
+    }
+  }
 
   const showSnackBar = (message) => {
     if (Platform.OS == 'ios') {
@@ -129,7 +182,6 @@ export default function CreatePost({route}) {
           ? media.path
           : media.path.replace('file://', ''),
       type: media.mime,
-      // type: 'video',
       name: media.filename,
     });
     return data;

@@ -74,6 +74,7 @@ export const MediaField = (props) => {
   const mediaImage = media ? (
     <Image
       source={{uri: media.path}}
+      //source={{uri: 'content://media/external/file/604102'}}
       style={{
         width: '100%',
         aspectRatio: 1,
@@ -105,8 +106,10 @@ export const MediaField = (props) => {
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: '#eee',
-        width: Math.ceil((media.width * 250) / media.height),
-        height: 250,
+        // width: Math.ceil((media.width * 250) / media.height),
+        aspectRatio: 1,
+        height: 300,
+        resizeMode: 'contain',
       }}>
       {mediaType == 'video' ? (
         mediaVideo

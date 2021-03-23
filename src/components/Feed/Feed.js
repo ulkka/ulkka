@@ -1,17 +1,20 @@
 import React, {useEffect, useContext, memo} from 'react';
 import {View, FlatList, RefreshControl, Platform} from 'react-native';
 import {ThemeContext, Divider} from 'react-native-elements';
-import Post from './Post/Post';
+import Post from '../Post/Post';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
-import {isFeedComplete, getFeedPostIds} from '../redux/selectors/FeedSelectors';
+import {
+  isFeedComplete,
+  getFeedPostIds,
+} from '../../redux/selectors/FeedSelectors';
 import {
   initialiseFeed,
   removeFeed,
   setViewableItems,
-} from '../redux/reducers/FeedSlice';
-import {fetchFeed} from '../redux/actions/FeedActions';
-import {getAuthStatus} from '../redux/reducers/AuthSlice';
+} from '../../redux/reducers/FeedSlice';
+import {fetchFeed} from '../../redux/actions/FeedActions';
+import {getAuthStatus} from '../../redux/reducers/AuthSlice';
 import ScrollToTop from './ScrollToTop';
 
 const ListHeaderComponent = memo(() => {

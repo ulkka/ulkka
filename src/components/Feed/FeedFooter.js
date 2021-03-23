@@ -14,7 +14,7 @@ function FeedFooterComponent(props) {
         {
           // Activity indicator was causing scroll to flicker, check that if you put it back
           <Image
-            source={require('../../assets/loading.gif')}
+            source={require('../../../assets/loading.gif')}
             style={{height: 40, width: 40}}
           />
         }

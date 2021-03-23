@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Platform} from 'react-native';
+import {Platform, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {enableScreens} from 'react-native-screens';
@@ -11,6 +11,7 @@ import Splash from '../screens/Splash';
 import CreateCommunity from '../screens/create/CreateCommunity';
 import {useDispatch} from 'react-redux';
 import {loadAuth} from '../redux/actions/AuthActions';
+
 //import {useReduxDevToolsExtension} from '@react-navigation/devtools';
 
 const StackNav = createStackNavigator();
@@ -31,45 +32,47 @@ export default function Main() {
       : TransitionPresets.RevealFromBottomAndroid;
 
   const AppNavigation = (
-    <NavigationContainer
-      linking={linking}
-      fallback={<Splash />}
-      ref={navigationRef}>
-      <StackNav.Navigator
-        initialRouteName="Main"
-        screenOptions={() => ({
-          // cardStyle: {backgroundColor: 'transparent'},
-          gestureEnabled: true,
-          cardOverlayEnabled: true,
-          ...presets,
-        })}
-        mode="modal">
-        <StackNav.Screen
-          name="Main"
-          component={HomeNavigation}
-          title="Home"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <StackNav.Screen
-          name={'Authentication'}
-          component={AuthNavigation}
-          title={'Authentication'}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <StackNav.Screen
-          name={'Create Community'}
-          component={CreateCommunity}
-          title={'Create Community'}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </StackNav.Navigator>
-    </NavigationContainer>
+    <View style={{flex: 1}}>
+      <NavigationContainer
+        linking={linking}
+        fallback={<Splash />}
+        ref={navigationRef}>
+        <StackNav.Navigator
+          initialRouteName="Main"
+          screenOptions={() => ({
+            // cardStyle: {backgroundColor: 'transparent'},
+            gestureEnabled: true,
+            cardOverlayEnabled: true,
+            ...presets,
+          })}
+          mode="modal">
+          <StackNav.Screen
+            name="Main"
+            component={HomeNavigation}
+            title="Home"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <StackNav.Screen
+            name={'Authentication'}
+            component={AuthNavigation}
+            title={'Authentication'}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <StackNav.Screen
+            name={'Create Community'}
+            component={CreateCommunity}
+            title={'Create Community'}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </StackNav.Navigator>
+      </NavigationContainer>
+    </View>
   );
 
   return AppNavigation;

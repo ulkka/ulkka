@@ -22,7 +22,7 @@ export const userAdapter = createEntityAdapter({
 
 const addRegisteredUserToSlice = (state, action) => {
   const registeredUser = action.payload.registeredUser;
-  userAdapter.upsertOne(state, registeredUser);
+  registeredUser && userAdapter.upsertOne(state, registeredUser);
 };
 
 export const fetchUserById = createAsyncThunk('user/fetchById', async (id) => {

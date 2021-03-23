@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  TouchableOpacity,
   Text,
   Dimensions,
   KeyboardAvoidingView,
@@ -55,7 +56,8 @@ export default function Login() {
           color: '#444',
           fontSize: 14,
         }}>
-        Or
+        {' '}
+        Or{' '}
       </Text>
       <Divider
         style={{
@@ -68,7 +70,11 @@ export default function Login() {
   );
 
   const SocialAuth = (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        console.log('press gauth');
+        dispatch(socialAuth('Google'));
+      }}
       style={{
         alignItems: 'center',
         justifyContent: 'center',
@@ -78,14 +84,13 @@ export default function Login() {
         title="Login With Google"
         button
         type="google"
-        onPress={() => dispatch(socialAuth('Google'))}
         iconSize={20}
         style={{
           width: '80%',
           height: 50,
         }}
       />
-    </View>
+    </TouchableOpacity>
   );
 
   return (
