@@ -48,10 +48,23 @@ const PostHeader = (props) => {
           userId: authorId,
         })
       }>
-      <Text style={{fontSize: 11, paddingRight: 10, color: '#555'}}>
-        {authorDisplayname}
-      </Text>
+      <Text style={{fontSize: 11, color: '#555'}}>{authorDisplayname}</Text>
     </TouchableOpacity>
+  );
+
+  const displayNameTimeAgo = (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      {UserDisplayName}
+      <View
+        style={{
+          paddingHorizontal: 7,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Icon name="circle" type="font-awesome" size={4} color="#888" />
+      </View>
+      <TimeAgo time={createdAt} />
+    </View>
   );
 
   return (
@@ -63,10 +76,7 @@ const PostHeader = (props) => {
             padding: 5,
           }}>
           {CommunityName}
-          <View style={{flexDirection: 'row'}}>
-            {UserDisplayName}
-            <TimeAgo time={createdAt} />
-          </View>
+          {displayNameTimeAgo}
         </View>
       </View>
       <PostExtraOptions postId={postId} optionType={'post'} />

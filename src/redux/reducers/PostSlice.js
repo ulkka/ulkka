@@ -53,7 +53,7 @@ export const slice = createSlice({
       const postId = action.payload.data._id;
       const post = postAdapter.getSelectors().selectById(state, postId);
 
-      const currentUserVote = post.userVote;
+      const currentUserVote = post.userVote ? post.userVote : 0; // handling undefined userVote
       const newUserVote = action.payload.data.userVote;
       const diff = currentUserVote - newUserVote;
       const newVoteCount = post.voteCount - diff;

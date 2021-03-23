@@ -76,7 +76,7 @@ const AccountDetail = memo((props) => {
     <View
       style={{
         backgroundColor: '#fff',
-        borderColor: '#ddd',
+        borderColor: '#eee',
         borderBottomWidth: 1,
         borderTopWidth: 1,
         paddingVertical: 20,

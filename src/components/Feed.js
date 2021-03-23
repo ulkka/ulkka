@@ -110,7 +110,7 @@ function Feed(props) {
       />
       <ScrollToTop
         listRef={feedListRef}
-        visible={screen == 'home' ? true : false}
+        visible={screen == 'home' && postIds?.length ? true : false}
       />
     </View>
   );

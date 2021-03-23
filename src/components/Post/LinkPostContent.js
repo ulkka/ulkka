@@ -20,7 +20,7 @@ import {
 } from './helpers';
 
 const LinkPostContent = (props) => {
-  const {screen, postId, screenId} = props;
+  const {screen, postId} = props;
 
   const ogData = useSelector((state) => getPostOgData(state, postId));
   const link = useSelector((state) => getPostLink(state, postId));

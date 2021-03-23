@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 import {Icon, Input} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
@@ -18,31 +19,35 @@ import {
   isLoading,
   getResetCommentToggle,
 } from '../../redux/reducers/ReplySlice';
-import {selectPostById} from '../../redux/reducers/PostSlice';
+import {
+  getPostTitle,
+  getPostAuthorId,
+} from '../../redux/selectors/PostSelectors';
 import {selectCommentById} from '../../redux/reducers/CommentSlice';
-import {selectUserById} from '../../redux/reducers/UserSlice';
+import {getUserDisplayname} from '../../redux/reducers/UserSlice';
 import {ActivityIndicator} from 'react-native';
 
 export default function CommentWriter(props) {
   const dispatch = useDispatch();
 
-  const postId = props.postId;
+  console.log('running comment writer');
+
+  const {postId} = props;
   const commentId = useSelector(getCommentId);
-  const post = useSelector((state) => selectPostById(state, postId));
   const parentComment = useSelector((state) =>
     selectCommentById(state, commentId),
   );
 
+  const title = useSelector((state) => getPostTitle(state, postId));
+  const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
+  const parentAuthorId = parentComment ? parentComment.author : postAuthorId;
+
+  const parentCommentAuthorDisplayname = parentAuthorId
+    ? useSelector((state) => getUserDisplayname(state, parentAuthorId))
+    : '';
+
   const reply_to = parentComment != undefined ? 'comment' : 'post';
-  const parentAuthorId =
-    parentComment != undefined ? parentComment.author : post.author;
-
-  const parentCommentAuthor = useSelector((state) =>
-    selectUserById(state, parentAuthorId),
-  );
-
-  const reply_to_text =
-    parentComment != undefined ? parentCommentAuthor.displayname : post.title;
+  const reply_to_text = parentComment ? parentCommentAuthorDisplayname : title;
 
   const inputRef = useRef(null);
   const active = useSelector(isActive);
@@ -88,6 +93,14 @@ export default function CommentWriter(props) {
   };
 
   const resetForm = () => {
+    /* Alert.alert('Discard Comment ?', null, [
+      {
+        text: 'Keep Writing',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'default',
+      },
+      {text: 'Discard', onPress: () => dispatch(deactivate())},
+    ]);*/
     dispatch(deactivate());
   };
 

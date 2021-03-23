@@ -85,6 +85,7 @@ function HomeNavigation({navigation}) {
         component={UserDetail}
         title="UserDetail"
         options={{
+          headerBackTitle: 'Back',
           headerTitle: '',
           headerStyle:
             Platform.OS == 'android'

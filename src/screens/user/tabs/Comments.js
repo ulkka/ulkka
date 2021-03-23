@@ -12,12 +12,12 @@ import {push} from '../../../navigation/Ref';
 const CommentRow = memo((props) => {
   const {commentId} = props;
   const comment = useSelector((state) => selectCommentById(state, commentId));
-
   const title = comment?.post?.title;
   const createdAt = comment?.created_at;
   const text = comment?.text;
   const voteCount = comment?.voteCount;
   const postId = comment?.post?._id;
+  console.log('comment row', comment, title);
 
   const textField = (
     <Text
@@ -73,7 +73,7 @@ const CommentRow = memo((props) => {
       style={{
         padding: 5,
         backgroundColor: '#fff',
-        borderRadius: 15,
+        borderRadius: 5,
         marginHorizontal: 3,
       }}
       onPress={() => push('PostDetail', {postId: postId})}>
@@ -96,7 +96,7 @@ const CommentRow = memo((props) => {
 });
 
 const separator = memo(() => {
-  return <Divider style={{backgroundColor: '#eee', height: 5}} />;
+  return <Divider style={{backgroundColor: '#fafafa', height: 5}} />;
 });
 
 export default function Comments(props) {
@@ -105,10 +105,14 @@ export default function Comments(props) {
   const userId = props?.route?.params?.params?.userId;
   const isRegistered = useSelector(getRegistrationStatus);
 
-  const commentIdsSelector = getUserCommentsSelector();
-  const commentIds = useSelector((state) => commentIdsSelector(state, userId));
+  const commentIds = useSelector((state) =>
+    getUserCommentsSelector(state, userId),
+  );
+
+  console.log('running comments tab');
 
   useEffect(() => {
+    console.log('useeffect in  comments tab');
     dispatch(fetchComments({userId: userId}));
   }, [isRegistered]);
 

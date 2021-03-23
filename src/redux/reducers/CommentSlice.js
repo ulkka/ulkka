@@ -65,7 +65,9 @@ export const slice = createSlice({
       const commentState = state[entity][entityId];
 
       if (comments) {
-        commentAdapter.upsertMany(state, comments);
+        entity == 'posts'
+          ? commentAdapter.addMany(state, comments)
+          : commentAdapter.upsertMany(state, comments);
       }
 
       commentState.parentCommentIds = action.payload.parentComments;
@@ -99,7 +101,7 @@ export const slice = createSlice({
     [voteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const comment = state.entities[id];
-      const currentUserVote = comment.userVote;
+      const currentUserVote = comment.userVote ? comment.userVote : 0; // handling undefined userVote
       const newUserVote = action.payload.data.userVote;
       const diff = currentUserVote - newUserVote;
       const newVoteCount = state.entities[id].voteCount - diff;
