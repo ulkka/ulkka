@@ -146,7 +146,7 @@ export default function CreatePost({route}) {
     switch (type) {
       case 'text':
         payload = {
-          community: community._id,
+          community: community?._id,
           title: title,
           description: description,
           type: type,
@@ -154,7 +154,7 @@ export default function CreatePost({route}) {
         return payload;
       case 'link':
         payload = {
-          community: community._id,
+          community: community?._id,
           title: title,
           link: link,
           type: type,
@@ -164,17 +164,66 @@ export default function CreatePost({route}) {
       case 'video':
       case 'image':
         payload = {
-          community: community._id,
+          community: community?._id,
           title: title,
-          link: response.data.secure_url,
+          link: response?.data?.secure_url,
           type: type,
-          mediaMetadata: response.data,
+          mediaMetadata: response?.data,
         };
         return payload;
     }
   };
 
+  const payloadValidator = (payload, type) => {
+    const {community, title, description, link, mediaMetadata} = payload;
+    switch (type) {
+      case 'text':
+        if (!community) {
+          showSnackBar('Please select a valid community');
+          return false;
+        }
+        if (!title) {
+          showSnackBar('Please add a title for the post');
+          return false;
+        }
+        if (!description) {
+          showSnackBar('Please add a description for the post');
+          return false;
+        }
+        return true;
+      case 'link':
+        if (!community) {
+          showSnackBar('Please select a valid community');
+          return false;
+        }
+        if (!title) {
+          showSnackBar('Please add a title for the post');
+          return false;
+        }
+        if (!link) {
+          showSnackBar('Please add a link for the post');
+          return false;
+        }
+        return true;
+      case 'gif':
+      case 'video':
+      case 'image':
+        if (!community) {
+          showSnackBar('Please select a valid community');
+          return false;
+        }
+        if (!title) {
+          showSnackBar('Please add a title for the post');
+          return false;
+        }
+        return true;
+    }
+  };
+
   function fileFormDataCreator() {
+    if (!media || !media?.path || !media?.mime || !media?.filename) {
+      return false;
+    }
     var data = new FormData();
     data.append('file', {
       uri:
@@ -207,27 +256,52 @@ export default function CreatePost({route}) {
     setLoading(true);
     console.log('Uploading post type - ', type);
     let response = {};
+    let payload = {};
+    let isPayloadValid = false;
     switch (type) {
       case 'text':
       case 'link':
-        dispatchPost(payloadCreator(type));
+        payload = payloadCreator(type);
+        isPayloadValid = payloadValidator(payload, type);
+        if (isPayloadValid) {
+          dispatchPost(payload);
+        } else {
+          setLoading(false);
+        }
         return;
 
       case 'gif':
       case 'video':
       case 'image':
-        console.log('uploading media ', media);
+        let prePayload = {type: type, title: title, community: community?._id};
         var data = fileFormDataCreator();
-        let source = createNewAxiosClientSource();
-        response = await utilityApi.media.upload(
-          data,
-          uploadProgress((percent) => setUploadPercent(percent)),
-          source.token,
-        );
+        isPayloadValid = payloadValidator(prePayload, type);
+        if (isPayloadValid) {
+          if (data) {
+            console.log('uploading media ', media);
+            let source = createNewAxiosClientSource();
+            response = await utilityApi.media.upload(
+              data,
+              uploadProgress((percent) => setUploadPercent(percent)),
+              source.token,
+            );
+            console.log('response after media upload', response);
+          } else {
+            showSnackBar('Please select ' + type);
+            setLoading(false);
+            return;
+          }
+        } else {
+          setLoading(false);
+        }
 
-        console.log('respone after media upload', response);
-        if (!(response.error || response.data.name == 'Error')) {
-          dispatchPost(payloadCreator(type, response));
+        if (!(response.error || response?.data?.name == 'Error')) {
+          payload = payloadCreator(type, response);
+          if (isPayloadValid) {
+            dispatchPost(payload);
+          } else {
+            setLoading(false);
+          }
         } else {
           const error = response.error;
           if (response.type == 'mediaUploadCancelled') {

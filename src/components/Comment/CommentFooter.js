@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Vote from '../Vote';
-import PostExtraOptions from '../PostExtraOptions';
+import ExtraOptions from '../ExtraOptions';
 import {prepareReply} from '../../redux/reducers/ReplySlice';
 import {useDispatch} from 'react-redux';
 
@@ -29,9 +29,9 @@ const CommentFooter = (props) => {
     <Vote id={commentId} entityType="comment" style={{paddingHorizontal: 15}} />
   );
 
-  const ExtraOptions = (
+  const CommentExtraOptions = (
     <View style={{paddingHorizontal: 40}}>
-      <PostExtraOptions id={commentId} optionType="comment" />
+      <ExtraOptions id={commentId} type="comment" />
     </View>
   );
 
@@ -43,7 +43,7 @@ const CommentFooter = (props) => {
         alignItems: 'center',
         marginTop: 5,
       }}>
-      {ExtraOptions}
+      {CommentExtraOptions}
       {ReplyToComment}
       {VoteComment}
     </View>

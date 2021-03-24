@@ -25,6 +25,17 @@ const postApi = {
       );
       return response;
     },
+    async report(postId, reason) {
+      const client = await mainClient;
+      const data = {
+        reason: reason,
+      };
+      let response = await client.post(
+        POST_URI + '/' + postId + '/report',
+        data,
+      );
+      return response;
+    },
   },
   comment: {
     async fetch(postId) {
@@ -55,6 +66,18 @@ const postApi = {
         };
       }
       let response = await client.post(COMMENT_URI, payload);
+      return response;
+    },
+    async report(commentId, reason) {
+      const client = await mainClient;
+      const data = {
+        reason: reason,
+      };
+      let response = await client.post(
+        COMMENT_URI + '/' + commentId + '/report',
+        data,
+      );
+
       return response;
     },
   },

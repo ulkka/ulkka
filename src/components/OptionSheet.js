@@ -1,12 +1,25 @@
 import React from 'react';
 import {View} from 'react-native';
 import {ListItem, Divider, Button, Overlay} from 'react-native-elements';
-import {hideOptionSheet, isVisible} from '../redux/reducers/OptionSheetSlice';
+import {
+  hideOptionSheet,
+  isVisible,
+  showReportOptions,
+} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch, useSelector} from 'react-redux';
+import {TouchableOpacity} from 'react-native';
+import {getId, getType, getReport} from '../redux/reducers/OptionSheetSlice';
+import Report from './Report';
 
 export default function OptionSheet() {
   const dispatch = useDispatch();
+
   const visible = useSelector(isVisible);
+  const id = useSelector(getId);
+  const type = useSelector(getType);
+  const isReport = useSelector(getReport);
+
+  console.log('option sheet', id, type);
   const listItemStyle = {
     borderRadius: 5,
   };
@@ -15,13 +28,51 @@ export default function OptionSheet() {
       title: 'Report',
       titleStyle: {fontSize: 14},
       containerStyle: listItemStyle,
+      onPress: () => dispatch(showReportOptions({type: type, id: id})),
     },
     {
       title: 'Delete',
       titleStyle: {fontSize: 14},
       containerStyle: listItemStyle,
+      onPress: () => {
+        console.log('deleting post');
+      },
     },
   ];
+  const optionsListView = (
+    <View
+      style={{
+        width: '98%',
+        alignSelf: 'center',
+      }}>
+      <View>
+        {list.map((l, i) => (
+          <ListItem
+            key={i}
+            containerStyle={l.containerStyle}
+            bottomDivider={true}>
+            <TouchableOpacity onPress={l.onPress} style={{flex: 1}}>
+              <ListItem.Content style={{alignItems: 'center'}}>
+                <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+              </ListItem.Content>
+            </TouchableOpacity>
+          </ListItem>
+        ))}
+      </View>
+      <Divider
+        style={{
+          height: 15,
+          backgroundColor: 'transparent',
+        }}
+      />
+      <Button
+        title="Cancel"
+        containerStyle={{backgroundColor: '#fff', marginBottom: 15}}
+        titleStyle={{fontSize: 14, color: '#EC5152'}}
+        onPress={() => dispatch(hideOptionSheet())}
+      />
+    </View>
+  );
   return (
     <Overlay
       isVisible={visible}
@@ -37,37 +88,7 @@ export default function OptionSheet() {
         backgroundColor: '#000',
         opacity: 0.2,
       }}>
-      <View
-        style={{
-          width: '98%',
-          alignSelf: 'center',
-        }}>
-        <View>
-          {list.map((l, i) => (
-            <ListItem
-              key={i}
-              containerStyle={l.containerStyle}
-              onPress={l.onPress}
-              bottomDivider={true}>
-              <ListItem.Content style={{alignItems: 'center'}}>
-                <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
-          ))}
-        </View>
-        <Divider
-          style={{
-            height: 15,
-            backgroundColor: 'transparent',
-          }}
-        />
-        <Button
-          title="Cancel"
-          containerStyle={{backgroundColor: '#fff', marginBottom: 15}}
-          titleStyle={{fontSize: 14, color: '#EC5152'}}
-          onPress={() => dispatch(hideOptionSheet())}
-        />
-      </View>
+      <View>{isReport ? <Report id={id} type={type} /> : optionsListView}</View>
     </Overlay>
   );
 }

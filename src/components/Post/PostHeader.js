@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
-import PostExtraOptions from '../PostExtraOptions';
+import ExtraOptions from '../ExtraOptions';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {
@@ -79,7 +79,7 @@ const PostHeader = (props) => {
           {displayNameTimeAgo}
         </View>
       </View>
-      <PostExtraOptions postId={postId} optionType={'post'} />
+      <ExtraOptions id={postId} type={'post'} />
     </View>
   );
 };

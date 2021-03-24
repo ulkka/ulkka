@@ -3,6 +3,31 @@ import {View, Image, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-crop-picker';
+import Snackbar from 'react-native-snackbar';
+
+const validateMedia = (media) => {
+  const {mime: mimeType, size} = media;
+  const type = mimeType.substring(0, mimeType.indexOf('/'));
+  if (type == 'image') {
+    if (size > 10000000) {
+      Snackbar.show({
+        text: 'Please select an image with size lesser than 10MB',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      return false;
+    }
+  }
+  if (type == 'video') {
+    if (size > 10000000) {
+      Snackbar.show({
+        text: 'Please select a video with size lesser than 10MB',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      return false;
+    }
+  }
+  return true;
+};
 
 export const MediaField = (props) => {
   const {mediaType, media, resetMedia, setMedia} = props;
@@ -15,22 +40,25 @@ export const MediaField = (props) => {
       .then((media) => {
         // since ios and android responses are different and to accomodate gifs
         console.log('Selected Media - ', media);
-        if ('filename' in media) {
-          let fileFormat = media.filename.split('.').pop();
-          if (
-            (fileFormat == 'gif' || fileFormat == 'GIF') &&
-            media.mime == 'image/jpeg'
-          ) {
-            media.mime = 'image/gif';
-            media.path = media.sourceURL;
+        const isMediaValid = validateMedia(media);
+        if (isMediaValid) {
+          if ('filename' in media) {
+            let fileFormat = media.filename.split('.').pop();
+            if (
+              (fileFormat == 'gif' || fileFormat == 'GIF') &&
+              media.mime == 'image/jpeg'
+            ) {
+              media.mime = 'image/gif';
+              media.path = media.sourceURL;
+            }
           }
+          let filename = media.path.substring(
+            media.path.lastIndexOf('/') + 1,
+            media.path.length,
+          );
+          media.filename = filename;
+          setMedia(media);
         }
-        let filename = media.path.substring(
-          media.path.lastIndexOf('/') + 1,
-          media.path.length,
-        );
-        media.filename = filename;
-        setMedia(media);
       })
       .catch((error) => {
         console.log(error);
