@@ -46,6 +46,8 @@
 	            <!-- For a full list of available options, visit https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AppExtensionKeys.html#//apple_ref/doc/uid/TP40014212-SW10 -->
             <key>NSExtensionActivationSupportsImageWithMaxCount</key>
             <integer>1</integer>
+			 <key>NSExtensionActivationSupportsMovieWithMaxCount</key>
+            <integer>1</integer>
             <key>NSExtensionActivationSupportsText</key>
             <true/>
             <key>NSExtensionActivationSupportsWebURLWithMaxCount</key>

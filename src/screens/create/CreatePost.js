@@ -216,17 +216,16 @@ export default function CreatePost({route}) {
       case 'gif':
       case 'video':
       case 'image':
-        console.log('uploading media from path - ', media.path);
+        console.log('uploading media ', media);
         var data = fileFormDataCreator();
         let source = createNewAxiosClientSource();
-
         response = await utilityApi.media.upload(
           data,
           uploadProgress((percent) => setUploadPercent(percent)),
           source.token,
         );
 
-        console.log('respone after media uplaod', response);
+        console.log('respone after media upload', response);
         if (!(response.error || response.data.name == 'Error')) {
           dispatchPost(payloadCreator(type, response));
         } else {

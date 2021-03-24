@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import React, {useEffect, useCallback} from 'react';
+import {View} from 'react-native';
 import ShareMenu from 'react-native-share-menu';
 import {navigate} from '../navigation/Ref';
 
@@ -9,25 +9,15 @@ type SharedItem = {
 };
 
 const ShareMenuHandler: () => React$Node = () => {
-  const [sharedData, setSharedData] = useState('');
-  const [sharedMimeType, setSharedMimeType] = useState('');
-  const [sharedExtraData, setSharedExtraData] = useState(null);
-
   const handleShare = useCallback((item: ?SharedItem) => {
     if (!item) {
       return;
     }
 
-    const {mimeType, data, extraData} = item;
-
     navigate('CreatePost', {
       type: 'text',
       item: item,
     });
-
-    setSharedData(data);
-    setSharedExtraData(extraData);
-    setSharedMimeType(mimeType);
   }, []);
 
   useEffect(() => {
@@ -42,56 +32,7 @@ const ShareMenuHandler: () => React$Node = () => {
     };
   }, []);
 
-  return (
-    /*  <View style={styles.container}>
-      <Text style={styles.welcome}>React Native Share Menu</Text>
-      <Text style={styles.instructions}>Shared type: {sharedMimeType}</Text>
-      <Text style={styles.instructions}>
-        Shared text: {sharedMimeType === 'text/plain' ? sharedData : ''}
-      </Text>
-      <Text style={styles.instructions}>Shared image:</Text>
-      {sharedMimeType.startsWith('image/') && (
-        <Image
-          style={styles.image}
-          source={{uri: sharedData}}
-          resizeMode="contain"
-        />
-      )}
-      <Text style={styles.instructions}>
-        Shared file:{' '}
-        {sharedMimeType !== 'text/plain' && !sharedMimeType.startsWith('image/')
-          ? sharedData
-          : ''}
-      </Text>
-      <Text style={styles.instructions}>
-        Extra data: {sharedExtraData ? JSON.stringify(sharedExtraData) : ''}
-      </Text>
-    </View>*/
-    <View></View>
-  );
+  return <View></View>;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  image: {
-    width: '100%',
-    height: 200,
-  },
-});
 
 export default ShareMenuHandler;

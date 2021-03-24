@@ -4,7 +4,7 @@ import {Input} from 'react-native-elements';
 
 export const PostTitleField = (props) => {
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, marginVertical: 10}}>
       <Input
         style={{
           height: 40,
