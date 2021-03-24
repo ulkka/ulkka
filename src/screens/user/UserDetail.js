@@ -1,5 +1,12 @@
 import React, {useEffect, memo} from 'react';
-import {View, Text, ActivityIndicator, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Icon, Divider} from 'react-native-elements';
 import Posts from './tabs/Posts';
@@ -11,6 +18,8 @@ import {
   getUserDisplayname,
   getUserTotalKarma,
 } from '../../redux/reducers/UserSlice';
+import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
+import {signout} from '../../redux/actions/AuthActions';
 import TimeAgo from '../../components/TimeAgo';
 
 const Tab = createMaterialTopTabNavigator();
@@ -18,6 +27,10 @@ const Tab = createMaterialTopTabNavigator();
 const AccountDetail = memo((props) => {
   console.log('running account detail in userdetail.js');
   const {userId} = props;
+
+  const registeredUser = useSelector(getRegisteredUser);
+
+  const isProfile = userId == registeredUser?._id;
 
   const userTotalKarma = useSelector((state) =>
     getUserTotalKarma(state, userId),
@@ -72,6 +85,32 @@ const AccountDetail = memo((props) => {
     <ActivityIndicator size="small" color="#4285f4" />
   );
 
+  const signoutConfirmationAlert = () =>
+    Alert.alert('Log out ?', null, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => signOut()},
+    ]);
+
+  const signOut = async () => {
+    try {
+      dispatch(signout());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const logoutButton = (
+    <TouchableOpacity
+      style={{paddingRight: 5}}
+      onPress={() => signoutConfirmationAlert()}>
+      <Text style={{color: '#2a9df4'}}>Logout</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View
       style={{
@@ -82,7 +121,15 @@ const AccountDetail = memo((props) => {
         paddingVertical: 20,
         paddingHorizontal: 10,
       }}>
-      {userAvatarAndDisplayName}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        {userAvatarAndDisplayName}
+        {isProfile && logoutButton}
+      </View>
       <View
         style={{
           flexDirection: 'row',

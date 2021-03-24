@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import {ListItem, Divider, Button, Overlay} from 'react-native-elements';
 import {
   hideOptionSheet,
@@ -46,8 +46,20 @@ export default function OptionSheet() {
       titleStyle: {fontSize: 14},
       containerStyle: listItemStyle,
       onPress: () => {
-        dispatch(deletePost(id));
-        dispatch(hideOptionSheet());
+        Alert.alert('Delete Post ?', null, [
+          {
+            text: 'Cancel',
+            onPress: () => dispatch(hideOptionSheet()),
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              dispatch(deletePost(id));
+              dispatch(hideOptionSheet());
+            },
+          },
+        ]);
       },
     },
   ];

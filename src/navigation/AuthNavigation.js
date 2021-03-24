@@ -4,16 +4,19 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {
   getAuthStatus,
   getRegistrationStatus,
+  getRegisteredUser,
 } from '../redux/reducers/AuthSlice';
 import {useSelector} from 'react-redux';
-import MyAccount from '../screens/home/MyAccount';
+//import MyAccount from '../screens/home/MyAccount';
 import RegisterAccount from '../screens/auth/RegisterAccount';
 import Login from '../screens/auth/Login';
+import UserDetail from '../screens/user/UserDetail';
 
 export const AuthNavigation = () => {
   const StackNav = createStackNavigator();
   const isRegistered = useSelector(getRegistrationStatus);
   const authStatus = useSelector(getAuthStatus);
+  const registeredUser = useSelector(getRegisteredUser);
 
   const headerStyle =
     Platform.OS == 'ios'
@@ -39,14 +42,16 @@ export const AuthNavigation = () => {
       <StackNav.Screen
         name={
           isRegistered
-            ? 'My Account'
+            ? // ? 'My Account'
+              'My Account'
             : authStatus != 'AUTHENTICATED'
             ? 'Login'
             : 'Register Account'
         }
         component={
           isRegistered
-            ? MyAccount
+            ? // ? MyAccount
+              UserDetail
             : authStatus != 'AUTHENTICATED'
             ? Login
             : RegisterAccount
@@ -58,6 +63,7 @@ export const AuthNavigation = () => {
             ? 'Login'
             : 'Register Account'
         }
+        initialParams={{userId: registeredUser?._id}}
       />
     </StackNav.Navigator>
   );
