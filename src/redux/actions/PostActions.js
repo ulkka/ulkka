@@ -43,3 +43,19 @@ export const votePost = createAsyncThunk(
     dispatchConditionRejection: true,
   },
 );
+
+export const deletePost = createAsyncThunk(
+  'posts/delete',
+  async (id, thunkAPI) => {
+    let response = await postApi.post.delete(id);
+    return id;
+  },
+  {
+    condition: (id, {getState}) => {
+      const isRegistered = getState().authorization.isRegistered;
+      const access = isRegistered ? true : false;
+      return access;
+    },
+    dispatchConditionRejection: true,
+  },
+);

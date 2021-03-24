@@ -10,6 +10,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import {getId, getType, getReport} from '../redux/reducers/OptionSheetSlice';
 import Report from './Report';
+import {getPostAuthorId} from '../redux/selectors/PostSelectors';
+import {getRegisteredUser} from '../redux/reducers/AuthSlice';
+import {deletePost} from '../redux/actions/PostActions';
+import Snackbar from 'react-native-snackbar';
 
 export default function OptionSheet() {
   const dispatch = useDispatch();
@@ -19,23 +23,31 @@ export default function OptionSheet() {
   const type = useSelector(getType);
   const isReport = useSelector(getReport);
 
+  const authorId = useSelector((state) => getPostAuthorId(state, id));
+  const currentUser = useSelector(getRegisteredUser);
+
+  const currentUserisAuthor = authorId == currentUser?._id;
+
   console.log('option sheet', id, type);
   const listItemStyle = {
     borderRadius: 5,
   };
   const list = [
-    {
+    !currentUserisAuthor && {
+      // dont show report option if current user same as author
       title: 'Report',
       titleStyle: {fontSize: 14},
       containerStyle: listItemStyle,
       onPress: () => dispatch(showReportOptions({type: type, id: id})),
     },
-    {
+    currentUserisAuthor && {
+      // show delete option only of current user is same as author
       title: 'Delete',
       titleStyle: {fontSize: 14},
       containerStyle: listItemStyle,
       onPress: () => {
-        console.log('deleting post');
+        dispatch(deletePost(id));
+        dispatch(hideOptionSheet());
       },
     },
   ];
@@ -46,18 +58,23 @@ export default function OptionSheet() {
         alignSelf: 'center',
       }}>
       <View>
-        {list.map((l, i) => (
-          <ListItem
-            key={i}
-            containerStyle={l.containerStyle}
-            bottomDivider={true}>
-            <TouchableOpacity onPress={l.onPress} style={{flex: 1}}>
-              <ListItem.Content style={{alignItems: 'center'}}>
-                <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-              </ListItem.Content>
-            </TouchableOpacity>
-          </ListItem>
-        ))}
+        {list.map(
+          (l, i) =>
+            l?.title && (
+              <ListItem
+                key={i}
+                containerStyle={l.containerStyle}
+                bottomDivider={true}>
+                <TouchableOpacity onPress={l.onPress} style={{flex: 1}}>
+                  <ListItem.Content style={{alignItems: 'center'}}>
+                    <ListItem.Title style={l.titleStyle}>
+                      {l.title}
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </TouchableOpacity>
+              </ListItem>
+            ),
+        )}
       </View>
       <Divider
         style={{

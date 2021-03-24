@@ -25,6 +25,11 @@ const postApi = {
       );
       return response;
     },
+    async delete(postId) {
+      const client = await mainClient;
+      let response = await client.delete(POST_URI + '/' + postId);
+      return response;
+    },
     async report(postId, reason) {
       const client = await mainClient;
       const data = {
@@ -66,6 +71,11 @@ const postApi = {
         };
       }
       let response = await client.post(COMMENT_URI, payload);
+      return response;
+    },
+    async delete(commentId) {
+      const client = await mainClient;
+      let response = await client.delete(COMMENT_URI + '/' + commentId);
       return response;
     },
     async report(commentId, reason) {

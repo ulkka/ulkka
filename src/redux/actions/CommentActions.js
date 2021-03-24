@@ -53,3 +53,19 @@ export const voteComment = createAsyncThunk(
     dispatchConditionRejection: true,
   },
 );
+
+export const deleteComment = createAsyncThunk(
+  'comments/delete',
+  async (id) => {
+    let response = await postApi.comment.delete(id);
+    return response;
+  },
+  {
+    condition: ({id, voteType}, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      return access;
+    },
+    dispatchConditionRejection: true,
+  },
+);

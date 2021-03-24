@@ -51,7 +51,7 @@ const SharePost = (props) => {
               : mediaUrl,
         },
       },
-      dynamicLinks.ShortLinkType.UNGUESSABLE,
+      dynamicLinks.ShortLinkType.SHORT,
     );
 
     return link;

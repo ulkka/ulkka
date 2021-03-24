@@ -2,7 +2,8 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import {fetchFeed} from '../actions/FeedActions';
 import {createReply} from './ReplySlice';
 import {signout, socialAuth} from '../actions/AuthActions';
-import {votePost, createPost} from '../actions/PostActions';
+import {votePost, createPost, deletePost} from '../actions/PostActions';
+import Snackbar from 'react-native-snackbar';
 
 const postAdapter = createEntityAdapter({selectId: (post) => post._id});
 
@@ -44,6 +45,19 @@ export const slice = createSlice({
           postAdapter.addMany(state, posts);
         }
       }
+    },
+    [deletePost.fulfilled]: (state, action) => {
+      const postId = action.payload;
+      postAdapter.updateOne(state, {
+        id: postId,
+        changes: {
+          status: 'deleted',
+        },
+      });
+      Snackbar.show({
+        text: 'Post deleted',
+        duration: Snackbar.LENGTH_SHORT,
+      });
     },
     [signout.fulfilled]: (state) => {
       //resetAllFeeds(state);

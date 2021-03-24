@@ -1,7 +1,7 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import {signout} from '../actions/AuthActions';
 import {fetchFeed} from '../actions/FeedActions';
-import {createPost} from '../actions/PostActions';
+import {createPost, deletePost} from '../actions/PostActions';
 
 const feedAdapter = createEntityAdapter({
   selectId: (post) => post._id,
@@ -192,6 +192,17 @@ export const slice = createSlice({
       const newPost = intialEntityState(newPostId);
       homeScreen.entities[newPostId] = newPost;
       homeScreen.ids.unshift(newPostId); // to bring the newly added post to the top of current users home feed
+    },
+    [deletePost.fulfilled]: (state, action) => {
+      const postId = action.payload;
+      const screenList = state.screens;
+      for (var screen in screenList) {
+        if (Object.prototype.hasOwnProperty.call(screenList, screen)) {
+          const screenFeed = state.screens[screen];
+          const isPostDetail = screen.indexOf('PostDetail') == 0;
+          !isPostDetail && feedAdapter.removeOne(screenFeed, postId);
+        }
+      }
     },
     [signout.fulfilled]: (state) => {
       //resetAllFeeds(state);

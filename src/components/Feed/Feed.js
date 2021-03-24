@@ -36,7 +36,6 @@ function Feed(props) {
   const dispatch = useDispatch();
 
   const {screen} = props;
-  dispatch(initialiseFeed(screen));
 
   const authStatus = useSelector(getAuthStatus);
 
@@ -60,6 +59,7 @@ function Feed(props) {
 
   useEffect(() => {
     if (authStatus != 'UNAUTHENTICATED') {
+      dispatch(initialiseFeed(screen));
       dispatch(fetchFeed(screen));
     }
   }, [authStatus]);
