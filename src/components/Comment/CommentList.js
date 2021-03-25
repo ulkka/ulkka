@@ -23,8 +23,6 @@ function CommentList(props) {
 
   const isRegistered = useSelector(getRegistrationStatus);
 
-  console.log('running commentList', postId);
-
   useEffect(() => {
     dispatch(fetchComments({postId: postId}));
   }, [isRegistered]);

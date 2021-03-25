@@ -7,7 +7,6 @@ import CommentFooter from './CommentFooter';
 
 function Comment(props) {
   const {commentId, children} = props;
-  console.log('running comment', commentId);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);

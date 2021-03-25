@@ -8,7 +8,6 @@ const SingleCommentThread = memo((props) => {
   const {commentId} = props;
 
   const replies = useSelector((state) => getCommentReplies(state, commentId));
-  console.log('running single comment thread', commentId);
 
   return (
     <Comment commentId={commentId} key={commentId}>

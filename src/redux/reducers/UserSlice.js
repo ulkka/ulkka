@@ -73,16 +73,6 @@ export const {
   selectTotal: selectTotalUsers,
 } = userAdapter.getSelectors((state) => state.users);
 
-const createUserByIdEqualitySelector = createSelectorCreator(
-  defaultMemoize,
-  () => {
-    return true;
-  },
-);
-
-export const memoizedFlatUserByIdSelector = () =>
-  createUserByIdEqualitySelector(selectUserById, (user) => user);
-
 export const getUserCreatedAt = (state, id) =>
   selectUserById(state, id).created_at;
 
