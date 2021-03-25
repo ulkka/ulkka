@@ -1,52 +1,38 @@
-import {createSelector} from '@reduxjs/toolkit';
 import {selectCommentById} from '../reducers/CommentSlice';
-import {selectUserEntities} from '../reducers/UserSlice';
-import {createSelectorCreator, defaultMemoize} from 'reselect';
+import {selectUserById} from '../reducers/UserSlice';
+import createCachedSelector from 're-reselect';
 
-export const getParentCommentIdsSelector = () => (state, postId) =>
+export const getParentCommentIdsOfPost = (state, postId) =>
   state.comments.posts[postId]?.parentCommentIds;
-
-export const getUserCommentsSelector = (state, userId) =>
-  state.comments.users[userId]?.parentCommentIds;
 
 export const isLoadingSelector = () => (state, postId) =>
   state.comments.posts[postId]?.loading;
 
-export const getCommentUserVoteSelector = () => {
-  return createSelector(selectCommentById, (comment) => comment.userVote);
-};
+export const areCommentsLoading = (state, postId) =>
+  state.comments.posts[postId]?.loading;
 
-export const getCommentVoteCountSelector = () => {
-  return createSelector(selectCommentById, (comment) => comment.voteCount);
-};
+export const getCommentUserVote = (state, id) =>
+  selectCommentById(state, id)?.userVote;
 
-// return the selector so that each comment thread would have different selectors
-// and memoize can work properly https://github.com/reduxjs/reselect#sharing-selectors-with-props-across-multiple-component-instances
-const createCommentByIdEqualitySelector = createSelectorCreator(
-  defaultMemoize,
-  (a, b) => {
-    return a.replies.length == b.replies.length;
-  },
-);
+export const getCommentVoteCount = (state, id) =>
+  selectCommentById(state, id)?.voteCount;
 
-const memoizedSelectCommentById = () =>
-  createCommentByIdEqualitySelector(selectCommentById, (comment) => comment);
+export const getCommentCreatedAt = (state, id) =>
+  selectCommentById(state, id)?.created_at;
 
-const getFlatCommentByIdSelector = () => {
-  return createSelector(
-    [memoizedSelectCommentById(), selectUserEntities],
-    (comment, userEntities) => {
-      const flatComment = {
-        ...comment,
-        authorDetail: userEntities[comment.author],
-      };
-      return flatComment;
-    },
-  );
-};
+export const getCommentText = (state, id) => selectCommentById(state, id)?.text;
 
-export const memoizedGetFlatCommentByIdSelector = () =>
-  createCommentByIdEqualitySelector(
-    getFlatCommentByIdSelector(),
-    (comment) => comment,
-  );
+export const getCommentReplies = (state, id) =>
+  selectCommentById(state, id)?.replies;
+
+export const getCommentAuthorId = (state, id) =>
+  selectCommentById(state, id)?.author;
+
+export const getCommentAuthorDisplayname = createCachedSelector(
+  (state) => state,
+  getCommentAuthorId,
+  (state, authorId) => selectUserById(state, authorId)?.displayname,
+)((state, id) => id);
+
+export const getUserCommentsSelector = (state, userId) =>
+  state.comments.users[userId]?.parentCommentIds;

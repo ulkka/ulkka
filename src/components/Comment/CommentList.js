@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {View, ActivityIndicator, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  isLoadingSelector,
-  getParentCommentIdsSelector,
+  getParentCommentIdsOfPost,
+  areCommentsLoading,
 } from '../../redux/selectors/CommentSelectors';
 import {fetchComments} from '../../redux/actions/CommentActions';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
@@ -16,16 +16,14 @@ function CommentList(props) {
 
   const {postId} = props;
 
-  const getIsLoading = isLoadingSelector();
-  const getParentCommentIds = getParentCommentIdsSelector();
+  const loading = useSelector((state) => areCommentsLoading(state, postId));
+  const parentCommentIds = useSelector((state) =>
+    getParentCommentIdsOfPost(state, postId),
+  );
 
-  const loading = useSelector((state) => getIsLoading(state, postId));
   const isRegistered = useSelector(getRegistrationStatus);
 
-  const parentCommentIds = useSelector((state) =>
-    getParentCommentIds(state, postId),
-  );
-  console.log('running commentList');
+  console.log('running commentList', postId);
 
   useEffect(() => {
     dispatch(fetchComments({postId: postId}));

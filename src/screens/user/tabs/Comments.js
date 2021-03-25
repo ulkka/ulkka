@@ -17,7 +17,6 @@ const CommentRow = memo((props) => {
   const text = comment?.text;
   const voteCount = comment?.voteCount;
   const postId = comment?.post?._id;
-  console.log('comment row', comment, title);
 
   const textField = (
     <Text

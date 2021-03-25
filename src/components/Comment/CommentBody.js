@@ -1,8 +1,13 @@
 import React, {memo, useState, useCallback} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {useSelector} from 'react-redux';
+import {getCommentText} from '../../redux/selectors/CommentSelectors';
 
 const CommentBody = (props) => {
-  const {text} = props;
+  const {commentId} = props;
+
+  const text = useSelector((state) => getCommentText(state, commentId));
+
   const [showMore, setShowMore] = useState(false);
   const [textHidden, setTextHidden] = useState(true);
 

@@ -9,25 +9,23 @@ import {
   getPostVoteCount,
 } from '../redux/selectors/PostSelectors';
 import {
-  getCommentUserVoteSelector,
-  getCommentVoteCountSelector,
+  getCommentUserVote,
+  getCommentVoteCount,
 } from '../redux/selectors/CommentSelectors';
 
 export function Vote(props) {
   const dispatch = useDispatch();
   const {id, entityType} = props;
-  const commentUserVoteSelector = getCommentUserVoteSelector();
-  const commentVoteCountSelector = getCommentVoteCountSelector();
 
   const userVote =
     entityType == 'post'
       ? useSelector((state) => getPostUserVote(state, id))
-      : useSelector((state) => commentUserVoteSelector(state, id));
+      : useSelector((state) => getCommentUserVote(state, id));
 
   const voteCount =
     entityType == 'post'
       ? useSelector((state) => getPostVoteCount(state, id))
-      : useSelector((state) => commentVoteCountSelector(state, id));
+      : useSelector((state) => getCommentVoteCount(state, id));
 
   const vote = (type) => {
     let voteType = userVote == type ? 0 : type;

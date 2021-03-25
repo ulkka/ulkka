@@ -42,16 +42,14 @@ export const AuthNavigation = () => {
       <StackNav.Screen
         name={
           isRegistered
-            ? // ? 'My Account'
-              'My Account'
+            ? 'My Account'
             : authStatus != 'AUTHENTICATED'
             ? 'Login'
             : 'Register Account'
         }
         component={
           isRegistered
-            ? // ? MyAccount
-              UserDetail
+            ? UserDetail
             : authStatus != 'AUTHENTICATED'
             ? Login
             : RegisterAccount

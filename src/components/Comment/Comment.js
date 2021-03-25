@@ -6,8 +6,8 @@ import CommentBody from './CommentBody';
 import CommentFooter from './CommentFooter';
 
 function Comment(props) {
-  const {commentId, authorDisplayname, created_at, text, authorId} = props;
-
+  const {commentId, children} = props;
+  console.log('running comment', commentId);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -21,16 +21,14 @@ function Comment(props) {
         paddingBottom: 5,
       }}>
       <CommentMetadata
+        commentId={commentId}
         onPressToggleCollapse={toggleCollapse}
         isCollapsed={isCollapsed}
-        authorDisplayname={authorDisplayname}
-        createdAt={created_at}
-        authorId={authorId}
       />
       <Collapsible collapsed={isCollapsed} duration={50} collapsedHeight={5}>
-        <CommentBody text={text} />
+        <CommentBody commentId={commentId} />
         <CommentFooter commentId={commentId} />
-        {props.children}
+        {children}
       </Collapsible>
     </View>
   );

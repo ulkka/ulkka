@@ -61,7 +61,7 @@ export const deleteComment = createAsyncThunk(
     return response;
   },
   {
-    condition: ({id, voteType}, {getState}) => {
+    condition: (id, {getState}) => {
       const authStatus = getState().authorization.status;
       const access = authStatus == 'AUTHENTICATED' ? true : false;
       return access;

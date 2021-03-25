@@ -2,36 +2,20 @@ import React, {memo} from 'react';
 import Comment from './Comment';
 import CommentGroup from './CommentGroup';
 import {useSelector} from 'react-redux';
-import {memoizedGetFlatCommentByIdSelector} from '../../redux/selectors/CommentSelectors';
+import {getCommentReplies} from '../../redux/selectors/CommentSelectors';
 
 const SingleCommentThread = memo((props) => {
-  const {commentId, postId} = props;
+  const {commentId} = props;
 
-  const getFlatCommentSelector = memoizedGetFlatCommentByIdSelector();
-  const comment = useSelector((state) =>
-    getFlatCommentSelector(state, commentId),
-  );
-  const {authorDetail, created_at, text, replies} = comment;
-  const {_id: authorId, displayname} = authorDetail;
-  console.log('running single comment thread');
+  const replies = useSelector((state) => getCommentReplies(state, commentId));
+  console.log('running single comment thread', commentId);
+
   return (
-    <Comment
-      commentId={commentId}
-      key={commentId}
-      authorId={authorId}
-      authorDisplayname={displayname}
-      created_at={created_at}
-      text={text}>
-      {replies === undefined ? null : (
+    <Comment commentId={commentId} key={commentId}>
+      {!replies || !replies?.length ? null : (
         <CommentGroup parent={commentId} key={commentId}>
           {replies.map((replyId) => {
-            return (
-              <SingleCommentThread
-                commentId={replyId}
-                key={replyId}
-                postId={postId}
-              />
-            );
+            return <SingleCommentThread commentId={replyId} key={replyId} />;
           })}
         </CommentGroup>
       )}
