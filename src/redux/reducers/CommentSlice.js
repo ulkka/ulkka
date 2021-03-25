@@ -1,7 +1,11 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import {createReply} from './ReplySlice';
 import Snackbar from 'react-native-snackbar';
-import {fetchComments, voteComment} from '../actions/CommentActions';
+import {
+  deleteComment,
+  fetchComments,
+  voteComment,
+} from '../actions/CommentActions';
 
 const commentAdapter = createEntityAdapter({
   selectId: (comment) => comment._id,
@@ -97,7 +101,24 @@ export const slice = createSlice({
         duration: Snackbar.LENGTH_SHORT,
       });
     },
+    [deleteComment.fulfilled]: (state, action) => {
+      const commentId = action.payload;
 
+      const comment = commentAdapter
+        .getSelectors()
+        .selectById(state, commentId);
+      commentAdapter.upsertOne(state, {...comment, status: 'deleted'});
+      /*commentAdapter.updateOne(state, {
+        id: commentId,
+        changes: {
+          status: 'deleted',
+        },
+      });*/
+      Snackbar.show({
+        text: 'Comment deleted',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    },
     [voteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const comment = state.entities[id];

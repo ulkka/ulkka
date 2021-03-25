@@ -22,6 +22,9 @@ export const getCommentCreatedAt = (state, id) =>
 
 export const getCommentText = (state, id) => selectCommentById(state, id)?.text;
 
+export const getCommentStatus = (state, id) =>
+  selectCommentById(state, id)?.status;
+
 export const getCommentReplies = (state, id) =>
   selectCommentById(state, id)?.replies;
 

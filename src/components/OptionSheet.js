@@ -11,9 +11,10 @@ import {TouchableOpacity} from 'react-native';
 import {getId, getType, getReport} from '../redux/reducers/OptionSheetSlice';
 import Report from './Report';
 import {getPostAuthorId} from '../redux/selectors/PostSelectors';
+import {getCommentAuthorId} from '../redux/selectors/CommentSelectors';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
 import {deletePost} from '../redux/actions/PostActions';
-import Snackbar from 'react-native-snackbar';
+import {deleteComment} from '../redux/actions/CommentActions';
 
 export default function OptionSheet() {
   const dispatch = useDispatch();
@@ -23,7 +24,11 @@ export default function OptionSheet() {
   const type = useSelector(getType);
   const isReport = useSelector(getReport);
 
-  const authorId = useSelector((state) => getPostAuthorId(state, id));
+  const authorId =
+    type == 'post'
+      ? useSelector((state) => getPostAuthorId(state, id))
+      : useSelector((state) => getCommentAuthorId(state, id));
+
   const currentUser = useSelector(getRegisteredUser);
 
   const currentUserisAuthor = authorId == currentUser?._id;
@@ -46,7 +51,7 @@ export default function OptionSheet() {
       titleStyle: {fontSize: 14},
       containerStyle: listItemStyle,
       onPress: () => {
-        Alert.alert('Delete Post ?', null, [
+        Alert.alert('Delete ' + type + ' ?', null, [
           {
             text: 'Cancel',
             onPress: () => dispatch(hideOptionSheet()),
@@ -55,7 +60,9 @@ export default function OptionSheet() {
           {
             text: 'OK',
             onPress: () => {
-              dispatch(deletePost(id));
+              type == 'post'
+                ? dispatch(deletePost(id))
+                : dispatch(deleteComment(id));
               dispatch(hideOptionSheet());
             },
           },

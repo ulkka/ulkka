@@ -17,15 +17,21 @@ const CommentRow = memo((props) => {
   const text = comment?.text;
   const voteCount = comment?.voteCount;
   const postId = comment?.post?._id;
+  const status = comment?.status;
 
-  const textField = (
-    <Text
-      ellipsizeMode={'tail'}
-      numberOfLines={5}
-      style={{padding: 5, color: '#333'}}>
-      {text}
-    </Text>
-  );
+  const textField =
+    status != 'deleted' ? (
+      <Text
+        ellipsizeMode={'tail'}
+        numberOfLines={5}
+        style={{padding: 5, color: '#333'}}>
+        {text}
+      </Text>
+    ) : (
+      <Text style={{padding: 5, color: '#333'}}>
+        {' -- comment deleted -- '}
+      </Text>
+    );
 
   const voteCountField = (
     <View
@@ -111,7 +117,6 @@ export default function Comments(props) {
   console.log('running comments tab');
 
   useEffect(() => {
-    console.log('useeffect in  comments tab');
     dispatch(fetchComments({userId: userId}));
   }, [isRegistered]);
 

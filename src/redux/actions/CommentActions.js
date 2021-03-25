@@ -58,7 +58,7 @@ export const deleteComment = createAsyncThunk(
   'comments/delete',
   async (id) => {
     let response = await postApi.comment.delete(id);
-    return response;
+    return id;
   },
   {
     condition: (id, {getState}) => {

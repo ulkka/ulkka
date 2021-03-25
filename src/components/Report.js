@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import {CheckBox, Divider, Button, Icon} from 'react-native-elements';
 import {hideOptionSheet} from '../redux/reducers/OptionSheetSlice';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import postApi from '../services/PostApi';
 import Snackbar from 'react-native-snackbar';
 
@@ -11,6 +11,8 @@ const Report = (props) => {
 
   const {id, type} = props;
   const [selectedReportOption, setSelectedReportOption] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const list = [
     {
       title: 'Sexual content',
@@ -36,11 +38,13 @@ const Report = (props) => {
   ];
 
   const reportPost = async () => {
+    setLoading(true);
     const response =
       type == 'post'
         ? await postApi.post.report(id, selectedReportOption)
         : await postApi.comment.report(id, selectedReportOption);
     if (response?.data?.success) {
+      setLoading(false);
       setTimeout(
         () =>
           Snackbar.show({
@@ -51,6 +55,7 @@ const Report = (props) => {
       );
       dispatch(hideOptionSheet());
     } else {
+      setLoading(false);
       setTimeout(
         () =>
           Snackbar.show({
@@ -125,7 +130,16 @@ const Report = (props) => {
     />
   ));
 
-  return (
+  return loading ? (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        minHeight: 300,
+      }}>
+      <ActivityIndicator size="large" color="#2a9df4" />
+    </View>
+  ) : (
     <View
       style={{
         flex: 1,
