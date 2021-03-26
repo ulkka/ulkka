@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {View, Text, Platform} from 'react-native';
+import {View, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getPostTitle} from '../../redux/selectors/PostSelectors';
 
@@ -12,7 +12,7 @@ const PostTitle = (props) => {
         style={{
           fontSize: 15,
           paddingVertical: 10,
-          marginLeft: Platform.OS == 'ios' ? 3 : 0,
+          marginLeft: 3,
           fontWeight: 'bold',
           color: '#555',
         }}>

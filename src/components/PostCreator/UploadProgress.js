@@ -13,6 +13,7 @@ export const ShowSubmitProgress = (props) => {
 
   return (
     <Overlay
+      statusBarTranslucent={true}
       isVisible={isVisible}
       animationType="none"
       fullScreen

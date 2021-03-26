@@ -46,7 +46,7 @@ export function scaleHeightAndWidthAccordingToDimensions(data, type, screen) {
     const heightPercentOfTotalWindowHeight =
       (height / Dimensions.get('window').height) * 100;
 
-    const heightThreshold = screen == 'PostDetail' ? 75 : 65;
+    const heightThreshold = 75;
     height =
       heightPercentOfTotalWindowHeight > heightThreshold
         ? Dimensions.get('window').height / (100 / heightThreshold)

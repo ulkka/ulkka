@@ -20,7 +20,11 @@ export default function ShowSubmitStatus(props) {
   }, [props.data]);
 
   return (
-    <Modal visible={visible} transparent={false} animationType="none">
+    <Modal
+      statusBarTranslucent={true}
+      visible={visible}
+      transparent={false}
+      animationType="none">
       <View
         style={{
           flex: 1,

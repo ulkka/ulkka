@@ -120,6 +120,7 @@ export default function CreatePostButtonOverlay(props) {
   const PopupView = (
     <Overlay
       isVisible={enableOverlay}
+      statusBarTranslucent={true}
       onBackdropPress={toggleOverlay}
       overlayStyle={{
         position: 'absolute',
@@ -130,6 +131,7 @@ export default function CreatePostButtonOverlay(props) {
       }}
       backdropStyle={{
         backgroundColor: '#000',
+
         opacity: 0.2,
       }}>
       <View>

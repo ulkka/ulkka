@@ -171,6 +171,7 @@ export default function SearchableDropdown(props) {
   return (
     <View style={{}}>
       <Modal
+        statusBarTranslucent={true}
         transparent={true}
         animationType="slide"
         visible={visible}

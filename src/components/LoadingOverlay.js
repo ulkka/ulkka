@@ -19,7 +19,11 @@ export default function LoadingOverlay() {
     </View>
   );
   return (
-    <Modal visible={visible} transparent={true} animationType="none">
+    <Modal
+      statusBarTranslucent={true}
+      visible={visible}
+      transparent={true}
+      animationType="none">
       {LoadingView}
     </Modal>
   );

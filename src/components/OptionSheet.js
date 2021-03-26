@@ -112,6 +112,7 @@ export default function OptionSheet() {
   return (
     <Overlay
       isVisible={visible}
+      statusBarTranslucent={true}
       onBackdropPress={() => dispatch(hideOptionSheet())}
       overlayStyle={{
         position: 'absolute',
