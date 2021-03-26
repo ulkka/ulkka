@@ -126,6 +126,11 @@ const Report = (props) => {
       checkedColor="#2a9df4"
       checked={l.title == selectedReportOption}
       textStyle={{fontWeight: '300'}}
+      containerStyle={{
+        backgroundColor: '#fafafa',
+        borderRadius: 12,
+        borderColor: '#eee',
+      }}
       onPress={() => setSelectedReportOption(l.title)}
     />
   ));

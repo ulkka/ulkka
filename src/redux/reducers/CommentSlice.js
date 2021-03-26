@@ -1,5 +1,5 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
-import {createReply} from './ReplySlice';
+import {createReply} from './CommentWriterSlice';
 import Snackbar from 'react-native-snackbar';
 import {
   deleteComment,

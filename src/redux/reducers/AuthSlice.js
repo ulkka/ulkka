@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {voteComment} from '../actions/CommentActions';
 import {votePost} from '../actions/PostActions';
-import {createReply, activate, prepareReply} from './ReplySlice';
+import {createReply, activate, prepareReply} from './CommentWriterSlice';
 import {
   signout,
   fulfillAuth,

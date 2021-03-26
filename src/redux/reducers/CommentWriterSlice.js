@@ -72,7 +72,7 @@ export const activate = createAsyncThunk(
 );
 
 export const slice = createSlice({
-  name: 'commentCreator',
+  name: 'commentWriter',
   initialState: {
     reply_to: 'post',
     post_id: null,
@@ -118,15 +118,15 @@ export const slice = createSlice({
   },
 });
 
-export const getCommentId = (state) => state.commentCreator.comment_id;
+export const getCommentId = (state) => state.commentWriter.comment_id;
 
-export const isActive = (state) => state.commentCreator.active;
+export const isActive = (state) => state.commentWriter.active;
 
-export const isLoading = (state) => state.commentCreator.loading;
+export const isLoading = (state) => state.commentWriter.loading;
 
 export const getResetCommentToggle = (state) =>
-  state.commentCreator.resetCommentToggle;
+  state.commentWriter.resetCommentToggle;
 
-export const commentCreator = slice.reducer;
+export const commentWriter = slice.reducer;
 
 export const {deactivate} = slice.actions;

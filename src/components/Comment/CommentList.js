@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator, Text} from 'react-native';
+import {View, ActivityIndicator, Text, Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getParentCommentIdsOfPost,
@@ -93,7 +93,7 @@ function CommentList(props) {
   const nonEmptyCommentView = (
     <View
       style={{
-        marginBottom: 25,
+        marginBottom: Platform.OS == 'ios' ? 35 : 5,
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
       }}>

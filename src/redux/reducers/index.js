@@ -5,7 +5,7 @@ import {createLogger} from 'redux-logger';
 import {posts} from './PostSlice';
 import {users} from './UserSlice';
 import {comments} from './CommentSlice';
-import {commentCreator} from './ReplySlice';
+import {commentWriter} from './CommentWriterSlice';
 import {authorization} from './AuthSlice';
 import {loadingOverlay} from './LoadingOverlaySlice';
 import {optionSheet} from './OptionSheetSlice';
@@ -23,7 +23,7 @@ const AppReducers = combineReducers({
   users,
   communities,
   comments,
-  commentCreator,
+  commentWriter,
   optionSheet,
   loadingOverlay,
 });

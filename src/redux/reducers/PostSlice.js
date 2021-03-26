@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {fetchFeed} from '../actions/FeedActions';
-import {createReply} from './ReplySlice';
+import {createReply} from './CommentWriterSlice';
 import {
   votePost,
   createPost,

@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Vote from '../Vote';
 import ExtraOptions from '../ExtraOptions';
-import {prepareReply} from '../../redux/reducers/ReplySlice';
+import {prepareReply} from '../../redux/reducers/CommentWriterSlice';
 import {useDispatch} from 'react-redux';
 
 const CommentFooter = (props) => {

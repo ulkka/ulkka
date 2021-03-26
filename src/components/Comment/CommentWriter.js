@@ -18,7 +18,7 @@ import {
   deactivate,
   isLoading,
   getResetCommentToggle,
-} from '../../redux/reducers/ReplySlice';
+} from '../../redux/reducers/CommentWriterSlice';
 import {
   getPostTitle,
   getPostAuthorId,
@@ -93,20 +93,23 @@ export default function CommentWriter(props) {
   };
 
   const resetForm = () => {
-    /* Alert.alert('Discard Comment ?', null, [
+    dispatch(deactivate());
+  };
+
+  const confirmAndResetForm = () => {
+    Alert.alert('Discard Comment ?', null, [
       {
         text: 'Keep Writing',
         onPress: () => console.log('Cancel Pressed'),
         style: 'default',
       },
-      {text: 'Discard', onPress: () => dispatch(deactivate())},
-    ]);*/
-    dispatch(deactivate());
+      {text: 'Discard', onPress: () => resetForm()},
+    ]);
   };
 
   const activateForm = () => {
     dispatch(activate()).then((result) => {
-      if (result.error !== undefined) {
+      if (result.error) {
         inputRef.current.blur();
       } else {
         setInitialized(true);
@@ -222,7 +225,8 @@ export default function CommentWriter(props) {
           backgroundColor: 'white',
           borderColor: '#666',
           marginRight: 8,
-          marginBottom: 5,
+          marginTop: 3,
+          marginBottom: 8,
           borderRadius: 25,
           shadowColor: '#000',
           shadowOffset: {
@@ -255,14 +259,16 @@ export default function CommentWriter(props) {
       </View>
     );
 
-    return active ? (
-      <View
-        style={{
-          alignItems: 'flex-end',
-        }}>
-        {!loading ? Button : LoadingView}
-      </View>
-    ) : null;
+    return (
+      active && (
+        <View
+          style={{
+            alignItems: 'flex-end',
+          }}>
+          {!loading ? Button : LoadingView}
+        </View>
+      )
+    );
   };
 
   const whenInactive = <View></View>;
@@ -276,7 +282,7 @@ export default function CommentWriter(props) {
         position: 'absolute',
         borderBottomWidth: Platform.OS === 'ios' ? 0 : 1,
         borderBottomColor: '#eee',
-        bottom: Platform.OS === 'ios' ? 20 : 0,
+        bottom: 0,
         alignSelf: 'center',
         flex: 1,
         backgroundColor: '#fff',
@@ -290,7 +296,10 @@ export default function CommentWriter(props) {
         activeOpacity={0.8}
         style={{
           padding: 5,
+          paddingBottom: Platform.OS === 'ios' && !active ? 25 : 7,
           backgroundColor: '#fff',
+          borderTopWidth: 1,
+          borderTopColor: '#eee',
         }}>
         <View pointerEvents={initialized ? 'auto' : 'none'}>
           <Input
@@ -298,12 +307,12 @@ export default function CommentWriter(props) {
             placeholder="Add a comment ..."
             containerStyle={{
               backgroundColor: '#eee',
-              borderRadius: 8,
+              borderRadius: 10,
             }}
             inputContainerStyle={{
               borderBottomWidth: 0,
-              height: expanded ? 150 : 30,
-              marginTop: 10,
+              height: expanded ? 150 : 40,
+              marginTop: Platform.OS == 'ios' ? 10 : 0,
             }}
             inputStyle={{
               fontSize: 13,
