@@ -3,7 +3,6 @@ import {View, FlatList, Text, TouchableOpacity, Platform} from 'react-native';
 import {Divider, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchComments} from '../../../redux/actions/CommentActions';
-import {getRegistrationStatus} from '../../../redux/reducers/AuthSlice';
 import {getUserCommentsSelector} from '../../../redux/selectors/CommentSelectors';
 import {selectCommentById} from '../../../redux/reducers/CommentSlice';
 import TimeAgo from '../../../components/TimeAgo';
@@ -104,11 +103,10 @@ const separator = memo(() => {
   return <Divider style={{backgroundColor: '#fafafa', height: 5}} />;
 });
 
-export default function Comments(props) {
+const Comments = (props) => {
   const dispatch = useDispatch();
 
-  const userId = props?.route?.params?.params?.userId;
-  const isRegistered = useSelector(getRegistrationStatus);
+  const userId = props?.route?.params?.userId;
 
   const commentIds = useSelector((state) =>
     getUserCommentsSelector(state, userId),
@@ -118,7 +116,7 @@ export default function Comments(props) {
 
   useEffect(() => {
     dispatch(fetchComments({userId: userId}));
-  }, [isRegistered]);
+  }, []);
 
   const renderRow = ({item}) => {
     return <CommentRow commentId={item} />;
@@ -134,4 +132,6 @@ export default function Comments(props) {
       keyExtractor={(item, index) => item}
     />
   );
-}
+};
+
+export default memo(Comments);

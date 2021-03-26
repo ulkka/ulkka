@@ -1,11 +1,14 @@
-import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import {fetchFeed} from '../actions/FeedActions';
 import {createReply} from './ReplySlice';
-import {signout, socialAuth} from '../actions/AuthActions';
-import {votePost, createPost, deletePost} from '../actions/PostActions';
+import {
+  votePost,
+  createPost,
+  deletePost,
+  fetchPostById,
+} from '../actions/PostActions';
+import {postAdapter} from '../selectors/PostSelectors';
 import Snackbar from 'react-native-snackbar';
-
-const postAdapter = createEntityAdapter({selectId: (post) => post._id});
 
 export const slice = createSlice({
   name: 'posts',
@@ -46,6 +49,10 @@ export const slice = createSlice({
         }
       }
     },
+    [fetchPostById.fulfilled]: (state, action) => {
+      const {posts, postId} = action.payload;
+      postAdapter.upsertOne(state, posts[postId]);
+    },
     [deletePost.fulfilled]: (state, action) => {
       const postId = action.payload;
       postAdapter.updateOne(state, {
@@ -59,10 +66,6 @@ export const slice = createSlice({
         duration: Snackbar.LENGTH_SHORT,
       });
     },
-    [signout.fulfilled]: (state) => {
-      //resetAllFeeds(state);
-    },
-    // [registerUser.fulfilled]: () => postAdapter.getInitialState(),
     [votePost.fulfilled]: (state, action) => {
       const postId = action.payload.data._id;
       const post = postAdapter.getSelectors().selectById(state, postId);
@@ -83,11 +86,3 @@ export const slice = createSlice({
   },
 });
 export const posts = slice.reducer;
-
-export const {
-  selectById: selectPostById,
-  selectIds: selectPostIds,
-  selectEntities: selectPostEntities,
-  selectAll: selectAllPosts,
-  selectTotal: selectTotalPosts,
-} = postAdapter.getSelectors((state) => state.posts);

@@ -5,7 +5,11 @@ import {
   getParentCommentIdsOfPost,
   areCommentsLoading,
 } from '../../redux/selectors/CommentSelectors';
-import {fetchComments} from '../../redux/actions/CommentActions';
+import {isFeedRefreshing} from '../../redux/selectors/FeedSelectors';
+import {
+  fetchComments,
+  refreshComments,
+} from '../../redux/actions/CommentActions';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import CommentListTitle from './CommentListTitle';
 import SingleCommentThread from './SingleCommentThread';
@@ -14,14 +18,22 @@ import {Divider} from 'react-native-elements';
 function CommentList(props) {
   const dispatch = useDispatch();
 
-  const {postId} = props;
+  const {postId, screenId} = props;
 
   const loading = useSelector((state) => areCommentsLoading(state, postId));
   const parentCommentIds = useSelector((state) =>
     getParentCommentIdsOfPost(state, postId),
   );
 
+  const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
+
   const isRegistered = useSelector(getRegistrationStatus);
+
+  useEffect(() => {
+    if (refreshing) {
+      dispatch(refreshComments(postId));
+    }
+  }, [refreshing]);
 
   useEffect(() => {
     dispatch(fetchComments({postId: postId}));
@@ -90,7 +102,7 @@ function CommentList(props) {
     </View>
   );
 
-  return loading
+  return loading || refreshing
     ? LoadingView
     : parentCommentIds?.length == 0
     ? emptyCommentView

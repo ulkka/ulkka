@@ -1,11 +1,12 @@
-import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
-import {signout} from '../actions/AuthActions';
-import {fetchFeed} from '../actions/FeedActions';
+import {createSlice} from '@reduxjs/toolkit';
+import {
+  fetchFeed,
+  refreshFeed,
+  refreshPostDetail,
+  initPostDetail,
+} from '../actions/FeedActions';
+import {feedAdapter} from '../selectors/FeedSelectors';
 import {createPost, deletePost} from '../actions/PostActions';
-
-const feedAdapter = createEntityAdapter({
-  selectId: (post) => post._id,
-});
 
 const initialState = {
   ids: [],
@@ -18,6 +19,7 @@ const initialState = {
   complete: false,
   loading: false,
   initialised: false,
+  refreshing: false,
 };
 
 const intialEntityState = (postId, screen) => {
@@ -32,39 +34,22 @@ const intialEntityState = (postId, screen) => {
 
 export const slice = createSlice({
   name: 'feed',
-  initialState: {
-    screens: {},
-  },
-
+  initialState: {},
   reducers: {
     initialiseFeed(state, action) {
       const type = action.payload;
-      const screen = state.screens[type];
+      const screen = state[type];
       if (!screen) {
-        state.screens[type] = initialState;
-      }
-    },
-    initialisePostDetail(state, action) {
-      const screenId = action.payload;
-      state.screens[screenId] = initialState;
-    },
-    populatePostDetail(state, action) {
-      const {screenId, postId} = action.payload;
-      const screen = state.screens[screenId];
-      const postEntity = intialEntityState(postId, 'PostDetail');
-      const post = feedAdapter.getSelectors().selectById(screen, postId);
-      if (!post) {
-        console.log('initialising postdetail');
-        feedAdapter.addOne(state.screens[screenId], postEntity);
+        state[type] = initialState;
       }
     },
     removePostDetail(state, action) {
       const screenId = action.payload;
-      delete state.screens[screenId];
+      delete state[screenId];
     },
     removePostFromFeed(state, action) {
       const {postId, type} = action.payload;
-      const screen = state.screens[type];
+      const screen = state[type];
       const post = feedAdapter.getSelectors().selectById(screen, postId);
       if (post) {
         feedAdapter.removeOne(screen, postId);
@@ -72,7 +57,7 @@ export const slice = createSlice({
     },
     setError(state, action) {
       const {postId, type} = action.payload;
-      const screen = state.screens[type];
+      const screen = state[type];
 
       feedAdapter.updateOne(screen, {
         id: postId,
@@ -83,11 +68,11 @@ export const slice = createSlice({
     },
     removeFeed(state, action) {
       const type = action.payload;
-      delete state.screens[type];
+      delete state[type];
     },
     setViewableItems(state, action) {
       const {items, type} = action.payload;
-      const screen = state.screens[type];
+      const screen = state[type];
 
       const {changed} = items;
 
@@ -112,7 +97,7 @@ export const slice = createSlice({
     },
     togglePause(state, action) {
       const {postId, type} = action.payload;
-      const screen = state.screens[type];
+      const screen = state[type];
       const paused = feedAdapter.getSelectors().selectById(screen, postId)
         .paused;
       feedAdapter.updateOne(screen, {
@@ -124,7 +109,7 @@ export const slice = createSlice({
     },
     pauseVideo(state, action) {
       const {postId, type} = action.payload;
-      const screen = state.screens[type];
+      const screen = state[type];
       feedAdapter.updateOne(screen, {
         id: postId,
         changes: {
@@ -134,7 +119,7 @@ export const slice = createSlice({
     },
     setLoaded(state, action) {
       const {postId, type} = action.payload;
-      const screen = state.screens[type];
+      const screen = state[type];
       feedAdapter.updateOne(screen, {
         id: postId,
         changes: {
@@ -147,12 +132,13 @@ export const slice = createSlice({
   extraReducers: {
     [fetchFeed.pending]: (state, action) => {
       const type = action.meta.arg;
-      const screen = state.screens[type];
+      const screen = state[type];
       screen.loading = true;
     },
     [fetchFeed.fulfilled]: (state, action) => {
       const type = action.payload.type;
-      const screen = state.screens[type];
+      const screen = state[type];
+
       const normalizedPosts = action.payload.normalizedPosts;
 
       const isFeedEmpty =
@@ -177,37 +163,75 @@ export const slice = createSlice({
       } else {
         screen.complete = true;
       }
-      feedAdapter.addMany(screen, posts);
+      feedAdapter.upsertMany(screen, posts);
       screen.loading = false;
       screen.initialised = true;
+      screen.refreshing = false;
     },
     [fetchFeed.rejected]: (state, action) => {
       const type = action.meta.arg;
-      const screen = state.screens[type];
+      const screen = state[type];
       screen.loading = false;
+      screen.refreshing = false;
+    },
+    [refreshFeed.pending]: (state, action) => {
+      const type = action.meta.arg;
+      const screen = state[type];
+      if (screen) {
+        screen.refreshing = true;
+        feedAdapter.removeAll(screen);
+        screen.loading = false;
+        screen.initialised = false;
+        screen.complete = false;
+        screen.metadata = {
+          page: 0,
+          total: -1,
+          limit: 10,
+        };
+      }
+    },
+    [refreshFeed.fulfilled]: (state, action) => {
+      const type = action.payload;
+      const screen = state[type];
+      screen.refreshing = false;
+    },
+    [refreshPostDetail.pending]: (state, action) => {
+      const {type} = action.meta.arg;
+      const screen = state[type];
+      screen.refreshing = true;
+    },
+    [refreshPostDetail.fulfilled]: (state, action) => {
+      const type = action.payload;
+      const screen = state[type];
+      screen.refreshing = false;
+    },
+    [initPostDetail.pending]: (state, action) => {
+      const {screenId} = action.meta.arg;
+      state[screenId] = initialState;
+    },
+    [initPostDetail.fulfilled]: (state, action) => {
+      const {screenId, postId} = action.payload;
+      const postEntity = intialEntityState(postId, 'PostDetail');
+      feedAdapter.addOne(state[screenId], postEntity);
     },
     [createPost.fulfilled]: (state, action) => {
       const newPostId = action.payload.newPostId;
-      const homeScreen = state.screens['home'];
+      const homeScreen = state['home'];
       const newPost = intialEntityState(newPostId);
       homeScreen.entities[newPostId] = newPost;
       homeScreen.ids.unshift(newPostId); // to bring the newly added post to the top of current users home feed
     },
     [deletePost.fulfilled]: (state, action) => {
       const postId = action.payload;
-      const screenList = state.screens;
+      const screenList = state;
       for (var screen in screenList) {
         if (Object.prototype.hasOwnProperty.call(screenList, screen)) {
-          const screenFeed = state.screens[screen];
+          const screenFeed = state[screen];
           const isPostDetail = screen.indexOf('PostDetail') == 0;
           !isPostDetail && feedAdapter.removeOne(screenFeed, postId);
         }
       }
     },
-    [signout.fulfilled]: (state) => {
-      //resetAllFeeds(state);
-    },
-    // [registerUser.fulfilled]: () => postAdapter.getInitialState(),
   },
 });
 
@@ -225,11 +249,3 @@ export const {
   removeFeed,
   populatePostDetail,
 } = slice.actions;
-
-export const {
-  selectById: selectFeedPostById,
-  selectIds: selectFeedPostIds,
-  selectEntities: selectFeedPostEntities,
-  selectAll: selectAllPosts,
-  selectTotal: selectTotalPosts,
-} = feedAdapter.getSelectors((state) => state);

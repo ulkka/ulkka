@@ -1,4 +1,5 @@
 import {fetchFeed} from '../actions/FeedActions';
+import {fetchPostById} from '../actions/PostActions';
 import {
   loadAuth,
   socialAuth,
@@ -12,7 +13,6 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import {createSelectorCreator, defaultMemoize} from 'reselect';
 import userApi from '../../services/UserApi';
 import {createCachedSelector} from 're-reselect';
 
@@ -60,6 +60,11 @@ export const slice = createSlice({
         userAdapter.addMany(state, action.payload.normalizedComments.users);
       }
     },
+    [fetchPostById.fulfilled]: (state, action) => {
+      const {posts, postId, users} = action.payload;
+      const authorOfNewPost = posts[postId].author;
+      userAdapter.upsertOne(state, users[authorOfNewPost]);
+    },
   },
 });
 
@@ -74,14 +79,14 @@ export const {
 } = userAdapter.getSelectors((state) => state.users);
 
 export const getUserCreatedAt = (state, id) =>
-  selectUserById(state, id).created_at;
+  selectUserById(state, id)?.created_at;
 
 export const getUserDisplayname = (state, id) =>
-  selectUserById(state, id).displayname;
+  selectUserById(state, id)?.displayname;
 
-const getUserPostKarma = (state, id) => selectUserById(state, id).postKarma;
+const getUserPostKarma = (state, id) => selectUserById(state, id)?.postKarma;
 const getUserCommentKarma = (state, id) =>
-  selectUserById(state, id).commentKarma;
+  selectUserById(state, id)?.commentKarma;
 
 export const getUserTotalKarma = createCachedSelector(
   getUserPostKarma,

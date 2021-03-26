@@ -12,7 +12,7 @@ export default function LinkHandler(props) {
     getInitialLink();
     const onReceiveURL = ({url}: {url: string}) => {
       console.log('on recieve url in link handler comp', url);
-      // listener(url);
+      listener(url);
     };
     Linking.addEventListener('url', onReceiveURL);
     // Next, you would need to subscribe to incoming links from your third-party integration

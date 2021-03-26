@@ -18,6 +18,11 @@ const postApi = {
       );
       return response;
     },
+    async fetchById(id) {
+      const client = await mainClient;
+      let response = await client.get(POST_URI + '/' + id);
+      return response;
+    },
     async vote(postId, voteType) {
       const client = await mainClient;
       let response = await client.post(

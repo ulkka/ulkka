@@ -5,6 +5,8 @@ import dynamicLinks from '@react-native-firebase/dynamic-links';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {emailLinkAuth} from '../../redux/actions/AuthActions';
+import {navigate} from '../../navigation/Ref';
+import {useLinkTo} from '@react-navigation/native';
 
 const EmailLinkHandler = () => {
   const {loading, error} = useEmailLinkEffect();
@@ -25,6 +27,7 @@ const EmailLinkHandler = () => {
 };
 
 const useEmailLinkEffect = () => {
+  const linkTo = useLinkTo();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -59,6 +62,8 @@ const useEmailLinkEffect = () => {
         } finally {
           setLoading(false);
         }
+      } else {
+        navigate('CreatePost');
       }
     };
     const unsubscribe = dynamicLinks().onLink(handleDynamicLink);

@@ -7,6 +7,28 @@ export function resetState(state, type) {
   postAdapter.removeAll(state);
 }
 
+export const fetchPostById = createAsyncThunk(
+  'posts/fetchPostById',
+  async (id, thunkAPI) => {
+    let response = await postApi.post.fetchById(id);
+    const normalized = normalize(response.data, post);
+    return {
+      posts: normalized.entities.posts,
+      postId: normalized.result,
+      users: normalized.entities.users,
+    };
+  },
+  {
+    condition: (id, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
+
+      return authAccess;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
 export const createPost = createAsyncThunk(
   'posts/create',
   async (payload, thunkAPI) => {

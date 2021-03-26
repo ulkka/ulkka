@@ -1,12 +1,21 @@
+import {createEntityAdapter} from '@reduxjs/toolkit';
 import {selectUserById} from '../reducers/UserSlice';
 import {selectCommunityById} from '../reducers/CommunitySlice';
-import {selectPostById} from '../reducers/PostSlice';
 import {createCachedSelector} from 're-reselect';
 
 //  https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 //  https://github.com/reduxjs/reselect#customize-equalitycheck-for-defaultmemoize
 //  return true if length of prev and next array is same
 //  this might support when multiple feeds are enabled, but if some issue, investigate here
+export const postAdapter = createEntityAdapter({selectId: (post) => post._id});
+
+export const {
+  selectById: selectPostById,
+  selectIds: selectPostIds,
+  selectEntities: selectPostEntities,
+  selectAll: selectAllPosts,
+  selectTotal: selectTotalPosts,
+} = postAdapter.getSelectors((state) => state.posts);
 
 export const getPostUserVote = (state, id) =>
   selectPostById(state, id)?.userVote;

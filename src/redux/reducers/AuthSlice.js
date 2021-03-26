@@ -12,6 +12,7 @@ import {
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
 import {goBack, reset, showAuthScreen} from '../../navigation/Ref';
+import RNRestart from 'react-native-restart';
 
 export const slice = createSlice({
   name: 'authorization',
@@ -28,30 +29,33 @@ export const slice = createSlice({
     [socialAuth.fulfilled]: (state, action) => {
       const type = action.meta.arg;
       if (action.payload.isRegistered) {
-        goBack();
-        // reset();
-        Snackbar.show({
-          text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
-          duration: Snackbar.LENGTH_SHORT,
-        });
+        setTimeout(() => {
+          RNRestart.Restart();
+          Snackbar.show({
+            text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
+            duration: Snackbar.LENGTH_LONG,
+          });
+        }, 1000);
       } else {
+        fulfillAuth(state, action);
         showAuthScreen();
         Snackbar.show({
           text: 'Successfully logged in with ' + type,
           duration: Snackbar.LENGTH_SHORT,
         });
       }
-      fulfillAuth(state, action);
     },
     [emailLinkAuth.fulfilled]: (state, action) => {
-      fulfillAuth(state, action);
       if (action.payload.isRegistered) {
-        goBack();
-        Snackbar.show({
-          text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
-          duration: Snackbar.LENGTH_SHORT,
-        });
+        setTimeout(() => {
+          RNRestart.Restart();
+          Snackbar.show({
+            text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
+            duration: Snackbar.LENGTH_LONG,
+          });
+        }, 1000);
       } else {
+        fulfillAuth(state, action);
         showAuthScreen();
         Snackbar.show({
           text: 'Successfully logged in with Email',
@@ -60,21 +64,22 @@ export const slice = createSlice({
       }
     },
     [registerUser.fulfilled]: (state, action) => {
-      fulfillAuth(state, action);
-      goBack();
-      Snackbar.show({
-        text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
-        duration: Snackbar.LENGTH_LONG,
-      });
+      setTimeout(() => {
+        RNRestart.Restart();
+        Snackbar.show({
+          text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
+          duration: Snackbar.LENGTH_LONG,
+        });
+      }, 1000);
     },
     [signout.fulfilled]: (state, action) => {
-      goBack();
-      //reset();
-      Snackbar.show({
-        text: 'Signed out',
-        duration: Snackbar.LENGTH_SHORT,
-      });
-      fulfillAuth(state, action);
+      setTimeout(() => {
+        RNRestart.Restart();
+        Snackbar.show({
+          text: 'Signed out',
+          duration: Snackbar.LENGTH_LONG,
+        });
+      }, 1000);
     },
     [votePost.rejected]: showAuthScreen,
     [voteComment.rejected]: showAuthScreen,

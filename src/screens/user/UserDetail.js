@@ -26,7 +26,12 @@ const Tab = createMaterialTopTabNavigator();
 
 const AccountDetail = memo((props) => {
   console.log('running account detail in userdetail.js');
+  const dispatch = useDispatch();
   const {userId} = props;
+
+  useEffect(() => {
+    dispatch(fetchUserById(userId));
+  }, []);
 
   const registeredUser = useSelector(getRegisteredUser);
 
@@ -145,40 +150,39 @@ const AccountDetail = memo((props) => {
   );
 });
 
-const AccountTabbedNavigation = memo((props) => (
-  <Tab.Navigator
-    animationEnabled={false}
-    tabBarOptions={{
-      animationEnabled: false,
-      activeTintColor: '#444',
-      inactiveTintColor: 'grey',
-      labelStyle: {
-        fontWeight: 'bold',
-        fontSize: 13,
-      },
-    }}>
-    <Tab.Screen
-      name=" Posts "
-      component={Posts}
-      initialParams={{params: props.params}}
-    />
-    <Tab.Screen
-      name=" Comments "
-      component={Comments}
-      initialParams={{params: props.params}}
-    />
-  </Tab.Navigator>
-));
+const AccountTabbedNavigation = memo((props) => {
+  const {userId} = props;
+  return (
+    <Tab.Navigator
+      animationEnabled={false}
+      tabBarOptions={{
+        animationEnabled: false,
+        activeTintColor: '#444',
+        inactiveTintColor: 'grey',
+        labelStyle: {
+          fontWeight: 'bold',
+          fontSize: 13,
+        },
+      }}>
+      <Tab.Screen
+        name=" Posts "
+        component={Posts}
+        initialParams={{userId: userId}}
+      />
+      <Tab.Screen
+        name=" Comments "
+        component={Comments}
+        initialParams={{userId: userId}}
+      />
+    </Tab.Navigator>
+  );
+});
 
 function UserDetail(props) {
-  const dispatch = useDispatch();
   const {route} = props;
   const userId = route.params.userId;
 
   console.log('running userdetail ', userId);
-  useEffect(() => {
-    dispatch(fetchUserById(userId));
-  }, []);
 
   /* return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -192,7 +196,7 @@ function UserDetail(props) {
       <FlatList
         ListHeaderComponent={<AccountDetail userId={userId} />}
         onEndReachedThreshold={0.9}
-        ListFooterComponent={<AccountTabbedNavigation params={route.params} />}
+        ListFooterComponent={<AccountTabbedNavigation userId={userId} />}
       />
     </View>
   );

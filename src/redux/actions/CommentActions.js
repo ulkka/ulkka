@@ -69,3 +69,11 @@ export const deleteComment = createAsyncThunk(
     dispatchConditionRejection: true,
   },
 );
+
+export const refreshComments = createAsyncThunk(
+  'comments/refresh',
+  async (postId, {dispatch}) => {
+    await dispatch(fetchComments({postId: postId}));
+    return postId;
+  },
+);

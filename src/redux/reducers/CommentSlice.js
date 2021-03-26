@@ -5,6 +5,7 @@ import {
   deleteComment,
   fetchComments,
   voteComment,
+  refreshComments,
 } from '../actions/CommentActions';
 
 const commentAdapter = createEntityAdapter({
@@ -14,6 +15,7 @@ const commentAdapter = createEntityAdapter({
 const initialStatePostComments = {
   loading: true,
   parentCommentIds: [],
+  refreshing: false,
 };
 
 const initialStateUserComments = {
@@ -133,6 +135,16 @@ export const slice = createSlice({
           voteCount: newVoteCount,
         },
       });
+    },
+    [refreshComments.pending]: (state, action) => {
+      const postId = action.meta.arg;
+      const screen = state.posts[postId];
+      screen.refreshing = true;
+    },
+    [refreshComments.fulfilled]: (state, action) => {
+      const postId = action.payload;
+      const screen = state.posts[postId];
+      screen.refreshing = false;
     },
   },
 });
