@@ -29,7 +29,7 @@ export default function ShowSubmitStatus(props) {
           backgroundColor: '#eee',
           opacity: 0.9,
         }}>
-        {status.type == 'success' ? (
+        {status?.type == 'success' ? (
           <Icon
             name="check-circle"
             size={100}
@@ -40,11 +40,18 @@ export default function ShowSubmitStatus(props) {
           <Icon name="error" size={100} color="red" />
         )}
 
-        <Text style={{fontSize: 20, fontWeight: 'bold', paddingTop: 50}}>
-          {status.message}{' '}
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            paddingTop: 50,
+            lineHeight: 45,
+            textAlign: 'center',
+          }}>
+          {status?.message}{' '}
         </Text>
         <Text style={{fontSize: 30, fontWeight: 'bold', paddingTop: 30}}>
-          {status.entity}{' '}
+          {status?.entity}{' '}
         </Text>
       </View>
     </Modal>

@@ -3,17 +3,23 @@ import {View} from 'react-native';
 import {Input} from 'react-native-elements';
 
 export const PostTitleField = (props) => {
+  const {title, onChangeText} = props;
   return (
-    <View style={{flex: 1, marginVertical: 10}}>
+    <View
+      style={{
+        flex: 3,
+        marginTop: 30,
+        justifyContent: 'flex-end',
+      }}>
       <Input
-        style={{
-          height: 40,
-        }}
         inputContainerStyle={{
           borderBottomColor: '#ddd',
         }}
-        onChangeText={props.onChangeText}
-        value={props.title}
+        inputStyle={{textAlign: 'center', lineHeight: 24, marginBottom: 10}}
+        onChangeText={onChangeText}
+        value={title}
+        numberOfLines={3}
+        multiline={true}
         placeholder={'Title'}
         maxLength={300}
       />

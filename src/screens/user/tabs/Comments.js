@@ -4,7 +4,7 @@ import {Divider, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchComments} from '../../../redux/actions/CommentActions';
 import {getUserCommentsSelector} from '../../../redux/selectors/CommentSelectors';
-import {selectCommentById} from '../../../redux/reducers/CommentSlice';
+import {selectCommentById} from '../../../redux/selectors/CommentSelectors';
 import TimeAgo from '../../../components/TimeAgo';
 import {push} from '../../../navigation/Ref';
 

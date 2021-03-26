@@ -1,4 +1,5 @@
-import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
+import {commentAdapter} from '../selectors/CommentSelectors';
 import {createReply} from './CommentWriterSlice';
 import Snackbar from 'react-native-snackbar';
 import {
@@ -7,10 +8,6 @@ import {
   voteComment,
   refreshComments,
 } from '../actions/CommentActions';
-
-const commentAdapter = createEntityAdapter({
-  selectId: (comment) => comment._id,
-});
 
 const initialStatePostComments = {
   loading: true,
@@ -150,11 +147,3 @@ export const slice = createSlice({
 });
 
 export const comments = slice.reducer;
-
-export const {
-  selectById: selectCommentById,
-  selectIds: selectCommentIds,
-  selectEntities: selectCommentEntities,
-  selectAll: selectAllComments,
-  selectTotal: selectTotalComments,
-} = commentAdapter.getSelectors((state) => state.comments);

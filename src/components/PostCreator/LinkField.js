@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ScrollView, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  Platform,
+} from 'react-native';
 import {Input} from 'react-native-elements';
 import utilityApi from '../../services/UtilityApi';
 
@@ -76,7 +83,6 @@ export const LinkField = (props) => {
         justifyContent: 'center',
         backgroundColor: '#fff',
         opacity: 0.8,
-        marginTop: 75,
       }}>
       <ActivityIndicator size="large" color="#4285f4" />
     </View>
@@ -104,9 +110,17 @@ export const LinkField = (props) => {
   );
 
   return (
-    <View style={{flex: 3}}>
-      <ScrollView>
-        <View>
+    <View style={{flex: 4, justifyContent: 'center'}}>
+      <ScrollView
+        contentContainerStyle={{
+          flex: 4,
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            justifyContent: 'center',
+            marginTop: Platform.OS == 'ios' ? 50 : 95,
+          }}>
           <Input
             style={{
               maxHeight: 300,
@@ -115,6 +129,7 @@ export const LinkField = (props) => {
             inputContainerStyle={{
               borderBottomColor: '#fff',
             }}
+            inputStyle={{textAlign: 'center'}}
             onChangeText={onChangeText}
             value={link}
             placeholder={'Add Link'}

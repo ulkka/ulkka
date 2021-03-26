@@ -10,7 +10,7 @@ import {authorization} from './AuthSlice';
 import {loadingOverlay} from './LoadingOverlaySlice';
 import {optionSheet} from './OptionSheetSlice';
 import {feed} from './FeedSlice';
-import {communities} from './CommunitySlice';
+//import {communities} from './CommunitySlice';
 
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
@@ -21,7 +21,7 @@ const AppReducers = combineReducers({
   feed,
   posts,
   users,
-  communities,
+  // communities,
   comments,
   commentWriter,
   optionSheet,

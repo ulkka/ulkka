@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, KeyboardAvoidingView, Platform} from 'react-native';
-import SearchableDropdown from '../../components/SearchableDropdown';
+//import SearchableDropdown from '../../components/SearchableDropdown';
+//import {CommunityField} from '../../components/PostCreator/CommunityField';
 import FormData from 'form-data';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
 import {navigate} from '../../navigation/Ref';
@@ -12,7 +13,6 @@ import {Title} from '../../components/PostCreator/Title';
 import {SubmitButton} from '../../components/PostCreator/SubmitButton';
 import {MediaField} from '../../components/PostCreator/MediaField';
 import {LinkField} from '../../components/PostCreator/LinkField';
-import {CommunityField} from '../../components/PostCreator/CommunityField';
 import utilityApi from '../../services/UtilityApi';
 import {
   uploadProgress,
@@ -28,7 +28,7 @@ export default function CreatePost({route}) {
   let postType = route?.params?.type ? route.params.type : 'text';
 
   const [type, setType] = useState(postType);
-  const [community, setCommunity] = useState(null);
+  //const [community, setCommunity] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [media, setMedia] = useState(null);
@@ -38,10 +38,10 @@ export default function CreatePost({route}) {
   const [uploadPercent, setUploadPercent] = useState(0);
   const [clientSource, setClientSource] = useState(0);
 
-  const [
+  /*const [
     selectCommunityModalVisible,
     setSelectCommunityModalVisible,
-  ] = useState(false);
+  ] = useState(false);*/
 
   const getTypeFromMime = (mimeType) => {
     return mimeType.substring(mimeType.lastIndexOf('/') + 1) == 'gif'
@@ -57,6 +57,19 @@ export default function CreatePost({route}) {
         )
       : '';
   };
+
+  function validURL(str) {
+    var pattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i',
+    ); // fragment locator
+    return !!pattern.test(str);
+  }
 
   useEffect(() => {
     if (item) {
@@ -119,8 +132,8 @@ export default function CreatePost({route}) {
     setLoading(false);
     var status = {
       type: 'success',
-      message: 'Successfully Posted to',
-      entity: community.name,
+      message: 'Successfully Posted to \n Vellarikka Pattanam',
+      // entity: community.name,
     };
     setStatusData(status);
     setUploadPercent(0);
@@ -146,7 +159,7 @@ export default function CreatePost({route}) {
     switch (type) {
       case 'text':
         payload = {
-          community: community?._id,
+          //community: community?._id,
           title: title,
           description: description,
           type: type,
@@ -154,7 +167,7 @@ export default function CreatePost({route}) {
         return payload;
       case 'link':
         payload = {
-          community: community?._id,
+          //  community: community?._id,
           title: title,
           link: link,
           type: type,
@@ -164,7 +177,7 @@ export default function CreatePost({route}) {
       case 'video':
       case 'image':
         payload = {
-          community: community?._id,
+          //  community: community?._id,
           title: title,
           link: response?.data?.secure_url,
           type: type,
@@ -175,49 +188,39 @@ export default function CreatePost({route}) {
   };
 
   const payloadValidator = (payload, type) => {
-    const {community, title, description, link, mediaMetadata} = payload;
-    switch (type) {
-      case 'text':
-        if (!community) {
+    const {
+      //  community,
+      title,
+      description,
+      link,
+      mediaMetadata,
+    } = payload;
+    /* if (!community) {
           showSnackBar('Please select a valid community');
           return false;
-        }
-        if (!title) {
-          showSnackBar('Please add a title for the post');
-          return false;
-        }
+        }*/
+    if (!title) {
+      showSnackBar('Please add a title for the post');
+      return false;
+    }
+    switch (type) {
+      case 'text':
         if (!description) {
           showSnackBar('Please add a description for the post');
           return false;
         }
         return true;
       case 'link':
-        if (!community) {
-          showSnackBar('Please select a valid community');
-          return false;
-        }
-        if (!title) {
-          showSnackBar('Please add a title for the post');
-          return false;
-        }
         if (!link) {
           showSnackBar('Please add a link for the post');
           return false;
+        } else {
+          const isLinkValid = validURL(link);
+          !isLinkValid && showSnackBar('Please enter a valid link');
+          return isLinkValid;
         }
-        return true;
-      case 'gif':
-      case 'video':
-      case 'image':
-        if (!community) {
-          showSnackBar('Please select a valid community');
-          return false;
-        }
-        if (!title) {
-          showSnackBar('Please add a title for the post');
-          return false;
-        }
-        return true;
     }
+    return true;
   };
 
   function fileFormDataCreator() {
@@ -273,7 +276,11 @@ export default function CreatePost({route}) {
       case 'gif':
       case 'video':
       case 'image':
-        let prePayload = {type: type, title: title, community: community?._id};
+        let prePayload = {
+          type: type,
+          title: title,
+          //community: community?._id
+        };
         var data = fileFormDataCreator();
         isPayloadValid = payloadValidator(prePayload, type);
         if (isPayloadValid) {
@@ -341,8 +348,7 @@ export default function CreatePost({route}) {
     );
 
   const PostDetail = (
-    <View style={{flex: 6}}>
-      <SearchableDropdown
+    /*<SearchableDropdown
         selectCommunityModalVisible={selectCommunityModalVisible}
         setSelectCommunityModalVisible={setSelectCommunityModalVisible}
         setCommunity={setCommunity}
@@ -350,25 +356,31 @@ export default function CreatePost({route}) {
       <CommunityField
         onPress={() => setSelectCommunityModalVisible(true)}
         community={community}
-      />
-      <View style={{flex: 6}}>
-        <PostTitleField onChangeText={(text) => setTitle(text)} title={title} />
-        {postContent}
-      </View>
+      />*/
+    <View
+      style={{
+        flex: 5,
+        justifyContent: 'center',
+      }}>
+      <PostTitleField onChangeText={(text) => setTitle(text)} title={title} />
+      {postContent}
     </View>
   );
 
   const createPostComponent = (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={95}
+      keyboardVerticalOffset={Platform.OS == 'ios' ? 85 : 65}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{
         flex: 1,
         backgroundColor: '#fff',
         width: '98%',
         alignSelf: 'center',
+        justifyContent: 'space-around',
       }}>
-      {Title}
+      {
+        //Title
+      }
       {PostDetail}
       <SubmitButton onPress={() => submit()} />
     </KeyboardAvoidingView>

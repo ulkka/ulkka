@@ -1,23 +1,25 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import {Input} from 'react-native-elements';
 
 export const DescriptionField = (props) => {
   const {onChangeText, description} = props;
   return (
-    <View style={{flex: 3}}>
+    <View
+      style={{
+        flex: 3,
+        marginBottom: Platform.OS == 'ios' ? 0 : 15,
+        justifyContent: 'center',
+      }}>
       <Input
-        style={{
-          maxHeight: 300,
-          minHeight: 150,
-        }}
         inputContainerStyle={{
           borderBottomColor: '#fff',
         }}
+        inputStyle={{textAlign: 'center', lineHeight: 24}}
         onChangeText={onChangeText}
         value={description}
         placeholder={'Description'}
-        numberOfLines={10}
+        numberOfLines={9}
         multiline={true}
         maxLength={10000}
       />

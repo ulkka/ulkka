@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {View, TouchableOpacity, Text} from 'react-native';
+import {Icon} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
 import ExtraOptions from '../ExtraOptions';
 import {push} from '../../navigation/Ref';
@@ -18,17 +18,17 @@ const PostHeader = (props) => {
 
   const createdAt = useSelector((state) => getPostCreatedAt(state, postId));
 
-  const communityId = useSelector((state) => getPostCommunityId(state, postId));
+  /*const communityId = useSelector((state) => getPostCommunityId(state, postId));
   const communityName = useSelector((state) =>
     getPostCommunityName(state, postId),
-  );
+  );*/
 
   const authorId = useSelector((state) => getPostAuthorId(state, postId));
   const authorDisplayname = useSelector((state) =>
     getPostAuthorDisplayname(state, postId),
   );
 
-  const CommunityName = (
+  /*const CommunityName = (
     <TouchableOpacity
       onPress={() =>
         push('Community', {
@@ -39,46 +39,54 @@ const PostHeader = (props) => {
         {communityName}
       </Text>
     </TouchableOpacity>
-  );
+  );*/
 
   const UserDisplayName = (
-    <TouchableOpacity
-      onPress={() =>
-        push('UserDetail', {
-          userId: authorId,
-        })
-      }>
-      <Text style={{fontSize: 11, color: '#555'}}>{authorDisplayname}</Text>
-    </TouchableOpacity>
+    <View>
+      <Text
+        style={{
+          fontSize: 14,
+          color: '#555',
+          fontWeight: 'bold',
+        }}>
+        {authorDisplayname}
+        {'  '}
+      </Text>
+    </View>
   );
 
   const displayNameTimeAgo = (
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View
+      style={{
+        //flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+      }}>
       {UserDisplayName}
-      <View
-        style={{
-          paddingHorizontal: 7,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Icon name="circle" type="font-awesome" size={4} color="#888" />
-      </View>
       <TimeAgo time={createdAt} />
     </View>
   );
 
   return (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity
+        onPress={() =>
+          push('UserDetail', {
+            userId: authorId,
+          })
+        }
+        style={{flexDirection: 'row', alignItems: 'center'}}>
         <Icon name="account-circle" color="#333" size={32} />
         <View
           style={{
             padding: 5,
           }}>
-          {CommunityName}
+          {
+            // CommunityName
+          }
           {displayNameTimeAgo}
         </View>
-      </View>
+      </TouchableOpacity>
       <ExtraOptions id={postId} type={'post'} />
     </View>
   );

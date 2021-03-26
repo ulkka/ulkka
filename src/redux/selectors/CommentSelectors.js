@@ -1,6 +1,18 @@
-import {selectCommentById} from '../reducers/CommentSlice';
+import {createEntityAdapter} from '@reduxjs/toolkit';
 import {selectUserById} from '../reducers/UserSlice';
 import createCachedSelector from 're-reselect';
+
+export const commentAdapter = createEntityAdapter({
+  selectId: (comment) => comment._id,
+});
+
+export const {
+  selectById: selectCommentById,
+  selectIds: selectCommentIds,
+  selectEntities: selectCommentEntities,
+  selectAll: selectAllComments,
+  selectTotal: selectTotalComments,
+} = commentAdapter.getSelectors((state) => state.comments);
 
 export const getParentCommentIdsOfPost = (state, postId) =>
   state.comments.posts[postId]?.parentCommentIds;

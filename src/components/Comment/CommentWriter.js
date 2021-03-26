@@ -23,7 +23,7 @@ import {
   getPostTitle,
   getPostAuthorId,
 } from '../../redux/selectors/PostSelectors';
-import {selectCommentById} from '../../redux/reducers/CommentSlice';
+import {selectCommentById} from '../../redux/selectors/CommentSelectors';
 import {getUserDisplayname} from '../../redux/reducers/UserSlice';
 import {ActivityIndicator} from 'react-native';
 

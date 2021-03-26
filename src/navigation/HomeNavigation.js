@@ -8,7 +8,7 @@ import CommunityNavigation from '../screens/community/CommunityNavigation';
 import HeaderBar from '../components/Header';
 import Home from '../screens/home/tabs/Home';
 //import Popular from '../screens/home/tabs/Popular';
-import CreatePost from '../screens/create/CreatePost';
+import CreatePost from '../screens/create/PostCreator';
 import PostDetail from '../screens/PostDetail';
 
 const Tab = createMaterialTopTabNavigator();
@@ -101,6 +101,7 @@ function HomeNavigation({navigation}) {
         title="Create Post"
         options={{
           headerTitle: 'Create Post',
+
           headerBackTitle: '',
         }}
       />
