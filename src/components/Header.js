@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {
   SafeAreaView,
   TouchableOpacity,
   StatusBar,
   Platform,
 } from 'react-native';
-import {Icon, Text, Avatar} from 'react-native-elements';
+import {Icon, Text} from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 import Search from './Search';
 import {showAuthScreen} from '../navigation/Ref';
 import {useSelector} from 'react-redux';
@@ -31,16 +32,21 @@ const HeaderBar = (props) => {
         }
         onPress={() => showAuthScreen()}>
         {isRegistered ? (
-          <Avatar
-            rounded
-            size="small"
+          <FastImage
+            style={{
+              height: 36,
+              width: 36,
+              alignSelf: 'center',
+            }}
             source={{
               uri:
-                'https://avatars.dicebear.com/api/bottts/' +
+                'http://avatars.dicebear.com/4.5/api/bottts/' +
                 registeredUser?.displayname +
                 '.png',
+              priority: FastImage.priority.normal,
+              cache: FastImage.cacheControl.immutable,
             }}
-            activeOpacity={0.7}
+            resizeMode={FastImage.resizeMode.contain}
           />
         ) : (
           <Icon
@@ -80,7 +86,7 @@ const HeaderBar = (props) => {
         name="search"
         color="#333"
         onPress={() => _toggleSearch()}
-        size={22}
+        size={24}
       />
     ) : (
       <TouchableOpacity onPress={() => _toggleSearch()}>
@@ -109,7 +115,7 @@ const HeaderBar = (props) => {
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: '#fff',
-          marginHorizontal: 5,
+          marginHorizontal: 8,
           marginVertical: 10,
         }}>
         <AccountComponent />
@@ -120,4 +126,4 @@ const HeaderBar = (props) => {
   );
 };
 
-export default HeaderBar;
+export default memo(HeaderBar);

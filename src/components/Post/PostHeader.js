@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
-import {Icon, Avatar} from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 import TimeAgo from '../TimeAgo';
 import ExtraOptions from '../ExtraOptions';
 import {push} from '../../navigation/Ref';
@@ -75,24 +75,33 @@ const PostHeader = (props) => {
             userId: authorId,
           })
         }
-        style={{flexDirection: 'row', alignItems: 'center'}}>
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         {
-          //<Icon name="account-circle" color="#333" size={38} />
-          <Avatar
-            rounded
-            size="small"
+          <FastImage
+            style={{
+              height: 33,
+              width: 33,
+              alignSelf: 'center',
+            }}
             source={{
               uri:
-                'https://avatars.dicebear.com/api/bottts/' +
+                'http://avatars.dicebear.com/4.5/api/bottts/' +
                 authorDisplayname +
                 '.png',
+              priority: FastImage.priority.normal,
+              cache: FastImage.cacheControl.immutable,
             }}
-            activeOpacity={0.7}
+            resizeMode={FastImage.resizeMode.contain}
           />
         }
         <View
           style={{
             padding: 5,
+            paddingLeft: 8,
           }}>
           {
             // CommunityName

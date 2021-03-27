@@ -38,7 +38,7 @@ const LinkPostContent = (props) => {
   const imageUrl = ogData?.ogImage?.url;
   const type = videoUrl ? 'video' : imageUrl ? 'image' : undefined;
 
-  const domain = getHostnameFromRegex(url).replace('www.', '');
+  const domain = getHostnameFromRegex(url)?.replace('www.', '');
 
   const videoId =
     domain == 'youtube.com'
@@ -144,7 +144,7 @@ const LinkPostContent = (props) => {
         style={{fontWeight: 'bold', fontSize: 13, color: '#333'}}
         ellipsizeMode="tail"
         numberOfLines={3}>
-        {ogData.ogTitle}
+        {ogData?.ogTitle}
       </Text>
     </View>
   );
@@ -155,7 +155,7 @@ const LinkPostContent = (props) => {
         style={{fontSize: 11, color: '#444'}}
         ellipsizeMode="tail"
         numberOfLines={3}>
-        {ogData.ogDescription}
+        {ogData?.ogDescription}
       </Text>
     </View>
   );
@@ -197,7 +197,9 @@ const LinkPostContent = (props) => {
   );
 
   const handleOpenLink = () => {
-    Linking.openURL(link);
+    Linking.openURL(link).catch((error) =>
+      console.log('cannot open link', error),
+    );
   };
 
   const openLink = (

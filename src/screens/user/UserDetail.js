@@ -8,7 +8,8 @@ import {
   Alert,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Icon, Divider, Avatar} from 'react-native-elements';
+import {Icon, Divider} from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 import Posts from './tabs/Posts';
 import Comments from './tabs/Comments';
 import {useSelector, useDispatch} from 'react-redux';
@@ -66,14 +67,21 @@ const AccountDetail = memo((props) => {
 
   const userAvatar = (
     //< Icon name = "account-circle" size = { 40} />
-    <Avatar
-      rounded
-      size="medium"
+    <FastImage
+      style={{
+        height: 55,
+        width: 55,
+        alignSelf: 'center',
+      }}
       source={{
         uri:
-          'https://avatars.dicebear.com/api/bottts/' + userDisplayname + '.png',
+          'http://avatars.dicebear.com/4.5/api/bottts/' +
+          userDisplayname +
+          '.png',
+        priority: FastImage.priority.normal,
+        cache: FastImage.cacheControl.immutable,
       }}
-      activeOpacity={0.7}
+      resizeMode={FastImage.resizeMode.contain}
     />
   );
 
