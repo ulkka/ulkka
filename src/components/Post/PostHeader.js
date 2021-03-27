@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, Avatar} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
 import ExtraOptions from '../ExtraOptions';
 import {push} from '../../navigation/Ref';
@@ -45,7 +45,7 @@ const PostHeader = (props) => {
     <View>
       <Text
         style={{
-          fontSize: 14,
+          fontSize: 13,
           color: '#555',
           fontWeight: 'bold',
         }}>
@@ -76,7 +76,20 @@ const PostHeader = (props) => {
           })
         }
         style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Icon name="account-circle" color="#333" size={32} />
+        {
+          //<Icon name="account-circle" color="#333" size={38} />
+          <Avatar
+            rounded
+            size="small"
+            source={{
+              uri:
+                'https://avatars.dicebear.com/api/bottts/' +
+                authorDisplayname +
+                '.png',
+            }}
+            activeOpacity={0.7}
+          />
+        }
         <View
           style={{
             padding: 5,

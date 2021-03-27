@@ -5,29 +5,51 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {Icon, Text, Avatar} from 'react-native-elements';
 import Search from './Search';
 import {showAuthScreen} from '../navigation/Ref';
 import {useSelector} from 'react-redux';
-import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
+import {
+  getRegistrationStatus,
+  getRegisteredUser,
+} from '../redux/reducers/AuthSlice';
 
 const HeaderBar = (props) => {
   const [searchMode, setSearchMode] = useState(false);
   const isRegistered = useSelector(getRegistrationStatus);
+  const registeredUser = useSelector(getRegisteredUser);
   const _toggleSearch = () => setSearchMode(!searchMode);
 
   const AccountComponent = () => {
     return (
       <TouchableOpacity
         hitSlop={{top: 20, bottom: 30, left: 20, right: 40}}
-        style={{paddingLeft: 5}}
+        style={
+          {
+            //paddingLeft: 5
+          }
+        }
         onPress={() => showAuthScreen()}>
-        <Icon
-          name="user-alt"
-          type="font-awesome-5"
-          color={isRegistered ? '#77c063' : '#444'}
-          size={18}
-        />
+        {isRegistered ? (
+          <Avatar
+            rounded
+            size="small"
+            source={{
+              uri:
+                'https://avatars.dicebear.com/api/bottts/' +
+                registeredUser?.displayname +
+                '.png',
+            }}
+            activeOpacity={0.7}
+          />
+        ) : (
+          <Icon
+            name="user-alt"
+            type="font-awesome-5"
+            color={isRegistered ? '#77c063' : '#444'}
+            size={18}
+          />
+        )}
       </TouchableOpacity>
     );
   };
@@ -87,7 +109,8 @@ const HeaderBar = (props) => {
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: '#fff',
-          margin: 10,
+          marginHorizontal: 5,
+          marginVertical: 10,
         }}>
         <AccountComponent />
         <TitleComponent />

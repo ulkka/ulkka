@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Icon, Divider} from 'react-native-elements';
+import {Icon, Divider, Avatar} from 'react-native-elements';
 import Posts from './tabs/Posts';
 import Comments from './tabs/Comments';
 import {useSelector, useDispatch} from 'react-redux';
@@ -64,7 +64,18 @@ const AccountDetail = memo((props) => {
     </Text>
   );
 
-  const userAvatar = <Icon name="account-circle" size={40} />;
+  const userAvatar = (
+    //< Icon name = "account-circle" size = { 40} />
+    <Avatar
+      rounded
+      size="medium"
+      source={{
+        uri:
+          'https://avatars.dicebear.com/api/bottts/' + userDisplayname + '.png',
+      }}
+      activeOpacity={0.7}
+    />
+  );
 
   const userAvatarAndDisplayName = (
     <View

@@ -36,7 +36,7 @@ const EmailLinkSignIn = () => {
         onPress={() => {
           emailFieldRef.current.blur();
           dispatch(sendEmailSignInLink(email)).then((res) => {
-            if (res.error !== undefined) {
+            if (res?.error) {
               setEmailErrorMessage(res.error.message);
             }
           });
