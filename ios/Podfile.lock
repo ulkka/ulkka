@@ -455,8 +455,8 @@ PODS:
     - React
   - RNSnackbar (2.4.0):
     - React-Core
-  - RNVectorIcons (7.1.0):
-    - React
+  - RNVectorIcons (8.1.0):
+    - React-Core
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
@@ -753,7 +753,7 @@ SPEC CHECKSUMS:
   RNShare: 8af5349f05fc042d230674dd650d19789187ff9c
   RNShareMenu: 555df30344da0d60947ccc781b0447ee9e5cd48f
   RNSnackbar: be3333a21a453ccc272f41a8add5a71f7d44dfcd
-  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
+  RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38

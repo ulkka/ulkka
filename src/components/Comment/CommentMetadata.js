@@ -1,12 +1,15 @@
 import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {Icon, Divider} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {
   getCommentAuthorDisplayname,
   getCommentCreatedAt,
   getCommentAuthorId,
+  getCommentPostAuthor,
 } from '../../redux/selectors/CommentSelectors';
+import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import TimeAgo from '../TimeAgo';
 import {push} from '../../navigation/Ref';
 
@@ -20,24 +23,76 @@ const CommentMetadata = (props) => {
     getCommentCreatedAt(state, commentId),
   );
   const authorId = useSelector((state) => getCommentAuthorId(state, commentId));
+  const postAuthorId = useSelector((state) =>
+    getCommentPostAuthor(state, commentId),
+  );
+  const registeredUser = useSelector(getRegisteredUser);
+
+  const isCommentAuthorPostAuthor = authorId === postAuthorId;
+  const isCommentAuthorCurrentUser = authorId === registeredUser?._id;
+
+  const CommentAuthorIcon = (isCommentAuthorPostAuthor ||
+    isCommentAuthorCurrentUser) && (
+    <Icon
+      name={isCommentAuthorCurrentUser ? 'user' : 'star'}
+      type="font-awesome"
+      size={11}
+      color="#0CD7B8"
+      style={{marginLeft: 3}}
+    />
+  );
+
+  const CommentAuthorDisplaynameColor = isCommentAuthorCurrentUser
+    ? '#02862ad6'
+    : isCommentAuthorPostAuthor
+    ? '#245a89d6'
+    : '#666';
 
   const CommentAuthor = (
-    <Text
+    <View
       style={{
-        fontSize: 12,
-        fontWeight: '300',
-        color: 'darkgreen',
+        flexDirection: 'row',
+        alignItems: 'center',
       }}>
-      {authorDisplayname}{' '}
-    </Text>
+      <Text
+        style={{
+          fontSize: 12,
+          fontWeight: '300',
+          color: CommentAuthorDisplaynameColor,
+        }}>
+        {authorDisplayname}{' '}
+      </Text>
+      {CommentAuthorIcon}
+    </View>
   );
 
   const Seperator = (
-    <Divider
+    <Icon
+      name="circle"
+      type="font-awesome"
+      size={4}
+      color="#aaa"
+      style={{paddingHorizontal: 5}}
+    />
+  );
+
+  const userAvatar = (
+    <FastImage
       style={{
-        backgroundColor: 'white',
-        width: 15,
+        height: 20,
+        width: 20,
+        alignSelf: 'center',
+        marginRight: 5,
       }}
+      source={{
+        uri:
+          'http://avatars.dicebear.com/4.5/api/bottts/' +
+          authorDisplayname +
+          '.png',
+        priority: FastImage.priority.normal,
+        cache: FastImage.cacheControl.immutable,
+      }}
+      resizeMode={FastImage.resizeMode.contain}
     />
   );
 
@@ -48,12 +103,18 @@ const CommentMetadata = (props) => {
       onPress={() => push('UserDetail', {userId: authorId})}
       style={{
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
+        alignItems: 'center',
       }}>
-      {CommentAuthor}
-      {Seperator}
-      {CreatedAt}
+      {userAvatar}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        {CommentAuthor}
+        {Seperator}
+        {CreatedAt}
+      </View>
     </TouchableOpacity>
   );
 

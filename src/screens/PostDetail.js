@@ -47,7 +47,7 @@ const PostDetail = ({route}) => {
         handleRefresh();
       }
     }
-  }, [screenId]);
+  }, [screenId, postStatus]);
 
   const handleRefresh = () => {
     console.log('refreshing post detail', screenId);

@@ -1,6 +1,7 @@
 import {createEntityAdapter} from '@reduxjs/toolkit';
 import {selectUserById} from '../reducers/UserSlice';
 import createCachedSelector from 're-reselect';
+import {selectPostById} from './PostSelectors';
 
 export const commentAdapter = createEntityAdapter({
   selectId: (comment) => comment._id,
@@ -39,6 +40,15 @@ export const getCommentStatus = (state, id) =>
 
 export const getCommentReplies = (state, id) =>
   selectCommentById(state, id)?.replies;
+
+export const getCommentPostId = (state, id) =>
+  selectCommentById(state, id)?.post;
+
+export const getCommentPostAuthor = createCachedSelector(
+  (state) => state,
+  getCommentPostId,
+  (state, postId) => selectPostById(state, postId)?.author,
+)((state, id) => id);
 
 export const getCommentAuthorId = (state, id) =>
   selectCommentById(state, id)?.author;
