@@ -1,25 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {emailLinkAuth} from '../../redux/actions/AuthActions';
-import {navigate} from '../../navigation/Ref';
-import {useLinkTo} from '@react-navigation/native';
 
 const EmailLinkHandler = () => {
   const {loading, error} = useEmailLinkEffect();
 
-  console.log('emaillink handler');
   // Show an overlay with a loading indicator while the email link is processed
   if (loading || error) {
-    return (
-      <View style={styles.container}>
-        {Boolean(error) && <Text>{error.message}</Text>}
-        {loading && <ActivityIndicator />}
-      </View>
-    );
+    return <View></View>;
   }
 
   // Hide otherwise. Or show some content if you are using this as a separate screen
@@ -27,7 +19,6 @@ const EmailLinkHandler = () => {
 };
 
 const useEmailLinkEffect = () => {
-  const linkTo = useLinkTo();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -40,11 +31,7 @@ const useEmailLinkEffect = () => {
     }
   };
   useEffect(() => {
-    // const initUrl = await getInitialURL();
-    //  console.log('init url', initUrl);
     const handleDynamicLink = async (link) => {
-      console.log('link', link, auth().isSignInWithEmailLink(link.url));
-      console.log('url', link.url);
       // Check and handle if the link is a email login link
       if (auth().isSignInWithEmailLink(link.url)) {
         setLoading(true);
@@ -52,18 +39,11 @@ const useEmailLinkEffect = () => {
           // use the email we saved earlier
           const email = await getData();
           dispatch(emailLinkAuth({email: email, link: link}));
-          //  await auth().signInWithEmailLink(email, link.url);
-
-          /* You can now navigate to your initial authenticated screen
-            You can also parse the `link.url` and use the `continueurl` param to go to another screen
-            The `continueurl` would be the `url` passed to the action code settings */
         } catch (e) {
           setError(e);
         } finally {
           setLoading(false);
         }
-      } else {
-        navigate('CreatePost');
       }
     };
     const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
@@ -80,14 +60,5 @@ const useEmailLinkEffect = () => {
 
   return {error, loading};
 };
-
-const styles = StyleSheet.create({
-  container: {
-    //  ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(250,250,250,0.33)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default EmailLinkHandler;

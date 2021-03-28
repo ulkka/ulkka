@@ -25,7 +25,7 @@ export default function ChangeAccount() {
       </Text>
       <Button
         title="Logout"
-        onPress={() => dispatch(signout())}
+        onPress={() => dispatch(signout('norestart'))}
         type="clear"
         titleStyle={{color: '#6874e8', fontSize: 14}}
       />

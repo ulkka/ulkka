@@ -65,7 +65,7 @@ export const refreshPostDetail = createAsyncThunk(
 export const initPostDetail = createAsyncThunk(
   'feed/initPost',
   async ({screenId, postId}) => {
-    console.log('initialising post detail');
+    console.log('initialising post detail', screenId, postId);
     return {screenId, postId};
   },
 );

@@ -40,7 +40,7 @@ const isUserRegistered = async (currentUser) => {
   let isRegistered = 0;
   if (!currentUser.isAnonymous) {
     const registeredUser = await getRegisteredUser(currentUser);
-    if (registeredUser.displayname !== undefined) {
+    if (registeredUser?.displayname) {
       isRegistered = 1;
     }
   }

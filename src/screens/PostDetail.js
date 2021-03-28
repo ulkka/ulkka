@@ -10,11 +10,7 @@ import CommentList from '../components/Comment/CommentList';
 import Post from '../components/Post/Post';
 import CommentWriter from '../components/Comment/CommentWriter';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  initialisePostDetail,
-  populatePostDetail,
-  removePostDetail,
-} from '../redux/reducers/FeedSlice';
+import {removePostDetail} from '../redux/reducers/FeedSlice';
 import {refreshPostDetail, initPostDetail} from '../redux/actions/FeedActions';
 import {isFeedRefreshing} from '../redux/selectors/FeedSelectors';
 import {getPostStatus} from '../redux/selectors/PostSelectors';
@@ -36,21 +32,25 @@ const PostDetail = ({route}) => {
     setScreenId(newScreenId);
 
     return () => dispatch(removePostDetail(screenId));
-  }, []);
+  }, [postId]);
 
   useEffect(() => {
     if (screenId) {
-      dispatch(initPostDetail({screenId, postId}));
-      if (!postStatus) {
-        //if post not found then try to fetch it
-        console.log('post not found');
-        handleRefresh();
-      }
+      loadPostDetail();
     }
-  }, [screenId, postStatus]);
+  }, [screenId]);
+
+  const loadPostDetail = async () => {
+    dispatch(initPostDetail({screenId, postId}));
+    if (!postStatus) {
+      //if post not found then try to fetch it
+      console.log('post not found');
+      handleRefresh();
+    }
+  };
 
   const handleRefresh = () => {
-    console.log('refreshing post detail', screenId);
+    console.log('refreshing post detail', screenId, postId);
     dispatch(refreshPostDetail({type: screenId, postId}));
   };
 

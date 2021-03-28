@@ -89,7 +89,7 @@ const CommentMetadata = (props) => {
         uri:
           'http://avatars.dicebear.com/4.5/api/bottts/' +
           authorDisplayname +
-          '.png',
+          '.png?colorful=true',
         priority: FastImage.priority.normal,
         cache: FastImage.cacheControl.immutable,
       }}

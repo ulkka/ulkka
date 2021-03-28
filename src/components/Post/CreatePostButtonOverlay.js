@@ -6,7 +6,6 @@ import {navigate} from '../../navigation/Ref';
 export default function CreatePostButtonOverlay(props) {
   const [enableOverlay, setEnableOverLay] = useState(false);
 
-  console.log('running create post button overlay');
   const toggleOverlay = () => {
     setEnableOverLay(!enableOverlay);
   };

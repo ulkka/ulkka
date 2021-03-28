@@ -77,7 +77,7 @@ const AccountDetail = memo((props) => {
         uri:
           'http://avatars.dicebear.com/4.5/api/bottts/' +
           userDisplayname +
-          '.png',
+          '.png?colorful=true',
         priority: FastImage.priority.normal,
         cache: FastImage.cacheControl.immutable,
       }}

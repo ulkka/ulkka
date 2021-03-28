@@ -33,7 +33,7 @@ const HeaderBar = (props) => {
           uri:
             'http://avatars.dicebear.com/4.5/api/bottts/' +
             registeredUser?.displayname +
-            '.png',
+            '.png?colorful=true',
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.immutable,
         }}
@@ -71,7 +71,7 @@ const HeaderBar = (props) => {
         }}>
         <Text
           style={{
-            fontSize: Platform.OS == 'ios' ? 17 : 16,
+            fontSize: 16,
             fontWeight: 'bold',
             color: '#333',
           }}>
@@ -119,7 +119,7 @@ const HeaderBar = (props) => {
           alignItems: 'center',
           backgroundColor: '#fff',
           marginHorizontal: 8,
-          marginVertical: 10,
+          marginVertical: 4,
         }}>
         <AccountComponent />
         <TitleComponent />

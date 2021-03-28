@@ -24,7 +24,7 @@ const CommentBody = (props) => {
       <Text
         onTextLayout={onTextLayout}
         ellipsizeMode={'tail'}
-        numberOfLines={textHidden ? 5 : undefined}
+        numberOfLines={textHidden ? 10 : undefined}
         style={{
           color: '#333',
           fontSize: 13,

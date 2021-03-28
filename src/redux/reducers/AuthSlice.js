@@ -11,7 +11,7 @@ import {
   registerUser,
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
-import {goBack, reset, showAuthScreen} from '../../navigation/Ref';
+import {showAuthScreen} from '../../navigation/Ref';
 import RNRestart from 'react-native-restart';
 
 export const slice = createSlice({
@@ -50,7 +50,7 @@ export const slice = createSlice({
         setTimeout(() => {
           RNRestart.Restart();
           Snackbar.show({
-            text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
+            text: 'Welcome ' + action.payload.registeredUser?.displayname + '!',
             duration: Snackbar.LENGTH_LONG,
           });
         }, 1000);
@@ -73,13 +73,18 @@ export const slice = createSlice({
       }, 1000);
     },
     [signout.fulfilled]: (state, action) => {
-      setTimeout(() => {
-        RNRestart.Restart();
-        Snackbar.show({
-          text: 'Signed out',
-          duration: Snackbar.LENGTH_LONG,
-        });
-      }, 1000);
+      const info = action.meta.arg;
+      if (!info) {
+        setTimeout(() => {
+          RNRestart.Restart();
+          Snackbar.show({
+            text: 'Signed out',
+            duration: Snackbar.LENGTH_LONG,
+          });
+        }, 1000);
+      } else {
+        fulfillAuth(state, action);
+      }
     },
     [votePost.rejected]: showAuthScreen,
     [voteComment.rejected]: showAuthScreen,

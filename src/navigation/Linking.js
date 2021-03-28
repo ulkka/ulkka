@@ -1,3 +1,7 @@
+import {Linking} from 'react-native';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import auth from '@react-native-firebase/auth';
+
 const config = {
   screens: {
     Main: {
@@ -28,4 +32,33 @@ export const linking = {
     'https://vellarikka-pattanam.firebaseapp.com',
   ],
   config,
+  async getInitialURL() {
+    const url = await Linking.getInitialURL();
+
+    if (url != null) {
+      return url;
+    }
+  },
+  subscribe(listener) {
+    const onReceiveURL = (link) => {
+      if (auth().isSignInWithEmailLink(link.url)) {
+        //let email link auth handler handle this from screens/auth/EmailLinkHandler
+      } else {
+        listener(link.url);
+      }
+    };
+
+    const unsubscribe = dynamicLinks().onLink(onReceiveURL);
+
+    dynamicLinks()
+      .getInitialLink()
+      .then((link) => {
+        if (link) {
+          // setting time out so hopefully auth will get done in 1500 ms and fetchpostbyid wont get rejected
+          setTimeout(() => onReceiveURL(link), 1500);
+        }
+      });
+
+    return () => unsubscribe();
+  },
 };

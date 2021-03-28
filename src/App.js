@@ -12,6 +12,7 @@ import LoadingOverlay from './components/LoadingOverlay';
 import RegisterDeviceToken from './components/RegisterDeviceToken';
 //import ShareMenuHandler from './components/ShareMenuHandler';
 import OptionSheet from './components/OptionSheet';
+import LinkHandler from './components/LinkHandler';
 
 export default function App() {
   useEffect(() => {
