@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, Platform} from 'react-native';
 import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import TimeAgo from '../TimeAgo';
@@ -69,9 +69,9 @@ const PostHeader = (props) => {
     <Icon
       name={isPostAuthorCurrentUser ? 'user' : 'star'}
       type="font-awesome"
-      size={13}
+      size={12}
       color="#0CD7B8"
-      style={{marginLeft: 5}}
+      style={{marginLeft: Platform.OS == 'ios' ? 0 : 5}}
     />
   );
 

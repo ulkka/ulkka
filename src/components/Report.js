@@ -80,7 +80,12 @@ const Report = (props) => {
         containerStyle={{
           marginBottom: 15,
         }}
-        titleStyle={{fontSize: 14, color: '#EC5152', padding: 4}}
+        titleStyle={{
+          fontSize: 14,
+          color: '#EC5152',
+          padding: 4,
+          fontWeight: '600',
+        }}
         onPress={() => dispatch(hideOptionSheet())}
       />
       <Button
@@ -89,7 +94,12 @@ const Report = (props) => {
         containerStyle={{
           marginBottom: 15,
         }}
-        titleStyle={{fontSize: 14, color: '#2a9df4', padding: 4}}
+        titleStyle={{
+          fontSize: 14,
+          color: '#2a9df4',
+          padding: 4,
+          fontWeight: '600',
+        }}
         onPress={reportPost}
       />
     </View>
@@ -125,7 +135,7 @@ const Report = (props) => {
       title={l.title}
       checkedColor="#2a9df4"
       checked={l.title == selectedReportOption}
-      textStyle={{fontWeight: '300'}}
+      textStyle={{fontWeight: '300', fontWeight: '400'}}
       containerStyle={{
         backgroundColor: '#fafafa',
         borderRadius: 12,

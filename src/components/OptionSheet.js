@@ -41,14 +41,14 @@ export default function OptionSheet() {
     !currentUserisAuthor && {
       // dont show report option if current user same as author
       title: 'Report',
-      titleStyle: {fontSize: 14},
+      titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
       containerStyle: listItemStyle,
       onPress: () => dispatch(showReportOptions({type: type, id: id})),
     },
     currentUserisAuthor && {
       // show delete option only of current user is same as author
       title: 'Delete',
-      titleStyle: {fontSize: 14},
+      titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
       containerStyle: listItemStyle,
       onPress: () => {
         Alert.alert('Delete ' + type + ' ?', null, [
@@ -84,7 +84,10 @@ export default function OptionSheet() {
                 key={i}
                 containerStyle={l.containerStyle}
                 bottomDivider={true}>
-                <TouchableOpacity onPress={l.onPress} style={{flex: 1}}>
+                <TouchableOpacity
+                  hitSlop={{top: 20, bottom: 10, left: 40, right: 40}}
+                  onPress={l.onPress}
+                  style={{flex: 1}}>
                   <ListItem.Content style={{alignItems: 'center'}}>
                     <ListItem.Title style={l.titleStyle}>
                       {l.title}
@@ -104,7 +107,7 @@ export default function OptionSheet() {
       <Button
         title="Cancel"
         containerStyle={{backgroundColor: '#fff', marginBottom: 15}}
-        titleStyle={{fontSize: 14, color: '#EC5152'}}
+        titleStyle={{fontSize: 14, color: '#EC5152', fontWeight: '600'}}
         onPress={() => dispatch(hideOptionSheet())}
       />
     </View>

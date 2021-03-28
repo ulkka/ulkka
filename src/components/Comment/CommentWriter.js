@@ -140,7 +140,12 @@ export default function CommentWriter(props) {
   };
 
   const ReplyPrompt = (
-    <View style={{flexDirection: 'row'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <Text
         style={{
           color: reply_to == 'post' ? '#333' : '#666',
@@ -153,9 +158,9 @@ export default function CommentWriter(props) {
         ellipsizeMode={'tail'}
         numberOfLines={1}
         style={{
-          color: reply_to == 'post' ? '#026aa7' : '#77c063',
+          color: reply_to == 'post' ? '#245a89d6' : '#02862ad6',
           fontSize: 12,
-          fontWeight: '400',
+          fontWeight: '600',
           width: 200,
         }}>
         {reply_to_text}
@@ -247,7 +252,7 @@ export default function CommentWriter(props) {
           }}>
           <Text
             style={{
-              color: disableForm ? '#666' : '#77c063',
+              color: disableForm ? '#666' : '#02862ad6',
               fontWeight: 'bold',
               fontSize: 15,
               letterSpacing: 0.25,

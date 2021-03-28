@@ -36,7 +36,7 @@ const CommentMetadata = (props) => {
     <Icon
       name={isCommentAuthorCurrentUser ? 'user' : 'pencil'}
       type="font-awesome"
-      size={12}
+      size={11}
       color="#0CD7B8"
       style={{marginLeft: 3}}
     />
@@ -58,6 +58,7 @@ const CommentMetadata = (props) => {
         style={{
           fontSize: 12,
           fontWeight: '300',
+          fontWeight: '500',
           color: CommentAuthorDisplaynameColor,
         }}>
         {authorDisplayname}{' '}

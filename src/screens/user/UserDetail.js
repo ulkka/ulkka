@@ -135,7 +135,7 @@ const AccountDetail = memo((props) => {
       <Icon
         name="sign-out"
         type="font-awesome"
-        size={14}
+        size={15}
         color={'#2a9df4'}
         style={{paddingLeft: 8}}
       />

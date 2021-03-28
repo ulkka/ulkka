@@ -112,7 +112,7 @@ export default function CreatePostButtonOverlay(props) {
           name="plus"
           type="font-awesome-5"
           size={25}
-          color="#77c063"
+          color="#77c063e1"
           reverse
         />
       </TouchableOpacity>

@@ -8,7 +8,7 @@ import {
 import {Icon, Text} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import Search from './Search';
-import {showAuthScreen} from '../navigation/Ref';
+import {showAuthScreen, push} from '../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {
   getRegistrationStatus,
@@ -22,40 +22,43 @@ const HeaderBar = (props) => {
   const _toggleSearch = () => setSearchMode(!searchMode);
 
   const AccountComponent = () => {
+    const UserAvatar = isRegistered ? (
+      <FastImage
+        style={{
+          height: 36,
+          width: 36,
+          alignSelf: 'center',
+        }}
+        source={{
+          uri:
+            'http://avatars.dicebear.com/4.5/api/bottts/' +
+            registeredUser?.displayname +
+            '.png',
+          priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.immutable,
+        }}
+        resizeMode={FastImage.resizeMode.contain}
+      />
+    ) : (
+      <Icon
+        name="user-alt"
+        type="font-awesome-5"
+        color={isRegistered ? '#77c063' : '#444'}
+        size={18}
+      />
+    );
+
     return (
       <TouchableOpacity
         hitSlop={{top: 20, bottom: 30, left: 20, right: 40}}
-        style={
-          {
-            //paddingLeft: 5
-          }
-        }
-        onPress={() => showAuthScreen()}>
-        {isRegistered ? (
-          <FastImage
-            style={{
-              height: 36,
-              width: 36,
-              alignSelf: 'center',
-            }}
-            source={{
-              uri:
-                'http://avatars.dicebear.com/4.5/api/bottts/' +
-                registeredUser?.displayname +
-                '.png',
-              priority: FastImage.priority.normal,
-              cache: FastImage.cacheControl.immutable,
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-        ) : (
-          <Icon
-            name="user-alt"
-            type="font-awesome-5"
-            color={isRegistered ? '#77c063' : '#444'}
-            size={18}
-          />
-        )}
+        onPress={() => {
+          isRegistered
+            ? push('UserDetail', {
+                userId: registeredUser?._id,
+              })
+            : showAuthScreen();
+        }}>
+        {UserAvatar}
       </TouchableOpacity>
     );
   };
