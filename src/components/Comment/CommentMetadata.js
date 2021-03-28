@@ -34,9 +34,9 @@ const CommentMetadata = (props) => {
   const CommentAuthorIcon = (isCommentAuthorPostAuthor ||
     isCommentAuthorCurrentUser) && (
     <Icon
-      name={isCommentAuthorCurrentUser ? 'user' : 'star'}
+      name={isCommentAuthorCurrentUser ? 'user' : 'pencil'}
       type="font-awesome"
-      size={11}
+      size={12}
       color="#0CD7B8"
       style={{marginLeft: 3}}
     />

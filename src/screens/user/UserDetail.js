@@ -129,9 +129,16 @@ const AccountDetail = memo((props) => {
 
   const logoutButton = (
     <TouchableOpacity
-      style={{paddingRight: 5}}
+      style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
       onPress={() => signoutConfirmationAlert()}>
       <Text style={{color: '#2a9df4'}}>Logout</Text>
+      <Icon
+        name="sign-out"
+        type="font-awesome"
+        size={14}
+        color={'#2a9df4'}
+        style={{paddingLeft: 8}}
+      />
     </TouchableOpacity>
   );
 

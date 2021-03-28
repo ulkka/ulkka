@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
+import {Icon} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import TimeAgo from '../TimeAgo';
 import ExtraOptions from '../ExtraOptions';
@@ -12,6 +13,7 @@ import {
   getPostCommunityName,
   getPostCreatedAt,
 } from '../../redux/selectors/PostSelectors';
+import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 
 const PostHeader = (props) => {
   const {postId} = props;
@@ -28,6 +30,10 @@ const PostHeader = (props) => {
     getPostAuthorDisplayname(state, postId),
   );
 
+  const registeredUser = useSelector(getRegisteredUser);
+
+  const isPostAuthorCurrentUser = authorId === registeredUser?._id;
+
   /*const CommunityName = (
     <TouchableOpacity
       onPress={() =>
@@ -41,12 +47,16 @@ const PostHeader = (props) => {
     </TouchableOpacity>
   );*/
 
+  const CommentAuthorDisplaynameColor = isPostAuthorCurrentUser
+    ? '#02862ad6'
+    : '#555';
+
   const UserDisplayName = (
     <View>
       <Text
         style={{
           fontSize: 13,
-          color: '#555',
+          color: CommentAuthorDisplaynameColor,
           fontWeight: 'bold',
         }}>
         {authorDisplayname}
@@ -55,16 +65,55 @@ const PostHeader = (props) => {
     </View>
   );
 
+  const PostAuthorIcon = isPostAuthorCurrentUser && (
+    <Icon
+      name={isPostAuthorCurrentUser ? 'user' : 'star'}
+      type="font-awesome"
+      size={13}
+      color="#0CD7B8"
+      style={{marginLeft: 5}}
+    />
+  );
+
+  const UserDisplayNameWithIcon = (
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+      }}>
+      {UserDisplayName}
+      {PostAuthorIcon}
+    </View>
+  );
+
   const displayNameTimeAgo = (
     <View
       style={{
-        //flexDirection: 'row',
         alignItems: 'flex-start',
         justifyContent: 'center',
       }}>
-      {UserDisplayName}
+      {UserDisplayNameWithIcon}
       <TimeAgo time={createdAt} />
     </View>
+  );
+
+  const PostAuthorAvatar = (
+    <FastImage
+      style={{
+        height: 33,
+        width: 33,
+        alignSelf: 'center',
+      }}
+      source={{
+        uri:
+          'http://avatars.dicebear.com/4.5/api/bottts/' +
+          authorDisplayname +
+          '.png',
+        priority: FastImage.priority.normal,
+        cache: FastImage.cacheControl.immutable,
+      }}
+      resizeMode={FastImage.resizeMode.contain}
+    />
   );
 
   return (
@@ -80,28 +129,11 @@ const PostHeader = (props) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        {
-          <FastImage
-            style={{
-              height: 33,
-              width: 33,
-              alignSelf: 'center',
-            }}
-            source={{
-              uri:
-                'http://avatars.dicebear.com/4.5/api/bottts/' +
-                authorDisplayname +
-                '.png',
-              priority: FastImage.priority.normal,
-              cache: FastImage.cacheControl.immutable,
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-        }
+        {PostAuthorAvatar}
         <View
           style={{
             padding: 5,
-            paddingLeft: 8,
+            paddingLeft: 6,
           }}>
           {
             // CommunityName
