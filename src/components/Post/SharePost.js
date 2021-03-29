@@ -60,7 +60,6 @@ const SharePost = (props) => {
   const sharePost = async () => {
     const postDescription = description ? description : '';
     const message = title + '\n' + postDescription;
-    console.log('sharing with image media ', mediaMetadata);
     const link = await buildLink(postId);
     const options = {
       title: 'Share',

@@ -6,10 +6,12 @@ import ExtraOptions from '../ExtraOptions';
 import {prepareReply} from '../../redux/reducers/CommentWriterSlice';
 import {useDispatch} from 'react-redux';
 
+const COMMENT_LEVEL_LIMIT = 15;
+
 const CommentFooter = (props) => {
   const dispatch = useDispatch();
 
-  const {commentId} = props;
+  const {commentId, level} = props;
 
   const ReplyToComment = (
     <TouchableOpacity
@@ -44,7 +46,7 @@ const CommentFooter = (props) => {
         marginTop: 5,
       }}>
       {CommentExtraOptions}
-      {ReplyToComment}
+      {level < COMMENT_LEVEL_LIMIT && ReplyToComment}
       {VoteComment}
     </View>
   );

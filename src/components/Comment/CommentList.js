@@ -61,6 +61,7 @@ function CommentList(props) {
               commentId={commentId}
               key={commentId}
               postId={postId}
+              level={0}
             />
             <Divider style={{backgroundColor: '#fafafa', height: 5}} />
           </View>
