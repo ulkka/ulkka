@@ -41,9 +41,11 @@ export const linking = {
   },
   subscribe(listener) {
     const onReceiveURL = (link) => {
+      console.log('onReceiveurl link', link);
       if (auth().isSignInWithEmailLink(link.url)) {
         //let email link auth handler handle this from screens/auth/EmailLinkHandler
       } else {
+        console.log('listening to link', link);
         listener(link.url);
       }
     };
@@ -52,12 +54,7 @@ export const linking = {
 
     dynamicLinks()
       .getInitialLink()
-      .then((link) => {
-        if (link) {
-          // setting time out so hopefully auth will get done in 1500 ms and fetchpostbyid wont get rejected
-          setTimeout(() => onReceiveURL(link), 1500);
-        }
-      });
+      .then((link) => onReceiveURL(link));
 
     return () => unsubscribe();
   },

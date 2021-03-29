@@ -16,7 +16,7 @@ export const slice = createSlice({
   initialState: {
     status: 'UNAUTHENTICATED',
     user: null,
-    idToken: null,
+    // idToken: null,
     //isRegistered: 0,
     registeredUser: {},
   },
@@ -98,4 +98,3 @@ export const getAuthStatus = (state) => state.authorization.status;
 export const getRegistrationStatus = (state) =>
   state.authorization.isRegistered;
 export const getRegisteredUser = (state) => state.authorization.registeredUser;
-export const getUserIdToken = (state) => state.authorization.idToken;

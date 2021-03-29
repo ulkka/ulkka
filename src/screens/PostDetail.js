@@ -12,6 +12,7 @@ import CommentWriter from '../components/Comment/CommentWriter';
 import {useDispatch, useSelector} from 'react-redux';
 import {removePostDetail} from '../redux/reducers/FeedSlice';
 import {refreshPostDetail, initPostDetail} from '../redux/actions/FeedActions';
+import {getAuthStatus} from '../redux/reducers/AuthSlice';
 import {isFeedRefreshing} from '../redux/selectors/FeedSelectors';
 import {getPostStatus} from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
@@ -27,6 +28,8 @@ const PostDetail = ({route}) => {
   const postStatus = useSelector((state) => getPostStatus(state, postId));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
 
+  const authStatus = useSelector(getAuthStatus);
+
   useEffect(() => {
     const newScreenId = 'PostDetail-' + postId + '-' + makeId(5);
     setScreenId(newScreenId);
@@ -35,10 +38,10 @@ const PostDetail = ({route}) => {
   }, [postId]);
 
   useEffect(() => {
-    if (screenId) {
+    if (authStatus != 'UNAUTHENTICATED' && screenId) {
       loadPostDetail();
     }
-  }, [screenId]);
+  }, [screenId, authStatus]);
 
   const loadPostDetail = async () => {
     dispatch(initPostDetail({screenId, postId}));
@@ -116,7 +119,7 @@ const PostDetail = ({route}) => {
       />
     </View>
   );
-  return refreshing
+  return refreshing || authStatus == 'UNAUTHENTICATED'
     ? refreshingPostView
     : postStatus == 'enabled'
     ? postView

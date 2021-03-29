@@ -48,26 +48,23 @@ const isUserRegistered = async (currentUser) => {
 
 const initAuth = async () => {
   const currentUser = await getCurrentUser();
-  const idToken = await currentUser.getIdToken(false);
   const isRegistered = await isUserRegistered(currentUser);
   const registeredUser = await getRegisteredUser(currentUser);
   return {
     currentUser: currentUser,
-    idToken: idToken,
     isRegistered: isRegistered,
     registeredUser: registeredUser,
   };
 };
 
 export const fulfillAuth = (state, action) => {
-  const {currentUser, idToken, isRegistered, registeredUser} = action.payload;
+  const {currentUser, isRegistered, registeredUser} = action.payload;
   state.user = currentUser;
   if (currentUser.isAnonymous) {
     state.status = 'ANONYMOUS';
   } else {
     state.status = 'AUTHENTICATED';
   }
-  state.idToken = idToken;
   state.isRegistered = isRegistered;
   state.registeredUser = registeredUser;
 };
