@@ -5,7 +5,9 @@ function FeedFooterComponent(props) {
   if (props.complete) {
     return (
       <View style={styles.listEmptyView}>
-        <Text style={styles.listEmptyText}>Sorry, this feed is over.</Text>
+        <Text style={styles.listEmptyText}>
+          {'  '}This feed is over{'  '}
+        </Text>
       </View>
     );
   } else {
@@ -30,11 +32,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   listEmptyText: {
-    width: '50%',
     flex: 1,
     padding: 9,
     justifyContent: 'center',
     fontWeight: 'bold',
+    color: '#444',
   },
   loadingView: {
     flex: 1,

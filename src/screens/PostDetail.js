@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import CommentList from '../components/Comment/CommentList';
-import Post from '../components/Post/Post';
+import PostCard from '../components/Post/PostCard';
 import CommentWriter from '../components/Comment/CommentWriter';
 import {useDispatch, useSelector} from 'react-redux';
 import {removePostDetail} from '../redux/reducers/FeedSlice';
@@ -90,7 +90,7 @@ const PostDetail = ({route}) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }>
-        <Post postId={postId} screen={'PostDetail'} screenId={screenId} />
+        <PostCard postId={postId} screen={'PostDetail'} screenId={screenId} />
 
         <CommentList postId={postId} key={postId} screenId={screenId} />
       </ScrollView>

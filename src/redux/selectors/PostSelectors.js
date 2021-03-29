@@ -63,6 +63,9 @@ export const getPostCreatedAt = (state, id) =>
 
 export const getPostStatus = (state, id) => selectPostById(state, id)?.status;
 
+export const getPostisDeleted = (state, id) =>
+  selectPostById(state, id)?.isDeleted;
+
 export const getPostAuthorId = (state, id) => selectPostById(state, id)?.author;
 
 export const getPostCommunityId = (state, id) =>

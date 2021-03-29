@@ -1,7 +1,7 @@
 import React, {useEffect, useContext, memo} from 'react';
 import {View, FlatList, RefreshControl, Platform} from 'react-native';
 import {ThemeContext, Divider} from 'react-native-elements';
-import Post from '../Post/Post';
+import PostCard from '../Post/PostCard';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -67,7 +67,7 @@ function Feed(props) {
   }, [authStatus]);
 
   const renderRow = ({item}) => {
-    return <Post postId={item} screen={screen} />;
+    return <PostCard postId={item} screen={screen} />;
   };
 
   const handleLoadMore = () => {
