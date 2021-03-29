@@ -54,7 +54,7 @@ export const linking = {
 
     dynamicLinks()
       .getInitialLink()
-      .then((link) => onReceiveURL(link));
+      .then((link) => link && onReceiveURL(link));
 
     return () => unsubscribe();
   },
