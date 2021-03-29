@@ -101,7 +101,6 @@ function HomeNavigation({navigation}) {
         title="Create Post"
         options={{
           headerTitle: 'Create Post',
-
           headerBackTitle: '',
         }}
       />

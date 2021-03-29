@@ -43,8 +43,12 @@ const HeaderBar = (props) => {
       <Icon
         name="user-alt"
         type="font-awesome-5"
-        color={isRegistered ? '#77c063' : '#444'}
-        size={18}
+        color={'#77c063'}
+        size={Platform.OS == 'ios' ? 21 : 20}
+        style={{
+          paddingVertical: Platform.OS == 'ios' ? 7 : 6,
+          paddingHorizontal: 5,
+        }}
       />
     );
 
@@ -71,7 +75,7 @@ const HeaderBar = (props) => {
         }}>
         <Text
           style={{
-            fontSize: 16,
+            fontSize: Platform.OS == 'ios' ? 17 : 16,
             fontWeight: 'bold',
             color: '#333',
           }}>
@@ -89,7 +93,7 @@ const HeaderBar = (props) => {
         name="search"
         color="#333"
         onPress={() => _toggleSearch()}
-        size={24}
+        size={Platform.OS == 'ios' ? 25 : 22}
       />
     ) : (
       <TouchableOpacity onPress={() => _toggleSearch()}>
@@ -119,7 +123,7 @@ const HeaderBar = (props) => {
           alignItems: 'center',
           backgroundColor: '#fff',
           marginHorizontal: 8,
-          marginVertical: 4,
+          marginVertical: Platform.OS == 'ios' ? 5 : 3,
         }}>
         <AccountComponent />
         <TitleComponent />
