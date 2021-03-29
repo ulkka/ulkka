@@ -46,11 +46,12 @@ const AccountDetail = memo((props) => {
     getUserDisplayname(state, userId),
   );
 
-  const userKarmaField = userTotalKarma ? (
-    <Text style={{fontSize: 12, color: '#555'}}>{userTotalKarma} karma</Text>
-  ) : (
-    <ActivityIndicator size="small" color="#4285f4" />
-  );
+  const userKarmaField =
+    userTotalKarma || userTotalKarma === 0 ? (
+      <Text style={{fontSize: 12, color: '#555'}}>{userTotalKarma} karma</Text>
+    ) : (
+      <ActivityIndicator size="small" color="#4285f4" />
+    );
 
   const userDisplaynameField = (
     <Text

@@ -7,7 +7,9 @@ import {
   fetchComments,
   voteComment,
   refreshComments,
+  reportComment,
 } from '../actions/CommentActions';
+import {handleError} from '../actions/common';
 
 const initialStatePostComments = {
   loading: true,
@@ -133,6 +135,7 @@ export const slice = createSlice({
         },
       });
     },
+    [voteComment.rejected]: handleError,
     [refreshComments.pending]: (state, action) => {
       const postId = action.meta.arg;
       const screen = state.posts[postId];
@@ -143,6 +146,7 @@ export const slice = createSlice({
       const screen = state.posts[postId];
       screen.refreshing = false;
     },
+    [reportComment.rejected]: handleError,
   },
 });
 

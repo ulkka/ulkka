@@ -3,8 +3,9 @@ import {View, Text, ActivityIndicator} from 'react-native';
 import {CheckBox, Divider, Button, Icon} from 'react-native-elements';
 import {hideOptionSheet} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch} from 'react-redux';
-import postApi from '../services/PostApi';
 import Snackbar from 'react-native-snackbar';
+import {reportPost} from '../redux/actions/PostActions';
+import {reportComment} from '../redux/actions/CommentActions';
 
 const Report = (props) => {
   const dispatch = useDispatch();
@@ -37,13 +38,13 @@ const Report = (props) => {
     },
   ];
 
-  const reportPost = async () => {
+  const reportEntity = async () => {
     setLoading(true);
     const response =
       type == 'post'
-        ? await postApi.post.report(id, selectedReportOption)
-        : await postApi.comment.report(id, selectedReportOption);
-    if (response?.data?.success) {
+        ? await dispatch(reportPost({id: id, option: selectedReportOption}))
+        : await dispatch(reportComment({id: id, option: selectedReportOption}));
+    if (!response.error) {
       setLoading(false);
       setTimeout(
         () =>
@@ -51,19 +52,11 @@ const Report = (props) => {
             text: 'Thanks for reporting',
             duration: Snackbar.LENGTH_SHORT,
           }),
-        10,
+        100,
       );
       dispatch(hideOptionSheet());
     } else {
       setLoading(false);
-      setTimeout(
-        () =>
-          Snackbar.show({
-            text: 'Sorry, please try again later',
-            duration: Snackbar.LENGTH_SHORT,
-          }),
-        10,
-      );
       dispatch(hideOptionSheet());
     }
   };
@@ -100,7 +93,7 @@ const Report = (props) => {
           padding: 4,
           fontWeight: '600',
         }}
-        onPress={reportPost}
+        onPress={reportEntity}
       />
     </View>
   );

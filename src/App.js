@@ -12,7 +12,7 @@ import LoadingOverlay from './components/LoadingOverlay';
 import RegisterDeviceToken from './components/RegisterDeviceToken';
 //import ShareMenuHandler from './components/ShareMenuHandler';
 import OptionSheet from './components/OptionSheet';
-import LinkHandler from './components/LinkHandler';
+import IdTokenListener from './client/IdTokenListener';
 
 export default function App() {
   useEffect(() => {
@@ -49,6 +49,7 @@ export default function App() {
           <EmailLinkHandler />
           <RegisterDeviceToken />
           <OptionSheet />
+          <IdTokenListener />
           <Main />
         </View>
       </ThemeProvider>

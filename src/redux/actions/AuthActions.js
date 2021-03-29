@@ -2,7 +2,6 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 import userApi from '../../services/UserApi';
-import mainClient from '../../client/mainClient';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {openInbox} from 'react-native-email-link';
@@ -49,7 +48,7 @@ const isUserRegistered = async (currentUser) => {
 
 const initAuth = async () => {
   const currentUser = await getCurrentUser();
-  const idToken = await currentUser.getIdToken(true);
+  const idToken = await currentUser.getIdToken(false);
   const isRegistered = await isUserRegistered(currentUser);
   const registeredUser = await getRegisteredUser(currentUser);
   return {
@@ -71,7 +70,6 @@ export const fulfillAuth = (state, action) => {
   state.idToken = idToken;
   state.isRegistered = isRegistered;
   state.registeredUser = registeredUser;
-  mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
 };
 
 export const loadAuth = createAsyncThunk('authorization/load', initAuth);

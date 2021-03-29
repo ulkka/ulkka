@@ -25,10 +25,17 @@ const addRegisteredUserToSlice = (state, action) => {
   registeredUser && userAdapter.upsertOne(state, registeredUser);
 };
 
-export const fetchUserById = createAsyncThunk('user/fetchById', async (id) => {
-  const response = await userApi.user.getUserById(id);
-  return response.data[0];
-});
+export const fetchUserById = createAsyncThunk(
+  'user/fetchById',
+  async (id, {rejectWithValue}) => {
+    try {
+      const response = await userApi.user.getUserById(id);
+      return response.data[0];
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
+  },
+);
 
 export const slice = createSlice({
   name: 'user',

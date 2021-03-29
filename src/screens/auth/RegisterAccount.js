@@ -16,13 +16,13 @@ const RegisterAccount = () => {
 
   const validateDisplayName = async (text) => {
     if (
-      text.length < 6 ||
+      text.length < 4 ||
       !/^([a-zA-Z0-9\u0D00-\u0D7F_.-]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _.-
       text.length > 25
     ) {
       setIsDisplaynameValid(false);
       setDisplaynameErrorMessage(
-        'Invalid Display Name \nMin 6 characters, Max 25 characters \nEnglish / Malayalam alphabets, numbers or _.- ',
+        'Invalid Display Name \nMin 4 characters, Max 25 characters \nEnglish / Malayalam alphabets, numbers or _.- ',
       );
       return false;
     } else {

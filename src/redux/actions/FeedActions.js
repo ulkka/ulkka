@@ -8,26 +8,30 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 
 export const fetchFeed = createAsyncThunk(
   'feed/fetch',
-  async (type, {getState}) => {
-    const {page, limit} = getState().feed[type].metadata;
-    const nextPage = page + 1;
+  async (type, {getState, rejectWithValue}) => {
+    try {
+      const {page, limit} = getState().feed[type].metadata;
+      const nextPage = page + 1;
 
-    const isUserDetail = type.includes('UserDetail') ? true : false;
-    const userId =
-      isUserDetail &&
-      type.substring(type.indexOf('-') + 1, type.lastIndexOf('-'));
+      const isUserDetail = type.includes('UserDetail') ? true : false;
+      const userId =
+        isUserDetail &&
+        type.substring(type.indexOf('-') + 1, type.lastIndexOf('-'));
 
-    let response = isUserDetail
-      ? await userApi.post.fetchUserPosts(userId, nextPage, limit)
-      : await postApi.post.fetch(nextPage, limit);
-    const normalized = normalize(response.data.data, [post]);
+      let response = isUserDetail
+        ? await userApi.post.fetchUserPosts(userId, nextPage, limit)
+        : await postApi.post.fetch(nextPage, limit);
+      const normalized = normalize(response.data.data, [post]);
 
-    return {
-      normalizedPosts: normalized.entities,
-      metadata: response.data.metadata[0],
-      type: type,
-      postIds: normalized.result,
-    };
+      return {
+        normalizedPosts: normalized.entities,
+        metadata: response.data.metadata[0],
+        type: type,
+        postIds: normalized.result,
+      };
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
   {
     condition: (type, {getState}) => {
@@ -46,19 +50,27 @@ export const fetchFeed = createAsyncThunk(
 
 export const refreshFeed = createAsyncThunk(
   'feed/refresh',
-  async (type, {dispatch}) => {
-    //state changes are done in refreshFeed.pending and refreshFeed.fulfilled in feed slice
-    await dispatch(fetchFeed(type));
-    return type;
+  async (type, {dispatch, rejectWithValue}) => {
+    try {
+      //state changes are done in refreshFeed.pending and refreshFeed.fulfilled in feed slice
+      await dispatch(fetchFeed(type));
+      return type;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
 );
 
 export const refreshPostDetail = createAsyncThunk(
   'feed/refreshPost',
-  async ({type, postId}, {dispatch}) => {
-    //state changes are done in refreshPostDetail.pending and refreshPostDetail.fulfilled in feed slice
-    await dispatch(fetchPostById(postId));
-    return type;
+  async ({type, postId}, {dispatch, rejectWithValue}) => {
+    try {
+      //state changes are done in refreshPostDetail.pending and refreshPostDetail.fulfilled in feed slice
+      await dispatch(fetchPostById(postId));
+      return type;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
 );
 

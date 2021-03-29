@@ -1,15 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {View, KeyboardAvoidingView, Platform} from 'react-native';
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
+import {Button} from 'react-native-elements';
 //import SearchableDropdown from '../../components/SearchableDropdown';
 //import {CommunityField} from '../../components/PostCreator/CommunityField';
 import FormData from 'form-data';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
 import {navigate} from '../../navigation/Ref';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {createPost} from '../../redux/actions/PostActions';
 import {PostTitleField} from '../../components/PostCreator/PostTitleField';
 import {DescriptionField} from '../../components/PostCreator/DescriptionField';
-import {Title} from '../../components/PostCreator/Title';
 import {SubmitButton} from '../../components/PostCreator/SubmitButton';
 import {MediaField} from '../../components/PostCreator/MediaField';
 import {LinkField} from '../../components/PostCreator/LinkField';
@@ -20,9 +26,13 @@ import {
 } from '../../components/PostCreator/UploadProgress';
 import Snackbar from 'react-native-snackbar';
 import axios from 'axios';
+import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
+import {showAuthScreen} from '../../navigation/Ref';
 
 export default function CreatePost({route}) {
   const dispatch = useDispatch();
+
+  const isRegistered = useSelector(getRegistrationStatus);
 
   const item = route?.params?.item;
   let postType = route?.params?.type ? route.params.type : 'text';
@@ -123,7 +133,7 @@ export default function CreatePost({route}) {
             text: message,
             duration: Snackbar.LENGTH_SHORT,
           }),
-        10,
+        100,
       );
     }
   };
@@ -248,7 +258,11 @@ export default function CreatePost({route}) {
   const dispatchPost = (payload) => {
     dispatch(createPost(payload))
       .then((response) => {
-        postSuccess();
+        if (response.error) {
+          postFail(response.error);
+        } else {
+          postSuccess();
+        }
       })
       .catch((error) => {
         postFail(error);
@@ -256,6 +270,10 @@ export default function CreatePost({route}) {
   };
 
   const submit = async () => {
+    if (!isRegistered) {
+      showSnackBar('Please login to create posts');
+      return;
+    }
     setLoading(true);
     console.log('Uploading post type - ', type);
     let response = {};
@@ -386,7 +404,7 @@ export default function CreatePost({route}) {
     </KeyboardAvoidingView>
   );
 
-  return (
+  const handlePostCreation = (
     <View
       style={{
         flex: 1,
@@ -403,4 +421,51 @@ export default function CreatePost({route}) {
       />
     </View>
   );
+
+  const requestLogin = (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+      }}>
+      <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+        Please login or create an account to create posts{'    '}
+      </Text>
+      <Button
+        raised
+        title="Join Vellarikka Pattanam!"
+        titleStyle={{
+          fontSize: 14,
+          color: '#EC5152',
+          padding: 4,
+          fontWeight: '600',
+        }}
+        onPress={() => showAuthScreen()}
+      />
+    </View>
+  );
+
+  const loadingView = (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <ActivityIndicator size="large" color="#2a9df4" />
+      <Text
+        style={{padding: 50, fontSize: 15, fontWeight: 'bold', color: '#555'}}>
+        {'  '}Loading...{'  '}
+      </Text>
+    </View>
+  );
+
+  return isRegistered === undefined
+    ? loadingView
+    : isRegistered == 1
+    ? handlePostCreation
+    : requestLogin;
 }

@@ -173,9 +173,9 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
-            shrinkResources enableAndroidR8InReleaseBuilds
-            zipAlignEnabled enableAndroidR8InReleaseBuilds
-            minifyEnabled enableAndroidR8InReleaseBuilds
+            shrinkResources true
+            zipAlignEnabled true
+            minifyEnabled true
             useProguard enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

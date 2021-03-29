@@ -6,9 +6,11 @@ import {
   createPost,
   deletePost,
   fetchPostById,
+  reportPost,
 } from '../actions/PostActions';
 import {postAdapter} from '../selectors/PostSelectors';
 import Snackbar from 'react-native-snackbar';
+import {handleError} from '../actions/common';
 
 export const slice = createSlice({
   name: 'posts',
@@ -67,7 +69,8 @@ export const slice = createSlice({
       });
     },
     [votePost.fulfilled]: (state, action) => {
-      const postId = action.payload.data._id;
+      const postId = action.payload?.data?._id;
+
       const post = postAdapter.getSelectors().selectById(state, postId);
 
       const currentUserVote = post.userVote ? post.userVote : 0; // handling undefined userVote
@@ -83,6 +86,8 @@ export const slice = createSlice({
         },
       });
     },
+    [votePost.rejected]: handleError,
+    [reportPost.rejected]: handleError,
   },
 });
 export const posts = slice.reducer;

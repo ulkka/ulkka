@@ -1,7 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {voteComment} from '../actions/CommentActions';
-import {votePost} from '../actions/PostActions';
-import {createReply, activate, prepareReply} from './CommentWriterSlice';
 import {
   signout,
   fulfillAuth,
@@ -20,7 +17,7 @@ export const slice = createSlice({
     status: 'UNAUTHENTICATED',
     user: null,
     idToken: null,
-    isRegistered: 0,
+    //isRegistered: 0,
     registeredUser: {},
   },
   reducers: {},
@@ -86,15 +83,10 @@ export const slice = createSlice({
         fulfillAuth(state, action);
       }
     },
-    [votePost.rejected]: showAuthScreen,
-    [voteComment.rejected]: showAuthScreen,
-    [createReply.rejected]: showAuthScreen,
-    [prepareReply.rejected]: showAuthScreen,
-    [activate.rejected]: showAuthScreen,
     [loadAuth.rejected]: (state, action) => {
-      console.log('load auth rejected', action.error.message);
+      console.log('load auth rejected', action.error?.message);
       Snackbar.show({
-        text: 'Sorry, please try again later! ' + action.error.message,
+        text: 'Sorry, please try again later! ',
         duration: Snackbar.LENGTH_LONG,
       });
     },
@@ -106,3 +98,4 @@ export const getAuthStatus = (state) => state.authorization.status;
 export const getRegistrationStatus = (state) =>
   state.authorization.isRegistered;
 export const getRegisteredUser = (state) => state.authorization.registeredUser;
+export const getUserIdToken = (state) => state.authorization.idToken;

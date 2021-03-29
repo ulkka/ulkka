@@ -6,20 +6,24 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
-  async ({postId, userId}) => {
-    const entity = postId ? 'posts' : 'users';
-    const entityId = entity == 'posts' ? postId : userId;
+  async ({postId, userId}, {rejectWithValue}) => {
+    try {
+      const entity = postId ? 'posts' : 'users';
+      const entityId = entity == 'posts' ? postId : userId;
 
-    let response =
-      entity == 'posts'
-        ? await postApi.comment.fetch(entityId)
-        : await userApi.comment.fetchUserComments(entityId, 1, 100);
-    const data = entity == 'posts' ? response.data : response.data.data;
-    const normalized = normalize(data, [comment]);
-    return {
-      normalizedComments: normalized.entities,
-      parentComments: normalized.result,
-    };
+      let response =
+        entity == 'posts'
+          ? await postApi.comment.fetch(entityId)
+          : await userApi.comment.fetchUserComments(entityId, 1, 100);
+      const data = entity == 'posts' ? response.data : response.data.data;
+      const normalized = normalize(data, [comment]);
+      return {
+        normalizedComments: normalized.entities,
+        parentComments: normalized.result,
+      };
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
   {
     condition: ({postId, userId}, {getState}) => {
@@ -40,9 +44,13 @@ export const fetchComments = createAsyncThunk(
 
 export const voteComment = createAsyncThunk(
   'comments/vote',
-  async ({id, voteType}) => {
-    let response = await postApi.comment.vote(id, voteType);
-    return response;
+  async ({id, voteType}, {rejectWithValue}) => {
+    try {
+      let response = await postApi.comment.vote(id, voteType);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
   {
     condition: ({id, voteType}, {getState}) => {
@@ -56,9 +64,33 @@ export const voteComment = createAsyncThunk(
 
 export const deleteComment = createAsyncThunk(
   'comments/delete',
-  async (id) => {
-    let response = await postApi.comment.delete(id);
-    return id;
+  async (id, {rejectWithValue}) => {
+    try {
+      let response = await postApi.comment.delete(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
+  },
+  {
+    condition: (id, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      return access;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const reportComment = createAsyncThunk(
+  'comments/report',
+  async ({id, option}, {rejectWithValue}) => {
+    try {
+      let response = await postApi.comment.report(id, option);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
   {
     condition: (id, {getState}) => {
@@ -72,8 +104,12 @@ export const deleteComment = createAsyncThunk(
 
 export const refreshComments = createAsyncThunk(
   'comments/refresh',
-  async (postId, {dispatch}) => {
-    await dispatch(fetchComments({postId: postId}));
-    return postId;
+  async (postId, {dispatch, rejectWithValue}) => {
+    try {
+      await dispatch(fetchComments({postId: postId}));
+      return postId;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
 );

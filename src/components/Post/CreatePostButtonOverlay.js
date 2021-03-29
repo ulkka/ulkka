@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import {Icon, Overlay} from 'react-native-elements';
+import {useSelector} from 'react-redux';
 import {navigate} from '../../navigation/Ref';
+import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 
 export default function CreatePostButtonOverlay(props) {
   const [enableOverlay, setEnableOverLay] = useState(false);
+
+  const isRegistered = useSelector(getRegistrationStatus);
 
   const toggleOverlay = () => {
     setEnableOverLay(!enableOverlay);
@@ -140,10 +144,10 @@ export default function CreatePostButtonOverlay(props) {
       </View>
     </Overlay>
   );
-  return (
+  return isRegistered ? (
     <View>
       {CreatePostIcon}
       {PopupView}
     </View>
-  );
+  ) : null;
 }

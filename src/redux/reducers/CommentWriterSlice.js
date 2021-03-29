@@ -2,6 +2,7 @@ import postApi from '../../services/PostApi';
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {normalize} from 'normalizr';
 import {comment} from '../schema/CommentSchema';
+import {handleError} from '../actions/common';
 
 export const prepareReply = createAsyncThunk(
   'commentCreator/prepare',
@@ -90,6 +91,7 @@ export const slice = createSlice({
     [activate.fulfilled]: (state, action) => {
       state.active = true;
     },
+    [activate.rejected]: handleError,
     [prepareReply.fulfilled]: (state, action) => {
       const reply_to = action.payload.type;
       state.reply_to = reply_to;
@@ -103,6 +105,7 @@ export const slice = createSlice({
           return;
       }
     },
+    [prepareReply.rejected]: handleError,
     [createReply.pending]: (state, action) => {
       state.loading = true;
     },
@@ -114,6 +117,7 @@ export const slice = createSlice({
     [createReply.rejected]: (state, action) => {
       state.active = false;
       state.loading = false;
+      handleError(state, action);
     },
   },
 });

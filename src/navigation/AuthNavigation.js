@@ -21,12 +21,13 @@ export const AuthNavigation = () => {
   const headerStyle =
     Platform.OS == 'ios'
       ? {
+          height: 40,
           borderTopWidth: 1,
           borderTopColor: '#ddd',
           borderTopEndRadius: 15,
           borderTopStartRadius: 15,
         }
-      : {};
+      : {height: 40};
 
   return (
     <StackNav.Navigator

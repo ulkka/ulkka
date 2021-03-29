@@ -9,14 +9,18 @@ export function resetState(state, type) {
 
 export const fetchPostById = createAsyncThunk(
   'posts/fetchPostById',
-  async (id, thunkAPI) => {
-    let response = await postApi.post.fetchById(id);
-    const normalized = normalize(response.data, post);
-    return {
-      posts: normalized.entities.posts,
-      postId: normalized.result,
-      users: normalized.entities.users,
-    };
+  async (id, {rejectWithValue}) => {
+    try {
+      let response = await postApi.post.fetchById(id);
+      const normalized = normalize(response.data, post);
+      return {
+        posts: normalized.entities.posts,
+        postId: normalized.result,
+        users: normalized.entities.users,
+      };
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
   {
     condition: (id, {getState}) => {
@@ -31,14 +35,17 @@ export const fetchPostById = createAsyncThunk(
 
 export const createPost = createAsyncThunk(
   'posts/create',
-  async (payload, thunkAPI) => {
-    let response = await postApi.post.create(payload);
-    console.log('createpost response', response);
-    const normalized = normalize(response.data, post);
-    return {
-      normalizedPost: normalized.entities,
-      newPostId: normalized.result,
-    };
+  async (payload, {rejectWithValue}) => {
+    try {
+      let response = await postApi.post.create(payload);
+      const normalized = normalize(response.data, post);
+      return {
+        normalizedPost: normalized.entities,
+        newPostId: normalized.result,
+      };
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
   {
     condition: (payload, {getState}) => {
@@ -52,9 +59,13 @@ export const createPost = createAsyncThunk(
 
 export const votePost = createAsyncThunk(
   'posts/vote',
-  async ({id, voteType}, thunkAPI) => {
-    let response = await postApi.post.vote(id, voteType);
-    return response;
+  async ({id, voteType}, {rejectWithValue}) => {
+    try {
+      let response = await postApi.post.vote(id, voteType);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
   {
     condition: ({id, voteType}, {getState}) => {
@@ -68,9 +79,33 @@ export const votePost = createAsyncThunk(
 
 export const deletePost = createAsyncThunk(
   'posts/delete',
-  async (id, thunkAPI) => {
-    let response = await postApi.post.delete(id);
-    return id;
+  async (id, {rejectWithValue}) => {
+    try {
+      let response = await postApi.post.delete(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
+  },
+  {
+    condition: (id, {getState}) => {
+      const isRegistered = getState().authorization.isRegistered;
+      const access = isRegistered ? true : false;
+      return access;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const reportPost = createAsyncThunk(
+  'posts/report',
+  async ({id, option}, {rejectWithValue}) => {
+    try {
+      let response = await postApi.post.report(id, option);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
   {
     condition: (id, {getState}) => {
