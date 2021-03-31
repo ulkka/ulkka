@@ -28,6 +28,8 @@ const intialEntityState = (postId, screen) => {
     isViewable: screen == 'PostDetail' ? true : false,
     paused: true,
     error: false,
+    showMore: false,
+    textHidden: true,
   };
 };
 
@@ -123,6 +125,26 @@ export const slice = createSlice({
         id: postId,
         changes: {
           loaded: true,
+        },
+      });
+    },
+    setShowMore(state, action) {
+      const {postId, type, value} = action.payload;
+      const screen = state[type];
+      feedAdapter.updateOne(screen, {
+        id: postId,
+        changes: {
+          showMore: value,
+        },
+      });
+    },
+    setTextHidden(state, action) {
+      const {postId, type, value} = action.payload;
+      const screen = state[type];
+      feedAdapter.updateOne(screen, {
+        id: postId,
+        changes: {
+          textHidden: value,
         },
       });
     },
@@ -245,4 +267,6 @@ export const {
   setError,
   removeFeed,
   populatePostDetail,
+  setShowMore,
+  setTextHidden,
 } = slice.actions;

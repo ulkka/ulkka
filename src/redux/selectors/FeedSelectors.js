@@ -34,3 +34,13 @@ export const getIsPostInFeedError = (state, screen, id) =>
   state.feed[screen]
     ? selectFeedPostById(state.feed[screen], id)?.error
     : false;
+
+export const getPostTextShowMore = (state, screen, id) =>
+  state.feed[screen]
+    ? selectFeedPostById(state.feed[screen], id)?.showMore
+    : false;
+
+export const getPostTextHidden = (state, screen, id) =>
+  state.feed[screen]
+    ? selectFeedPostById(state.feed[screen], id)?.textHidden
+    : true;

@@ -1,16 +1,32 @@
-import React, {memo, useState, useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {getPostDescription} from '../../redux/selectors/PostSelectors';
+import {
+  getPostTextShowMore,
+  getPostTextHidden,
+} from '../../redux/selectors/FeedSelectors';
+import {setShowMore, setTextHidden} from '../../redux/reducers/FeedSlice';
 
 const TextPostContent = (props) => {
-  const {postId} = props;
+  const dispatch = useDispatch();
+
+  const {postId, screen, screenId} = props;
   const description = useSelector((state) => getPostDescription(state, postId));
-  const [showMore, setShowMore] = useState(false);
-  const [textHidden, setTextHidden] = useState(true);
+
+  const currentScreen = screenId ? screenId : screen;
+
+  const showMore = useSelector((state) =>
+    getPostTextShowMore(state, currentScreen, postId),
+  );
+  const textHidden = useSelector((state) =>
+    getPostTextHidden(state, currentScreen, postId),
+  );
 
   const onTextLayout = useCallback((e) => {
-    setShowMore(e.nativeEvent.lines.length > 9);
+    if (e.nativeEvent.lines.length > 9) {
+      dispatch(setShowMore({postId: postId, type: currentScreen, value: true}));
+    }
   }, []);
 
   return (
@@ -32,7 +48,11 @@ const TextPostContent = (props) => {
       {showMore && (
         <TouchableOpacity
           style={{paddingVertical: 5}}
-          onPress={() => setTextHidden(!textHidden)}>
+          onPress={() =>
+            dispatch(
+              setTextHidden({postId, type: currentScreen, value: !textHidden}),
+            )
+          }>
           <Text style={{color: '#68cbf8'}}>
             {textHidden ? 'See More' : 'See Less'}
           </Text>

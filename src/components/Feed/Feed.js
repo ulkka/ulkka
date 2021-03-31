@@ -99,9 +99,9 @@ function Feed(props) {
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={screen == 'home' ? 0.5 : 0.1}
-        removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
+        removeClippedSubviews={Platform.OS == 'ios' ? true : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
         updateCellsBatchingPeriod={500}
-        windowSize={25}
+        windowSize={5}
         initialNumToRender={5}
         maxToRenderPerBatch={10}
         viewabilityConfig={viewabilityConfigRef.current}
