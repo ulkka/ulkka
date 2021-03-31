@@ -9,7 +9,19 @@ import {
   getPostDescription,
   getPostMediaMetadata,
   getPostType,
+  getPostOgData,
 } from '../../redux/selectors/PostSelectors';
+
+function getShareOGImageUrl(type, mediaUrl, ogData) {
+  switch (type) {
+    case 'video':
+      return mediaUrl.substring(0, mediaUrl.lastIndexOf('.')) + '.jpg';
+    case 'image':
+      return mediaUrl;
+    case 'link':
+      return ogData?.ogImage?.url;
+  }
+}
 
 const SharePost = (props) => {
   const {postId} = props;
@@ -20,6 +32,7 @@ const SharePost = (props) => {
   const mediaMetadata = useSelector((state) =>
     getPostMediaMetadata(state, postId),
   );
+  const ogData = useSelector((state) => getPostOgData(state, postId));
   const type = useSelector((state) => getPostType(state, postId));
 
   const platFormIcon =
@@ -32,25 +45,24 @@ const SharePost = (props) => {
   async function buildLink(postId) {
     const mediaUrl = mediaMetadata?.secure_url;
 
-    const link = await dynamicLinks().buildShortLink(
-      {
-        link: 'https://vellarikkapattanam.com/post/' + postId,
-        // domainUriPrefix is created in your Firebase console
-        domainUriPrefix: 'https://vellarikkapattanam.page.link',
-        // optional setup which updates Firebase analytics campaign
-        // "banner". This also needs setting up before hand
-        analytics: {
-          campaign: 'banner',
-        },
-        social: {
-          title: title,
-          descriptionText: description,
-          imageUrl:
-            type == 'video'
-              ? mediaUrl.substring(0, mediaUrl.lastIndexOf('.')) + '.jpg'
-              : mediaUrl,
-        },
+    const config = {
+      link: 'https://vellarikkapattanam.com/post/' + postId,
+      // domainUriPrefix is created in your Firebase console
+      domainUriPrefix: 'https://vellarikkapattanam.page.link',
+      // optional setup which updates Firebase analytics campaign
+      // "banner". This also needs setting up before hand
+      analytics: {
+        campaign: 'banner',
       },
+      social: {
+        title: title,
+        descriptionText: description,
+        imageUrl: getShareOGImageUrl(type, mediaUrl, ogData),
+      },
+    };
+
+    const link = await dynamicLinks().buildShortLink(
+      config,
       dynamicLinks.ShortLinkType.SHORT,
     );
 

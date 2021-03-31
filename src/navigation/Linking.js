@@ -10,7 +10,7 @@ const config = {
         PostDetail: 'post/:postId',
         Feed: {
           screens: {
-            Home: 'home',
+            Home: '',
             Popular: 'popular',
           },
         },

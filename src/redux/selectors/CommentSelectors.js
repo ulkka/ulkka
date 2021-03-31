@@ -38,6 +38,9 @@ export const getCommentText = (state, id) => selectCommentById(state, id)?.text;
 export const getCommentStatus = (state, id) =>
   selectCommentById(state, id)?.status;
 
+export const getCommentisDeleted = (state, id) =>
+  selectCommentById(state, id)?.isDeleted;
+
 export const getCommentReplies = (state, id) =>
   selectCommentById(state, id)?.replies;
 

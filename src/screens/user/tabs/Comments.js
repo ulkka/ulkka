@@ -14,24 +14,23 @@ const CommentRow = memo((props) => {
   const createdAt = comment?.created_at;
   const text = comment?.text;
   const voteCount = comment?.voteCount;
-  const status = comment?.status;
+  const isCommentDeleted = comment?.isDeleted;
   const postId = comment?.post;
-  const title = comment?.postDetail?.title;
+  const postTitle = comment?.postDetail?.title;
   const isPostDeleted = comment?.postDetail?.isDeleted;
 
-  const textField =
-    status != 'deleted' ? (
-      <Text
-        ellipsizeMode={'tail'}
-        numberOfLines={5}
-        style={{padding: 5, color: '#333'}}>
-        {text}
-      </Text>
-    ) : (
-      <Text style={{padding: 5, color: '#333'}}>
-        {' -- comment deleted -- '}
-      </Text>
-    );
+  const textField = !isCommentDeleted ? (
+    <Text
+      ellipsizeMode={'tail'}
+      numberOfLines={5}
+      style={{padding: 5, color: '#333'}}>
+      {text}
+    </Text>
+  ) : (
+    <Text style={{padding: 5, color: '#ff6565', fontStyle: 'italic'}}>
+      {'  Comment deleted  '}
+    </Text>
+  );
 
   const voteCountField = (
     <View
@@ -54,8 +53,21 @@ const CommentRow = memo((props) => {
     </View>
   );
 
-  const titleField = (
-    <Text style={{fontWeight: 'bold', padding: 5, color: '#444'}}>{title}</Text>
+  const postTitleField = isPostDeleted ? (
+    <Text
+      style={{
+        fontWeight: 'bold',
+        padding: 5,
+        color: '#ff6565',
+        fontStyle: 'italic',
+      }}>
+      {' '}
+      Post Deleted{'  '}
+    </Text>
+  ) : (
+    <Text style={{fontWeight: 'bold', padding: 5, color: '#444'}}>
+      {postTitle}
+    </Text>
   );
 
   const metadataRow = (
@@ -73,30 +85,20 @@ const CommentRow = memo((props) => {
     </View>
   );
 
-  return !isPostDeleted ? (
+  return (
     <TouchableOpacity
+      disabled={isPostDeleted}
       style={{
         padding: 5,
-        backgroundColor: '#fff',
+        backgroundColor: isPostDeleted || isCommentDeleted ? '#fff5f5' : '#fff',
         borderRadius: 5,
         marginHorizontal: 3,
       }}
       onPress={() => push('PostDetail', {postId: postId})}>
-      {titleField}
+      {postTitleField}
       {metadataRow}
       {textField}
     </TouchableOpacity>
-  ) : (
-    <View
-      style={{
-        marginHorizontal: 3,
-        paddingVertical: 20,
-        borderRadius: 15,
-        paddingHorizontal: 10,
-        backgroundColor: '#fafafa',
-      }}>
-      <Text style={{color: '#444', letterSpacing: 0.5}}>Post deleted</Text>
-    </View>
   );
 });
 

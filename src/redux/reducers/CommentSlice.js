@@ -120,16 +120,16 @@ export const slice = createSlice({
     [deleteComment.fulfilled]: (state, action) => {
       const commentId = action.payload;
 
-      const comment = commentAdapter
-        .getSelectors()
-        .selectById(state, commentId);
-      commentAdapter.upsertOne(state, {...comment, status: 'deleted'});
-      /*commentAdapter.updateOne(state, {
+      // const comment = commentAdapter
+      //   .getSelectors()
+      //   .selectById(state, commentId);
+      //commentAdapter.upsertOne(state, {...comment, status: 'deleted'});
+      commentAdapter.updateOne(state, {
         id: commentId,
         changes: {
-          status: 'deleted',
+          isDeleted: true,
         },
-      });*/
+      });
       Snackbar.show({
         text: 'Comment deleted',
         duration: Snackbar.LENGTH_SHORT,

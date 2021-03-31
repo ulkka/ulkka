@@ -3,9 +3,16 @@ import {Alert, View, Linking} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import Snackbar from 'react-native-snackbar';
 import {useLinkTo} from '@react-navigation/native';
-import navigate from '../navigation/Ref';
+import {navigate} from '../navigation/Ref';
+
+function getPathNameFromRemoteMessage(remoteMessage) {
+  return remoteMessage.data?.path && remoteMessage.data?.path?.length
+    ? remoteMessage.data.path
+    : '/';
+}
 
 const NotificationHandler = () => {
+  const linkTo = useLinkTo();
   useEffect(() => {
     requestUserPermission();
 
@@ -18,26 +25,26 @@ const NotificationHandler = () => {
             'Notification caused app to open from quit state:',
             remoteMessage.notification,
           );
-          // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
-          const link = remoteMessage.data?.link;
-          //  link && Linking.openURL(link);
+          const path = getPathNameFromRemoteMessage(remoteMessage);
+          linkTo(path);
         }
-        // setLoading(false);
       });
 
     //// Check whether a notification arrived while app is on foreground
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      //Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      const path = getPathNameFromRemoteMessage(remoteMessage);
+      console.log('navigating to path', path);
       Snackbar.show({
         text: remoteMessage.notification?.body,
         duration: Snackbar.LENGTH_LONG,
         action: {
           text: 'View',
           textColor: 'green',
-          // onPress: () => navigate('CreatePost'),
+          onPress: () => linkTo(path),
         },
       });
     });
+
     return unsubscribe;
   }, []);
 
@@ -47,9 +54,8 @@ const NotificationHandler = () => {
         'Notification caused app to open from background state:',
         remoteMessage.notification,
       );
-      // navigation.navigate(remoteMessage.data.type);
-      const link = remoteMessage.data?.link;
-      // link && Linking.openURL(link);
+      const path = remoteMessage.data?.path;
+      linkTo(path);
     });
     return unsubscribe;
   }, []);

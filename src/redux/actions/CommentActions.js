@@ -38,7 +38,7 @@ export const fetchUserComments = createAsyncThunk(
   'comments/fetchUserComments',
   async (userId, {rejectWithValue}) => {
     try {
-      let response = await userApi.comment.fetchUserComments(userId, 1, 100);
+      let response = await userApi.comment.fetchUserComments(userId, 1, 99);
       const data = response.data.data;
       const normalized = normalize(data, [comment]);
       return {

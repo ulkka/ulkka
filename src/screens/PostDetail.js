@@ -14,7 +14,10 @@ import {removePostDetail} from '../redux/reducers/FeedSlice';
 import {refreshPostDetail, initPostDetail} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 import {isFeedRefreshing} from '../redux/selectors/FeedSelectors';
-import {getPostStatus} from '../redux/selectors/PostSelectors';
+import {
+  getPostStatus,
+  getPostisDeleted,
+} from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
 import {goBack} from '../navigation/Ref';
 import {Button} from 'react-native-elements';
@@ -26,6 +29,7 @@ const PostDetail = ({route}) => {
   const [screenId, setScreenId] = useState(undefined);
 
   const postStatus = useSelector((state) => getPostStatus(state, postId));
+  const isPostDeleted = useSelector((state) => getPostisDeleted(state, postId));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
 
   const authStatus = useSelector(getAuthStatus);
@@ -45,15 +49,10 @@ const PostDetail = ({route}) => {
 
   const loadPostDetail = async () => {
     dispatch(initPostDetail({screenId, postId}));
-    if (!postStatus) {
-      //if post not found then try to fetch it
-      console.log('post not found');
-      handleRefresh();
-    }
+    handleRefresh();
   };
 
   const handleRefresh = () => {
-    console.log('refreshing post detail', screenId, postId);
     dispatch(refreshPostDetail({type: screenId, postId}));
   };
 
@@ -121,7 +120,7 @@ const PostDetail = ({route}) => {
   );
   return refreshing || authStatus == 'UNAUTHENTICATED'
     ? refreshingPostView
-    : postStatus == 'enabled'
+    : isPostDeleted == false
     ? postView
     : postNotAvailableView;
 };

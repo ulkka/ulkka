@@ -57,12 +57,7 @@ export const slice = createSlice({
     },
     [deletePost.fulfilled]: (state, action) => {
       const postId = action.payload;
-      postAdapter.updateOne(state, {
-        id: postId,
-        changes: {
-          status: 'deleted',
-        },
-      });
+      postAdapter.removeOne(state, postId);
       Snackbar.show({
         text: 'Post deleted',
         duration: Snackbar.LENGTH_SHORT,

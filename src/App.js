@@ -12,7 +12,6 @@ import RegisterDeviceToken from './components/RegisterDeviceToken';
 //import ShareMenuHandler from './components/ShareMenuHandler';
 import OptionSheet from './components/OptionSheet';
 import IdTokenListener from './client/IdTokenListener';
-import NotificationHandler from './components/NotificationHandler';
 
 export default function App() {
   useEffect(() => {
@@ -31,7 +30,6 @@ export default function App() {
           <RegisterDeviceToken />
           <OptionSheet />
           <IdTokenListener />
-          <NotificationHandler />
           <Main />
         </View>
       </ThemeProvider>
