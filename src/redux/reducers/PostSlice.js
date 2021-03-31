@@ -47,7 +47,7 @@ export const slice = createSlice({
 
         if (!isFeedEmpty) {
           const posts = normalizedPosts.posts;
-          postAdapter.addMany(state, posts);
+          postAdapter.upsertMany(state, posts);
         }
       }
     },

@@ -8,6 +8,7 @@ import {
   voteComment,
   refreshComments,
   reportComment,
+  fetchUserComments,
 } from '../actions/CommentActions';
 import {handleError} from '../actions/common';
 
@@ -51,28 +52,42 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchComments.pending]: (state, action) => {
-      const {postId, userId} = action.meta.arg;
-      const entity = postId ? 'posts' : 'users';
-      const entityId = entity == 'posts' ? postId : userId;
+      const postId = action.meta.arg;
 
-      const commentState = state[entity][entityId];
+      const commentState = state.posts[postId];
       if (!commentState) {
-        state[entity][entityId] = initialStatePostComments;
+        state.posts[postId] = initialStatePostComments;
       }
     },
     [fetchComments.fulfilled]: (state, action) => {
       const comments = action.payload.normalizedComments.comments;
 
-      const {postId, userId} = action.meta.arg;
-      const entity = postId ? 'posts' : 'users';
-      const entityId = entity == 'posts' ? postId : userId;
-
-      const commentState = state[entity][entityId];
+      const postId = action.meta.arg;
+      const commentState = state.posts[postId];
 
       if (comments) {
-        entity == 'posts'
-          ? commentAdapter.addMany(state, comments)
-          : commentAdapter.upsertMany(state, comments);
+        commentAdapter.upsertMany(state, comments);
+      }
+
+      commentState.parentCommentIds = action.payload.parentComments;
+      commentState.loading = false;
+    },
+    [fetchUserComments.pending]: (state, action) => {
+      const userId = action.meta.arg;
+
+      const commentState = state.users[userId];
+      if (!commentState) {
+        state.users[userId] = initialStatePostComments;
+      }
+    },
+    [fetchUserComments.fulfilled]: (state, action) => {
+      const comments = action.payload.normalizedComments.comments;
+
+      const userId = action.meta.arg;
+      const commentState = state.users[userId];
+
+      if (comments) {
+        commentAdapter.upsertMany(state, comments);
       }
 
       commentState.parentCommentIds = action.payload.parentComments;

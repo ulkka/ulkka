@@ -6,16 +6,11 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
-  async ({postId, userId}, {rejectWithValue}) => {
+  async (postId, {rejectWithValue}) => {
     try {
-      const entity = postId ? 'posts' : 'users';
-      const entityId = entity == 'posts' ? postId : userId;
+      let response = await postApi.comment.fetch(postId);
 
-      let response =
-        entity == 'posts'
-          ? await postApi.comment.fetch(entityId)
-          : await userApi.comment.fetchUserComments(entityId, 1, 100);
-      const data = entity == 'posts' ? response.data : response.data.data;
+      const data = response.data;
       const normalized = normalize(data, [comment]);
       return {
         normalizedComments: normalized.entities,
@@ -26,14 +21,40 @@ export const fetchComments = createAsyncThunk(
     }
   },
   {
-    condition: ({postId, userId}, {getState}) => {
+    condition: (postId, {getState}) => {
       const authStatus = getState().authorization.status;
       const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
 
-      const entity = postId ? 'posts' : 'users';
-      const entityId = entity == 'posts' ? postId : userId;
+      const comments = getState().comments.posts[postId];
+      const requestAccess = comments === undefined ? true : !comments.loading;
 
-      const comments = getState().comments[entity][entityId];
+      return authAccess && requestAccess;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const fetchUserComments = createAsyncThunk(
+  'comments/fetchUserComments',
+  async (userId, {rejectWithValue}) => {
+    try {
+      let response = await userApi.comment.fetchUserComments(userId, 1, 100);
+      const data = response.data.data;
+      const normalized = normalize(data, [comment]);
+      return {
+        normalizedComments: normalized.entities,
+        parentComments: normalized.result,
+      };
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
+  },
+  {
+    condition: (userId, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
+
+      const comments = getState().comments.users[userId];
       const requestAccess = comments === undefined ? true : !comments.loading;
 
       return authAccess && requestAccess;
@@ -106,7 +127,7 @@ export const refreshComments = createAsyncThunk(
   'comments/refresh',
   async (postId, {dispatch, rejectWithValue}) => {
     try {
-      await dispatch(fetchComments({postId: postId}));
+      await dispatch(fetchComments(postId));
       return postId;
     } catch (error) {
       return rejectWithValue(error?.response);

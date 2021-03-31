@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
-import {View, Text} from 'react-native';
+import {Text, TouchableWithoutFeedback} from 'react-native';
+import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostTitle} from '../../redux/selectors/PostSelectors';
 
@@ -7,7 +8,12 @@ const PostTitle = (props) => {
   const {postId} = props;
   const postTitle = useSelector((state) => getPostTitle(state, postId));
   return (
-    <View>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        push('PostDetail', {
+          postId: postId,
+        });
+      }}>
       <Text
         style={{
           fontSize: 15,
@@ -18,7 +24,7 @@ const PostTitle = (props) => {
         }}>
         {postTitle}
       </Text>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

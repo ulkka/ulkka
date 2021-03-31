@@ -2,7 +2,7 @@ import React, {useEffect, memo} from 'react';
 import {View, FlatList, Text, TouchableOpacity, Platform} from 'react-native';
 import {Divider, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchComments} from '../../../redux/actions/CommentActions';
+import {fetchUserComments} from '../../../redux/actions/CommentActions';
 import {getUserCommentsSelector} from '../../../redux/selectors/CommentSelectors';
 import {selectCommentById} from '../../../redux/selectors/CommentSelectors';
 import TimeAgo from '../../../components/TimeAgo';
@@ -11,12 +11,13 @@ import {push} from '../../../navigation/Ref';
 const CommentRow = memo((props) => {
   const {commentId} = props;
   const comment = useSelector((state) => selectCommentById(state, commentId));
-  const title = comment?.post?.title;
   const createdAt = comment?.created_at;
   const text = comment?.text;
   const voteCount = comment?.voteCount;
-  const postId = comment?.post?._id;
   const status = comment?.status;
+  const postId = comment?.post;
+  const title = comment?.postDetail?.title;
+  const isPostDeleted = comment?.postDetail?.isDeleted;
 
   const textField =
     status != 'deleted' ? (
@@ -72,7 +73,7 @@ const CommentRow = memo((props) => {
     </View>
   );
 
-  return title ? (
+  return !isPostDeleted ? (
     <TouchableOpacity
       style={{
         padding: 5,
@@ -94,7 +95,7 @@ const CommentRow = memo((props) => {
         paddingHorizontal: 10,
         backgroundColor: '#fafafa',
       }}>
-      <Text style={{color: '#444', letterSpacing: 0.5}}>Post removed</Text>
+      <Text style={{color: '#444', letterSpacing: 0.5}}>Post deleted</Text>
     </View>
   );
 });
@@ -115,7 +116,7 @@ const Comments = (props) => {
   console.log('running comments tab');
 
   useEffect(() => {
-    dispatch(fetchComments({userId: userId}));
+    dispatch(fetchUserComments(userId));
   }, []);
 
   const renderRow = ({item}) => {
