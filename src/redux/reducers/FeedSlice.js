@@ -18,7 +18,6 @@ const initialState = {
   },
   complete: false,
   loading: false,
-  initialised: false,
   refreshing: false,
 };
 
@@ -165,7 +164,6 @@ export const slice = createSlice({
       }
       feedAdapter.upsertMany(screen, posts);
       screen.loading = false;
-      screen.initialised = true;
       screen.refreshing = false;
     },
     [fetchFeed.rejected]: (state, action) => {
@@ -181,7 +179,6 @@ export const slice = createSlice({
         screen.refreshing = true;
         feedAdapter.removeAll(screen);
         screen.loading = false;
-        screen.initialised = false;
         screen.complete = false;
         screen.metadata = {
           page: 0,

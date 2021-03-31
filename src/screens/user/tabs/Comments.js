@@ -3,10 +3,14 @@ import {View, FlatList, Text, TouchableOpacity, Platform} from 'react-native';
 import {Divider, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchUserComments} from '../../../redux/actions/CommentActions';
-import {getUserCommentsSelector} from '../../../redux/selectors/CommentSelectors';
+import {
+  getUserCommentsSelector,
+  getUserCommentsIsComplete,
+} from '../../../redux/selectors/CommentSelectors';
 import {selectCommentById} from '../../../redux/selectors/CommentSelectors';
 import TimeAgo from '../../../components/TimeAgo';
 import {push} from '../../../navigation/Ref';
+import FeedFooter from '../../../components/Feed/FeedFooter';
 
 const CommentRow = memo((props) => {
   const {commentId} = props;
@@ -27,7 +31,10 @@ const CommentRow = memo((props) => {
       {text}
     </Text>
   ) : (
-    <Text style={{padding: 5, color: '#ff6565', fontStyle: 'italic'}}>
+    <Text
+      numberOfLines={4}
+      ellipsizeMode="tail"
+      style={{padding: 5, color: '#ff6565', fontStyle: 'italic'}}>
       {'  Comment deleted  '}
     </Text>
   );
@@ -65,7 +72,10 @@ const CommentRow = memo((props) => {
       Post Deleted{'  '}
     </Text>
   ) : (
-    <Text style={{fontWeight: 'bold', padding: 5, color: '#444'}}>
+    <Text
+      numberOfLines={1}
+      ellipsizeMode="tail"
+      style={{fontWeight: 'bold', padding: 5, color: '#444'}}>
       {postTitle}
     </Text>
   );
@@ -114,7 +124,9 @@ const Comments = (props) => {
   const commentIds = useSelector((state) =>
     getUserCommentsSelector(state, userId),
   );
-
+  const complete = useSelector((state) =>
+    getUserCommentsIsComplete(state, userId),
+  );
   console.log('running comments tab');
 
   useEffect(() => {
@@ -124,16 +136,32 @@ const Comments = (props) => {
   const renderRow = ({item}) => {
     return <CommentRow commentId={item} />;
   };
+
+  const handleLoadMore = () => {
+    if (!complete) {
+      dispatch(fetchUserComments(userId));
+    }
+  };
+
   return (
-    <FlatList
-      listKey="userCommentList"
-      removeClippedSubviews={true}
-      renderItem={renderRow}
-      data={commentIds}
-      removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
-      ItemSeparatorComponent={separator}
-      keyExtractor={(item, index) => item}
-    />
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <FlatList
+        listKey="userCommentList"
+        removeClippedSubviews={true}
+        renderItem={renderRow}
+        data={commentIds}
+        removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
+        ItemSeparatorComponent={separator}
+        keyExtractor={(item, index) => item}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.1}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        updateCellsBatchingPeriod={500}
+        windowSize={25}
+        ListFooterComponent={<FeedFooter complete={complete} />}
+      />
+    </View>
   );
 };
 

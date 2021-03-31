@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   },
   loadingView: {
     flex: 1,
+    height: 120,
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',

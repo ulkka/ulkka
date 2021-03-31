@@ -19,8 +19,15 @@ const initialStatePostComments = {
 };
 
 const initialStateUserComments = {
-  loading: true,
+  loading: false,
   commentIds: [],
+  metadata: {
+    page: 0,
+    total: -1,
+    limit: 10,
+  },
+  complete: false,
+  refreshing: false,
 };
 
 function addReply(state, parentCommentId, newCommentId) {
@@ -77,21 +84,28 @@ export const slice = createSlice({
 
       const commentState = state.users[userId];
       if (!commentState) {
-        state.users[userId] = initialStatePostComments;
+        state.users[userId] = initialStateUserComments;
       }
     },
     [fetchUserComments.fulfilled]: (state, action) => {
-      const comments = action.payload.normalizedComments.comments;
+      const comments = action.payload.normalizedComments?.comments;
 
       const userId = action.meta.arg;
       const commentState = state.users[userId];
 
       if (comments) {
         commentAdapter.upsertMany(state, comments);
+        commentState.metadata = action.payload.metadata;
+        commentState.commentIds = [
+          ...commentState.commentIds,
+          ...action.payload.commentIds,
+        ];
+      } else {
+        commentState.complete = true;
       }
 
-      commentState.parentCommentIds = action.payload.parentComments;
       commentState.loading = false;
+      commentState.refreshing = false;
     },
     [createReply.fulfilled]: (state, action) => {
       const newCommentId = action.payload.result;

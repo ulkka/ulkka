@@ -63,4 +63,7 @@ export const getCommentAuthorDisplayname = createCachedSelector(
 )((state, id) => id);
 
 export const getUserCommentsSelector = (state, userId) =>
-  state.comments.users[userId]?.parentCommentIds;
+  state.comments.users[userId]?.commentIds;
+
+export const getUserCommentsIsComplete = (state, userId) =>
+  state.comments.users[userId]?.complete;

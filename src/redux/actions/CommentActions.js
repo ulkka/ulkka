@@ -36,14 +36,21 @@ export const fetchComments = createAsyncThunk(
 
 export const fetchUserComments = createAsyncThunk(
   'comments/fetchUserComments',
-  async (userId, {rejectWithValue}) => {
+  async (userId, {getState, rejectWithValue}) => {
     try {
-      let response = await userApi.comment.fetchUserComments(userId, 1, 99);
+      const {page, limit} = getState().comments.users[userId].metadata;
+      const nextPage = page + 1;
+      let response = await userApi.comment.fetchUserComments(
+        userId,
+        nextPage,
+        limit,
+      );
       const data = response.data.data;
       const normalized = normalize(data, [comment]);
       return {
         normalizedComments: normalized.entities,
-        parentComments: normalized.result,
+        metadata: response.data.metadata[0],
+        commentIds: normalized.result,
       };
     } catch (error) {
       return rejectWithValue(error?.response);
@@ -55,7 +62,8 @@ export const fetchUserComments = createAsyncThunk(
       const authAccess = authStatus == 'UNAUTHENTICATED' ? false : true;
 
       const comments = getState().comments.users[userId];
-      const requestAccess = comments === undefined ? true : !comments.loading;
+      const requestAccess =
+        comments === undefined ? true : !comments.complete && !comments.loading;
 
       return authAccess && requestAccess;
     },
