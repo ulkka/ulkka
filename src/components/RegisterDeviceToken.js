@@ -37,9 +37,21 @@ export default function RegisterDeviceToken() {
 
   useEffect(() => {
     if (isRegistered) {
-      saveToken();
+      requestUserPermission(); // request notification permission on login/register
     }
   }, [isRegistered]);
+
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      saveToken();
+      console.log('Notification Authorization status:', authStatus);
+    }
+  }
 
   const saveToken = async () => {
     if (isRegistered) {

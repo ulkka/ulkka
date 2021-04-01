@@ -22,6 +22,7 @@ import {
 import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import {signout} from '../../redux/actions/AuthActions';
 import TimeAgo from '../../components/TimeAgo';
+import UserAvatar from '../../components/UserAvatar';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -66,24 +67,9 @@ const AccountDetail = memo((props) => {
     </Text>
   );
 
-  const userAvatar = (
+  const avatar = (
     //< Icon name = "account-circle" size = { 40} />
-    <FastImage
-      style={{
-        height: 55,
-        width: 55,
-        alignSelf: 'center',
-      }}
-      source={{
-        uri:
-          'http://avatars.dicebear.com/4.5/api/bottts/' +
-          userDisplayname +
-          '.png?colorful=true',
-        priority: FastImage.priority.normal,
-        cache: FastImage.cacheControl.immutable,
-      }}
-      resizeMode={FastImage.resizeMode.contain}
-    />
+    <UserAvatar seed={userDisplayname} size={'extralarge'} />
   );
 
   const userAvatarAndDisplayName = (
@@ -92,7 +78,7 @@ const AccountDetail = memo((props) => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      {userAvatar}
+      {avatar}
       {userDisplaynameField}
     </View>
   );

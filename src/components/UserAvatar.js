@@ -8,6 +8,8 @@ export default function UserAvatar(props) {
 
   function getDimensionFromSize(size) {
     switch (size) {
+      case 'extralarge':
+        return 55;
       case 'large':
         return 36;
       case 'medium':
