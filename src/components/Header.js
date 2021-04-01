@@ -14,6 +14,7 @@ import {
   getRegistrationStatus,
   getRegisteredUser,
 } from '../redux/reducers/AuthSlice';
+import UserAvatar from './UserAvatar';
 
 const HeaderBar = (props) => {
   const [searchMode, setSearchMode] = useState(false);
@@ -22,23 +23,8 @@ const HeaderBar = (props) => {
   const _toggleSearch = () => setSearchMode(!searchMode);
 
   const AccountComponent = () => {
-    const UserAvatar = isRegistered ? (
-      <FastImage
-        style={{
-          height: 36,
-          width: 36,
-          alignSelf: 'center',
-        }}
-        source={{
-          uri:
-            'http://avatars.dicebear.com/4.5/api/bottts/' +
-            registeredUser?.displayname +
-            '.png?colorful=true',
-          priority: FastImage.priority.normal,
-          cache: FastImage.cacheControl.immutable,
-        }}
-        resizeMode={FastImage.resizeMode.contain}
-      />
+    const avatar = isRegistered ? (
+      <UserAvatar seed={registeredUser.displayname} size="large" />
     ) : (
       <Icon
         name="user-alt"
@@ -62,7 +48,7 @@ const HeaderBar = (props) => {
               })
             : showAuthScreen();
         }}>
-        {UserAvatar}
+        {avatar}
       </TouchableOpacity>
     );
   };

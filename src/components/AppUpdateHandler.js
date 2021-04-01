@@ -14,10 +14,8 @@ const AppUpdateHandler = (props) => {
       .then((fetchedRemotely) => {
         if (fetchedRemotely) {
           console.log('Configs were retrieved from the backend and activated.');
-          const shouldUpdate = remoteConfig()
-            .getValue('mandatory_update')
-            .asBoolean();
-          handle(shouldUpdate);
+          const value = remoteConfig().getValue('mandatory_update').asBoolean();
+          handle(value);
         } else {
           console.log(
             'No configs were fetched from the backend, and the local configs were already activated',

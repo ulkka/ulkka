@@ -12,6 +12,7 @@ import {
 import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import TimeAgo from '../TimeAgo';
 import {push} from '../../navigation/Ref';
+import UserAvatar from '../UserAvatar';
 
 const CommentMetadata = (props) => {
   const {isCollapsed, commentId, onPressToggleCollapse} = props;
@@ -77,25 +78,7 @@ const CommentMetadata = (props) => {
     />
   );
 
-  const userAvatar = (
-    <FastImage
-      style={{
-        height: 20,
-        width: 20,
-        alignSelf: 'center',
-        marginRight: 5,
-      }}
-      source={{
-        uri:
-          'http://avatars.dicebear.com/4.5/api/bottts/' +
-          authorDisplayname +
-          '.png?colorful=true',
-        priority: FastImage.priority.normal,
-        cache: FastImage.cacheControl.immutable,
-      }}
-      resizeMode={FastImage.resizeMode.contain}
-    />
-  );
+  const avatar = <UserAvatar seed={authorDisplayname} size="small" />;
 
   const CreatedAt = <TimeAgo time={createdAt} />;
 
@@ -106,9 +89,10 @@ const CommentMetadata = (props) => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      {userAvatar}
+      {avatar}
       <View
         style={{
+          paddingHorizontal: 5,
           flexDirection: 'row',
           alignItems: 'center',
         }}>

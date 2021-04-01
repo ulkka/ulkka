@@ -14,6 +14,7 @@ import {
   getPostCreatedAt,
 } from '../../redux/selectors/PostSelectors';
 import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
+import UserAvatar from '../UserAvatar';
 
 const PostHeader = (props) => {
   const {postId} = props;
@@ -98,22 +99,7 @@ const PostHeader = (props) => {
   );
 
   const PostAuthorAvatar = (
-    <FastImage
-      style={{
-        height: 33,
-        width: 33,
-        alignSelf: 'center',
-      }}
-      source={{
-        uri:
-          'http://avatars.dicebear.com/4.5/api/bottts/' +
-          authorDisplayname +
-          '.png?colorful=true',
-        priority: FastImage.priority.normal,
-        cache: FastImage.cacheControl.immutable,
-      }}
-      resizeMode={FastImage.resizeMode.contain}
-    />
+    <UserAvatar seed={authorDisplayname} size="medium" />
   );
 
   return (
