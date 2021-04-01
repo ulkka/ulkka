@@ -1,6 +1,5 @@
 import React from 'react';
 import FastImage from 'react-native-fast-image';
-import {View} from 'react-native';
 import {axiosConfig} from '../client/axiosConfig';
 
 export default function UserAvatar(props) {

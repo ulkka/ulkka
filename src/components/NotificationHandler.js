@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
-import {Alert, View, Linking} from 'react-native';
+import {View} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import Snackbar from 'react-native-snackbar';
 import {useLinkTo} from '@react-navigation/native';
-import {navigate} from '../navigation/Ref';
 
 function getPathNameFromRemoteMessage(remoteMessage) {
-  return remoteMessage.data?.path && remoteMessage.data?.path?.length
-    ? remoteMessage.data.path
+  return remoteMessage.data?.link && remoteMessage.data?.link?.length
+    ? '/' + remoteMessage.data.link
     : '/';
 }
 
@@ -33,11 +32,10 @@ const NotificationHandler = () => {
     //// Check whether a notification arrived while app is on foreground
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       const path = getPathNameFromRemoteMessage(remoteMessage);
-      console.log('navigating to path', path);
       Snackbar.show({
         text: remoteMessage.notification?.body,
         duration: Snackbar.LENGTH_LONG,
-        action: {
+        action: path && {
           text: 'View',
           textColor: 'green',
           onPress: () => linkTo(path),
