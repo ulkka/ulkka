@@ -17,7 +17,11 @@ export const PostTitleField = (props) => {
         inputContainerStyle={{
           borderBottomColor: '#ddd',
         }}
-        inputStyle={{textAlign: 'center', lineHeight: 24, marginBottom: 10}}
+        inputStyle={{
+          textAlign: 'center',
+          lineHeight: 24,
+          marginBottom: 10,
+        }}
         onChangeText={(text) => onChangeText(transformText(text))}
         value={title}
         numberOfLines={3}

@@ -94,7 +94,7 @@ function CommentList(props) {
   const nonEmptyCommentView = (
     <View
       style={{
-        marginBottom: Platform.OS == 'ios' ? 35 : 5,
+        marginBottom: Platform.OS == 'ios' ? 35 : 15,
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
       }}>
