@@ -6,7 +6,6 @@ import {
   Platform,
 } from 'react-native';
 import {Icon, Text} from 'react-native-elements';
-import FastImage from 'react-native-fast-image';
 import Search from './Search';
 import {showAuthScreen, push} from '../navigation/Ref';
 import {useSelector} from 'react-redux';
@@ -101,7 +100,7 @@ const HeaderBar = (props) => {
       style={{
         backgroundColor: '#fff',
       }}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       <SafeAreaView
         style={{
           flexDirection: 'row',

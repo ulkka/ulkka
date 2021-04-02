@@ -12,10 +12,14 @@ PushNotification.configure({
     const {userInteraction} = notification;
     if (userInteraction) {
       const link = notification.data.link;
-      const screen = link && 'PostDetail';
-      const postId = link && link.substring(link.lastIndexOf('/') + 1);
+
+      const entity = link && link.substring(1, link.lastIndexOf('/'));
+      const entityId = link && link.substring(link.lastIndexOf('/') + 1);
+      const screen =
+        entity == 'post' && entityId && entityId != '' ? 'PostDetail' : 'Feed';
+
       navigate(screen, {
-        postId: postId,
+        postId: entityId,
       });
     }
 
@@ -51,7 +55,7 @@ PushNotification.configure({
 
 function getLinkNameFromRemoteMessage(remoteMessage) {
   return remoteMessage.data?.link && remoteMessage.data?.link?.length
-    ? '/' + remoteMessage.data.link
+    ? remoteMessage.data.link
     : '/';
 }
 
