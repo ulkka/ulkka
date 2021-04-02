@@ -16,7 +16,7 @@ export const DescriptionField = (props) => {
           borderBottomColor: '#fff',
         }}
         inputStyle={{textAlign: 'center', lineHeight: 24}}
-        onChangeText={onChangeText}
+        onChangeText={(text) => onChangeText(text.trim())}
         value={description}
         placeholder={'Description'}
         numberOfLines={9}

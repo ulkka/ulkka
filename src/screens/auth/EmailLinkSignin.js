@@ -27,7 +27,7 @@ const EmailLinkSignIn = () => {
           setEmailErrorMessage('');
         }}
         onChangeText={(text) => {
-          setEmail(text);
+          setEmail(text.replaceAll('\n', '').trim());
         }}
         value={email}
       />

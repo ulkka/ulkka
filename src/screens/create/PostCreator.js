@@ -28,6 +28,7 @@ import Snackbar from 'react-native-snackbar';
 import axios from 'axios';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import {showAuthScreen} from '../../navigation/Ref';
+import {isURLValid} from '../../components/PostCreator/helpers';
 
 export default function CreatePost({route}) {
   const dispatch = useDispatch();
@@ -67,19 +68,6 @@ export default function CreatePost({route}) {
         )
       : '';
   };
-
-  function validURL(str) {
-    var pattern = new RegExp(
-      '^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$',
-      'i',
-    ); // fragment locator
-    return !!pattern.test(str);
-  }
 
   useEffect(() => {
     if (item) {
@@ -225,7 +213,7 @@ export default function CreatePost({route}) {
           showSnackBar('Please add a link for the post');
           return false;
         } else {
-          const isLinkValid = validURL(link);
+          const isLinkValid = isURLValid(link);
           !isLinkValid && showSnackBar('Please enter a valid link');
           return isLinkValid;
         }

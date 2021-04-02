@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Input} from 'react-native-elements';
 import utilityApi from '../../services/UtilityApi';
+import {isURLValid} from './helpers';
 
 export const LinkField = (props) => {
   const [preview, setPreview] = useState(false);
@@ -17,27 +18,31 @@ export const LinkField = (props) => {
   const {onChangeText, link} = props;
 
   useEffect(() => {
-    link != '' ? getOgPreview(link) : null;
+    link != '' && getOgPreview(link);
   }, [link]);
 
   const getOgPreview = async (link) => {
     setLoading(true);
     setPreview(false);
     setPreviewData(null);
-    const response = await utilityApi.og.preview(link);
-    if (!response.error) {
-      if (!response.data.ogImage) {
-        setPreviewData(null);
+    if (isURLValid(link)) {
+      const response = await utilityApi.og.preview(link);
+      if (!response.error) {
+        if (!response.data.ogImage) {
+          setPreviewData(null);
+        } else {
+          setPreviewData(response.data);
+          setPreview(true);
+        }
+        setLoading(false);
       } else {
-        setPreviewData(response.data);
-        setPreview(true);
+        setPreview(false);
+        setPreviewData(null);
+        setLoading(false);
+        console.log('Preview error');
       }
-      setLoading(false);
     } else {
-      setPreview(false);
-      setPreviewData(null);
       setLoading(false);
-      console.log('Preview error');
     }
   };
 
@@ -130,7 +135,9 @@ export const LinkField = (props) => {
               borderBottomColor: '#fff',
             }}
             inputStyle={{textAlign: 'center'}}
-            onChangeText={onChangeText}
+            onChangeText={(text) =>
+              onChangeText(text.replaceAll('\n', ' ').trim())
+            }
             value={link}
             placeholder={'Add Link'}
             numberOfLines={2}

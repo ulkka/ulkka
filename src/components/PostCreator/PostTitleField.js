@@ -4,6 +4,10 @@ import {Input} from 'react-native-elements';
 
 export const PostTitleField = (props) => {
   const {title, onChangeText} = props;
+
+  const transformText = (text) => {
+    return text.replaceAll('\n', ' ').trim();
+  };
   return (
     <View
       style={{
@@ -16,7 +20,7 @@ export const PostTitleField = (props) => {
           borderBottomColor: '#ddd',
         }}
         inputStyle={{textAlign: 'center', lineHeight: 24, marginBottom: 10}}
-        onChangeText={onChangeText}
+        onChangeText={(text) => onChangeText(transformText(text))}
         value={title}
         numberOfLines={3}
         multiline={true}

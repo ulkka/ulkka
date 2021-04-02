@@ -10,6 +10,9 @@ import {
   getPostMediaMetadata,
   getPostType,
   getPostOgData,
+  getPostCommentCount,
+  getPostVoteCount,
+  getPostAuthorDisplayname,
 } from '../../redux/selectors/PostSelectors';
 
 function getShareOGImageUrl(type, mediaUrl, ogData) {
@@ -34,6 +37,15 @@ const SharePost = (props) => {
   );
   const ogData = useSelector((state) => getPostOgData(state, postId));
   const type = useSelector((state) => getPostType(state, postId));
+  const voteCount = useSelector((state) => getPostVoteCount(state, postId));
+  const commentCount = useSelector((state) =>
+    getPostCommentCount(state, postId),
+  );
+  const postAuthorDisplayname = useSelector((state) =>
+    getPostAuthorDisplayname(state, postId),
+  );
+
+  const shareTitle = title.substring(0, 150);
 
   const platFormIcon =
     os == 'ios' ? (
@@ -45,6 +57,11 @@ const SharePost = (props) => {
   async function buildLink(postId) {
     const mediaUrl = mediaMetadata?.secure_url;
 
+    const socialTitle =
+      postAuthorDisplayname + ' on Vellarikka Pattanam: "' + shareTitle + '"';
+    const socialDescription =
+      voteCount + ' votes, ' + commentCount + ' comments - ' + socialTitle;
+
     const config = {
       link: 'https://vellarikkapattanam.com/post/' + postId,
       // domainUriPrefix is created in your Firebase console
@@ -55,8 +72,8 @@ const SharePost = (props) => {
         campaign: 'banner',
       },
       social: {
-        title: title,
-        descriptionText: description,
+        title: socialTitle,
+        descriptionText: socialDescription,
         imageUrl: getShareOGImageUrl(type, mediaUrl, ogData),
       },
     };
@@ -76,7 +93,7 @@ const SharePost = (props) => {
     const options = {
       title: 'Share',
       message: message,
-      subject: title,
+      subject: shareTitle,
       url: link,
     };
     Share.open(options)
