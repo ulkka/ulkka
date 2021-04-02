@@ -17,6 +17,7 @@ const EmailLinkSignIn = () => {
       <Input
         ref={emailFieldRef}
         placeholder="Email"
+        keyboardType="email-address"
         containerStyle={{width: 300}}
         inputContainerStyle={{borderBottomColor: '#ddd'}}
         inputStyle={{fontSize: 14, marginLeft: 10}}

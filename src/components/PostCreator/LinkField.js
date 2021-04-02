@@ -134,6 +134,7 @@ export const LinkField = (props) => {
             inputContainerStyle={{
               borderBottomColor: '#fff',
             }}
+            keyboardType="url"
             inputStyle={{textAlign: 'center'}}
             onChangeText={(text) => onChangeText(transformText(text, 1))}
             value={link}
