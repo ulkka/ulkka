@@ -12,6 +12,13 @@ const userApi = {
       });
       return response;
     },
+    async logout(pushMessageToken) {
+      const client = await mainClient;
+      let response = await client.post(`${USER_URI}/logout`, {
+        pushMessageToken: pushMessageToken,
+      });
+      return response;
+    },
     async getUserByEmail(email) {
       const client = await mainClient;
       let response = await client.get(`${USER_URI}?query={"email":"${email}"}`);

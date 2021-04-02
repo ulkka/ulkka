@@ -1,10 +1,12 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {GoogleSignin} from '@react-native-community/google-signin';
+import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
 import userApi from '../../services/UserApi';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {openInbox} from 'react-native-email-link';
+import PushNotification from 'react-native-push-notification';
 
 GoogleSignin.configure({
   scopes: ['openid', 'email', 'profile'],
@@ -69,86 +71,129 @@ export const fulfillAuth = (state, action) => {
   state.registeredUser = registeredUser;
 };
 
-export const loadAuth = createAsyncThunk('authorization/load', initAuth);
+export const loadAuth = createAsyncThunk(
+  'authorization/load',
+  async (arg, {rejectWithValue}) => {
+    try {
+      return initAuth();
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
+  },
+);
 
 export const socialAuth = createAsyncThunk(
   'authorization/login/social',
   async (type, {rejectWithValue}) => {
-    const data = await GoogleSignin.signIn();
-    const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
-    await auth().signInWithCredential(googleCredential);
-    return initAuth();
+    try {
+      const data = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
+      await auth().signInWithCredential(googleCredential);
+      return initAuth();
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
 );
 
 export const emailLinkAuth = createAsyncThunk(
   'authorization/login/emaillink',
-  async (data) => {
-    const {email, link} = data;
-    await auth().signInWithEmailLink(email, link.url);
-    return initAuth();
+  async (data, {rejectWithValue}) => {
+    try {
+      const {email, link} = data;
+      await auth().signInWithEmailLink(email, link.url);
+      return initAuth();
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
 );
+const actionCodeSettings = {
+  handleCodeInApp: true,
+  // URL must be whitelisted in the Firebase Console.
+  url: 'https://vellarikkapattanam.page.link/naxz',
+  iOS: {
+    bundleId: 'org.reactjs.native.example.VellarikkaPattanam',
+  },
+  android: {
+    packageName: 'com.dubiousknight.vellarikkapattanam',
+    installApp: true,
+    //  minimumVersion: '12',
+  },
+};
+
+const storeData = async (value) => {
+  try {
+    await AsyncStorage.setItem('emailForSignIn', value);
+  } catch (e) {
+    // saving error
+    console.log('error saving email in async storage', e);
+  }
+};
 
 export const sendEmailSignInLink = createAsyncThunk(
   'authorization/sendEmailSigninLink',
   async (email, {rejectWithValue}) => {
-    const actionCodeSettings = {
-      handleCodeInApp: true,
-      // URL must be whitelisted in the Firebase Console.
-      url: 'https://vellarikkapattanam.page.link/naxz',
-      iOS: {
-        bundleId: 'org.reactjs.native.example.VellarikkaPattanam',
-      },
-      android: {
-        packageName: 'com.dubiousknight.vellarikkapattanam',
-        installApp: true,
-        //  minimumVersion: '12',
-      },
-    };
-    // Save the email for latter usage
-    const storeData = async (value) => {
-      try {
-        await AsyncStorage.setItem('emailForSignIn', value);
-      } catch (e) {
-        // saving error
-        console.log('error saving email in async storage', e);
-      }
-    };
-    storeData(email);
-    await auth()
-      .sendSignInLinkToEmail(email, actionCodeSettings)
-      .then(async () => {
-        await openInbox({
-          title: `Login link sent to ${email}`,
-          message:
-            'Please check your email and click on the link to login/register',
-        }).catch((error) => {
-          Alert.alert(
-            `Login link sent to ${email}.`,
-            'Please check your email and click on the link to login/register',
-          );
+    try {
+      // Save the email for latter usage
+      storeData(email);
+      await auth()
+        .sendSignInLinkToEmail(email, actionCodeSettings)
+        .then(async () => {
+          await openInbox({
+            title: `Login link sent to ${email}`,
+            message:
+              'Please check your email and click on the link to login/register',
+          }).catch((error) => {
+            Alert.alert(
+              `Login link sent to ${email}.`,
+              'Please check your email and click on the link to login/register',
+            );
+          });
         });
-      });
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
 );
 
 export const registerUser = createAsyncThunk(
   'authorization/register',
-  async (displayname) => {
-    await userApi.user.signup(displayname);
-    return initAuth();
+  async (displayname, {rejectWithValue}) => {
+    try {
+      await userApi.user.signup(displayname);
+      return initAuth();
+    } catch (error) {
+      return rejectWithValue(error?.response);
+    }
   },
 );
 
 export const signout = createAsyncThunk(
   'authorization/signout',
-  async (arg, thunkAPI) => {
-    const isGoogleSignedIn = await GoogleSignin.isSignedIn().valueOf();
-    if (isGoogleSignedIn) {
-      await GoogleSignin.signOut();
+  async (arg, {rejectWithValue}) => {
+    try {
+      PushNotification.removeAllDeliveredNotifications();
+      const pushMessageToken = await messaging()
+        .getToken()
+        .catch((error) => {
+          console.log(
+            'error getting pushmessage token while signing out',
+            error,
+          );
+          return '';
+        });
+
+      await userApi.user.logout(pushMessageToken); // unlink device token from users account server side
+
+      const isGoogleSignedIn = await GoogleSignin.isSignedIn().valueOf();
+      if (isGoogleSignedIn) {
+        await GoogleSignin.signOut();
+      }
+      await auth().signOut();
+      return initAuth();
+    } catch (error) {
+      return rejectWithValue(error?.response);
     }
-    await auth().signOut();
-    return initAuth();
   },
 );
