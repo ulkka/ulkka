@@ -1,13 +1,11 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Input} from 'react-native-elements';
+import {transformText} from './helpers';
 
 export const PostTitleField = (props) => {
   const {title, onChangeText} = props;
 
-  const transformText = (text) => {
-    return text.replaceAll('\n', ' ').trim();
-  };
   return (
     <View
       style={{

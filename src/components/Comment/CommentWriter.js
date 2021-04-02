@@ -26,6 +26,7 @@ import {
 import {selectCommentById} from '../../redux/selectors/CommentSelectors';
 import {getUserDisplayname} from '../../redux/reducers/UserSlice';
 import {ActivityIndicator} from 'react-native';
+import {removeEmptyLines} from '../PostCreator/helpers';
 
 export default function CommentWriter(props) {
   const dispatch = useDispatch();
@@ -124,18 +125,13 @@ export default function CommentWriter(props) {
 
   const submitComment = async () => {
     var data = {};
-    if (reply_to == 'post') {
-      data = {
-        comment: comment,
-        postId: postId,
-      };
-    } else {
-      data = {
-        comment: comment,
-        postId: postId,
-        parentCommentId: commentId,
-      };
+    data.comment = removeEmptyLines(comment.trim());
+    data.postId = postId;
+
+    if (reply_to != 'post') {
+      data.parentCommentId = commentId;
     }
+
     dispatch(createReply(data));
   };
 
@@ -316,12 +312,15 @@ export default function CommentWriter(props) {
             }}
             inputContainerStyle={{
               borderBottomWidth: 0,
-              height: expanded ? 150 : 40,
+              height: expanded ? 200 : 'auto',
+              maxHeight: 200,
               marginTop: Platform.OS == 'ios' ? 10 : 0,
+              marginBottom: Platform.OS == 'ios' && comment != '' ? 10 : 0,
             }}
             inputStyle={{
               fontSize: 13,
               color: '#333',
+              textAlign: 'justify',
             }}
             disabled={false}
             maxLength={10000}
@@ -329,7 +328,7 @@ export default function CommentWriter(props) {
             onBlur={() => resetForm()}
             onFocus={() => activateForm()}
             value={comment}
-            onChangeText={(text) => setComment(text.trim())}
+            onChangeText={(text) => setComment(removeEmptyLines(text))}
             renderErrorMessage={false}
           />
         </View>

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Input} from 'react-native-elements';
 import utilityApi from '../../services/UtilityApi';
-import {isURLValid} from './helpers';
+import {isURLValid, transformText} from './helpers';
 
 export const LinkField = (props) => {
   const [preview, setPreview] = useState(false);
@@ -135,9 +135,7 @@ export const LinkField = (props) => {
               borderBottomColor: '#fff',
             }}
             inputStyle={{textAlign: 'center'}}
-            onChangeText={(text) =>
-              onChangeText(text.replaceAll('\n', ' ').trim())
-            }
+            onChangeText={(text) => onChangeText(transformText(text, 1))}
             value={link}
             placeholder={'Add Link'}
             numberOfLines={2}

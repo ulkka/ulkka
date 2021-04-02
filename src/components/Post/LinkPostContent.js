@@ -141,7 +141,11 @@ const LinkPostContent = (props) => {
         margin: 5,
       }}>
       <Text
-        style={{fontWeight: 'bold', fontSize: 13, color: '#333'}}
+        style={{
+          fontWeight: 'bold',
+          fontSize: 13,
+          color: '#333',
+        }}
         ellipsizeMode="tail"
         numberOfLines={3}>
         {ogData?.ogTitle}
@@ -192,7 +196,7 @@ const LinkPostContent = (props) => {
         alignSelf: 'center',
         alignItems: 'center',
       }}>
-      {type == 'image' ? LinkImage : LinkVideo}
+      {type && type == 'image' ? LinkImage : LinkVideo}
     </View>
   );
 

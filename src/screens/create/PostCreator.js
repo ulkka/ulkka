@@ -28,7 +28,10 @@ import Snackbar from 'react-native-snackbar';
 import axios from 'axios';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import {showAuthScreen} from '../../navigation/Ref';
-import {isURLValid} from '../../components/PostCreator/helpers';
+import {
+  isURLValid,
+  removeEmptyLines,
+} from '../../components/PostCreator/helpers';
 
 export default function CreatePost({route}) {
   const dispatch = useDispatch();
@@ -154,33 +157,20 @@ export default function CreatePost({route}) {
 
   const payloadCreator = (type, response) => {
     let payload = {};
+    payload.title = title.trim();
+    payload.type = type;
     switch (type) {
       case 'text':
-        payload = {
-          //community: community?._id,
-          title: title,
-          description: description,
-          type: type,
-        };
+        payload.description = removeEmptyLines(description.trim());
         return payload;
       case 'link':
-        payload = {
-          //  community: community?._id,
-          title: title,
-          link: link,
-          type: type,
-        };
+        payload.link = link.trim();
         return payload;
       case 'gif':
       case 'video':
       case 'image':
-        payload = {
-          //  community: community?._id,
-          title: title,
-          link: response?.data?.secure_url,
-          type: type,
-          mediaMetadata: response?.data,
-        };
+        payload.link = response?.data?.secure_url;
+        payload.mediaMetadata = response?.data;
         return payload;
     }
   };

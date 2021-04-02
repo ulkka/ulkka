@@ -3,6 +3,7 @@ import {Button, View} from 'react-native';
 import {Input, Icon} from 'react-native-elements';
 import {sendEmailSignInLink} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
+import {transformText} from '../../components/PostCreator/helpers';
 
 const EmailLinkSignIn = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const EmailLinkSignIn = () => {
           setEmailErrorMessage('');
         }}
         onChangeText={(text) => {
-          setEmail(text.replaceAll('\n', '').trim());
+          setEmail(transformText(text, 1));
         }}
         value={email}
       />

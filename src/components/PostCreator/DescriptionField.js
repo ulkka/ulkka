@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Platform} from 'react-native';
 import {Input} from 'react-native-elements';
+import {removeEmptyLines} from './helpers';
 
 export const DescriptionField = (props) => {
   const {onChangeText, description} = props;
@@ -16,7 +17,7 @@ export const DescriptionField = (props) => {
           borderBottomColor: '#fff',
         }}
         inputStyle={{textAlign: 'center', lineHeight: 24}}
-        onChangeText={(text) => onChangeText(text.trim())}
+        onChangeText={(text) => onChangeText(removeEmptyLines(text))}
         value={description}
         placeholder={'Description'}
         numberOfLines={9}

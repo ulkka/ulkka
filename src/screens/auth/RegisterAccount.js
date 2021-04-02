@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux';
 import {Icon, Input} from 'react-native-elements';
 import ChangeAccount from './ChangeAcount';
 import userApi from '../../services/UserApi';
+import {transformText} from '../../components/PostCreator/helpers';
 
 const RegisterAccount = () => {
   const dispatch = useDispatch();
@@ -80,7 +81,7 @@ const RegisterAccount = () => {
       }}
       renderErrorMessage={renderErrorMessage}
       onChangeText={(text) => {
-        setDisplayname(text.replaceAll('\n', '').trim());
+        setDisplayname(transformText(text));
       }}
       value={displayname}
     />

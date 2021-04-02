@@ -42,6 +42,8 @@ const TextPostContent = (props) => {
         style={{
           fontSize: 14,
           lineHeight: 22,
+          textAlign: 'justify',
+          paddingRight: 5,
         }}>
         {description}
       </Text>

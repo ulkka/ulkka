@@ -10,3 +10,13 @@ export function isURLValid(str) {
   ); // fragment locator
   return !!pattern.test(str);
 }
+
+export const transformText = (text, shouldTrim) => {
+  return shouldTrim
+    ? text.replace(/\n/g, ' ').trim()
+    : text.replace(/\n/g, ' ');
+};
+
+export const removeEmptyLines = (text) => {
+  return text.replace(/^\s*$(?:\r\n?|\n)/gm, '');
+};
