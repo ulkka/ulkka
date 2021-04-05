@@ -2,7 +2,8 @@ import React, {memo} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 
 function FeedFooterComponent(props) {
-  if (props.complete) {
+  const {complete, loading} = props;
+  if (complete) {
     return (
       <View style={styles.listEmptyView}>
         <Text style={styles.listEmptyText}>
@@ -12,15 +13,17 @@ function FeedFooterComponent(props) {
     );
   } else {
     return (
-      <View style={styles.loadingView}>
-        {
-          // Activity indicator was causing scroll to flicker, check that if you put it back
-          <Image
-            source={require('../../../assets/loading.gif')}
-            style={{height: 40, width: 40}}
-          />
-        }
-      </View>
+      loading && (
+        <View style={styles.loadingView}>
+          {
+            // Activity indicator was causing scroll to flicker, check that if you put it back
+            <Image
+              source={require('../../../assets/loading.gif')}
+              style={{height: 40, width: 40}}
+            />
+          }
+        </View>
+      )
     );
   }
 }

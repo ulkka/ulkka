@@ -156,7 +156,11 @@ const LinkPostContent = (props) => {
   const LinkDescription = (
     <View style={{marginHorizontal: 5}}>
       <Text
-        style={{fontSize: 11, color: '#444'}}
+        style={{
+          fontSize: 11,
+          color: '#444',
+          //textAlign: 'left'
+        }}
         ellipsizeMode="tail"
         numberOfLines={3}>
         {ogData?.ogDescription}

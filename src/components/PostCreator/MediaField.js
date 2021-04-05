@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Linking,
+  Alert,
+  Platform,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -62,6 +69,30 @@ export const MediaField = (props) => {
       })
       .catch((error) => {
         console.log(error);
+
+        const title =
+          Platform.OS == 'ios'
+            ? 'Please allow access to your Photos'
+            : 'Please allow access to your Media Library';
+        const message =
+          Platform.OS == 'ios'
+            ? 'This allows Vellarikka Pattanam to share media from your library'
+            : 'This allows Vellarikka Pattanam to share media from your library. Kindly enable Permissions->Storage in the application settings';
+        const settingsTitle =
+          Platform.OS == 'ios' ? 'Enable Library Access' : 'Go to Settings';
+
+        Alert.alert(title, message, [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: settingsTitle,
+            onPress: () => Linking.openSettings(),
+            style: 'default',
+          },
+        ]);
       });
   };
 

@@ -8,6 +8,7 @@ import {
   isFeedComplete,
   getFeedPostIds,
   isFeedRefreshing,
+  isFeedLoading,
 } from '../../redux/selectors/FeedSelectors';
 import {
   initialiseFeed,
@@ -41,6 +42,7 @@ function Feed(props) {
   const authStatus = useSelector(getAuthStatus);
 
   const complete = useSelector((state) => isFeedComplete(state, screen));
+  const loading = useSelector((state) => isFeedLoading(state, screen));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screen));
   const postIds = useSelector((state) => getFeedPostIds(state, screen));
 
@@ -99,15 +101,17 @@ function Feed(props) {
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={screen == 'home' ? 0.5 : 0.1}
-        removeClippedSubviews={Platform.OS == 'ios' ? true : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
+        removeClippedSubviews={true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
         updateCellsBatchingPeriod={500}
-        windowSize={5}
+        windowSize={15}
         initialNumToRender={5}
-        maxToRenderPerBatch={10}
+        maxToRenderPerBatch={5}
         viewabilityConfig={viewabilityConfigRef.current}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         keyExtractor={(postId, index) => postId}
-        ListFooterComponent={<FeedFooter complete={complete} />}
+        ListFooterComponent={
+          <FeedFooter complete={complete} loading={loading && !refreshing} />
+        }
         onScrollToIndexFailed={(info) =>
           console.log('scroll to index failed', info)
         }

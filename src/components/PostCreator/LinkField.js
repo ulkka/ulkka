@@ -15,11 +15,18 @@ export const LinkField = (props) => {
   const [preview, setPreview] = useState(false);
   const [previewData, setPreviewData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const {onChangeText, link} = props;
+  const {onChangeText, link, title, changeTitle} = props;
 
   useEffect(() => {
     link != '' && getOgPreview(link);
   }, [link]);
+
+  useEffect(() => {
+    const ogTitle = previewData?.ogTitle;
+    if (title == '' && ogTitle) {
+      changeTitle(ogTitle);
+    }
+  }, [previewData]);
 
   const getOgPreview = async (link) => {
     setLoading(true);
@@ -142,6 +149,7 @@ export const LinkField = (props) => {
             numberOfLines={2}
             multiline={true}
             maxLength={1000}
+            blurOnSubmit={true}
           />
         </View>
         {preview || loading ? PreviewField : <View></View>}

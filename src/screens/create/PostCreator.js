@@ -317,31 +317,48 @@ export default function CreatePost({route}) {
     }
   };
 
-  const postContent =
-    type == 'text' ? (
-      <DescriptionField
-        onChangeText={(text) => setDescription(text)}
-        description={description}
-      />
-    ) : type == 'image' || type == 'gif' ? (
-      <MediaField
-        mediaType="photo"
-        media={media}
-        resetMedia={() => setMedia(null)}
-        setMedia={(media) => setMedia(media)}
-      />
-    ) : type == 'video' ? (
-      <MediaField
-        mediaType="video"
-        media={media}
-        resetMedia={() => setMedia(null)}
-        setMedia={(media) => setMedia(media)}
-      />
-    ) : type == 'link' ? (
-      <LinkField onChangeText={(text) => setLink(text)} link={link} />
-    ) : (
-      <View></View>
-    );
+  const PostContentField = () => {
+    switch (type) {
+      case 'text':
+        return (
+          <DescriptionField
+            onChangeText={(text) => setDescription(text)}
+            description={description}
+          />
+        );
+      case 'link':
+        return (
+          <LinkField
+            onChangeText={(text) => setLink(text)}
+            link={link}
+            title={title}
+            changeTitle={(text) => setTitle(text)}
+          />
+        );
+      case 'image':
+      case 'gif':
+        return (
+          <MediaField
+            mediaType="photo"
+            media={media}
+            resetMedia={() => setMedia(null)}
+            setMedia={(media) => setMedia(media)}
+          />
+        );
+      case 'video':
+        return (
+          <MediaField
+            mediaType="video"
+            media={media}
+            resetMedia={() => setMedia(null)}
+            setMedia={(media) => setMedia(media)}
+          />
+        );
+
+      default:
+        <View></View>;
+    }
+  };
 
   const PostDetail = (
     /*<SearchableDropdown
@@ -359,7 +376,7 @@ export default function CreatePost({route}) {
         justifyContent: 'center',
       }}>
       <PostTitleField onChangeText={(text) => setTitle(text)} title={title} />
-      {postContent}
+      {PostContentField()}
     </View>
   );
 

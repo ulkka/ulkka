@@ -152,7 +152,8 @@ export const sendEmailSignInLink = createAsyncThunk(
           });
         });
     } catch (error) {
-      return rejectWithValue(error?.response);
+      console.log(error?.message);
+      return rejectWithValue(error?.message);
     }
   },
 );

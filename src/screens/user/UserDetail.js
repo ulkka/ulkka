@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Icon, Divider} from 'react-native-elements';
-import FastImage from 'react-native-fast-image';
 import Posts from './tabs/Posts';
 import Comments from './tabs/Comments';
 import {useSelector, useDispatch} from 'react-redux';
@@ -49,7 +48,23 @@ const AccountDetail = memo((props) => {
 
   const userKarmaField =
     userTotalKarma || userTotalKarma === 0 ? (
-      <Text style={{fontSize: 12, color: '#555'}}>{userTotalKarma} karma</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Text
+          style={{
+            fontSize: 14,
+            color: '#555',
+            fontWeight: 'bold',
+            letterSpacing: 0.5,
+          }}>
+          {userTotalKarma}{' '}
+        </Text>
+        <Icon name="trophy" type="font-awesome-5" size={11} color="#ff4301" />
+      </View>
     ) : (
       <ActivityIndicator size="small" color="#4285f4" />
     );
@@ -57,9 +72,9 @@ const AccountDetail = memo((props) => {
   const userDisplaynameField = (
     <Text
       style={{
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
-        color: '#444',
+        color: '#555',
         paddingHorizontal: 10,
       }}>
       {userDisplayname}
@@ -156,7 +171,7 @@ const AccountDetail = memo((props) => {
           paddingHorizontal: 5,
         }}>
         {userKarmaField}
-        <Divider width={20} height={0}></Divider>
+        <Divider width={28} height={0}></Divider>
         {userJoinedTimeAgo}
       </View>
     </View>

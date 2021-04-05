@@ -20,6 +20,8 @@ export const isFeedComplete = (state, screen) => state.feed[screen]?.complete;
 export const isFeedRefreshing = (state, screen) =>
   state.feed[screen]?.refreshing;
 
+export const isFeedLoading = (state, screen) => state.feed[screen]?.loading;
+
 export const getIsPostInFeedPaused = (state, screen, id) =>
   state.feed[screen]
     ? selectFeedPostById(state.feed[screen], id)?.paused
