@@ -23,10 +23,15 @@ import {
   getPostTitle,
   getPostAuthorId,
 } from '../../redux/selectors/PostSelectors';
+import {
+  getRegistrationStatus,
+  getRegisteredUser,
+} from '../../redux/reducers/AuthSlice';
 import {selectCommentById} from '../../redux/selectors/CommentSelectors';
 import {getUserDisplayname} from '../../redux/reducers/UserSlice';
 import {ActivityIndicator} from 'react-native';
 import {removeEmptyLines} from '../PostCreator/helpers';
+import UserAvatar from '../UserAvatar';
 
 export default function CommentWriter(props) {
   const dispatch = useDispatch();
@@ -42,6 +47,9 @@ export default function CommentWriter(props) {
   const title = useSelector((state) => getPostTitle(state, postId));
   const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
   const parentAuthorId = parentComment ? parentComment.author : postAuthorId;
+
+  const registrationStatus = useSelector(getRegistrationStatus);
+  const registeredUser = useSelector(getRegisteredUser);
 
   const parentCommentAuthorDisplayname = parentAuthorId
     ? useSelector((state) => getUserDisplayname(state, parentAuthorId))
@@ -302,7 +310,26 @@ export default function CommentWriter(props) {
           borderTopWidth: 1,
           borderTopColor: '#eee',
         }}>
-        <View pointerEvents={initialized ? 'auto' : 'none'}>
+        <View
+          pointerEvents={initialized ? 'auto' : 'none'}
+          style={
+            !active && {
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingLeft: 20,
+              paddingRight: 25,
+            }
+          }>
+          {!active && (
+            <View style={{paddingRight: 5}}>
+              {registrationStatus == 1 ? (
+                <UserAvatar size="large" seed={registeredUser?.displayname} />
+              ) : (
+                <Icon name="account-circle" size={38} color="#555" />
+              )}
+            </View>
+          )}
           <Input
             ref={inputRef}
             placeholder="Add a comment ..."
