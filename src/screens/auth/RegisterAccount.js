@@ -81,7 +81,7 @@ const RegisterAccount = () => {
       }}
       renderErrorMessage={renderErrorMessage}
       onChangeText={(text) => {
-        setDisplayname(transformText(text));
+        setDisplayname(transformText(text, 1));
       }}
       value={displayname}
     />

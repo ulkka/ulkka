@@ -1,4 +1,4 @@
-import React, {useEffect, memo} from 'react';
+import React, {useEffect, memo, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,9 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  Platform,
+  Animated,
+  Easing,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Icon, Divider} from 'react-native-elements';
@@ -25,14 +28,50 @@ import UserAvatar from '../../components/UserAvatar';
 
 const Tab = createMaterialTopTabNavigator();
 
+const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+
 const AccountDetail = memo((props) => {
   console.log('running account detail in userdetail.js');
   const dispatch = useDispatch();
+
+  const iconSize = useRef(new Animated.Value(8)).current; // Initial value for opacity: 0
+
   const {userId} = props;
 
   useEffect(() => {
     dispatch(fetchUserById(userId));
   }, []);
+
+  // Karma Animation
+  const easing = Easing.ease;
+  const duration = Platform.OS == 'ios' ? 210 : 250;
+  const useNativeDriver = false;
+  const beat = (iconSize) =>
+    Animated.timing(iconSize, {
+      toValue: 13,
+      duration: duration,
+      useNativeDriver: useNativeDriver,
+      easing: easing,
+    });
+
+  const beatBack = (iconSize) =>
+    Animated.timing(iconSize, {
+      toValue: 9,
+      duration: duration,
+      useNativeDriver: useNativeDriver,
+      easing: easing,
+    });
+
+  const heartBeat = () => {
+    Animated.sequence([beat(iconSize), beatBack(iconSize)]).start(() =>
+      heartBeat(),
+    );
+  };
+
+  useEffect(() => {
+    heartBeat();
+  }, []);
+  // Animation over
 
   const registeredUser = useSelector(getRegisteredUser);
 
@@ -52,7 +91,7 @@ const AccountDetail = memo((props) => {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
         }}>
         <Text
           style={{
@@ -60,10 +99,18 @@ const AccountDetail = memo((props) => {
             color: '#555',
             fontWeight: 'bold',
             letterSpacing: 0.5,
+            paddingRight: 0,
           }}>
           {userTotalKarma}{' '}
         </Text>
-        <Icon name="trophy" type="font-awesome-5" size={11} color="#ff4301" />
+        <View style={{width: 15}}>
+          <AnimatedIcon
+            name="heart"
+            type="font-awesome"
+            size={iconSize}
+            color="#ff4301"
+          />
+        </View>
       </View>
     ) : (
       <ActivityIndicator size="small" color="#4285f4" />

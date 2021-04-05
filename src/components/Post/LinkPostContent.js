@@ -61,6 +61,7 @@ const LinkPostContent = (props) => {
     <YoutubePlayer
       height={height - 10}
       width={width - 10}
+      contentScale={1}
       play={false}
       videoId={videoId}
       modestbranding={true}
