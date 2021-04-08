@@ -32,10 +32,12 @@ const CommentRow = memo((props) => {
     </Text>
   ) : (
     <Text
-      numberOfLines={4}
-      ellipsizeMode="tail"
-      style={{padding: 5, color: '#ff6565', fontStyle: 'italic'}}>
-      {'  Comment deleted  '}
+      style={{
+        padding: 5,
+        color: '#ff6565',
+        textDecorationLine: 'line-through',
+      }}>
+      {'comment deleted  '}
     </Text>
   );
 
@@ -64,12 +66,11 @@ const CommentRow = memo((props) => {
     <Text
       style={{
         fontWeight: 'bold',
-        padding: 5,
         color: '#ff6565',
-        fontStyle: 'italic',
+        textDecorationLine: 'line-through',
       }}>
       {' '}
-      Post Deleted{'  '}
+      post deleted{'  '}
     </Text>
   ) : (
     <Text

@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {View, TouchableOpacity, Text, Platform} from 'react-native';
 import {Icon} from 'react-native-elements';
-import FastImage from 'react-native-fast-image';
 import TimeAgo from '../TimeAgo';
 import ExtraOptions from '../ExtraOptions';
 import {push} from '../../navigation/Ref';

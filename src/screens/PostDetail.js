@@ -14,10 +14,7 @@ import {removePostDetail} from '../redux/reducers/FeedSlice';
 import {refreshPostDetail, initPostDetail} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
 import {isFeedRefreshing} from '../redux/selectors/FeedSelectors';
-import {
-  getPostStatus,
-  getPostisDeleted,
-} from '../redux/selectors/PostSelectors';
+import {getPostisDeleted} from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
 import {goBack} from '../navigation/Ref';
 import {Button} from 'react-native-elements';
@@ -28,7 +25,6 @@ const PostDetail = ({route}) => {
   const postId = route?.params?.postId;
   const [screenId, setScreenId] = useState(undefined);
 
-  const postStatus = useSelector((state) => getPostStatus(state, postId));
   const isPostDeleted = useSelector((state) => getPostisDeleted(state, postId));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
 
@@ -49,7 +45,8 @@ const PostDetail = ({route}) => {
 
   const loadPostDetail = async () => {
     dispatch(initPostDetail({screenId, postId}));
-    handleRefresh();
+
+    isPostDeleted === undefined && handleRefresh();
   };
 
   const handleRefresh = () => {

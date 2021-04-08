@@ -100,6 +100,7 @@ const NotificationHandler = () => {
       const link = getLinkNameFromRemoteMessage(remoteMessage);
 
       const notificationObject = {
+        channelId: 'default-channel',
         /* iOS only properties */
         category: 'default', // (optional) default: empty string
         /* iOS and Android properties */

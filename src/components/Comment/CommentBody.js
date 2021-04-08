@@ -1,5 +1,5 @@
 import React, {memo, useState, useCallback} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getCommentText} from '../../redux/selectors/CommentSelectors';
 
@@ -25,7 +25,7 @@ const CommentBody = (props) => {
           color: '#333',
           fontSize: 13,
           fontWeight: '400',
-          lineHeight: 18,
+          lineHeight: Platform.OS == 'ios' ? 19 : 21,
           textAlign: 'justify',
           paddingRight: 10,
         }}>

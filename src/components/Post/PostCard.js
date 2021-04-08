@@ -40,7 +40,13 @@ function PostCard(props) {
         backgroundColor: '#ffeded',
         alignItems: 'center',
       }}>
-      <Text style={{color: '#444', letterSpacing: 0.5, fontWeight: '500'}}>
+      <Text
+        style={{
+          color: '#444',
+          letterSpacing: 0.5,
+          fontWeight: '500',
+          textDecorationLine: 'line-through',
+        }}>
         Post deleted
       </Text>
     </View>

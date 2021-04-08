@@ -45,7 +45,8 @@ function CommentList(props) {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 100,
+        paddingTop: 25,
+        paddingBottom: 100,
       }}>
       <ActivityIndicator size="large" color="#4285f4" />
     </View>

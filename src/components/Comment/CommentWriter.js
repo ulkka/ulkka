@@ -339,7 +339,13 @@ export default function CommentWriter(props) {
             }}
             inputContainerStyle={{
               borderBottomWidth: 0,
-              height: expanded ? 200 : 'auto',
+              height: expanded
+                ? 200
+                : Platform.OS == 'ios'
+                ? 'auto'
+                : comment == '' && !active
+                ? 45
+                : 'auto',
               maxHeight: 200,
               marginTop: Platform.OS == 'ios' ? 10 : 0,
               marginBottom: Platform.OS == 'ios' && comment != '' ? 10 : 0,

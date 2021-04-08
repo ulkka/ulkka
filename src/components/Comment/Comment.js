@@ -18,7 +18,7 @@ function Comment(props) {
     getCommentisDeleted(state, commentId),
   );
   const CommentView = (
-    <View>
+    <View style={{paddingLeft: 10}}>
       <CommentMetadata
         commentId={commentId}
         onPressToggleCollapse={toggleCollapse}
@@ -55,10 +55,10 @@ function Comment(props) {
               letterSpacing: 0.5,
               fontWeight: '500',
               fontSize: 12,
-              fontStyle: 'italic',
+              textDecorationLine: 'line-through',
             }}>
             {' '}
-            Comment deleted{' '}
+            comment deleted{' '}
           </Text>
           <Icon
             name={isCollapsed ? 'expand-more' : 'expand-less'}
@@ -76,7 +76,7 @@ function Comment(props) {
           }}>
           <CommentFooter commentId={commentId} level={level} />
         </View>
-        {children}
+        <View style={{paddingLeft: 10}}>{children}</View>
       </Collapsible>
     </View>
   );
@@ -84,7 +84,6 @@ function Comment(props) {
   return (
     <View
       style={{
-        paddingLeft: 10,
         marginTop: 2,
         paddingBottom: 3,
       }}>

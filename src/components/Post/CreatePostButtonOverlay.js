@@ -93,7 +93,7 @@ export default function CreatePostButtonOverlay(props) {
       style={{
         position: 'absolute',
         alignSelf: 'center',
-        bottom: Platform.OS == 'ios' ? 20 : 0,
+        bottom: Platform.OS == 'ios' ? 15 : 0,
         backgroundColor: 'transparent',
         borderColor: '#eee',
         borderRadius: 33,
@@ -115,8 +115,10 @@ export default function CreatePostButtonOverlay(props) {
           name="plus"
           type="font-awesome-5"
           size={25}
-          color="#77c063e1"
+          color="#fff"
           reverse
+          reverseColor="#77c063e1"
+          style={{opacity: 0.9}}
         />
       </TouchableOpacity>
     </View>
