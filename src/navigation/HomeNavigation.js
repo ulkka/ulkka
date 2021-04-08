@@ -102,6 +102,7 @@ function HomeNavigation({navigation}) {
         options={{
           headerTitle: 'Create Post',
           headerBackTitle: '',
+          headerTitleAlign: 'center',
         }}
       />
       <StackNav.Screen
