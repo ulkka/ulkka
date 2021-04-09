@@ -1134,6 +1134,11 @@
   dependencies:
     invariant "^2.2.4"
 
+"@react-native-firebase/analytics@^11.2.0":
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-11.2.0.tgz#f94dd039539a41507e222d5deb4777934c0b0305"
+  integrity sha512-/vCywT0i+E2xPLq5LADcYF07f1yn52zRBIbiR3W54837Izx/7ns3Sg6AXIz1CEUf1nrUmZqTLK6QAGrZZDwPLg==
+
 "@react-native-firebase/app@^11.2.0":
   version "11.2.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-11.2.0.tgz#5716bb264cf0a500fb40181bd338eb3067d36c94"

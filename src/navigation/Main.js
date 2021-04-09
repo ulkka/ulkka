@@ -1,7 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Platform, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import analytics from '@react-native-firebase/analytics';
 import {enableScreens} from 'react-native-screens';
 import {navigationRef} from './Ref';
 import {linking} from './Linking';
@@ -21,6 +22,7 @@ enableScreens();
 export default function Main() {
   const dispatch = useDispatch();
   // useReduxDevToolsExtension(navigationRef);
+  const routeNameRef = useRef();
 
   useEffect(() => {
     dispatch(loadAuth());
@@ -36,7 +38,29 @@ export default function Main() {
       <NavigationContainer
         linking={linking}
         fallback={<Splash />}
-        ref={navigationRef}>
+        ref={navigationRef}
+        onReady={async () => {
+          const currentRouteName = navigationRef.current.getCurrentRoute().name;
+          routeNameRef.current = currentRouteName;
+          await analytics().logScreenView({
+            screen_name: currentRouteName,
+            screen_class: currentRouteName,
+          });
+        }}
+        onStateChange={async () => {
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName = navigationRef.current.getCurrentRoute().name;
+
+          if (previousRouteName !== currentRouteName) {
+            await analytics().logScreenView({
+              screen_name: currentRouteName,
+              screen_class: currentRouteName,
+            });
+          }
+
+          // Save the current route name for later comparison
+          routeNameRef.current = currentRouteName;
+        }}>
         <StackNav.Navigator
           initialRouteName="Main"
           screenOptions={() => ({

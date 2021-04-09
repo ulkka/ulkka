@@ -13,7 +13,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {removePostDetail} from '../redux/reducers/FeedSlice';
 import {refreshPostDetail, initPostDetail} from '../redux/actions/FeedActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
-import {isFeedRefreshing} from '../redux/selectors/FeedSelectors';
+import {
+  isFeedRefreshing,
+  isFeedLoading,
+} from '../redux/selectors/FeedSelectors';
 import {getPostisDeleted} from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
 import {goBack} from '../navigation/Ref';
@@ -27,6 +30,7 @@ const PostDetail = ({route}) => {
 
   const isPostDeleted = useSelector((state) => getPostisDeleted(state, postId));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
+  const loading = useSelector((state) => isFeedLoading(state, screenId));
 
   const authStatus = useSelector(getAuthStatus);
 
@@ -115,7 +119,7 @@ const PostDetail = ({route}) => {
       />
     </View>
   );
-  return refreshing || authStatus == 'UNAUTHENTICATED'
+  return loading || refreshing || authStatus == 'UNAUTHENTICATED'
     ? refreshingPostView
     : isPostDeleted == false
     ? postView

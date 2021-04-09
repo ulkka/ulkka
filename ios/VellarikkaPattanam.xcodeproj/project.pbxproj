@@ -318,7 +318,6 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				306ACC03355EDB3E0C9959AC /* [CP] Copy Pods Resources */,
-				060538AD660F57B18587A013 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -343,7 +342,6 @@
 				4EB91788EED14D69F9093AC5 /* [CP] Copy Pods Resources */,
 				910BA20D906985E0146A7A17 /* [CP-User] [RNFB] Core Configuration */,
 				DC42B6FB25E3C40E00355024 /* Embed App Extensions */,
-				4A9CA1B093EFB5429C80222F /* [CP] Embed Pods Frameworks */,
 				8056C5A086F8E4DAE07D217D /* [CP-User] [RNFB] Crashlytics Configuration */,
 			);
 			buildRules = (
@@ -530,24 +528,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		060538AD660F57B18587A013 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam-VellarikkaPattanamTests/Pods-VellarikkaPattanam-VellarikkaPattanamTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam-VellarikkaPattanamTests/Pods-VellarikkaPattanam-VellarikkaPattanamTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		1B1E2D1CA6A6BB6FEBFB503C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -636,24 +616,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam-VellarikkaPattanamTests/Pods-VellarikkaPattanam-VellarikkaPattanamTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4A9CA1B093EFB5429C80222F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam/Pods-VellarikkaPattanam-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VellarikkaPattanam/Pods-VellarikkaPattanam-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4EB91788EED14D69F9093AC5 /* [CP] Copy Pods Resources */ = {
