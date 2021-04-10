@@ -1,4 +1,4 @@
-rootProject.name = 'VellarikkaPattanam'
+rootProject.name = 'Ulkka'
 include ':react-native-email-link'
 project(':react-native-email-link').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-email-link/android')
 include ':react-native-video'

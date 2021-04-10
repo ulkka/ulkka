@@ -25,11 +25,11 @@ const config = {
 
 export const linking = {
   prefixes: [
-    'https://app.vellarikkapattanam.com',
-    'https://vellarikkapattanam.com',
-    'vellarikkapattanam://',
-    'https://vellarikkapattanam.page.link',
-    'https://vellarikka-pattanam.firebaseapp.com',
+    'https://app.ulkka.in',
+    'https://ulkka.in',
+    'ulkka://',
+    'https://ulkka.page.link',
+    'https://ulkka-in.firebaseapp.com',
   ],
   config,
   async getInitialURL() {

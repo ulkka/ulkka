@@ -67,7 +67,7 @@ RCTBridge *bridge = [[RCTBridge alloc] initWithBundleURL:jsCodeLocation
 NSDictionary *appProperties = [RNFBMessagingModule addCustomPropsToUserProps:nil withLaunchOptions:launchOptions];
 
 RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"VellarikkaPattanam"
+                                                   moduleName:@"Ulkka"
                                                    initialProperties:appProperties];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
@@ -98,14 +98,14 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  //  Check if the passed url is a vellarikkapattanamshare://- or a Deeplink
+  //  Check if the passed url is a ulkkashare://- or a Deeplink
   NSString *urlString = url.absoluteString;
 
-  //  If it contains vellarikkapattanamshare:// handle it with the ShareMenuManager
-  if ([urlString hasPrefix:@"vellarikkapattanamshare://"]) {
+  //  If it contains ulkkashare:// handle it with the ShareMenuManager
+  if ([urlString hasPrefix:@"ulkkashare://"]) {
     return [ShareMenuManager application:application openURL:url options:options];
   }
-  //  Else handle with deeplink contains vellarikkapattanam:// handle it with the RCTLinkingManager
+  //  Else handle with deeplink contains ulkka:// handle it with the RCTLinkingManager
   return [RCTLinkingManager application:application openURL:url options:options];
 }
 

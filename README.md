@@ -1,3 +1,3 @@
-# vellarikka-pattanam
+# ulkka
 
 React Native App

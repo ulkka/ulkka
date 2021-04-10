@@ -187,16 +187,13 @@ export default function CreateAccount() {
     //   .createUserWithEmailAndPassword(email, password)
     //   .then(async (user) => {
     //     console.log('User account created & signed in!', user);
-
     //     /*  auth().currentUser.sendEmailVerification({
     //                 handleCodeInApp: true
     //             });*/
-
     //     var token = await auth().currentUser.getIdToken(false);
     //     var data = JSON.stringify({
     //       token: token,
     //     });
-
     //     mainClient
     //       .post('user/signup', {
     //         data: data,
@@ -220,11 +217,9 @@ export default function CreateAccount() {
     //         },
     //       });
     //     }
-
     //     if (error.code === 'auth/invalid-email') {
     //       console.log('That email address is invalid!');
     //     }
-
     //     console.error(error);
     //   });
   };
@@ -251,7 +246,7 @@ export default function CreateAccount() {
               color: '#444',
               fontSize: 18,
             }}>
-            Welcome to Vellarikka Pattanam
+            Welcome to Ulkka
           </Text>
         </View>
         <View

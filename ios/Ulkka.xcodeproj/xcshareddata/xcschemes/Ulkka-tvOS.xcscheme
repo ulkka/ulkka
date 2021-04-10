@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "VellarikkaPattanam-tvOS.app"
-               BlueprintName = "VellarikkaPattanam-tvOS"
-               ReferencedContainer = "container:VellarikkaPattanam.xcodeproj">
+               BuildableName = "Ulkka-tvOS.app"
+               BlueprintName = "Ulkka-tvOS"
+               ReferencedContainer = "container:Ulkka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "VellarikkaPattanam-tvOSTests.xctest"
-               BlueprintName = "VellarikkaPattanam-tvOSTests"
-               ReferencedContainer = "container:VellarikkaPattanam.xcodeproj">
+               BuildableName = "Ulkka-tvOSTests.xctest"
+               BlueprintName = "Ulkka-tvOSTests"
+               ReferencedContainer = "container:Ulkka.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "VellarikkaPattanam-tvOS.app"
-            BlueprintName = "VellarikkaPattanam-tvOS"
-            ReferencedContainer = "container:VellarikkaPattanam.xcodeproj">
+            BuildableName = "Ulkka-tvOS.app"
+            BlueprintName = "Ulkka-tvOS"
+            ReferencedContainer = "container:Ulkka.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "VellarikkaPattanam-tvOS.app"
-            BlueprintName = "VellarikkaPattanam-tvOS"
-            ReferencedContainer = "container:VellarikkaPattanam.xcodeproj">
+            BuildableName = "Ulkka-tvOS.app"
+            BlueprintName = "Ulkka-tvOS"
+            ReferencedContainer = "container:Ulkka.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

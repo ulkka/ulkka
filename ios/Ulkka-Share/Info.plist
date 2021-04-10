@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Vellarikka Pattanam</string>
+	<string>Ulkka-Share</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -33,20 +33,20 @@
 		<string>com.apple.share-services</string>
 	</dict>
 	<key>HostAppBundleIdentifier</key>
-	<string>org.reactjs.native.example.VellarikkaPattanam</string>
+	<string>in.ulkka</string>
 	<key>HostAppURLScheme</key>
-	<string>vellarikkapattanamshare://</string>
-	<!-- This url scheme CONTAINS :// at the end - E.G. "mycustomscheme://"-->
+	<string>ulkkashare://</string>
+<!-- This url scheme CONTAINS :// at the end - E.G. "mycustomscheme://"-->
 	<key>NSExtension</key>
 	<dict>
-	    <key>NSExtensionAttributes</key>
-	   	<dict>
-	        <key>NSExtensionActivationRule</key>
-	        <dict>
-	            <!-- For a full list of available options, visit https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AppExtensionKeys.html#//apple_ref/doc/uid/TP40014212-SW10 -->
-            <key>NSExtensionActivationSupportsImageWithMaxCount</key>
+    <key>NSExtensionAttributes</key>
+    <dict>
+        <key>NSExtensionActivationRule</key>
+        <dict>
+            <!-- For a full list of available options, visit https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AppExtensionKeys.html#//apple_ref/doc/uid/TP40014212-SW10 -->
+			<key>NSExtensionActivationSupportsMovieWithMaxCount</key>
             <integer>1</integer>
-			 <key>NSExtensionActivationSupportsMovieWithMaxCount</key>
+			<key>NSExtensionActivationSupportsImageWithMaxCount</key>
             <integer>1</integer>
             <key>NSExtensionActivationSupportsText</key>
             <true/>
@@ -64,26 +64,26 @@
     	<key>Red</key>
     	<integer>1</integer>
     	<key>Green</key>
-    	<integer>1</integer>
-    	<key>Blue</key>
-    	<integer>1</integer>
-    	<key>Alpha</key>
-    	<integer>1</integer>
-    	<key>Transparent</key>
-    	<false/>
+		<integer>1</integer>
+		<key>Blue</key>
+		<integer>1</integer>
+		<key>Alpha</key>
+		<integer>1</integer>
+		<key>Transparent</key>
+		<false/>
 	</dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-    	<key>NSAllowsArbitraryLoads</key>
-    	<true/>
-    	<key>NSExceptionDomains</key>
-    	<dict>
-        	<key>localhost</key>
-        	<dict>
-            	<key>NSExceptionAllowsInsecureHTTPLoads</key>
-            	<true/>
-        	</dict>
-    	</dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 </dict>
 </plist>

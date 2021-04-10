@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>125095692098-59niqmb4q23se9im25r19rcous61iotk.apps.googleusercontent.com</string>
+	<string>447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.125095692098-59niqmb4q23se9im25r19rcous61iotk</string>
+	<string>com.googleusercontent.apps.447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>125095692098-kejn0hu44l1i5dbe64okelvt2ore84s0.apps.googleusercontent.com</string>
+	<string>447961985601-tkn0upk0l3tivh2fgub8umgdub2ig367.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD1ePXoF7Um4s5smNmHtT9fan4T7lT9xeI</string>
+	<string>AIzaSyBwHvA-lc5jFSvMCiLD57zOvjJUrqgGduE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>125095692098</string>
+	<string>447961985601</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.VellarikkaPattanam</string>
+	<string>in.ulkka</string>
 	<key>PROJECT_ID</key>
-	<string>vellarikka-pattanam</string>
+	<string>ulkka-in</string>
 	<key>STORAGE_BUCKET</key>
-	<string>vellarikka-pattanam.appspot.com</string>
+	<string>ulkka-in.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:125095692098:ios:1a20e40ae51b768f046adb</string>
-	<key>DATABASE_URL</key>
-	<string>https://vellarikka-pattanam.firebaseio.com</string>
+	<string>1:447961985601:ios:5551f977ed89444ea2ccc0</string>
 </dict>
 </plist>

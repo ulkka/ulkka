@@ -58,14 +58,14 @@ const SharePost = (props) => {
     const mediaUrl = mediaMetadata?.secure_url;
 
     const socialTitle =
-      postAuthorDisplayname + ' on Vellarikka Pattanam: "' + shareTitle + '"';
+      postAuthorDisplayname + ' on Ulkka: "' + shareTitle + '"';
     const socialDescription =
       voteCount + ' votes, ' + commentCount + ' comments - ' + socialTitle;
 
     const config = {
-      link: 'https://vellarikkapattanam.com/post/' + postId,
+      link: 'https://ulkka.in/post/' + postId,
       // domainUriPrefix is created in your Firebase console
-      domainUriPrefix: 'https://vellarikkapattanam.page.link',
+      domainUriPrefix: 'https://ulkka.page.link',
       // optional setup which updates Firebase analytics campaign
       // "banner". This also needs setting up before hand
       analytics: {

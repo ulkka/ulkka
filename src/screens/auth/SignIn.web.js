@@ -70,9 +70,7 @@ export default function SignIn(props) {
           justifyContent: 'flex-end',
           padding: 20,
         }}>
-        <Text style={{fontWeight: 'bold', color: '#444'}}>
-          Login to Vellarikka Pattanam
-        </Text>
+        <Text style={{fontWeight: 'bold', color: '#444'}}>Login to Ulkka</Text>
       </View>
       <View
         style={{

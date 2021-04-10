@@ -116,7 +116,10 @@ function Feed(props) {
           console.log('scroll to index failed', info)
         }
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          <RefreshControl
+            refreshing={refreshing ? refreshing : false}
+            onRefresh={handleRefresh}
+          />
         }
       />
       <ScrollToTop

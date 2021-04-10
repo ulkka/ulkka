@@ -3,13 +3,13 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'VellarikkaPattanam' do
+target 'Ulkka' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
 
-  target 'VellarikkaPattanamTests' do
+  target 'UlkkaTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -35,16 +35,16 @@ target 'VellarikkaPattanam' do
   end
 end
 
-target 'VellarikkaPattanam-tvOS' do
-  # Pods for VellarikkaPattanam-tvOS
+target 'Ulkka-tvOS' do
+  # Pods for Ulkka-tvOS
 
-  target 'VellarikkaPattanam-tvOSTests' do
+  target 'Ulkka-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
 end
 
-target 'Vellarikka Pattanam' do
+target 'Ulkka-Share' do
    use_react_native!
     pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
       # Manually link packages here to keep your extension bundle size minimal

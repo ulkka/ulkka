@@ -28,7 +28,7 @@ export default function Login() {
           color: '#444',
           fontSize: 18,
         }}>
-        Welcome to Vellarikka Pattanam
+        Welcome to Ulkka
       </Text>
     </View>
   );

@@ -28,11 +28,7 @@ export default function Main(props) {
     },
   };
   const linking = {
-    prefixes: [
-      'https://app.vellarikkapattanam.com',
-      'https://vellarikkapattanam.com',
-      'vellarikkapattanam://',
-    ],
+    prefixes: ['https://app.ulkka.com', 'https://ulkka.com', 'ulkka://'],
     config,
   };
 

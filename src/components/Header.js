@@ -64,7 +64,7 @@ const HeaderBar = (props) => {
             fontWeight: 'bold',
             color: '#333',
           }}>
-          Vellarikka Pattanam
+          Ulkka
         </Text>
       </SafeAreaView>
     ) : (

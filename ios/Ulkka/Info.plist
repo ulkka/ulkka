@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>VellarikkaPattanam</string>
+	<string>Ulkka</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,43 +27,27 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>vellarikkapattanamshare</string>
+				<string>ulkkashare</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>125095692098-59niqmb4q23se9im25r19rcous61iotk.apps.googleusercontent.com</string>
+			<string>447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o.apps.googleusercontent.com</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.125095692098-59niqmb4q23se9im25r19rcous61iotk</string>
+				<string>com.googleusercontent.apps.447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.dubiousknight.vellarikkapattanam</string>
+			<string>Bunlde ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.dubiousknight.vellarikkapattanam</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>org.reactjs.native.example.VellarikkaPattanam</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>org.reactjs.native.example.VellarikkaPattanam</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>vellarikkapattanam</string>
+				<string>ulkka</string>
 			</array>
 		</dict>
 	</array>
@@ -96,7 +80,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Vellarikka Pattanam would like to access your photo gallery for uploading images to the app</string>
+	<string>Ulkka would like to access your photo gallery for uploading images to the app</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

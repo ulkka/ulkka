@@ -1,4 +1,4 @@
-package com.dubiousknight.vellarikkapattanam;
+package in.ulkka;
 
 import com.facebook.react.ReactActivity;
 
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "VellarikkaPattanam";
+    return "Ulkka";
   }
 
   @Override

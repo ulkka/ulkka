@@ -133,7 +133,7 @@ export default function CreatePost({route}) {
     setLoading(false);
     var status = {
       type: 'success',
-      message: 'Successfully Posted to \n Vellarikka Pattanam',
+      message: 'Successfully Posted to \n Ulkka',
       // entity: community.name,
     };
     setStatusData(status);
@@ -430,7 +430,7 @@ export default function CreatePost({route}) {
       </Text>
       <Button
         raised
-        title="Join Vellarikka Pattanam!"
+        title="Join Ulkka!"
         titleStyle={{
           fontSize: 14,
           color: '#EC5152',

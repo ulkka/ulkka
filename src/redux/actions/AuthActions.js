@@ -11,9 +11,9 @@ import PushNotification from 'react-native-push-notification';
 GoogleSignin.configure({
   scopes: ['openid', 'email', 'profile'],
   iosClientId:
-    '125095692098-59niqmb4q23se9im25r19rcous61iotk.apps.googleusercontent.com',
+    '447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o.apps.googleusercontent.com',
   webClientId:
-    '125095692098-jvns3h2vfqkf3ufrb0kcqhf1k2abicog.apps.googleusercontent.com',
+    '447961985601-gqn2649d8rek9gnl92am8fsm4an5poeo.apps.googleusercontent.com',
 });
 
 const getCurrentUser = async () => {
@@ -111,12 +111,12 @@ export const emailLinkAuth = createAsyncThunk(
 const actionCodeSettings = {
   handleCodeInApp: true,
   // URL must be whitelisted in the Firebase Console.
-  url: 'https://vellarikkapattanam.page.link/naxz',
+  url: 'https://ulkka.page.link/naxz',
   iOS: {
-    bundleId: 'org.reactjs.native.example.VellarikkaPattanam',
+    bundleId: 'in.ulkka',
   },
   android: {
-    packageName: 'com.dubiousknight.vellarikkapattanam',
+    packageName: 'in.ulkka',
     installApp: true,
     //  minimumVersion: '12',
   },
