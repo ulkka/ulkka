@@ -98,7 +98,8 @@ const RegisterAccount = () => {
           fontWeight: 'bold',
           textAlign: 'center',
         }}>
-        Please enter a display name to finish registration
+        {'  '}
+        Please enter a display name to finish registration{'  '}
       </Text>
     </View>
   );

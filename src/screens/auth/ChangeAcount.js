@@ -21,7 +21,8 @@ export default function ChangeAccount() {
         backgroundColor: '#eee',
       }}>
       <Text style={{fontSize: 15, fontWeight: '500', paddingHorizontal: 15}}>
-        {email}
+        {' '}
+        {email}{' '}
       </Text>
       <Button
         title="Logout"

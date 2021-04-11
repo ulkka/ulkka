@@ -305,7 +305,7 @@ export default function CommentWriter(props) {
         activeOpacity={0.8}
         style={{
           padding: 5,
-          paddingBottom: Platform.OS === 'ios' && !active ? 25 : 7,
+          paddingBottom: Platform.OS === 'ios' && !active ? 15 : 7,
           backgroundColor: '#fff',
           borderTopWidth: 1,
           borderTopColor: '#eee',
@@ -341,10 +341,10 @@ export default function CommentWriter(props) {
               borderBottomWidth: 0,
               height: expanded
                 ? 200
-                : Platform.OS == 'ios'
-                ? 'auto'
                 : comment == '' && !active
-                ? 45
+                ? Platform.OS == 'ios'
+                  ? 35
+                  : 40
                 : 'auto',
               maxHeight: 200,
               marginTop: Platform.OS == 'ios' ? 10 : 0,
