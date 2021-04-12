@@ -1,5 +1,17 @@
 import {Dimensions} from 'react-native';
 
+export function mediaUrlWithWidth(url, width, type) {
+  let splitUrl = url.split('upload');
+  const lesserWidth =
+    width < Dimensions.get('window').width
+      ? parseInt(width)
+      : parseInt(Dimensions.get('window').width);
+  const transformParams = type == 'video' ? 'w_' : 'q_auto,w_';
+  const transformedUrl =
+    splitUrl[0] + 'upload/' + transformParams + lesserWidth + splitUrl[1];
+  return transformedUrl;
+}
+
 export function scaleHeightAndWidthAccordingToDimensions(data, type, screen) {
   if (data == undefined) {
     return {height: undefined, width: undefined};
