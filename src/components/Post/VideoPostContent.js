@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Platform,
   Image,
-  Text,
 } from 'react-native';
 import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
@@ -103,7 +102,7 @@ const VideoPostContent = (props) => {
   };
 
   const onError = (error) => {
-    if (reloadCount < 8 && Platform.OS == 'ios') {
+    if (reloadCount < 5 && Platform.OS == 'ios' && type != 'link') {
       console.log(
         'error loading video in ios, so reloading',
         error,
