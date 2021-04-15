@@ -9,7 +9,10 @@ import {
 import {setLoaded, setError} from '../../redux/reducers/FeedSlice';
 import MediaLoadError from './MediaLoadError';
 import {getPostMediaMetadata} from '../../redux/selectors/PostSelectors';
-import {scaleHeightAndWidthAccordingToDimensions} from './helpers';
+import {
+  scaleHeightAndWidthAccordingToDimensions,
+  mediaUrlWithWidth,
+} from './helpers';
 
 const ImagePostContent = (props) => {
   const dispatch = useDispatch();
@@ -19,8 +22,6 @@ const ImagePostContent = (props) => {
     type != 'link' &&
     useSelector((state) => getPostMediaMetadata(state, postId));
 
-  const imageUrl = type == 'link' ? ogImageUrl : mediaMetadata.secure_url;
-
   const {height, width} =
     type == 'link'
       ? {height: ogHeight, width: ogWidth}
@@ -29,6 +30,11 @@ const ImagePostContent = (props) => {
           'image',
           screen,
         );
+
+  const imageUrl =
+    type == 'link'
+      ? ogImageUrl
+      : mediaUrlWithWidth(mediaMetadata.secure_url, width);
 
   const currentScreen = screenId ? screenId : screen;
 
@@ -53,12 +59,6 @@ const ImagePostContent = (props) => {
         position: 'absolute',
       }}>
       {
-        /*<ActivityIndicator
-          size="large"
-          color="#4285f4"
-          animating={!loaded && !error}
-        />*/
-        // Not showing activity indicator here becuase it flickers scroll on android
         <Image
           source={require('../../../assets/loading.gif')}
           style={{height: 40, width: 40}}

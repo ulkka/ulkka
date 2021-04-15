@@ -34,7 +34,9 @@ const rootReducer = (state, action) => {
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunkMiddleware, loggerMiddleware],
+  middleware: [
+    thunkMiddleware, //loggerMiddleware
+  ],
   //preloadedState,
 });
 /*let store = createStore(

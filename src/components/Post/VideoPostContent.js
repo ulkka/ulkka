@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
   View,
   ImageBackground,
@@ -23,10 +23,16 @@ import {
   setError,
 } from '../../redux/reducers/FeedSlice';
 import {getPostMediaMetadata} from '../../redux/selectors/PostSelectors';
-import {scaleHeightAndWidthAccordingToDimensions} from './helpers';
+import {
+  scaleHeightAndWidthAccordingToDimensions,
+  mediaUrlWithWidth,
+} from './helpers';
 
 const VideoPostContent = (props) => {
   const dispatch = useDispatch();
+  const [reloadCount, setReloadCount] = useState(0);
+  const [reloading, setReloading] = useState(false);
+
   const {
     ogImageUrl,
     postId,
@@ -42,12 +48,6 @@ const VideoPostContent = (props) => {
     type != 'link' &&
     useSelector((state) => getPostMediaMetadata(state, postId));
 
-  const videoUrl = type == 'link' ? ogVideoUrl : mediaMetadata.url;
-
-  const posterUrl = ogImageUrl
-    ? ogImageUrl
-    : videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
-
   const {height, width} =
     type == 'link'
       ? {height: ogHeight, width: ogWidth}
@@ -56,6 +56,16 @@ const VideoPostContent = (props) => {
           'video',
           screen,
         );
+  const videoUrl =
+    type == 'link'
+      ? ogVideoUrl
+      : Platform.OS == 'ios'
+      ? mediaMetadata.secure_url
+      : mediaUrlWithWidth(mediaMetadata.secure_url, width, 'video');
+
+  const posterUrl = ogImageUrl
+    ? ogImageUrl
+    : videoUrl.substring(0, videoUrl.lastIndexOf('.')) + '.jpg';
 
   const currentScreen = screenId ? screenId : screen;
 
@@ -80,16 +90,38 @@ const VideoPostContent = (props) => {
     dispatch(togglePause({postId: postId, type: currentScreen}));
   };
 
-  const onError = () => {
-    console.log('error loading video');
-    dispatch(setError({postId: postId, type: currentScreen}));
+  const reloadVideo = () => {
+    console.log('reloading video');
+    setReloading(true);
+
+    setTimeout(() => {
+      console.log('setting reload false');
+      setReloadCount(reloadCount + 1);
+      setReloading(false);
+    }, 2000);
+  };
+
+  const onError = (error) => {
+    if (reloadCount < 5 && Platform.OS == 'ios' && type != 'link') {
+      console.log(
+        'error loading video in ios, so reloading',
+        error,
+        videoUrl,
+        reloadCount,
+      );
+      reloadVideo();
+    } else {
+      console.log('error loading video', error, videoUrl, reloadCount);
+      dispatch(setError({postId: postId, type: currentScreen}));
+    }
   };
 
   const onLoad = () =>
     dispatch(setLoaded({postId: postId, type: currentScreen}));
 
-  const VideoComponent = (
+  const VideoComponent = !reloading ? (
     <Video
+      key={reloadCount}
       style={{
         width: width,
         height: height,
@@ -107,25 +139,17 @@ const VideoPostContent = (props) => {
       repeat={true}
       controls={Platform.OS == 'ios' ? true : false}
     />
-  );
+  ) : null;
 
   const videoLoadingIndicator = !loaded && !error && (
     <View
       style={{
         position: 'absolute',
       }}>
-      {
-        /*<ActivityIndicator
-          size="large"
-          color="#4285f4"
-          animating={!loaded && !error}
-        />*/
-        // Not showing activity indicator here becuase it flickers scroll on android
-        <Image
-          source={require('../../../assets/loading.gif')}
-          style={{height: 40, width: 40}}
-        />
-      }
+      <Image
+        source={require('../../../assets/loading.gif')}
+        style={{height: 40, width: 40}}
+      />
     </View>
   );
 
