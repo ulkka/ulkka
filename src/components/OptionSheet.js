@@ -33,7 +33,6 @@ export default function OptionSheet() {
 
   const currentUserisAuthor = authorId == currentUser?._id;
 
-  console.log('option sheet', id, type);
   const listItemStyle = {
     borderRadius: 5,
   };

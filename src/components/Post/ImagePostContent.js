@@ -36,8 +36,6 @@ const ImagePostContent = (props) => {
       ? ogImageUrl
       : mediaUrlWithWidth(mediaMetadata.secure_url, width);
 
-  console.log(imageUrl);
-
   const currentScreen = screenId ? screenId : screen;
 
   const loaded = useSelector((state) =>
@@ -61,12 +59,6 @@ const ImagePostContent = (props) => {
         position: 'absolute',
       }}>
       {
-        /*<ActivityIndicator
-          size="large"
-          color="#4285f4"
-          animating={!loaded && !error}
-        />*/
-        // Not showing activity indicator here becuase it flickers scroll on android
         <Image
           source={require('../../../assets/loading.gif')}
           style={{height: 40, width: 40}}

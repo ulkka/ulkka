@@ -24,11 +24,12 @@ export default function Login() {
       <Text
         style={{
           fontWeight: 'bold',
-          width: 280,
+          //  width: 280,
           color: '#444',
           fontSize: 18,
         }}>
-        Welcome to Ulkka
+        {'  '}
+        Welcome to Ulkka{'  '}
       </Text>
     </View>
   );

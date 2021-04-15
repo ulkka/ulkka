@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  Text,
 } from 'react-native';
 import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
@@ -30,7 +31,8 @@ import {
 
 const VideoPostContent = (props) => {
   const dispatch = useDispatch();
-  const [retry, setRetry] = useState(0);
+  const [reloadCount, setReloadCount] = useState(0);
+  const [reloading, setReloading] = useState(false);
 
   const {
     ogImageUrl,
@@ -42,13 +44,6 @@ const VideoPostContent = (props) => {
     ogHeight,
     ogWidth,
   } = props;
-
-  useEffect(() => {
-    if (retry == 1) {
-      console.log('retrying video', videoUrl);
-      setTimeout(() => setRetry(retry + 1), 500);
-    }
-  }, [retry]);
 
   const mediaMetadata =
     type != 'link' &&
@@ -65,6 +60,8 @@ const VideoPostContent = (props) => {
   const videoUrl =
     type == 'link'
       ? ogVideoUrl
+      : Platform.OS == 'ios'
+      ? mediaMetadata.secure_url
       : mediaUrlWithWidth(mediaMetadata.secure_url, width, 'video');
 
   const posterUrl = ogImageUrl
@@ -94,11 +91,28 @@ const VideoPostContent = (props) => {
     dispatch(togglePause({postId: postId, type: currentScreen}));
   };
 
+  const reloadVideo = () => {
+    console.log('reloading video');
+    setReloading(true);
+
+    setTimeout(() => {
+      console.log('setting reload false');
+      setReloadCount(reloadCount + 1);
+      setReloading(false);
+    }, 2000);
+  };
+
   const onError = (error) => {
-    if (retry == 0 && type != 'link') {
-      setRetry(retry + 1);
+    if (reloadCount < 8 && Platform.OS == 'ios') {
+      console.log(
+        'error loading video in ios, so reloading',
+        error,
+        videoUrl,
+        reloadCount,
+      );
+      reloadVideo();
     } else {
-      console.log('error loading video', error, videoUrl);
+      console.log('error loading video', error, videoUrl, reloadCount);
       dispatch(setError({postId: postId, type: currentScreen}));
     }
   };
@@ -106,27 +120,27 @@ const VideoPostContent = (props) => {
   const onLoad = () =>
     dispatch(setLoaded({postId: postId, type: currentScreen}));
 
-  const VideoComponent =
-    retry != 1 ? (
-      <Video
-        style={{
-          width: width,
-          height: height,
-        }}
-        source={{uri: videoUrl}}
-        resizeMode="contain"
-        paused={paused}
-        onLoad={onLoad}
-        onError={onError}
-        poster={posterUrl}
-        showPoster={true}
-        posterResizeMode={'contain'}
-        playWhenInactive={false}
-        muted={false}
-        repeat={true}
-        controls={Platform.OS == 'ios' ? true : false}
-      />
-    ) : null;
+  const VideoComponent = !reloading ? (
+    <Video
+      key={reloadCount}
+      style={{
+        width: width,
+        height: height,
+      }}
+      source={{uri: videoUrl}}
+      resizeMode="contain"
+      paused={paused}
+      onLoad={onLoad}
+      onError={onError}
+      poster={posterUrl}
+      showPoster={true}
+      posterResizeMode={'contain'}
+      playWhenInactive={false}
+      muted={false}
+      repeat={true}
+      controls={Platform.OS == 'ios' ? true : false}
+    />
+  ) : null;
 
   const videoLoadingIndicator = !loaded && !error && (
     <View

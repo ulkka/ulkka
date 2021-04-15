@@ -30,7 +30,7 @@ const getRegisteredUser = async (currentUser) => {
   if (!currentUser.isAnonymous) {
     const userEmail = await currentUser.email;
     const response = await userApi.user.getUserByEmail(userEmail);
-    if (response.data.length) {
+    if (response?.data?.length) {
       registeredUser = response.data[0];
     }
   }
