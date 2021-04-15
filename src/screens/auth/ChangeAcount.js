@@ -20,7 +20,13 @@ export default function ChangeAccount() {
         paddingHorizontal: 10,
         backgroundColor: '#eee',
       }}>
-      <Text style={{fontSize: 15, fontWeight: '500', paddingHorizontal: 15}}>
+      <Text
+        style={{
+          fontSize: 15,
+          fontWeight: '500',
+          paddingHorizontal: 15,
+          color: 'green',
+        }}>
         {' '}
         {email}{' '}
       </Text>

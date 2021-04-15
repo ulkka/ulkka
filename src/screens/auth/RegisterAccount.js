@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
-import {Button, Text, View, KeyboardAvoidingView, Platform} from 'react-native';
+import {Text, View, KeyboardAvoidingView, Platform} from 'react-native';
+import {Button} from 'react-native-elements';
 import {registerUser} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 import {Icon, Input} from 'react-native-elements';
@@ -112,6 +113,27 @@ const RegisterAccount = () => {
       <View>{DisplayNameField}</View>
       <View>
         <Button
+          raised
+          type="solid"
+          activeOpacity={0.5}
+          disabledTitleStyle={{color: '#777', fontWeight: '400'}}
+          titleStyle={{
+            color: '#0099ff',
+            fontWeight: '500',
+          }}
+          containerStyle={{
+            alignItems: 'center',
+            width: 150,
+            alignSelf: 'center',
+            borderRadius: 25,
+          }}
+          style={{
+            width: '80%',
+          }}
+          buttonStyle={{
+            alignItems: 'center',
+            borderColor: '#222',
+          }}
           title="Register"
           onPress={async () => {
             displaynameField.current.blur();
