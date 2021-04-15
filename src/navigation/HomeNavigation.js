@@ -48,7 +48,7 @@ function FeedList({navigation}) {
 
 const presets =
   Platform.OS == 'android'
-    ? TransitionPresets.RevealFromBottomAndroid
+    ? TransitionPresets.ScaleFromCenterAndroid
     : TransitionPresets.SlideFromRightIOS;
 function HomeNavigation({navigation}) {
   return (

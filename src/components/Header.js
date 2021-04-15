@@ -76,12 +76,12 @@ const HeaderBar = (props) => {
     return searchMode == false ? (
       <Icon
         name="search"
-        color="#333"
+        color="#fff"
         onPress={() => _toggleSearch()}
         size={Platform.OS == 'ios' ? 25 : 22}
       />
     ) : (
-      <TouchableOpacity onPress={() => _toggleSearch()}>
+      <TouchableOpacity disabled onPress={() => _toggleSearch()}>
         <Text
           style={{
             fontSize: 13,

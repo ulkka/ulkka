@@ -48,8 +48,8 @@ function Feed(props) {
 
   const viewabilityConfigRef = React.useRef({
     minimumViewTime: 250,
-    viewAreaCoveragePercentThreshold: 50,
-    waitForInteraction: true,
+    itemVisiblePercentThreshold: 30,
+    waitForInteraction: false,
   });
   const onViewableItemsChangedRef = React.useRef(_onViewableItemsChanged());
 

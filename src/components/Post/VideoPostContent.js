@@ -15,6 +15,7 @@ import {
   getIsPostInFeedPaused,
   getIsPostInFeedLoaded,
   getIsPostInFeedError,
+  getIsPostInFeedIsViewable,
 } from '../../redux/selectors/FeedSelectors';
 import {
   togglePause,
@@ -30,7 +31,7 @@ import {
 
 const VideoPostContent = (props) => {
   const dispatch = useDispatch();
-  const [reloadCount, setReloadCount] = useState(0);
+  const [reloadCount, setReloadCount] = useState(0); // move to redux
   const [reloading, setReloading] = useState(false);
 
   const {
@@ -56,11 +57,10 @@ const VideoPostContent = (props) => {
           'video',
           screen,
         );
+
   const videoUrl =
     type == 'link'
       ? ogVideoUrl
-      : Platform.OS == 'ios'
-      ? mediaMetadata.secure_url
       : mediaUrlWithWidth(mediaMetadata.secure_url, width, 'video');
 
   const posterUrl = ogImageUrl
@@ -77,6 +77,10 @@ const VideoPostContent = (props) => {
   );
   const error = useSelector((state) =>
     getIsPostInFeedError(state, currentScreen, postId),
+  );
+
+  const isViewable = useSelector((state) =>
+    getIsPostInFeedIsViewable(state, currentScreen, postId),
   );
 
   const isFocused = useIsFocused();
@@ -98,7 +102,7 @@ const VideoPostContent = (props) => {
       console.log('setting reload false');
       setReloadCount(reloadCount + 1);
       setReloading(false);
-    }, 2000);
+    }, 1000);
   };
 
   const onError = (error) => {
@@ -119,27 +123,30 @@ const VideoPostContent = (props) => {
   const onLoad = () =>
     dispatch(setLoaded({postId: postId, type: currentScreen}));
 
-  const VideoComponent = !reloading ? (
-    <Video
-      key={reloadCount}
-      style={{
-        width: width,
-        height: height,
-      }}
-      source={{uri: videoUrl}}
-      resizeMode="contain"
-      paused={paused}
-      onLoad={onLoad}
-      onError={onError}
-      poster={posterUrl}
-      showPoster={true}
-      posterResizeMode={'contain'}
-      playWhenInactive={false}
-      muted={false}
-      repeat={true}
-      controls={Platform.OS == 'ios' ? true : false}
-    />
-  ) : null;
+  const VideoComponent =
+    loaded || error || isViewable ? (
+      !reloading ? (
+        <Video
+          key={reloadCount}
+          style={{
+            width: width,
+            height: height,
+          }}
+          source={{uri: videoUrl}}
+          resizeMode="contain"
+          paused={paused}
+          onLoad={onLoad}
+          onError={onError}
+          poster={posterUrl}
+          showPoster={true}
+          posterResizeMode={'contain'}
+          playWhenInactive={false}
+          muted={false}
+          repeat={true}
+          controls={Platform.OS == 'ios' ? true : false}
+        />
+      ) : null
+    ) : null;
 
   const videoLoadingIndicator = !loaded && !error && (
     <View
@@ -165,7 +172,7 @@ const VideoPostContent = (props) => {
       onPress={togglePlay}>
       {paused &&
         Platform.OS != 'ios' && ( // dot show play button when on ios
-          <Icon name="play" type="font-awesome-5" size={50} color="#fff" />
+          <Icon name="play" type="font-awesome-5" size={40} color="#fff" />
         )}
     </TouchableOpacity>
   );

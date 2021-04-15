@@ -27,6 +27,11 @@ export const getIsPostInFeedPaused = (state, screen, id) =>
     ? selectFeedPostById(state.feed[screen], id)?.paused
     : true;
 
+export const getIsPostInFeedIsViewable = (state, screen, id) =>
+  state.feed[screen]
+    ? selectFeedPostById(state.feed[screen], id)?.isViewable
+    : false;
+
 export const getIsPostInFeedLoaded = (state, screen, id) =>
   state.feed[screen]
     ? selectFeedPostById(state.feed[screen], id)?.loaded

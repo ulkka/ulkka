@@ -75,7 +75,7 @@ export const slice = createSlice({
       const {items, type} = action.payload;
       const screen = state[type];
 
-      const {changed} = items;
+      const {changed, viewableItems} = items;
 
       let updates = [];
 
@@ -87,11 +87,15 @@ export const slice = createSlice({
         }
         const pauseStatus = post.paused;
         let paused = !isViewable ? true : pauseStatus; // pause video if not viewable but still playing
-        paused != pauseStatus &&
-          updates.push({
-            id: postId,
-            changes: {isViewable: isViewable, paused: paused},
-          });
+        paused != pauseStatus
+          ? updates.push({
+              id: postId,
+              changes: {isViewable: isViewable, paused: paused},
+            })
+          : updates.push({
+              id: postId,
+              changes: {isViewable: isViewable},
+            });
       });
 
       feedAdapter.updateMany(screen, updates);
