@@ -49,7 +49,7 @@ const PostHeader = (props) => {
 
   const CommentAuthorDisplaynameColor = isPostAuthorCurrentUser
     ? '#02862ad6'
-    : '#555';
+    : '#444';
 
   const UserDisplayName = (
     <View>

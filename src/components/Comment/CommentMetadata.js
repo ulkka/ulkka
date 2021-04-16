@@ -47,7 +47,7 @@ const CommentMetadata = (props) => {
     ? '#02862ad6'
     : isCommentAuthorPostAuthor
     ? '#245a89d6'
-    : '#666';
+    : '#444';
 
   const CommentAuthor = (
     <View

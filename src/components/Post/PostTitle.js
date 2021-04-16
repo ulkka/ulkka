@@ -20,7 +20,7 @@ const PostTitle = (props) => {
           paddingVertical: 10,
           marginLeft: 3,
           fontWeight: 'bold',
-          color: '#555',
+          color: '#444',
         }}>
         {postTitle}
       </Text>

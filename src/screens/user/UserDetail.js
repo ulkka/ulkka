@@ -121,7 +121,7 @@ const AccountDetail = memo((props) => {
       style={{
         fontSize: 17,
         fontWeight: 'bold',
-        color: '#555',
+        color: '#444',
         paddingHorizontal: 10,
       }}>
       {userDisplayname}

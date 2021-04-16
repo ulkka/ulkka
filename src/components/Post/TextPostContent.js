@@ -44,6 +44,7 @@ const TextPostContent = (props) => {
           lineHeight: 22,
           textAlign: 'justify',
           paddingRight: 5,
+          color: '#444',
         }}>
         {description}
       </Text>
