@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Platform,
+  Image,
 } from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import Search from './Search';
@@ -58,14 +59,21 @@ const HeaderBar = (props) => {
         style={{
           justifyContent: 'center',
         }}>
-        <Text
+        {
+          /*<Text
           style={{
             fontSize: Platform.OS == 'ios' ? 17 : 16,
             fontWeight: 'bold',
             color: '#333',
           }}>
           Ulkka
-        </Text>
+        </Text>*/
+          <Image
+            resizeMode={'contain'}
+            source={require('../../assets/ulkka_title.png')}
+            style={{height: 30, width: 100}}
+          />
+        }
       </SafeAreaView>
     ) : (
       <Search />

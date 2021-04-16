@@ -35,6 +35,7 @@ export const AuthNavigation = () => {
         headerBackTitle: '',
         headerStatusBarHeight: 0,
         headerStyle: headerStyle,
+        headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: Platform.OS == 'ios' ? 17 : 15,
           color: '#444',

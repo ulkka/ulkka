@@ -101,6 +101,7 @@ const NotificationHandler = () => {
 
       const notificationObject = {
         channelId: 'default-channel',
+        color: 'red',
         /* iOS only properties */
         category: 'default', // (optional) default: empty string
         /* iOS and Android properties */
