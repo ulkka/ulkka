@@ -70,6 +70,9 @@ export const MediaField = (props) => {
       .catch((error) => {
         console.log(error);
 
+        if (error.message == 'User cancelled image selection') {
+          return;
+        }
         const title =
           Platform.OS == 'ios'
             ? 'Please allow access to your Photos'

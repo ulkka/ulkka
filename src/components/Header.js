@@ -29,7 +29,7 @@ const HeaderBar = (props) => {
       <Icon
         name="user-alt"
         type="font-awesome-5"
-        color={'#77c063'}
+        color={'#555'}
         size={Platform.OS == 'ios' ? 21 : 20}
         style={{
           paddingVertical: Platform.OS == 'ios' ? 7 : 6,
@@ -57,23 +57,25 @@ const HeaderBar = (props) => {
     return searchMode == false ? (
       <SafeAreaView
         style={{
+          alignItems: 'center',
           justifyContent: 'center',
+          flexDirection: 'row',
         }}>
-        {
-          /*<Text
+        <Text
           style={{
-            fontSize: Platform.OS == 'ios' ? 17 : 16,
-            fontWeight: 'bold',
-            color: '#333',
+            fontSize: 19,
+            fontFamily:
+              Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-condensed',
+            fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
+            color: '#444',
           }}>
           Ulkka
-        </Text>*/
-          <Image
-            resizeMode={'contain'}
-            source={require('../../assets/ulkka_title.png')}
-            style={{height: 30, width: 100}}
-          />
-        }
+        </Text>
+        <Image
+          resizeMode={'contain'}
+          source={require('../../assets/ulkka_title_transparent.png')}
+          style={{height: 23, width: 24, marginLeft: 7}}
+        />
       </SafeAreaView>
     ) : (
       <Search />
@@ -81,15 +83,17 @@ const HeaderBar = (props) => {
   };
 
   const SearchComponent = () => {
-    return searchMode == false ? (
+    return !searchMode ? (
       <Icon
         name="search"
         color="#fff"
+        disabled
+        disabledStyle={{backgroundColor: '#fff'}}
         onPress={() => _toggleSearch()}
         size={Platform.OS == 'ios' ? 25 : 22}
       />
     ) : (
-      <TouchableOpacity disabled onPress={() => _toggleSearch()}>
+      <TouchableOpacity onPress={() => _toggleSearch()}>
         <Text
           style={{
             fontSize: 13,

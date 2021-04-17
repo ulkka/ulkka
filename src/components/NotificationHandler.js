@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Platform} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import {useLinkTo} from '@react-navigation/native';
 import {navigate} from '../navigation/Ref';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
@@ -11,16 +10,7 @@ PushNotification.configure({
   onNotification: function (notification) {
     const {userInteraction} = notification;
     if (userInteraction) {
-      const link = notification.data.link;
-
-      const entity = link && link.substring(1, link.lastIndexOf('/'));
-      const entityId = link && link.substring(link.lastIndexOf('/') + 1);
-      const screen =
-        entity == 'post' && entityId && entityId != '' ? 'PostDetail' : 'Feed';
-
-      navigate(screen, {
-        postId: entityId,
-      });
+      navigateToLink(notification.data.link);
     }
 
     // (required) Called when a remote is received or opened, or local notification is opened
@@ -53,14 +43,29 @@ PushNotification.configure({
   requestPermissions: !Platform.OS === 'ios',
 });
 
-function getLinkNameFromRemoteMessage(remoteMessage) {
+function getLinkFromRemoteMessage(remoteMessage) {
   return remoteMessage.data?.link && remoteMessage.data?.link?.length
     ? remoteMessage.data.link
     : '/';
 }
 
+function getScreenFromLink(link) {
+  const entity = link && link.substring(1, link.lastIndexOf('/'));
+  const entityId = link && link.substring(link.lastIndexOf('/') + 1);
+  const screen =
+    entity == 'post' && entityId && entityId != '' ? 'PostDetail' : 'Feed';
+
+  return {screen, entityId};
+}
+
+function navigateToLink(link) {
+  const {screen, entityId} = getScreenFromLink(link);
+  navigate(screen, {
+    postId: entityId,
+  });
+}
+
 const NotificationHandler = () => {
-  const linkTo = useLinkTo();
   useEffect(() => {
     PushNotification.getApplicationIconBadgeNumber(function (number) {
       if (number > 0) {
@@ -90,14 +95,13 @@ const NotificationHandler = () => {
       .getInitialNotification()
       .then((remoteMessage) => {
         if (remoteMessage) {
-          const link = getLinkNameFromRemoteMessage(remoteMessage);
-          linkTo(link);
+          navigateToLink(getLinkFromRemoteMessage(remoteMessage));
         }
       });
 
     //// Check whether a notification arrived while app is on foreground
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      const link = getLinkNameFromRemoteMessage(remoteMessage);
+      const link = getLinkFromRemoteMessage(remoteMessage);
 
       const notificationObject = {
         channelId: 'default-channel',

@@ -61,6 +61,7 @@ const PostHeader = (props) => {
         }}>
         {authorDisplayname}
         {'  '}
+        {Platform.OS != 'ios' && ' '}
       </Text>
     </View>
   );
