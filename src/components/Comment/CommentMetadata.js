@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import {Icon, Divider} from 'react-native-elements';
+import {View, Text, TouchableOpacity, Platform} from 'react-native';
+import {Icon} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {
   getCommentAuthorDisplayname,
@@ -62,7 +61,7 @@ const CommentMetadata = (props) => {
           fontWeight: '500',
           color: CommentAuthorDisplaynameColor,
         }}>
-        {authorDisplayname}{' '}
+        {authorDisplayname} {Platform.OS != 'ios' && ' '}
       </Text>
       {CommentAuthorIcon}
     </View>

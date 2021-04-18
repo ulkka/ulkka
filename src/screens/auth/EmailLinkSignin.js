@@ -24,6 +24,7 @@ const EmailLinkSignIn = () => {
         ref={emailFieldRef}
         placeholder="Email"
         keyboardType="email-address"
+        autoCompleteType="email"
         containerStyle={{width: 300}}
         inputContainerStyle={{
           borderBottomColor: 'transparent',

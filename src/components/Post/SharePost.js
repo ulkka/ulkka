@@ -14,13 +14,14 @@ import {
   getPostVoteCount,
   getPostAuthorDisplayname,
 } from '../../redux/selectors/PostSelectors';
+import {mediaUrlWithWidth} from './helpers';
 
 function getShareOGImageUrl(type, mediaUrl, ogData) {
   switch (type) {
     case 'video':
       return mediaUrl.substring(0, mediaUrl.lastIndexOf('.')) + '.jpg';
     case 'image':
-      return mediaUrl;
+      return mediaUrlWithWidth(mediaUrl);
     case 'link':
       return ogData?.ogImage?.url;
   }

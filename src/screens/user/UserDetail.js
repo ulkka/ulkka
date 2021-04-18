@@ -125,7 +125,7 @@ const AccountDetail = memo((props) => {
         paddingHorizontal: 10,
       }}>
       {userDisplayname}
-      {'  '}
+      {'    '}
     </Text>
   );
 

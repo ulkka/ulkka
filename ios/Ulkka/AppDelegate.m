@@ -3,6 +3,13 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <Firebase.h>
+#import <AVFoundation/AVFoundation.h>
+#import "RNFBMessagingModule.h"
+#import <RNShareMenu/ShareMenuManager.h>
+#import <React/RCTLinkingManager.h>
+#import <RNCPushNotificationIOS.h>
+#import <UserNotifications/UserNotifications.h>
 
 #ifdef FB_SONARKIT_ENABLED 
 #import <FlipperKit/FlipperClient.h>
@@ -11,20 +18,10 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
-#import <Firebase.h>
-#import "RNFBMessagingModule.h"
-
-#import <React/RCTLinkingManager.h>
-#import <RNShareMenu/ShareMenuManager.h>
 
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
-
-#import <AVFoundation/AVFoundation.h>
-
-#import <UserNotifications/UserNotifications.h>
-#import <RNCPushNotificationIOS.h>
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];

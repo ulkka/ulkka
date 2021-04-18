@@ -32,7 +32,7 @@ export const slice = createSlice({
             text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
             duration: Snackbar.LENGTH_LONG,
           });
-        }, 1000);
+        }, 500);
       } else {
         fulfillAuth(state, action);
         showAuthScreen();
@@ -50,7 +50,7 @@ export const slice = createSlice({
             text: 'Welcome ' + action.payload.registeredUser?.displayname + '!',
             duration: Snackbar.LENGTH_LONG,
           });
-        }, 1000);
+        }, 500);
       } else {
         fulfillAuth(state, action);
         showAuthScreen();

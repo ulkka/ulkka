@@ -50,6 +50,8 @@ const RegisterAccount = () => {
     <Input
       ref={displaynameField}
       placeholder="Display Name"
+      autoCapitalize="none"
+      autoCorrect={false}
       containerStyle={{width: 300}}
       inputContainerStyle={{borderBottomColor: '#ddd'}}
       inputStyle={{fontSize: 14, padding: 10}}
