@@ -144,7 +144,7 @@ const VideoPostContent = (props) => {
           posterResizeMode={'contain'}
           playWhenInactive={false}
           muted={false}
-          repeat={true}
+          repeat={false}
           controls={Platform.OS == 'ios' ? true : false}
         />
       ) : null

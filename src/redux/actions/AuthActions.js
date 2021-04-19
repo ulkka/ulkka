@@ -7,6 +7,7 @@ import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {openInbox} from 'react-native-email-link';
 import PushNotification from 'react-native-push-notification';
+import analytics from '@react-native-firebase/analytics';
 
 GoogleSignin.configure({
   scopes: ['openid', 'email', 'profile'],
@@ -134,6 +135,7 @@ export const sendEmailSignInLink = createAsyncThunk(
       await auth()
         .sendSignInLinkToEmail(email, actionCodeSettings)
         .then(async () => {
+          await analytics().logEvent('send_email_link');
           await openInbox({
             title: `Login link sent to ${email}`,
             message:

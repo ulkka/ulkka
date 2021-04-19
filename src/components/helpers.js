@@ -1,6 +1,7 @@
 import {Linking} from 'react-native';
 import {navigate} from '../navigation/Ref';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
+import analytics from '@react-native-firebase/analytics';
 
 function getScreenFromLink(link) {
   const isPath = !link.startsWith('https://ulkka.in');
@@ -23,7 +24,8 @@ export function navigateToLink(link) {
   });
 }
 
-export const navigateToURL = async (url, text) => {
+export const navigateToURL = async (url, clickedFrom) => {
+  analytics().logEvent('link_click', {click_from: clickedFrom, link: url});
   const resolvedUrl = await dynamicLinks()
     .resolveLink(url)
     .catch((error) => {

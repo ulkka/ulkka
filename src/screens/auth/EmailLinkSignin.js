@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {View, Platform} from 'react-native';
+import {View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Input, Icon} from 'react-native-elements';
 import {sendEmailSignInLink} from '../../redux/actions/AuthActions';

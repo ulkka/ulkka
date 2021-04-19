@@ -15,6 +15,7 @@ import {
   getPostAuthorDisplayname,
 } from '../../redux/selectors/PostSelectors';
 import {mediaUrlWithWidth} from './helpers';
+import analytics from '@react-native-firebase/analytics';
 
 function getShareOGImageUrl(type, mediaUrl, ogData) {
   switch (type) {
@@ -100,6 +101,11 @@ const SharePost = (props) => {
     Share.open(options)
       .then((res) => {
         console.log(res);
+        analytics().logShare({
+          content_type: type,
+          item_id: postId,
+          method: res.app,
+        });
       })
       .catch((err) => {
         err && console.log(err);

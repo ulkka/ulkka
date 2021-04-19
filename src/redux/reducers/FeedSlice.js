@@ -7,6 +7,7 @@ import {
 } from '../actions/FeedActions';
 import {feedAdapter} from '../selectors/FeedSelectors';
 import {createPost, deletePost} from '../actions/PostActions';
+import analytics from '@react-native-firebase/analytics';
 
 const initialState = {
   ids: [],
@@ -75,7 +76,7 @@ export const slice = createSlice({
       const {items, type} = action.payload;
       const screen = state[type];
 
-      const {changed, viewableItems} = items;
+      const {changed} = items;
 
       let updates = [];
 
@@ -141,6 +142,7 @@ export const slice = createSlice({
           showMore: value,
         },
       });
+      analytics().logEvent('toggle_showmore_text');
     },
     setTextHidden(state, action) {
       const {postId, type, value} = action.payload;
@@ -151,6 +153,7 @@ export const slice = createSlice({
           textHidden: value,
         },
       });
+      analytics().logEvent('hidden_text');
     },
   },
 
@@ -217,6 +220,7 @@ export const slice = createSlice({
       const type = action.payload;
       const screen = state[type];
       screen.refreshing = false;
+      analytics().logEvent('refresh_feed', {screen: screen});
     },
     [refreshPostDetail.pending]: (state, action) => {
       const {type} = action.meta.arg;
@@ -227,6 +231,7 @@ export const slice = createSlice({
       const type = action.payload;
       const screen = state[type];
       screen.refreshing = false;
+      analytics().logEvent('refresh_post_detail');
     },
     [initPostDetail.pending]: (state, action) => {
       const {screenId} = action.meta.arg;

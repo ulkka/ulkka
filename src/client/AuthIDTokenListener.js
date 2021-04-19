@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {View, AppState} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import mainClient from './mainClient';
+import analytics from '@react-native-firebase/analytics';
 
 const AuthIDTokenListener = () => {
   useEffect(() => {
@@ -20,6 +21,7 @@ const AuthIDTokenListener = () => {
   async function handleAppStateChange(appState) {
     if (appState == 'active') {
       await auth().currentUser?.getIdToken(true);
+      analytics().logAppOpen();
     }
   }
 

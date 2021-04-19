@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import Snackbar from 'react-native-snackbar';
 import {reportPost} from '../redux/actions/PostActions';
 import {reportComment} from '../redux/actions/CommentActions';
+import analytics from '@react-native-firebase/analytics';
 
 const Report = (props) => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const Report = (props) => {
 
   const reportEntity = async () => {
     setLoading(true);
+
     const response =
       type == 'post'
         ? await dispatch(reportPost({id: id, option: selectedReportOption}))
@@ -56,6 +58,11 @@ const Report = (props) => {
       );
       dispatch(hideOptionSheet());
     } else {
+      analytics().logEvent('report', {
+        item_id: id,
+        entity_type: type,
+        report_reason: selectedReportOption,
+      });
       setLoading(false);
       dispatch(hideOptionSheet());
     }

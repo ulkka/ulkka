@@ -11,6 +11,7 @@ import {
 import {postAdapter} from '../selectors/PostSelectors';
 import Snackbar from 'react-native-snackbar';
 import {handleError} from '../actions/common';
+import analytics from '@react-native-firebase/analytics';
 
 export const slice = createSlice({
   name: 'posts',
@@ -25,6 +26,7 @@ export const slice = createSlice({
       const newPost = action.payload.normalizedPost.posts[newPostId];
       newPost.userVote = 0;
       postAdapter.addOne(state, newPost);
+      analytics().logEvent('create_post', {post_type: newPost.type});
     },
     [createReply.fulfilled]: (state, action) => {
       const postId = action.payload.data.postId;
@@ -62,12 +64,12 @@ export const slice = createSlice({
         text: 'Post deleted',
         duration: Snackbar.LENGTH_SHORT,
       });
+      analytics().logEvent('delete_post');
     },
     [votePost.fulfilled]: (state, action) => {
       const postId = action.payload?.data?._id;
 
       const post = postAdapter.getSelectors().selectById(state, postId);
-
       const currentUserVote = post.userVote ? post.userVote : 0; // handling undefined userVote
       const newUserVote = action.payload.data.userVote;
       const diff = currentUserVote - newUserVote;
@@ -79,6 +81,10 @@ export const slice = createSlice({
           userVote: newUserVote,
           voteCount: newVoteCount,
         },
+      });
+      analytics().logEvent('vote_post', {
+        vote_type: newUserVote,
+        post_type: post.type,
       });
     },
     [votePost.rejected]: handleError,

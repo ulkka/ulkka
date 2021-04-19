@@ -10,6 +10,7 @@ import {
 import Snackbar from 'react-native-snackbar';
 import {showAuthScreen} from '../../navigation/Ref';
 import RNRestart from 'react-native-restart';
+import analytics from '@react-native-firebase/analytics';
 
 export const slice = createSlice({
   name: 'authorization',
@@ -25,6 +26,7 @@ export const slice = createSlice({
     [loadAuth.fulfilled]: fulfillAuth,
     [socialAuth.fulfilled]: (state, action) => {
       const type = action.meta.arg;
+      analytics().logLogin({method: type});
       if (action.payload.isRegistered) {
         setTimeout(() => {
           RNRestart.Restart();
@@ -43,6 +45,7 @@ export const slice = createSlice({
       }
     },
     [emailLinkAuth.fulfilled]: (state, action) => {
+      analytics().logLogin({method: 'emaillink'});
       if (action.payload.isRegistered) {
         setTimeout(() => {
           RNRestart.Restart();
@@ -61,15 +64,18 @@ export const slice = createSlice({
       }
     },
     [registerUser.fulfilled]: (state, action) => {
+      const providerId = action.payload.currentUser.providerData[0]?.providerId;
+      analytics().logSignUp({method: providerId});
       setTimeout(() => {
         RNRestart.Restart();
         Snackbar.show({
           text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
           duration: Snackbar.LENGTH_LONG,
         });
-      }, 1000);
+      }, 500);
     },
     [signout.fulfilled]: (state, action) => {
+      analytics().logEvent('logout');
       const info = action.meta.arg;
       if (!info) {
         setTimeout(() => {

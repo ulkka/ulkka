@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Linking,
   ImageBackground,
   Platform,
 } from 'react-native';
@@ -19,6 +18,7 @@ import {
   getHostnameFromRegex,
 } from './helpers';
 import {navigateToURL} from '../helpers';
+import analytics from '@react-native-firebase/analytics';
 
 const LinkPostContent = (props) => {
   const {screen, postId} = props;
@@ -123,7 +123,7 @@ const LinkPostContent = (props) => {
   const LinkImage = (
     <TouchableOpacity
       activeOpacity={0.9}
-      onPress={() => navigateToURL(link)}
+      onPress={() => navigateToURL(link, 'image')}
       style={{
         backgroundColor: '#222',
         height: height - 10,
@@ -211,7 +211,7 @@ const LinkPostContent = (props) => {
   const openLink = (
     <TouchableOpacity
       hitSlop={{top: 10, bottom: 20, left: 10, right: 10}}
-      onPress={() => navigateToURL(link)}
+      onPress={() => navigateToURL(link, 'openLinkIcon')}
       style={{
         position: 'absolute',
         top: 5,

@@ -22,7 +22,7 @@ const CommentBody = (props) => {
       <Hyperlink
         linkDefault={false}
         linkStyle={{color: '#2980b9'}}
-        onPress={(url, text) => navigateToURL(url)}>
+        onPress={(url, text) => navigateToURL(url, 'comment')}>
         <Text
           onTextLayout={onTextLayout}
           ellipsizeMode={'tail'}

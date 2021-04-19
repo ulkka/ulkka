@@ -11,6 +11,7 @@ import {
   fetchUserComments,
 } from '../actions/CommentActions';
 import {handleError} from '../actions/common';
+import analytics from '@react-native-firebase/analytics';
 
 const initialStatePostComments = {
   loading: true,
@@ -130,6 +131,10 @@ export const slice = createSlice({
         text: type + ' Added',
         duration: Snackbar.LENGTH_SHORT,
       });
+      analytics().logEvent('create_comment', {
+        comment_type: type,
+        comment_level: newComment.level,
+      });
     },
     [deleteComment.fulfilled]: (state, action) => {
       const commentId = action.payload;
@@ -148,6 +153,7 @@ export const slice = createSlice({
         text: 'Comment deleted',
         duration: Snackbar.LENGTH_SHORT,
       });
+      analytics().logEvent('delete_comment');
     },
     [voteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
@@ -163,6 +169,7 @@ export const slice = createSlice({
           voteCount: newVoteCount,
         },
       });
+      analytics().logEvent('vote_comment', {vote_type: newUserVote});
     },
     [voteComment.rejected]: handleError,
     [refreshComments.pending]: (state, action) => {
@@ -174,6 +181,7 @@ export const slice = createSlice({
       const postId = action.payload;
       const screen = state.posts[postId];
       screen.refreshing = false;
+      analytics().logEvent('refreshed_comments');
     },
     [reportComment.rejected]: handleError,
   },
