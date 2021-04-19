@@ -121,7 +121,9 @@ const LinkPostContent = (props) => {
   );
 
   const LinkImage = (
-    <View
+    <TouchableOpacity
+      activeOpacity={0.9}
+      onPress={() => navigateToURL(link)}
       style={{
         backgroundColor: '#222',
         height: height - 10,
@@ -134,7 +136,7 @@ const LinkPostContent = (props) => {
         ogWidth={width - 10}
         type={'link'}
       />
-    </View>
+    </TouchableOpacity>
   );
 
   const LinkTitle = (
