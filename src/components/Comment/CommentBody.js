@@ -2,6 +2,8 @@ import React, {memo, useState, useCallback} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getCommentText} from '../../redux/selectors/CommentSelectors';
+import Hyperlink from 'react-native-hyperlink';
+import {navigateToURL} from '../helpers';
 
 const CommentBody = (props) => {
   const {commentId} = props;
@@ -17,20 +19,25 @@ const CommentBody = (props) => {
 
   const commentView = (
     <View>
-      <Text
-        onTextLayout={onTextLayout}
-        ellipsizeMode={'tail'}
-        numberOfLines={textHidden ? 10 : undefined}
-        style={{
-          color: '#333',
-          fontSize: 13,
-          fontWeight: '400',
-          lineHeight: Platform.OS == 'ios' ? 19 : 21,
-          textAlign: 'justify',
-          paddingRight: 10,
-        }}>
-        {text}
-      </Text>
+      <Hyperlink
+        linkDefault={false}
+        linkStyle={{color: '#2980b9'}}
+        onPress={(url, text) => navigateToURL(url)}>
+        <Text
+          onTextLayout={onTextLayout}
+          ellipsizeMode={'tail'}
+          numberOfLines={textHidden ? 10 : undefined}
+          style={{
+            color: '#333',
+            fontSize: 13,
+            fontWeight: '400',
+            lineHeight: Platform.OS == 'ios' ? 19 : 21,
+            textAlign: 'justify',
+            paddingRight: 10,
+          }}>
+          {text}
+        </Text>
+      </Hyperlink>
       {showMore && (
         <TouchableOpacity
           style={{paddingVertical: 5}}

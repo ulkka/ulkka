@@ -18,6 +18,7 @@ import {
   scaleHeightAndWidthAccordingToDimensions,
   getHostnameFromRegex,
 } from './helpers';
+import {navigateToURL} from '../helpers';
 
 const LinkPostContent = (props) => {
   const {screen, postId} = props;
@@ -205,16 +206,10 @@ const LinkPostContent = (props) => {
     </View>
   );
 
-  const handleOpenLink = () => {
-    Linking.openURL(link).catch((error) =>
-      console.log('cannot open link', error),
-    );
-  };
-
   const openLink = (
     <TouchableOpacity
       hitSlop={{top: 10, bottom: 20, left: 10, right: 10}}
-      onPress={handleOpenLink}
+      onPress={() => navigateToURL(link)}
       style={{
         position: 'absolute',
         top: 5,

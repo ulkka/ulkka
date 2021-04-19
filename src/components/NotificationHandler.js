@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {View, Platform} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import {navigate} from '../navigation/Ref';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
+import {navigateToLink} from './helpers';
 
 PushNotification.configure({
   // (required) Called when a remote is received or opened, or local notification is opened
@@ -47,22 +47,6 @@ function getLinkFromRemoteMessage(remoteMessage) {
   return remoteMessage.data?.link && remoteMessage.data?.link?.length
     ? remoteMessage.data.link
     : '/';
-}
-
-function getScreenFromLink(link) {
-  const entity = link && link.substring(1, link.lastIndexOf('/'));
-  const entityId = link && link.substring(link.lastIndexOf('/') + 1);
-  const screen =
-    entity == 'post' && entityId && entityId != '' ? 'PostDetail' : 'Feed';
-
-  return {screen, entityId};
-}
-
-function navigateToLink(link) {
-  const {screen, entityId} = getScreenFromLink(link);
-  navigate(screen, {
-    postId: entityId,
-  });
 }
 
 const NotificationHandler = () => {
