@@ -11,7 +11,7 @@ import LoadingOverlay from './components/LoadingOverlay';
 import RegisterDeviceToken from './components/RegisterDeviceToken';
 //import ShareMenuHandler from './components/ShareMenuHandler';
 import OptionSheet from './components/OptionSheet';
-import IdTokenListener from './client/IdTokenListener';
+import AuthIDTokenListener from './client/AuthIDTokenListener';
 import AppMaintenanceHandler from './components/AppMaintenanceHandler';
 
 export default function App() {
@@ -40,7 +40,7 @@ export default function App() {
           <EmailLinkHandler />
           <RegisterDeviceToken />
           <OptionSheet />
-          <IdTokenListener />
+          <AuthIDTokenListener />
           {!maintenance && <Main />}
         </View>
       </ThemeProvider>

@@ -5,13 +5,12 @@ import auth from '@react-native-firebase/auth';
 import perf from '@react-native-firebase/perf';
 
 // Function that will be called to refresh authorization
-// new token will be added to header in idTokenListener.js
+// new token will be added to header in AuthIDTokenListener.js
 const refreshAuthLogic = async (failedRequest) => {
   const failedRequestStatus = failedRequest.response?.status;
   if (failedRequestStatus == 401) {
     // error code 401 means invalid/expired token
-    const idToken = await auth().currentUser?.getIdToken(true);
-    mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
+    await auth().currentUser?.getIdToken(true);
   }
   return Promise.resolve();
 };

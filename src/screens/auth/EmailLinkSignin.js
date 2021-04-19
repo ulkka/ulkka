@@ -25,6 +25,8 @@ const EmailLinkSignIn = () => {
         placeholder="Email"
         keyboardType="email-address"
         autoCompleteType="email"
+        autoCapitalize="none"
+        autoCorrect={false}
         containerStyle={{width: 300}}
         inputContainerStyle={{
           borderBottomColor: 'transparent',

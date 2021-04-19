@@ -37,21 +37,15 @@ const getRegisteredUser = async (currentUser) => {
   return registeredUser;
 };
 
-const isUserRegistered = async (currentUser) => {
-  let isRegistered = 0;
-  if (!currentUser.isAnonymous) {
-    const registeredUser = await getRegisteredUser(currentUser);
-    if (registeredUser?.displayname) {
-      isRegistered = 1;
-    }
-  }
+const isUserRegistered = async (registeredUser) => {
+  const isRegistered = registeredUser?.displayname ? 1 : 0;
   return isRegistered;
 };
 
 const initAuth = async () => {
   const currentUser = await getCurrentUser();
-  const isRegistered = await isUserRegistered(currentUser);
   const registeredUser = await getRegisteredUser(currentUser);
+  const isRegistered = await isUserRegistered(registeredUser);
   return {
     currentUser: currentUser,
     isRegistered: isRegistered,
@@ -170,23 +164,26 @@ export const registerUser = createAsyncThunk(
   },
 );
 
+const cleanupNotifications = async () => {
+  PushNotification.removeAllDeliveredNotifications();
+  const pushMessageToken = await messaging()
+    .getToken()
+    .catch((error) => {
+      console.log('error getting pushmessage token while signing out', error);
+      return '';
+    });
+
+  await userApi.user.logout(pushMessageToken); // unlink device token from users account server side
+};
+
 export const signout = createAsyncThunk(
   'authorization/signout',
-  async (arg, {rejectWithValue}) => {
+  async (arg, {rejectWithValue, getState}) => {
     try {
-      PushNotification.removeAllDeliveredNotifications();
-      const pushMessageToken = await messaging()
-        .getToken()
-        .catch((error) => {
-          console.log(
-            'error getting pushmessage token while signing out',
-            error,
-          );
-          return '';
-        });
-
-      await userApi.user.logout(pushMessageToken); // unlink device token from users account server side
-
+      const isUserRegistered = getState().authorization.isRegistered;
+      if (isUserRegistered) {
+        await cleanupNotifications();
+      }
       const isGoogleSignedIn = await GoogleSignin.isSignedIn().valueOf();
       if (isGoogleSignedIn) {
         await GoogleSignin.signOut();
