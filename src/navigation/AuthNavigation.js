@@ -21,9 +21,7 @@ export const AuthNavigation = () => {
   const headerStyle =
     Platform.OS == 'ios'
       ? {
-          height: 40,
-          borderTopWidth: 1,
-          borderTopColor: '#ddd',
+          height: 47,
           borderTopEndRadius: 15,
           borderTopStartRadius: 15,
         }

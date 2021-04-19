@@ -72,6 +72,7 @@ export default function Login() {
 
   const SocialAuth = (
     <TouchableOpacity
+      activeOpacity={0.8}
       onPress={() => {
         console.log('press gauth');
         dispatch(socialAuth('Google'));
