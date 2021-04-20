@@ -177,6 +177,9 @@ export const slice = createSlice({
           voteCount: newVoteCount,
         },
       });
+      analytics().logEvent('comment_vote', {
+        type: newUserVote,
+      });
     },
     [refreshComments.pending]: (state, action) => {
       const postId = action.meta.arg;

@@ -66,7 +66,7 @@ function Feed(props) {
   useEffect(() => {
     if (authStatus != 'UNAUTHENTICATED') {
       dispatch(initialiseFeed(screen));
-      fetch();
+      handleFetchFeed();
     }
   }, [authStatus]);
 
@@ -76,29 +76,12 @@ function Feed(props) {
 
   const handleLoadMore = () => {
     if (authStatus != 'UNAUTHENTICATED' && !complete && !loading) {
-      fetch();
+      handleFetchFeed();
     }
   };
 
-  const fetch = () => {
-    dispatch(fetchFeed(screen)).then((res) => {
-      const page = res.payload?.metadata?.page;
-      const total = page && res.payload.metadata.total;
-      const limit = page && res.payload.metadata.limit;
-      page &&
-        analytics().logEvent('feed_fetch', {
-          page: res.payload.metadata.page,
-          screen: screenType,
-        });
-
-      const isComplete = total <= limit * page;
-      isComplete &&
-        analytics().logEvent('feed_complete', {
-          page: res.payload.metadata.page,
-          screen: screenType,
-          total: total,
-        });
-    });
+  const handleFetchFeed = () => {
+    dispatch(fetchFeed(screen));
   };
 
   const handleRefresh = () => {

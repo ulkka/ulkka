@@ -82,6 +82,9 @@ export const slice = createSlice({
           voteCount: newVoteCount,
         },
       });
+      analytics().logEvent('post_vote', {
+        type: newUserVote,
+      });
     },
     [votePost.rejected]: handleError,
     [reportPost.rejected]: handleError,

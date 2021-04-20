@@ -176,6 +176,7 @@ export const slice = createSlice({
       const total = page && action.payload.metadata.total;
       const limit = page && action.payload.metadata.limit;
       const isComplete = total <= limit * page;
+      const screenType = type.split('-')[0];
 
       const isFeedEmpty =
         normalizedPosts &&
@@ -197,8 +198,23 @@ export const slice = createSlice({
         });
         screen.metadata = action.payload.metadata;
         screen.complete = isComplete;
+        analytics().logEvent('feed_fetch', {
+          page: page,
+          screen: screenType,
+        });
+        isComplete &&
+          analytics().logEvent('feed_complete', {
+            page: page,
+            screen: screenType,
+            total: total,
+          });
       } else {
         screen.complete = true;
+        analytics().logEvent('feed_complete', {
+          page: page,
+          screen: screenType,
+          total: total,
+        });
       }
       feedAdapter.upsertMany(screen, posts);
       screen.loading = false;
