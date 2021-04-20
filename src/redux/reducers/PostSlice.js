@@ -82,13 +82,12 @@ export const slice = createSlice({
           voteCount: newVoteCount,
         },
       });
-      analytics().logEvent('post_vote', {
-        post_type: post.type,
-        type: newUserVote,
-      });
     },
     [votePost.rejected]: handleError,
     [reportPost.rejected]: handleError,
+    [fetchPostById.rejected]: handleError,
+    [createPost.rejected]: handleError,
+    [deletePost.rejected]: handleError,
   },
 });
 export const posts = slice.reducer;

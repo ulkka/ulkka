@@ -6,11 +6,13 @@ import {
   socialAuth,
   emailLinkAuth,
   registerUser,
+  sendEmailSignInLink,
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
 import {showAuthScreen} from '../../navigation/Ref';
 import RNRestart from 'react-native-restart';
 import analytics from '@react-native-firebase/analytics';
+import {handleError} from '../actions/common';
 
 export const slice = createSlice({
   name: 'authorization',
@@ -89,13 +91,12 @@ export const slice = createSlice({
         fulfillAuth(state, action);
       }
     },
-    [loadAuth.rejected]: (state, action) => {
-      console.log('load auth rejected', action.error?.message);
-      Snackbar.show({
-        text: 'Sorry, please try again later! ',
-        duration: Snackbar.LENGTH_LONG,
-      });
-    },
+    [loadAuth.rejected]: handleError,
+    [socialAuth.rejected]: handleError,
+    [emailLinkAuth.rejected]: handleError,
+    [sendEmailSignInLink.rejected]: handleError,
+    [registerUser.rejected]: handleError,
+    [signout.rejected]: handleError,
   },
 });
 

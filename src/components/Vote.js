@@ -12,6 +12,7 @@ import {
   getCommentUserVote,
   getCommentVoteCount,
 } from '../redux/selectors/CommentSelectors';
+import analytics from '@react-native-firebase/analytics';
 
 export function Vote(props) {
   const dispatch = useDispatch();
@@ -31,10 +32,18 @@ export function Vote(props) {
     let voteType = userVote == type ? 0 : type;
     const payload = {id: id, voteType: voteType};
     if (entityType == 'post') {
-      dispatch(votePost(payload));
+      dispatch(votePost(payload)).then((res) => {
+        analytics().logEvent('post_vote', {
+          type: voteType,
+        });
+      });
     }
     if (entityType == 'comment') {
-      dispatch(voteComment(payload));
+      dispatch(voteComment(payload)).then((res) => {
+        analytics().logEvent('comment_vote', {
+          type: voteType,
+        });
+      });
     }
   };
 

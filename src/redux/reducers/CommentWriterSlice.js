@@ -6,17 +6,21 @@ import {handleError} from '../actions/common';
 
 export const prepareReply = createAsyncThunk(
   'commentCreator/prepare',
-  async (data, thunkAPI) => {
-    var res = {};
-    if (data.postId != undefined) {
-      res.type = 'post';
-      res.id = data.postId;
+  async (data, {rejectWithValue}) => {
+    try {
+      var res = {};
+      if (data.postId != undefined) {
+        res.type = 'post';
+        res.id = data.postId;
+      }
+      if (data.commentId != undefined) {
+        res.type = 'comment';
+        res.id = data.commentId;
+      }
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
     }
-    if (data.commentId != undefined) {
-      res.type = 'comment';
-      res.id = data.commentId;
-    }
-    return res;
   },
   {
     condition: ({postId, commentId}, {getState}) => {
@@ -33,19 +37,23 @@ export const prepareReply = createAsyncThunk(
 
 export const createReply = createAsyncThunk(
   'commentCreator/create',
-  async (data, thunkAPI) => {
-    const response = await postApi.comment.create(
-      data.comment,
-      data.postId,
-      data.parentCommentId,
-    );
-    const normalized = normalize(response.data, comment);
-    return {
-      data: data,
-      response: response,
-      normalizedComment: normalized.entities,
-      result: normalized.result,
-    };
+  async (data, {rejectWithValue}) => {
+    try {
+      const response = await postApi.comment.create(
+        data.comment,
+        data.postId,
+        data.parentCommentId,
+      );
+      const normalized = normalize(response.data, comment);
+      return {
+        data: data,
+        response: response,
+        normalizedComment: normalized.entities,
+        result: normalized.result,
+      };
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   },
   {
     condition: ({postId, commentId}, {getState}) => {

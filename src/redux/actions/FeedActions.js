@@ -30,7 +30,7 @@ export const fetchFeed = createAsyncThunk(
         postIds: normalized.result,
       };
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -56,7 +56,7 @@ export const refreshFeed = createAsyncThunk(
       await dispatch(fetchFeed(type));
       return type;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );
@@ -69,7 +69,7 @@ export const refreshPostDetail = createAsyncThunk(
       await dispatch(fetchPostById(postId));
       return type;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );

@@ -72,7 +72,7 @@ export const loadAuth = createAsyncThunk(
     try {
       return initAuth();
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );
@@ -86,7 +86,7 @@ export const socialAuth = createAsyncThunk(
       await auth().signInWithCredential(googleCredential);
       return initAuth();
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );
@@ -99,7 +99,7 @@ export const emailLinkAuth = createAsyncThunk(
       await auth().signInWithEmailLink(email, link.url);
       return initAuth();
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );
@@ -149,7 +149,7 @@ export const sendEmailSignInLink = createAsyncThunk(
         });
     } catch (error) {
       console.log(error?.message);
-      return rejectWithValue(error?.message);
+      return rejectWithValue(error);
     }
   },
 );
@@ -161,7 +161,7 @@ export const registerUser = createAsyncThunk(
       await userApi.user.signup(displayname);
       return initAuth();
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );
@@ -193,7 +193,7 @@ export const signout = createAsyncThunk(
       await auth().signOut();
       return initAuth();
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );

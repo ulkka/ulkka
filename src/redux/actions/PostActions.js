@@ -19,7 +19,7 @@ export const fetchPostById = createAsyncThunk(
         users: normalized.entities.users,
       };
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -44,7 +44,7 @@ export const createPost = createAsyncThunk(
         newPostId: normalized.result,
       };
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -64,7 +64,7 @@ export const votePost = createAsyncThunk(
       let response = await postApi.post.vote(id, voteType);
       return response;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -84,7 +84,7 @@ export const deletePost = createAsyncThunk(
       let response = await postApi.post.delete(id);
       return id;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -104,7 +104,7 @@ export const reportPost = createAsyncThunk(
       let response = await postApi.post.report(id, option);
       return id;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {

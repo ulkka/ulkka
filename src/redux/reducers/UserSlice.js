@@ -5,7 +5,6 @@ import {
   socialAuth,
   emailLinkAuth,
   registerUser,
-  signout,
 } from '../actions/AuthActions';
 import {fetchComments} from '../actions/CommentActions';
 import {
@@ -15,6 +14,7 @@ import {
 } from '@reduxjs/toolkit';
 import userApi from '../../services/UserApi';
 import {createCachedSelector} from 're-reselect';
+import {handleError} from '../actions/common';
 
 export const userAdapter = createEntityAdapter({
   selectId: (user) => user._id,
@@ -32,7 +32,7 @@ export const fetchUserById = createAsyncThunk(
       const response = await userApi.user.getUserById(id);
       return response.data[0];
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );
@@ -72,6 +72,7 @@ export const slice = createSlice({
       const authorOfNewPost = posts[postId].author;
       userAdapter.upsertOne(state, users[authorOfNewPost]);
     },
+    [fetchUserById.rejected]: handleError,
   },
 });
 

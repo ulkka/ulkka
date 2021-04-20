@@ -36,7 +36,9 @@ const RegisterAccount = () => {
       } else {
         console.log('displayname already exists response', response);
         setIsDisplaynameValid(false);
-        setDisplaynameErrorMessage('Display name already in use');
+        setDisplaynameErrorMessage(
+          'Display name already in use. Please enter another one',
+        );
         return false;
       }
     }

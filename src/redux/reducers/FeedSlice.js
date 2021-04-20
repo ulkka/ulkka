@@ -8,6 +8,7 @@ import {
 import {feedAdapter} from '../selectors/FeedSelectors';
 import {createPost, deletePost} from '../actions/PostActions';
 import analytics from '@react-native-firebase/analytics';
+import {handleError} from '../actions/common';
 
 const initialState = {
   ids: [],
@@ -202,6 +203,7 @@ export const slice = createSlice({
       const screen = state[type];
       screen.loading = false;
       screen.refreshing = false;
+      handleError(state, action);
     },
     [refreshFeed.pending]: (state, action) => {
       const type = action.meta.arg;
@@ -223,6 +225,7 @@ export const slice = createSlice({
       const screen = state[type];
       screen.refreshing = false;
     },
+    [refreshFeed.rejected]: handleError,
     [refreshPostDetail.pending]: (state, action) => {
       const {type} = action.meta.arg;
       const screen = state[type];
@@ -234,6 +237,7 @@ export const slice = createSlice({
       screen.refreshing = false;
       analytics().logEvent('postdetail_refresh');
     },
+    [refreshPostDetail.rejected]: handleError,
     [initPostDetail.pending]: (state, action) => {
       const {screenId} = action.meta.arg;
       state[screenId] = initialState;

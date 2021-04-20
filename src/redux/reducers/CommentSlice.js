@@ -138,11 +138,6 @@ export const slice = createSlice({
     },
     [deleteComment.fulfilled]: (state, action) => {
       const commentId = action.payload;
-
-      // const comment = commentAdapter
-      //   .getSelectors()
-      //   .selectById(state, commentId);
-      //commentAdapter.upsertOne(state, {...comment, status: 'deleted'});
       commentAdapter.updateOne(state, {
         id: commentId,
         changes: {
@@ -169,9 +164,7 @@ export const slice = createSlice({
           voteCount: newVoteCount,
         },
       });
-      analytics().logEvent('comment_vote', {type: newUserVote});
     },
-    [voteComment.rejected]: handleError,
     [refreshComments.pending]: (state, action) => {
       const postId = action.meta.arg;
       const screen = state.posts[postId];
@@ -183,7 +176,12 @@ export const slice = createSlice({
       screen.refreshing = false;
       analytics().logEvent('comment_refresh');
     },
+    [voteComment.rejected]: handleError,
     [reportComment.rejected]: handleError,
+    [fetchComments.rejected]: handleError,
+    [fetchUserComments.rejected]: handleError,
+    [deleteComment.rejected]: handleError,
+    [refreshComments.rejected]: handleError,
   },
 });
 

@@ -17,7 +17,7 @@ export const fetchComments = createAsyncThunk(
         parentComments: normalized.result,
       };
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -53,7 +53,7 @@ export const fetchUserComments = createAsyncThunk(
         commentIds: normalized.result,
       };
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -78,7 +78,7 @@ export const voteComment = createAsyncThunk(
       let response = await postApi.comment.vote(id, voteType);
       return response;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -98,7 +98,7 @@ export const deleteComment = createAsyncThunk(
       let response = await postApi.comment.delete(id);
       return id;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -118,7 +118,7 @@ export const reportComment = createAsyncThunk(
       let response = await postApi.comment.report(id, option);
       return id;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
   {
@@ -138,7 +138,7 @@ export const refreshComments = createAsyncThunk(
       await dispatch(fetchComments(postId));
       return postId;
     } catch (error) {
-      return rejectWithValue(error?.response);
+      return rejectWithValue(error);
     }
   },
 );
