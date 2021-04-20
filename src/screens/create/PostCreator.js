@@ -341,6 +341,7 @@ export default function CreatePost({route}) {
           <MediaField
             mediaType="photo"
             media={media}
+            type={type}
             resetMedia={() => setMedia(null)}
             setMedia={(media) => setMedia(media)}
           />
@@ -350,6 +351,7 @@ export default function CreatePost({route}) {
           <MediaField
             mediaType="video"
             media={media}
+            type={type}
             resetMedia={() => setMedia(null)}
             setMedia={(media) => setMedia(media)}
           />

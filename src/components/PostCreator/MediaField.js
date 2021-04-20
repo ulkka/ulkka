@@ -13,9 +13,22 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Snackbar from 'react-native-snackbar';
 import analytics from '@react-native-firebase/analytics';
 
-const validateMedia = (media) => {
+const validateMedia = (media, postType) => {
   const {mime: mimeType, size} = media;
-  const type = mimeType.substring(0, mimeType.indexOf('/'));
+  const type = mimeType.split('/')[0];
+  const format = mimeType.split('/')[1];
+  if (postType == 'gif' && format != 'gif') {
+    Snackbar.show({
+      text:
+        'Selected file is not a GIF. Please select a GIF file smaller than 10MB',
+      duration: Snackbar.LENGTH_LONG,
+    });
+    analytics().logEvent('media_invalid', {
+      type: type,
+      reason: 'format_not_gif',
+    });
+    return false;
+  }
   if (type == 'image') {
     if (size > 10000000) {
       Snackbar.show({
@@ -46,7 +59,7 @@ const validateMedia = (media) => {
 };
 
 export const MediaField = (props) => {
-  const {mediaType, media, resetMedia, setMedia} = props;
+  const {mediaType, media, resetMedia, setMedia, type: postType} = props;
 
   const pickMedia = (mediaType) => {
     ImagePicker.openPicker({
@@ -56,7 +69,7 @@ export const MediaField = (props) => {
       .then((media) => {
         // since ios and android responses are different and to accomodate gifs
         console.log('Selected Media - ', media);
-        const isMediaValid = validateMedia(media);
+        const isMediaValid = validateMedia(media, postType);
         if (isMediaValid) {
           if ('filename' in media) {
             let fileFormat = media.filename.split('.').pop();
