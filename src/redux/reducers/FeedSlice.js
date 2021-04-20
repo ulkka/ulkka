@@ -172,6 +172,11 @@ export const slice = createSlice({
 
       const normalizedPosts = action.payload.normalizedPosts;
 
+      const page = action.payload?.metadata?.page;
+      const total = page && action.payload.metadata.total;
+      const limit = page && action.payload.metadata.limit;
+      const isComplete = total <= limit * page;
+
       const isFeedEmpty =
         normalizedPosts &&
         Object.keys(normalizedPosts).length === 0 &&
@@ -191,6 +196,7 @@ export const slice = createSlice({
           }
         });
         screen.metadata = action.payload.metadata;
+        screen.complete = isComplete;
       } else {
         screen.complete = true;
       }

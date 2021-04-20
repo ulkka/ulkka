@@ -1,11 +1,19 @@
 import React, {useEffect, memo} from 'react';
-import {View, FlatList, Text, TouchableOpacity, Platform} from 'react-native';
+import {
+  View,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  Platform,
+  Image,
+} from 'react-native';
 import {Divider, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchUserComments} from '../../../redux/actions/CommentActions';
 import {
   getUserCommentsSelector,
   getUserCommentsIsComplete,
+  getUserCommentsIsLoading,
 } from '../../../redux/selectors/CommentSelectors';
 import {selectCommentById} from '../../../redux/selectors/CommentSelectors';
 import TimeAgo from '../../../components/TimeAgo';
@@ -135,6 +143,9 @@ const Comments = (props) => {
   const complete = useSelector((state) =>
     getUserCommentsIsComplete(state, userId),
   );
+  const loading = useSelector((state) =>
+    getUserCommentsIsLoading(state, userId),
+  );
   console.log('running comments tab');
 
   useEffect(() => {
@@ -146,29 +157,48 @@ const Comments = (props) => {
   };
 
   const handleLoadMore = () => {
-    if (!complete) {
+    console.log('loading more comments');
+    if (!complete && !loading) {
       dispatch(fetchUserComments(userId));
     }
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+      }}>
       <FlatList
         listKey="userCommentList"
-        removeClippedSubviews={true}
         renderItem={renderRow}
         data={commentIds}
-        removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
+        removeClippedSubviews={Platform.OS != 'ios'} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear. user comment wont show scroll started
         ItemSeparatorComponent={separator}
         keyExtractor={(item, index) => item}
-        onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.1}
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         updateCellsBatchingPeriod={500}
-        windowSize={25}
+        windowSize={11}
         ListFooterComponent={<FeedFooter complete={complete} />}
       />
+      {!complete && (
+        <View style={{alignSelf: 'center'}}>
+          {loading ? (
+            <Image
+              source={require('../../../../assets/loading.gif')}
+              style={{height: 40, width: 40, paddingTop: 20}}
+            />
+          ) : (
+            <TouchableOpacity
+              hitSlop={{top: 15, bottom: 30, left: 40, right: 40}}
+              onPress={handleLoadMore}
+              style={{paddingTop: 20}}>
+              <Text style={{color: '#2980b9'}}>Load more ...</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
     </View>
   );
 };

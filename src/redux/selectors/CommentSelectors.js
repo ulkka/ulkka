@@ -67,3 +67,6 @@ export const getUserCommentsSelector = (state, userId) =>
 
 export const getUserCommentsIsComplete = (state, userId) =>
   state.comments.users[userId]?.complete;
+
+export const getUserCommentsIsLoading = (state, userId) =>
+  state.comments.users[userId]?.loading;

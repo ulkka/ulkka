@@ -94,6 +94,11 @@ export const slice = createSlice({
       const userId = action.meta.arg;
       const commentState = state.users[userId];
 
+      const page = action.payload?.metadata?.page;
+      const total = page && action.payload.metadata.total;
+      const limit = page && action.payload.metadata.limit;
+      const isComplete = total <= limit * page;
+
       if (comments) {
         commentAdapter.upsertMany(state, comments);
         commentState.metadata = action.payload.metadata;
@@ -101,12 +106,20 @@ export const slice = createSlice({
           ...commentState.commentIds,
           ...action.payload.commentIds,
         ];
+
+        commentState.complete = isComplete;
+        isComplete &&
+          analytics().logEvent('usercomments_complete', {
+            page: page,
+            total: total,
+          });
       } else {
         commentState.complete = true;
       }
 
       commentState.loading = false;
       commentState.refreshing = false;
+      analytics().logEvent('usercomments_fetch', {page: page});
     },
     [createReply.fulfilled]: (state, action) => {
       const newCommentId = action.payload.result;
@@ -183,6 +196,9 @@ export const slice = createSlice({
       errorName != 'ConditionError' && handleError(state, action);
     },
     [fetchUserComments.rejected]: (state, action) => {
+      const userId = action.meta.arg;
+      const commentState = state.users[userId];
+      commentState.loading = false;
       const {name: errorName} = action.error;
       errorName != 'ConditionError' && handleError(state, action);
     },

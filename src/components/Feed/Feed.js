@@ -96,6 +96,7 @@ function Feed(props) {
         analytics().logEvent('feed_complete', {
           page: res.payload.metadata.page,
           screen: screenType,
+          total: total,
         });
     });
   };
@@ -128,7 +129,7 @@ function Feed(props) {
         updateCellsBatchingPeriod={500}
         windowSize={15}
         initialNumToRender={5}
-        maxToRenderPerBatch={10}
+        maxToRenderPerBatch={5}
         viewabilityConfig={viewabilityConfigRef.current}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         keyExtractor={(postId, index) => postId}
