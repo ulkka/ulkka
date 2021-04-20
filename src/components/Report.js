@@ -58,10 +58,10 @@ const Report = (props) => {
       );
       dispatch(hideOptionSheet());
     } else {
-      analytics().logEvent('report', {
+      analytics().logEvent('content_report', {
         item_id: id,
-        entity_type: type,
-        report_reason: selectedReportOption,
+        type: type,
+        reason: selectedReportOption,
       });
       setLoading(false);
       dispatch(hideOptionSheet());

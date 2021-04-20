@@ -4,9 +4,12 @@ import {Icon, Text} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostCommentCount} from '../../redux/selectors/PostSelectors';
+import analytics from '@react-native-firebase/analytics';
 
 const PostTotalComments = (props) => {
   const {postId, screen} = props;
+
+  const screenType = screen.split('-')[0];
 
   const commentCount = useSelector((state) =>
     getPostCommentCount(state, postId),
@@ -17,6 +20,10 @@ const PostTotalComments = (props) => {
       disabled={screen == 'PostDetail' ? true : false}
       hitSlop={{top: 20, bottom: 20}}
       onPress={() => {
+        analytics().logEvent('postdetail_clickedfrom', {
+          clicked_from: 'post_footer',
+          screen: screenType,
+        });
         push('PostDetail', {
           postId: postId,
         });

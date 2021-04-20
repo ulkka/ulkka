@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {getCommentText} from '../../redux/selectors/CommentSelectors';
 import Hyperlink from 'react-native-hyperlink';
 import {navigateToURL} from '../helpers';
+import analytics from '@react-native-firebase/analytics';
 
 const CommentBody = (props) => {
   const {commentId} = props;
@@ -14,6 +15,7 @@ const CommentBody = (props) => {
   const [textHidden, setTextHidden] = useState(true);
 
   const onTextLayout = useCallback((e) => {
+    analytics().logEvent('comment_showmore');
     setShowMore(e.nativeEvent.lines.length > 5);
   }, []);
 
@@ -41,7 +43,12 @@ const CommentBody = (props) => {
       {showMore && (
         <TouchableOpacity
           style={{paddingVertical: 5}}
-          onPress={() => setTextHidden(!textHidden)}>
+          onPress={() => {
+            analytics().logEvent('comment_toggletexthidden', {
+              value: !textHidden,
+            });
+            setTextHidden(!textHidden);
+          }}>
           <Text style={{color: '#68cbf8'}}>
             {textHidden ? 'See More' : 'See Less'}
           </Text>

@@ -11,6 +11,7 @@ import {Icon} from 'react-native-elements';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-crop-picker';
 import Snackbar from 'react-native-snackbar';
+import analytics from '@react-native-firebase/analytics';
 
 const validateMedia = (media) => {
   const {mime: mimeType, size} = media;
@@ -21,6 +22,10 @@ const validateMedia = (media) => {
         text: 'Please select an image with size lesser than 10MB',
         duration: Snackbar.LENGTH_SHORT,
       });
+      analytics().logEvent('media_invalid', {
+        type: type,
+        reason: 'size_greaterthan_10MB',
+      });
       return false;
     }
   }
@@ -29,6 +34,10 @@ const validateMedia = (media) => {
       Snackbar.show({
         text: 'Please select a video with size lesser than 10MB',
         duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('media_invalid', {
+        type: type,
+        reason: 'size_greaterthan_10MB',
       });
       return false;
     }
@@ -84,15 +93,23 @@ export const MediaField = (props) => {
         const settingsTitle =
           Platform.OS == 'ios' ? 'Enable Library Access' : 'Go to Settings';
 
+        analytics().logEvent('mediapermission_unavailable');
+
         Alert.alert(title, message, [
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {
+              analytics().logEvent('mediapermission_deny');
+              console.log('Cancel Pressed');
+            },
             style: 'cancel',
           },
           {
             text: settingsTitle,
-            onPress: () => Linking.openSettings(),
+            onPress: () => {
+              analytics().logEvent('mediapermission_settingsenable');
+              Linking.openSettings();
+            },
             style: 'default',
           },
         ]);

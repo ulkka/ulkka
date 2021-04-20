@@ -75,7 +75,7 @@ export const slice = createSlice({
       }, 500);
     },
     [signout.fulfilled]: (state, action) => {
-      analytics().logEvent('logout');
+      analytics().logEvent('user_logout', {type: 'registered'});
       const info = action.meta.arg;
       if (!info) {
         setTimeout(() => {

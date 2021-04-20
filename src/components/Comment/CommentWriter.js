@@ -32,6 +32,7 @@ import {getUserDisplayname} from '../../redux/reducers/UserSlice';
 import {ActivityIndicator} from 'react-native';
 import {removeEmptyLines} from '../PostCreator/helpers';
 import UserAvatar from '../UserAvatar';
+import analytics from '@react-native-firebase/analytics';
 
 export default function CommentWriter(props) {
   const dispatch = useDispatch();
@@ -128,6 +129,7 @@ export default function CommentWriter(props) {
   };
 
   const expandForm = () => {
+    analytics().logEvent('commentwriter_toggleexpand', {value: !expanded});
     setExpanded(!expanded);
   };
 
@@ -191,7 +193,10 @@ export default function CommentWriter(props) {
       <TouchableOpacity
         hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
         style={{paddingHorizontal: 5}}
-        onPress={() => resetForm()}>
+        onPress={() => {
+          analytics().logEvent('commentwriter_close', {value: comment.length});
+          resetForm();
+        }}>
         <Icon name="close" size={20} color="#444" />
       </TouchableOpacity>
     </View>

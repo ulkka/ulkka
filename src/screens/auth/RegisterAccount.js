@@ -49,7 +49,7 @@ const RegisterAccount = () => {
   const DisplayNameField = (
     <Input
       ref={displaynameField}
-      placeholder="Display Name"
+      placeholder="Display Name (Nickname / വട്ടപ്പേര്)"
       autoCapitalize="none"
       autoCorrect={false}
       containerStyle={{width: 300}}

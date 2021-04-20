@@ -7,6 +7,7 @@ import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
 import {useSelector} from 'react-redux';
 import {getPostType} from '../../redux/selectors/PostSelectors';
+import analytics from '@react-native-firebase/analytics';
 
 function PostContent(props) {
   const {postId, screen} = props;
@@ -24,6 +25,18 @@ function PostContent(props) {
     });
   }
 
+  const onPressHandler = () => {
+    if (type == 'video' || type == 'link') {
+      console.log('video/link type, so not navigating');
+    } else {
+      const screenType = screen.split('-')[0];
+      analytics().logEvent('postdetail_clickedfrom', {
+        clicked_from: 'post_content',
+        screen: screenType,
+      });
+      navigateToPostDetail();
+    }
+  };
   const PostContentWrapper = (props) => {
     return (
       <View
@@ -42,11 +55,7 @@ function PostContent(props) {
               : false
           }
           underlayColor="#fff"
-          onPress={() =>
-            type == 'video' || type == 'link'
-              ? console.log('video/link type, so not navigating')
-              : navigateToPostDetail()
-          }>
+          onPress={onPressHandler}>
           {props.children}
         </TouchableOpacity>
       </View>

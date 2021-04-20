@@ -11,6 +11,7 @@ import {selectCommentById} from '../../../redux/selectors/CommentSelectors';
 import TimeAgo from '../../../components/TimeAgo';
 import {push} from '../../../navigation/Ref';
 import FeedFooter from '../../../components/Feed/FeedFooter';
+import analytics from '@react-native-firebase/analytics';
 
 const CommentRow = memo((props) => {
   const {commentId} = props;
@@ -105,7 +106,13 @@ const CommentRow = memo((props) => {
         borderRadius: 5,
         marginHorizontal: 3,
       }}
-      onPress={() => push('PostDetail', {postId: postId})}>
+      onPress={() => {
+        analytics().logEvent('postdetail_clickedfrom', {
+          clicked_from: 'user_comments',
+          screen: 'UserDetail',
+        });
+        push('PostDetail', {postId: postId});
+      }}>
       {postTitleField}
       {metadataRow}
       {textField}

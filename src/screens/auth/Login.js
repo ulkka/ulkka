@@ -6,6 +6,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from 'react-native';
 import {SocialIcon, Divider} from 'react-native-elements';
 import {socialAuth} from '../../redux/actions/AuthActions';
@@ -14,10 +15,17 @@ import EmailLinkSignIn from './EmailLinkSignin';
 
 export default function Login() {
   const dispatch = useDispatch();
+  const AppIcon = (
+    <Image
+      source={require('../../../assets/ulkka_transparent_512x512.png')}
+      style={{height: 100, width: 100}}
+      resizeMode="contain"
+    />
+  );
   const Title = (
     <View
       style={{
-        height: (Dimensions.get('screen').height * 30) / 100,
+        height: (Dimensions.get('screen').height * 15) / 100,
         alignItems: 'center',
         justifyContent: 'center',
       }}>
@@ -25,8 +33,8 @@ export default function Login() {
         style={{
           fontWeight: 'bold',
           //  width: 280,
-          color: '#444',
-          fontSize: 18,
+          color: '#555',
+          fontSize: 20,
         }}>
         {'  '}
         Welcome to Ulkka{'  '}
@@ -107,7 +115,10 @@ export default function Login() {
       <View
         style={{
           flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
+        {AppIcon}
         {Title}
       </View>
       <View

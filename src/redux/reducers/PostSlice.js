@@ -26,7 +26,7 @@ export const slice = createSlice({
       const newPost = action.payload.normalizedPost.posts[newPostId];
       newPost.userVote = 0;
       postAdapter.addOne(state, newPost);
-      analytics().logEvent('create_post', {post_type: newPost.type});
+      analytics().logEvent('post_create', {post_type: newPost.type});
     },
     [createReply.fulfilled]: (state, action) => {
       const postId = action.payload.data.postId;
@@ -64,7 +64,7 @@ export const slice = createSlice({
         text: 'Post deleted',
         duration: Snackbar.LENGTH_SHORT,
       });
-      analytics().logEvent('delete_post');
+      analytics().logEvent('post_delete');
     },
     [votePost.fulfilled]: (state, action) => {
       const postId = action.payload?.data?._id;
@@ -82,9 +82,9 @@ export const slice = createSlice({
           voteCount: newVoteCount,
         },
       });
-      analytics().logEvent('vote_post', {
-        vote_type: newUserVote,
+      analytics().logEvent('post_vote', {
         post_type: post.type,
+        type: newUserVote,
       });
     },
     [votePost.rejected]: handleError,

@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import {signout} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
+import analytics from '@react-native-firebase/analytics';
 
 export default function ChangeAccount() {
   const dispatch = useDispatch();
@@ -32,7 +33,10 @@ export default function ChangeAccount() {
       </Text>
       <Button
         title="Logout"
-        onPress={() => dispatch(signout('norestart'))}
+        onPress={() => {
+          analytics().logEvent('user_logout', {type: 'unregistered'});
+          dispatch(signout('norestart'));
+        }}
         type="clear"
         titleStyle={{color: '#6874e8', fontSize: 14}}
       />

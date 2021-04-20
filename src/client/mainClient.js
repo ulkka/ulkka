@@ -10,7 +10,8 @@ const refreshAuthLogic = async (failedRequest) => {
   const failedRequestStatus = failedRequest.response?.status;
   if (failedRequestStatus == 401) {
     // error code 401 means invalid/expired token
-    await auth().currentUser?.getIdToken(true);
+    const idToken = await auth().currentUser?.getIdToken();
+    mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
   }
   return Promise.resolve();
 };
@@ -92,7 +93,7 @@ mainClient.interceptors.response.use(
 // Intercept all requests
 /*mainClient.interceptors.request.use(
   (config) => {
-    //  console.log('Request Config: ', config);
+    console.log('Request Config: ', config);
     return config;
   },
   (error) => Promise.reject(error),
@@ -109,10 +110,9 @@ mainClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    // console.log(error.response.status);
-    // console.log(error.response.config);
-    // console.log(error);
+    console.log(error.response.status);
+    console.log(error.response.config);
+    console.log(error);
     return Promise.reject(error);
   },
-);
-*/
+);*/

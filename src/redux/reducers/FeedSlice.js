@@ -142,7 +142,7 @@ export const slice = createSlice({
           showMore: value,
         },
       });
-      analytics().logEvent('toggle_showmore_text');
+      analytics().logEvent('post_showmore');
     },
     setTextHidden(state, action) {
       const {postId, type, value} = action.payload;
@@ -153,7 +153,9 @@ export const slice = createSlice({
           textHidden: value,
         },
       });
-      analytics().logEvent('hidden_text');
+      analytics().logEvent('post_toggletexthidden', {
+        value: value,
+      });
     },
   },
 
@@ -220,7 +222,7 @@ export const slice = createSlice({
       const type = action.payload;
       const screen = state[type];
       screen.refreshing = false;
-      analytics().logEvent('refresh_feed', {screen: screen});
+      analytics().logEvent('feed_refresh', {screen: screen});
     },
     [refreshPostDetail.pending]: (state, action) => {
       const {type} = action.meta.arg;
@@ -231,7 +233,7 @@ export const slice = createSlice({
       const type = action.payload;
       const screen = state[type];
       screen.refreshing = false;
-      analytics().logEvent('refresh_post_detail');
+      analytics().logEvent('postdetail_refresh');
     },
     [initPostDetail.pending]: (state, action) => {
       const {screenId} = action.meta.arg;

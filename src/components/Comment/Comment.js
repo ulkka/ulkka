@@ -7,11 +7,13 @@ import CommentMetadata from './CommentMetadata';
 import CommentBody from './CommentBody';
 import CommentFooter from './CommentFooter';
 import {getCommentisDeleted} from '../../redux/selectors/CommentSelectors';
+import analytics from '@react-native-firebase/analytics';
 
 function Comment(props) {
   const {commentId, children, level} = props;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapse = () => {
+    analytics().logEvent('comment_togglecollapse', {value: !isCollapsed});
     setIsCollapsed(!isCollapsed);
   };
   const isCommentDeleted = useSelector((state) =>

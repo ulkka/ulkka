@@ -135,7 +135,7 @@ export const sendEmailSignInLink = createAsyncThunk(
       await auth()
         .sendSignInLinkToEmail(email, actionCodeSettings)
         .then(async () => {
-          await analytics().logEvent('send_email_link');
+          await analytics().logEvent('emaillink_send');
           await openInbox({
             title: `Login link sent to ${email}`,
             message:

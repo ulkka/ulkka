@@ -3,13 +3,21 @@ import {Text, TouchableWithoutFeedback} from 'react-native';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostTitle} from '../../redux/selectors/PostSelectors';
+import analytics from '@react-native-firebase/analytics';
 
 const PostTitle = (props) => {
-  const {postId} = props;
+  const {postId, screen} = props;
+
+  const screenType = screen.split('-')[0];
+
   const postTitle = useSelector((state) => getPostTitle(state, postId));
   return (
     <TouchableWithoutFeedback
       onPress={() => {
+        analytics().logEvent('postdetail_clickedfrom', {
+          clicked_from: 'post_title',
+          screen: screenType,
+        });
         push('PostDetail', {
           postId: postId,
         });

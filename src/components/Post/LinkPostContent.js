@@ -18,7 +18,6 @@ import {
   getHostnameFromRegex,
 } from './helpers';
 import {navigateToURL} from '../helpers';
-import analytics from '@react-native-firebase/analytics';
 
 const LinkPostContent = (props) => {
   const {screen, postId} = props;

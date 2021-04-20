@@ -131,8 +131,8 @@ export const slice = createSlice({
         text: type + ' Added',
         duration: Snackbar.LENGTH_SHORT,
       });
-      analytics().logEvent('create_comment', {
-        comment_type: type,
+      analytics().logEvent('comment_create', {
+        type: type,
         comment_level: newComment.level,
       });
     },
@@ -153,7 +153,7 @@ export const slice = createSlice({
         text: 'Comment deleted',
         duration: Snackbar.LENGTH_SHORT,
       });
-      analytics().logEvent('delete_comment');
+      analytics().logEvent('comment_delete');
     },
     [voteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
@@ -169,7 +169,7 @@ export const slice = createSlice({
           voteCount: newVoteCount,
         },
       });
-      analytics().logEvent('vote_comment', {vote_type: newUserVote});
+      analytics().logEvent('comment_vote', {type: newUserVote});
     },
     [voteComment.rejected]: handleError,
     [refreshComments.pending]: (state, action) => {
@@ -181,7 +181,7 @@ export const slice = createSlice({
       const postId = action.payload;
       const screen = state.posts[postId];
       screen.refreshing = false;
-      analytics().logEvent('refreshed_comments');
+      analytics().logEvent('comment_refresh');
     },
     [reportComment.rejected]: handleError,
   },
