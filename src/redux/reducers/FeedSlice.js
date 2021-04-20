@@ -143,7 +143,7 @@ export const slice = createSlice({
           showMore: value,
         },
       });
-      analytics().logEvent('post_showmore');
+      analytics().logEvent('post_longtext');
     },
     setTextHidden(state, action) {
       const {postId, type, value} = action.payload;
@@ -203,7 +203,8 @@ export const slice = createSlice({
       const screen = state[type];
       screen.loading = false;
       screen.refreshing = false;
-      handleError(state, action);
+      const {name: errorName} = action.error;
+      errorName != 'ConditionError' && handleError(state, action);
     },
     [refreshFeed.pending]: (state, action) => {
       const type = action.meta.arg;

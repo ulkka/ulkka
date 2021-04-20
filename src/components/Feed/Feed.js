@@ -75,14 +75,13 @@ function Feed(props) {
   };
 
   const handleLoadMore = () => {
-    if (authStatus != 'UNAUTHENTICATED' && !complete) {
+    if (authStatus != 'UNAUTHENTICATED' && !complete && !loading) {
       fetch();
     }
   };
 
   const fetch = () => {
     dispatch(fetchFeed(screen)).then((res) => {
-      console.log('screen', screen);
       const page = res.payload?.metadata?.page;
       const total = page && res.payload.metadata.total;
       const limit = page && res.payload.metadata.limit;
@@ -124,12 +123,12 @@ function Feed(props) {
         renderItem={renderRow}
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={screen == 'home' ? 0.5 : 0.1}
+        onEndReachedThreshold={screen == 'home' ? 0.9 : 0.1} //How far from the end (important note: in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback
         removeClippedSubviews={true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
         updateCellsBatchingPeriod={500}
         windowSize={15}
         initialNumToRender={5}
-        maxToRenderPerBatch={5}
+        maxToRenderPerBatch={10}
         viewabilityConfig={viewabilityConfigRef.current}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         keyExtractor={(postId, index) => postId}

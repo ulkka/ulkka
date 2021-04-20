@@ -178,8 +178,14 @@ export const slice = createSlice({
     },
     [voteComment.rejected]: handleError,
     [reportComment.rejected]: handleError,
-    [fetchComments.rejected]: handleError,
-    [fetchUserComments.rejected]: handleError,
+    [fetchComments.rejected]: (state, action) => {
+      const {name: errorName} = action.error;
+      errorName != 'ConditionError' && handleError(state, action);
+    },
+    [fetchUserComments.rejected]: (state, action) => {
+      const {name: errorName} = action.error;
+      errorName != 'ConditionError' && handleError(state, action);
+    },
     [deleteComment.rejected]: handleError,
     [refreshComments.rejected]: handleError,
   },
