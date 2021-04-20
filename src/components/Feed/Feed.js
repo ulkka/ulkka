@@ -18,6 +18,7 @@ import {
 import {fetchFeed, refreshFeed} from '../../redux/actions/FeedActions';
 import {getAuthStatus} from '../../redux/reducers/AuthSlice';
 import ScrollToTop from './ScrollToTop';
+import analytics from '@react-native-firebase/analytics';
 
 const ListHeaderComponent = memo(() => {
   return (
@@ -38,6 +39,7 @@ function Feed(props) {
   const dispatch = useDispatch();
 
   const {screen} = props;
+  const screenType = screen.split('-')[0];
 
   const authStatus = useSelector(getAuthStatus);
 
@@ -64,7 +66,7 @@ function Feed(props) {
   useEffect(() => {
     if (authStatus != 'UNAUTHENTICATED') {
       dispatch(initialiseFeed(screen));
-      dispatch(fetchFeed(screen));
+      fetch();
     }
   }, [authStatus]);
 
@@ -74,13 +76,35 @@ function Feed(props) {
 
   const handleLoadMore = () => {
     if (authStatus != 'UNAUTHENTICATED' && !complete) {
-      dispatch(fetchFeed(screen));
+      fetch();
     }
+  };
+
+  const fetch = () => {
+    dispatch(fetchFeed(screen)).then((res) => {
+      console.log('screen', screen);
+      const page = res.payload?.metadata?.page;
+      const total = page && res.payload.metadata.total;
+      const limit = page && res.payload.metadata.limit;
+      page &&
+        analytics().logEvent('feed_fetch', {
+          page: res.payload.metadata.page,
+          screen: screenType,
+        });
+
+      const isComplete = total <= limit * page;
+      isComplete &&
+        analytics().logEvent('feed_complete', {
+          page: res.payload.metadata.page,
+          screen: screenType,
+        });
+    });
   };
 
   const handleRefresh = () => {
     if (authStatus != 'UNAUTHENTICATED') {
       dispatch(refreshFeed(screen));
+      analytics().logEvent('feed_refresh', {screen: screen});
     }
   };
 

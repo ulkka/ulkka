@@ -222,7 +222,6 @@ export const slice = createSlice({
       const type = action.payload;
       const screen = state[type];
       screen.refreshing = false;
-      analytics().logEvent('feed_refresh', {screen: screen});
     },
     [refreshPostDetail.pending]: (state, action) => {
       const {type} = action.meta.arg;
