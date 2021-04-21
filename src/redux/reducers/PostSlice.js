@@ -84,6 +84,7 @@ export const slice = createSlice({
       });
       analytics().logEvent('post_vote', {
         type: newUserVote,
+        post_type: post.type,
       });
     },
     [votePost.rejected]: handleError,

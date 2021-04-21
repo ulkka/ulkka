@@ -179,6 +179,7 @@ export const slice = createSlice({
       });
       analytics().logEvent('comment_vote', {
         type: newUserVote,
+        level: comment.level,
       });
     },
     [refreshComments.pending]: (state, action) => {

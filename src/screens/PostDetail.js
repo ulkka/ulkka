@@ -27,6 +27,7 @@ const PostDetail = ({route}) => {
 
   const postId = route?.params?.postId;
   const [screenId, setScreenId] = useState(undefined);
+  const [error, setError] = useState(undefined);
 
   const isPostDeleted = useSelector((state) => getPostisDeleted(state, postId));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
@@ -50,11 +51,14 @@ const PostDetail = ({route}) => {
   const loadPostDetail = async () => {
     dispatch(initPostDetail({screenId, postId}));
 
-    isPostDeleted === undefined && handleRefresh();
+    isPostDeleted === undefined ? handleRefresh() : setError(false);
   };
 
   const handleRefresh = () => {
-    dispatch(refreshPostDetail({type: screenId, postId}));
+    dispatch(refreshPostDetail({type: screenId, postId})).then((res) => {
+      const err = res.error !== undefined;
+      setError(err);
+    });
   };
 
   console.log('running post detail -', screenId);
@@ -119,9 +123,12 @@ const PostDetail = ({route}) => {
       />
     </View>
   );
-  return loading || refreshing || authStatus == 'UNAUTHENTICATED'
+  return loading ||
+    refreshing ||
+    authStatus == 'UNAUTHENTICATED' ||
+    error === undefined
     ? refreshingPostView
-    : isPostDeleted == false
+    : isPostDeleted === false
     ? postView
     : postNotAvailableView;
 };

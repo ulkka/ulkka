@@ -44,10 +44,20 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>Bunlde ID</string>
+			<string>App Scheme</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>ulkka</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Bundle ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>in.ulkka</string>
 			</array>
 		</dict>
 	</array>
