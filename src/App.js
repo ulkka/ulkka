@@ -13,11 +13,25 @@ import RegisterDeviceToken from './components/RegisterDeviceToken';
 import OptionSheet from './components/OptionSheet';
 import AuthIDTokenListener from './client/AuthIDTokenListener';
 import AppMaintenanceHandler from './components/AppMaintenanceHandler';
+import {utils} from '@react-native-firebase/app';
+import analytics from '@react-native-firebase/analytics';
+import {firebase} from '@react-native-firebase/perf';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 export default function App() {
   const [maintenance, setMaintenance] = useState(false);
 
+  //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
+  async function bootstrap() {
+    if (utils().isRunningInTestLab) {
+      await analytics().setAnalyticsCollectionEnabled(false);
+      await firebase.perf().setPerformanceCollectionEnabled(false);
+      await crashlytics().setCrashlyticsCollectionEnabled(false);
+    }
+  }
+
   useEffect(() => {
+    bootstrap();
     SplashScreen.hide();
   }, []);
 

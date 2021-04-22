@@ -23,6 +23,8 @@ function getShareOGImageUrl(type, mediaUrl, ogData) {
       return mediaUrl.substring(0, mediaUrl.lastIndexOf('.')) + '.jpg';
     case 'image':
       return mediaUrlWithWidth(mediaUrl);
+    case 'gif':
+      return mediaUrlWithWidth(mediaUrl).split('.gif')[0] + '.png';
     case 'link':
       return ogData?.ogImage?.url;
   }
@@ -66,12 +68,21 @@ const SharePost = (props) => {
 
     const config = {
       link: 'https://ulkka.in/post/' + postId,
+      android: {
+        packageName: 'in.ulkka',
+      },
+      ios: {
+        bundleId: 'in.ulkka',
+        appStoreId: '1563474580',
+      },
       // domainUriPrefix is created in your Firebase console
-      domainUriPrefix: 'https://ulkka.page.link',
+      domainUriPrefix: 'https://link.ulkka.in',
       // optional setup which updates Firebase analytics campaign
-      // "banner". This also needs setting up before hand
       analytics: {
-        campaign: 'banner',
+        source: Platform.OS == 'ios' ? 'ulkka_ios' : 'ulkka_android',
+        medium: 'organic_social',
+        campaign: 'share',
+        content: type,
       },
       social: {
         title: socialTitle,
@@ -79,10 +90,9 @@ const SharePost = (props) => {
         imageUrl: getShareOGImageUrl(type, mediaUrl, ogData),
       },
     };
-
     const link = await dynamicLinks().buildShortLink(
       config,
-      dynamicLinks.ShortLinkType.SHORT,
+      dynamicLinks.ShortLinkType.UNGUESSABLE,
     );
 
     return link;

@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {Text, TouchableWithoutFeedback} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostTitle} from '../../redux/selectors/PostSelectors';
@@ -12,7 +12,8 @@ const PostTitle = (props) => {
 
   const postTitle = useSelector((state) => getPostTitle(state, postId));
   return (
-    <TouchableWithoutFeedback
+    <TouchableOpacity
+      activeOpacity={0.7}
       onPress={() => {
         analytics().logEvent('postdetail_clickedfrom', {
           clicked_from: 'post_title',
@@ -32,7 +33,7 @@ const PostTitle = (props) => {
         }}>
         {postTitle}
       </Text>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 };
 

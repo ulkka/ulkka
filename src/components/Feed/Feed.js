@@ -87,7 +87,6 @@ function Feed(props) {
   const handleRefresh = () => {
     if (authStatus != 'UNAUTHENTICATED') {
       dispatch(refreshFeed(screen));
-      analytics().logEvent('feed_refresh', {screen: screen});
     }
   };
 
@@ -108,7 +107,7 @@ function Feed(props) {
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={screen == 'home' ? 0.9 : 0.1} //How far from the end (important note: in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback
-        removeClippedSubviews={true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
+        removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
         updateCellsBatchingPeriod={500}
         windowSize={15}
         initialNumToRender={5}

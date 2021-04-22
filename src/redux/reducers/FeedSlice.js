@@ -245,8 +245,10 @@ export const slice = createSlice({
     },
     [refreshFeed.fulfilled]: (state, action) => {
       const type = action.payload;
+      const screenType = type.split('-')[0];
       const screen = state[type];
       screen.refreshing = false;
+      analytics().logEvent('feed_refresh', {screen: screenType});
     },
     [refreshFeed.rejected]: handleError,
     [refreshPostDetail.pending]: (state, action) => {
