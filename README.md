@@ -1,6 +1,6 @@
 # ulkka
 
-Ulkka React Native App Repo!
+# Ulkka React Native App Repo!
 
 run 
 yarn install 
