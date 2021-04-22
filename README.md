@@ -1,5 +1,3 @@
-# ulkka
-
 # Ulkka React Native App Repo!
 
 run 
