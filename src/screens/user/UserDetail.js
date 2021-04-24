@@ -20,27 +20,26 @@ import {
   getUserCreatedAt,
   getUserDisplayname,
   getUserTotalKarma,
+  getUserBlockedUsers,
+  blockUser,
 } from '../../redux/reducers/UserSlice';
 import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
-import {signout} from '../../redux/actions/AuthActions';
 import TimeAgo from '../../components/TimeAgo';
 import UserAvatar from '../../components/UserAvatar';
-
+import {Button} from 'react-native-elements';
+import {goBack} from '../../navigation/Ref';
+import {showOptionSheet} from '../../redux/reducers/OptionSheetSlice';
 const Tab = createMaterialTopTabNavigator();
 
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 const AccountDetail = memo((props) => {
-  console.log('running account detail in userdetail.js');
   const dispatch = useDispatch();
+  console.log('running account detail in userdetail.js');
 
   const iconSize = useRef(new Animated.Value(8)).current; // Initial value for opacity: 0
 
   const {userId} = props;
-
-  useEffect(() => {
-    dispatch(fetchUserById(userId));
-  }, []);
 
   // Karma Animation
   const easing = Easing.ease;
@@ -74,8 +73,8 @@ const AccountDetail = memo((props) => {
   // Animation over
 
   const registeredUser = useSelector(getRegisteredUser);
-
-  const isProfile = userId == registeredUser?._id;
+  const registeredUserId = registeredUser?._id;
+  const isProfile = userId == registeredUserId;
 
   const userTotalKarma = useSelector((state) =>
     getUserTotalKarma(state, userId),
@@ -158,35 +157,42 @@ const AccountDetail = memo((props) => {
     <ActivityIndicator size="small" color="#4285f4" />
   );
 
-  const signoutConfirmationAlert = () =>
-    Alert.alert('Log out ?', null, [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {text: 'OK', onPress: () => signOut()},
-    ]);
-
-  const signOut = async () => {
-    try {
-      dispatch(signout());
-    } catch (error) {
-      console.error(error);
-    }
+  const blockUserAlert = () => {
+    Alert.alert(
+      'Block ' + userDisplayname + ' ?',
+      "You won't be able to see posts and comments from this user and they won't be able to see your posts and comments on Ulkka. We won't let them know that you've blocked them",
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => dispatch(blockUser(userId)),
+        },
+      ],
+      {cancelable: true},
+    );
   };
 
-  const logoutButton = (
+  const accountSettings = (
+    <TouchableOpacity
+      style={{paddingRight: 10, flexDirection: 'row', alignItems: 'center'}}
+      onPress={() => dispatch(showOptionSheet({type: 'user', id: userId}))}>
+      <Icon name="gear" type="font-awesome" size={24} color={'#666'} />
+    </TouchableOpacity>
+  );
+
+  const blockUserView = (
     <TouchableOpacity
       style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
-      onPress={() => signoutConfirmationAlert()}>
-      <Text style={{color: '#2a9df4'}}>Logout</Text>
+      onPress={() => blockUserAlert()}>
       <Icon
-        name="sign-out"
-        type="font-awesome"
-        size={15}
-        color={'#2a9df4'}
-        style={{paddingLeft: 8}}
+        raised
+        name="user-slash"
+        type="font-awesome-5"
+        size={14}
+        color={'#ff2222'}
       />
     </TouchableOpacity>
   );
@@ -208,7 +214,7 @@ const AccountDetail = memo((props) => {
           justifyContent: 'space-between',
         }}>
         {userAvatarAndDisplayName}
-        {isProfile && logoutButton}
+        {isProfile ? accountSettings : blockUserView}
       </View>
       <View
         style={{
@@ -254,19 +260,44 @@ const AccountTabbedNavigation = memo((props) => {
 });
 
 function UserDetail(props) {
+  const dispatch = useDispatch();
   const {route} = props;
   const userId = route.params.userId;
+  const registeredUser = useSelector(getRegisteredUser);
+  const registeredUserId = registeredUser?._id;
+
+  const currentUserBlockedUsers =
+    registeredUserId &&
+    useSelector((state) => getUserBlockedUsers(state, registeredUserId));
+
+  const isUserBlockedByCurrentUser = currentUserBlockedUsers.includes(userId);
+  useEffect(() => {
+    dispatch(fetchUserById(userId));
+  }, []);
 
   console.log('running userdetail ', userId);
 
-  /* return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
-      {AccountDetail}
-      {AccountTabbedNavigation}
+  return isUserBlockedByCurrentUser ? (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        backgroundColor: '#fafafa',
+      }}>
+      <Text style={{fontWeight: 'bold', fontSize: 20, color: '#555'}}>
+        {'  '}
+        User not available{'  '}
+      </Text>
+      <Button
+        title="Go Back"
+        type="outline"
+        raised
+        titleStyle={{fontSize: 15, color: '#2a9df4', padding: 4}}
+        onPress={() => goBack()}
+      />
     </View>
-  );*/
-
-  return (
+  ) : (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
         ListHeaderComponent={<AccountDetail userId={userId} />}

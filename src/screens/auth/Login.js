@@ -1,20 +1,17 @@
 import React from 'react';
 import {
   View,
-  TouchableOpacity,
   Text,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
   Image,
 } from 'react-native';
-import {SocialIcon, Divider} from 'react-native-elements';
-import {socialAuth} from '../../redux/actions/AuthActions';
-import {useDispatch} from 'react-redux';
+import {Divider} from 'react-native-elements';
 import EmailLinkSignIn from './EmailLinkSignin';
+import SocialSignin from './SocialSignin';
 
 export default function Login() {
-  const dispatch = useDispatch();
   const AppIcon = (
     <Image
       source={require('../../../assets/ulkka_transparent_512x512.png')}
@@ -32,7 +29,6 @@ export default function Login() {
       <Text
         style={{
           fontWeight: 'bold',
-          //  width: 280,
           color: '#555',
           fontSize: 20,
         }}>
@@ -78,31 +74,6 @@ export default function Login() {
     </View>
   );
 
-  const SocialAuth = (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => {
-        console.log('press gauth');
-        dispatch(socialAuth('Google'));
-      }}
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80%',
-      }}>
-      <SocialIcon
-        title="Login With Google"
-        button
-        type="google"
-        iconSize={20}
-        style={{
-          width: '80%',
-          height: 50,
-        }}
-      />
-    </TouchableOpacity>
-  );
-
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={-55}
@@ -129,7 +100,7 @@ export default function Login() {
         }}>
         <EmailLinkSignIn />
         {DividerView}
-        {SocialAuth}
+        <SocialSignin />
       </View>
     </KeyboardAvoidingView>
   );

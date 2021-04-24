@@ -45,7 +45,7 @@ export const AuthNavigation = () => {
             ? 'My Account'
             : authStatus != 'AUTHENTICATED'
             ? 'Login'
-            : 'Register Account'
+            : 'Create Account'
         }
         component={
           isRegistered
@@ -59,7 +59,7 @@ export const AuthNavigation = () => {
             ? 'My Account'
             : authStatus != 'AUTHENTICATED'
             ? 'Login'
-            : 'Register Account'
+            : 'Create Account'
         }
         initialParams={{userId: registeredUser?._id}}
       />

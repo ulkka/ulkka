@@ -6,6 +6,7 @@ import {
   signout,
   sendEmailSignInLink,
 } from '../actions/AuthActions';
+import {blockUser, unblockUser} from './UserSlice';
 
 const showLoadingOverlay = (state) => {
   state.visible = true;
@@ -71,6 +72,24 @@ export const slice = createSlice({
       hideLoadingOverlay(state);
     },
     [signout.rejected]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
+    [blockUser.pending]: (state, action) => {
+      showLoadingOverlay(state);
+    },
+    [blockUser.fulfilled]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
+    [blockUser.rejected]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
+    [unblockUser.pending]: (state, action) => {
+      showLoadingOverlay(state);
+    },
+    [unblockUser.fulfilled]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
+    [unblockUser.rejected]: (state, action) => {
       hideLoadingOverlay(state);
     },
   },

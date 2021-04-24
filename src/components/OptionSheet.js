@@ -15,6 +15,9 @@ import {getCommentAuthorId} from '../redux/selectors/CommentSelectors';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
 import {deletePost} from '../redux/actions/PostActions';
 import {deleteComment} from '../redux/actions/CommentActions';
+import {blockUser} from '../redux/reducers/UserSlice';
+import {signout} from '../redux/actions/AuthActions';
+import {navigate} from '../navigation/Ref';
 
 export default function OptionSheet() {
   const dispatch = useDispatch();
@@ -23,11 +26,12 @@ export default function OptionSheet() {
   const id = useSelector(getId);
   const type = useSelector(getType);
   const isReport = useSelector(getReport);
-
   const authorId =
     type == 'post'
       ? useSelector((state) => getPostAuthorId(state, id))
-      : useSelector((state) => getCommentAuthorId(state, id));
+      : type == 'comment'
+      ? useSelector((state) => getCommentAuthorId(state, id))
+      : null;
 
   const currentUser = useSelector(getRegisteredUser);
 
@@ -36,39 +40,119 @@ export default function OptionSheet() {
   const listItemStyle = {
     borderRadius: 5,
   };
-  const list = [
-    !currentUserisAuthor && {
-      // dont show report option if current user same as author
-      title: 'Report',
-      titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
-      containerStyle: listItemStyle,
-      onPress: () => dispatch(showReportOptions({type: type, id: id})),
-    },
-    currentUserisAuthor && {
-      // show delete option only of current user is same as author
-      title: 'Delete',
-      titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
-      containerStyle: listItemStyle,
-      onPress: () => {
-        Alert.alert('Delete ' + type + ' ?', null, [
+
+  const signoutConfirmationAlert = () => {
+    dispatch(hideOptionSheet());
+    Alert.alert(
+      'Log out ?',
+      null,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => signOut()},
+      ],
+      {cancelable: true},
+    );
+  };
+
+  const signOut = async () => {
+    try {
+      dispatch(signout());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const list =
+    type == 'user'
+      ? [
           {
-            text: 'Cancel',
-            onPress: () => dispatch(hideOptionSheet()),
-            style: 'cancel',
-          },
-          {
-            text: 'OK',
+            // dont show report option if current user same as author
+            title: 'Blocked Users',
+            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            containerStyle: listItemStyle,
             onPress: () => {
-              type == 'post'
-                ? dispatch(deletePost(id))
-                : dispatch(deleteComment(id));
               dispatch(hideOptionSheet());
+              navigate('BlockedUsers', {userId: id});
             },
           },
-        ]);
-      },
-    },
-  ];
+          {
+            title: 'Logout',
+            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            containerStyle: listItemStyle,
+            onPress: () => signoutConfirmationAlert(),
+          },
+        ]
+      : [
+          !currentUserisAuthor && {
+            title: 'Block',
+            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            containerStyle: listItemStyle,
+            onPress: () => {
+              Alert.alert(
+                'Are you sure?',
+                "You won't be able to see posts and comments from this user and they won't be able to see your posts and comments on Ulkka. We won't let them know that you've blocked them",
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => dispatch(hideOptionSheet()),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      dispatch(blockUser(authorId));
+                      dispatch(hideOptionSheet());
+                    },
+                  },
+                ],
+                {
+                  cancelable: true,
+                  onDismiss: () => dispatch(hideOptionSheet()),
+                },
+              );
+            },
+          },
+          !currentUserisAuthor && {
+            // dont show report option if current user same as author
+            title: 'Report',
+            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            containerStyle: listItemStyle,
+            onPress: () => dispatch(showReportOptions({type: type, id: id})),
+          },
+          currentUserisAuthor && {
+            // show delete option only of current user is same as author
+            title: 'Delete',
+            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            containerStyle: listItemStyle,
+            onPress: () => {
+              Alert.alert(
+                'Delete ' + type + ' ?',
+                null,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => dispatch(hideOptionSheet()),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      type == 'post'
+                        ? dispatch(deletePost(id))
+                        : dispatch(deleteComment(id));
+                      dispatch(hideOptionSheet());
+                    },
+                  },
+                ],
+                {cancelable: true},
+              );
+            },
+          },
+        ];
   const optionsListView = (
     <View
       style={{

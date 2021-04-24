@@ -10,6 +10,10 @@ import Home from '../screens/home/tabs/Home';
 //import Popular from '../screens/home/tabs/Popular';
 import CreatePost from '../screens/create/PostCreator';
 import PostDetail from '../screens/PostDetail';
+import {useSelector} from 'react-redux';
+import {isVisible} from '../redux/reducers/OptionSheetSlice';
+import OptionSheet from '../components/OptionSheet';
+import BlockedUsers from '../screens/user/BlockedUsers';
 
 const Tab = createMaterialTopTabNavigator();
 const StackNav = createStackNavigator();
@@ -50,74 +54,93 @@ const presets =
   Platform.OS == 'android'
     ? TransitionPresets.ScaleFromCenterAndroid
     : TransitionPresets.SlideFromRightIOS;
+
 function HomeNavigation({navigation}) {
+  const isOptionSheetVisible = useSelector(isVisible);
+
   return (
-    <StackNav.Navigator
-      initialRouteName="Feed"
-      screenOptions={{
-        headerStyle:
-          Platform.OS == 'android'
-            ? {
-                height: 40,
-              }
-            : {},
-        headerTitleStyle: {
-          fontSize: Platform.OS == 'ios' ? 17 : 15,
-          color: '#444',
-        },
-        ...presets,
-      }}>
-      <StackNav.Screen
-        name="Feed"
-        component={Home}
-        title="Home"
-        options={{
-          header: () => <HeaderBar navigation={navigation} />,
-        }}
-      />
-      <StackNav.Screen
-        name="Community"
-        component={CommunityNavigation}
-        title="Community"
-      />
-      <StackNav.Screen
-        name="UserDetail"
-        component={UserDetail}
-        title="UserDetail"
-        options={{
-          headerBackTitle: 'Back',
-          headerTitle: '',
+    <View style={{flex: 1}}>
+      <StackNav.Navigator
+        initialRouteName="Feed"
+        screenOptions={{
           headerStyle:
             Platform.OS == 'android'
               ? {
                   height: 40,
                 }
               : {},
-        }}
-      />
-      <StackNav.Screen
-        name="CreatePost"
-        component={CreatePost}
-        title="Create Post"
-        options={{
-          headerTitle: 'Create Post',
-          headerBackTitle: '',
-          headerTitleAlign: 'center',
-        }}
-      />
-      <StackNav.Screen
-        name="PostDetail"
-        component={PostDetail}
-        title="Post Detail"
-        options={{
-          headerTitle: '',
-          headerBackTitle: '',
-          headerBackTitleStyle: {
-            fontSize: 16,
+          headerTitleStyle: {
+            fontSize: Platform.OS == 'ios' ? 17 : 15,
+            color: '#444',
           },
-        }}
-      />
-    </StackNav.Navigator>
+          ...presets,
+        }}>
+        <StackNav.Screen
+          name="Feed"
+          component={Home}
+          title="Home"
+          options={{
+            header: () => <HeaderBar navigation={navigation} />,
+          }}
+        />
+        <StackNav.Screen
+          name="Community"
+          component={CommunityNavigation}
+          title="Community"
+        />
+        <StackNav.Screen
+          name="UserDetail"
+          component={UserDetail}
+          title="UserDetail"
+          options={{
+            headerBackTitle: 'Back',
+            headerTitle: '',
+            headerStyle:
+              Platform.OS == 'android'
+                ? {
+                    height: 40,
+                  }
+                : {},
+          }}
+        />
+        <StackNav.Screen
+          name="CreatePost"
+          component={CreatePost}
+          title="Create Post"
+          options={{
+            headerTitle: 'Create Post',
+            headerBackTitle: '',
+            headerTitleAlign: 'center',
+          }}
+        />
+        <StackNav.Screen
+          name="PostDetail"
+          component={PostDetail}
+          title="Post Detail"
+          options={{
+            headerTitle: '',
+            headerBackTitle: '',
+            headerBackTitleStyle: {
+              fontSize: 16,
+            },
+          }}
+        />
+        <StackNav.Screen
+          name="BlockedUsers"
+          component={BlockedUsers}
+          title="Blocked Users"
+          options={{
+            headerTitle: 'Blocked Users',
+            headerBackTitle: '',
+            headerBackTitleStyle: {
+              fontSize: 16,
+            },
+            headerTitleAlign: 'center',
+          }}
+        />
+      </StackNav.Navigator>
+      {isOptionSheetVisible && <OptionSheet />}
+    </View>
   );
 }
 

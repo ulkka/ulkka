@@ -10,7 +10,6 @@ import EmailLinkHandler from './screens/auth/EmailLinkHandler';
 import LoadingOverlay from './components/LoadingOverlay';
 import RegisterDeviceToken from './components/RegisterDeviceToken';
 //import ShareMenuHandler from './components/ShareMenuHandler';
-import OptionSheet from './components/OptionSheet';
 import AuthIDTokenListener from './client/AuthIDTokenListener';
 import AppMaintenanceHandler from './components/AppMaintenanceHandler';
 import {utils} from '@react-native-firebase/app';
@@ -53,7 +52,6 @@ export default function App() {
           <LoadingOverlay />
           <EmailLinkHandler />
           <RegisterDeviceToken />
-          <OptionSheet />
           <AuthIDTokenListener />
           {!maintenance && <Main />}
         </View>

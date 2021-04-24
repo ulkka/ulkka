@@ -17,7 +17,10 @@ import {
   isFeedRefreshing,
   isFeedLoading,
 } from '../redux/selectors/FeedSelectors';
-import {getPostisDeleted} from '../redux/selectors/PostSelectors';
+import {
+  getPostisDeleted,
+  getPostAuthorDisplayname,
+} from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
 import {goBack} from '../navigation/Ref';
 import {Button} from 'react-native-elements';
@@ -34,6 +37,9 @@ const PostDetail = ({route}) => {
   const loading = useSelector((state) => isFeedLoading(state, screenId));
 
   const authStatus = useSelector(getAuthStatus);
+  const postAuthorDisplayname = useSelector((state) =>
+    getPostAuthorDisplayname(state, postId),
+  );
 
   useEffect(() => {
     const newScreenId = 'PostDetail-' + postId + '-' + makeId(5);
@@ -123,13 +129,15 @@ const PostDetail = ({route}) => {
       />
     </View>
   );
-  return loading ||
-    refreshing ||
-    authStatus == 'UNAUTHENTICATED' ||
-    error === undefined
-    ? refreshingPostView
-    : isPostDeleted === false
-    ? postView
+  return postAuthorDisplayname
+    ? loading ||
+      refreshing ||
+      authStatus == 'UNAUTHENTICATED' ||
+      error === undefined
+      ? refreshingPostView
+      : isPostDeleted === false
+      ? postView
+      : postNotAvailableView
     : postNotAvailableView;
 };
 

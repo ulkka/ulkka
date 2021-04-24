@@ -3,6 +3,9 @@ import mainClient from '../client/mainClient';
 const USER_URI = '/user';
 const POST_URI = '/posts';
 const COMMENT_URI = '/comments';
+const BLOCKUSER_URI = '/blockUser';
+const UNBLOCKUSER_URI = '/unblockUser';
+
 const userApi = {
   user: {
     async signup(displayname) {
@@ -36,7 +39,6 @@ const userApi = {
       );
       return response;
     },
-
     async registerDeviceTokenForNotifications(userId, token) {
       const client = await mainClient;
       const response = client
@@ -46,6 +48,16 @@ const userApi = {
         .catch((error) => {
           console.log('error saving device token for push notification', error);
         });
+      return response;
+    },
+    async blockUser(userId) {
+      const client = await mainClient;
+      const response = client.post(USER_URI + BLOCKUSER_URI + '/' + userId);
+      return response;
+    },
+    async unblockUser(userId) {
+      const client = await mainClient;
+      const response = client.post(USER_URI + UNBLOCKUSER_URI + '/' + userId);
       return response;
     },
   },

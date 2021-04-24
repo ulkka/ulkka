@@ -1,13 +1,14 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {GoogleSignin} from '@react-native-community/google-signin';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
 import userApi from '../../services/UserApi';
 import {Alert} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {openInbox} from 'react-native-email-link';
 import PushNotification from 'react-native-push-notification';
 import analytics from '@react-native-firebase/analytics';
+import {storeData} from '../../localStorage/helpers';
 
 GoogleSignin.configure({
   scopes: ['openid', 'email', 'profile'],
@@ -77,13 +78,42 @@ export const loadAuth = createAsyncThunk(
   },
 );
 
+async function getCredential(type) {
+  if (type == 'Google') {
+    const data = await GoogleSignin.signIn();
+    const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
+    return googleCredential;
+  }
+  if (type == 'Apple') {
+    // Start the sign-in request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+
+    // Ensure Apple returned a user identityToken
+    if (!appleAuthRequestResponse.identityToken) {
+      throw 'Apple Sign-In failed - no identify token returned';
+    }
+
+    // Create a Firebase credential from the response
+    const {identityToken, nonce} = appleAuthRequestResponse;
+    const appleCredential = auth.AppleAuthProvider.credential(
+      identityToken,
+      nonce,
+    );
+
+    // Sign the user in with the credential
+    return appleCredential;
+  }
+}
+
 export const socialAuth = createAsyncThunk(
   'authorization/login/social',
   async (type, {rejectWithValue}) => {
     try {
-      const data = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
-      await auth().signInWithCredential(googleCredential);
+      const credential = await getCredential(type);
+      await auth().signInWithCredential(credential);
       return initAuth();
     } catch (error) {
       return rejectWithValue(error);
@@ -117,21 +147,12 @@ const actionCodeSettings = {
   },
 };
 
-const storeData = async (value) => {
-  try {
-    await AsyncStorage.setItem('emailForSignIn', value);
-  } catch (e) {
-    // saving error
-    console.log('error saving email in async storage', e);
-  }
-};
-
 export const sendEmailSignInLink = createAsyncThunk(
   'authorization/sendEmailSigninLink',
   async (email, {rejectWithValue}) => {
     try {
       // Save the email for latter usage
-      storeData(email);
+      await storeData('emailForSignIn', email);
       await auth()
         .sendSignInLinkToEmail(email, actionCodeSettings)
         .then(async () => {

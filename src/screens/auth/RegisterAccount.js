@@ -1,12 +1,21 @@
-import React, {useState, useRef} from 'react';
-import {Text, View, KeyboardAvoidingView, Platform} from 'react-native';
-import {Button} from 'react-native-elements';
+import React, {useState, useEffect, useRef} from 'react';
+import {
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from 'react-native';
+import {Button, CheckBox} from 'react-native-elements';
 import {registerUser} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 import {Icon, Input} from 'react-native-elements';
 import ChangeAccount from './ChangeAcount';
 import userApi from '../../services/UserApi';
 import {transformText} from '../../components/PostCreator/helpers';
+import Hyperlink from 'react-native-hyperlink';
+import {navigateToURL} from '../../components/helpers';
+import Snackbar from 'react-native-snackbar';
 
 const RegisterAccount = () => {
   const dispatch = useDispatch();
@@ -15,6 +24,28 @@ const RegisterAccount = () => {
   const [displayname, setDisplayname] = useState('');
   const [displaynameErrorMessage, setDisplaynameErrorMessage] = useState('');
   const [isDisplaynameValid, setIsDisplaynameValid] = useState(null);
+  const [checked, setChecked] = useState(false);
+  const [showTitle, setShowTitle] = useState(true);
+
+  useEffect(() => {
+    if (Platform.OS == 'android') {
+      const keyboardDidShowListener = Keyboard.addListener(
+        'keyboardDidShow',
+        keyboardDidShow,
+      );
+      const keyboardDidHideListener = Keyboard.addListener(
+        'keyboardDidHide',
+        keyboardDidHide,
+      );
+      return () => {
+        keyboardDidShowListener.remove();
+        keyboardDidHideListener.remove();
+      };
+    }
+  }, []);
+
+  const keyboardDidShow = () => setShowTitle(false);
+  const keyboardDidHide = () => setShowTitle(true);
 
   const validateDisplayName = async (text) => {
     if (
@@ -100,11 +131,12 @@ const RegisterAccount = () => {
         style={{
           fontSize: 18,
           color: '#444',
+          lineHeight: 27,
           fontWeight: 'bold',
           textAlign: 'center',
         }}>
         {'  '}
-        Please enter a display name to finish registration{'  '}
+        Please enter a display name to join {' \n'}Ulkka{'  '}
       </Text>
     </View>
   );
@@ -115,6 +147,36 @@ const RegisterAccount = () => {
         justifyContent: 'flex-start',
       }}>
       <View>{DisplayNameField}</View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingBottom: 20,
+        }}>
+        <CheckBox
+          checked={checked}
+          onPress={() => setChecked(!checked)}
+          checkedColor="#02862ad6"
+          size={18}
+          containerStyle={{
+            paddingHorizontal: 0,
+          }}
+        />
+        <Hyperlink
+          linkDefault={false}
+          linkStyle={{color: '#2980b9'}}
+          linkText={(url) =>
+            url == 'https://ulkka.in/terms.html'
+              ? 'Terms and Conditions'
+              : 'Privacy Policy'
+          }
+          onPress={(url, text) => navigateToURL(url, 'register_account')}>
+          <Text style={{color: '#555', fontSize: 10}}>
+            I have read and agree to the https://ulkka.in/terms.html{'\n'}and
+            https://ulkka.in/privacy-policy.html
+          </Text>
+        </Hyperlink>
+      </View>
       <View>
         <Button
           raised
@@ -127,7 +189,7 @@ const RegisterAccount = () => {
           }}
           containerStyle={{
             alignItems: 'center',
-            width: 150,
+            width: 180,
             alignSelf: 'center',
             borderRadius: 25,
           }}
@@ -138,11 +200,20 @@ const RegisterAccount = () => {
             alignItems: 'center',
             borderColor: '#222',
           }}
-          title="Register"
+          title="Create Account"
           onPress={async () => {
             displaynameField.current.blur();
-            const isValid = await validateDisplayName(displayname);
-            isValid ? register() : console.log('its not valid');
+            const isDisplayNameValid = await validateDisplayName(displayname);
+            isDisplayNameValid &&
+              !checked &&
+              Snackbar.show({
+                text:
+                  'Please agree to the Terms & Conditions and Privacy Policy',
+                duration: Snackbar.LENGTH_SHORT,
+              });
+            isDisplayNameValid && checked
+              ? register()
+              : console.log('its not valid');
           }}
         />
       </View>
@@ -150,19 +221,19 @@ const RegisterAccount = () => {
   );
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={75}
+      keyboardVerticalOffset={Platform.OS == 'ios' ? 150 : 50}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         backgroundColor: '#fff',
       }}>
-      <View style={{flex: 3, justifyContent: 'center'}}>{Title}</View>
-      <View style={{flex: 1}}>
-        <ChangeAccount />
+      <View style={{flex: showTitle ? 3 : 0, justifyContent: 'center'}}>
+        {Title}
       </View>
-      <View style={{flex: 2}}>{Register}</View>
+      <View style={{flex: 1}}>{showTitle && <ChangeAccount />}</View>
+      <View style={{flex: showTitle ? 2 : 4}}>{Register}</View>
     </KeyboardAvoidingView>
   );
 };

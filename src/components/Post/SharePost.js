@@ -92,7 +92,7 @@ const SharePost = (props) => {
     };
     const link = await dynamicLinks().buildShortLink(
       config,
-      dynamicLinks.ShortLinkType.UNGUESSABLE,
+      dynamicLinks.ShortLinkType.SHORT,
     );
 
     return link;

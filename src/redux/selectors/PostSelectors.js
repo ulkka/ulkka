@@ -17,24 +17,6 @@ export const {
   selectTotal: selectTotalPosts,
 } = postAdapter.getSelectors((state) => state.posts);
 
-/*export const {
-  userVote: getPostUserVote,
-  voteCount: getPostVoteCount,
-  commentCount: getPostCommentCount,
-  title: getPostTitle,
-  description: getPostDescription,
-  link: getPostLink,
-  mediaMetadata: getPostMediaMetadata,
-  ogData: getPostOgData,
-  type: getPostType,
-  created_at: getPostCreatedAt,
-  status: getPostStatus,
-  author: getPostAuthorId,
-  community: getPostCommunityId,
-} = (state, id) => {
-  return selectPostById(state, id);
-};*/
-
 export const getPostUserVote = (state, id) =>
   selectPostById(state, id)?.userVote;
 

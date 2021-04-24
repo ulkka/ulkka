@@ -108,24 +108,29 @@ export const MediaField = (props) => {
 
         analytics().logEvent('mediapermission_unavailable');
 
-        Alert.alert(title, message, [
-          {
-            text: 'Cancel',
-            onPress: () => {
-              analytics().logEvent('mediapermission_deny');
-              console.log('Cancel Pressed');
+        Alert.alert(
+          title,
+          message,
+          [
+            {
+              text: 'Cancel',
+              onPress: () => {
+                analytics().logEvent('mediapermission_deny');
+                console.log('Cancel Pressed');
+              },
+              style: 'cancel',
             },
-            style: 'cancel',
-          },
-          {
-            text: settingsTitle,
-            onPress: () => {
-              analytics().logEvent('mediapermission_settingsenable');
-              Linking.openSettings();
+            {
+              text: settingsTitle,
+              onPress: () => {
+                analytics().logEvent('mediapermission_settingsenable');
+                Linking.openSettings();
+              },
+              style: 'default',
             },
-            style: 'default',
-          },
-        ]);
+          ],
+          {cancelable: true},
+        );
       });
   };
 

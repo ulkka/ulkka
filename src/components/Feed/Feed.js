@@ -18,7 +18,6 @@ import {
 import {fetchFeed, refreshFeed} from '../../redux/actions/FeedActions';
 import {getAuthStatus} from '../../redux/reducers/AuthSlice';
 import ScrollToTop from './ScrollToTop';
-import analytics from '@react-native-firebase/analytics';
 
 const ListHeaderComponent = memo(() => {
   return (

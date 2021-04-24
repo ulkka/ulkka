@@ -36,7 +36,7 @@ export const slice = createSlice({
             text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
             duration: Snackbar.LENGTH_LONG,
           });
-        }, 500);
+        }, 100);
       } else {
         fulfillAuth(state, action);
         showAuthScreen();
@@ -55,7 +55,7 @@ export const slice = createSlice({
             text: 'Welcome ' + action.payload.registeredUser?.displayname + '!',
             duration: Snackbar.LENGTH_LONG,
           });
-        }, 500);
+        }, 100);
       } else {
         fulfillAuth(state, action);
         showAuthScreen();
@@ -74,7 +74,7 @@ export const slice = createSlice({
           text: 'Welcome ' + action.payload.registeredUser.displayname + '!',
           duration: Snackbar.LENGTH_LONG,
         });
-      }, 500);
+      }, 100);
     },
     [signout.fulfilled]: (state, action) => {
       analytics().logEvent('user_logout', {type: 'registered'});
@@ -86,7 +86,7 @@ export const slice = createSlice({
             text: 'Signed out',
             duration: Snackbar.LENGTH_LONG,
           });
-        }, 1000);
+        }, 500);
       } else {
         fulfillAuth(state, action);
       }

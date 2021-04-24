@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {emailLinkAuth} from '../../redux/actions/AuthActions';
+import {getData} from '../../localStorage/helpers';
 
 const EmailLinkHandler = () => {
   const {loading, error} = useEmailLinkEffect();
@@ -22,14 +22,7 @@ const useEmailLinkEffect = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const getData = async () => {
-    try {
-      const email = await AsyncStorage.getItem('emailForSignIn');
-      return email;
-    } catch (e) {
-      console.log('error getting email from async storage', e);
-    }
-  };
+
   useEffect(() => {
     const handleDynamicLink = async (link) => {
       // Check and handle if the link is a email login link
@@ -37,7 +30,7 @@ const useEmailLinkEffect = () => {
         setLoading(true);
         try {
           // use the email we saved earlier
-          const email = await getData();
+          const email = await getData('emailForSignIn');
           dispatch(emailLinkAuth({email: email, link: link}));
         } catch (e) {
           setError(e);
