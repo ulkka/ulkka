@@ -179,6 +179,7 @@ const AccountDetail = memo((props) => {
 
   const accountSettings = (
     <TouchableOpacity
+      hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
       style={{paddingRight: 10, flexDirection: 'row', alignItems: 'center'}}
       onPress={() => dispatch(showOptionSheet({type: 'user', id: userId}))}>
       <Icon name="gear" type="font-awesome" size={24} color={'#666'} />
@@ -187,6 +188,7 @@ const AccountDetail = memo((props) => {
 
   const blockUserView = (
     <TouchableOpacity
+      hitSlop={{top: 20, bottom: 30, left: 20, right: 20}}
       style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
       onPress={() => blockUserAlert()}>
       <Icon
