@@ -29,10 +29,13 @@ export const handleError = (state, action) => {
     }
   }
   if (errorName == 'RejectWithValue') {
-    crashlytics().recordError(action.payload);
-    Snackbar.show({
-      text: 'Sorry, please try again later',
-      duration: Snackbar.LENGTH_SHORT,
-    });
+    const type = action.type;
+    if (type != 'authorization/login/social/rejected') {
+      crashlytics().recordError(action.payload);
+      Snackbar.show({
+        text: 'Sorry, please try again later',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    }
   }
 };

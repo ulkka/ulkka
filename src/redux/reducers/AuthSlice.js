@@ -8,11 +8,24 @@ import {
   registerUser,
   sendEmailSignInLink,
 } from '../actions/AuthActions';
+import {blockUser, unblockUser} from './UserSlice';
 import Snackbar from 'react-native-snackbar';
 import {showAuthScreen} from '../../navigation/Ref';
 import RNRestart from 'react-native-restart';
 import analytics from '@react-native-firebase/analytics';
 import {handleError} from '../actions/common';
+
+const removeItemAll = (arr, value) => {
+  var i = 0;
+  while (i < arr.length) {
+    if (arr[i] === value) {
+      arr.splice(i, 1);
+    } else {
+      ++i;
+    }
+  }
+  return arr;
+};
 
 export const slice = createSlice({
   name: 'authorization',
@@ -91,6 +104,39 @@ export const slice = createSlice({
         fulfillAuth(state, action);
       }
     },
+    [blockUser.fulfilled]: (state, action) => {
+      const blockedUserId = action.payload;
+      const registeredUser = state.registeredUser;
+      const currentBlockedUsers = registeredUser.blockedUsers;
+      registeredUser.blockedUsers = [...currentBlockedUsers, blockedUserId];
+      setTimeout(
+        () =>
+          Snackbar.show({
+            text: 'User Blocked',
+            duration: Snackbar.LENGTH_SHORT,
+          }),
+        100,
+      );
+      analytics().logEvent('user_block');
+    },
+    [unblockUser.fulfilled]: (state, action) => {
+      const unblockedUserId = action.payload;
+      const registeredUser = state.registeredUser;
+      const currentBlockedUsers = registeredUser.blockedUsers;
+      registeredUser.blockedUsers = removeItemAll(
+        [...currentBlockedUsers],
+        unblockedUserId,
+      );
+      setTimeout(
+        () =>
+          Snackbar.show({
+            text: 'User unblocked',
+            duration: Snackbar.LENGTH_SHORT,
+          }),
+        100,
+      );
+      analytics().logEvent('user_unblock');
+    },
     [loadAuth.rejected]: handleError,
     [socialAuth.rejected]: handleError,
     [emailLinkAuth.rejected]: handleError,
@@ -105,3 +151,5 @@ export const getAuthStatus = (state) => state.authorization.status;
 export const getRegistrationStatus = (state) =>
   state.authorization.isRegistered;
 export const getRegisteredUser = (state) => state.authorization.registeredUser;
+export const getBlockedUsers = (state) =>
+  state.authorization.registeredUser?.blockedUsers;

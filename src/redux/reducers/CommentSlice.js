@@ -128,7 +128,7 @@ export const slice = createSlice({
       const type = parentCommentId === undefined ? 'Comment' : 'Reply';
       const newComment =
         action.payload.normalizedComment.comments[newCommentId];
-      newComment.userVote = 0;
+      newComment.userVote = newComment.userVote ? newComment.userVote : 1;
 
       const postId = newComment.post;
 

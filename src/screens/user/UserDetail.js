@@ -20,10 +20,12 @@ import {
   getUserCreatedAt,
   getUserDisplayname,
   getUserTotalKarma,
-  getUserBlockedUsers,
   blockUser,
 } from '../../redux/reducers/UserSlice';
-import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
+import {
+  getRegisteredUser,
+  getBlockedUsers,
+} from '../../redux/reducers/AuthSlice';
 import TimeAgo from '../../components/TimeAgo';
 import UserAvatar from '../../components/UserAvatar';
 import {Button} from 'react-native-elements';
@@ -263,21 +265,17 @@ function UserDetail(props) {
   const dispatch = useDispatch();
   const {route} = props;
   const userId = route.params.userId;
-  const registeredUser = useSelector(getRegisteredUser);
-  const registeredUserId = registeredUser?._id;
-
-  const currentUserBlockedUsers =
-    registeredUserId &&
-    useSelector((state) => getUserBlockedUsers(state, registeredUserId));
-
-  const isUserBlockedByCurrentUser = currentUserBlockedUsers.includes(userId);
+  const blockedUsers = useSelector(getBlockedUsers);
+  const isUserBlocked = blockedUsers.includes(userId);
   useEffect(() => {
-    dispatch(fetchUserById(userId));
+    if (!isUserBlocked) {
+      dispatch(fetchUserById(userId));
+    }
   }, []);
 
   console.log('running userdetail ', userId);
 
-  return isUserBlockedByCurrentUser ? (
+  return isUserBlocked ? (
     <View
       style={{
         flex: 1,

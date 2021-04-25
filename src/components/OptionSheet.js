@@ -76,7 +76,7 @@ export default function OptionSheet() {
             containerStyle: listItemStyle,
             onPress: () => {
               dispatch(hideOptionSheet());
-              navigate('BlockedUsers', {userId: id});
+              navigate('BlockedUsers');
             },
           },
           {

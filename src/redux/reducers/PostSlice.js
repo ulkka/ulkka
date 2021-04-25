@@ -24,7 +24,7 @@ export const slice = createSlice({
     [createPost.fulfilled]: (state, action) => {
       const newPostId = action.payload.newPostId;
       const newPost = action.payload.normalizedPost.posts[newPostId];
-      newPost.userVote = 0;
+      newPost.userVote = newPost.userVote ? newPost.userVote : 1;
       postAdapter.addOne(state, newPost);
       analytics().logEvent('post_create', {post_type: newPost.type});
     },

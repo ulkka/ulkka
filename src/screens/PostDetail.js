@@ -12,14 +12,14 @@ import CommentWriter from '../components/Comment/CommentWriter';
 import {useDispatch, useSelector} from 'react-redux';
 import {removePostDetail} from '../redux/reducers/FeedSlice';
 import {refreshPostDetail, initPostDetail} from '../redux/actions/FeedActions';
-import {getAuthStatus} from '../redux/reducers/AuthSlice';
+import {getAuthStatus, getBlockedUsers} from '../redux/reducers/AuthSlice';
 import {
   isFeedRefreshing,
   isFeedLoading,
 } from '../redux/selectors/FeedSelectors';
 import {
   getPostisDeleted,
-  getPostAuthorDisplayname,
+  getPostAuthorId,
 } from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
 import {goBack} from '../navigation/Ref';
@@ -37,9 +37,9 @@ const PostDetail = ({route}) => {
   const loading = useSelector((state) => isFeedLoading(state, screenId));
 
   const authStatus = useSelector(getAuthStatus);
-  const postAuthorDisplayname = useSelector((state) =>
-    getPostAuthorDisplayname(state, postId),
-  );
+  const blockedUsers = useSelector(getBlockedUsers);
+  const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
+  const isAuthorBlocked = blockedUsers?.includes(postAuthorId);
 
   useEffect(() => {
     const newScreenId = 'PostDetail-' + postId + '-' + makeId(5);
@@ -129,7 +129,7 @@ const PostDetail = ({route}) => {
       />
     </View>
   );
-  return postAuthorDisplayname
+  return !isAuthorBlocked
     ? loading ||
       refreshing ||
       authStatus == 'UNAUTHENTICATED' ||

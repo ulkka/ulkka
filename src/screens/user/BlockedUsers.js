@@ -2,21 +2,19 @@ import React from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  getUserBlockedUsers,
   getUserDisplayname,
   fetchUserById,
   unblockUser,
 } from '../../redux/reducers/UserSlice';
+import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
 import {Button, Divider} from 'react-native-elements';
 import UserAvatar from '../../components/UserAvatar';
 
 const UserRow = ({userId}) => {
   const dispatch = useDispatch();
-  console.log('userid in userrow', userId);
   const userDisplayname = useSelector((state) =>
     getUserDisplayname(state, userId),
   );
-  console.log('userdispalyname', userDisplayname);
   if (userDisplayname === undefined) {
     dispatch(fetchUserById(userId));
   }
@@ -28,7 +26,7 @@ const UserRow = ({userId}) => {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: 40,
+        height: 50,
       }}>
       <View style={{padding: 10, flexDirection: 'row', alignItems: 'center'}}>
         <UserAvatar seed={userDisplayname} size={'large'} />
@@ -56,11 +54,7 @@ const UserRow = ({userId}) => {
 };
 
 export default function BlockedUsers(props) {
-  const {userId} = props.route.params;
-  const blockedUsers = useSelector((state) =>
-    getUserBlockedUsers(state, userId),
-  );
-  console.log('blocked users in blockedusers', blockedUsers);
+  const blockedUsers = useSelector(getBlockedUsers);
 
   const separator = () => {
     return <Divider style={{backgroundColor: '#fff', height: 5}} />;
