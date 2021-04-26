@@ -22,7 +22,8 @@ export default function App() {
 
   //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
   async function bootstrap() {
-    if (utils().isRunningInTestLab) {
+    if (utils().isRunningInTestLab || __DEV__) {
+      console.log('debug mode or running in firebase testlab');
       await analytics().setAnalyticsCollectionEnabled(false);
       await firebase.perf().setPerformanceCollectionEnabled(false);
       await crashlytics().setCrashlyticsCollectionEnabled(false);

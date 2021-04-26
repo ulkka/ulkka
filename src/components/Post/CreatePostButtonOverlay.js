@@ -117,7 +117,7 @@ export default function CreatePostButtonOverlay(props) {
           size={25}
           color="#fff"
           reverse
-          reverseColor="#ff4301dd"
+          reverseColor="#FF4500"
           style={{opacity: 0.9}}
         />
       </TouchableOpacity>

@@ -30,7 +30,10 @@ export const handleError = (state, action) => {
   }
   if (errorName == 'RejectWithValue') {
     const type = action.type;
-    if (type != 'authorization/login/social/rejected') {
+    if (
+      type != 'authorization/login/social/rejected' &&
+      type != 'authorization/login/emaillink/rejected'
+    ) {
       crashlytics().recordError(action.payload);
       Snackbar.show({
         text: 'Sorry, please try again later',

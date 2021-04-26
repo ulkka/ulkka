@@ -88,6 +88,7 @@ export default function BlockedUsers(props) {
             fontWeight: 'bold',
             alignSelf: 'center',
             paddingTop: '50%',
+            color: '#555',
           }}>
           No blocked users{'  '}
         </Text>

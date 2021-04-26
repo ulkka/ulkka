@@ -268,7 +268,7 @@ function UserDetail(props) {
   const {route} = props;
   const userId = route.params.userId;
   const blockedUsers = useSelector(getBlockedUsers);
-  const isUserBlocked = blockedUsers.includes(userId);
+  const isUserBlocked = blockedUsers?.includes(userId);
   useEffect(() => {
     if (!isUserBlocked) {
       dispatch(fetchUserById(userId));
