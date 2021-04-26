@@ -20,7 +20,7 @@ const AuthIDTokenListener = () => {
 
   async function handleAppStateChange(appState) {
     if (appState == 'active') {
-      await auth().currentUser?.getIdToken();
+      await auth().currentUser?.getIdToken(true);
       analytics().logAppOpen();
     }
   }
