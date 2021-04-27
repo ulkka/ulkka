@@ -18,9 +18,9 @@ const AuthIDTokenListener = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  async function handleAppStateChange(appState) {
+  function handleAppStateChange(appState) {
     if (appState == 'active') {
-      await auth().currentUser?.getIdToken(true);
+      auth().currentUser?.getIdToken(true);
       analytics().logAppOpen();
     }
   }
