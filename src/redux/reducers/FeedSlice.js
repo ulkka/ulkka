@@ -105,6 +105,7 @@ export const slice = createSlice({
     togglePause(state, action) {
       const {postId, type} = action.payload;
       const screen = state[type];
+      const screenType = type.split('-')[0];
       const paused = feedAdapter.getSelectors().selectById(screen, postId)
         .paused;
       feedAdapter.updateOne(screen, {
@@ -113,15 +114,38 @@ export const slice = createSlice({
           paused: !paused,
         },
       });
+      analytics().logEvent('postvideo_toggle', {
+        screen: screenType,
+        type: !paused ? 'pause' : 'play',
+      });
     },
     pauseVideo(state, action) {
       const {postId, type} = action.payload;
       const screen = state[type];
+      const screenType = type.split('-')[0];
       feedAdapter.updateOne(screen, {
         id: postId,
         changes: {
           paused: true,
         },
+      });
+      analytics().logEvent('postvideo_toggle', {
+        screen: screenType,
+        type: 'pause',
+      });
+    },
+    onVideoEnd(state, action) {
+      const {postId, type} = action.payload;
+      const screen = state[type];
+      const screenType = type.split('-')[0];
+      feedAdapter.updateOne(screen, {
+        id: postId,
+        changes: {
+          paused: true,
+        },
+      });
+      analytics().logEvent('postvideo_end', {
+        screen: screenType,
       });
     },
     setLoaded(state, action) {
@@ -299,6 +323,7 @@ export const {
   initialiseFeed,
   togglePause,
   pauseVideo,
+  onVideoEnd,
   setLoaded,
   initialisePostDetail,
   removePostDetail,

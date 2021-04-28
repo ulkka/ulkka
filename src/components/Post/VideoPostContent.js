@@ -22,6 +22,7 @@ import {
   pauseVideo,
   setLoaded,
   setError,
+  onVideoEnd,
 } from '../../redux/reducers/FeedSlice';
 import {getPostMediaMetadata} from '../../redux/selectors/PostSelectors';
 import {
@@ -145,6 +146,9 @@ const VideoPostContent = (props) => {
           playWhenInactive={false}
           muted={false}
           repeat={false}
+          onEnd={() =>
+            dispatch(onVideoEnd({postId: postId, type: currentScreen}))
+          }
           controls={Platform.OS == 'ios' ? true : false}
         />
       ) : null

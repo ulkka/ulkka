@@ -11,7 +11,7 @@ import {
   Easing,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Icon, Divider} from 'react-native-elements';
+import {Icon, Divider, Tooltip} from 'react-native-elements';
 import Posts from './tabs/Posts';
 import Comments from './tabs/Comments';
 import {useSelector, useDispatch} from 'react-redux';
@@ -31,6 +31,8 @@ import UserAvatar from '../../components/UserAvatar';
 import {Button} from 'react-native-elements';
 import {goBack} from '../../navigation/Ref';
 import {showOptionSheet} from '../../redux/reducers/OptionSheetSlice';
+import {numberWithCommas} from '../../components/helpers';
+
 const Tab = createMaterialTopTabNavigator();
 
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
@@ -88,31 +90,41 @@ const AccountDetail = memo((props) => {
 
   const userKarmaField =
     userTotalKarma || userTotalKarma === 0 ? (
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}>
-        <Text
+      <Tooltip
+        popover={
+          <Text style={{color: '#eee', lineHeight: 20}}>
+            Get upvotes on your posts and comments to win more hearts!
+          </Text>
+        }
+        backgroundColor="#555"
+        height={80}
+        width={200}>
+        <View
           style={{
-            fontSize: 14,
-            color: '#555',
-            fontWeight: 'bold',
-            letterSpacing: 0.5,
-            paddingRight: 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
           }}>
-          {userTotalKarma}{' '}
-        </Text>
-        <View style={{width: 15}}>
-          <AnimatedIcon
-            name="heart"
-            type="font-awesome"
-            size={iconSize}
-            color="#ff4301"
-          />
+          <Text
+            style={{
+              fontSize: 14,
+              color: '#555',
+              fontWeight: 'bold',
+              letterSpacing: 0.5,
+              paddingRight: 0,
+            }}>
+            {numberWithCommas(userTotalKarma)}{' '}
+          </Text>
+          <View style={{width: 20}}>
+            <AnimatedIcon
+              name="heart"
+              type="font-awesome"
+              size={iconSize}
+              color="#ff4301"
+            />
+          </View>
         </View>
-      </View>
+      </Tooltip>
     ) : (
       <ActivityIndicator size="small" color="#4285f4" />
     );

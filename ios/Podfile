@@ -24,7 +24,8 @@ target 'Ulkka' do
   #2.3.0 to support firebase/analytics. else app crashes 
   #https://github.com/invertase/react-native-firebase/issues/4935
   
-  use_flipper!({ 'Flipper-Folly' => '2.3.0' }) 
+  #use_flipper!({ 'Flipper-Folly' => '2.3.0' }) // uncomment this when atomic_notify one error is gone. else throwing error after updating to 14.5
+  
   post_install do |installer|
     flipper_post_install(installer)
     installer.pods_project.targets.each do |target|

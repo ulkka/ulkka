@@ -5,6 +5,7 @@ import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostCommentCount} from '../../redux/selectors/PostSelectors';
 import analytics from '@react-native-firebase/analytics';
+import {kFormatter} from '../helpers';
 
 const PostTotalComments = (props) => {
   const {postId, screen} = props;
@@ -43,7 +44,7 @@ const PostTotalComments = (props) => {
         color="#888"
       />
       <Text style={{fontWeight: 'bold', color: '#888', paddingLeft: 15}}>
-        {commentCount}
+        {kFormatter(commentCount)}
       </Text>
     </TouchableOpacity>
   );

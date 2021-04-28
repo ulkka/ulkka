@@ -29,7 +29,8 @@ export default function ChangeAccount() {
           color: 'green',
         }}>
         {' '}
-        {email}{' '}
+        {email}
+        {'  '}
       </Text>
       <Button
         title="Logout"

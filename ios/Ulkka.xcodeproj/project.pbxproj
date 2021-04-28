@@ -20,8 +20,8 @@
 		512442608C5DE0952D81AF87 /* libPods-Ulkka-UlkkaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1561533A2A66D6CE7A046963 /* libPods-Ulkka-UlkkaTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D3A24EAF6C194A5F7E1E89B9 /* libPods-Ulkka.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABF186B2CA217DDF1C4906A /* libPods-Ulkka.a */; };
-		DC861FEE2621BE170084B027 /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC861FED2621BE170084B027 /* ReactShareViewController.swift */; };
-		DC861FFF2621BE380084B027 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC861FFE2621BE380084B027 /* ShareViewController.swift */; };
+		DC9203D126398E9F00E1608B /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9203D026398E9F00E1608B /* ShareViewController.swift */; };
+		DC9203D326398EBB00E1608B /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9203D226398EBB00E1608B /* ReactShareViewController.swift */; };
 		DCD3F8AD25308E6800F2B910 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */; };
 		DCE8D1BA2621B5B100E3B739 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCE8D1B82621B5B100E3B739 /* MainInterface.storyboard */; };
 		DCE8D1BE2621B5B100E3B739 /* Ulkka-Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DCE8D1B42621B5B000E3B739 /* Ulkka-Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -109,8 +109,8 @@
 		D6C8F4B9C0644BA18D57125B /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		DC861F692621B9690084B027 /* Ulkka-Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Ulkka-Share.entitlements"; sourceTree = "<group>"; };
 		DC861FE02621BD8F0084B027 /* Ulkka-Share-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ulkka-Share-Bridging-Header.h"; sourceTree = "<group>"; };
-		DC861FED2621BE170084B027 /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
-		DC861FFE2621BE380084B027 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
+		DC9203D026398E9F00E1608B /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
+		DC9203D226398EBB00E1608B /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
 		DCBF758D253D890E00079307 /* libRNFBApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFBApp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DCDDB8E3255D19120066F9DD /* Ulkka.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Ulkka.entitlements; path = Ulkka/Ulkka.entitlements; sourceTree = "<group>"; };
@@ -296,9 +296,9 @@
 		DCE8D1B52621B5B000E3B739 /* Ulkka-Share */ = {
 			isa = PBXGroup;
 			children = (
-				DC861FFE2621BE380084B027 /* ShareViewController.swift */,
-				DC861FED2621BE170084B027 /* ReactShareViewController.swift */,
 				DC861F692621B9690084B027 /* Ulkka-Share.entitlements */,
+				DC9203D226398EBB00E1608B /* ReactShareViewController.swift */,
+				DC9203D026398E9F00E1608B /* ShareViewController.swift */,
 				DCE8D1B82621B5B100E3B739 /* MainInterface.storyboard */,
 				DCE8D1BB2621B5B100E3B739 /* Info.plist */,
 				DC861FE02621BD8F0084B027 /* Ulkka-Share-Bridging-Header.h */,
@@ -907,8 +907,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC861FFF2621BE380084B027 /* ShareViewController.swift in Sources */,
-				DC861FEE2621BE170084B027 /* ReactShareViewController.swift in Sources */,
+				DC9203D326398EBB00E1608B /* ReactShareViewController.swift in Sources */,
+				DC9203D126398E9F00E1608B /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

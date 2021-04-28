@@ -12,7 +12,7 @@ import {
   getCommentUserVote,
   getCommentVoteCount,
 } from '../redux/selectors/CommentSelectors';
-import analytics from '@react-native-firebase/analytics';
+import {kFormatter} from './helpers';
 
 export function Vote(props) {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ export function Vote(props) {
         color: userVote == 1 ? '#ff4301' : userVote == -1 ? '#3b5998' : '#888',
         paddingHorizontal: 10,
       }}>
-      {voteCount}
+      {kFormatter(voteCount)}
     </Text>
   );
 

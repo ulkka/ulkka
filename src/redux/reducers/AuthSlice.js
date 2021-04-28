@@ -32,11 +32,14 @@ export const slice = createSlice({
   initialState: {
     status: 'UNAUTHENTICATED',
     user: null,
-    // idToken: null,
-    //isRegistered: 0,
     registeredUser: {},
   },
-  reducers: {},
+  reducers: {
+    updateIDToken(state, action) {
+      const idToken = action.payload;
+      state.idToken = idToken;
+    },
+  },
   extraReducers: {
     [loadAuth.fulfilled]: fulfillAuth,
     [socialAuth.fulfilled]: (state, action) => {
@@ -151,5 +154,8 @@ export const getAuthStatus = (state) => state.authorization.status;
 export const getRegistrationStatus = (state) =>
   state.authorization.isRegistered;
 export const getRegisteredUser = (state) => state.authorization.registeredUser;
+export const getIDToken = (state) => state.authorization.idToken;
 export const getBlockedUsers = (state) =>
   state.authorization.registeredUser?.blockedUsers;
+
+export const {updateIDToken} = slice.actions;
