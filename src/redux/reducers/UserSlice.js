@@ -164,7 +164,7 @@ export const slice = createSlice({
         },
       });
       Snackbar.show({
-        text: 'Displayname changed',
+        text: 'Display Name Changed',
         duration: Snackbar.LENGTH_SHORT,
       });
     },

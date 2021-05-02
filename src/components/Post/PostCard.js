@@ -11,6 +11,8 @@ import PostContent from './PostContent';
 import PostHeader from './PostHeader';
 import PostTitle from './PostTitle';
 import PostFooter from './PostFooter';
+import ErrorBoundary from 'react-native-error-boundary';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 function PostCard(props) {
   const {theme} = useContext(ThemeContext);
@@ -21,48 +23,61 @@ function PostCard(props) {
 
   const isAuthorBlocked = blockedUsers?.includes(postAuthorId);
 
-  return !isAuthorBlocked && isDeleted !== undefined ? (
-    isDeleted === false ? (
-      <View
-        style={{
-          alignSelf: 'center',
-          backgroundColor: theme.colors.background,
-          width: '100%',
-          paddingTop: 10,
-          paddingBottom: 3,
-          borderBottomColor: '#fafafa',
-          borderBottomWidth: 1,
-        }}>
-        <View style={{paddingHorizontal: 5}}>
-          <PostHeader {...props} />
-          <PostTitle {...props} />
-        </View>
-        <PostContent {...props} />
-        <PostFooter {...props} />
-      </View>
-    ) : (
-      <View
-        style={{
-          marginHorizontal: 3,
-          paddingVertical: 30,
-          borderRadius: 10,
-          paddingHorizontal: 10,
-          backgroundColor: '#ffeded',
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            color: '#666',
-            letterSpacing: 0.5,
-            fontWeight: '500',
-            textDecorationLine: 'line-through',
-          }}>
-          Post deleted
-        </Text>
-      </View>
-    )
-  ) : (
+  const errorFallback = (props: {error: Error, resetError: Function}) => (
     <View></View>
+  );
+
+  const errorHandler = (error: Error, stackTrace: string) => {
+    console.log('error displaying post content', error);
+    crashlytics().recordError(error);
+  };
+
+  return (
+    <ErrorBoundary FallbackComponent={errorFallback} onError={errorHandler}>
+      {!isAuthorBlocked && isDeleted !== undefined ? (
+        isDeleted === false ? (
+          <View
+            style={{
+              alignSelf: 'center',
+              backgroundColor: theme.colors.background,
+              width: '100%',
+              paddingTop: 10,
+              paddingBottom: 3,
+              borderBottomColor: '#fafafa',
+              borderBottomWidth: 1,
+            }}>
+            <View style={{paddingHorizontal: 5}}>
+              <PostHeader {...props} />
+              <PostTitle {...props} />
+            </View>
+            <PostContent {...props} />
+            <PostFooter {...props} />
+          </View>
+        ) : (
+          <View
+            style={{
+              marginHorizontal: 3,
+              paddingVertical: 30,
+              borderRadius: 10,
+              paddingHorizontal: 10,
+              backgroundColor: '#ffeded',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                color: '#666',
+                letterSpacing: 0.5,
+                fontWeight: '500',
+                textDecorationLine: 'line-through',
+              }}>
+              Post deleted
+            </Text>
+          </View>
+        )
+      ) : (
+        <View></View>
+      )}
+    </ErrorBoundary>
   );
 }
 

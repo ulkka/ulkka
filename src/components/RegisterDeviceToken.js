@@ -57,7 +57,8 @@ export default function RegisterDeviceToken() {
     if (Platform.OS == 'android') {
       messaging()
         .subscribeToTopic('allDevices')
-        .then(() => console.log('Subscribed to topic!'));
+        .then(() => console.log('Subscribed to topic!'))
+        .catch((error) => console.log('Error subscribing to topic', error));
     }
     if (isRegistered) {
       userApi.user.registerDeviceTokenForNotifications(
@@ -68,7 +69,8 @@ export default function RegisterDeviceToken() {
       if (Platform.OS == 'ios') {
         messaging()
           .subscribeToTopic('allDevices')
-          .then(() => console.log('Subscribed to topic!'));
+          .then(() => console.log('Subscribed to topic!'))
+          .catch((error) => console.log('Error subscribing to topic', error));
       }
     }
   };

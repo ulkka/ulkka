@@ -6039,6 +6039,11 @@ react-native-email-link@^1.10.0:
   resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.10.0.tgz#e724a528d49c8f4d8525615501dc4c791ae1026b"
   integrity sha512-QPbG0pbI6sfqaQJt5RoOrRtpbxEO3iB/UX2354qMqPqbPHk1ijxgAQj2wGpnRZqOKI62PqfCrub+0NUmCgZ3bg==
 
+react-native-error-boundary@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/react-native-error-boundary/-/react-native-error-boundary-1.1.8.tgz#5ff4f5e75588e1170cd81fcf5b6a342add4754a9"
+  integrity sha512-5m7uY0nwf6ZYw0nF2Nf0DeE5F2o6gtlGKy2S3o/m/zgcRWyullidCgisreIcDKJSNnKdgA9rj2dCzRaytHfDcQ==
+
 react-native-fast-image@^8.3.4:
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.3.4.tgz#79edca177e30311b19d59ff335625bcbe22650d7"
