@@ -13,6 +13,7 @@ import {
   createAsyncThunk,
 } from '@reduxjs/toolkit';
 import userApi from '../../services/UserApi';
+import Snackbar from 'react-native-snackbar';
 import {createCachedSelector} from 're-reselect';
 import {handleError} from '../actions/common';
 
@@ -31,6 +32,35 @@ export const fetchUserById = createAsyncThunk(
     try {
       const response = await userApi.user.getUserById(id);
       return response.data[0];
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const updateBio = createAsyncThunk(
+  'user/updateBio',
+  async ({id, bio}, {rejectWithValue}) => {
+    try {
+      console.log('id,bio', id, bio);
+      const response = await userApi.user.updateUserBio(id, bio);
+      return {id, bio};
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const updateDisplayname = createAsyncThunk(
+  'user/updateDisplayname',
+  async ({id, displayname}, {rejectWithValue}) => {
+    try {
+      console.log('id,displayname', id, displayname);
+      const response = await userApi.user.updateUserDisplayname(
+        id,
+        displayname,
+      );
+      return {id, displayname};
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -112,9 +142,37 @@ export const slice = createSlice({
       const authorOfNewPost = posts[postId].author;
       userAdapter.upsertOne(state, users[authorOfNewPost]);
     },
+    [updateBio.fulfilled]: (state, action) => {
+      const {id, bio} = action.payload;
+      userAdapter.updateOne(state, {
+        id: id,
+        changes: {
+          bio: bio,
+        },
+      });
+      Snackbar.show({
+        text: 'Account description changed',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    },
+    [updateDisplayname.fulfilled]: (state, action) => {
+      const {id, displayname} = action.payload;
+      userAdapter.updateOne(state, {
+        id: id,
+        changes: {
+          displayname: displayname,
+        },
+      });
+      Snackbar.show({
+        text: 'Displayname changed',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    },
     [fetchUserById.rejected]: handleError,
     [blockUser.rejected]: handleError,
     [unblockUser.rejected]: handleError,
+    [updateBio.rejected]: handleError,
+    [updateDisplayname.rejected]: handleError,
   },
 });
 
@@ -133,6 +191,7 @@ export const getUserCreatedAt = (state, id) =>
 
 export const getUserDisplayname = (state, id) =>
   selectUserById(state, id)?.displayname;
+export const getUserBio = (state, id) => selectUserById(state, id)?.bio;
 
 const getUserPostKarma = (state, id) => selectUserById(state, id)?.postKarma;
 const getUserCommentKarma = (state, id) =>

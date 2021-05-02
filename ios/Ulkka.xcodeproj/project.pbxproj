@@ -22,6 +22,7 @@
 		D3A24EAF6C194A5F7E1E89B9 /* libPods-Ulkka.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABF186B2CA217DDF1C4906A /* libPods-Ulkka.a */; };
 		DC9203D126398E9F00E1608B /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9203D026398E9F00E1608B /* ShareViewController.swift */; };
 		DC9203D326398EBB00E1608B /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9203D226398EBB00E1608B /* ReactShareViewController.swift */; };
+		DCB34888263BEC0400FE0894 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB34887263BEC0400FE0894 /* Empty.swift */; };
 		DCD3F8AD25308E6800F2B910 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */; };
 		DCE8D1BA2621B5B100E3B739 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCE8D1B82621B5B100E3B739 /* MainInterface.storyboard */; };
 		DCE8D1BE2621B5B100E3B739 /* Ulkka-Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DCE8D1B42621B5B000E3B739 /* Ulkka-Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -111,6 +112,8 @@
 		DC861FE02621BD8F0084B027 /* Ulkka-Share-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ulkka-Share-Bridging-Header.h"; sourceTree = "<group>"; };
 		DC9203D026398E9F00E1608B /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
 		DC9203D226398EBB00E1608B /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
+		DCB34886263BEC0400FE0894 /* Ulkka-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ulkka-Bridging-Header.h"; sourceTree = "<group>"; };
+		DCB34887263BEC0400FE0894 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 		DCBF758D253D890E00079307 /* libRNFBApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFBApp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DCDDB8E3255D19120066F9DD /* Ulkka.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Ulkka.entitlements; path = Ulkka/Ulkka.entitlements; sourceTree = "<group>"; };
@@ -220,6 +223,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				DCB34887263BEC0400FE0894 /* Empty.swift */,
+				DCB34886263BEC0400FE0894 /* Ulkka-Bridging-Header.h */,
 			);
 			name = Ulkka;
 			sourceTree = "<group>";
@@ -318,6 +323,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				306ACC03355EDB3E0C9959AC /* [CP] Copy Pods Resources */,
+				B64F2CFB57713F65DBD8E53F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -343,6 +349,7 @@
 				910BA20D906985E0146A7A17 /* [CP-User] [RNFB] Core Configuration */,
 				DC42B6FB25E3C40E00355024 /* Embed App Extensions */,
 				8056C5A086F8E4DAE07D217D /* [CP-User] [RNFB] Crashlytics Configuration */,
+				DCFAB8CDBE05497A8CE05361 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -428,7 +435,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = CHF7KM5PF5;
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1250;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -744,6 +751,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B64F2CFB57713F65DBD8E53F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ulkka-UlkkaTests/Pods-Ulkka-UlkkaTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ulkka-UlkkaTests/Pods-Ulkka-UlkkaTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B7226FAA462395002DAB3F32 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -783,6 +808,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport NODE_BINARY=node\nexport ENTRY_FILE=index.share.js\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		DCFAB8CDBE05497A8CE05361 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ulkka/Pods-Ulkka-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ulkka/Pods-Ulkka-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		E40BDAD7EF756DC96577F8B4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -883,6 +926,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				DCB34888263BEC0400FE0894 /* Empty.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -948,6 +992,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 94F414301AAC66B7D81E4DFB /* Pods-Ulkka-UlkkaTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -972,6 +1017,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1631240B1ADE508B7EF1C8A4 /* Pods-Ulkka-UlkkaTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
@@ -1015,6 +1061,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = in.ulkka;
 				PRODUCT_NAME = Ulkka;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Ulkka-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1046,6 +1093,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = in.ulkka;
 				PRODUCT_NAME = Ulkka;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Ulkka-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1216,7 +1264,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1269,7 +1316,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1296,6 +1342,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Ulkka-Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1333,6 +1380,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
+				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Ulkka-Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

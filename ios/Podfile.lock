@@ -5,6 +5,7 @@ PODS:
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
   - boost-for-react-native (1.63.0)
+  - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.63.4)
   - FBReactNativeSpec (0.63.4):
@@ -104,6 +105,63 @@ PODS:
     - FirebaseInstallations (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - "GoogleUtilities/NSData+zlib (~> 7.0)"
+  - Flipper (0.87.0):
+    - Flipper-Folly (~> 2.5)
+    - Flipper-RSocket (~> 1.3)
+  - Flipper-DoubleConversion (1.1.7)
+  - Flipper-Folly (2.5.3):
+    - boost-for-react-native
+    - Flipper-DoubleConversion
+    - Flipper-Glog
+    - libevent (~> 2.1.12)
+    - OpenSSL-Universal (= 1.1.180)
+  - Flipper-Glog (0.3.6)
+  - Flipper-PeerTalk (0.0.4)
+  - Flipper-RSocket (1.3.1):
+    - Flipper-Folly (~> 2.5)
+  - FlipperKit (0.87.0):
+    - FlipperKit/Core (= 0.87.0)
+  - FlipperKit/Core (0.87.0):
+    - Flipper (~> 0.87.0)
+    - FlipperKit/CppBridge
+    - FlipperKit/FBCxxFollyDynamicConvert
+    - FlipperKit/FBDefines
+    - FlipperKit/FKPortForwarding
+  - FlipperKit/CppBridge (0.87.0):
+    - Flipper (~> 0.87.0)
+  - FlipperKit/FBCxxFollyDynamicConvert (0.87.0):
+    - Flipper-Folly (~> 2.5)
+  - FlipperKit/FBDefines (0.87.0)
+  - FlipperKit/FKPortForwarding (0.87.0):
+    - CocoaAsyncSocket (~> 7.6)
+    - Flipper-PeerTalk (~> 0.0.4)
+  - FlipperKit/FlipperKitHighlightOverlay (0.87.0)
+  - FlipperKit/FlipperKitLayoutHelpers (0.87.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitHighlightOverlay
+    - FlipperKit/FlipperKitLayoutTextSearchable
+  - FlipperKit/FlipperKitLayoutIOSDescriptors (0.87.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitHighlightOverlay
+    - FlipperKit/FlipperKitLayoutHelpers
+    - YogaKit (~> 1.18)
+  - FlipperKit/FlipperKitLayoutPlugin (0.87.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitHighlightOverlay
+    - FlipperKit/FlipperKitLayoutHelpers
+    - FlipperKit/FlipperKitLayoutIOSDescriptors
+    - FlipperKit/FlipperKitLayoutTextSearchable
+    - YogaKit (~> 1.18)
+  - FlipperKit/FlipperKitLayoutTextSearchable (0.87.0)
+  - FlipperKit/FlipperKitNetworkPlugin (0.87.0):
+    - FlipperKit/Core
+  - FlipperKit/FlipperKitReactPlugin (0.87.0):
+    - FlipperKit/Core
+  - FlipperKit/FlipperKitUserDefaultsPlugin (0.87.0):
+    - FlipperKit/Core
+  - FlipperKit/SKIOSNetworkPlugin (0.87.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitNetworkPlugin
   - Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -152,6 +210,7 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.5.0)
+  - libevent (2.1.12)
   - libwebp (1.2.0):
     - libwebp/demux (= 1.2.0)
     - libwebp/mux (= 1.2.0)
@@ -166,6 +225,7 @@ PODS:
     - nanopb/encode (= 2.30907.0)
   - nanopb/decode (2.30907.0)
   - nanopb/encode (2.30907.0)
+  - OpenSSL-Universal (1.1.180)
   - PromisesObjC (1.2.12)
   - Protobuf (3.15.8)
   - RCTRequired (0.63.4)
@@ -486,12 +546,33 @@ PODS:
     - SDWebImage/Core (~> 5.7)
   - TOCropViewController (2.6.0)
   - Yoga (1.14.0)
+  - YogaKit (1.18.1):
+    - Yoga (~> 1.14)
   - YoutubePlayer-in-WKWebView (0.3.5)
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
+  - Flipper (= 0.87.0)
+  - Flipper-DoubleConversion (= 1.1.7)
+  - Flipper-Folly (= 2.5.3)
+  - Flipper-Glog (= 0.3.6)
+  - Flipper-PeerTalk (~> 0.0.4)
+  - Flipper-RSocket (= 1.3.1)
+  - FlipperKit (= 0.87.0)
+  - FlipperKit/Core (= 0.87.0)
+  - FlipperKit/CppBridge (= 0.87.0)
+  - FlipperKit/FBCxxFollyDynamicConvert (= 0.87.0)
+  - FlipperKit/FBDefines (= 0.87.0)
+  - FlipperKit/FKPortForwarding (= 0.87.0)
+  - FlipperKit/FlipperKitHighlightOverlay (= 0.87.0)
+  - FlipperKit/FlipperKitLayoutPlugin (= 0.87.0)
+  - FlipperKit/FlipperKitLayoutTextSearchable (= 0.87.0)
+  - FlipperKit/FlipperKitNetworkPlugin (= 0.87.0)
+  - FlipperKit/FlipperKitReactPlugin (= 0.87.0)
+  - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.87.0)
+  - FlipperKit/SKIOSNetworkPlugin (= 0.87.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -549,6 +630,7 @@ SPEC REPOS:
   trunk:
     - AppAuth
     - boost-for-react-native
+    - CocoaAsyncSocket
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -562,19 +644,29 @@ SPEC REPOS:
     - FirebaseMessaging
     - FirebasePerformance
     - FirebaseRemoteConfig
+    - Flipper
+    - Flipper-DoubleConversion
+    - Flipper-Folly
+    - Flipper-Glog
+    - Flipper-PeerTalk
+    - Flipper-RSocket
+    - FlipperKit
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleSignIn
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - libevent
     - libwebp
     - nanopb
+    - OpenSSL-Universal
     - PromisesObjC
     - Protobuf
     - SDWebImage
     - SDWebImageWebPCoder
     - TOCropViewController
+    - YogaKit
     - YoutubePlayer-in-WKWebView
 
 EXTERNAL SOURCES:
@@ -688,6 +780,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 3bb422f41b18121b71783a905c10e58606f7dc3e
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
@@ -704,6 +797,13 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 5f83f200a251c44f647f36cb43e557be09889e8d
   FirebasePerformance: e38551587d42d87ad29d6a95b42642458a76df61
   FirebaseRemoteConfig: ad9b7af6a1308d8dd26787b1702ce9e7d609d22e
+  Flipper: 1bd2db48dcc31e4b167b9a33ec1df01c2ded4893
+  Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
+  Flipper-Folly: 755929a4f851b2fb2c347d533a23f191b008554c
+  Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
+  Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
+  Flipper-RSocket: 127954abe8b162fcaf68d2134d34dc2bd7076154
+  FlipperKit: 651f50a42eb95c01b3e89a60996dd6aded529eeb
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleAppMeasurement: 120eec8803fe65a4a7475fb3d3d59a61d0e1a866
@@ -712,8 +812,10 @@ SPEC CHECKSUMS:
   GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
   GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
+  OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: adb85cd18a15bd1a777c158af9fd6e612a0e6d69
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
@@ -767,8 +869,9 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
+  YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
   YoutubePlayer-in-WKWebView: cfbf46da51d7370662a695a8f351e5fa1d3e1008
 
-PODFILE CHECKSUM: 49fff4cdbf20aa4c5bff2029ba9bc6533bc9acbe
+PODFILE CHECKSUM: 1067883b68a615c2cfb753d4206e208fc96b017b
 
 COCOAPODS: 1.10.1

@@ -1,4 +1,4 @@
-import React, {useEffect, memo, useRef} from 'react';
+import React, {useEffect, useState, memo, useRef} from 'react';
 import {
   View,
   Text,
@@ -32,6 +32,8 @@ import {Button} from 'react-native-elements';
 import {goBack} from '../../navigation/Ref';
 import {showOptionSheet} from '../../redux/reducers/OptionSheetSlice';
 import {numberWithCommas} from '../../components/helpers';
+import TextInputFieldWithActions from '../../components/UserBioField';
+import UserDisplaynameField from '../../components/UserDisplaynameField';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -129,19 +131,6 @@ const AccountDetail = memo((props) => {
       <ActivityIndicator size="small" color="#4285f4" />
     );
 
-  const userDisplaynameField = (
-    <Text
-      style={{
-        fontSize: 17,
-        fontWeight: 'bold',
-        color: '#444',
-        paddingHorizontal: 10,
-      }}>
-      {userDisplayname}
-      {'    '}
-    </Text>
-  );
-
   const avatar = (
     //< Icon name = "account-circle" size = { 40} />
     <UserAvatar seed={userDisplayname} size={'extralarge'} />
@@ -154,7 +143,7 @@ const AccountDetail = memo((props) => {
         alignItems: 'center',
       }}>
       {avatar}
-      {userDisplaynameField}
+      <UserDisplaynameField userId={userId} />
     </View>
   );
 
@@ -232,12 +221,12 @@ const AccountDetail = memo((props) => {
         {userAvatarAndDisplayName}
         {isProfile ? accountSettings : blockUserView}
       </View>
+      <TextInputFieldWithActions userId={userId} />
       <View
         style={{
+          paddingHorizontal: 5,
           flexDirection: 'row',
           alignItems: 'center',
-          paddingTop: 20,
-          paddingHorizontal: 5,
         }}>
         {userKarmaField}
         <Divider width={28} height={0}></Divider>
@@ -312,6 +301,7 @@ function UserDetail(props) {
   ) : (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
+        keyboardShouldPersistTaps="always"
         ListHeaderComponent={<AccountDetail userId={userId} />}
         onEndReachedThreshold={0.9}
         ListFooterComponent={<AccountTabbedNavigation userId={userId} />}

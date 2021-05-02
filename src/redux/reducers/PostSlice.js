@@ -87,6 +87,19 @@ export const slice = createSlice({
         post_type: post.type,
       });
     },
+    [reportPost.fulfilled]: (state, action) => {
+      const {id: postId, option: selectedReportOption} = action.payload;
+      postAdapter.removeOne(state, postId);
+      Snackbar.show({
+        text: 'Thanks for reporting',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('content_report', {
+        item_id: postId,
+        type: 'post',
+        reason: selectedReportOption,
+      });
+    },
     [votePost.rejected]: handleError,
     [reportPost.rejected]: handleError,
     [fetchPostById.rejected]: handleError,

@@ -41,31 +41,12 @@ const Report = (props) => {
 
   const reportEntity = async () => {
     setLoading(true);
-
     const response =
       type == 'post'
         ? await dispatch(reportPost({id: id, option: selectedReportOption}))
         : await dispatch(reportComment({id: id, option: selectedReportOption}));
-    if (!response.error) {
-      setLoading(false);
-      setTimeout(
-        () =>
-          Snackbar.show({
-            text: 'Thanks for reporting',
-            duration: Snackbar.LENGTH_SHORT,
-          }),
-        100,
-      );
-      dispatch(hideOptionSheet());
-    } else {
-      analytics().logEvent('content_report', {
-        item_id: id,
-        type: type,
-        reason: selectedReportOption,
-      });
-      setLoading(false);
-      dispatch(hideOptionSheet());
-    }
+    setLoading(false);
+    dispatch(hideOptionSheet());
   };
 
   const ButtonsView = (

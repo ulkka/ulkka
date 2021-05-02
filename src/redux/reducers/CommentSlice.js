@@ -193,6 +193,22 @@ export const slice = createSlice({
       screen.refreshing = false;
       analytics().logEvent('comment_refresh');
     },
+    [reportComment.fulfilled]: (state, action) => {
+      const {id: postId, option: selectedReportOption} = action.payload;
+      setTimeout(
+        () =>
+          Snackbar.show({
+            text: 'Thanks for reporting',
+            duration: Snackbar.LENGTH_SHORT,
+          }),
+        100,
+      );
+      analytics().logEvent('content_report', {
+        item_id: postId,
+        type: 'comment',
+        reason: selectedReportOption,
+      });
+    },
     [voteComment.rejected]: handleError,
     [reportComment.rejected]: handleError,
     [fetchComments.rejected]: (state, action) => {

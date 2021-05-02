@@ -29,14 +29,10 @@ const LinkPostContent = (props) => {
   const url = ogData?.ogUrl ? ogData.ogUrl : link;
   const videoUrl = ogData?.ogVideo?.url;
   const imageUrl = ogData?.ogImage?.url;
+  const domain = getHostnameFromRegex(url)?.replace('www.', '');
   const type = videoUrl ? 'video' : imageUrl ? 'image' : undefined;
 
-  const domain = getHostnameFromRegex(url)?.replace('www.', '');
-
-  const videoId =
-    domain == 'youtube.com'
-      ? videoUrl.substring(videoUrl.lastIndexOf('/') + 1, videoUrl.length)
-      : null;
+  const videoId = domain == 'youtube.com' && url.split('=')[1];
 
   const LinkVideo = (
     <View

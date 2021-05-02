@@ -116,7 +116,7 @@ export const reportComment = createAsyncThunk(
   async ({id, option}, {rejectWithValue}) => {
     try {
       let response = await postApi.comment.report(id, option);
-      return id;
+      return {id, option};
     } catch (error) {
       return rejectWithValue(error);
     }

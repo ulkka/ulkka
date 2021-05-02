@@ -8,7 +8,7 @@ import {
   registerUser,
   sendEmailSignInLink,
 } from '../actions/AuthActions';
-import {blockUser, unblockUser} from './UserSlice';
+import {blockUser, unblockUser, updateDisplayname} from './UserSlice';
 import Snackbar from 'react-native-snackbar';
 import {showAuthScreen} from '../../navigation/Ref';
 import RNRestart from 'react-native-restart';
@@ -139,6 +139,11 @@ export const slice = createSlice({
         100,
       );
       analytics().logEvent('user_unblock');
+    },
+    [updateDisplayname.fulfilled]: (state, action) => {
+      const {id, displayname} = action.payload;
+      const registeredUser = state.registeredUser;
+      registeredUser.displayname = displayname;
     },
     [loadAuth.rejected]: handleError,
     [socialAuth.rejected]: handleError,

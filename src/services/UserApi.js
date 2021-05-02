@@ -50,6 +50,20 @@ const userApi = {
         });
       return response;
     },
+    async updateUserBio(userId, bio) {
+      const client = await mainClient;
+      const response = client.put('user/' + userId, {
+        bio: bio,
+      });
+      return response;
+    },
+    async updateUserDisplayname(userId, displayname) {
+      const client = await mainClient;
+      const response = client.put('user/' + userId, {
+        displayname: displayname,
+      });
+      return response;
+    },
     async blockUser(userId) {
       const client = await mainClient;
       const response = client.post(USER_URI + BLOCKUSER_URI + '/' + userId);

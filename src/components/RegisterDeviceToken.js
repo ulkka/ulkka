@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import userApi from '../services/UserApi';
 import {
@@ -54,11 +54,22 @@ export default function RegisterDeviceToken() {
   }
 
   const saveToken = async () => {
+    if (Platform.OS == 'android') {
+      messaging()
+        .subscribeToTopic('allDevices')
+        .then(() => console.log('Subscribed to topic!'));
+    }
     if (isRegistered) {
-      await userApi.user.registerDeviceTokenForNotifications(
+      userApi.user.registerDeviceTokenForNotifications(
         registeredUser._id,
         token,
       );
+      //ios asks for notifications only after registration
+      if (Platform.OS == 'ios') {
+        messaging()
+          .subscribeToTopic('allDevices')
+          .then(() => console.log('Subscribed to topic!'));
+      }
     }
   };
 

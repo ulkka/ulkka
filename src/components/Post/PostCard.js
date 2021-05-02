@@ -21,7 +21,7 @@ function PostCard(props) {
 
   const isAuthorBlocked = blockedUsers?.includes(postAuthorId);
 
-  return !isAuthorBlocked ? (
+  return !isAuthorBlocked && isDeleted !== undefined ? (
     isDeleted === false ? (
       <View
         style={{

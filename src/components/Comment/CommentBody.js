@@ -15,8 +15,9 @@ const CommentBody = (props) => {
   const [textHidden, setTextHidden] = useState(true);
 
   const onTextLayout = useCallback((e) => {
-    analytics().logEvent('comment_longtext');
-    setShowMore(e.nativeEvent.lines.length > 5);
+    const shouldShowMore = e.nativeEvent.lines.length > 5;
+    shouldShowMore && analytics().logEvent('comment_longtext');
+    setShowMore(shouldShowMore);
   }, []);
 
   const commentView = (
