@@ -59,12 +59,7 @@ const VideoPostContent = (props) => {
           screen,
         );
 
-  const videoUrl =
-    type == 'link'
-      ? ogVideoUrl
-      : Platform.OS == 'ios'
-      ? mediaMetadata.secure_url
-      : mediaUrlWithWidth(mediaMetadata.secure_url, width, 'video');
+  const videoUrl = type == 'link' ? ogVideoUrl : mediaMetadata.secure_url;
 
   const posterUrl = ogImageUrl
     ? ogImageUrl

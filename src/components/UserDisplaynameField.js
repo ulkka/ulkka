@@ -8,11 +8,11 @@ import {
 } from '../redux/reducers/UserSlice';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
 import userApi from '../services/UserApi';
+import {Platform} from 'react-native';
 
 const UserDisplaynameField = (props) => {
   const dispatch = useDispatch();
   const {userId} = props;
-  const renderErrorMessage = true;
   const [displaynameErrorMessage, setDisplaynameErrorMessage] = useState('');
   const [isDisplaynameValid, setIsDisplaynameValid] = useState(true);
   const [displaynameEdit, setDisplaynameEdit] = useState(false);
@@ -99,15 +99,16 @@ const UserDisplaynameField = (props) => {
         fontWeight: 'bold',
         color: '#444',
         paddingLeft: 10,
+        ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
       }}>
       {userDisplayname}
-      {'    '}
     </Text>
   );
 
   const EditButton = (
     <TouchableOpacity
       hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+      style={{paddingLeft: 8}}
       onPress={() => {
         setDisplaynameEdit(true);
       }}>

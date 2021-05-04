@@ -115,7 +115,11 @@ function Feed(props) {
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         keyExtractor={(postId, index) => postId}
         ListFooterComponent={
-          <FeedFooter complete={complete} loading={loading && !refreshing} />
+          <FeedFooter
+            complete={complete}
+            loading={loading && !refreshing}
+            text="No more posts"
+          />
         }
         onScrollToIndexFailed={(info) =>
           console.log('scroll to index failed', info)

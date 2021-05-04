@@ -1,4 +1,4 @@
-import React, {useState, memo} from 'react';
+import React, {useState, memo, useEffect} from 'react';
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -6,7 +6,7 @@ import {
   Platform,
   Image,
 } from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {Icon, Text, Badge} from 'react-native-elements';
 import Search from './Search';
 import {showAuthScreen, push} from '../navigation/Ref';
 import {useSelector} from 'react-redux';
@@ -14,12 +14,16 @@ import {
   getRegistrationStatus,
   getRegisteredUser,
 } from '../redux/reducers/AuthSlice';
+import {getUnreadNotificationCount} from '../redux/reducers/NotificationSlice';
 import UserAvatar from './UserAvatar';
+import {navigate} from '../navigation/Ref';
 
 const HeaderBar = (props) => {
   const [searchMode, setSearchMode] = useState(false);
   const isRegistered = useSelector(getRegistrationStatus);
   const registeredUser = useSelector(getRegisteredUser);
+  const unReadNotificationCount = useSelector(getUnreadNotificationCount);
+
   const _toggleSearch = () => setSearchMode(!searchMode);
 
   const AccountComponent = () => {
@@ -107,10 +111,39 @@ const HeaderBar = (props) => {
     );
   };
 
+  const Notifications = () => {
+    return (
+      <TouchableOpacity
+        onPress={() => navigate('Notifications')}
+        style={{paddingRight: 5}}>
+        <Icon
+          name={unReadNotificationCount ? 'bell' : 'bell-o'}
+          color={unReadNotificationCount ? '#222' : '#666'}
+          type="font-awesome"
+          size={Platform.OS == 'ios' ? 22 : 20}
+        />
+        {unReadNotificationCount ? (
+          <Badge
+            status="error"
+            value={unReadNotificationCount}
+            textStyle={{fontSize: 10}}
+            containerStyle={{
+              position: 'absolute',
+              top: -6,
+              right: -5,
+              width: 30,
+            }}
+          />
+        ) : null}
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView
       style={{
         backgroundColor: '#fff',
+        paddingBottom: 2,
       }}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       <SafeAreaView
@@ -124,7 +157,7 @@ const HeaderBar = (props) => {
         }}>
         <AccountComponent />
         <TitleComponent />
-        <SearchComponent />
+        {isRegistered ? <Notifications /> : <SearchComponent />}
       </SafeAreaView>
     </SafeAreaView>
   );

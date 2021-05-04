@@ -2,12 +2,14 @@ import React, {memo} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 
 function FeedFooterComponent(props) {
-  const {complete, loading} = props;
+  const {complete, loading, text} = props;
   if (complete) {
     return (
       <View style={styles.listEmptyView}>
         <Text style={styles.listEmptyText}>
-          {'  '}This feed is over{'  '}
+          {'  '}
+          {text ? text : 'This feed is over'}
+          {'  '}
         </Text>
       </View>
     );

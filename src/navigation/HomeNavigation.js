@@ -14,6 +14,7 @@ import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/OptionSheetSlice';
 import OptionSheet from '../components/OptionSheet';
 import BlockedUsers from '../screens/user/BlockedUsers';
+import Notifications from '../screens/Notifications';
 
 const Tab = createMaterialTopTabNavigator();
 const StackNav = createStackNavigator();
@@ -131,6 +132,19 @@ function HomeNavigation({navigation}) {
           title="Blocked Users"
           options={{
             headerTitle: 'Blocked Users',
+            headerBackTitle: '',
+            headerBackTitleStyle: {
+              fontSize: 16,
+            },
+            headerTitleAlign: 'center',
+          }}
+        />
+        <StackNav.Screen
+          name="Notifications"
+          component={Notifications}
+          title="Notifications"
+          options={{
+            headerTitle: 'Notifications',
             headerBackTitle: '',
             headerBackTitleStyle: {
               fontSize: 16,

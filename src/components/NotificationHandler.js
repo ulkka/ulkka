@@ -1,47 +1,17 @@
 import React, {useEffect} from 'react';
-import {View, Platform} from 'react-native';
+import {View, Platform, AppState} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import {useDispatch, useSelector} from 'react-redux';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
 import {navigateToLink} from './helpers';
-
-PushNotification.configure({
-  // (required) Called when a remote is received or opened, or local notification is opened
-  onNotification: function (notification) {
-    const {userInteraction} = notification;
-    if (userInteraction) {
-      navigateToLink(notification.data.link);
-    }
-
-    // (required) Called when a remote is received or opened, or local notification is opened
-    notification.finish(PushNotificationIOS.FetchResult.NoData);
-  },
-
-  // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
-  onRegistrationError: function (err) {
-    console.error(err.message, err);
-  },
-
-  // IOS ONLY (optional): default: all - Permissions to register.
-  permissions: {
-    alert: true,
-    badge: true,
-    sound: true,
-  },
-
-  // Should the initial notification be popped automatically
-  // default: true
-  popInitialNotification: true,
-
-  /**
-   * (optional) default: true
-   * - Specified if permissions (ios) and token (android and ios) will requested or not,
-   * - if not, you must call PushNotificationsHandler.requestPermissions() later
-   * - if you are not using remote notification or do not have Firebase installed, use this:
-   *     requestPermissions: Platform.OS === 'ios'
-   */
-  requestPermissions: !Platform.OS === 'ios',
-});
+import notificationsApi from '../services/NotificationsApi';
+import {
+  incrementNotificationCount,
+  decrementNotificationCount,
+  setUnreadNotificationCount,
+} from '../redux/reducers/NotificationSlice';
+import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 
 function getLinkFromRemoteMessage(remoteMessage) {
   return remoteMessage.data?.link && remoteMessage.data?.link?.length
@@ -49,7 +19,56 @@ function getLinkFromRemoteMessage(remoteMessage) {
     : '/';
 }
 
+const ConfigurePushNotification = () => {
+  const dispatch = useDispatch();
+
+  PushNotification.configure({
+    // (required) Called when a remote is received or opened, or local notification is opened
+    onNotification: function (notification) {
+      const {userInteraction} = notification;
+      if (userInteraction) {
+        dispatch(decrementNotificationCount());
+        navigateToLink(notification.data.link);
+      }
+
+      // (required) Called when a remote is received or opened, or local notification is opened
+      // PushNotification.setApplicationIconBadgeNumber(1);
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
+    },
+
+    // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
+    onRegistrationError: function (err) {
+      console.error(err.message, err);
+    },
+
+    // IOS ONLY (optional): default: all - Permissions to register.
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true,
+    },
+
+    // Should the initial notification be popped automatically
+    // default: true
+    popInitialNotification: true,
+
+    /**
+     * (optional) default: true
+     * - Specified if permissions (ios) and token (android and ios) will requested or not,
+     * - if not, you must call PushNotificationsHandler.requestPermissions() later
+     * - if you are not using remote notification or do not have Firebase installed, use this:
+     *     requestPermissions: Platform.OS === 'ios'
+     */
+    requestPermissions: !Platform.OS === 'ios',
+  });
+
+  return null;
+};
+
 const NotificationHandler = () => {
+  const dispatch = useDispatch();
+  const isRegistered = useSelector(getRegistrationStatus);
+
   useEffect(() => {
     PushNotification.getApplicationIconBadgeNumber(function (number) {
       if (number > 0) {
@@ -83,10 +102,10 @@ const NotificationHandler = () => {
         }
       });
 
-    //// Check whether a notification arrived while app is on foreground
+    // Check whether a notification arrived while app is on foreground
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      dispatch(incrementNotificationCount());
       const link = getLinkFromRemoteMessage(remoteMessage);
-
       const notificationObject = {
         channelId: 'default-channel',
         color: 'red',
@@ -109,7 +128,29 @@ const NotificationHandler = () => {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    const subscriber = AppState.addEventListener(
+      'change',
+      setUnreadNotificationCountHandler,
+    );
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  useEffect(() => {
+    if (isRegistered) {
+      setUnreadNotificationCountHandler('active');
+    }
+  }, [isRegistered]);
+
+  const setUnreadNotificationCountHandler = async (appState) => {
+    if (appState == 'active' && isRegistered) {
+      console.log('appstate changed to active so setting notification count');
+      const response = await notificationsApi.unReadCount();
+      dispatch(setUnreadNotificationCount(response.data?.count));
+    }
+  };
+
   return <View></View>;
 };
 
-export default NotificationHandler;
+export {NotificationHandler, ConfigurePushNotification};

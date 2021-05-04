@@ -9,6 +9,8 @@ import {commentWriter} from './CommentWriterSlice';
 import {authorization} from './AuthSlice';
 import {loadingOverlay} from './LoadingOverlaySlice';
 import {optionSheet} from './OptionSheetSlice';
+import {notifications} from './NotificationSlice';
+
 import {feed} from './FeedSlice';
 //import {communities} from './CommunitySlice';
 
@@ -18,6 +20,7 @@ const loggerMiddleware = createLogger();
 
 const AppReducers = combineReducers({
   authorization,
+  notifications,
   feed,
   posts,
   users,

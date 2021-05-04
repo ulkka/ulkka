@@ -411,8 +411,10 @@ export default function CreatePost({route}) {
       <ShowSubmitStatus data={statusData} />
       <ShowSubmitProgress
         percent={uploadPercent}
-        showUploadProgress={uploadPercent > 0 ? true : false}
-        isVisible={loading}
+        //showUploadProgress={uploadPercent > 0 ? true : false}
+        showUploadProgress={true}
+        //isVisible={loading}
+        isVisible={true}
         type={type}
         onCancel={() => clientSource.cancel('Upload cancelled by user')}
       />

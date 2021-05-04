@@ -7,7 +7,6 @@ function getScreenFromLink(link) {
   const isPath = !link.startsWith('https://ulkka.in');
   const path = isPath ? link : link.replace('https://ulkka.in/', '/');
 
-  console.log('path', path);
   const entity = link && path.substring(1, path.lastIndexOf('/'));
   const entityId = link && path.substring(path.lastIndexOf('/') + 1);
   const screen =
@@ -18,7 +17,6 @@ function getScreenFromLink(link) {
 
 export function navigateToLink(link) {
   const {screen, entityId} = getScreenFromLink(link);
-  console.log('{ screen, entityId }', screen, entityId, link);
   navigate(screen, {
     postId: entityId,
   });

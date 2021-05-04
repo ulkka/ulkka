@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import {Icon, Overlay} from 'react-native-elements';
 import {useSelector} from 'react-redux';
-import {navigate} from '../../navigation/Ref';
+import {navigate, showAuthScreen} from '../../navigation/Ref';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 
 export default function CreatePostButtonOverlay(props) {
@@ -105,7 +105,9 @@ export default function CreatePostButtonOverlay(props) {
         elevation: 15,
       }}>
       <TouchableOpacity
-        onPress={toggleOverlay}
+        onPress={() => {
+          isRegistered ? toggleOverlay() : showAuthScreen();
+        }}
         style={{
           alignItems: 'center',
           justifyContent: 'center',
@@ -146,10 +148,12 @@ export default function CreatePostButtonOverlay(props) {
       </View>
     </Overlay>
   );
-  return isRegistered ? (
+  //return isRegistered ? (
+  return (
     <View>
       {CreatePostIcon}
       {PopupView}
     </View>
-  ) : null;
+  );
+  // ) : null;
 }

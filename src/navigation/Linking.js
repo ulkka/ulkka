@@ -22,7 +22,6 @@ const config = {
     'Create Community': 'create/community',
   },
 };
-
 export const linking = {
   prefixes: [
     'https://app.ulkka.in',

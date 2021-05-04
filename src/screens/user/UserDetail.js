@@ -53,7 +53,7 @@ const AccountDetail = memo((props) => {
   const useNativeDriver = false;
   const beat = (iconSize) =>
     Animated.timing(iconSize, {
-      toValue: 13,
+      toValue: 14,
       duration: duration,
       useNativeDriver: useNativeDriver,
       easing: easing,
@@ -109,7 +109,7 @@ const AccountDetail = memo((props) => {
           }}>
           <Text
             style={{
-              fontSize: 14,
+              fontSize: 15,
               color: '#555',
               fontWeight: 'bold',
               letterSpacing: 0.5,

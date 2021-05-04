@@ -180,7 +180,9 @@ const Comments = (props) => {
         maxToRenderPerBatch={10}
         updateCellsBatchingPeriod={500}
         windowSize={11}
-        ListFooterComponent={<FeedFooter complete={complete} />}
+        ListFooterComponent={
+          <FeedFooter complete={complete} text="No more comments" />
+        }
       />
       {!complete && (
         <View style={{alignSelf: 'center'}}>

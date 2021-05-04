@@ -38,7 +38,7 @@ export default function ShowSubmitStatus(props) {
             name="check-circle"
             size={100}
             type="font-awesome5"
-            color="green"
+            color="#25D366"
           />
         ) : (
           <Icon name="error" size={100} color="red" />

@@ -4,6 +4,8 @@ import {Icon, Input} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {getUserBio, updateBio} from '../redux/reducers/UserSlice';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
+import Hyperlink from 'react-native-hyperlink';
+import {navigateToURL} from './helpers';
 
 const UserBioField = (props) => {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ const UserBioField = (props) => {
   }, [bio]);
 
   const FieldOptions = (
-    <View style={{flexDirection: 'row'}}>
+    <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
       <TouchableOpacity
         hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
         onPress={() => {
@@ -49,68 +51,88 @@ const UserBioField = (props) => {
   );
 
   const bioField = (
-    <Text
-      style={{
-        fontSize: 12,
-        color: '#555',
-        fontStyle: 'italic',
-      }}>
-      {bio}
-    </Text>
+    <Hyperlink
+      linkDefault={false}
+      linkStyle={{color: '#2980b9'}}
+      onPress={(url, text) => navigateToURL(url, 'bio')}>
+      <Text
+        style={{
+          fontSize: 12,
+          color: '#111',
+        }}>
+        {bio}
+      </Text>
+    </Hyperlink>
   );
-  const AddDescriptionIfProfile = isProfile && (
+  const AddBioIfProfile = isProfile && (
     <Text
       style={{
         fontSize: 12,
         color: '#555',
-        fontStyle: 'italic',
       }}>
-      Add description
+      Add bio
     </Text>
   );
   const EditButton = (
     <TouchableOpacity
       hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
-      style={{paddingLeft: 10}}
+      style={{marginLeft: 10}}
       onPress={() => {
         setBioEdit(true);
       }}>
       <Icon type="font-awesome" name="pencil" size={11} color="#555" />
     </TouchableOpacity>
   );
+
+  const PlusButton = (
+    <TouchableOpacity
+      hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+      style={{marginLeft: 8}}
+      onPress={() => {
+        setBioEdit(true);
+      }}>
+      <Icon type="font-awesome" name="plus-circle" size={15} color="#2980b9" />
+    </TouchableOpacity>
+  );
+
   const TextInputField = (
-    <Input
-      inputContainerStyle={{
-        borderBottomColor: '#eee',
-        height: 20,
-      }}
-      inputStyle={{
-        fontSize: 12,
-        fontStyle: 'italic',
-        height: 10,
-      }}
-      renderErrorMessage={false}
-      autoFocus={true}
-      containerStyle={{
-        width: 200,
-      }}
-      placeholder="A little description of yourself"
-      onChangeText={(text) => setBioValue(text)}
-      maxLength={50}
-      value={bioValue}
-    />
+    <View style={{flex: 1}}>
+      <Input
+        autoCorrect={false}
+        inputContainerStyle={{
+          borderBottomColor: '#eee',
+          height: 'auto',
+        }}
+        inputStyle={{
+          fontSize: 12,
+        }}
+        multiline={true}
+        renderErrorMessage={false}
+        autoFocus={true}
+        containerStyle={{
+          width: '95%',
+        }}
+        placeholder="A little description of yourself"
+        onChangeText={(text) => setBioValue(text)}
+        maxLength={150}
+        value={bioValue}
+      />
+      {FieldOptions}
+    </View>
   );
 
   return (
     <View
       style={{
-        paddingVertical: bio || isProfile ? 15 : 10,
-        paddingHorizontal: 5,
+        flexGrow: 2,
+        paddingVertical: 10,
+        paddingLeft: 5,
+        marginRight: 20,
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      {bioEdit ? TextInputField : bio ? bioField : AddDescriptionIfProfile}
-      {isProfile ? (bioEdit ? FieldOptions : EditButton) : null}
+      {bioEdit ? TextInputField : bio ? bioField : AddBioIfProfile}
+      {isProfile ? (bioEdit ? null : bio ? EditButton : PlusButton) : null}
     </View>
   );
 };

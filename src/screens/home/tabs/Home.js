@@ -3,7 +3,10 @@ import {View} from 'react-native';
 import Feed from '../../../components/Feed/Feed';
 import CreatePostButtonOverlay from '../../../components/Post/CreatePostButtonOverlay';
 import ShareMenuHandler from '../../../components/ShareMenuHandler';
-import NotificationHandler from '../../../components/NotificationHandler';
+import {
+  NotificationHandler,
+  ConfigurePushNotification,
+} from '../../../components/NotificationHandler';
 
 function Home(props) {
   return (
@@ -11,6 +14,7 @@ function Home(props) {
       <Feed screen="home" />
       <CreatePostButtonOverlay />
       <ShareMenuHandler />
+      <ConfigurePushNotification />
       <NotificationHandler />
     </View>
   );
