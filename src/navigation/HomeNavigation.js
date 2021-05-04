@@ -15,6 +15,7 @@ import {isVisible} from '../redux/reducers/OptionSheetSlice';
 import OptionSheet from '../components/OptionSheet';
 import BlockedUsers from '../screens/user/BlockedUsers';
 import Notifications from '../screens/Notifications';
+import EmailLinkHandler from '../screens/auth/EmailLinkHandler';
 
 const Tab = createMaterialTopTabNavigator();
 const StackNav = createStackNavigator();
@@ -154,6 +155,7 @@ function HomeNavigation({navigation}) {
         />
       </StackNav.Navigator>
       {isOptionSheetVisible && <OptionSheet />}
+      <EmailLinkHandler />
     </View>
   );
 }

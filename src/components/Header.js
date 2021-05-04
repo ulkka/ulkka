@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect} from 'react';
+import React, {useState, memo} from 'react';
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -18,11 +18,69 @@ import {getUnreadNotificationCount} from '../redux/reducers/NotificationSlice';
 import UserAvatar from './UserAvatar';
 import {navigate} from '../navigation/Ref';
 
+const TitleComponent = memo(() => {
+  // return searchMode == false ? (
+  return (
+    <SafeAreaView
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+      }}>
+      <Text
+        style={{
+          fontSize: 19,
+          fontFamily: Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-condensed',
+          fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
+          color: '#444',
+        }}>
+        Ulkka
+      </Text>
+      <Image
+        resizeMode={'contain'}
+        source={require('../../assets/ulkka_title_transparent.png')}
+        style={{height: 23, width: 24, marginLeft: 7}}
+      />
+    </SafeAreaView>
+  );
+  /* ) : (
+    <Search />
+  );*/
+});
+
+const Notifications = memo(() => {
+  const unReadNotificationCount = useSelector(getUnreadNotificationCount);
+  return (
+    <TouchableOpacity
+      onPress={() => navigate('Notifications')}
+      style={{paddingRight: 5}}>
+      <Icon
+        name={unReadNotificationCount ? 'bell' : 'bell-o'}
+        color={unReadNotificationCount ? '#222' : '#666'}
+        type="font-awesome"
+        size={Platform.OS == 'ios' ? 22 : 20}
+      />
+      {unReadNotificationCount ? (
+        <Badge
+          status="error"
+          value={unReadNotificationCount}
+          textStyle={{fontSize: 10}}
+          containerStyle={{
+            position: 'absolute',
+            top: -6,
+            right: -5,
+            width: 30,
+          }}
+        />
+      ) : null}
+    </TouchableOpacity>
+  );
+});
+
 const HeaderBar = (props) => {
   const [searchMode, setSearchMode] = useState(false);
   const isRegistered = useSelector(getRegistrationStatus);
   const registeredUser = useSelector(getRegisteredUser);
-  const unReadNotificationCount = useSelector(getUnreadNotificationCount);
 
   const _toggleSearch = () => setSearchMode(!searchMode);
 
@@ -57,35 +115,6 @@ const HeaderBar = (props) => {
     );
   };
 
-  const TitleComponent = () => {
-    return searchMode == false ? (
-      <SafeAreaView
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'row',
-        }}>
-        <Text
-          style={{
-            fontSize: 19,
-            fontFamily:
-              Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-condensed',
-            fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
-            color: '#444',
-          }}>
-          Ulkka
-        </Text>
-        <Image
-          resizeMode={'contain'}
-          source={require('../../assets/ulkka_title_transparent.png')}
-          style={{height: 23, width: 24, marginLeft: 7}}
-        />
-      </SafeAreaView>
-    ) : (
-      <Search />
-    );
-  };
-
   const SearchComponent = () => {
     return !searchMode ? (
       <Icon
@@ -107,34 +136,6 @@ const HeaderBar = (props) => {
           }}>
           Cancel
         </Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const Notifications = () => {
-    return (
-      <TouchableOpacity
-        onPress={() => navigate('Notifications')}
-        style={{paddingRight: 5}}>
-        <Icon
-          name={unReadNotificationCount ? 'bell' : 'bell-o'}
-          color={unReadNotificationCount ? '#222' : '#666'}
-          type="font-awesome"
-          size={Platform.OS == 'ios' ? 22 : 20}
-        />
-        {unReadNotificationCount ? (
-          <Badge
-            status="error"
-            value={unReadNotificationCount}
-            textStyle={{fontSize: 10}}
-            containerStyle={{
-              position: 'absolute',
-              top: -6,
-              right: -5,
-              width: 30,
-            }}
-          />
-        ) : null}
       </TouchableOpacity>
     );
   };

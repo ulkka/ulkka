@@ -16,7 +16,6 @@ import {
   setViewableItems,
 } from '../../redux/reducers/FeedSlice';
 import {fetchFeed, refreshFeed} from '../../redux/actions/FeedActions';
-import {getAuthStatus} from '../../redux/reducers/AuthSlice';
 import ScrollToTop from './ScrollToTop';
 
 const ListHeaderComponent = memo(() => {
@@ -40,8 +39,6 @@ function Feed(props) {
   const {screen} = props;
   const screenType = screen.split('-')[0];
 
-  const authStatus = useSelector(getAuthStatus);
-
   const complete = useSelector((state) => isFeedComplete(state, screen));
   const loading = useSelector((state) => isFeedLoading(state, screen));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screen));
@@ -59,22 +56,21 @@ function Feed(props) {
   console.log('running feed', screen);
 
   useEffect(() => {
+    handleInitialiseFeed();
     return () => dispatch(removeFeed(screen));
   }, []);
 
-  useEffect(() => {
-    if (authStatus != 'UNAUTHENTICATED') {
-      dispatch(initialiseFeed(screen));
-      handleFetchFeed();
-    }
-  }, [authStatus]);
+  const handleInitialiseFeed = async () => {
+    await dispatch(initialiseFeed(screen));
+    handleFetchFeed();
+  };
 
   const renderRow = ({item}) => {
     return <PostCard postId={item} screen={screen} />;
   };
 
   const handleLoadMore = () => {
-    if (authStatus != 'UNAUTHENTICATED' && !complete && !loading) {
+    if (!complete && !loading) {
       handleFetchFeed();
     }
   };
@@ -84,9 +80,7 @@ function Feed(props) {
   };
 
   const handleRefresh = () => {
-    if (authStatus != 'UNAUTHENTICATED') {
-      dispatch(refreshFeed(screen));
-    }
+    dispatch(refreshFeed(screen));
   };
 
   function _onViewableItemsChanged() {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
-import {Overlay, LinearProgress} from 'react-native-elements';
+import {Overlay} from 'react-native-elements';
 import {Button} from 'react-native';
 
 export const uploadProgress = (_setUploadProgress) => (progressEvent) => {
@@ -35,7 +35,6 @@ export const ShowSubmitProgress = (props) => {
           }}>
           <ActivityIndicator size="large" color="#4285f4" />
         </View>
-        <LinearProgress color="primary" />
         {showUploadProgress ? (
           <View
             style={{

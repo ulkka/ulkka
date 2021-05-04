@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,7 +15,6 @@ import {navigate} from '../navigation/Ref';
 import {
   fetchAllNotifications,
   resetNotifications,
-  getUnreadNotificationCount,
   markAllNotificationsRead,
   markNotificationRead,
   selectAllNotifications,
@@ -24,9 +23,18 @@ import {
   getNeedsRefresh,
 } from '../redux/reducers/NotificationSlice';
 import UserAvatar from '../components/UserAvatar';
+import PushNotification from 'react-native-push-notification';
+import analytics from '@react-native-firebase/analytics';
 
 const B = (props) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
-
+const validRestOfTheTexts = [
+  ' received an upvote on your post',
+  ' received a downvote on your post',
+  ' received an upvote on your comment',
+  ' received a downvote on your comment',
+  ' replied to your post',
+  ' replied to your comment',
+];
 export default function Notifications(props) {
   const dispatch = useDispatch();
   const notifications = useSelector(selectAllNotifications);
@@ -35,6 +43,7 @@ export default function Notifications(props) {
   const needsRefresh = useSelector(getNeedsRefresh);
 
   useEffect(() => {
+    PushNotification.removeAllDeliveredNotifications();
     initialiseNotifications();
 
     return () => {
@@ -54,7 +63,13 @@ export default function Notifications(props) {
 
   const markNotificationReadHandler = (id, postId) => {
     dispatch(markNotificationRead(id));
-    postId && navigate('PostDetail', {postId: postId});
+    if (postId) {
+      analytics().logEvent('postdetail_clickedfrom', {
+        clicked_from: 'notification',
+        screen: 'notifications',
+      });
+      navigate('PostDetail', {postId: postId});
+    }
   };
 
   const handleLoadMore = () => {
@@ -66,7 +81,7 @@ export default function Notifications(props) {
   const renderRow = ({item}) => {
     const postId = item?.link?.split('/')[2];
     const username = item.text.split(' ')[0];
-
+    const restOfTheText = item.text.replace(username, '');
     return (
       <TouchableOpacity
         onPress={() => markNotificationReadHandler(item._id, postId)}
@@ -81,7 +96,8 @@ export default function Notifications(props) {
         }}>
         <View
           style={{flexDirection: 'row', alignItems: 'center', maxWidth: '80%'}}>
-          {username.length >= 4 ? (
+          {username.length >= 4 &&
+          validRestOfTheTexts.includes(restOfTheText) ? (
             <UserAvatar seed={username} size="medium" />
           ) : (
             <Image
@@ -97,8 +113,13 @@ export default function Notifications(props) {
               fontSize: 13,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            <B>{username}</B>
-            {item.text.replace(username, ' ')}
+            {username.length >= 4 &&
+            validRestOfTheTexts.includes(restOfTheText) ? (
+              <B>{username}</B>
+            ) : (
+              username
+            )}
+            {restOfTheText}
           </Text>
         </View>
         <TimeAgo time={item.created_at} />
@@ -150,15 +171,15 @@ export default function Notifications(props) {
         width: '55%',
         alignSelf: 'center',
         borderRadius: 15,
-        marginTop: 10,
+        marginTop: 5,
         position: 'absolute',
-        top: 10,
+        top: 5,
       }}
       buttonStyle={{
         alignItems: 'center',
         borderColor: '#222',
       }}
-      icon={<Icon name="refresh" size={14} color="#187bcd" />}
+      icon={<Icon name="refresh" size={15} color="#187bcd" />}
       iconRight
       title="You have new notifications"
       onPress={() => initialiseNotifications()}

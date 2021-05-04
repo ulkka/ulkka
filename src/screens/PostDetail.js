@@ -12,7 +12,7 @@ import CommentWriter from '../components/Comment/CommentWriter';
 import {useDispatch, useSelector} from 'react-redux';
 import {removePostDetail} from '../redux/reducers/FeedSlice';
 import {refreshPostDetail, initPostDetail} from '../redux/actions/FeedActions';
-import {getAuthStatus, getBlockedUsers} from '../redux/reducers/AuthSlice';
+import {getBlockedUsers} from '../redux/reducers/AuthSlice';
 import {
   isFeedRefreshing,
   isFeedLoading,
@@ -36,7 +36,6 @@ const PostDetail = ({route}) => {
   const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
   const loading = useSelector((state) => isFeedLoading(state, screenId));
 
-  const authStatus = useSelector(getAuthStatus);
   const blockedUsers = useSelector(getBlockedUsers);
   const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
   const isAuthorBlocked = blockedUsers?.includes(postAuthorId);
@@ -49,13 +48,11 @@ const PostDetail = ({route}) => {
   }, [postId]);
 
   useEffect(() => {
-    if (authStatus != 'UNAUTHENTICATED' && screenId) {
-      loadPostDetail();
-    }
-  }, [screenId, authStatus]);
+    loadPostDetail();
+  }, [screenId]);
 
   const loadPostDetail = async () => {
-    dispatch(initPostDetail({screenId, postId}));
+    await dispatch(initPostDetail({screenId, postId}));
 
     isPostDeleted === undefined ? handleRefresh() : setError(false);
   };
@@ -130,10 +127,7 @@ const PostDetail = ({route}) => {
     </View>
   );
   return !isAuthorBlocked
-    ? loading ||
-      refreshing ||
-      authStatus == 'UNAUTHENTICATED' ||
-      error === undefined
+    ? loading || refreshing || error === undefined
       ? refreshingPostView
       : isPostDeleted === false
       ? postView

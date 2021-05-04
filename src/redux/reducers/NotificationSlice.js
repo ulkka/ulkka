@@ -48,7 +48,6 @@ export const fetchAllNotifications = createAsyncThunk(
         nextPage,
         limit,
       );
-      console.log('response', response);
       return response;
     } catch (error) {
       return rejectWithValue(error);
@@ -77,17 +76,57 @@ export const markAllNotificationsRead = createAsyncThunk(
       return rejectWithValue(error);
     }
   },
+  {
+    condition: (type, {getState}) => {
+      const isRegistered = getState().authorization.isRegistered;
+      const authAccess = isRegistered ? true : false;
+
+      return authAccess;
+    },
+    dispatchConditionRejection: true,
+  },
 );
 
 export const markNotificationRead = createAsyncThunk(
   'notifications/markRead',
-  async (id, {rejectWithValue}) => {
+  async (id, {rejectWithValue, dispatch}) => {
     try {
-      notificationsApi.markRead(id);
+      await notificationsApi.markRead(id);
+      dispatch(fetchUnreadNotificationCount());
       return id;
     } catch (error) {
       return rejectWithValue(error);
     }
+  },
+  {
+    condition: (type, {getState}) => {
+      const isRegistered = getState().authorization.isRegistered;
+      const authAccess = isRegistered ? true : false;
+
+      return authAccess;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const fetchUnreadNotificationCount = createAsyncThunk(
+  'notifications/fetchUnreadNotificationCount',
+  async (id, {rejectWithValue}) => {
+    try {
+      const response = await notificationsApi.unReadCount();
+      return response.data?.count;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (id, {getState}) => {
+      const isRegistered = getState().authorization.isRegistered;
+      const authAccess = isRegistered ? true : false;
+
+      return authAccess;
+    },
+    dispatchConditionRejection: true,
   },
 );
 
@@ -107,10 +146,6 @@ export const slice = createSlice({
     needsRefresh: false,
   },
   reducers: {
-    setUnreadNotificationCount(state, action) {
-      const count = action.payload;
-      state.unreadCount = count && count;
-    },
     incrementNotificationCount(state, action) {
       state.unreadCount++;
       state.needsRefresh = true;
@@ -140,12 +175,11 @@ export const slice = createSlice({
     [fetchAllNotifications.fulfilled]: (state, action) => {
       const getAllNotifications = action.payload.data?.data;
       const metadata = action.payload.data?.metadata[0];
-
       const page = metadata?.page;
       const total = page && metadata.total;
       const limit = page && metadata.limit;
 
-      const isComplete = metadata?.length ? total <= limit * page : true;
+      const isComplete = page ? total <= limit * page : true;
 
       notificationAdapter.addMany(state, getAllNotifications);
       state.metadata = metadata;
@@ -187,16 +221,16 @@ export const slice = createSlice({
           read: true,
         },
       });
-      if (state.unreadCount) {
-        state.unreadCount = state.unreadCount - 1;
-      }
+    },
+    [fetchUnreadNotificationCount.fulfilled]: (state, action) => {
+      const count = action.payload;
+      state.unreadCount = count;
     },
   },
 });
 
 export const notifications = slice.reducer;
 export const {
-  setUnreadNotificationCount,
   incrementNotificationCount,
   decrementNotificationCount,
   setUnreadCountZero,

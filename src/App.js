@@ -6,7 +6,6 @@ import {Provider as StoreProvider} from 'react-redux';
 import store from './redux/reducers/index';
 import {ThemeProvider} from 'react-native-elements';
 import theme from './theme/main';
-import EmailLinkHandler from './screens/auth/EmailLinkHandler';
 import LoadingOverlay from './components/LoadingOverlay';
 import RegisterDeviceToken from './components/RegisterDeviceToken';
 //import ShareMenuHandler from './components/ShareMenuHandler';
@@ -51,7 +50,6 @@ export default function App() {
             maintenance={maintenance}
           />
           <LoadingOverlay />
-          <EmailLinkHandler />
           <RegisterDeviceToken />
           <AuthIDTokenListener />
           {!maintenance && <Main />}
