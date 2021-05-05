@@ -18,12 +18,12 @@ const utilityApi = {
     },
   },
   media: {
-    async upload(data, callback, cancelToken) {
+    async upload(data, callback, cancelToken, type) {
       const client = await mainClient;
 
       let result = {};
       result = client
-        .post('media/post/upload', data, {
+        .post('media/' + type + '/upload', data, {
           onUploadProgress: callback,
           cancelToken: cancelToken,
         })

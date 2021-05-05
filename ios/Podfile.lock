@@ -512,6 +512,8 @@ PODS:
     - Firebase/RemoteConfig (= 7.9.0)
     - React-Core
     - RNFBApp
+  - RNFS (2.17.0):
+    - React
   - RNGestureHandler (1.10.1):
     - React-Core
   - RNGoogleSignin (4.0.3):
@@ -615,6 +617,7 @@ DEPENDENCIES:
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -756,6 +759,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/perf"
   RNFBRemoteConfig:
     :path: "../node_modules/@react-native-firebase/remote-config"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
@@ -856,6 +861,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: bab6a3073a3ac1ecff593c74b4f797cbc6cca562
   RNFBPerf: 4910c40298294bd3faef64271171456e48966d27
   RNFBRemoteConfig: b8817825c9bf4df921ff7065f10ed8c4a531634b
+  RNFS: 93d5b5535eb39d98e6b19009faa8fe717f7ea45d
   RNGestureHandler: 5e58135436aacc1c5d29b75547d3d2b9430d052c
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
@@ -872,6 +878,6 @@ SPEC CHECKSUMS:
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
   YoutubePlayer-in-WKWebView: cfbf46da51d7370662a695a8f351e5fa1d3e1008
 
-PODFILE CHECKSUM: 1067883b68a615c2cfb753d4206e208fc96b017b
+PODFILE CHECKSUM: 5baf7f94a3af0dee2cea26e80b2f0d88d6f8087d
 
 COCOAPODS: 1.10.1

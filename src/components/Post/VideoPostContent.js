@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import {
   View,
   ImageBackground,
@@ -13,18 +13,21 @@ import MediaLoadError from './MediaLoadError';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getIsPostInFeedPaused,
-  getIsPostInFeedLoaded,
-  getIsPostInFeedError,
   getIsPostInFeedIsViewable,
 } from '../../redux/selectors/FeedSelectors';
 import {
   togglePause,
   pauseVideo,
-  setLoaded,
-  setError,
   onVideoEnd,
 } from '../../redux/reducers/FeedSlice';
-import {getPostMediaMetadata} from '../../redux/selectors/PostSelectors';
+import {
+  getPostMediaMetadata,
+  getPostMediaLocalUri,
+  getPostMediaIsDownloading,
+  getPostMediaIsDownloaded,
+  getPostIsMediaError,
+} from '../../redux/selectors/PostSelectors';
+import {downloadMedia} from '../../redux/actions/PostActions';
 import {
   scaleHeightAndWidthAccordingToDimensions,
   mediaUrlWithWidth,
@@ -32,8 +35,6 @@ import {
 
 const VideoPostContent = (props) => {
   const dispatch = useDispatch();
-  const [reloadCount, setReloadCount] = useState(0); // move to redux
-  const [reloading, setReloading] = useState(false);
 
   const {
     ogImageUrl,
@@ -49,6 +50,18 @@ const VideoPostContent = (props) => {
   const mediaMetadata =
     type != 'link' &&
     useSelector((state) => getPostMediaMetadata(state, postId));
+
+  const isDownloading = useSelector((state) =>
+    getPostMediaIsDownloading(state, postId),
+  );
+  const localUri = useSelector((state) => getPostMediaLocalUri(state, postId));
+  const downloaded = useSelector((state) =>
+    getPostMediaIsDownloaded(state, postId),
+  );
+
+  const isMediaError = useSelector((state) =>
+    getPostIsMediaError(state, postId),
+  );
 
   const {height, width} =
     type == 'link'
@@ -67,19 +80,22 @@ const VideoPostContent = (props) => {
 
   const currentScreen = screenId ? screenId : screen;
 
-  const loaded = useSelector((state) =>
-    getIsPostInFeedLoaded(state, currentScreen, postId),
-  );
   const paused = useSelector((state) =>
     getIsPostInFeedPaused(state, currentScreen, postId),
-  );
-  const error = useSelector((state) =>
-    getIsPostInFeedError(state, currentScreen, postId),
   );
 
   const isViewable = useSelector((state) =>
     getIsPostInFeedIsViewable(state, currentScreen, postId),
   );
+  useEffect(() => {
+    downloadMediaHandler();
+  }, []);
+
+  const downloadMediaHandler = () => {
+    if (!isDownloading && !downloaded) {
+      dispatch(downloadMedia(postId));
+    }
+  };
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -92,64 +108,28 @@ const VideoPostContent = (props) => {
     dispatch(togglePause({postId: postId, type: currentScreen}));
   };
 
-  const reloadVideo = () => {
-    console.log('reloading video');
-    setReloading(true);
+  const VideoComponent = (downloaded || isViewable) && (
+    <Video
+      key={postId}
+      style={{
+        width: width,
+        height: height,
+      }}
+      source={{uri: 'file://' + localUri}}
+      resizeMode="contain"
+      paused={paused}
+      poster={posterUrl}
+      showPoster={true}
+      posterResizeMode={'contain'}
+      playWhenInactive={false}
+      muted={false}
+      repeat={false}
+      onEnd={() => dispatch(onVideoEnd({postId: postId, type: currentScreen}))}
+      controls={Platform.OS == 'ios' ? true : false}
+    />
+  );
 
-    setTimeout(() => {
-      console.log('setting reload false');
-      setReloadCount(reloadCount + 1);
-      setReloading(false);
-    }, 1000);
-  };
-
-  const onError = (error) => {
-    if (reloadCount < 5 && Platform.OS == 'ios' && type != 'link') {
-      console.log(
-        'error loading video in ios, so reloading',
-        error,
-        videoUrl,
-        reloadCount,
-      );
-      reloadVideo();
-    } else {
-      console.log('error loading video', error, videoUrl, reloadCount);
-      dispatch(setError({postId: postId, type: currentScreen}));
-    }
-  };
-
-  const onLoad = () =>
-    dispatch(setLoaded({postId: postId, type: currentScreen}));
-
-  const VideoComponent =
-    loaded || error || isViewable ? (
-      !reloading ? (
-        <Video
-          key={reloadCount}
-          style={{
-            width: width,
-            height: height,
-          }}
-          source={{uri: videoUrl}}
-          resizeMode="contain"
-          paused={paused}
-          onLoad={onLoad}
-          onError={onError}
-          poster={posterUrl}
-          showPoster={true}
-          posterResizeMode={'contain'}
-          playWhenInactive={false}
-          muted={false}
-          repeat={false}
-          onEnd={() =>
-            dispatch(onVideoEnd({postId: postId, type: currentScreen}))
-          }
-          controls={Platform.OS == 'ios' ? true : false}
-        />
-      ) : null
-    ) : null;
-
-  const videoLoadingIndicator = !loaded && !error && (
+  const videoLoadingIndicator = !downloaded && !isMediaError && (
     <View
       style={{
         position: 'absolute',
@@ -161,7 +141,7 @@ const VideoPostContent = (props) => {
     </View>
   );
 
-  const playerControls = loaded && (
+  const playerControls = downloaded && (
     <TouchableOpacity
       hitSlop={{
         top: height / 4,
@@ -195,9 +175,9 @@ const VideoPostContent = (props) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        {!error && VideoComponent}
+        {!isMediaError && VideoComponent}
         {videoLoadingIndicator}
-        {error && <MediaLoadError type="Video" />}
+        {isMediaError && <MediaLoadError type="Video" postId={postId} />}
         {playerControls}
       </ImageBackground>
     </View>

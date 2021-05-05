@@ -48,6 +48,21 @@ export const getPostStatus = (state, id) => selectPostById(state, id)?.status;
 export const getPostisDeleted = (state, id) =>
   selectPostById(state, id)?.isDeleted;
 
+export const getPostMediaIsDownloading = (state, id) =>
+  selectPostById(state, id)?.isDownloading;
+
+export const getPostMediaIsDownloaded = (state, id) =>
+  selectPostById(state, id)?.downloaded;
+
+export const getPostMediaLocalUri = (state, id) =>
+  selectPostById(state, id)?.localUri;
+
+export const getPostIsMediaError = (state, id) =>
+  selectPostById(state, id)?.mediaError;
+
+export const getPostMediaRefreshCount = (state, id) =>
+  selectPostById(state, id)?.refreshCount;
+
 export const getPostAuthorId = (state, id) => selectPostById(state, id)?.author;
 
 export const getPostCommunityId = (state, id) =>

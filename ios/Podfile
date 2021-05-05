@@ -9,6 +9,8 @@ target 'Ulkka' do
   use_react_native!(:path => config["reactNativePath"])
 
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'UlkkaTests' do
     inherit! :complete
     # Pods for testing
@@ -25,6 +27,7 @@ target 'Ulkka' do
   #https://github.com/invertase/react-native-firebase/issues/4935
   
   #use_flipper!({ 'Flipper-Folly' => '2.3.0' }) # uncomment this when atomic_notify one error is gone. else throwing error after updating to 14.5
+  # fix for atomic_notify one error after updating to 14.5 start
   use_flipper!({ 'Flipper-Folly' => '2.5.3', 'Flipper' => '0.87.0', 'Flipper-RSocket' => '1.3.1' })
 
   # Define find-and-replace function
@@ -41,6 +44,7 @@ target 'Ulkka' do
     end
     Dir[dir + '*/'].each(&method(:find_and_replace))
   end
+# fix for atomic_notify one error after updating to 14.5 end
 
   post_install do |installer|
     flipper_post_install(installer)

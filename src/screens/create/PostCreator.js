@@ -287,6 +287,7 @@ export default function CreatePost({route}) {
               data,
               uploadProgress((percent) => setUploadPercent(percent)),
               source.token,
+              type,
             );
             console.log('response after media upload', response);
           } else {

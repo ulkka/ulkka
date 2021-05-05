@@ -7,6 +7,7 @@ import {
   deletePost,
   fetchPostById,
   reportPost,
+  downloadMedia,
 } from '../actions/PostActions';
 import {postAdapter} from '../selectors/PostSelectors';
 import Snackbar from 'react-native-snackbar';
@@ -98,6 +99,38 @@ export const slice = createSlice({
         item_id: postId,
         type: 'post',
         reason: selectedReportOption,
+      });
+    },
+    [downloadMedia.pending]: (state, action) => {
+      const postId = action.meta.arg;
+      postAdapter.updateOne(state, {
+        id: postId,
+        changes: {
+          isDownloading: true,
+          mediaError: false,
+        },
+      });
+    },
+    [downloadMedia.fulfilled]: (state, action) => {
+      const {postId, localUri} = action.payload;
+      postAdapter.updateOne(state, {
+        id: postId,
+        changes: {
+          isDownloading: false,
+          localUri: localUri,
+          downloaded: true,
+          mediaError: false,
+        },
+      });
+    },
+    [downloadMedia.rejected]: (state, action) => {
+      const postId = action.meta.arg;
+      postAdapter.updateOne(state, {
+        id: postId,
+        changes: {
+          isDownloading: false,
+          mediaError: true,
+        },
       });
     },
     [votePost.rejected]: handleError,

@@ -15,6 +15,7 @@ import {utils} from '@react-native-firebase/app';
 import analytics from '@react-native-firebase/analytics';
 import {firebase} from '@react-native-firebase/perf';
 import crashlytics from '@react-native-firebase/crashlytics';
+import CacheManagement from './components/CacheManagement';
 
 export default function App() {
   const [maintenance, setMaintenance] = useState(false);
@@ -50,9 +51,10 @@ export default function App() {
             maintenance={maintenance}
           />
           <LoadingOverlay />
-          <RegisterDeviceToken />
           <AuthIDTokenListener />
+          <CacheManagement />
           {!maintenance && <Main />}
+          <RegisterDeviceToken />
         </View>
       </ThemeProvider>
     </StoreProvider>
