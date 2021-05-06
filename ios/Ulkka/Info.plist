@@ -88,7 +88,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Ulkka would like to access your photo gallery for uploading images to the app</string>
+	<string>This allows Ulkka to provide you with a better product experience. There are no ads in Ulkka</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

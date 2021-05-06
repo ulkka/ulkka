@@ -13,25 +13,29 @@ export default function CacheManagement(props) {
     const cachesDirectoryPath = RNFS.CachesDirectoryPath;
     const mediaCacheDirectoryPath = cachesDirectoryPath + '/media';
 
-    const mediaCacheDirectoryItems = await RNFS.readDir(
-      mediaCacheDirectoryPath,
-    );
-    mediaCacheDirectoryItems.map((item, index) => {
-      var difference = Date.now() - item.mtime.getTime();
-      console.log('item in cache', item);
-      var secondsDifference = Math.floor(difference / 1000);
+    const mediaFolderExists = await RNFS.exists(mediaCacheDirectoryPath);
+    if (mediaFolderExists) {
+      const mediaCacheDirectoryItems = await RNFS.readDir(
+        mediaCacheDirectoryPath,
+      );
+      mediaCacheDirectoryItems.map((item, index) => {
+        var difference = Date.now() - item.mtime.getTime();
+        var secondsDifference = Math.floor(difference / 1000);
 
-      if (secondsDifference > cacheExpiryDurationSeconds) {
-        console.log(
-          'deleting old cached file of expiry seconds',
-          cacheExpiryDurationSeconds,
-          item,
-        );
-        RNFS.unlink(item.path).catch((error) =>
-          console.warn('file doesnt exist', error, item),
-        );
-      }
-    });
+        if (secondsDifference > cacheExpiryDurationSeconds) {
+          console.log(
+            'deleting old cached file of expiry seconds',
+            cacheExpiryDurationSeconds,
+            item,
+          );
+          RNFS.unlink(item.path).catch((error) =>
+            console.warn('file doesnt exist', error, item),
+          );
+        }
+      });
+    } else {
+      console.log('media folder doesnt exists yet');
+    }
   };
 
   return <View></View>;

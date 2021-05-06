@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import Main from './navigation/Main';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider as StoreProvider} from 'react-redux';
@@ -55,6 +55,9 @@ export default function App() {
           <CacheManagement />
           {!maintenance && <Main />}
           <RegisterDeviceToken />
+          {
+            // Platform.OS == 'ios' && <AppTrackingTransparencyIOS />
+          }
         </View>
       </ThemeProvider>
     </StoreProvider>
