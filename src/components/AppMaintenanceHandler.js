@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Platform} from 'react-native';
 import remoteConfig from '@react-native-firebase/remote-config';
 import {Button, Icon} from 'react-native-elements';
+import {navigateToURL} from '../components/helpers';
 
 const AppMaintenanceHandler = (props) => {
   const {handle, maintenance} = props;
@@ -96,7 +97,18 @@ const AppMaintenanceHandler = (props) => {
             padding: 4,
             fontWeight: '600',
           }}
-          onPress={() => console.log('navigate to appstore/playstore')}
+          onPress={() => {
+            Platform.OS == 'ios' &&
+              navigateToURL(
+                'https://apps.apple.com/in/app/ulkka/id1563474580',
+                'app_update',
+              );
+            Platform.OS == 'android' &&
+              navigateToURL(
+                'https://play.google.com/store/apps/details?id=in.ulkka',
+                'app_update',
+              );
+          }}
         />
       )}
     </View>

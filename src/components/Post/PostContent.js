@@ -17,7 +17,7 @@ function PostContent(props) {
   const ContentType =
     type == 'image' || type == 'video' || type == 'gif' ? 'media' : 'textual';
 
-  const DefaultPost = <Text>{JSON.stringify(postId)}</Text>;
+  const DefaultPost = <View></View>;
 
   function navigateToPostDetail() {
     push('PostDetail', {

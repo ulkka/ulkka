@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 import {
   getPostisDeleted,
   getPostAuthorId,
+  getPostType,
 } from '../../redux/selectors/PostSelectors';
 import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
 import PostContent from './PostContent';
@@ -14,14 +15,18 @@ import PostFooter from './PostFooter';
 import ErrorBoundary from 'react-native-error-boundary';
 import crashlytics from '@react-native-firebase/crashlytics';
 
+const allowedPostTypes = ['text', 'image', 'link', 'gif', 'video'];
+
 function PostCard(props) {
   const {theme} = useContext(ThemeContext);
   const {postId} = props;
   const isDeleted = useSelector((state) => getPostisDeleted(state, postId));
   const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
+  const postType = useSelector((state) => getPostType(state, postId));
   const blockedUsers = useSelector(getBlockedUsers);
 
   const isAuthorBlocked = blockedUsers?.includes(postAuthorId);
+  const isPostTypeAllowed = allowedPostTypes.includes(postType);
 
   const errorFallback = (props: {error: Error, resetError: Function}) => (
     <View></View>
@@ -34,7 +39,7 @@ function PostCard(props) {
 
   return (
     <ErrorBoundary FallbackComponent={errorFallback} onError={errorHandler}>
-      {!isAuthorBlocked && isDeleted !== undefined ? (
+      {!isAuthorBlocked && isDeleted !== undefined && isPostTypeAllowed ? (
         isDeleted === false ? (
           <View
             style={{
