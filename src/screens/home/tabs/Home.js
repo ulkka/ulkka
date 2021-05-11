@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View} from 'react-native';
 import Feed from '../../../components/Feed/Feed';
 import CreatePostButtonOverlay from '../../../components/Post/CreatePostButtonOverlay';
@@ -11,7 +11,7 @@ import {
 function Home(props) {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <Feed screen="home" />
+      <Feed screen="home" {...props} />
       <CreatePostButtonOverlay />
       <ShareMenuHandler />
       <ConfigurePushNotification />
@@ -20,4 +20,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default memo(Home);

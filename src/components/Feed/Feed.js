@@ -1,6 +1,13 @@
 import React, {useEffect, useContext, memo} from 'react';
-import {View, FlatList, RefreshControl, Platform} from 'react-native';
-import {ThemeContext, Divider} from 'react-native-elements';
+import {
+  View,
+  FlatList,
+  RefreshControl,
+  Platform,
+  Animated,
+  Text,
+} from 'react-native';
+import {ThemeContext, Divider, Icon} from 'react-native-elements';
 import PostCard from '../Post/PostCard';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
@@ -17,12 +24,21 @@ import {
 } from '../../redux/reducers/FeedSlice';
 import {fetchFeed, refreshFeed} from '../../redux/actions/FeedActions';
 import ScrollToTop from './ScrollToTop';
+import {
+  getOffset,
+  setOffset,
+  showTab,
+  hideTab,
+  getTabShown,
+} from '../../redux/reducers/TabViewSlice';
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ListHeaderComponent = memo(() => {
   return (
     <View
       style={{
-        height: 10,
+        height: 2,
         backgroundColor: '#fff',
       }}></View>
   );
@@ -43,6 +59,9 @@ function Feed(props) {
   const loading = useSelector((state) => isFeedLoading(state, screen));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screen));
   const postIds = useSelector((state) => getFeedPostIds(state, screen));
+
+  const offset = useSelector(getOffset);
+  const tabShown = useSelector(getTabShown);
 
   const viewabilityConfigRef = React.useRef({
     minimumViewTime: 250,
@@ -91,7 +110,7 @@ function Feed(props) {
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <FlatList
+      <AnimatedFlatList
         ListHeaderComponent={ListHeaderComponent}
         ref={feedListRef}
         listKey={screen}
@@ -124,12 +143,17 @@ function Feed(props) {
             onRefresh={handleRefresh}
           />
         }
+        {...props}
       />
-      <ScrollToTop
+      {/*<ScrollToTop
         listRef={feedListRef}
-        visible={screen == 'home' && postIds?.length ? true : false}
+        visible={
+          screen == 'home' || (screen == 'popular' && postIds?.length)
+            ? true
+            : false
+        }
         screen={screen}
-      />
+      />*/}
     </View>
   );
 }

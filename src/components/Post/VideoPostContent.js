@@ -35,7 +35,6 @@ import {
 
 const VideoPostContent = (props) => {
   const dispatch = useDispatch();
-
   const {
     ogImageUrl,
     postId,

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
-import {Icon, Overlay} from 'react-native-elements';
+import {Icon, Overlay, Divider} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {navigate, showAuthScreen} from '../../navigation/Ref';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
@@ -41,9 +41,9 @@ export default function CreatePostButtonOverlay(props) {
             flex: 1,
             fontSize: 15,
             fontWeight: 'bold',
-            width: 100,
             color: '#333',
             alignSelf: 'center',
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           Create Post
         </Text>
@@ -56,34 +56,70 @@ export default function CreatePostButtonOverlay(props) {
   const CreatePostChoices = (
     <View
       style={{
+        flex: 1,
+        width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        marginBottom: 30,
       }}>
-      <TouchableOpacity onPress={() => createPost('text')}>
-        <Icon name="text" type="material-community" size={20} color={'#444'} />
+      <TouchableOpacity
+        onPress={() => createPost('text')}
+        style={{alignItems: 'center'}}>
+        <Icon
+          reverse
+          name="text"
+          type="material-community"
+          size={18}
+          color={'#444'}
+        />
         <Text style={styles.postType}>Text</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => createPost('link')}>
-        <Icon name="link" type="font-awesome-5" size={20} color={'#444'} />
+      <TouchableOpacity
+        onPress={() => createPost('link')}
+        style={{alignItems: 'center'}}>
+        <Icon
+          reverse
+          name="link"
+          type="font-awesome-5"
+          size={18}
+          color={'#444'}
+        />
         <Text style={styles.postType}>Link</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => createPost('image')}>
-        <Icon name="image" type="font-awesome-5" size={20} color={'#444'} />
+      <TouchableOpacity
+        onPress={() => createPost('image')}
+        style={{alignItems: 'center'}}>
+        <Icon
+          reverse
+          name="image"
+          type="font-awesome-5"
+          size={18}
+          color={'#444'}
+        />
         <Text style={styles.postType}>Image</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => createPost('gif')}>
+      <TouchableOpacity
+        onPress={() => createPost('gif')}
+        style={{alignItems: 'center'}}>
         <Icon
+          reverse
           name="image-filter-tilt-shift"
           type="material-community"
-          size={20}
+          size={18}
           color={'#444'}
         />
         <Text style={styles.postType}>GIF</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => createPost('video')}>
-        <Icon name="video" type="font-awesome-5" size={20} color={'#444'} />
+      <TouchableOpacity
+        onPress={() => createPost('video')}
+        style={{alignItems: 'center'}}>
+        <Icon
+          reverse
+          name="video"
+          type="font-awesome-5"
+          size={18}
+          color={'#444'}
+        />
         <Text style={styles.postType}>Video</Text>
       </TouchableOpacity>
     </View>
@@ -125,26 +161,83 @@ export default function CreatePostButtonOverlay(props) {
       </TouchableOpacity>
     </View>
   );
+  const Seperator = (
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        paddingVertical: 15,
+      }}>
+      <Divider
+        style={{
+          backgroundColor: '#ccc',
+          height: 1,
+          width: '30%',
+        }}></Divider>
+      <Text>Or</Text>
+      <Divider
+        style={{
+          backgroundColor: '#ccc',
+          height: 1,
+          width: '30%',
+        }}></Divider>
+    </View>
+  );
+
+  const CreateCommunity = (
+    <TouchableOpacity
+      style={{
+        alignItems: 'center',
+      }}>
+      <Icon reverse name="group" type="font-awesome" size={18} color={'#555'} />
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text
+          style={{
+            fontSize: 15,
+            color: '#555',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            padding: 5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          }}>
+          Create Community
+        </Text>
+        <Icon
+          // reverse
+          name="arrow-right"
+          type="font-awesome"
+          size={16}
+          color={'#555'}
+          style={{paddingHorizontal: 5}}
+        />
+      </View>
+    </TouchableOpacity>
+  );
   const PopupView = (
     <Overlay
       isVisible={enableOverlay}
       statusBarTranslucent={true}
       onBackdropPress={toggleOverlay}
       overlayStyle={{
+        flex: 1,
         position: 'absolute',
         bottom: 0,
         width: '97%',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
       }}
       backdropStyle={{
         backgroundColor: '#000',
-
         opacity: 0.2,
       }}>
-      <View>
+      <View style={{padding: 10}}>
         {Header}
         {CreatePostChoices}
+        {Seperator}
+        {CreateCommunity}
       </View>
     </Overlay>
   );

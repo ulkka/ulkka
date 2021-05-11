@@ -10,6 +10,7 @@ import {authorization} from './AuthSlice';
 import {loadingOverlay} from './LoadingOverlaySlice';
 import {optionSheet} from './OptionSheetSlice';
 import {notifications} from './NotificationSlice';
+import {tabView} from './TabViewSlice';
 
 import {feed} from './FeedSlice';
 //import {communities} from './CommunitySlice';
@@ -21,6 +22,7 @@ const loggerMiddleware = createLogger();
 const AppReducers = combineReducers({
   authorization,
   notifications,
+  tabView,
   feed,
   posts,
   users,
@@ -37,7 +39,9 @@ const rootReducer = (state, action) => {
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunkMiddleware, loggerMiddleware],
+  middleware: [
+    thunkMiddleware, //loggerMiddleware
+  ],
   //preloadedState,
 });
 /*let store = createStore(
