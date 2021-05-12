@@ -9,7 +9,7 @@ const HEADER_HEIGHT = 35;
 const COLLAPSED_HEIGHT = 0;
 const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 
-export default function CollapsibleTabView(props) {
+export default function HomeCollapsibleTabView(props) {
   const initialLayout = useWindowDimensions();
 
   const [tabShown, setTabShown] = useState(true);

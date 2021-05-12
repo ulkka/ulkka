@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  Animated,
 } from 'react-native';
 import {Divider, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
@@ -20,6 +21,8 @@ import TimeAgo from '../../../components/TimeAgo';
 import {push} from '../../../navigation/Ref';
 import FeedFooter from '../../../components/Feed/FeedFooter';
 import analytics from '@react-native-firebase/analytics';
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const CommentRow = memo((props) => {
   const {commentId} = props;
@@ -135,7 +138,7 @@ const separator = memo(() => {
 const Comments = (props) => {
   const dispatch = useDispatch();
 
-  const userId = props?.route?.params?.userId;
+  const userId = props.userId;
 
   const commentIds = useSelector((state) =>
     getUserCommentsSelector(state, userId),
@@ -169,7 +172,7 @@ const Comments = (props) => {
         flex: 1,
         backgroundColor: '#fff',
       }}>
-      <FlatList
+      <AnimatedFlatList
         listKey="userCommentList"
         renderItem={renderRow}
         data={commentIds}
@@ -180,25 +183,19 @@ const Comments = (props) => {
         maxToRenderPerBatch={10}
         updateCellsBatchingPeriod={500}
         windowSize={11}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
         ListFooterComponent={
           <FeedFooter complete={complete} text="No more comments" />
         }
+        {...props}
       />
-      {!complete && (
+      {!complete && loading && (
         <View style={{alignSelf: 'center'}}>
-          {loading ? (
-            <Image
-              source={require('../../../../assets/loading.gif')}
-              style={{height: 40, width: 40, paddingTop: 20}}
-            />
-          ) : (
-            <TouchableOpacity
-              hitSlop={{top: 15, bottom: 30, left: 40, right: 40}}
-              onPress={handleLoadMore}
-              style={{paddingTop: 20}}>
-              <Text style={{color: '#2980b9'}}>Load more ...</Text>
-            </TouchableOpacity>
-          )}
+          <Image
+            source={require('../../../../assets/loading.gif')}
+            style={{height: 40, width: 40, paddingTop: 20}}
+          />
         </View>
       )}
     </View>

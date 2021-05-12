@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import UserDetail from '../screens/user/UserDetail';
+import UserDetailTabView from '../screens/user/UserDetailTabView';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import HeaderBar from '../components/Header';
 import CreatePost from '../screens/create/PostCreator';
@@ -12,7 +13,7 @@ import OptionSheet from '../components/OptionSheet';
 import BlockedUsers from '../screens/user/BlockedUsers';
 import Notifications from '../screens/Notifications';
 import EmailLinkHandler from '../screens/auth/EmailLinkHandler';
-import CollapsibleTabView from '../components/CollapsibleTabView';
+import HomeCollapsibleTabView from '../components/HomeCollapsibleTabView';
 
 const StackNav = createStackNavigator();
 
@@ -43,7 +44,7 @@ function HomeNavigation({navigation}) {
         }}>
         <StackNav.Screen
           name="Feed"
-          component={CollapsibleTabView}
+          component={HomeCollapsibleTabView}
           title="Home"
           options={{
             header: () => <HeaderBar navigation={navigation} />,
@@ -56,7 +57,7 @@ function HomeNavigation({navigation}) {
         />
         <StackNav.Screen
           name="UserDetail"
-          component={UserDetail}
+          component={UserDetailTabView}
           title="UserDetail"
           options={{
             headerBackTitle: 'Back',

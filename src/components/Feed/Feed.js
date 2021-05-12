@@ -1,13 +1,6 @@
 import React, {useEffect, useContext, memo} from 'react';
-import {
-  View,
-  FlatList,
-  RefreshControl,
-  Platform,
-  Animated,
-  Text,
-} from 'react-native';
-import {ThemeContext, Divider, Icon} from 'react-native-elements';
+import {View, FlatList, RefreshControl, Platform, Animated} from 'react-native';
+import {ThemeContext, Divider} from 'react-native-elements';
 import PostCard from '../Post/PostCard';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
@@ -23,14 +16,6 @@ import {
   setViewableItems,
 } from '../../redux/reducers/FeedSlice';
 import {fetchFeed, refreshFeed} from '../../redux/actions/FeedActions';
-import ScrollToTop from './ScrollToTop';
-import {
-  getOffset,
-  setOffset,
-  showTab,
-  hideTab,
-  getTabShown,
-} from '../../redux/reducers/TabViewSlice';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -59,9 +44,6 @@ function Feed(props) {
   const loading = useSelector((state) => isFeedLoading(state, screen));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screen));
   const postIds = useSelector((state) => getFeedPostIds(state, screen));
-
-  const offset = useSelector(getOffset);
-  const tabShown = useSelector(getTabShown);
 
   const viewabilityConfigRef = React.useRef({
     minimumViewTime: 250,
@@ -118,7 +100,7 @@ function Feed(props) {
         renderItem={renderRow}
         ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={screen == 'home' ? 0.9 : 0.1} //How far from the end (important note: in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback
+        onEndReachedThreshold={screen == 'home' ? 0.7 : 0.5} //How far from the end (important note: in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback
         removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
         updateCellsBatchingPeriod={500}
         windowSize={15}
@@ -139,21 +121,13 @@ function Feed(props) {
         }
         refreshControl={
           <RefreshControl
+            progressViewOffset={50}
             refreshing={refreshing ? refreshing : false}
             onRefresh={handleRefresh}
           />
         }
         {...props}
       />
-      {/*<ScrollToTop
-        listRef={feedListRef}
-        visible={
-          screen == 'home' || (screen == 'popular' && postIds?.length)
-            ? true
-            : false
-        }
-        screen={screen}
-      />*/}
     </View>
   );
 }
