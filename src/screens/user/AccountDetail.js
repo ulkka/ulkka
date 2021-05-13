@@ -33,7 +33,6 @@ const AccountDetail = memo((props) => {
   const dispatch = useDispatch();
 
   const {userId, titleShown} = props;
-  console.log('props in account detail', props);
   const blockedUsers = useSelector(getBlockedUsers);
   const isUserBlocked = blockedUsers?.includes(userId);
   useEffect(() => {

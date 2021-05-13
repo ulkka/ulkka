@@ -186,12 +186,12 @@ const Comments = (props) => {
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
-          <FeedFooter complete={complete} text="No more comments" />
+          <FeedFooter complete={complete} text={'No more comments'} />
         }
         {...props}
       />
       {!complete && loading && (
-        <View style={{alignSelf: 'center'}}>
+        <View style={{flex: 1, backgroundColor: '#fff', alignSelf: 'center'}}>
           <Image
             source={require('../../../../assets/loading.gif')}
             style={{height: 40, width: 40, paddingTop: 20}}

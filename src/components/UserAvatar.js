@@ -19,6 +19,8 @@ export default function UserAvatar(props) {
         return 33;
       case 'small':
         return 20;
+      case 'extra-small':
+        return 16;
       default:
         return 33;
     }

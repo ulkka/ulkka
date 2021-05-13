@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import UserDetail from '../screens/user/UserDetail';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import HeaderBar from '../components/Header';
 import CreatePost from '../screens/create/PostCreator';
+import CreateCommunity from '../screens/create/CreateCommunity';
 import PostDetail from '../screens/PostDetail';
 import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/OptionSheetSlice';
@@ -115,6 +115,15 @@ function HomeNavigation({navigation}) {
             headerBackTitleStyle: {
               fontSize: 16,
             },
+            headerTitleAlign: 'center',
+          }}
+        />
+        <StackNav.Screen
+          name={'Create Community'}
+          component={CreateCommunity}
+          title={'Create Community'}
+          options={{
+            //headerShown: false,
             headerTitleAlign: 'center',
           }}
         />

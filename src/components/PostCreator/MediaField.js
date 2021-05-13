@@ -219,7 +219,9 @@ export const MediaField = (props) => {
   return (
     <View
       style={{
-        flex: 3,
+        // flex: 3,
+        marginTop: 20,
+        marginBottom: 40,
         alignItems: 'center',
         justifyContent: 'center',
       }}>

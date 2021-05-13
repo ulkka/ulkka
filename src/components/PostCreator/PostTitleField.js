@@ -9,7 +9,7 @@ export const PostTitleField = (props) => {
   return (
     <View
       style={{
-        flex: 3,
+        //  flex: 3,
         marginTop: 30,
         justifyContent: 'flex-end',
       }}>

@@ -23,6 +23,7 @@ const mainClient = axios.create({
   baseURL: axiosConfig.baseUrl,
   headers: {
     Accept: 'application/json',
+    version: 1,
   },
 });
 
@@ -93,7 +94,7 @@ mainClient.interceptors.response.use(
 // RNFirebase Perf interceptors end
 
 // Intercept all requests
-/*mainClient.interceptors.request.use(
+mainClient.interceptors.request.use(
   (config) => {
     console.log('Request Config: ', config);
     return config;
@@ -114,7 +115,8 @@ mainClient.interceptors.response.use(
   (error) => {
     console.log(error.response.status);
     console.log(error.response.config);
+    console.log(error.response);
     console.log(error);
     return Promise.reject(error);
   },
-);*/
+);

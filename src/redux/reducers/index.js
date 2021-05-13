@@ -1,7 +1,6 @@
 import {combineReducers, createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
-
 import {posts} from './PostSlice';
 import {users} from './UserSlice';
 import {comments} from './CommentSlice';
@@ -10,9 +9,8 @@ import {authorization} from './AuthSlice';
 import {loadingOverlay} from './LoadingOverlaySlice';
 import {optionSheet} from './OptionSheetSlice';
 import {notifications} from './NotificationSlice';
-
 import {feed} from './FeedSlice';
-//import {communities} from './CommunitySlice';
+import {communities} from './CommunitySlice';
 
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
@@ -24,7 +22,7 @@ const AppReducers = combineReducers({
   feed,
   posts,
   users,
-  // communities,
+  communities,
   comments,
   commentWriter,
   optionSheet,

@@ -6,14 +6,18 @@ export const CommunityField = (props) => {
   const {onPress, community} = props;
 
   return (
-    <View style={{flex: 1}}>
+    <View
+      style={
+        {
+          //flex: 1, borderWidth: 1
+        }
+      }>
       <TouchableOpacity
         onPress={onPress}
         style={{
           height: 50,
           width: '95%',
           alignSelf: 'center',
-          marginBottom: 50,
         }}>
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
           <Text style={{color: '#555', fontSize: 18, fontWeight: 'bold'}}>

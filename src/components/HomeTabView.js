@@ -1,55 +1,47 @@
-import React, {useState, useRef} from 'react';
-import {
-  View,
-  StyleSheet,
-  Animated,
-  useWindowDimensions,
-  Platform,
-} from 'react-native';
-import {TabView, TabBar} from 'react-native-tab-view';
-import Posts from './tabs/Posts';
-import Comments from './tabs/Comments';
-import {makeId} from '../../components/Post/helpers';
-import AccountDetail from './AccountDetail';
+import React, {useState, useRef, useEffect} from 'react';
+import {Platform} from 'react-native';
+import {View, StyleSheet, Animated, useWindowDimensions} from 'react-native';
+import {TabView, TabBar} from 'react-native-tab-view'; // Version can be specified in package.json
+import Home from '../screens/home/tabs/Home';
+import Popular from '../screens/home/tabs/Popular';
 
-const COLLAPSED_HEIGHT = 40;
+const HEADER_HEIGHT = 35;
+const COLLAPSED_HEIGHT = 0;
+const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 
-export default function UserDetailTabView(props) {
+export default function HomeCollapsibleTabView(props) {
   const initialLayout = useWindowDimensions();
-  const userId = props.route.params.userId;
-  const {navigation} = props;
 
-  const [screenName, setScreenName] = useState(
-    'UserDetail-' + userId + '-' + makeId(5),
-  );
-
-  console.log('userId in tab view', userId);
+  const [offset, setOffset] = useState(0);
 
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {key: 'posts', title: 'Posts'},
-    {key: 'comments', title: 'Comments'},
+    {key: 'home', title: 'Home'},
+    {key: 'popular', title: 'Popular'},
   ]);
-
-  const [headerHeight, setHeaderHeight] = useState(150);
-  const [titleShown, setTitleShown] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
 
   const scrolling = useRef(new Animated.Value(0)).current;
 
-  scrolling.addListener(({value}) => {
-    if (value > headerHeight - COLLAPSED_HEIGHT && !titleShown) {
-      setTitleShown(true);
-    }
-    if (value < headerHeight - COLLAPSED_HEIGHT && titleShown) {
-      setTitleShown(false);
-    }
+  const translation = scrolling.interpolate({
+    inputRange: [offset, offset + HEADER_HEIGHT - COLLAPSED_HEIGHT],
+    outputRange: [0, COLLAPSED_HEIGHT - HEADER_HEIGHT],
+    extrapolate: 'clamp',
   });
 
-  const translation = scrolling.interpolate({
-    inputRange: [0, headerHeight - COLLAPSED_HEIGHT],
-    outputRange: [0, COLLAPSED_HEIGHT - headerHeight],
-    extrapolate: 'clamp',
+  var scrollingValue = 0;
+  scrolling.addListener(({value}) => {
+    if (value < scrollingValue) {
+      if (!offset) {
+        setOffset(scrollingValue);
+      }
+    } else if (value > scrollingValue) {
+      if (offset) {
+        if (value - offset > SCROLLABLE_HEIGHT) {
+          setOffset(0);
+        }
+      }
+    }
+    scrollingValue = value;
   });
 
   const handleIndexChange = (index) => {
@@ -60,10 +52,6 @@ export default function UserDetailTabView(props) {
   const renderTabBar = (props) => {
     return (
       <Animated.View
-        onLayout={(event) => {
-          const height = event.nativeEvent.layout.height;
-          setHeaderHeight(height);
-        }}
         style={[
           styles.header,
           {
@@ -71,14 +59,8 @@ export default function UserDetailTabView(props) {
           },
         ]}>
         <View style={styles.overlay} />
-        <AccountDetail
-          userId={userId}
-          navigation={navigation}
-          titleShown={titleShown}
-        />
         <TabBar
           {...props}
-          onTabPress={({preventDefault}) => isScrolling && preventDefault()}
           pressColor="#fff"
           style={styles.tabbar}
           getLabelText={({route}) => route.title}
@@ -92,8 +74,8 @@ export default function UserDetailTabView(props) {
           }}
           contentContainerStyle={{padding: 0, borderWidth: 1}}
           tabStyle={{
-            padding: 5,
-            height: COLLAPSED_HEIGHT,
+            padding: 0,
+            height: HEADER_HEIGHT,
             justifyContent: 'flex-start',
           }}
           indicatorStyle={{
@@ -106,9 +88,9 @@ export default function UserDetailTabView(props) {
 
   const renderScene = ({route}) => {
     switch (route.key) {
-      case 'posts':
+      case 'home':
         return (
-          <Posts
+          <Home
             scrollEventThrottle={16}
             onScroll={Animated.event(
               [
@@ -122,19 +104,13 @@ export default function UserDetailTabView(props) {
               ],
               {useNativeDriver: true},
             )}
-            onMomentumScrollBegin={() => setIsScrolling(true)}
-            onMomentumScrollEnd={() => setIsScrolling(false)}
-            contentContainerStyle={{
-              paddingTop: headerHeight,
-            }}
-            userId={userId}
-            screenName={screenName}
+            contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
           />
         );
-      case 'comments':
+      case 'popular':
         return (
-          <Comments
-            scrollEventThrottle={8}
+          <Popular
+            scrollEventThrottle={16}
             onScroll={Animated.event(
               [
                 {
@@ -147,12 +123,7 @@ export default function UserDetailTabView(props) {
               ],
               {useNativeDriver: true},
             )}
-            onMomentumScrollBegin={() => setIsScrolling(true)}
-            onMomentumScrollEnd={() => setIsScrolling(false)}
-            contentContainerStyle={{
-              paddingTop: headerHeight,
-            }}
-            userId={userId}
+            contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
           />
         );
       default:
@@ -168,7 +139,7 @@ export default function UserDetailTabView(props) {
       renderTabBar={renderTabBar}
       onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
-      lazy={({route}) => route.key === 'comments'}
+      lazy={({route}) => route.key === 'popular'}
     />
   );
 }
@@ -181,6 +152,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, .32)',
   },
+  cover: {
+    height: HEADER_HEIGHT,
+  },
   header: {
     position: 'absolute',
     top: 0,
@@ -189,7 +163,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   tabbar: {
-    height: COLLAPSED_HEIGHT,
+    height: HEADER_HEIGHT,
     backgroundColor: '#fff',
     elevation: 0,
     shadowOpacity: 0,

@@ -8,7 +8,7 @@ export const DescriptionField = (props) => {
   return (
     <View
       style={{
-        flex: 3,
+        // flex: 3,
         marginBottom: Platform.OS == 'ios' ? 0 : 15,
         justifyContent: 'center',
       }}>

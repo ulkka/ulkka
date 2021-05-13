@@ -9,7 +9,6 @@ import {linking} from './Linking';
 import HomeNavigation from './HomeNavigation';
 import {AuthNavigation} from './AuthNavigation';
 import Splash from '../screens/Splash';
-import CreateCommunity from '../screens/create/CreateCommunity';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadAuth} from '../redux/actions/AuthActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
@@ -105,14 +104,6 @@ export default function Main() {
                 gestureEnabled: true,
                 cardOverlayEnabled: true,
                 ...presets,
-              }}
-            />
-            <StackNav.Screen
-              name={'Create Community'}
-              component={CreateCommunity}
-              title={'Create Community'}
-              options={{
-                headerShown: false,
               }}
             />
           </StackNav.Navigator>

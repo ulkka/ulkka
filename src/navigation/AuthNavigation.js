@@ -10,7 +10,6 @@ import {useSelector} from 'react-redux';
 //import MyAccount from '../screens/home/MyAccount';
 import RegisterAccount from '../screens/auth/RegisterAccount';
 import Login from '../screens/auth/Login';
-import UserDetail from '../screens/user/UserDetail';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
 
 export const AuthNavigation = () => {

@@ -189,6 +189,10 @@ export default function CreatePostButtonOverlay(props) {
     <TouchableOpacity
       style={{
         alignItems: 'center',
+      }}
+      onPress={() => {
+        setEnableOverLay(false);
+        navigate('Create Community');
       }}>
       <Icon reverse name="group" type="font-awesome" size={18} color={'#555'} />
       <View style={{flexDirection: 'row', alignItems: 'center'}}>

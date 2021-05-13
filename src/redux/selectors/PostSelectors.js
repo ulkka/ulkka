@@ -77,5 +77,6 @@ export const getPostAuthorDisplayname = createCachedSelector(
 export const getPostCommunityName = createCachedSelector(
   (state) => state,
   getPostCommunityId,
-  (state, communityId) => selectCommunityById(state, communityId)?.name,
+  (state, communityId) =>
+    communityId && selectCommunityById(state, communityId)?.name,
 )((state, id) => id);

@@ -1,17 +1,24 @@
 import React, {useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {View, Text, KeyboardAvoidingView, ViewPagerAndroid} from 'react-native';
+import {View, Text, KeyboardAvoidingView, Keyboard} from 'react-native';
 import mainClient from '../../client/mainClient';
 import {Button, Input} from 'react-native-elements';
-import Header from '../../components/Header';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
+import CommunityTopicSelector from '../../components/CommunityTopicSelector';
+import Snackbar from 'react-native-snackbar';
 
 export default function CreateCommunity({navigation}) {
   const [loading, setLoading] = useState(false);
+  const [topic, setTopic] = useState('');
   const [status, setStatus] = useState({});
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  const [isCommunityTitleValid, setIsCommunityTitleValid] = useState(null);
+  const [communityTitleErrorMessage, setCommunityTitleErrorMessage] = useState(
+    '',
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -27,35 +34,109 @@ export default function CreateCommunity({navigation}) {
       };
     }, []),
   );
+  const payloadCreator = () => {
+    const payload = {
+      name: title,
+      type: topic,
+      description: description,
+    };
+    return payload;
+  };
+
+  const validateCommunityTitle = async (text) => {
+    if (
+      text.length < 4 ||
+      !/^([a-zA-Z0-9\u0D00-\u0D7F_.-]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _.-
+      text.length > 25
+    ) {
+      setIsCommunityTitleValid(false);
+      setCommunityTitleErrorMessage(
+        'Invalid Community Title \nMin 4 characters, Max 25 characters\nNo spaces\nEnglish / Malayalam alphabets, numbers or _.-',
+      );
+      return false;
+    } else {
+      setIsCommunityTitleValid(true);
+      return true;
+      /*   const response = await userApi.user.displaynameExists(text);
+      if (response.data.length == 0) {
+        console.log('displayname response', response);
+        setIsCommunityTitleValid(true);
+        return true;
+      } else {
+        console.log('displayname already exists response', response);
+        setIsCommunityTitleValid(false);
+        setCommunityTitleErrorMessage(
+          'Display name already in use. Please enter another one',
+        );
+        return false;
+      }*/
+    }
+  };
+
+  const payloadValidator = async (payload) => {
+    if (!payload.type) {
+      Snackbar.show({
+        text: 'Please select a valid topic for the community',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      return false;
+    }
+    if (!payload.name) {
+      Snackbar.show({
+        text: 'Please select a valid title for the community',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      return false;
+    }
+    if (payload.name) {
+      const isTitleValid = await validateCommunityTitle(payload.name);
+      console.log('isTitleVlid', isTitleValid);
+      if (!isTitleValid) {
+        Snackbar.show({
+          text: 'Please select a valid title for the community',
+          duration: Snackbar.LENGTH_SHORT,
+        });
+        return false;
+      }
+    }
+    if (!payload.description) {
+      Snackbar.show({
+        text: 'Please select a valid description for the community',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      return false;
+    }
+    return true;
+  };
 
   const submit = async () => {
-    setLoading(true);
-    const client = await mainClient;
-    client
-      .post('community', {
-        name: title,
-        description: description,
-      })
-      .then((response) => {
-        setLoading(false);
-        var statusData = {
-          type: 'success',
-          message: 'Successfully Created Community',
-          entity: title,
-        };
-        setStatus(statusData);
-        setTimeout(() => navigation.navigate('Home'), 3000);
-      })
-      .catch((error) => {
-        setLoading(false);
-        var statusData = {
-          type: 'fail',
-          message: 'Failed to create community',
-          entity: title,
-        };
-        setStatus(statusData);
-        console.log(error);
-      });
+    Keyboard.dismiss();
+    const payload = payloadCreator();
+    const isPayloadValid = await payloadValidator(payload);
+    if (isPayloadValid) {
+      setLoading(true);
+      const client = await mainClient;
+      client
+        .post('community', {
+          name: title,
+          type: topic,
+          description: description,
+        })
+        .then((response) => {
+          setLoading(false);
+          var statusData = {
+            type: 'success',
+            message: 'Successfully Created Community',
+            entity: title,
+          };
+          setStatus(statusData);
+          setTimeout(() => navigation.navigate('Feed'), 3000);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+        });
+    }
   };
   const Title = (
     <View
@@ -77,7 +158,7 @@ export default function CreateCommunity({navigation}) {
     </View>
   );
   const InputFields = (
-    <View>
+    <View style={{justifyContent: 'space-evenly', paddingTop: 80}}>
       <Input
         style={{
           height: 40,
@@ -88,11 +169,25 @@ export default function CreateCommunity({navigation}) {
         onChangeText={(text) => setTitle(text)}
         value={title}
         placeholder={'Title'}
+        renderErrorMessage={true}
+        errorStyle={{color: 'red'}}
+        onFocus={() => {
+          setIsCommunityTitleValid(null);
+          setCommunityTitleErrorMessage('');
+        }}
+        errorMessage={
+          isCommunityTitleValid == null
+            ? null
+            : isCommunityTitleValid
+            ? null
+            : communityTitleErrorMessage
+        }
       />
       <Input
         style={{
-          maxHeight: 300,
-          minHeight: 150,
+          height: 'auto',
+          minHeight: 75,
+          marginBottom: 20,
         }}
         inputContainerStyle={{
           borderBottomColor: '#fff',
@@ -102,24 +197,25 @@ export default function CreateCommunity({navigation}) {
         placeholder={'Description'}
         numberOfLines={10}
         multiline={true}
-        maxLength={1000}
+        maxLength={400}
       />
     </View>
   );
   const Submit = (
-    <View style={{width: '35%', alignSelf: 'center', marginTop: 50}}>
+    <View style={{width: '35%', alignSelf: 'center'}}>
       <Button
+        raised
         buttonStyle={{
           backgroundColor: '#20bb29c4',
           borderRadius: 20,
         }}
-        title="Submit"
+        title="Create"
         onPress={() => submit()}
       />
     </View>
   );
   const Form = (
-    <View style={{flex: 5}}>
+    <View style={{justifyContent: 'space-evenly'}}>
       {InputFields}
       {Submit}
     </View>
@@ -131,12 +227,16 @@ export default function CreateCommunity({navigation}) {
         flex: 1,
         backgroundColor: '#fff',
       }}>
-      <Header navigation={navigation} />
       <KeyboardAvoidingView
-        keyboardVerticalOffset={140}
+        keyboardVerticalOffset={75}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{flex: 1, width: '100%', padding: 25}}>
-        {Title}
+        style={{
+          flex: 1,
+          width: '100%',
+          padding: 25,
+          justifyContent: 'space-evenly',
+        }}>
+        <CommunityTopicSelector topic={topic} setTopic={setTopic} />
         {Form}
       </KeyboardAvoidingView>
       <LoadingOverlay visible={loading} />

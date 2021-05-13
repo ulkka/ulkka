@@ -20,10 +20,10 @@ const PostHeader = (props) => {
 
   const createdAt = useSelector((state) => getPostCreatedAt(state, postId));
 
-  /*const communityId = useSelector((state) => getPostCommunityId(state, postId));
+  const communityId = useSelector((state) => getPostCommunityId(state, postId));
   const communityName = useSelector((state) =>
     getPostCommunityName(state, postId),
-  );*/
+  );
 
   const authorId = useSelector((state) => getPostAuthorId(state, postId));
   const authorDisplayname = useSelector((state) =>
@@ -34,18 +34,32 @@ const PostHeader = (props) => {
 
   const isPostAuthorCurrentUser = authorId === registeredUser?._id;
 
-  /*const CommunityName = (
+  const PostAuthorAvatar = (
+    <UserAvatar seed={authorDisplayname} size="extra-small" />
+  );
+
+  const CommunityAvatar = (
+    <UserAvatar seed={communityName ? communityName : 'ULKKA'} size="medium" />
+  );
+
+  const CommunityName = (
     <TouchableOpacity
       onPress={() =>
         push('Community', {
           communityId: communityId,
         })
       }>
-      <Text style={{fontSize: 13, fontWeight: 'bold', color: '#432'}}>
-        {communityName}
+      <Text
+        style={{
+          fontSize: 13,
+          fontWeight: 'bold',
+          color: '#333',
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+        }}>
+        {communityName ? communityName : 'Ulkka'}
       </Text>
     </TouchableOpacity>
-  );*/
+  );
 
   const CommentAuthorDisplaynameColor = isPostAuthorCurrentUser
     ? '#02862ad6'
@@ -55,13 +69,14 @@ const PostHeader = (props) => {
     <View>
       <Text
         style={{
-          fontSize: 13,
+          fontSize: 11,
           color: CommentAuthorDisplaynameColor,
           fontWeight: 'bold',
+          color: '#777',
+          paddingRight: 4,
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {authorDisplayname}
-        {'  '}
-        {Platform.OS != 'ios' && ' '}
       </Text>
     </View>
   );
@@ -77,56 +92,57 @@ const PostHeader = (props) => {
   );
 
   const UserDisplayNameWithIcon = (
-    <View
+    <TouchableOpacity
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-      }}>
+      }}
+      onPress={() => push('UserDetail', {userId: authorId})}>
       {UserDisplayName}
-      {PostAuthorIcon}
-    </View>
+      {PostAuthorAvatar}
+      {
+        //PostAuthorIcon
+      }
+    </TouchableOpacity>
   );
 
   const displayNameTimeAgo = (
     <View
       style={{
-        alignItems: 'flex-start',
-        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
       }}>
       {UserDisplayNameWithIcon}
+      <Icon
+        name="circle"
+        type="font-awesome"
+        size={5}
+        color="#777"
+        style={{paddingHorizontal: 10}}
+      />
       <TimeAgo time={createdAt} />
     </View>
   );
 
-  const PostAuthorAvatar = (
-    <UserAvatar seed={authorDisplayname} size="medium" />
-  );
-
   return (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      <TouchableOpacity
-        onPress={() =>
-          push('UserDetail', {
-            userId: authorId,
-          })
-        }
+      <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        {PostAuthorAvatar}
+        {CommunityAvatar}
         <View
           style={{
             padding: 5,
             paddingLeft: 6,
           }}>
-          {
-            // CommunityName
-          }
+          {CommunityName}
           {displayNameTimeAgo}
         </View>
-      </TouchableOpacity>
+      </View>
       <ExtraOptions id={postId} type={'post'} />
     </View>
   );

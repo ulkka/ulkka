@@ -122,36 +122,42 @@ export const LinkField = (props) => {
   );
 
   return (
-    <View style={{flex: 4, justifyContent: 'center'}}>
+    <View
+      style={{
+        //  flex: 4,
+        justifyContent: 'center',
+        //marginTop: 20,
+        marginBottom: 50,
+      }}>
+      <View
+        style={{
+          justifyContent: 'center',
+          marginTop: Platform.OS == 'ios' ? 50 : 95,
+        }}>
+        <Input
+          style={{
+            height: 'auto',
+            minHeight: 50,
+          }}
+          inputContainerStyle={{
+            borderBottomColor: '#fff',
+          }}
+          keyboardType="url"
+          inputStyle={{textAlign: 'center'}}
+          onChangeText={(text) => onChangeText(transformText(text, 1))}
+          value={link}
+          placeholder={'Add Link'}
+          numberOfLines={2}
+          multiline={true}
+          maxLength={1000}
+          blurOnSubmit={true}
+        />
+      </View>
       <ScrollView
         contentContainerStyle={{
-          flex: 4,
+          //    flex: 4,
           justifyContent: 'center',
         }}>
-        <View
-          style={{
-            justifyContent: 'center',
-            marginTop: Platform.OS == 'ios' ? 50 : 95,
-          }}>
-          <Input
-            style={{
-              maxHeight: 300,
-              minHeight: 50,
-            }}
-            inputContainerStyle={{
-              borderBottomColor: '#fff',
-            }}
-            keyboardType="url"
-            inputStyle={{textAlign: 'center'}}
-            onChangeText={(text) => onChangeText(transformText(text, 1))}
-            value={link}
-            placeholder={'Add Link'}
-            numberOfLines={2}
-            multiline={true}
-            maxLength={1000}
-            blurOnSubmit={true}
-          />
-        </View>
         {preview || loading ? PreviewField : <View></View>}
       </ScrollView>
     </View>

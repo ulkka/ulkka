@@ -7,8 +7,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {Button} from 'react-native-elements';
-//import SearchableDropdown from '../../components/SearchableDropdown';
-//import {CommunityField} from '../../components/PostCreator/CommunityField';
+import SearchableDropdown from '../../components/SearchableDropdown';
+import {CommunityField} from '../../components/PostCreator/CommunityField';
 import FormData from 'form-data';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
 import {navigate} from '../../navigation/Ref';
@@ -42,7 +42,7 @@ export default function CreatePost({route}) {
   let postType = route?.params?.type ? route.params.type : 'text';
 
   const [type, setType] = useState(postType);
-  //const [community, setCommunity] = useState(null);
+  const [community, setCommunity] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [media, setMedia] = useState(null);
@@ -52,10 +52,10 @@ export default function CreatePost({route}) {
   const [uploadPercent, setUploadPercent] = useState(0);
   const [clientSource, setClientSource] = useState(0);
 
-  /*const [
+  const [
     selectCommunityModalVisible,
     setSelectCommunityModalVisible,
-  ] = useState(false);*/
+  ] = useState(false);
 
   const getTypeFromMime = (mimeType) => {
     return mimeType.substring(mimeType.lastIndexOf('/') + 1) == 'gif'
@@ -133,8 +133,8 @@ export default function CreatePost({route}) {
     setLoading(false);
     var status = {
       type: 'success',
-      message: 'Successfully Posted to \n Ulkka',
-      // entity: community.name,
+      message: 'Successfully Posted to ',
+      entity: community.name,
     };
     setStatusData(status);
     setUploadPercent(0);
@@ -159,6 +159,7 @@ export default function CreatePost({route}) {
     let payload = {};
     payload.title = title.trim();
     payload.type = type;
+    payload.community = community;
     switch (type) {
       case 'text':
         payload.description = removeEmptyLines(description.trim());
@@ -176,17 +177,11 @@ export default function CreatePost({route}) {
   };
 
   const payloadValidator = (payload, type) => {
-    const {
-      //  community,
-      title,
-      description,
-      link,
-      mediaMetadata,
-    } = payload;
-    /* if (!community) {
-          showSnackBar('Please select a valid community');
-          return false;
-        }*/
+    const {community, title, description, link, mediaMetadata} = payload;
+    if (!community) {
+      showSnackBar('Please select a valid community');
+      return false;
+    }
     if (!title) {
       showSnackBar('Please add a title for the post');
       return false;
@@ -275,7 +270,7 @@ export default function CreatePost({route}) {
         let prePayload = {
           type: type,
           title: title,
-          //community: community?._id
+          community: community._id,
         };
         var data = fileFormDataCreator();
         isPayloadValid = payloadValidator(prePayload, type);
@@ -364,7 +359,13 @@ export default function CreatePost({route}) {
   };
 
   const PostDetail = (
-    /*<SearchableDropdown
+    <View
+      style={{
+        paddingTop: 100,
+        flex: 4,
+        justifyContent: 'space-evenly',
+      }}>
+      <SearchableDropdown
         selectCommunityModalVisible={selectCommunityModalVisible}
         setSelectCommunityModalVisible={setSelectCommunityModalVisible}
         setCommunity={setCommunity}
@@ -372,12 +373,7 @@ export default function CreatePost({route}) {
       <CommunityField
         onPress={() => setSelectCommunityModalVisible(true)}
         community={community}
-      />*/
-    <View
-      style={{
-        flex: 5,
-        justifyContent: 'center',
-      }}>
+      />
       <PostTitleField onChangeText={(text) => setTitle(text)} title={title} />
       {PostContentField()}
     </View>
@@ -392,7 +388,7 @@ export default function CreatePost({route}) {
         backgroundColor: '#fff',
         width: '98%',
         alignSelf: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
       }}>
       {
         //Title
