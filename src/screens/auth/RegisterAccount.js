@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  ImageBackground,
 } from 'react-native';
 import {Button, CheckBox} from 'react-native-elements';
 import {registerUser} from '../../redux/actions/AuthActions';
@@ -81,8 +82,11 @@ const RegisterAccount = () => {
 
   const DisplayNameField = (
     <Input
+      label="Display Name"
+      labelStyle={{color: '#444'}}
       ref={displaynameField}
-      placeholder="Display Name (Nickname / വട്ടപ്പേര്)"
+      placeholder="Nickname / വട്ടപ്പേര്"
+      placeholderTextColor="#666"
       autoCapitalize="none"
       autoCorrect={false}
       containerStyle={{width: 300}}
@@ -151,7 +155,7 @@ const RegisterAccount = () => {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          paddingBottom: 20,
+          paddingBottom: 10,
         }}>
         <CheckBox
           checked={checked}
@@ -171,7 +175,7 @@ const RegisterAccount = () => {
               : 'Privacy Policy'
           }
           onPress={(url, text) => navigateToURL(url, 'register_account')}>
-          <Text style={{color: '#555', fontSize: 10}}>
+          <Text style={{color: '#000', fontSize: 10}}>
             I have read and agree to the https://ulkka.in/terms.html{'\n'}and
             https://ulkka.in/privacy-policy.html
           </Text>
@@ -229,11 +233,22 @@ const RegisterAccount = () => {
         justifyContent: 'center',
         backgroundColor: '#fff',
       }}>
-      <View style={{flex: showTitle ? 3 : 0, justifyContent: 'center'}}>
-        {Title}
-      </View>
-      <View style={{flex: 1}}>{showTitle && <ChangeAccount />}</View>
-      <View style={{flex: showTitle ? 2 : 4}}>{Register}</View>
+      <ImageBackground
+        //blurRadius={0.5}
+        resizeMode="contain"
+        style={{
+          width: '100%',
+          height: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        source={require('../../../assets/doodlebg.jpg')}>
+        <View style={{flex: showTitle ? 3 : 0, justifyContent: 'center'}}>
+          {Title}
+        </View>
+        <View style={{flex: 1}}>{showTitle && <ChangeAccount />}</View>
+        <View style={{flex: showTitle ? 2 : 4}}>{Register}</View>
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 };

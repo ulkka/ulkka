@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  ImageBackground,
 } from 'react-native';
 import {Divider} from 'react-native-elements';
 import EmailLinkSignIn from './EmailLinkSignin';
@@ -29,7 +30,7 @@ export default function Login() {
       <Text
         style={{
           fontWeight: 'bold',
-          color: '#555',
+          color: '#333',
           fontSize: 20,
         }}>
         {'  '}
@@ -76,32 +77,43 @@ export default function Login() {
 
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={-55}
+      keyboardVerticalOffset={Platform.OS == 'android' ? -35 : -55}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
       }}>
-      <View
+      <ImageBackground
+        //blurRadius={0.5}
+        resizeMode="contain"
         style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        {AppIcon}
-        {Title}
-      </View>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
+          width: '100%',
+          height: '100%',
+
           justifyContent: 'space-evenly',
-        }}>
-        <EmailLinkSignIn />
-        {DividerView}
-        <SocialSignin />
-      </View>
+        }}
+        source={require('../../../assets/doodlebg.jpg')}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          {AppIcon}
+          {Title}
+        </View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+          }}>
+          <EmailLinkSignIn />
+          {DividerView}
+          <SocialSignin />
+        </View>
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 }
