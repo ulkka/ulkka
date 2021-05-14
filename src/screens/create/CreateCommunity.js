@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {View, Text, KeyboardAvoidingView, Keyboard} from 'react-native';
-import mainClient from '../../client/mainClient';
 import {Button, Input} from 'react-native-elements';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
 import CommunityTopicSelector from '../../components/CommunityTopicSelector';
 import Snackbar from 'react-native-snackbar';
+import {useDispatch} from 'react-redux';
+import {createCommunity} from '../../redux/reducers/CommunitySlice';
+import communityApi from '../../services/CommunityApi';
 
 export default function CreateCommunity({navigation}) {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [topic, setTopic] = useState('');
   const [status, setStatus] = useState({});
@@ -34,6 +37,7 @@ export default function CreateCommunity({navigation}) {
       };
     }, []),
   );
+
   const payloadCreator = () => {
     const payload = {
       name: title,
@@ -55,21 +59,19 @@ export default function CreateCommunity({navigation}) {
       );
       return false;
     } else {
-      setIsCommunityTitleValid(true);
-      return true;
-      /*   const response = await userApi.user.displaynameExists(text);
+      const response = await communityApi.community.communityTitleExists(text);
       if (response.data.length == 0) {
-        console.log('displayname response', response);
+        console.log('community title response', response);
         setIsCommunityTitleValid(true);
         return true;
       } else {
-        console.log('displayname already exists response', response);
+        console.log('community title already exists response', response);
         setIsCommunityTitleValid(false);
         setCommunityTitleErrorMessage(
-          'Display name already in use. Please enter another one',
+          'Community title is taken. Please enter another one',
         );
         return false;
-      }*/
+      }
     }
   };
 
@@ -109,35 +111,31 @@ export default function CreateCommunity({navigation}) {
     return true;
   };
 
+  const communityCreationSuccess = () => {
+    var statusData = {
+      type: 'success',
+      message: 'Successfully Created Community',
+      entity: title,
+    };
+    setStatus(statusData);
+    setTimeout(() => navigation.navigate('Feed'), 2000);
+  };
+
   const submit = async () => {
     Keyboard.dismiss();
     const payload = payloadCreator();
     const isPayloadValid = await payloadValidator(payload);
     if (isPayloadValid) {
       setLoading(true);
-      const client = await mainClient;
-      client
-        .post('community', {
-          name: title,
-          type: topic,
-          description: description,
-        })
-        .then((response) => {
-          setLoading(false);
-          var statusData = {
-            type: 'success',
-            message: 'Successfully Created Community',
-            entity: title,
-          };
-          setStatus(statusData);
-          setTimeout(() => navigation.navigate('Feed'), 3000);
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-        });
+      await dispatch(createCommunity(payload)).then((response) => {
+        if (!response.error) {
+          communityCreationSuccess();
+        }
+      });
+      setLoading(false);
     }
   };
+
   const Title = (
     <View
       style={{

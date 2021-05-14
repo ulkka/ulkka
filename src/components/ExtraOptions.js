@@ -10,7 +10,7 @@ const ExtraOptions = (props) => {
   return (
     <TouchableOpacity
       style={{padding: 5}}
-      hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+      hitSlop={{top: 20, bottom: 20, right: 20}}
       onPress={() => dispatch(showOptionSheet({type: type, id: id}))}>
       <Icon name="more-horiz" size={18} color="#888" />
     </TouchableOpacity>

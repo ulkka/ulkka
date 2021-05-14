@@ -14,6 +14,7 @@ import {
 } from '../../redux/selectors/PostSelectors';
 import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import UserAvatar from '../UserAvatar';
+import CommunityMembershipToggler from './CommunityMembershipToggler';
 
 const PostHeader = (props) => {
   const {postId} = props;
@@ -143,7 +144,10 @@ const PostHeader = (props) => {
           {displayNameTimeAgo}
         </View>
       </View>
-      <ExtraOptions id={postId} type={'post'} />
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <CommunityMembershipToggler {...props} />
+        <ExtraOptions id={postId} type={'post'} />
+      </View>
     </View>
   );
 };

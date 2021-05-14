@@ -121,7 +121,11 @@ function Feed(props) {
         }
         refreshControl={
           <RefreshControl
-            progressViewOffset={50}
+            progressViewOffset={
+              props.contentContainerStyle?.paddingTop
+                ? props.contentContainerStyle?.paddingTop + 50
+                : 0
+            }
             refreshing={refreshing ? refreshing : false}
             onRefresh={handleRefresh}
           />

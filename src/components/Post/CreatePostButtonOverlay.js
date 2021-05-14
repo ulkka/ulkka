@@ -150,6 +150,7 @@ export default function CreatePostButtonOverlay(props) {
           alignSelf: 'center',
         }}>
         <Icon
+          activeOpacity={0}
           name="plus"
           type="font-awesome-5"
           size={25}

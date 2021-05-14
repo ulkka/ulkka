@@ -14,6 +14,13 @@ import BlockedUsers from '../screens/user/BlockedUsers';
 import Notifications from '../screens/Notifications';
 import EmailLinkHandler from '../screens/auth/EmailLinkHandler';
 import HomeCollapsibleTabView from '../components/HomeCollapsibleTabView';
+import ShareMenuHandler from '../components/ShareMenuHandler';
+import {
+  NotificationHandler,
+  ConfigurePushNotification,
+} from '../components/NotificationHandler';
+import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
+import Popular from '../screens/home/tabs/Popular';
 
 const StackNav = createStackNavigator();
 
@@ -24,6 +31,9 @@ const presets =
 
 function HomeNavigation({navigation}) {
   const isOptionSheetVisible = useSelector(isVisible);
+  const isRegistered = useSelector(getRegistrationStatus);
+
+  const feedScreen = isRegistered ? HomeCollapsibleTabView : Popular;
 
   return (
     <View style={{flex: 1}}>
@@ -44,7 +54,7 @@ function HomeNavigation({navigation}) {
         }}>
         <StackNav.Screen
           name="Feed"
-          component={HomeCollapsibleTabView}
+          component={feedScreen}
           title="Home"
           options={{
             header: () => <HeaderBar navigation={navigation} />,
@@ -130,6 +140,9 @@ function HomeNavigation({navigation}) {
       </StackNav.Navigator>
       {isOptionSheetVisible && <OptionSheet />}
       <EmailLinkHandler />
+      <ShareMenuHandler />
+      <ConfigurePushNotification />
+      <NotificationHandler />
     </View>
   );
 }

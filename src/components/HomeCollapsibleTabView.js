@@ -16,8 +16,8 @@ export default function HomeCollapsibleTabView(props) {
 
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {key: 'home', title: 'Home'},
-    {key: 'popular', title: 'Popular'},
+    {key: 'home', title: 'Home', name: 'Home'},
+    {key: 'popular', title: 'Popular', name: 'Popular'},
   ]);
 
   const translation = useRef(new Animated.Value(0)).current;
@@ -93,7 +93,7 @@ export default function HomeCollapsibleTabView(props) {
     }
   };
 
-  const renderScene = ({route}) => {
+  const renderScene = ({route, jumpTo}) => {
     switch (route.key) {
       case 'home':
         return (
@@ -102,6 +102,7 @@ export default function HomeCollapsibleTabView(props) {
             onScrollEndDrag={handleOnScrollEndDrag}
             onMomentumScrollEnd={handleOnMomentumScrollEnd}
             contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
+            jumpTo={jumpTo}
           />
         );
       case 'popular':

@@ -186,7 +186,14 @@ const Comments = (props) => {
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
-          <FeedFooter complete={complete} text={'No more comments'} />
+          <FeedFooter
+            complete={complete}
+            text={
+              complete && !commentIds.length
+                ? 'No Comments Yet'
+                : 'No more comments'
+            }
+          />
         }
         {...props}
       />

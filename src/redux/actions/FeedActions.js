@@ -1,28 +1,44 @@
 import {post} from '../schema/FeedSchema';
 import {fetchPostById} from './PostActions';
-//import {selectPostById} from '../selectors/PostSelectors';
-import postApi from '../../services/PostApi';
-import userApi from '../../services/UserApi';
+import feedApi from '../../services/FeedApi';
 import {normalize} from 'normalizr';
 import {createAsyncThunk} from '@reduxjs/toolkit';
+
+const getFeedType = (type) => {
+  if (type.includes('UserDetail')) {
+    return 'UserDetail';
+  }
+  if (type == 'home' || type == 'popular') {
+    return 'main';
+  }
+};
+
+const getFeedBasedOnType = async (getState, type) => {
+  const {page, limit} = getState().feed[type].metadata;
+  const nextPage = page + 1;
+  const feedType = getFeedType(type);
+  let response = {};
+  switch (feedType) {
+    case 'main':
+      response = await feedApi.main.fetch(type, nextPage, limit);
+      return response;
+    case 'UserDetail':
+      const userId = type.substring(
+        type.indexOf('-') + 1,
+        type.lastIndexOf('-'),
+      );
+      response = await feedApi.user.fetch(userId, nextPage, limit);
+      return response;
+  }
+};
 
 export const fetchFeed = createAsyncThunk(
   'feed/fetch',
   async (type, {getState, rejectWithValue}) => {
     try {
-      const {page, limit} = getState().feed[type].metadata;
-      const nextPage = page + 1;
-
-      const isUserDetail = type.includes('UserDetail') ? true : false;
-      const userId =
-        isUserDetail &&
-        type.substring(type.indexOf('-') + 1, type.lastIndexOf('-'));
-
-      let response = isUserDetail
-        ? await userApi.post.fetchUserPosts(userId, nextPage, limit)
-        : await postApi.post.fetch(nextPage, limit);
+      let response = await getFeedBasedOnType(getState, type);
       const normalized = normalize(response.data.data, [post]);
-      console.log('feed normalized', normalized, response);
+
       return {
         normalizedPosts: normalized.entities,
         metadata: response.data.metadata[0],
