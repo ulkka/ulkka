@@ -13,7 +13,7 @@ const refreshAuthLogic = async (failedRequest) => {
     const idToken = await auth().currentUser?.getIdToken();
     failedRequest.response.config.headers['Authorization'] =
       'Bearer ' + idToken;
-    // mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
+    mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
   }
   return Promise.resolve();
 };
@@ -31,6 +31,7 @@ createAuthRefreshInterceptor(mainClient, refreshAuthLogic, {
   statusCodes: [401],
   pauseInstanceWhileRefreshing: true,
 });
+
 export default mainClient;
 
 function getUrl(config) {
@@ -92,7 +93,7 @@ mainClient.interceptors.response.use(
 );
 
 // RNFirebase Perf interceptors end
-
+/*
 // Intercept all requests
 mainClient.interceptors.request.use(
   (config) => {
@@ -120,3 +121,4 @@ mainClient.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+*/

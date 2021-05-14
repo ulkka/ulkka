@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Modal} from 'react-native';
+import {View, Text, Modal, Platform} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 export default function ShowSubmitStatus(props) {
@@ -51,10 +51,17 @@ export default function ShowSubmitStatus(props) {
             paddingTop: 50,
             lineHeight: 45,
             textAlign: 'center',
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           {status?.message}{' '}
         </Text>
-        <Text style={{fontSize: 30, fontWeight: 'bold', paddingTop: 30}}>
+        <Text
+          style={{
+            fontSize: 30,
+            fontWeight: 'bold',
+            paddingTop: 30,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          }}>
           {status?.entity}{' '}
         </Text>
       </View>

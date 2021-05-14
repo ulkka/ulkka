@@ -21,7 +21,7 @@ export const slice = createSlice({
     },
     [fetchFeed.fulfilled]: (state, action) => {
       const normalizedPosts = action.payload.normalizedPosts;
-
+      console.log('community clice fetch feed', action.payload);
       const isFeedEmpty =
         normalizedPosts &&
         Object.keys(normalizedPosts).length === 0 &&

@@ -22,7 +22,7 @@ export const fetchFeed = createAsyncThunk(
         ? await userApi.post.fetchUserPosts(userId, nextPage, limit)
         : await postApi.post.fetch(nextPage, limit);
       const normalized = normalize(response.data.data, [post]);
-
+      console.log('feed normalized', normalized, response);
       return {
         normalizedPosts: normalized.entities,
         metadata: response.data.metadata[0],
