@@ -22,7 +22,7 @@ const EmailLinkSignIn = () => {
     <View>
       <Input
         label="Email"
-        labelStyle={{color: '#333'}}
+        labelStyle={{color: '#333', marginBottom: 5}}
         placeholderTextColor="#666"
         ref={emailFieldRef}
         placeholder="example@domain.com"
@@ -30,13 +30,13 @@ const EmailLinkSignIn = () => {
         autoCompleteType="email"
         autoCapitalize="none"
         autoCorrect={false}
-        containerStyle={{width: 300}}
+        containerStyle={{width: 320}}
         inputContainerStyle={{
           borderBottomColor: 'transparent',
-          // backgroundColor: '#dddddd99',
-          borderRadius: 10,
-          // paddingHorizontal: 15,
-          //marginBottom: 10,
+          backgroundColor: 'rgba(52, 52, 52, 0.2)',
+          borderRadius: 5,
+          paddingHorizontal: 10,
+          marginBottom: 10,
         }}
         inputStyle={{fontSize: 14, marginLeft: 10}}
         leftIcon={

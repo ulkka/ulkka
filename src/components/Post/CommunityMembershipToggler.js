@@ -25,7 +25,7 @@ const CommunityMembershipToggler = (props) => {
         hitSlop={{top: 20, bottom: 20, right: 5}}
         activeOpacity={0.7}
         style={{marginHorizontal: 7}}
-        onPress={() => dispatch(leaveCommunity(communityId))}>
+        onPress={() => dispatch(joinCommunity(communityId))}>
         <Icon
           reverse
           raised

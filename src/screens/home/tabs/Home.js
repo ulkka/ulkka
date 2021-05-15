@@ -25,7 +25,7 @@ function Home(props) {
       }}>
       <ImageBackground
         // blurRadius={1}
-        resizeMode="contain"
+        resizeMode="repeat"
         style={{
           width: '100%',
           height: '100%',
@@ -107,7 +107,6 @@ function Home(props) {
             onPress={() => props.jumpTo('popular')}
           />
         </View>
-        <CreatePostButtonOverlay />
       </ImageBackground>
     </View>
   );

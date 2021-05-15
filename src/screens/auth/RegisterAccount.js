@@ -6,6 +6,7 @@ import {
   Platform,
   Keyboard,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import {Button, CheckBox} from 'react-native-elements';
 import {registerUser} from '../../redux/actions/AuthActions';
@@ -83,14 +84,19 @@ const RegisterAccount = () => {
   const DisplayNameField = (
     <Input
       label="Display Name"
-      labelStyle={{color: '#444'}}
+      labelStyle={{color: '#444', marginBottom: 5}}
       ref={displaynameField}
       placeholder="Nickname / വട്ടപ്പേര്"
       placeholderTextColor="#666"
       autoCapitalize="none"
       autoCorrect={false}
-      containerStyle={{width: 300}}
-      inputContainerStyle={{borderBottomColor: '#ddd'}}
+      containerStyle={{width: 320}}
+      inputContainerStyle={{
+        borderBottomColor: '#ddd',
+        backgroundColor: 'rgba(52, 52, 52, 0.2)',
+        borderRadius: 5,
+        paddingHorizontal: 10,
+      }}
       inputStyle={{fontSize: 14, padding: 10}}
       leftIcon={
         <Icon
@@ -147,8 +153,7 @@ const RegisterAccount = () => {
   const Register = (
     <View
       style={{
-        flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent: 'space-evenly',
       }}>
       <View>{DisplayNameField}</View>
       <View
@@ -224,32 +229,53 @@ const RegisterAccount = () => {
     </View>
   );
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={Platform.OS == 'ios' ? 150 : 50}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <ImageBackground
+      blurRadius={0.5}
+      resizeMode="repeat"
       style={{
-        flex: 1,
+        // flex: 1,
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height - 50,
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-      }}>
-      <ImageBackground
-        //blurRadius={0.5}
-        resizeMode="contain"
+        // justifyContent: 'center',
+      }}
+      source={require('../../../assets/doodlebg.jpg')}>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={Platform.OS == 'ios' ? 150 : 60}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
-          width: '100%',
-          height: '100%',
+          flex: 1,
           alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        source={require('../../../assets/doodlebg.jpg')}>
-        <View style={{flex: showTitle ? 3 : 0, justifyContent: 'center'}}>
+          justifyContent: 'space-evenly',
+        }}>
+        <View
+          style={{
+            // flex: showTitle ? 3 : 0,
+            justifyContent: 'center',
+          }}>
           {Title}
         </View>
-        <View style={{flex: 1}}>{showTitle && <ChangeAccount />}</View>
-        <View style={{flex: showTitle ? 2 : 4}}>{Register}</View>
-      </ImageBackground>
-    </KeyboardAvoidingView>
+        <View
+          style={
+            {
+              //flex: 1
+            }
+          }>
+          {showTitle && <ChangeAccount />}
+        </View>
+        <View
+          style={
+            {
+              // flex: showTitle ? 2 : 4
+            }
+          }>
+          {Register}
+        </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 

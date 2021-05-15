@@ -76,24 +76,26 @@ export default function Login() {
   );
 
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={Platform.OS == 'android' ? -35 : -55}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <ImageBackground
+      blurRadius={0.5}
+      resizeMode="repeat"
       style={{
-        flex: 1,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-      }}>
-      <ImageBackground
-        //blurRadius={0.5}
-        resizeMode="contain"
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height - 50,
+      }}
+      source={require('../../../assets/doodlebg.jpg')}>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={Platform.OS == 'android' ? -15 : -55}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
-          width: '100%',
-          height: '100%',
-
+          flex: 1,
+          // backgroundColor: '#fff',
+          //justifyContent: 'center',
           justifyContent: 'space-evenly',
-        }}
-        source={require('../../../assets/doodlebg.jpg')}>
+        }}>
         <View
           style={{
             flex: 1,
@@ -113,7 +115,7 @@ export default function Login() {
           {DividerView}
           <SocialSignin />
         </View>
-      </ImageBackground>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
