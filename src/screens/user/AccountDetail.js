@@ -22,7 +22,7 @@ import TimeAgo from '../../components/TimeAgo';
 import UserAvatar from '../../components/UserAvatar';
 import {showOptionSheet} from '../../redux/reducers/OptionSheetSlice';
 import {numberWithCommas} from '../../components/helpers';
-import TextInputFieldWithActions from '../../components/UserBioField';
+import UserBioField from '../../components/UserBioField';
 import UserDisplaynameField from '../../components/UserDisplaynameField';
 import {fetchUserById} from '../../redux/reducers/UserSlice';
 import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
@@ -257,7 +257,7 @@ const AccountDetail = memo((props) => {
         {userAvatarAndDisplayName}
         {isProfile ? accountSettings : blockUserView}
       </View>
-      <TextInputFieldWithActions userId={userId} />
+      <UserBioField userId={userId} />
       <View
         style={{
           paddingHorizontal: 5,

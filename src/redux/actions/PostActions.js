@@ -18,6 +18,7 @@ export const fetchPostById = createAsyncThunk(
         posts: normalized.entities.posts,
         postId: normalized.result,
         users: normalized.entities.users,
+        communities: normalized.entities.communities,
       };
     } catch (error) {
       return rejectWithValue(error);

@@ -297,11 +297,11 @@ export const slice = createSlice({
       feedAdapter.addOne(state[screenId], postEntity);
     },
     [createPost.fulfilled]: (state, action) => {
-      const newPostId = action.payload.newPostId;
+      /*   const newPostId = action.payload.newPostId;
       const homeScreen = state['home'];
       const newPost = intialEntityState(newPostId);
       homeScreen.entities[newPostId] = newPost;
-      homeScreen.ids.unshift(newPostId); // to bring the newly added post to the top of current users home feed
+      homeScreen.ids.unshift(newPostId); // to bring the newly added post to the top of current users home feed*/
     },
     [deletePost.fulfilled]: (state, action) => {
       const postId = action.payload;

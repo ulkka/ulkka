@@ -15,6 +15,7 @@ import {
 import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import UserAvatar from '../UserAvatar';
 import CommunityMembershipToggler from './CommunityMembershipToggler';
+import CommunityAvatar from '../CommunityAvatar';
 
 const PostHeader = (props) => {
   const {postId} = props;
@@ -39,14 +40,10 @@ const PostHeader = (props) => {
     <UserAvatar seed={authorDisplayname} size="extra-small" />
   );
 
-  const CommunityAvatar = (
-    <UserAvatar seed={communityName ? communityName : 'ULKKA'} size="medium" />
-  );
-
   const CommunityName = (
     <TouchableOpacity
       onPress={() =>
-        push('Community', {
+        push('CommunityDetail', {
           communityId: communityId,
         })
       }>
@@ -134,7 +131,11 @@ const PostHeader = (props) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        {CommunityAvatar}
+        <CommunityAvatar
+          communityName={communityName}
+          communityId={communityId}
+          size="small"
+        />
         <View
           style={{
             padding: 5,

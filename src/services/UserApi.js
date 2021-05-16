@@ -25,11 +25,19 @@ const userApi = {
     async getUserByEmail(email) {
       const client = await mainClient;
       let response = await client.get(`${USER_URI}?query={"email":"${email}"}`);
-      return response;
+      const userExists = response.data?.length;
+      console.log(response);
+      if (userExists) {
+        const userId = response.data[0]._id;
+        response = this.getUserById(userId);
+        return response;
+      } else {
+        return 0;
+      }
     },
     async getUserById(id) {
       const client = await mainClient;
-      let response = await client.get(`${USER_URI}?query={"_id":"${id}"}`);
+      let response = await client.get(`${USER_URI}/${id}`);
       return response;
     },
     async displaynameExists(displayname) {

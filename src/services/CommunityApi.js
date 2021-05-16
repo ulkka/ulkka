@@ -20,7 +20,6 @@ const communityApi = {
       const client = await mainClient;
       const response = await client.post(
         `${COMMUNITY_URI}/${communityId}/join`,
-        communityId,
       );
       return response;
     },
@@ -28,8 +27,12 @@ const communityApi = {
       const client = await mainClient;
       const response = await client.post(
         `${COMMUNITY_URI}/${communityId}/leave`,
-        communityId,
       );
+      return response;
+    },
+    async fetchById(communityId) {
+      const client = await mainClient;
+      const response = await client.get(`${COMMUNITY_URI}/${communityId}`);
       return response;
     },
   },

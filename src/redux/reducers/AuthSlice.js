@@ -163,4 +163,11 @@ export const getIDToken = (state) => state.authorization.idToken;
 export const getBlockedUsers = (state) =>
   state.authorization.registeredUser?.blockedUsers;
 
+export const getRegisteredUserJoinedCommunities = (state) =>
+  state.authorization.registeredUser?.joinedCommunities;
+export const getHasRegisteredUserJoinedCommunities = (state) =>
+  !!state.authorization.registeredUser?.joinedCommunities?.length;
+export const getRegisteredUserAdminCommunities = (state) =>
+  state.authorization.registeredUser?.adminCommunities;
+
 export const {updateIDToken} = slice.actions;

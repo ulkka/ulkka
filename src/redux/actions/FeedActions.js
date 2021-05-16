@@ -5,6 +5,9 @@ import {normalize} from 'normalizr';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
 const getFeedType = (type) => {
+  if (type.includes('CommunityDetail')) {
+    return 'CommunityDetail';
+  }
   if (type.includes('UserDetail')) {
     return 'UserDetail';
   }
@@ -28,6 +31,13 @@ const getFeedBasedOnType = async (getState, type) => {
         type.lastIndexOf('-'),
       );
       response = await feedApi.user.fetch(userId, nextPage, limit);
+      return response;
+    case 'CommunityDetail':
+      const communityId = type.substring(
+        type.indexOf('-') + 1,
+        type.lastIndexOf('-'),
+      );
+      response = await feedApi.community.fetch(communityId, nextPage, limit);
       return response;
   }
 };

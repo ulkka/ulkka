@@ -4,9 +4,16 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import {createPost} from '../actions/PostActions';
+import {createPost, fetchPostById} from '../actions/PostActions';
 import communityApi from '../../services/CommunityApi';
 import {handleError} from '../actions/common';
+import {
+  loadAuth,
+  socialAuth,
+  emailLinkAuth,
+  registerUser,
+} from '../actions/AuthActions';
+import Snackbar from 'react-native-snackbar';
 
 const communityAdapter = createEntityAdapter({
   selectId: (community) => community._id,
@@ -17,7 +24,7 @@ export const createCommunity = createAsyncThunk(
   async (payload, {rejectWithValue}) => {
     try {
       const response = await communityApi.community.create(payload);
-      console.log('response after creating community', response);
+      return response.data;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -31,12 +38,24 @@ export const createCommunity = createAsyncThunk(
   },
 );
 
+export const fetchCommunityById = createAsyncThunk(
+  'community/fetchById',
+  async (communityId, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.fetchById(communityId);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const joinCommunity = createAsyncThunk(
   'community/join',
   async (communityId, {rejectWithValue}) => {
     try {
       const response = await communityApi.community.join(communityId);
-      console.log('response after joining community', response);
+      return response.data.community;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -44,7 +63,6 @@ export const joinCommunity = createAsyncThunk(
   {
     condition: (payload, {getState}) => {
       const authAccess = getState().authorization.isRegistered;
-      console.log('authAccess in join community', authAccess);
       return !!authAccess;
     },
     dispatchConditionRejection: true,
@@ -57,6 +75,7 @@ export const leaveCommunity = createAsyncThunk(
     try {
       const response = await communityApi.community.leave(communityId);
       console.log('response after leaving community', response);
+      return communityId;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -70,11 +89,35 @@ export const leaveCommunity = createAsyncThunk(
   },
 );
 
+const addRegisteredUsersCommunities = (state, action) => {
+  const registeredUser = action.payload.registeredUser;
+  if (registeredUser) {
+    const joinedCommunities = registeredUser.joinedCommunities;
+    joinedCommunities.map((community, index) => {
+      communityAdapter.addOne(state, {...community, role: 'member'});
+    });
+
+    const adminCommunities = registeredUser.adminCommunities;
+    adminCommunities.map((community, index) => {
+      communityAdapter.addOne(state, {...community, role: 'admin'});
+    });
+  }
+};
+
 export const slice = createSlice({
   name: 'community',
   initialState: communityAdapter.getInitialState(),
   reducers: {},
   extraReducers: {
+    [fetchCommunityById.fulfilled]: (state, action) => {
+      const community = action.payload;
+      community && communityAdapter.upsertOne(state, community);
+    },
+    [fetchPostById.fulfilled]: (state, action) => {
+      const {posts, postId, communities} = action.payload;
+      const newCommunity = posts[postId].communtiy;
+      communityAdapter.addOne(state, communities[newCommunity]);
+    },
     [createPost.fulfilled]: (state, action) => {
       const newPostId = action.payload.newPostId;
       console.log('community slice create post', action.payload);
@@ -98,6 +141,29 @@ export const slice = createSlice({
         );
       }
     },
+    [loadAuth.fulfilled]: addRegisteredUsersCommunities,
+    [socialAuth.fulfilled]: addRegisteredUsersCommunities,
+    [emailLinkAuth.fulfilled]: addRegisteredUsersCommunities,
+    [registerUser.fulfilled]: addRegisteredUsersCommunities,
+    [joinCommunity.fulfilled]: (state, action) => {
+      const {_id: communityId, name} = action.payload;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {role: 'member'},
+      });
+      Snackbar.show({text: 'Joined ' + name, duration: Snackbar.LENGTH_SHORT});
+    },
+    [leaveCommunity.fulfilled]: (state, action) => {
+      const communityId = action.payload;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {role: 'none'},
+      });
+    },
+    [createCommunity.fulfilled]: (state, action) => {
+      const community = action.payload;
+      communityAdapter.addOne(state, {...community, role: 'admin'});
+    },
     [createCommunity.rejected]: handleError,
     [joinCommunity.rejected]: handleError,
   },
@@ -112,3 +178,14 @@ export const {
   selectAll: selectAllCommunities,
   selectTotal: selectTotalCommunites,
 } = communityAdapter.getSelectors((state) => state.communities);
+
+export const getIsCurrentUserPartOfAnyCommunity = (state) =>
+  selectAllCommunities(state).find((community) => community.role == 'member');
+
+export const getUserRoleInCommunity = (state, id) =>
+  selectCommunityById(state, id)?.role;
+
+export const getCommunityTitle = (state, id) =>
+  selectCommunityById(state, id)?.name;
+export const getCommunityDescription = (state, id) =>
+  selectCommunityById(state, id)?.description;

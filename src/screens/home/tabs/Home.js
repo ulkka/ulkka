@@ -3,11 +3,13 @@ import {View, Text, Platform, ImageBackground} from 'react-native';
 import {Button, Icon} from 'react-native-elements';
 import Feed from '../../../components/Feed/Feed';
 import CreatePostButtonOverlay from '../../../components/Post/CreatePostButtonOverlay';
+import {useSelector} from 'react-redux';
+import {getIsCurrentUserPartOfAnyCommunity} from '../../../redux/reducers/CommunitySlice';
 
 function Home(props) {
-  useEffect(() => {
-    // props.jumpTo('popular');
-  }, []);
+  const userHasJoinedCommunities = useSelector(
+    getIsCurrentUserPartOfAnyCommunity,
+  );
 
   const homeFeedView = (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -110,7 +112,7 @@ function Home(props) {
       </ImageBackground>
     </View>
   );
-  return emptyHomeFeedView;
+  return userHasJoinedCommunities ? homeFeedView : emptyHomeFeedView;
 }
 
 export default memo(Home);
