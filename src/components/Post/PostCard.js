@@ -6,6 +6,7 @@ import {
   getPostisDeleted,
   getPostAuthorId,
   getPostType,
+  getPostisRemoved,
 } from '../../redux/selectors/PostSelectors';
 import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
 import PostContent from './PostContent';
@@ -21,6 +22,7 @@ function PostCard(props) {
   const {theme} = useContext(ThemeContext);
   const {postId} = props;
   const isDeleted = useSelector((state) => getPostisDeleted(state, postId));
+  const isRemoved = useSelector((state) => getPostisRemoved(state, postId));
   const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
   const postType = useSelector((state) => getPostType(state, postId));
   const blockedUsers = useSelector(getBlockedUsers);
@@ -40,7 +42,7 @@ function PostCard(props) {
   return (
     <ErrorBoundary FallbackComponent={errorFallback} onError={errorHandler}>
       {!isAuthorBlocked && isDeleted !== undefined && isPostTypeAllowed ? (
-        isDeleted === false ? (
+        isDeleted === false && isRemoved === false ? (
           <View
             style={{
               alignSelf: 'center',
@@ -75,7 +77,7 @@ function PostCard(props) {
                 fontWeight: '500',
                 textDecorationLine: 'line-through',
               }}>
-              Post deleted
+              {isDeleted ? 'Post deleted' : 'Post removed'}
             </Text>
           </View>
         )

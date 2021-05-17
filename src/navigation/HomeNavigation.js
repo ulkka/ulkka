@@ -3,6 +3,8 @@ import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
 import CommunityDetailTabView from '../screens/community/CommunityDetailTabView';
+import CommunityNavigation from '../screens/community/CommunityNavigation';
+
 import HeaderBar from '../components/Header';
 import CreatePost from '../screens/create/PostCreator';
 import CreateCommunity from '../screens/create/CreateCommunity';
@@ -61,18 +63,11 @@ function HomeNavigation({navigation}) {
           }}
         />
         <StackNav.Screen
-          name="CommunityDetail"
-          component={CommunityDetailTabView}
-          title="CommunityDetail"
+          name="CommunityNavigation"
+          component={CommunityNavigation}
+          title="CommunityNavigation"
           options={{
-            headerBackTitle: 'Back',
-            headerTitle: '',
-            headerStyle:
-              Platform.OS == 'android'
-                ? {
-                    height: 40,
-                  }
-                : {},
+            headerShown: false,
           }}
         />
         <StackNav.Screen

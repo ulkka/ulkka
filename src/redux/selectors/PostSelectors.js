@@ -48,6 +48,9 @@ export const getPostStatus = (state, id) => selectPostById(state, id)?.status;
 export const getPostisDeleted = (state, id) =>
   selectPostById(state, id)?.isDeleted;
 
+export const getPostisRemoved = (state, id) =>
+  selectPostById(state, id)?.isRemoved;
+
 export const getPostMediaIsDownloading = (state, id) =>
   selectPostById(state, id)?.isDownloading;
 

@@ -99,6 +99,29 @@ export const deletePost = createAsyncThunk(
   },
 );
 
+export const removePost = createAsyncThunk(
+  'posts/remove',
+  async (id, {rejectWithValue}) => {
+    try {
+      let response = await postApi.post.remove(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (id, {getState}) => {
+      const isRegistered = getState().authorization.isRegistered;
+      const access = isRegistered ? true : false;
+
+      const communityId = getState().posts.entities[id]?.community;
+      const role = getState().communities.entities[communityId]?.role;
+      return access && role == 'admin';
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
 export const reportPost = createAsyncThunk(
   'posts/report',
   async ({id, option}, {rejectWithValue}) => {

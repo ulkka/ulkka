@@ -14,7 +14,7 @@ const config = {
             Popular: 'popular',
           },
         },
-        Community: 'community',
+        CommunityNavigation: 'community/:communityId',
         UserDetail: 'user',
       },
     },

@@ -89,6 +89,33 @@ export const leaveCommunity = createAsyncThunk(
   },
 );
 
+export const updateCommunityFields = createAsyncThunk(
+  'community/field/update',
+  async ({communityId, field, value}, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.updateField(
+        communityId,
+        field,
+        value,
+      );
+      console.log('response after updating rules of community', response);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: ({communityId, field, value}, {getState}) => {
+      const authAccess = getState().authorization.isRegistered;
+      const userRoleInCommunity = getState().communities.entities[communityId]
+        .role;
+      const isAdmin = userRoleInCommunity == 'admin';
+      return authAccess && isAdmin;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
 const addRegisteredUsersCommunities = (state, action) => {
   const registeredUser = action.payload.registeredUser;
   if (registeredUser) {
@@ -99,7 +126,7 @@ const addRegisteredUsersCommunities = (state, action) => {
 
     const adminCommunities = registeredUser.adminCommunities;
     adminCommunities.map((community, index) => {
-      communityAdapter.addOne(state, {...community, role: 'admin'});
+      communityAdapter.upsertOne(state, {...community, role: 'admin'});
     });
   }
 };
@@ -115,7 +142,7 @@ export const slice = createSlice({
     },
     [fetchPostById.fulfilled]: (state, action) => {
       const {posts, postId, communities} = action.payload;
-      const newCommunity = posts[postId].communtiy;
+      const newCommunity = posts[postId].community;
       communityAdapter.addOne(state, communities[newCommunity]);
     },
     [createPost.fulfilled]: (state, action) => {
@@ -164,6 +191,21 @@ export const slice = createSlice({
       const community = action.payload;
       communityAdapter.addOne(state, {...community, role: 'admin'});
     },
+    [updateCommunityFields.fulfilled]: (state, action) => {
+      const {_id: communityId} = action.payload.data;
+      const {field} = action.meta.arg;
+      const value = action.payload.data[field];
+      let changes = {};
+      changes[field] = value;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: changes,
+      });
+      Snackbar.show({
+        text: 'Community ' + field + ' updated',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    },
     [createCommunity.rejected]: handleError,
     [joinCommunity.rejected]: handleError,
   },
@@ -189,3 +231,13 @@ export const getCommunityTitle = (state, id) =>
   selectCommunityById(state, id)?.name;
 export const getCommunityDescription = (state, id) =>
   selectCommunityById(state, id)?.description;
+export const getCommunityRules = (state, id) =>
+  selectCommunityById(state, id)?.rules;
+export const getCommunityField = (state, id, field) =>
+  selectCommunityById(state, id)[field];
+export const getCommunityIcon = (state, id) =>
+  selectCommunityById(state, id)?.icon;
+export const getCommunityModerators = (state, id) =>
+  selectCommunityById(state, id)?.admins;
+export const getCommunityMemberCount = (state, id) =>
+  selectCommunityById(state, id)?.memberCount;

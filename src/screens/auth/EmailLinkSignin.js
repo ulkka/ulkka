@@ -33,7 +33,7 @@ const EmailLinkSignIn = () => {
         containerStyle={{width: 320}}
         inputContainerStyle={{
           borderBottomColor: 'transparent',
-          backgroundColor: 'rgba(52, 52, 52, 0.2)',
+          backgroundColor: 'rgba(52, 52, 52, 0.1)',
           borderRadius: 5,
           paddingHorizontal: 10,
           marginBottom: 10,

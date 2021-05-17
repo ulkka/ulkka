@@ -9,6 +9,7 @@ import {
   refreshComments,
   reportComment,
   fetchUserComments,
+  removeComment,
 } from '../actions/CommentActions';
 import {handleError} from '../actions/common';
 import analytics from '@react-native-firebase/analytics';
@@ -162,6 +163,20 @@ export const slice = createSlice({
         duration: Snackbar.LENGTH_SHORT,
       });
       analytics().logEvent('comment_delete');
+    },
+    [removeComment.fulfilled]: (state, action) => {
+      const commentId = action.payload;
+      commentAdapter.updateOne(state, {
+        id: commentId,
+        changes: {
+          isRemoved: true,
+        },
+      });
+      Snackbar.show({
+        text: 'Comment removed',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('comment_remove');
     },
     [voteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;

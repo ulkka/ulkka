@@ -42,8 +42,9 @@ const PostHeader = (props) => {
 
   const CommunityName = (
     <TouchableOpacity
+      style={{flexDirection: 'row', alignItems: 'center'}}
       onPress={() =>
-        push('CommunityDetail', {
+        push('CommunityNavigation', {
           communityId: communityId,
         })
       }>
@@ -51,7 +52,7 @@ const PostHeader = (props) => {
         style={{
           fontSize: 13,
           fontWeight: 'bold',
-          color: '#333',
+          color: '#666',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {communityName ? communityName : 'Ulkka'}
@@ -60,8 +61,8 @@ const PostHeader = (props) => {
   );
 
   const CommentAuthorDisplaynameColor = isPostAuthorCurrentUser
-    ? '#02862ad6'
-    : '#444';
+    ? '#02862aaa'
+    : '#888';
 
   const UserDisplayName = (
     <View>
@@ -70,7 +71,7 @@ const PostHeader = (props) => {
           fontSize: 11,
           color: CommentAuthorDisplaynameColor,
           fontWeight: 'bold',
-          color: '#777',
+          //color: '#888',
           paddingRight: 4,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
@@ -97,7 +98,9 @@ const PostHeader = (props) => {
       }}
       onPress={() => push('UserDetail', {userId: authorId})}>
       {UserDisplayName}
-      {PostAuthorAvatar}
+      {
+        // PostAuthorAvatar
+      }
       {
         //PostAuthorIcon
       }
@@ -116,7 +119,7 @@ const PostHeader = (props) => {
         name="circle"
         type="font-awesome"
         size={5}
-        color="#777"
+        color="#999"
         style={{paddingHorizontal: 10}}
       />
       <TimeAgo time={createdAt} />

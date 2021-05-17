@@ -41,6 +41,9 @@ export const getCommentStatus = (state, id) =>
 export const getCommentisDeleted = (state, id) =>
   selectCommentById(state, id)?.isDeleted;
 
+export const getCommentisRemoved = (state, id) =>
+  selectCommentById(state, id)?.isRemoved;
+
 export const getCommentReplies = (state, id) =>
   selectCommentById(state, id)?.replies;
 
@@ -51,6 +54,12 @@ export const getCommentPostAuthor = createCachedSelector(
   (state) => state,
   getCommentPostId,
   (state, postId) => selectPostById(state, postId)?.author,
+)((state, id) => id);
+
+export const getCommentPostCommunity = createCachedSelector(
+  (state) => state,
+  getCommentPostId,
+  (state, postId) => selectPostById(state, postId)?.community,
 )((state, id) => id);
 
 export const getCommentAuthorId = (state, id) =>

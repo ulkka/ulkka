@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,16 +8,17 @@ import {
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view';
 import Posts from './tabs/Posts';
-//import Comments from './tabs/Comments';
 import {makeId} from '../../components/Post/helpers';
 import CommunityDetail from './CommunityDetail';
+import About from './tabs/About';
 
 const COLLAPSED_HEIGHT = 40;
 
 export default function CommunityDetailTabView(props) {
   const initialLayout = useWindowDimensions();
-  const communityId = props.route.params.communityId;
   console.log('props in community nav', props);
+
+  const communityId = props.route.params.communityId;
   const {navigation} = props;
 
   const [screenName, setScreenName] = useState(
@@ -27,16 +28,22 @@ export default function CommunityDetailTabView(props) {
   console.log('communityId in tab view', communityId);
 
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    {key: 'posts', title: 'Posts'},
-    // {key: 'comments', title: 'Comments'},
-  ]);
+  const [routes, setRoutes] = useState([]);
 
-  const [headerHeight, setHeaderHeight] = useState(150);
+  const [headerHeight, setHeaderHeight] = useState(100);
   const [titleShown, setTitleShown] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
 
   const scrolling = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (headerHeight > 100) {
+      setRoutes([
+        {key: 'posts', title: 'Posts'},
+        {key: 'about', title: 'About'},
+      ]);
+    }
+  }, [headerHeight]);
 
   scrolling.addListener(({value}) => {
     if (value > headerHeight - COLLAPSED_HEIGHT && !titleShown) {
@@ -134,9 +141,9 @@ export default function CommunityDetailTabView(props) {
             screenName={screenName}
           />
         );
-      case 'comments':
-        return {
-          /* <Comments
+      case 'about':
+        return (
+          <About
             scrollEventThrottle={8}
             onScroll={Animated.event(
               [
@@ -155,9 +162,9 @@ export default function CommunityDetailTabView(props) {
             contentContainerStyle={{
               paddingTop: headerHeight,
             }}
-            userId={userId}
-          />*/
-        };
+            communityId={communityId}
+          />
+        );
       default:
         return null;
     }
@@ -171,7 +178,6 @@ export default function CommunityDetailTabView(props) {
       renderTabBar={renderTabBar}
       onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
-      //  lazy={({route}) => route.key === 'comments'}
     />
   );
 }

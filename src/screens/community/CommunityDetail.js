@@ -1,26 +1,19 @@
 import React, {useEffect, memo, useRef} from 'react';
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  TouchableOpacity,
-  Alert,
-  Platform,
-  Animated,
-  Easing,
-} from 'react-native';
-import {Icon, Divider} from 'react-native-elements';
+import {View, Text, Platform, Animated, ActivityIndicator} from 'react-native';
+import {Divider} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
-import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import {
   fetchCommunityById,
   getCommunityTitle,
   getCommunityDescription,
+  getCommunityMemberCount,
 } from '../../redux/reducers/CommunitySlice';
 import Hyperlink from 'react-native-hyperlink';
 import CommunityAvatar from '../../components/CommunityAvatar';
-
-const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+import CommunityOptions from './CommunityOptions';
+import {navigateToURL} from '../../components/helpers';
+import {kFormatter} from '../../components/helpers';
+import ShareCommunity from './ShareCommunity';
 
 const CommunityDetail = memo((props) => {
   const dispatch = useDispatch();
@@ -30,9 +23,12 @@ const CommunityDetail = memo((props) => {
   const communityTitle = useSelector((state) =>
     getCommunityTitle(state, communityId),
   );
-
   const communityDescription = useSelector((state) =>
     getCommunityDescription(state, communityId),
+  );
+
+  const communityMemberCount = useSelector((state) =>
+    getCommunityMemberCount(state, communityId),
   );
 
   useEffect(() => {
@@ -40,6 +36,11 @@ const CommunityDetail = memo((props) => {
   }, []);
 
   const opacity = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => <ShareCommunity communityId={communityId} />,
+    });
+  }, []);
 
   useEffect(() => {
     if (communityTitle) {
@@ -65,7 +66,7 @@ const CommunityDetail = memo((props) => {
   useEffect(() => {
     if (titleShown) {
       Animated.timing(opacity, {
-        duration: 250, // some number in milliseconds
+        duration: 150, // some number in milliseconds
         toValue: 1, // or whatever final opacity you'd like
         useNativeDriver: true,
       }).start();
@@ -80,9 +81,6 @@ const CommunityDetail = memo((props) => {
 
   console.log('communityId in community detail', communityId);
 
-  const registeredUser = useSelector(getRegisteredUser);
-  const registeredUserId = registeredUser?._id;
-
   const avatar = (
     <CommunityAvatar
       communityName={communityTitle}
@@ -94,7 +92,7 @@ const CommunityDetail = memo((props) => {
   const communityTitleField = (
     <Text
       style={{
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: 'bold',
         color: '#444',
         paddingLeft: 10,
@@ -115,14 +113,34 @@ const CommunityDetail = memo((props) => {
     </View>
   );
 
-  const descriptionField = (
+  const memberCountField = communityMemberCount ? (
+    <Text
+      style={{
+        paddingTop: 15,
+        fontSize: 12,
+        color: '#555',
+        paddingLeft: 5,
+        ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+      }}>
+      {kFormatter(communityMemberCount)}{' '}
+      {communityMemberCount == 1 ? 'member' : 'members'}
+    </Text>
+  ) : (
+    <ActivityIndicator
+      size="small"
+      color="#4285f4"
+      style={{alignSelf: 'flex-start', paddingLeft: 5, paddingTop: 15}}
+    />
+  );
+
+  const descriptionField = communityDescription ? (
     <Hyperlink
       linkDefault={false}
       linkStyle={{color: '#2980b9'}}
       onPress={(url, text) => navigateToURL(url, 'bio')}>
       <Text
         style={{
-          paddingTop: 15,
+          paddingTop: 10,
           paddingLeft: 5,
           fontSize: 12,
           color: '#111',
@@ -130,22 +148,18 @@ const CommunityDetail = memo((props) => {
         {communityDescription}
       </Text>
     </Hyperlink>
-  );
-
-  const accountSettings = (
-    <TouchableOpacity
-      hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
-      style={{paddingRight: 10, flexDirection: 'row', alignItems: 'center'}}
-      //     onPress={() => dispatch(showOptionSheet({ type: 'user', id: userId }))}
-    >
-      <Icon name="gear" type="font-awesome" size={24} color={'#666'} />
-    </TouchableOpacity>
+  ) : (
+    <ActivityIndicator
+      size="small"
+      color="#4285f4"
+      style={{alignSelf: 'flex-start', paddingLeft: 5, paddingTop: 10}}
+    />
   );
 
   return (
     <View
       style={{
-        backgroundColor: '#fff',
+        backgroundColor: '#fafafa',
         borderColor: '#eee',
         borderBottomWidth: 1,
         borderTopWidth: 1,
@@ -159,8 +173,9 @@ const CommunityDetail = memo((props) => {
           justifyContent: 'space-between',
         }}>
         {communityAvatarAndDisplayName}
-        {accountSettings}
+        <CommunityOptions communityId={communityId} />
       </View>
+      {memberCountField}
       {descriptionField}
       <View
         style={{

@@ -37,6 +37,7 @@ function PostContent(props) {
       navigateToPostDetail();
     }
   };
+
   const PostContentWrapper = (props) => {
     return (
       <View

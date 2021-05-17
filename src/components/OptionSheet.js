@@ -1,20 +1,28 @@
 import React from 'react';
-import {View, Alert} from 'react-native';
+import {View, Alert, TouchableOpacity} from 'react-native';
 import {ListItem, Divider, Button, Overlay} from 'react-native-elements';
 import {
   hideOptionSheet,
   isVisible,
   showReportOptions,
+  getId,
+  getType,
+  getReport,
 } from '../redux/reducers/OptionSheetSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import {TouchableOpacity} from 'react-native';
-import {getId, getType, getReport} from '../redux/reducers/OptionSheetSlice';
 import Report from './Report';
-import {getPostAuthorId} from '../redux/selectors/PostSelectors';
-import {getCommentAuthorId} from '../redux/selectors/CommentSelectors';
+import {
+  getPostAuthorId,
+  getPostCommunityId,
+} from '../redux/selectors/PostSelectors';
+import {getUserRoleInCommunity} from '../redux/reducers/CommunitySlice';
+import {
+  getCommentAuthorId,
+  getCommentPostCommunity,
+} from '../redux/selectors/CommentSelectors';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
-import {deletePost} from '../redux/actions/PostActions';
-import {deleteComment} from '../redux/actions/CommentActions';
+import {deletePost, removePost} from '../redux/actions/PostActions';
+import {deleteComment, removeComment} from '../redux/actions/CommentActions';
 import {blockUser} from '../redux/reducers/UserSlice';
 import {signout} from '../redux/actions/AuthActions';
 import {navigate} from '../navigation/Ref';
@@ -32,6 +40,17 @@ export default function OptionSheet() {
       : type == 'comment'
       ? useSelector((state) => getCommentAuthorId(state, id))
       : null;
+
+  const communityId =
+    type == 'post'
+      ? useSelector((state) => getPostCommunityId(state, id))
+      : type == 'comment'
+      ? useSelector((state) => getCommentPostCommunity(state, id))
+      : null;
+
+  const userRole = useSelector((state) =>
+    getUserRoleInCommunity(state, communityId),
+  );
 
   const currentUser = useSelector(getRegisteredUser);
 
@@ -144,6 +163,35 @@ export default function OptionSheet() {
                       type == 'post'
                         ? dispatch(deletePost(id))
                         : dispatch(deleteComment(id));
+                      dispatch(hideOptionSheet());
+                    },
+                  },
+                ],
+                {cancelable: true},
+              );
+            },
+          },
+          userRole == 'admin' && {
+            // show delete option only of current user is same as author
+            title: 'Remove',
+            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            containerStyle: listItemStyle,
+            onPress: () => {
+              Alert.alert(
+                'Remove ' + type + ' ?',
+                null,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => dispatch(hideOptionSheet()),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      type == 'post'
+                        ? dispatch(removePost(id))
+                        : dispatch(removeComment(id));
                       dispatch(hideOptionSheet());
                     },
                   },

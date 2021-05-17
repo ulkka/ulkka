@@ -26,10 +26,11 @@ const userApi = {
       const client = await mainClient;
       let response = await client.get(`${USER_URI}?query={"email":"${email}"}`);
       const userExists = response.data?.length;
-      console.log(response);
+      console.log('userby email response', response);
       if (userExists) {
         const userId = response.data[0]._id;
-        response = this.getUserById(userId);
+        response = await this.getUserById(userId);
+        console.log('userbyid response', response);
         return response;
       } else {
         return 0;

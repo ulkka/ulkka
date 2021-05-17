@@ -97,3 +97,4 @@ export const slice = createSlice({
 
 export const loadingOverlay = slice.reducer;
 export const isVisible = (state) => state.loadingOverlay.visible;
+export const {showOverlay, hideOverlay} = slice.actions;

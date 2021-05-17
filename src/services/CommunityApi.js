@@ -35,6 +35,17 @@ const communityApi = {
       const response = await client.get(`${COMMUNITY_URI}/${communityId}`);
       return response;
     },
+    async updateField(communityId, field, value) {
+      const client = await mainClient;
+      let payload = {};
+      payload[field] = value;
+      const response = await client
+        .put(`${COMMUNITY_URI}/${communityId}`, payload)
+        .catch((error) => {
+          console.log('error updating community rule', error);
+        });
+      return response;
+    },
   },
 };
 

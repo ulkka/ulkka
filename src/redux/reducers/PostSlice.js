@@ -8,6 +8,7 @@ import {
   fetchPostById,
   reportPost,
   downloadMedia,
+  removePost,
 } from '../actions/PostActions';
 import {postAdapter} from '../selectors/PostSelectors';
 import Snackbar from 'react-native-snackbar';
@@ -66,6 +67,15 @@ export const slice = createSlice({
         duration: Snackbar.LENGTH_SHORT,
       });
       analytics().logEvent('post_delete');
+    },
+    [removePost.fulfilled]: (state, action) => {
+      const postId = action.payload;
+      postAdapter.removeOne(state, postId);
+      Snackbar.show({
+        text: 'Post removed',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('post_remove');
     },
     [votePost.fulfilled]: (state, action) => {
       const postId = action.payload?.data?._id;

@@ -24,6 +24,7 @@ const getFeedBasedOnType = async (getState, type) => {
   switch (feedType) {
     case 'main':
       response = await feedApi.main.fetch(type, nextPage, limit);
+      console.log('response main feed fetch', response);
       return response;
     case 'UserDetail':
       const userId = type.substring(

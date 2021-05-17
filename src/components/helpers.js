@@ -69,16 +69,26 @@ function getScreenFromLink(link) {
   const entity = link && path.substring(1, path.lastIndexOf('/'));
   const entityId = link && path.substring(path.lastIndexOf('/') + 1);
   const screen =
-    entity == 'post' && entityId && entityId != '' ? 'PostDetail' : 'Feed';
+    entity == 'post' && entityId && entityId != ''
+      ? 'PostDetail'
+      : entity == 'community' && entityId && entityId != ''
+      ? 'CommunityNavigation'
+      : 'Feed';
 
   return {screen, entityId};
 }
 
 export function navigateToLink(link) {
   const {screen, entityId} = getScreenFromLink(link);
-  navigate(screen, {
-    postId: entityId,
-  });
+  const field =
+    screen == 'PostDetail'
+      ? 'postId'
+      : screen == 'CommunityNavigation'
+      ? 'communityId'
+      : 'home'; // placeholder field
+  let params = {};
+  params[field] = entityId;
+  navigate(screen, params);
 }
 
 export const navigateToURL = async (url, clickedFrom) => {

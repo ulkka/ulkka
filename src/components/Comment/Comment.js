@@ -1,12 +1,15 @@
 import React, {useState, memo} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import {Icon} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import CommentMetadata from './CommentMetadata';
 import CommentBody from './CommentBody';
 import CommentFooter from './CommentFooter';
-import {getCommentisDeleted} from '../../redux/selectors/CommentSelectors';
+import {
+  getCommentisDeleted,
+  getCommentisRemoved,
+} from '../../redux/selectors/CommentSelectors';
 import analytics from '@react-native-firebase/analytics';
 
 function Comment(props) {
@@ -19,6 +22,10 @@ function Comment(props) {
   const isCommentDeleted = useSelector((state) =>
     getCommentisDeleted(state, commentId),
   );
+  const isCommentRemoved = useSelector((state) =>
+    getCommentisRemoved(state, commentId),
+  );
+
   const CommentView = (
     <View style={{paddingLeft: 10}}>
       <CommentMetadata
@@ -58,9 +65,9 @@ function Comment(props) {
               fontWeight: '500',
               fontSize: 12,
               textDecorationLine: 'line-through',
+              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            {' '}
-            comment deleted{' '}
+            {isCommentDeleted ? 'comment deleted' : 'comment removed'}
           </Text>
           <Icon
             name={isCollapsed ? 'expand-more' : 'expand-less'}
@@ -89,7 +96,7 @@ function Comment(props) {
         marginTop: 2,
         paddingBottom: 3,
       }}>
-      {isCommentDeleted ? DeletedCommentView : CommentView}
+      {isCommentDeleted || isCommentRemoved ? DeletedCommentView : CommentView}
     </View>
   );
 }

@@ -111,6 +111,31 @@ export const deleteComment = createAsyncThunk(
   },
 );
 
+export const removeComment = createAsyncThunk(
+  'comments/remove',
+  async (id, {rejectWithValue}) => {
+    try {
+      let response = await postApi.comment.remove(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (id, {getState}) => {
+      const authStatus = getState().authorization.status;
+      const access = authStatus == 'AUTHENTICATED' ? true : false;
+
+      const postId = getState().comments.entities[id].post;
+      const communityId = getState().posts.entities[postId]?.community;
+      const role = getState().communities.entities[communityId]?.role;
+
+      return access && role == 'admin';
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
 export const reportComment = createAsyncThunk(
   'comments/report',
   async ({id, option}, {rejectWithValue}) => {

@@ -7,6 +7,8 @@ import {
   getPostTextHidden,
 } from '../../redux/selectors/FeedSelectors';
 import {setShowMore, setTextHidden} from '../../redux/reducers/FeedSlice';
+import Hyperlink from 'react-native-hyperlink';
+import {navigateToURL} from '../helpers';
 
 const TextPostContent = (props) => {
   const dispatch = useDispatch();
@@ -35,32 +37,41 @@ const TextPostContent = (props) => {
         alignItems: 'flex-start',
         paddingLeft: 5,
       }}>
-      <Text
-        onTextLayout={onTextLayout}
-        ellipsizeMode={'tail'}
-        numberOfLines={textHidden ? 10 : undefined}
-        style={{
-          fontSize: 14,
-          lineHeight: 22,
-          textAlign: 'justify',
-          paddingRight: 5,
-          color: '#444',
-        }}>
-        {description}
-      </Text>
-      {showMore && (
-        <TouchableOpacity
-          style={{paddingVertical: 5}}
-          onPress={() =>
-            dispatch(
-              setTextHidden({postId, type: currentScreen, value: !textHidden}),
-            )
-          }>
-          <Text style={{color: '#68cbf8'}}>
-            {textHidden ? 'See More' : 'See Less'}
-          </Text>
-        </TouchableOpacity>
-      )}
+      <Hyperlink
+        linkDefault={false}
+        linkStyle={{color: '#2980b9'}}
+        onPress={(url, text) => navigateToURL(url, 'post_description')}>
+        <Text
+          onTextLayout={onTextLayout}
+          ellipsizeMode={'tail'}
+          numberOfLines={textHidden ? 10 : undefined}
+          style={{
+            fontSize: 14,
+            lineHeight: 22,
+            textAlign: 'justify',
+            paddingRight: 5,
+            color: '#444',
+          }}>
+          {description}
+        </Text>
+        {showMore && (
+          <TouchableOpacity
+            style={{paddingVertical: 5}}
+            onPress={() =>
+              dispatch(
+                setTextHidden({
+                  postId,
+                  type: currentScreen,
+                  value: !textHidden,
+                }),
+              )
+            }>
+            <Text style={{color: '#68cbf8'}}>
+              {textHidden ? 'See More' : 'See Less'}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </Hyperlink>
     </View>
   );
 };
