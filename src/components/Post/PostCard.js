@@ -20,7 +20,7 @@ const allowedPostTypes = ['text', 'image', 'link', 'gif', 'video'];
 
 function PostCard(props) {
   const {theme} = useContext(ThemeContext);
-  const {postId} = props;
+  const {postId, screen, screenName} = props;
   const isDeleted = useSelector((state) => getPostisDeleted(state, postId));
   const isRemoved = useSelector((state) => getPostisRemoved(state, postId));
   const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
@@ -29,7 +29,6 @@ function PostCard(props) {
 
   const isAuthorBlocked = blockedUsers?.includes(postAuthorId);
   const isPostTypeAllowed = allowedPostTypes.includes(postType);
-
   const errorFallback = (props: {error: Error, resetError: Function}) => (
     <View></View>
   );
@@ -39,51 +38,66 @@ function PostCard(props) {
     crashlytics().recordError(error);
   };
 
+  const PostCardView = (
+    <View
+      style={{
+        alignSelf: 'center',
+        backgroundColor: theme.colors.background,
+        width: '100%',
+        paddingTop: 10,
+        paddingBottom: 3,
+        borderBottomColor: '#fafafa',
+        borderBottomWidth: 1,
+      }}>
+      <View style={{paddingHorizontal: 5}}>
+        <PostHeader {...props} />
+        <PostTitle {...props} />
+      </View>
+      <PostContent {...props} />
+      <PostFooter {...props} />
+    </View>
+  );
+
+  const PostDeletedRemovedView = (
+    <View
+      style={{
+        marginHorizontal: 3,
+        paddingVertical: 30,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        backgroundColor: '#ffeded',
+        alignItems: 'center',
+      }}>
+      <Text
+        style={{
+          color: '#666',
+          letterSpacing: 0.5,
+          fontWeight: '500',
+          textDecorationLine: 'line-through',
+        }}>
+        {isDeleted ? 'Post deleted' : 'Post removed'}
+      </Text>
+    </View>
+  );
+
+  const PostCardViewHandler = () => {
+    if (!isAuthorBlocked && isDeleted !== undefined && isPostTypeAllowed) {
+      if (
+        isDeleted === true ||
+        (isRemoved === true && !screen.startsWith('UserDetail'))
+      ) {
+        return PostDeletedRemovedView;
+      } else {
+        return PostCardView;
+      }
+    } else {
+      return <View></View>;
+    }
+  };
+
   return (
     <ErrorBoundary FallbackComponent={errorFallback} onError={errorHandler}>
-      {!isAuthorBlocked && isDeleted !== undefined && isPostTypeAllowed ? (
-        isDeleted === false && isRemoved === false ? (
-          <View
-            style={{
-              alignSelf: 'center',
-              backgroundColor: theme.colors.background,
-              width: '100%',
-              paddingTop: 10,
-              paddingBottom: 3,
-              borderBottomColor: '#fafafa',
-              borderBottomWidth: 1,
-            }}>
-            <View style={{paddingHorizontal: 5}}>
-              <PostHeader {...props} />
-              <PostTitle {...props} />
-            </View>
-            <PostContent {...props} />
-            <PostFooter {...props} />
-          </View>
-        ) : (
-          <View
-            style={{
-              marginHorizontal: 3,
-              paddingVertical: 30,
-              borderRadius: 10,
-              paddingHorizontal: 10,
-              backgroundColor: '#ffeded',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: '#666',
-                letterSpacing: 0.5,
-                fontWeight: '500',
-                textDecorationLine: 'line-through',
-              }}>
-              {isDeleted ? 'Post deleted' : 'Post removed'}
-            </Text>
-          </View>
-        )
-      ) : (
-        <View></View>
-      )}
+      {PostCardViewHandler()}
     </ErrorBoundary>
   );
 }

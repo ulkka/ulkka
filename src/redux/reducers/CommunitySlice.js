@@ -223,9 +223,14 @@ export const {
 
 export const getIsCurrentUserPartOfAnyCommunity = (state) =>
   selectAllCommunities(state).find((community) => community.role == 'member');
+export const getIsCurrentUserAdminOfAnyCommunity = (state) =>
+  selectAllCommunities(state).find((community) => community.role == 'admin');
 
 export const getUserMemberCommunities = (state) =>
   selectAllCommunities(state).filter((community) => community.role != 'none');
+
+export const getUserModeratorCommunities = (state) =>
+  selectAllCommunities(state).filter((community) => community.role == 'admin');
 
 export const getUserRoleInCommunity = (state, id) =>
   selectCommunityById(state, id)?.role;

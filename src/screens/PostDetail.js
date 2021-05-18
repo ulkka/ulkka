@@ -19,6 +19,7 @@ import {
 } from '../redux/selectors/FeedSelectors';
 import {
   getPostisDeleted,
+  getPostisRemoved,
   getPostAuthorId,
 } from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
@@ -33,6 +34,7 @@ const PostDetail = ({route}) => {
   const [error, setError] = useState(undefined);
 
   const isPostDeleted = useSelector((state) => getPostisDeleted(state, postId));
+  const isPostRemoved = useSelector((state) => getPostisRemoved(state, postId));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
   const loading = useSelector((state) => isFeedLoading(state, screenId));
 
@@ -129,7 +131,7 @@ const PostDetail = ({route}) => {
   return !isAuthorBlocked
     ? loading || refreshing || error === undefined
       ? refreshingPostView
-      : isPostDeleted === false
+      : isPostDeleted === false && isPostRemoved === false
       ? postView
       : postNotAvailableView
     : postNotAvailableView;

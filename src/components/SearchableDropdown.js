@@ -5,24 +5,26 @@ import {
   FlatList,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ScrollView,
 } from 'react-native';
 import {SearchBar, Button, Icon, Divider, Overlay} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import mainClient from '../client/mainClient';
-import {getUserMemberCommunities} from '../redux/reducers/CommunitySlice';
+import {
+  getUserMemberCommunities,
+  getUserModeratorCommunities,
+} from '../redux/reducers/CommunitySlice';
 
 export default function SearchableDropdown(props) {
+  const {allowOnlyMemberCommunities, allowOnlyModeratorCommunities} = props;
   const [visible, setVisible] = useState(props.selectCommunityModalVisible);
   const userMemberCommunities = useSelector(getUserMemberCommunities);
+  const userModeratorCommunites = useSelector(getUserModeratorCommunities);
   const [value, setValue] = useState('');
   const [items, setItems] = useState(userMemberCommunities);
 
-  console.log('user member communitirs', userMemberCommunities);
   const searchBarRef = useRef(null);
 
   const toggleModal = () => {
-    //setVisible(!visible);
     props.setSelectCommunityModalVisible(!props.selectCommunityModalVisible);
   };
 
@@ -31,10 +33,20 @@ export default function SearchableDropdown(props) {
   }, [props.selectCommunityModalVisible]);
 
   useEffect(() => {
-    if (value.length > 2) {
+    if (
+      value.length > 2 &&
+      !allowOnlyMemberCommunities &&
+      !allowOnlyModeratorCommunities
+    ) {
       searchForCommunity(value);
-    } else {
+    } else if (allowOnlyMemberCommunities) {
       const filteredMemberCommunities = userMemberCommunities.filter(
+        (community) =>
+          community.name.toLowerCase().startsWith(value.toLowerCase()),
+      );
+      setItems(filteredMemberCommunities);
+    } else if (allowOnlyModeratorCommunities) {
+      const filteredMemberCommunities = userModeratorCommunites.filter(
         (community) =>
           community.name.toLowerCase().startsWith(value.toLowerCase()),
       );
@@ -183,7 +195,7 @@ export default function SearchableDropdown(props) {
 
   return (
     <Overlay
-      onShow={() => searchBarRef.current.focus()}
+      //  onShow={() => searchBarRef.current.focus()}
       statusBarTranslucent={true}
       transparent={true}
       animationType="slide"

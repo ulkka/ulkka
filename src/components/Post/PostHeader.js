@@ -11,6 +11,7 @@ import {
   getPostCommunityId,
   getPostCommunityName,
   getPostCreatedAt,
+  getPostisRemoved,
 } from '../../redux/selectors/PostSelectors';
 import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import UserAvatar from '../UserAvatar';
@@ -31,6 +32,7 @@ const PostHeader = (props) => {
   const authorDisplayname = useSelector((state) =>
     getPostAuthorDisplayname(state, postId),
   );
+  const isRemoved = useSelector((state) => getPostisRemoved(state, postId));
 
   const registeredUser = useSelector(getRegisteredUser);
 
@@ -62,15 +64,15 @@ const PostHeader = (props) => {
 
   const CommentAuthorDisplaynameColor = isPostAuthorCurrentUser
     ? '#02862aaa'
-    : '#888';
+    : '#777';
 
   const UserDisplayName = (
     <View>
       <Text
         style={{
-          fontSize: 11,
+          fontSize: 12,
           color: CommentAuthorDisplaynameColor,
-          fontWeight: 'bold',
+          // fontWeight: 'bold',
           //color: '#888',
           paddingRight: 4,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -150,6 +152,16 @@ const PostHeader = (props) => {
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <CommunityMembershipToggler {...props} />
+        {isRemoved && (
+          <View
+            style={{
+              backgroundColor: 'rgba(256, 0, 0, 0.5)',
+              padding: 5,
+              borderRadius: 5,
+            }}>
+            <Text style={{fontSize: 12, color: '#444'}}>Post removed</Text>
+          </View>
+        )}
         <ExtraOptions id={postId} type={'post'} />
       </View>
     </View>

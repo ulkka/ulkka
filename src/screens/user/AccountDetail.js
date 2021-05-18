@@ -1,4 +1,4 @@
-import React, {useEffect, memo, useRef} from 'react';
+import React, {useState, useEffect, memo, useRef} from 'react';
 import {
   View,
   Text,
@@ -9,23 +9,27 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {Icon, Divider, Tooltip} from 'react-native-elements';
+import {Icon, Divider, Tooltip, Button} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserCreatedAt,
   getUserDisplayname,
   getUserTotalKarma,
   blockUser,
+  fetchUserById,
 } from '../../redux/reducers/UserSlice';
-import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
+import {
+  getRegisteredUser,
+  getBlockedUsers,
+} from '../../redux/reducers/AuthSlice';
 import TimeAgo from '../../components/TimeAgo';
 import UserAvatar from '../../components/UserAvatar';
 import {showOptionSheet} from '../../redux/reducers/OptionSheetSlice';
 import {numberWithCommas} from '../../components/helpers';
 import UserBioField from '../../components/UserBioField';
 import UserDisplaynameField from '../../components/UserDisplaynameField';
-import {fetchUserById} from '../../redux/reducers/UserSlice';
-import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
+import InviteUserToCommunity from './InviteUserToCommunity';
+import {getIsCurrentUserAdminOfAnyCommunity} from '../../redux/reducers/CommunitySlice';
 
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
@@ -35,7 +39,20 @@ const AccountDetail = memo((props) => {
   const {userId, titleShown} = props;
   const blockedUsers = useSelector(getBlockedUsers);
   const isUserBlocked = blockedUsers?.includes(userId);
+  const isCurrentUserAdminOfAnyCommunity = useSelector(
+    getIsCurrentUserAdminOfAnyCommunity,
+  );
+
+  const registeredUser = useSelector(getRegisteredUser);
+  const registeredUserId = registeredUser?._id;
+  const isProfile = userId == registeredUserId;
+
   useEffect(() => {
+    if (!isProfile) {
+      props.navigation.setOptions({
+        headerRight: () => blockUserView(),
+      });
+    }
     if (!isUserBlocked) {
       dispatch(fetchUserById(userId));
     }
@@ -80,7 +97,7 @@ const AccountDetail = memo((props) => {
     }
   }, [titleShown]);
 
-  console.log('userId in account detail', userId);
+  console.log('userId in account detail', userId, props);
 
   // Karma Animation
   const iconSize = useRef(new Animated.Value(8)).current; // Initial value for opacity: 0
@@ -113,10 +130,6 @@ const AccountDetail = memo((props) => {
     heartBeat();
   }, []);
   // Animation over
-
-  const registeredUser = useSelector(getRegisteredUser);
-  const registeredUserId = registeredUser?._id;
-  const isProfile = userId == registeredUserId;
 
   const userTotalKarma = useSelector((state) =>
     getUserTotalKarma(state, userId),
@@ -223,22 +236,42 @@ const AccountDetail = memo((props) => {
     </TouchableOpacity>
   );
 
-  const blockUserView = (
-    <TouchableOpacity
-      hitSlop={{top: 20, bottom: 30, left: 20, right: 20}}
-      style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
-      onPress={() => blockUserAlert()}>
-      <Icon
-        raised
-        name="user-slash"
-        type="font-awesome-5"
-        size={14}
-        color={'#ff2222'}
-      />
-    </TouchableOpacity>
-  );
+  const blockUserView = () => {
+    return (
+      <TouchableOpacity
+        hitSlop={{top: 20, bottom: 30, left: 20, right: 20}}
+        style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
+        onPress={() => blockUserAlert()}>
+        <Icon
+          raised
+          name="user-slash"
+          type="font-awesome-5"
+          size={14}
+          color={'#ff2222'}
+        />
+      </TouchableOpacity>
+    );
+  };
 
-  return (
+  return isUserBlocked ? (
+    <View
+      style={{
+        height: 180,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Text
+        style={{
+          color: '#555',
+          fontSize: 20,
+          fontWeight: 'bold',
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+        }}>
+        User Not Available
+      </Text>
+    </View>
+  ) : (
     <View
       style={{
         backgroundColor: '#fff',
@@ -255,7 +288,10 @@ const AccountDetail = memo((props) => {
           justifyContent: 'space-between',
         }}>
         {userAvatarAndDisplayName}
-        {isProfile ? accountSettings : blockUserView}
+        {isProfile && accountSettings}
+        {!isProfile && isCurrentUserAdminOfAnyCommunity && (
+          <InviteUserToCommunity userId={userId} />
+        )}
       </View>
       <UserBioField userId={userId} />
       <View

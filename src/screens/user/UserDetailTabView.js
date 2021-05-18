@@ -5,12 +5,20 @@ import {
   Animated,
   useWindowDimensions,
   Platform,
+  Text,
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view';
+import {Button} from 'react-native-elements';
 import Posts from './tabs/Posts';
 import Comments from './tabs/Comments';
 import {makeId} from '../../components/Post/helpers';
 import AccountDetail from './AccountDetail';
+import {
+  getRegisteredUser,
+  getBlockedUsers,
+} from '../../redux/reducers/AuthSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {goBack} from '../../navigation/Ref';
 
 const COLLAPSED_HEIGHT = 40;
 
@@ -18,6 +26,9 @@ export default function UserDetailTabView(props) {
   const initialLayout = useWindowDimensions();
   const userId = props.route.params.userId;
   const {navigation} = props;
+
+  const blockedUsers = useSelector(getBlockedUsers);
+  const isUserBlocked = blockedUsers?.includes(userId);
 
   const [screenName, setScreenName] = useState(
     'UserDetail-' + userId + '-' + makeId(5),
@@ -160,7 +171,29 @@ export default function UserDetailTabView(props) {
     }
   };
 
-  return (
+  const BlockedUserView = (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        backgroundColor: '#fafafa',
+      }}>
+      <Text style={{fontWeight: 'bold', fontSize: 20, color: '#555'}}>
+        {'  '}
+        User not available{'  '}
+      </Text>
+      <Button
+        title="Go Back"
+        type="outline"
+        raised
+        titleStyle={{fontSize: 15, color: '#2a9df4', padding: 4}}
+        onPress={() => goBack()}
+      />
+    </View>
+  );
+
+  const UserTabView = (
     <TabView
       style={styles.container}
       navigationState={{index, routes}}
@@ -171,6 +204,8 @@ export default function UserDetailTabView(props) {
       lazy={({route}) => route.key === 'comments'}
     />
   );
+
+  return isUserBlocked ? BlockedUserView : UserTabView;
 }
 
 const styles = StyleSheet.create({

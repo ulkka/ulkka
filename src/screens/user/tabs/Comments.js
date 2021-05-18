@@ -31,9 +31,11 @@ const CommentRow = memo((props) => {
   const text = comment?.text;
   const voteCount = comment?.voteCount;
   const isCommentDeleted = comment?.isDeleted;
+  const isCommentRemoved = comment?.isRemoved;
   const postId = comment?.post;
   const postTitle = comment?.postDetail?.title;
   const isPostDeleted = comment?.postDetail?.isDeleted;
+  const isPostRemoved = comment?.postDetail?.isRemoved;
 
   const textField = !isCommentDeleted ? (
     <Text
@@ -48,8 +50,9 @@ const CommentRow = memo((props) => {
         padding: 5,
         color: '#ff6565',
         textDecorationLine: 'line-through',
+        ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
       }}>
-      {'comment deleted  '}
+      {'comment deleted'}
     </Text>
   );
 
@@ -74,24 +77,34 @@ const CommentRow = memo((props) => {
     </View>
   );
 
-  const postTitleField = isPostDeleted ? (
-    <Text
-      style={{
-        fontWeight: 'bold',
-        color: '#ff6565',
-        textDecorationLine: 'line-through',
-      }}>
-      {' '}
-      post deleted{'  '}
-    </Text>
-  ) : (
-    <Text
-      numberOfLines={1}
-      ellipsizeMode="tail"
-      style={{fontWeight: 'bold', padding: 5, color: '#444'}}>
-      {postTitle}
-    </Text>
-  );
+  const postTitleField =
+    isPostDeleted || isPostRemoved ? (
+      <Text
+        style={{
+          fontWeight: 'bold',
+          color: '#ff6565',
+          textDecorationLine: 'line-through',
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+        }}>
+        {isPostDeleted ? 'post deleted' : 'post removed'}
+      </Text>
+    ) : (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={{fontWeight: 'bold', padding: 5, color: '#444'}}>
+          {postTitle}
+        </Text>
+        {isCommentRemoved && (
+          <View
+            style={{
+              backgroundColor: 'rgba(256, 0, 0, 0.5)',
+              padding: 3,
+              borderRadius: 5,
+            }}>
+            <Text style={{fontSize: 10, color: '#444'}}>Comment Removed</Text>
+          </View>
+        )}
+      </View>
+    );
 
   const metadataRow = (
     <View style={{flexDirection: 'row', paddingHorizontal: 5}}>
@@ -110,7 +123,7 @@ const CommentRow = memo((props) => {
 
   return (
     <TouchableOpacity
-      disabled={isPostDeleted}
+      disabled={isPostDeleted || isPostRemoved}
       style={{
         padding: 5,
         backgroundColor: isPostDeleted || isCommentDeleted ? '#fff5f5' : '#fff',
