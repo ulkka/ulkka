@@ -11,6 +11,7 @@ import {optionSheet} from './OptionSheetSlice';
 import {notifications} from './NotificationSlice';
 import {feed} from './FeedSlice';
 import {communities} from './CommunitySlice';
+import {creatorOverlay} from './CreatorOverlaySlice';
 
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
@@ -24,6 +25,7 @@ const AppReducers = combineReducers({
   users,
   communities,
   comments,
+  creatorOverlay,
   commentWriter,
   optionSheet,
   loadingOverlay,

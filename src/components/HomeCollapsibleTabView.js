@@ -12,6 +12,7 @@ const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 export default function HomeCollapsibleTabView(props) {
   const initialLayout = useWindowDimensions();
 
+  console.log('props.in homecollapsible tab view', props);
   const [tabShown, setTabShown] = useState(true);
 
   const [index, setIndex] = useState(0);
@@ -103,6 +104,7 @@ export default function HomeCollapsibleTabView(props) {
             onMomentumScrollEnd={handleOnMomentumScrollEnd}
             contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
             jumpTo={jumpTo}
+            {...props}
           />
         );
       case 'popular':
@@ -112,6 +114,7 @@ export default function HomeCollapsibleTabView(props) {
             onScrollEndDrag={handleOnScrollEndDrag}
             onMomentumScrollEnd={handleOnMomentumScrollEnd}
             contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
+            {...props}
           />
         );
       default:

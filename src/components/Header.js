@@ -5,11 +5,13 @@ import {
   StatusBar,
   Platform,
   Image,
+  View,
 } from 'react-native';
 import {Icon, Text, Badge} from 'react-native-elements';
 import Search from './Search';
 import {showAuthScreen, push} from '../navigation/Ref';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {showCreatorOverlay} from '../redux/reducers/CreatorOverlaySlice';
 import {
   getRegistrationStatus,
   getRegisteredUser,
@@ -58,7 +60,7 @@ const Notifications = memo(() => {
         name={unReadNotificationCount ? 'bell' : 'bell-o'}
         color={unReadNotificationCount ? '#222' : '#666'}
         type="font-awesome"
-        size={Platform.OS == 'ios' ? 22 : 20}
+        size={Platform.OS == 'ios' ? 22 : 18}
       />
       {unReadNotificationCount ? (
         <Badge
@@ -83,6 +85,23 @@ const HeaderBar = (props) => {
   const registeredUser = useSelector(getRegisteredUser);
 
   const _toggleSearch = () => setSearchMode(!searchMode);
+
+  const Creator = memo(() => {
+    const dispatch = useDispatch();
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          isRegistered ? dispatch(showCreatorOverlay()) : showAuthScreen()
+        }>
+        <Icon
+          name={'plus'}
+          color={'#666'}
+          type="font-awesome"
+          size={Platform.OS == 'ios' ? 22 : isRegistered ? 18 : 20}
+        />
+      </TouchableOpacity>
+    );
+  });
 
   const AccountComponent = () => {
     const avatar = isRegistered ? (
@@ -156,9 +175,36 @@ const HeaderBar = (props) => {
           marginHorizontal: 8,
           marginVertical: Platform.OS == 'ios' ? 5 : 3,
         }}>
-        <AccountComponent />
-        <TitleComponent />
-        {isRegistered ? <Notifications /> : <SearchComponent />}
+        <View
+          style={{flex: 1, justifyContent: 'flex-start', flexDirection: 'row'}}>
+          <AccountComponent />
+        </View>
+        <View style={{flex: 1}}>
+          <TitleComponent />
+        </View>
+        {isRegistered ? (
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+            }}>
+            <Creator />
+            <View style={{width: 20}}></View>
+            <Notifications />
+          </View>
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              marginRight: 10,
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+            }}>
+            <Creator />
+          </View>
+        )}
       </SafeAreaView>
     </SafeAreaView>
   );

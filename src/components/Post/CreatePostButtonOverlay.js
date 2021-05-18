@@ -1,19 +1,36 @@
 import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import {Icon, Overlay, Divider} from 'react-native-elements';
-import {useSelector} from 'react-redux';
 import {navigate, showAuthScreen} from '../../navigation/Ref';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  showCreatorOverlay,
+  hideCreatorOverlay,
+  getEnableOverlay,
+  toggleCreatorOverlay,
+  getCreatorCommunityId,
+} from '../../redux/reducers/CreatorOverlaySlice';
+import {getCommunityTitle} from '../../redux/reducers/CommunitySlice';
 
 export default function CreatePostButtonOverlay(props) {
-  const [enableOverlay, setEnableOverLay] = useState(false);
+  const dispatch = useDispatch();
+
+  const enableOverlay = useSelector(getEnableOverlay);
+  const communityId = useSelector(getCreatorCommunityId);
+  const communityTitle = useSelector((state) =>
+    getCommunityTitle(state, communityId),
+  );
+
+  const community = {name: communityTitle, _id: communityId};
 
   const isRegistered = useSelector(getRegistrationStatus);
 
   const toggleOverlay = () => {
-    setEnableOverLay(!enableOverlay);
+    //setEnableOverLay(!enableOverlay);
+    dispatch(toggleCreatorOverlay());
   };
-
+  console.log('props in createpost button overlay', props);
   const styles = StyleSheet.create({
     postType: {
       paddingTop: 10,
@@ -21,9 +38,11 @@ export default function CreatePostButtonOverlay(props) {
   });
 
   const createPost = (type) => {
-    setEnableOverLay(false);
+    //setEnableOverLay(false);
+    dispatch(hideCreatorOverlay());
     navigate('CreatePost', {
       type: type,
+      community: community,
     });
   };
 
@@ -45,7 +64,7 @@ export default function CreatePostButtonOverlay(props) {
             alignSelf: 'center',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          Create Post
+          {communityTitle ? 'Post on ' + communityTitle : 'Create Post'}
         </Text>
       </View>
       <TouchableOpacity onPress={() => toggleOverlay()}>
@@ -53,6 +72,7 @@ export default function CreatePostButtonOverlay(props) {
       </TouchableOpacity>
     </View>
   );
+
   const CreatePostChoices = (
     <View
       style={{
@@ -192,7 +212,8 @@ export default function CreatePostButtonOverlay(props) {
         alignItems: 'center',
       }}
       onPress={() => {
-        setEnableOverLay(false);
+        // setEnableOverLay(false);
+        dispatch(hideCreatorOverlay());
         navigate('Create Community');
       }}>
       <Icon reverse name="group" type="font-awesome" size={18} color={'#555'} />
@@ -241,17 +262,16 @@ export default function CreatePostButtonOverlay(props) {
       <View style={{padding: 10}}>
         {Header}
         {CreatePostChoices}
-        {Seperator}
-        {CreateCommunity}
+        {!communityId && (
+          <View>
+            {Seperator}
+            {CreateCommunity}
+          </View>
+        )}
       </View>
     </Overlay>
   );
   //return isRegistered ? (
-  return (
-    <View>
-      {CreatePostIcon}
-      {PopupView}
-    </View>
-  );
+  return <View>{PopupView}</View>;
   // ) : null;
 }

@@ -38,11 +38,11 @@ export default function CreatePost({route}) {
 
   const isRegistered = useSelector(getRegistrationStatus);
 
-  const item = route?.params?.item;
+  const {item} = route?.params;
   let postType = route?.params?.type ? route.params.type : 'text';
 
   const [type, setType] = useState(postType);
-  const [community, setCommunity] = useState(null);
+  const [community, setCommunity] = useState(route?.params?.community);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [media, setMedia] = useState(null);

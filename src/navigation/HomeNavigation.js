@@ -2,9 +2,7 @@ import React from 'react';
 import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
-import CommunityDetailTabView from '../screens/community/CommunityDetailTabView';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
-
 import HeaderBar from '../components/Header';
 import CreatePost from '../screens/create/PostCreator';
 import CreateCommunity from '../screens/create/CreateCommunity';

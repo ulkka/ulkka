@@ -12,7 +12,7 @@ const feedApi = {
       const client = await mainClient;
       const sortPath = sort && `&sort=${sort}`;
       const mainUri = screen == 'popular' ? POPULAR_URI : HOME_URI;
-      const path = `${FEED_URI}${mainUri}?page=${page}&limit=${limit}&sort=top`;
+      const path = `${FEED_URI}${mainUri}?page=${page}&limit=${limit}&sort=hot`;
       const response = await client.get(path);
       return response;
     },

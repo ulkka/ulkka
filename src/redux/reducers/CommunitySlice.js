@@ -224,11 +224,14 @@ export const {
 export const getIsCurrentUserPartOfAnyCommunity = (state) =>
   selectAllCommunities(state).find((community) => community.role == 'member');
 
+export const getUserMemberCommunities = (state) =>
+  selectAllCommunities(state).filter((community) => community.role != 'none');
+
 export const getUserRoleInCommunity = (state, id) =>
   selectCommunityById(state, id)?.role;
 
 export const getCommunityTitle = (state, id) =>
-  selectCommunityById(state, id)?.name;
+  id && selectCommunityById(state, id)?.name;
 export const getCommunityDescription = (state, id) =>
   selectCommunityById(state, id)?.description;
 export const getCommunityRules = (state, id) =>

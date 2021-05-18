@@ -10,11 +10,11 @@ function Home(props) {
   const userHasJoinedCommunities = useSelector(
     getIsCurrentUserPartOfAnyCommunity,
   );
-
+  console.log('props.in home feed', props);
   const homeFeedView = (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <Feed screen="home" {...props} />
-      <CreatePostButtonOverlay />
+      <CreatePostButtonOverlay {...props} />
     </View>
   );
 

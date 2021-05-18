@@ -7,7 +7,7 @@ function Popular(props) {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <Feed screen="popular" {...props} />
-      <CreatePostButtonOverlay />
+      <CreatePostButtonOverlay {...props} />
     </View>
   );
 }

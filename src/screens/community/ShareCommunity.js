@@ -34,9 +34,9 @@ const ShareCommunity = (props) => {
 
   const platFormIcon =
     os == 'ios' ? (
-      <Icon name="share-outline" type="ionicon" size={19} color="#888" />
+      <Icon name="share-outline" type="ionicon" size={19} color="#666" />
     ) : (
-      <Icon name="share" type="font-awesome" size={18} color="#888" />
+      <Icon name="share" type="font-awesome" size={18} color="#666" />
     );
 
   async function buildLink(communityId) {

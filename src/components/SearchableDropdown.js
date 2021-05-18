@@ -1,19 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
   FlatList,
   TouchableOpacity,
-  Modal,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
-import {SearchBar, Button, Icon, Divider} from 'react-native-elements';
+import {SearchBar, Button, Icon, Divider, Overlay} from 'react-native-elements';
+import {useSelector} from 'react-redux';
 import mainClient from '../client/mainClient';
+import {getUserMemberCommunities} from '../redux/reducers/CommunitySlice';
 
 export default function SearchableDropdown(props) {
   const [visible, setVisible] = useState(props.selectCommunityModalVisible);
+  const userMemberCommunities = useSelector(getUserMemberCommunities);
   const [value, setValue] = useState('');
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(userMemberCommunities);
+
+  console.log('user member communitirs', userMemberCommunities);
+  const searchBarRef = useRef(null);
 
   const toggleModal = () => {
     //setVisible(!visible);
@@ -28,7 +34,11 @@ export default function SearchableDropdown(props) {
     if (value.length > 2) {
       searchForCommunity(value);
     } else {
-      setItems([]);
+      const filteredMemberCommunities = userMemberCommunities.filter(
+        (community) =>
+          community.name.toLowerCase().startsWith(value.toLowerCase()),
+      );
+      setItems(filteredMemberCommunities);
     }
   }, [value]);
 
@@ -40,6 +50,7 @@ export default function SearchableDropdown(props) {
     mainClient
       .get('/community?query={"name":{"$regex":"' + term + '","$options":"i"}}')
       .then((res) => {
+        console.log('res.data', res.data);
         setItems(res.data);
       });
   };
@@ -90,10 +101,11 @@ export default function SearchableDropdown(props) {
         marginBottom: 15,
       }}>
       <SearchBar
+        ref={searchBarRef}
         showCancel={true}
         value={value}
         onChangeText={(text) => searchHandle(text)}
-        placeholder="Select Community"
+        placeholder="Search Community"
         round={true}
         lightTheme={true}
         containerStyle={{
@@ -135,10 +147,11 @@ export default function SearchableDropdown(props) {
   const ResultsView = (
     <View
       style={{
-        height: '80%',
         width: '100%',
+        padding: 10,
       }}>
       <FlatList
+        keyboardShouldPersistTaps="always"
         scrollEnabled={true}
         showsVerticalScrollIndicator={true}
         data={items}
@@ -154,7 +167,7 @@ export default function SearchableDropdown(props) {
   );
 
   const CloseButtonView = (
-    <View style={{marginBottom: 20}}>
+    <View>
       <Button
         title="Close"
         color="red"
@@ -169,37 +182,41 @@ export default function SearchableDropdown(props) {
   );
 
   return (
-    <View style={{}}>
-      <Modal
-        statusBarTranslucent={true}
-        transparent={true}
-        animationType="slide"
-        visible={visible}
-        onRequestClose={() => disableFilterMode()}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <Overlay
+      onShow={() => searchBarRef.current.focus()}
+      statusBarTranslucent={true}
+      transparent={true}
+      animationType="slide"
+      isVisible={visible}
+      onBackdropPress={() => toggleModal()}
+      overlayStyle={{
+        height: '90%',
+        width: '75%',
+        backgroundColor: 'white',
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={30}
+        style={{
+          flex: 1,
+          height: 'auto',
+          width: '100%',
+        }}>
+        <View
           style={{
-            margin: 45,
-            height: '80%',
-            backgroundColor: 'white',
-            borderRadius: 25,
-            padding: 30,
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 2,
-              height: 2,
-            },
-            shadowOpacity: 0.5,
-            shadowRadius: 3.84,
-            elevation: 5,
+            padding: 20,
+            flex: 1,
+            height: 'auto',
+            width: '100%',
           }}>
           {SearchBarView}
           {ResultsView}
-          {CloseButtonView}
-        </KeyboardAvoidingView>
-      </Modal>
-    </View>
+        </View>
+        {CloseButtonView}
+      </KeyboardAvoidingView>
+    </Overlay>
   );
 }
