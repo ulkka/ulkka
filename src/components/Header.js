@@ -97,7 +97,7 @@ const HeaderBar = (props) => {
           name={'plus'}
           color={'#666'}
           type="font-awesome"
-          size={Platform.OS == 'ios' ? 22 : isRegistered ? 18 : 20}
+          size={Platform.OS == 'ios' ? 22 : isRegistered ? 19 : 20}
         />
       </TouchableOpacity>
     );

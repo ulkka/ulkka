@@ -240,6 +240,7 @@ export const {
 
 export const getIsCurrentUserPartOfAnyCommunity = (state) =>
   selectAllCommunities(state).find((community) => community.role == 'member');
+
 export const getIsCurrentUserAdminOfAnyCommunity = (state) =>
   selectAllCommunities(state).find((community) => community.role == 'admin');
 

@@ -5,6 +5,7 @@ import CommunityDetailTabView from './CommunityDetailTabView';
 import CommunitySettingsNavigation from './CommunitySettingsNavigation';
 import {useSelector} from 'react-redux';
 import {getUserRoleInCommunity} from '../../redux/reducers/CommunitySlice';
+import GrowCommunity from './GrowCommunity';
 
 const StackNav = createStackNavigator();
 
@@ -43,6 +44,23 @@ function CommunityNavigation(props) {
                     height: 40,
                   }
                 : {},
+          }}
+          initialParams={props.route.params}
+        />
+        <StackNav.Screen
+          name="GrowCommunity"
+          component={GrowCommunity}
+          title="GrowComunity"
+          options={{
+            headerBackTitle: 'Back',
+            headerTitle: 'Grow Your Community',
+            headerStyle:
+              Platform.OS == 'android'
+                ? {
+                    height: 40,
+                  }
+                : {},
+            headerTitleAlign: 'center',
           }}
           initialParams={props.route.params}
         />

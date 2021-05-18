@@ -43,11 +43,11 @@ function Home(props) {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'space-evenly',
-              maxWidth: '50%',
+              maxWidth: '60%',
             }}>
             <Text
               style={{
-                fontSize: 27,
+                fontSize: 28,
                 fontWeight: 'bold',
                 color: '#222',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -76,7 +76,7 @@ function Home(props) {
                   fontWeight: 'bold',
                   color: '#222',
                   lineHeight: 20,
-                  paddingLeft: 10,
+                  paddingLeft: 15,
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                 }}>
                 Vote on posts to assist communities in bringing the best content
@@ -88,13 +88,13 @@ function Home(props) {
                 name="group"
                 type="font-awesome"
                 color="#ff3300"
-                size={30}
+                size={33}
               />
               <Text
                 style={{
                   fontSize: 15,
                   textAlign: 'center',
-                  paddingLeft: 10,
+                  paddingLeft: 15,
                   fontWeight: 'bold',
                   color: '#222',
                   lineHeight: 20,
@@ -104,21 +104,27 @@ function Home(props) {
                 with fresh content
               </Text>
             </View>
-          </View>
-          <View
-            style={{
-              marginBottom: 20,
-            }}>
-            <Button
-              title="Join Communities"
-              buttonStyle={{
-                backgroundColor: '#2a9df4',
-                borderRadius: 15,
-                paddingHorizontal: 20,
-              }}
-              titleStyle={{color: '#fff'}}
-              onPress={() => props.jumpTo('popular')}
-            />
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Icon
+                name="heart"
+                type="font-awesome"
+                color="#ff3300"
+                size={36}
+              />
+              <Text
+                style={{
+                  fontSize: 15,
+                  textAlign: 'center',
+                  paddingLeft: 15,
+                  fontWeight: 'bold',
+                  color: '#222',
+                  lineHeight: 20,
+                  ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+                }}>
+                Create awesome posts and comments to make your community happy
+                and win more hearts
+              </Text>
+            </View>
           </View>
         </View>
         <View style={{flex: 1}}>

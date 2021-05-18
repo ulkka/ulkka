@@ -1,6 +1,6 @@
 import React from 'react';
-import {Alert} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Alert, View} from 'react-native';
+import {Button, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getCommunityTitle,
@@ -62,22 +62,59 @@ const CommunityOptions = (props) => {
       );
     case 'admin':
       return (
-        <Button
-          raised
-          title="Settings"
-          containerStyle={{
-            borderWidth: 1,
-            borderColor: '#02862ad6',
-            marginHorizontal: 10,
-          }}
-          buttonStyle={{
-            borderRadius: 15,
-            paddingHorizontal: 15,
-            paddingVertical: 5,
-          }}
-          titleStyle={{color: '#02862ad6', fontSize: 11}}
-          onPress={() => navigate('CommunitySettings')}
-        />
+        <View>
+          <Button
+            raised
+            title="Settings"
+            containerStyle={{
+              borderWidth: 1,
+              borderColor: '#02862ad6',
+              marginHorizontal: 10,
+            }}
+            buttonStyle={{
+              borderRadius: 15,
+              paddingHorizontal: 15,
+              paddingVertical: 5,
+            }}
+            icon={
+              <Icon
+                name="gear"
+                type="font-awesome"
+                color="#02862ad6"
+                size={13}
+                style={{marginRight: 5}}
+              />
+            }
+            titleStyle={{color: '#02862ad6', fontSize: 11}}
+            onPress={() => navigate('CommunitySettings')}
+          />
+          <View style={{height: 15}}></View>
+          <Button
+            raised
+            title="Grow"
+            containerStyle={{
+              borderWidth: 1,
+              borderColor: '#2a9df4',
+              marginHorizontal: 10,
+            }}
+            buttonStyle={{
+              borderRadius: 15,
+              paddingHorizontal: 15,
+              paddingVertical: 5,
+            }}
+            icon={
+              <Icon
+                name="info"
+                type="font-awesome"
+                color="#2a9df4"
+                size={13}
+                style={{marginRight: 5}}
+              />
+            }
+            titleStyle={{color: '#2a9df4', fontSize: 11}}
+            onPress={() => navigate('GrowCommunity')}
+          />
+        </View>
       );
 
     default:
