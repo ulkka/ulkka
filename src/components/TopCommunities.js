@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
-import {View, Text, FlatList, Platform} from 'react-native';
+import React, {useEffect, memo} from 'react';
+import {View, Text, Platform} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
 import {
@@ -10,7 +11,7 @@ import {
 import CommunityAvatar from './CommunityAvatar';
 import {kFormatter} from './helpers';
 
-export default function TopCommunities(props) {
+export default memo(function TopCommunities(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTopCommunities());
@@ -72,7 +73,7 @@ export default function TopCommunities(props) {
     );
   };
   const separator = () => <View style={{width: 20}}></View>;
-  return (
+  return nonMemberCommunities.length ? (
     <View style={{paddingVertical: 10, backgroundColor: '#f5f5f5'}}>
       <View style={{paddingHorizontal: 10}}>
         <Text style={{fontWeight: 'bold', color: '#777'}}>
@@ -91,5 +92,7 @@ export default function TopCommunities(props) {
         //ItemSeparatorComponent={separator}
       />
     </View>
+  ) : (
+    <View></View>
   );
-}
+});

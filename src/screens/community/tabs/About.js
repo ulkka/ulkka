@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, Platform, Animated} from 'react-native';
 import {Icon} from 'react-native-elements';
-import Collapsible from 'react-native-collapsible';
 import CommunityRules from './CommunityRules';
 import CommunityModerators from './CommunityModerators';
 

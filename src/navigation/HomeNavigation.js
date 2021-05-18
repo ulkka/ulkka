@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
+import UserNavigation from '../screens/user/UserNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import HeaderBar from '../components/Header';
 import CreatePost from '../screens/create/PostCreator';
@@ -70,27 +71,10 @@ function HomeNavigation({navigation}) {
         />
         <StackNav.Screen
           name="UserDetail"
-          component={UserDetailTabView}
+          component={UserNavigation}
           title="UserDetail"
           options={{
-            headerBackTitle: 'Back',
-            headerTitle: '',
-            headerStyle:
-              Platform.OS == 'android'
-                ? {
-                    height: 40,
-                  }
-                : {},
-          }}
-        />
-        <StackNav.Screen
-          name="CreatePost"
-          component={CreatePost}
-          title="Create Post"
-          options={{
-            headerTitle: 'Create Post',
-            headerBackTitle: '',
-            headerTitleAlign: 'center',
+            headerShown: false,
           }}
         />
         <StackNav.Screen
@@ -106,19 +90,6 @@ function HomeNavigation({navigation}) {
           }}
         />
         <StackNav.Screen
-          name="BlockedUsers"
-          component={BlockedUsers}
-          title="Blocked Users"
-          options={{
-            headerTitle: 'Blocked Users',
-            headerBackTitle: '',
-            headerBackTitleStyle: {
-              fontSize: 16,
-            },
-            headerTitleAlign: 'center',
-          }}
-        />
-        <StackNav.Screen
           name="Notifications"
           component={Notifications}
           title="Notifications"
@@ -128,6 +99,16 @@ function HomeNavigation({navigation}) {
             headerBackTitleStyle: {
               fontSize: 16,
             },
+            headerTitleAlign: 'center',
+          }}
+        />
+        <StackNav.Screen
+          name="CreatePost"
+          component={CreatePost}
+          title="Create Post"
+          options={{
+            headerTitle: 'Create Post',
+            headerBackTitle: '',
             headerTitleAlign: 'center',
           }}
         />

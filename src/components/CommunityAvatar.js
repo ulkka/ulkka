@@ -42,7 +42,7 @@ const CommunityAvatar = (props) => {
       case 'small':
         return 36;
       case 'medium':
-        return 55;
+        return 48;
       case 'large':
         return 75;
 

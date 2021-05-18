@@ -30,6 +30,7 @@ import UserBioField from '../../components/UserBioField';
 import UserDisplaynameField from '../../components/UserDisplaynameField';
 import InviteUserToCommunity from './InviteUserToCommunity';
 import {getIsCurrentUserAdminOfAnyCommunity} from '../../redux/reducers/CommunitySlice';
+import {navigate} from '../../navigation/Ref';
 
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
@@ -51,6 +52,10 @@ const AccountDetail = memo((props) => {
     if (!isProfile) {
       props.navigation.setOptions({
         headerRight: () => blockUserView(),
+      });
+    } else {
+      props.navigation.setOptions({
+        headerRight: () => AccountSettings(),
       });
     }
     if (!isUserBlocked) {
@@ -163,8 +168,9 @@ const AccountDetail = memo((props) => {
               fontWeight: 'bold',
               letterSpacing: 0.5,
               paddingRight: 0,
+              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            {numberWithCommas(userTotalKarma)}{' '}
+            {numberWithCommas(userTotalKarma)}
           </Text>
           <View style={{width: 20}}>
             <AnimatedIcon
@@ -227,10 +233,40 @@ const AccountDetail = memo((props) => {
     );
   };
 
-  const accountSettings = (
+  const UserCommunitiesView = () => {
+    return (
+      <Button
+        raised
+        title="My Communities"
+        containerStyle={{
+          borderWidth: 1,
+          borderColor: '#02862ad6',
+          marginHorizontal: 10,
+        }}
+        buttonStyle={{
+          borderRadius: 15,
+          paddingHorizontal: 15,
+          paddingVertical: 5,
+        }}
+        icon={
+          <Icon
+            name="group"
+            type="font-awesome"
+            size={13}
+            color="#02862ad6"
+            style={{marginRight: 10}}
+          />
+        }
+        titleStyle={{color: '#02862ad6', fontSize: 11}}
+        onPress={() => navigate('UserCommunities')}
+      />
+    );
+  };
+
+  const AccountSettings = () => (
     <TouchableOpacity
       hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
-      style={{paddingRight: 10, flexDirection: 'row', alignItems: 'center'}}
+      style={{marginRight: 15, flexDirection: 'row', alignItems: 'center'}}
       onPress={() => dispatch(showOptionSheet({type: 'user', id: userId}))}>
       <Icon name="gear" type="font-awesome" size={24} color={'#666'} />
     </TouchableOpacity>
@@ -288,7 +324,7 @@ const AccountDetail = memo((props) => {
           justifyContent: 'space-between',
         }}>
         {userAvatarAndDisplayName}
-        {isProfile && accountSettings}
+        {isProfile && <UserCommunitiesView />}
         {!isProfile && isCurrentUserAdminOfAnyCommunity && (
           <InviteUserToCommunity userId={userId} />
         )}
