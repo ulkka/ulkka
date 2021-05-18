@@ -13,11 +13,8 @@ import Posts from './tabs/Posts';
 import Comments from './tabs/Comments';
 import {makeId} from '../../components/Post/helpers';
 import AccountDetail from './AccountDetail';
-import {
-  getRegisteredUser,
-  getBlockedUsers,
-} from '../../redux/reducers/AuthSlice';
-import {useSelector, useDispatch} from 'react-redux';
+import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
+import {useSelector} from 'react-redux';
 import {goBack} from '../../navigation/Ref';
 
 const COLLAPSED_HEIGHT = 40;

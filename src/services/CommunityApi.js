@@ -35,6 +35,11 @@ const communityApi = {
       const response = await client.get(`${COMMUNITY_URI}/${communityId}`);
       return response;
     },
+    async fetchTop() {
+      const client = await mainClient;
+      const response = await client.get(`${COMMUNITY_URI}/top`);
+      return response;
+    },
     async inviteUser(communityId, userId) {
       const client = await mainClient;
       const response = await client.get(

@@ -50,6 +50,19 @@ export const fetchCommunityById = createAsyncThunk(
   },
 );
 
+export const fetchTopCommunities = createAsyncThunk(
+  'community/fetchTop',
+  async (communityId, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.fetchTop(1, 10);
+      console.log('response fetching top communities', response);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const joinCommunity = createAsyncThunk(
   'community/join',
   async (communityId, {rejectWithValue}) => {
@@ -168,6 +181,10 @@ export const slice = createSlice({
         );
       }
     },
+    [fetchTopCommunities.fulfilled]: (state, action) => {
+      const topCommunities = action.payload;
+      communityAdapter.upsertMany(state, topCommunities);
+    },
     [loadAuth.fulfilled]: addRegisteredUsersCommunities,
     [socialAuth.fulfilled]: addRegisteredUsersCommunities,
     [emailLinkAuth.fulfilled]: addRegisteredUsersCommunities,
@@ -227,7 +244,14 @@ export const getIsCurrentUserAdminOfAnyCommunity = (state) =>
   selectAllCommunities(state).find((community) => community.role == 'admin');
 
 export const getUserMemberCommunities = (state) =>
-  selectAllCommunities(state).filter((community) => community.role != 'none');
+  selectAllCommunities(state).filter(
+    (community) => community.role != 'none' && community.role !== undefined,
+  );
+
+export const getUserNonMemberCommunities = (state) =>
+  selectAllCommunities(state).filter(
+    (community) => community.role == 'none' || community.role === undefined,
+  );
 
 export const getUserModeratorCommunities = (state) =>
   selectAllCommunities(state).filter((community) => community.role == 'admin');
@@ -237,6 +261,10 @@ export const getUserRoleInCommunity = (state, id) =>
 
 export const getCommunityTitle = (state, id) =>
   id && selectCommunityById(state, id)?.name;
+
+export const getIsCommunityRemoved = (state, id) =>
+  id && selectCommunityById(state, id)?.isRemoved;
+
 export const getCommunityDescription = (state, id) =>
   selectCommunityById(state, id)?.description;
 export const getCommunityRules = (state, id) =>

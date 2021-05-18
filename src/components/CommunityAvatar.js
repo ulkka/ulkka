@@ -28,6 +28,8 @@ const CommunityAvatar = (props) => {
     switch (size) {
       case 'small':
         return 15;
+      case 'medium':
+        return 22;
       case 'large':
         return 30;
 
@@ -39,6 +41,8 @@ const CommunityAvatar = (props) => {
     switch (size) {
       case 'small':
         return 36;
+      case 'medium':
+        return 55;
       case 'large':
         return 75;
 
@@ -54,7 +58,7 @@ const CommunityAvatar = (props) => {
       case 'large':
         return 3;
       default:
-        return 15;
+        return 2;
     }
   };
 
@@ -102,7 +106,7 @@ const CommunityAvatar = (props) => {
   ) : (
     <Avatar
       rounded
-      title={communityName.substring(0, 2)}
+      title={communityName ? communityName.substring(0, 2) : 'UL'}
       titleStyle={{
         textTransform: 'uppercase',
         fontSize: getFontSize(),

@@ -5,12 +5,17 @@ import {
   Animated,
   useWindowDimensions,
   Platform,
+  Text,
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view';
+import {Button} from 'react-native-elements';
 import Posts from './tabs/Posts';
 import {makeId} from '../../components/Post/helpers';
 import CommunityDetail from './CommunityDetail';
 import About from './tabs/About';
+import {getIsCommunityRemoved} from '../../redux/reducers/CommunitySlice';
+import {useSelector} from 'react-redux';
+import {goBack} from '../../navigation/Ref';
 
 const COLLAPSED_HEIGHT = 40;
 
@@ -20,6 +25,8 @@ export default function CommunityDetailTabView(props) {
 
   const communityId = props.route.params.communityId;
   const {navigation} = props;
+
+  const isCommunityRemoved = useSelector(getIsCommunityRemoved);
 
   const [screenName, setScreenName] = useState(
     'CommunityDetail-' + communityId + '-' + makeId(5),
@@ -169,8 +176,29 @@ export default function CommunityDetailTabView(props) {
         return null;
     }
   };
+  const RemovedCommunityView = (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        backgroundColor: '#fafafa',
+      }}>
+      <Text style={{fontWeight: 'bold', fontSize: 20, color: '#555'}}>
+        {'  '}
+        Community not available{'  '}
+      </Text>
+      <Button
+        title="Go Back"
+        type="outline"
+        raised
+        titleStyle={{fontSize: 15, color: '#2a9df4', padding: 4}}
+        onPress={() => goBack()}
+      />
+    </View>
+  );
 
-  return (
+  const CommunityTabView = (
     <TabView
       style={styles.container}
       navigationState={{index, routes}}
@@ -180,6 +208,8 @@ export default function CommunityDetailTabView(props) {
       initialLayout={initialLayout}
     />
   );
+
+  return isCommunityRemoved ? RemovedCommunityView : CommunityTabView;
 }
 
 const styles = StyleSheet.create({

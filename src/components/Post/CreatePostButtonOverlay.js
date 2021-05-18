@@ -30,7 +30,6 @@ export default function CreatePostButtonOverlay(props) {
     //setEnableOverLay(!enableOverlay);
     dispatch(toggleCreatorOverlay());
   };
-  console.log('props in createpost button overlay', props);
   const styles = StyleSheet.create({
     postType: {
       paddingTop: 10,

@@ -16,6 +16,7 @@ import {
   setViewableItems,
 } from '../../redux/reducers/FeedSlice';
 import {fetchFeed, refreshFeed} from '../../redux/actions/FeedActions';
+import TopCommunities from '../../components/TopCommunities';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -54,6 +55,8 @@ function Feed(props) {
 
   const feedListRef = React.createRef();
 
+  const topCommunitiesPosition = postIds?.length > 3 ? 3 : 0;
+
   console.log('running feed', screen);
 
   useEffect(() => {
@@ -66,8 +69,15 @@ function Feed(props) {
     handleFetchFeed();
   };
 
-  const renderRow = ({item}) => {
-    return <PostCard postId={item} screen={screen} />;
+  const renderRow = ({item, index}) => {
+    if (index == topCommunitiesPosition && screen == 'home') {
+      return (
+        <View>
+          <TopCommunities />
+          <PostCard postId={item} screen={screen} />
+        </View>
+      );
+    } else return <PostCard postId={item} screen={screen} />;
   };
 
   const handleLoadMore = () => {
@@ -98,7 +108,7 @@ function Feed(props) {
         listKey={screen}
         data={postIds}
         renderItem={renderRow}
-        ItemSeparatorComponent={separator}
+        // ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={screen == 'home' ? 0.7 : 0.5} //How far from the end (important note: in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback
         removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
