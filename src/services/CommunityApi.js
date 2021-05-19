@@ -54,6 +54,13 @@ const communityApi = {
       );
       return response;
     },
+    async search(term, page, limit) {
+      const client = await mainClient;
+      const response = await client.get(
+        `${COMMUNITY_URI}/search?text=${term}&page=${page}&limit=${limit}`,
+      );
+      return response;
+    },
     async updateField(communityId, field, value) {
       const client = await mainClient;
       let payload = {};

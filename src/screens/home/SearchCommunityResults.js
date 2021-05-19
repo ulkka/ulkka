@@ -1,0 +1,136 @@
+import React, {useState, useEffect, memo} from 'react';
+import {View, Text, TouchableOpacity, Platform, FlatList} from 'react-native';
+import {useSelector} from 'react-redux';
+import {getSearchTerm} from '../../redux/reducers/SearchSlice';
+import {Icon, Divider} from 'react-native-elements';
+import communityApi from '../../services/CommunityApi';
+import CommunityAvatar from '../../components/CommunityAvatar';
+import {push} from '../../navigation/Ref';
+
+const CommunityRow = ({community}) => {
+  const {name, _id: communityId} = community;
+  return name ? (
+    <TouchableOpacity
+      onPress={() => push('CommunityNavigation', {communityId: communityId})}
+      style={{
+        flex: 1,
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+      }}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <CommunityAvatar communityId={communityId} size="medium" />
+        <Text
+          style={{
+            padding: 10,
+            color: '#444',
+            fontWeight: 'bold',
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          }}>
+          {name}
+        </Text>
+      </View>
+      <View>
+        <Icon name="arrow-right" type="font-awesome" size={16} color="#555" />
+      </View>
+    </TouchableOpacity>
+  ) : (
+    <View></View>
+  );
+};
+
+export default memo(function SearchCommunityResults(props) {
+  const term = useSelector(getSearchTerm);
+
+  const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
+  const [communities, setCommunities] = useState([]);
+  const [complete, setComplete] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    searchCommunities();
+  }, []);
+
+  const searchCommunities = async () => {
+    if (!complete && !loading && !error) {
+      const {page, limit} = metadata;
+      setLoading(true);
+      const response = await communityApi.community
+        .search(term, page + 1, limit)
+        .catch((error) => {
+          setError(true);
+          console.log('error searching community', error);
+        });
+      const communityList = response?.data?.data;
+      if (communityList?.length) {
+        setCommunities([...communities, ...communityList]);
+
+        const mdata = response?.data?.metadata[0];
+        setMetadata(mdata);
+
+        const {page, limit, total} = mdata;
+        if (page * limit >= total) {
+          setComplete(true);
+        }
+      } else {
+        setComplete(true);
+      }
+      setLoading(false);
+    }
+  };
+
+  const separator = () => {
+    return <Divider style={{backgroundColor: '#fff', height: 5}} />;
+  };
+
+  const handlerRenderItem = ({item}) => {
+    return <CommunityRow community={item} />;
+  };
+
+  const handleLoadMore = () => {
+    if (!complete && !loading && !error) {
+      searchCommunities();
+    }
+  };
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingTop: 40,
+      }}>
+      {communities?.length ? (
+        <FlatList
+          listKey="communitysearchresults"
+          renderItem={handlerRenderItem}
+          data={communities}
+          keyExtractor={(item, index) => item._id}
+          windowSize={15}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          ItemSeparatorComponent={separator}
+        />
+      ) : (
+        complete && (
+          <Text
+            style={{
+              fontWeight: 'bold',
+              alignSelf: 'center',
+              paddingTop: '50%',
+              color: '#555',
+              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+            }}>
+            No matching results
+          </Text>
+        )
+      )}
+    </View>
+  );
+});

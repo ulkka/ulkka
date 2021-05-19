@@ -1,41 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, FlatList, Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {getSearchTerm, resetSearch} from '../../redux/reducers/SearchSlice';
+import {getSearchTerm, setServerSearch} from '../../redux/reducers/SearchSlice';
 import {searchCommunityTitle} from '../../redux/reducers/CommunitySlice';
 import {searchUserDisplayname} from '../../redux/reducers/UserSlice';
 import CommunityAvatar from '../../components/CommunityAvatar';
 import UserAvatar from '../../components/UserAvatar';
 import {push} from '../../navigation/Ref';
 
-function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
-
-export default function Search(props) {
+export default function LocalSearch(props) {
   const dispatch = useDispatch();
 
   const term = useSelector(getSearchTerm);
 
   const [results, setResults] = useState([]);
-
-  const [searchServer, setSearchServer] = useState(false);
 
   const communityResults = useSelector((state) =>
     searchCommunityTitle(state, term.toLowerCase()),
@@ -45,17 +23,32 @@ export default function Search(props) {
   );
 
   useEffect(() => {
-    return () => dispatch(resetSearch());
-  }, []);
-
-  useEffect(() => {
-    let eachArraySize = 4;
-    if (term.length) {
-      eachArraySize = 2;
-    }
-    const reducedCommunities = communityResults
-      .slice(0, eachArraySize)
-      .map((item, index) => {
+    let eachArraySize = 2;
+    let reducedResults = [];
+    if (!!term.length) {
+      const reducedCommunities = communityResults
+        .slice(0, eachArraySize)
+        .map((item, index) => {
+          const reducedCommunity = {
+            type: 'community',
+            _id: item._id,
+            name: item.name,
+          };
+          return reducedCommunity;
+        });
+      const reducedUsers = userResults
+        .slice(0, eachArraySize)
+        .map((item, index) => {
+          const reducedUser = {
+            type: 'user',
+            _id: item._id,
+            displayname: item.displayname,
+          };
+          return reducedUser;
+        });
+      reducedResults = [...reducedCommunities, ...reducedUsers];
+    } else {
+      const reducedCommunities = communityResults.map((item, index) => {
         const reducedCommunity = {
           type: 'community',
           _id: item._id,
@@ -63,18 +56,8 @@ export default function Search(props) {
         };
         return reducedCommunity;
       });
-    const reducedUsers = userResults
-      .slice(0, eachArraySize)
-      .map((item, index) => {
-        const reducedUser = {
-          type: 'user',
-          _id: item._id,
-          displayname: item.displayname,
-        };
-        return reducedUser;
-      });
-    let reducedResults = [...reducedCommunities, ...reducedUsers];
-    shuffle(reducedResults);
+      reducedResults = reducedCommunities;
+    }
     setResults(reducedResults);
   }, [term]);
 
@@ -155,7 +138,9 @@ export default function Search(props) {
   };
 
   const submitSearch = (
-    <TouchableOpacity style={{padding: 10}}>
+    <TouchableOpacity
+      style={{padding: 10}}
+      onPress={() => dispatch(setServerSearch(true))}>
       <Text
         style={{
           fontWeight: 'bold',
@@ -166,6 +151,7 @@ export default function Search(props) {
       </Text>
     </TouchableOpacity>
   );
+
   return (
     <View
       style={{

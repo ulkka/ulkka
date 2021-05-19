@@ -21,7 +21,7 @@ import {
 } from '../components/NotificationHandler';
 import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 import Popular from '../screens/home/tabs/Popular';
-import Search from '../screens/home/Search';
+import Search from '../screens/home/SearchScreen';
 
 const StackNav = createStackNavigator();
 
@@ -116,15 +116,6 @@ function HomeNavigation({navigation}) {
           name={'Create Community'}
           component={CreateCommunity}
           title={'Create Community'}
-          options={{
-            //headerShown: false,
-            headerTitleAlign: 'center',
-          }}
-        />
-        <StackNav.Screen
-          name={'Search'}
-          component={Search}
-          title={'Search'}
           options={{
             //headerShown: false,
             headerTitleAlign: 'center',

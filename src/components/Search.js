@@ -1,19 +1,23 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {SearchBar} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getSearchTerm,
   setSearchTerm,
   resetSearch,
+  getServerSearch,
+  setServerSearch,
 } from '../redux/reducers/SearchSlice';
 
 export default function Search() {
   const dispatch = useDispatch();
 
   const term = useSelector(getSearchTerm);
+  const serverSearch = useSelector(getServerSearch);
 
   return (
     <SearchBar
+      onFocus={() => serverSearch && dispatch(setServerSearch(false))}
       autoFocus={true}
       placeholder="Search..."
       onChangeText={(text) => dispatch(setSearchTerm(text))}

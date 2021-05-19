@@ -3,7 +3,7 @@ import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
 import HomeCollapsibleTabView from './HomeCollapsibleTabView';
-import Search from './Search';
+import SearchScreen from './SearchScreen';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import Popular from './tabs/Popular';
 
@@ -34,7 +34,7 @@ function FeedNavigation(props) {
         />
         <StackNav.Screen
           name="Search"
-          component={Search}
+          component={SearchScreen}
           title="Search"
           options={{
             headerShown: false,

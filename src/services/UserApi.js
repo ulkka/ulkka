@@ -41,6 +41,13 @@ const userApi = {
       let response = await client.get(`${USER_URI}/${id}`);
       return response;
     },
+    async search(term, page, limit) {
+      const client = await mainClient;
+      let response = await client.get(
+        `${USER_URI}/search?text=${term}&page=${page}&limit=${limit}`,
+      );
+      return response;
+    },
     async displaynameExists(displayname) {
       const client = await mainClient;
       let response = await client.get(

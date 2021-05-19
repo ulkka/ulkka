@@ -9,7 +9,7 @@ const slice = createSlice({
   initialState: {
     term: '',
     searchMode: false,
-    serverSearch: true,
+    serverSearch: false,
   },
   reducers: {
     resetSearch(state, action) {
