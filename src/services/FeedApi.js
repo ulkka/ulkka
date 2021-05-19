@@ -12,23 +12,23 @@ const feedApi = {
       const client = await mainClient;
       const sortPath = sort && `&sort=${sort}`;
       const mainUri = screen == 'popular' ? POPULAR_URI : HOME_URI;
-      const path = `${FEED_URI}${mainUri}?page=${page}&limit=${limit}&sort=hot`;
+      const path = `${FEED_URI}${mainUri}?page=${page}&limit=${limit}&sort=${sort}`;
       const response = await client.get(path);
       return response;
     },
   },
   user: {
-    async fetch(userId, page, limit) {
+    async fetch(userId, page, limit, sort) {
       const client = await mainClient;
-      const path = `${FEED_URI}${USER_URI}/${userId}?page=${page}&limit=${limit}&sort=new`;
+      const path = `${FEED_URI}${USER_URI}/${userId}?page=${page}&limit=${limit}&sort=${sort}`;
       const response = await client.get(path);
       return response;
     },
   },
   community: {
-    async fetch(communityId, page, limit) {
+    async fetch(communityId, page, limit, sort) {
       const client = await mainClient;
-      const path = `${FEED_URI}${COMMUNITY_URI}/${communityId}?page=${page}&limit=${limit}&sort=new`;
+      const path = `${FEED_URI}${COMMUNITY_URI}/${communityId}?page=${page}&limit=${limit}&sort=${sort}`;
       const response = await client.get(path);
       return response;
     },

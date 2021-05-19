@@ -18,27 +18,32 @@ const getFeedType = (type) => {
 
 const getFeedBasedOnType = async (getState, type) => {
   const {page, limit} = getState().feed[type].metadata;
+  const sort = getState().feed[type].sort;
   const nextPage = page + 1;
   const feedType = getFeedType(type);
   let response = {};
   switch (feedType) {
     case 'main':
-      response = await feedApi.main.fetch(type, nextPage, limit);
-      console.log('response main feed fetch', response);
+      response = await feedApi.main.fetch(type, nextPage, limit, sort);
       return response;
     case 'UserDetail':
       const userId = type.substring(
         type.indexOf('-') + 1,
         type.lastIndexOf('-'),
       );
-      response = await feedApi.user.fetch(userId, nextPage, limit);
+      response = await feedApi.user.fetch(userId, nextPage, limit, sort);
       return response;
     case 'CommunityDetail':
       const communityId = type.substring(
         type.indexOf('-') + 1,
         type.lastIndexOf('-'),
       );
-      response = await feedApi.community.fetch(communityId, nextPage, limit);
+      response = await feedApi.community.fetch(
+        communityId,
+        nextPage,
+        limit,
+        sort,
+      );
       return response;
   }
 };
@@ -81,6 +86,19 @@ export const refreshFeed = createAsyncThunk(
     try {
       //state changes are done in refreshFeed.pending and refreshFeed.fulfilled in feed slice
       await dispatch(fetchFeed(type));
+      return type;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const sortFeed = createAsyncThunk(
+  'feed/sort',
+  async ({type, sort}, {dispatch, rejectWithValue}) => {
+    try {
+      //state changes are done in sortFeed.pending and sortFeed.fulfilled in feed slice
+      await dispatch(refreshFeed(type));
       return type;
     } catch (error) {
       return rejectWithValue(error);

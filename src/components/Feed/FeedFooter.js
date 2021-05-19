@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 
 function FeedFooterComponent(props) {
@@ -15,17 +15,15 @@ function FeedFooterComponent(props) {
     );
   } else {
     return (
-      loading && (
-        <View style={styles.loadingView}>
-          {
-            // Activity indicator was causing scroll to flicker, check that if you put it back
-            <Image
-              source={require('../../../assets/loading.gif')}
-              style={{height: 40, width: 40}}
-            />
-          }
-        </View>
-      )
+      <View style={styles.loadingView}>
+        {
+          // Activity indicator was causing scroll to flicker, check that if you put it back
+          <Image
+            source={require('../../../assets/loading.gif')}
+            style={{height: 40, width: 40}}
+          />
+        }
+      </View>
     );
   }
 }
@@ -51,4 +49,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default memo(FeedFooterComponent);
+export default FeedFooterComponent;

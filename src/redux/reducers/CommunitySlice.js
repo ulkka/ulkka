@@ -55,7 +55,6 @@ export const fetchTopCommunities = createAsyncThunk(
   async (communityId, {rejectWithValue}) => {
     try {
       const response = await communityApi.community.fetchTop(1, 10);
-      console.log('response fetching top communities', response);
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error);

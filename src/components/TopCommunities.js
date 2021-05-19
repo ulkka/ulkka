@@ -24,19 +24,20 @@ export default memo(function TopCommunities(props) {
     return (
       <View
         style={{
-          minHeight: 160,
+          //   minHeight: 150,
           flex: 1,
           backgroundColor: '#fff',
           alignItems: 'center',
-          //padding: 10,
+          padding: 10,
           width: 125,
           borderWidth: 1,
           borderColor: '#ddd',
           borderRadius: 5,
           margin: 7,
-          justifyContent: 'space-evenly',
+          //  justifyContent: 'space-evenly',
         }}>
         <CommunityAvatar communityId={id} size="medium" />
+        <View style={{height: 10}}></View>
         <Text
           style={{
             color: '#555',
@@ -45,6 +46,7 @@ export default memo(function TopCommunities(props) {
           }}>
           {name}
         </Text>
+        <View style={{height: 3}}></View>
         <Text
           style={{
             color: '#555',
@@ -55,6 +57,7 @@ export default memo(function TopCommunities(props) {
           {kFormatter(memberCount ? memberCount : 1)}{' '}
           {memberCount == 1 ? 'member' : 'members'}
         </Text>
+        <View style={{height: 10}}></View>
         <View>
           <Button
             raised

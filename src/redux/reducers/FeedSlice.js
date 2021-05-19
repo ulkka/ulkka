@@ -4,6 +4,7 @@ import {
   refreshFeed,
   refreshPostDetail,
   initPostDetail,
+  sortFeed,
 } from '../actions/FeedActions';
 import {feedAdapter} from '../selectors/FeedSelectors';
 import {createPost, deletePost} from '../actions/PostActions';
@@ -18,6 +19,7 @@ const initialState = {
     total: -1,
     limit: 10,
   },
+  sort: 'hot',
   complete: false,
   loading: false,
   refreshing: false,
@@ -273,6 +275,13 @@ export const slice = createSlice({
       const screen = state[type];
       screen.refreshing = false;
       analytics().logEvent('feed_refresh', {screen: screenType});
+    },
+    [sortFeed.pending]: (state, action) => {
+      const {type, sort} = action.meta.arg;
+      const screen = state[type];
+      if (screen) {
+        screen.sort = sort;
+      }
     },
     [refreshFeed.rejected]: handleError,
     [refreshPostDetail.pending]: (state, action) => {
