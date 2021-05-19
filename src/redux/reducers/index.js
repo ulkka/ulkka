@@ -12,6 +12,7 @@ import {notifications} from './NotificationSlice';
 import {feed} from './FeedSlice';
 import {communities} from './CommunitySlice';
 import {creatorOverlay} from './CreatorOverlaySlice';
+import {search} from './SearchSlice';
 
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
@@ -22,6 +23,7 @@ const AppReducers = combineReducers({
   notifications,
   feed,
   posts,
+  search,
   users,
   communities,
   comments,

@@ -256,6 +256,11 @@ export const getUserNonMemberCommunities = (state) =>
 export const getUserModeratorCommunities = (state) =>
   selectAllCommunities(state).filter((community) => community.role == 'admin');
 
+export const searchCommunityTitle = (state, value) =>
+  selectAllCommunities(state).filter((community) =>
+    community.name.toLowerCase().includes(value),
+  );
+
 export const getUserRoleInCommunity = (state, id) =>
   selectCommunityById(state, id)?.role;
 

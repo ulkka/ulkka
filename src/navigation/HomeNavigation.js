@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import UserDetailTabView from '../screens/user/UserDetailTabView';
 import UserNavigation from '../screens/user/UserNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import HeaderBar from '../components/Header';
@@ -11,10 +10,10 @@ import PostDetail from '../screens/PostDetail';
 import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/OptionSheetSlice';
 import OptionSheet from '../components/OptionSheet';
-import BlockedUsers from '../screens/user/BlockedUsers';
 import Notifications from '../screens/Notifications';
 import EmailLinkHandler from '../screens/auth/EmailLinkHandler';
-import HomeCollapsibleTabView from '../components/HomeCollapsibleTabView';
+import HomeCollapsibleTabView from '../screens/home/HomeCollapsibleTabView';
+import FeedNavigation from '../screens/home/FeedNavigation';
 import ShareMenuHandler from '../components/ShareMenuHandler';
 import {
   NotificationHandler,
@@ -22,6 +21,7 @@ import {
 } from '../components/NotificationHandler';
 import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 import Popular from '../screens/home/tabs/Popular';
+import Search from '../screens/home/Search';
 
 const StackNav = createStackNavigator();
 
@@ -55,7 +55,7 @@ function HomeNavigation({navigation}) {
         }}>
         <StackNav.Screen
           name="Feed"
-          component={feedScreen}
+          component={FeedNavigation}
           title="Home"
           options={{
             header: () => <HeaderBar navigation={navigation} />,
@@ -116,6 +116,15 @@ function HomeNavigation({navigation}) {
           name={'Create Community'}
           component={CreateCommunity}
           title={'Create Community'}
+          options={{
+            //headerShown: false,
+            headerTitleAlign: 'center',
+          }}
+        />
+        <StackNav.Screen
+          name={'Search'}
+          component={Search}
+          title={'Search'}
           options={{
             //headerShown: false,
             headerTitleAlign: 'center',

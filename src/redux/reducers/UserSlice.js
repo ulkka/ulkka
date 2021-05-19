@@ -202,3 +202,8 @@ export const getUserTotalKarma = createCachedSelector(
   getUserCommentKarma,
   (postKarma, commentKarma) => postKarma + commentKarma,
 )((state, id) => id);
+
+export const searchUserDisplayname = (state, value) =>
+  selectAllUsers(state).filter((user) =>
+    user.displayname.toLowerCase().includes(value),
+  );

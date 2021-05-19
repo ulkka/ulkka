@@ -1,41 +1,45 @@
 import React, {useContext, useState} from 'react';
 import {SearchBar} from 'react-native-elements';
-import {ThemeContext} from 'react-native-elements';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getSearchTerm,
+  setSearchTerm,
+  resetSearch,
+} from '../redux/reducers/SearchSlice';
 
 export default function Search() {
-  const {theme} = useContext(ThemeContext);
+  const dispatch = useDispatch();
 
-  const [search, setSearch] = useState('');
-
-  const updateSearch = (search) => {
-    setSearch(search);
-  };
+  const term = useSelector(getSearchTerm);
 
   return (
     <SearchBar
+      autoFocus={true}
       placeholder="Search..."
-      onChangeText={(text) => updateSearch(text)}
-      value={search}
+      onChangeText={(text) => dispatch(setSearchTerm(text))}
+      value={term}
       lightTheme={true}
       containerStyle={{
+        flex: 1,
         backgroundColor: 'white',
         borderTopColor: 'transparent',
         borderBottomColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '70%',
         paddingRight: 0,
-        height: 22,
+        height: 40,
       }}
       inputContainerStyle={{
-        height: 30,
+        height: 40,
         backgroundColor: '#eee',
       }}
       inputStyle={{
         fontSize: 12,
+        color: '#444',
       }}
       round={true}
       searchIcon={{size: 15}}
+      showCancel={true}
     />
   );
 }

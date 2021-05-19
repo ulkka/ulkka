@@ -16,38 +16,41 @@ import {
   getRegistrationStatus,
   getRegisteredUser,
 } from '../redux/reducers/AuthSlice';
+import {
+  getSearchMode,
+  setSearchMode,
+  resetSearch,
+} from '../redux/reducers/SearchSlice';
 import {getUnreadNotificationCount} from '../redux/reducers/NotificationSlice';
 import UserAvatar from './UserAvatar';
 import {navigate} from '../navigation/Ref';
 
 const TitleComponent = memo(() => {
-  // return searchMode == false ? (
   return (
     <SafeAreaView
       style={{
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
+        marginTop: 3,
+        padding: 2,
       }}>
+      <Image
+        resizeMode={'contain'}
+        source={require('../../assets/ulkka_title_transparent.png')}
+        style={{height: 23, width: 24, marginLeft: 0, marginRight: 7}}
+      />
       <Text
         style={{
           fontSize: 19,
           fontFamily: Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-condensed',
           fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
-          color: '#444',
+          color: '#424242',
         }}>
         Ulkka
       </Text>
-      <Image
-        resizeMode={'contain'}
-        source={require('../../assets/ulkka_title_transparent.png')}
-        style={{height: 23, width: 24, marginLeft: 7}}
-      />
     </SafeAreaView>
   );
-  /* ) : (
-    <Search />
-  );*/
 });
 
 const Notifications = memo(() => {
@@ -58,7 +61,7 @@ const Notifications = memo(() => {
       style={{paddingRight: 5}}>
       <Icon
         name={unReadNotificationCount ? 'bell' : 'bell-o'}
-        color={unReadNotificationCount ? '#222' : '#666'}
+        color={unReadNotificationCount ? '#222' : '#555'}
         type="font-awesome"
         size={Platform.OS == 'ios' ? 22 : 18}
       />
@@ -79,43 +82,48 @@ const Notifications = memo(() => {
   );
 });
 
+const Creator = memo(({isRegistered}) => {
+  const dispatch = useDispatch();
+  return (
+    <TouchableOpacity
+      onPress={() =>
+        isRegistered ? dispatch(showCreatorOverlay()) : showAuthScreen()
+      }>
+      <Icon
+        name={'plus'}
+        color={'#555'}
+        type="material-community"
+        size={Platform.OS == 'ios' ? 24 : 23}
+      />
+    </TouchableOpacity>
+  );
+});
+
 const HeaderBar = (props) => {
-  const [searchMode, setSearchMode] = useState(false);
+  const dispatch = useDispatch();
+  const searchMode = useSelector(getSearchMode);
   const isRegistered = useSelector(getRegistrationStatus);
   const registeredUser = useSelector(getRegisteredUser);
 
-  const _toggleSearch = () => setSearchMode(!searchMode);
-
-  const Creator = memo(() => {
-    const dispatch = useDispatch();
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          isRegistered ? dispatch(showCreatorOverlay()) : showAuthScreen()
-        }>
-        <Icon
-          name={'plus'}
-          color={'#666'}
-          type="font-awesome"
-          size={Platform.OS == 'ios' ? 22 : isRegistered ? 19 : 20}
-        />
-      </TouchableOpacity>
-    );
-  });
+  const _toggleSearch = () => {
+    const currentSearchMode = searchMode;
+    dispatch(setSearchMode(!currentSearchMode));
+    if (!currentSearchMode) navigate('Search');
+    else {
+      dispatch(resetSearch());
+      navigate('HomeFeed');
+    }
+  };
 
   const AccountComponent = () => {
     const avatar = isRegistered ? (
-      <UserAvatar seed={registeredUser.displayname} size="large" />
+      <UserAvatar seed={registeredUser.displayname} size="medium" />
     ) : (
       <Icon
-        name="user-alt"
-        type="font-awesome-5"
+        name="account"
+        type="material-community"
         color={'#555'}
-        size={Platform.OS == 'ios' ? 21 : 20}
-        style={{
-          paddingVertical: Platform.OS == 'ios' ? 7 : 6,
-          paddingHorizontal: 5,
-        }}
+        size={Platform.OS == 'ios' ? 21 : 22}
       />
     );
 
@@ -134,15 +142,13 @@ const HeaderBar = (props) => {
     );
   };
 
-  const SearchComponent = () => {
+  const SearchIcon = () => {
     return !searchMode ? (
       <Icon
         name="search"
-        color="#fff"
-        disabled
-        disabledStyle={{backgroundColor: '#fff'}}
+        color="#555"
         onPress={() => _toggleSearch()}
-        size={Platform.OS == 'ios' ? 25 : 22}
+        size={Platform.OS == 'ios' ? 24 : 21}
       />
     ) : (
       <TouchableOpacity onPress={() => _toggleSearch()}>
@@ -159,6 +165,66 @@ const HeaderBar = (props) => {
     );
   };
 
+  const registeredUserHeaderRight = (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+      }}>
+      <SearchIcon />
+      <View style={{width: 13}}></View>
+      <Creator isRegistered={isRegistered} />
+      <View style={{width: 15}}></View>
+      <Notifications />
+      <View style={{width: 12}}></View>
+      <AccountComponent />
+    </View>
+  );
+
+  const unregisteredUserHeaderRight = (
+    <View
+      style={{
+        flex: 1,
+        marginRight: 10,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+      }}>
+      <SearchIcon />
+      <View style={{width: 13}}></View>
+      <Creator isRegistered={isRegistered} />
+      <View style={{width: 12}}></View>
+      <AccountComponent />
+    </View>
+  );
+
+  const headerRight = isRegistered
+    ? registeredUserHeaderRight
+    : unregisteredUserHeaderRight;
+
+  const headerLeft = (
+    <View style={{flex: 1, justifyContent: 'flex-start', flexDirection: 'row'}}>
+      <TitleComponent />
+    </View>
+  );
+
+  const headerContents = (
+    <SafeAreaView
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        marginHorizontal: 8,
+        marginVertical: Platform.OS == 'ios' ? 5 : 5,
+      }}>
+      {headerLeft}
+      <View style={{flex: 1}}></View>
+      {headerRight}
+    </SafeAreaView>
+  );
+
   return (
     <SafeAreaView
       style={{
@@ -166,46 +232,21 @@ const HeaderBar = (props) => {
         paddingBottom: 2,
       }}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" />
-      <SafeAreaView
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: '#fff',
-          marginHorizontal: 8,
-          marginVertical: Platform.OS == 'ios' ? 5 : 3,
-        }}>
+      {searchMode ? (
         <View
-          style={{flex: 1, justifyContent: 'flex-start', flexDirection: 'row'}}>
-          <AccountComponent />
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: 10,
+            justifyContent: 'space-evenly',
+          }}>
+          <Search />
+          <View style={{width: 15}}></View>
+          <SearchIcon />
         </View>
-        <View style={{flex: 1}}>
-          <TitleComponent />
-        </View>
-        {isRegistered ? (
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}>
-            <Creator />
-            <View style={{width: 20}}></View>
-            <Notifications />
-          </View>
-        ) : (
-          <View
-            style={{
-              flex: 1,
-              marginRight: 10,
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            }}>
-            <Creator />
-          </View>
-        )}
-      </SafeAreaView>
+      ) : (
+        headerContents
+      )}
     </SafeAreaView>
   );
 };

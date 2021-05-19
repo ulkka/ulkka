@@ -2,8 +2,8 @@ import React, {useState, useRef, useEffect} from 'react';
 import {Platform} from 'react-native';
 import {View, StyleSheet, Animated, useWindowDimensions} from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view'; // Version can be specified in package.json
-import Home from '../screens/home/tabs/Home';
-import Popular from '../screens/home/tabs/Popular';
+import Home from './tabs/Home';
+import Popular from './tabs/Popular';
 
 const HEADER_HEIGHT = 35;
 const COLLAPSED_HEIGHT = 0;
@@ -65,6 +65,7 @@ export default function HomeCollapsibleTabView(props) {
             justifyContent: 'flex-start',
           }}
           indicatorStyle={{
+            height: 3,
             backgroundColor: 'powderblue',
           }}
         />

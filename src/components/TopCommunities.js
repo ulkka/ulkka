@@ -39,9 +39,13 @@ export default memo(function TopCommunities(props) {
         <CommunityAvatar communityId={id} size="medium" />
         <View style={{height: 10}}></View>
         <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
           style={{
             color: '#555',
             fontWeight: 'bold',
+            textAlign: 'center',
+
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           {name}
