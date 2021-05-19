@@ -61,6 +61,13 @@ const communityApi = {
       );
       return response;
     },
+    async fetchTopics() {
+      const client = await mainClient;
+      const response = await client.get(
+        `${COMMUNITY_URI}/category?page=1&limit=50`,
+      );
+      return response;
+    },
     async updateField(communityId, field, value) {
       const client = await mainClient;
       let payload = {};

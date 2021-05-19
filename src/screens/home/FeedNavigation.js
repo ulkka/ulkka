@@ -5,7 +5,6 @@ import {useSelector} from 'react-redux';
 import HomeCollapsibleTabView from './HomeCollapsibleTabView';
 import SearchScreen from './SearchScreen';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
-import Popular from './tabs/Popular';
 
 const StackNav = createStackNavigator();
 
@@ -15,10 +14,6 @@ const presets =
     : TransitionPresets.SlideFromRightIOS;
 
 function FeedNavigation(props) {
-  const isRegistered = useSelector(getRegistrationStatus);
-
-  const feedScreen = isRegistered ? HomeCollapsibleTabView : Popular;
-
   return (
     <View style={{flex: 1}}>
       <StackNav.Navigator
@@ -26,7 +21,7 @@ function FeedNavigation(props) {
         screenOptions={{...presets}}>
         <StackNav.Screen
           name="HomeFeed"
-          component={feedScreen}
+          component={HomeCollapsibleTabView}
           title="Home"
           options={{
             headerShown: false,

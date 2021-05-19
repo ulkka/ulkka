@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,25 +8,25 @@ import {
   Platform,
 } from 'react-native';
 import {Button, Icon, Divider} from 'react-native-elements';
+import communityApi from '../services/CommunityApi';
 
 const TopicField = (props) => {
   const {onPress, topic} = props;
 
   return (
-    <View
-      style={
-        {
-          //flex: 1, borderWidth: 1
-        }
-      }>
+    <View>
       <TouchableOpacity
         onPress={onPress}
         style={{
           height: 50,
-          width: '95%',
           alignSelf: 'center',
         }}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}>
           <Text
             style={{
               color: '#555',
@@ -36,6 +36,7 @@ const TopicField = (props) => {
             }}>
             {!topic ? 'Select Topic' : topic}
           </Text>
+          <View style={{width: 20}}></View>
           <Icon
             name="angle-down"
             size={18}
@@ -52,15 +53,42 @@ export default function CommunityTopicSelector(props) {
   const {topic, setTopic} = props;
   const [visible, setVisible] = useState(false);
   //const [items, setItems] = useState([]);
-  const items = [
-    'Funny',
+  const [items, setItems] = useState([
     'News',
     'Movies',
+    'Sports',
+    'Funny',
     'Politics',
+    'Science',
     'Travel',
     'Careers',
     'Automobile',
-  ];
+    'Places',
+    'Food & Drinks',
+    'Music',
+    'Hobbies',
+    'Education',
+    'Religion',
+    'Nature',
+    'Art',
+    'Literature',
+    'Business',
+  ]);
+
+  useEffect(() => {
+    fetchCommunityTopics();
+  }, []);
+
+  const fetchCommunityTopics = async () => {
+    const response = await communityApi.community
+      .fetchTopics()
+      .catch((error) => console.log('error fetching community topics', error));
+    const data = response?.data?.data;
+    if (!!data?.length) {
+      setItems[data];
+    }
+  };
+
   const toggleModal = () => {
     setVisible(!visible);
   };
@@ -117,31 +145,35 @@ export default function CommunityTopicSelector(props) {
       </View>
     );
   };
-  const ListHeaderComponent = (
-    <View style={{alignSelf: 'center', paddingBottom: 40}}>
-      <Text
-        style={{
-          fontSize: 16,
-          fontWeight: 'bold',
-          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-        }}>
-        Select a topic
-      </Text>
-    </View>
-  );
+  const ListHeaderComponent = () => {
+    return (
+      <View style={{alignSelf: 'center', paddingBottom: 20}}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: 'bold',
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          }}>
+          Select a topic
+        </Text>
+      </View>
+    );
+  };
+
   const ResultsView = (
     <View
       style={{
-        height: '80%',
+        height: '95%',
         width: '100%',
       }}>
+      <ListHeaderComponent />
       <FlatList
         scrollEnabled={true}
         showsVerticalScrollIndicator={true}
         data={items}
         keyExtractor={(item) => item}
         ItemSeparatorComponent={_itemSeperatorComponent}
-        ListHeaderComponent={ListHeaderComponent}
+        // ListHeaderComponent={ListHeaderComponent}
         contentContainerStyle={{
           opacity: 0.8,
           padding: 10,
@@ -152,7 +184,7 @@ export default function CommunityTopicSelector(props) {
   );
 
   const CloseButtonView = (
-    <View style={{marginBottom: 20}}>
+    <View>
       <Button
         title="Close"
         color="red"

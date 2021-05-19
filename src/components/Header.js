@@ -117,7 +117,7 @@ const HeaderBar = (props) => {
 
   const AccountComponent = () => {
     const avatar = isRegistered ? (
-      <UserAvatar seed={registeredUser.displayname} size="medium" />
+      <UserAvatar seed={registeredUser.displayname} size="header" />
     ) : (
       <Icon
         name="account"

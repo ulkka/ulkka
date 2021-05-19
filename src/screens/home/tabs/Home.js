@@ -1,16 +1,24 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {View, Text, Platform, ImageBackground} from 'react-native';
-import {Button, Icon} from 'react-native-elements';
+import {Icon, Button} from 'react-native-elements';
 import Feed from '../../../components/Feed/Feed';
 import CreatePostButtonOverlay from '../../../components/Post/CreatePostButtonOverlay';
 import {useSelector} from 'react-redux';
 import {getIsCurrentUserPartOfAnyCommunity} from '../../../redux/reducers/CommunitySlice';
 import TopCommunities from '../../../components/TopCommunities';
+import {getRegistrationStatus} from '../../../redux/reducers/AuthSlice';
+import {showAuthScreen} from '../../../navigation/Ref';
 
 function Home(props) {
   const userHasJoinedCommunities = useSelector(
     getIsCurrentUserPartOfAnyCommunity,
   );
+  const isRegistered = useSelector(getRegistrationStatus);
+  useEffect(() => {
+    if (!isRegistered) {
+      props.jumpTo('popular');
+    }
+  }, [isRegistered]);
   const homeFeedView = (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <Feed screen="home" {...props} />
@@ -37,13 +45,17 @@ function Home(props) {
           justifyContent: 'space-evenly',
         }}
         source={require('../../../../assets/doodlebg.jpg')}>
-        <View style={{flex: 2, justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flex: 2,
+            justifyContent: 'space-between',
+          }}>
           <View
             style={{
               flex: 1,
               alignItems: 'center',
               justifyContent: 'space-evenly',
-              maxWidth: '60%',
+              width: '100%',
             }}>
             <Text
               style={{
@@ -55,7 +67,7 @@ function Home(props) {
               സ്വാഗതം!
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <Icon
                   name="arrow-up"
                   type="font-awesome"
@@ -69,66 +81,103 @@ function Home(props) {
                   size={28}
                 />
               </View>
-              <Text
+              <View
                 style={{
-                  fontSize: 15,
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  color: '#222',
-                  lineHeight: 20,
-                  paddingLeft: 15,
-                  ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+                  flex: 3,
                 }}>
-                Vote on posts to assist communities in bringing the best content
-                to the top
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    color: '#222',
+                    lineHeight: 20,
+                    paddingLeft: 15,
+                    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+                  }}>
+                  Vote on posts to assist communities in bringing the best
+                  content to the top
+                </Text>
+              </View>
+              <View style={{flex: 1}}></View>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Icon
-                name="group"
-                type="font-awesome"
-                color="#ff3300"
-                size={33}
-              />
-              <Text
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <Icon
+                  name="group"
+                  type="font-awesome"
+                  color="#ff3300"
+                  size={33}
+                />
+              </View>
+              <View
                 style={{
-                  fontSize: 15,
-                  textAlign: 'center',
-                  paddingLeft: 15,
-                  fontWeight: 'bold',
-                  color: '#222',
-                  lineHeight: 20,
-                  ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+                  flex: 3,
                 }}>
-                Join communities to keep this home feed up to date and filled
-                with fresh content
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    textAlign: 'center',
+                    paddingLeft: 15,
+                    fontWeight: 'bold',
+                    color: '#222',
+                    lineHeight: 20,
+                    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+                  }}>
+                  Join communities to keep this home feed up to date and filled
+                  with fresh content
+                </Text>
+              </View>
+              <View style={{flex: 1}}></View>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Icon
-                name="heart"
-                type="font-awesome"
-                color="#ff3300"
-                size={36}
-              />
-              <Text
-                style={{
-                  fontSize: 15,
-                  textAlign: 'center',
-                  paddingLeft: 15,
-                  fontWeight: 'bold',
-                  color: '#222',
-                  lineHeight: 20,
-                  ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-                }}>
-                Create awesome posts and comments to make your community happy
-                and win more hearts
-              </Text>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <Icon
+                  name="heart"
+                  type="font-awesome"
+                  color="#ff3300"
+                  size={36}
+                />
+              </View>
+              <View style={{flex: 3}}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    textAlign: 'center',
+                    paddingLeft: 15,
+                    fontWeight: 'bold',
+                    color: '#222',
+                    lineHeight: 20,
+                    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+                  }}>
+                  Create awesome posts and comments to make your community happy
+                  and win more hearts
+                </Text>
+              </View>
+              <View style={{flex: 1}}></View>
             </View>
           </View>
         </View>
+
         <View style={{flex: 1}}>
-          <TopCommunities />
+          {!!isRegistered ? (
+            <TopCommunities />
+          ) : (
+            <View style={{flex: 1, alignItems: 'center'}}>
+              <Button
+                raised
+                title="Sign up / Login"
+                buttonStyle={{
+                  borderRadius: 15,
+                  backgroundColor: '#2a9df4',
+                  paddingVertical: 10,
+                  paddingHorizontal: 30,
+                }}
+                titleStyle={{color: '#fff', fontSize: 14}}
+                onPress={() => showAuthScreen()}
+              />
+            </View>
+          )}
         </View>
       </ImageBackground>
     </View>

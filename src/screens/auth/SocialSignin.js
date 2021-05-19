@@ -23,7 +23,7 @@ const SocialAuth = () => {
           justifyContent: 'center',
         }}>
         <SocialIcon
-          title="Sign in With Google"
+          title="Connect With Google"
           button
           type="google"
           iconSize={20}
@@ -45,7 +45,7 @@ const SocialAuth = () => {
             justifyContent: 'center',
           }}>
           <SocialIcon
-            title="Sign in With Apple"
+            title="Connect With Apple"
             button
             type="apple"
             iconSize={20}

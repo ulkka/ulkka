@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Platform} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
@@ -11,6 +11,7 @@ import {useSelector} from 'react-redux';
 import RegisterAccount from '../screens/auth/RegisterAccount';
 import Login from '../screens/auth/Login';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
+import {baseProps} from 'react-native-gesture-handler/dist/src/handlers/gestureHandlers';
 
 export const AuthNavigation = () => {
   const StackNav = createStackNavigator();
@@ -62,6 +63,13 @@ export const AuthNavigation = () => {
             ? 'Login'
             : 'Create Account'
         }
+        options={{
+          headerTitle: isRegistered
+            ? 'My Account'
+            : authStatus != 'AUTHENTICATED'
+            ? 'Login / Register'
+            : 'Create Account',
+        }}
         initialParams={{userId: registeredUser?._id}}
       />
     </StackNav.Navigator>
