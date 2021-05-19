@@ -19,7 +19,11 @@ import CommunityMembershipToggler from './CommunityMembershipToggler';
 import CommunityAvatar from '../CommunityAvatar';
 
 const PostHeader = (props) => {
-  const {postId} = props;
+  const {postId, screen} = props;
+
+  const screenType = screen.split('-')[0];
+
+  const isCommunityDetail = screenType == 'CommunityDetail';
 
   const createdAt = useSelector((state) => getPostCreatedAt(state, postId));
 
@@ -39,7 +43,7 @@ const PostHeader = (props) => {
   const isPostAuthorCurrentUser = authorId === registeredUser?._id;
 
   const PostAuthorAvatar = (
-    <UserAvatar seed={authorDisplayname} size="extra-small" />
+    <UserAvatar seed={authorDisplayname} size="medium" />
   );
 
   const CommunityName = (
@@ -70,11 +74,11 @@ const PostHeader = (props) => {
     <View>
       <Text
         style={{
-          fontSize: 12,
+          fontSize: isCommunityDetail ? 13 : 12,
           color: CommentAuthorDisplaynameColor,
-          // fontWeight: 'bold',
           //color: '#888',
           paddingRight: 4,
+          ...(isCommunityDetail && {fontWeight: 'bold'}),
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {authorDisplayname}
@@ -136,17 +140,21 @@ const PostHeader = (props) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <CommunityAvatar
-          communityName={communityName}
-          communityId={communityId}
-          size="small"
-        />
+        {!isCommunityDetail ? (
+          <CommunityAvatar
+            communityName={communityName}
+            communityId={communityId}
+            size="small"
+          />
+        ) : (
+          PostAuthorAvatar
+        )}
         <View
           style={{
             padding: 5,
             paddingLeft: 6,
           }}>
-          {CommunityName}
+          {!isCommunityDetail && CommunityName}
           {displayNameTimeAgo}
         </View>
       </View>

@@ -1,13 +1,6 @@
 import React, {useEffect, useContext, memo} from 'react';
-import {
-  View,
-  FlatList,
-  RefreshControl,
-  Platform,
-  Animated,
-  Text,
-} from 'react-native';
-import {ThemeContext, Divider, Icon} from 'react-native-elements';
+import {View, FlatList, RefreshControl, Platform, Animated} from 'react-native';
+import {ThemeContext, Divider} from 'react-native-elements';
 import PostCard from '../Post/PostCard';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';

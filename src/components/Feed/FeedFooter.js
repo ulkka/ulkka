@@ -14,7 +14,7 @@ function FeedFooterComponent(props) {
       </View>
     );
   } else {
-    return (
+    return loading ? (
       <View style={styles.loadingView}>
         {
           // Activity indicator was causing scroll to flicker, check that if you put it back
@@ -24,6 +24,8 @@ function FeedFooterComponent(props) {
           />
         }
       </View>
+    ) : (
+      <View></View>
     );
   }
 }
