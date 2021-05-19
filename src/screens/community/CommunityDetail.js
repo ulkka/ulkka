@@ -16,6 +16,16 @@ import {kFormatter} from '../../components/helpers';
 import ShareCommunity from './ShareCommunity';
 import CreatePostOnCommunity from './CreatePostOnCommunity';
 
+const CommunityHeaderRight = memo(({communityId}) => {
+  return (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <CreatePostOnCommunity communityId={communityId} />
+      <View style={{width: 30}}></View>
+      <ShareCommunity communityId={communityId} />
+    </View>
+  );
+});
+
 const CommunityDetail = memo((props) => {
   const dispatch = useDispatch();
 
@@ -38,19 +48,9 @@ const CommunityDetail = memo((props) => {
 
   const opacity = useRef(new Animated.Value(0)).current;
 
-  const CommunityHeaderRight = () => {
-    return (
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <CreatePostOnCommunity communityId={communityId} />
-        <View style={{width: 30}}></View>
-        <ShareCommunity communityId={communityId} />
-      </View>
-    );
-  };
-
   useEffect(() => {
     props.navigation.setOptions({
-      headerRight: CommunityHeaderRight,
+      headerRight: () => <CommunityHeaderRight communityId={communityId} />,
     });
   }, []);
 

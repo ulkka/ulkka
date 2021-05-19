@@ -47,6 +47,20 @@ export default function CommunitySettings(props) {
         <Text>Change Community Icon</Text>
         <Icon name="arrow-right" type="font-awesome" size={18} color="#444" />
       </TouchableOpacity>
+      <View style={{height: 20}}></View>
+      <TouchableOpacity
+        onPress={() => navigate('CommunityMembers')}
+        style={{
+          borderWidth: 1,
+          borderColor: '#ccc',
+          borderRadius: 10,
+          padding: 20,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <Text>Community Members</Text>
+        <Icon name="arrow-right" type="font-awesome" size={18} color="#444" />
+      </TouchableOpacity>
     </View>
   );
 }

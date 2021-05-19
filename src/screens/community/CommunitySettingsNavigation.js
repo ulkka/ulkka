@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import CommunitySettings from './CommunitySettings';
 import UpdateCommunityField from './UpdateCommunityField';
 import ChangeCommunityIcon from './ChangeCommunityIcon';
+import CommunityMembers from './CommunityMembers';
 
 const StackNav = createStackNavigator();
 
@@ -91,6 +92,23 @@ function CommunitySettingsNavigation(props) {
                 : {},
           }}
           initialParams={{...props.route.params, field: 'icon'}}
+        />
+        <StackNav.Screen
+          name="CommunityMembers"
+          component={CommunityMembers}
+          title="CommunityMembers"
+          options={{
+            headerBackTitle: 'Back',
+            headerTitle: 'Community Members',
+            headerTitleAlign: 'center',
+            headerStyle:
+              Platform.OS == 'android'
+                ? {
+                    height: 40,
+                  }
+                : {},
+          }}
+          initialParams={{...props.route.params}}
         />
       </StackNav.Navigator>
     </View>
