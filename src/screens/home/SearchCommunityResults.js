@@ -5,14 +5,17 @@ import {getSearchTerm} from '../../redux/reducers/SearchSlice';
 import {Icon, Divider} from 'react-native-elements';
 import communityApi from '../../services/CommunityApi';
 import CommunityAvatar from '../../components/CommunityAvatar';
-import {push} from '../../navigation/Ref';
+import {push, pop} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
 
 const CommunityRow = ({community}) => {
   const {name, _id: communityId} = community;
   return name ? (
     <TouchableOpacity
-      onPress={() => push('CommunityNavigation', {communityId: communityId})}
+      onPress={() => {
+        pop();
+        push('CommunityNavigation', {communityId: communityId});
+      }}
       style={{
         flex: 1,
         width: '100%',

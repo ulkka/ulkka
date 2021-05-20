@@ -18,8 +18,7 @@ export default function GrowCommunity(props) {
 
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        1) You can invite users to join your community from their profile page
-        in Ulkka
+        1) Invite users to join your community from their profile page in Ulkka
       </Text>
       <View style={{height: 30}}></View>
       <Text
@@ -29,8 +28,8 @@ export default function GrowCommunity(props) {
           color: '#424242',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        2) Share your community on different social media platforms to spread
-        the word about your community
+        2) Let others know about your community by sharing the community's link
+        on various social media platforms
       </Text>
       <View style={{height: 30}}></View>
       <Text
@@ -41,7 +40,7 @@ export default function GrowCommunity(props) {
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         3) You can increase your community ranking to show up in the top
-        community recommendation by creating posts and engagement regularly
+        community recommendation by creating content and engagement regularly
       </Text>
     </View>
   );

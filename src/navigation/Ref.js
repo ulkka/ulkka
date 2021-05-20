@@ -11,6 +11,9 @@ export function push(name, params) {
   navigationRef.current?.dispatch(StackActions.push(name, params));
 }
 
+export function pop() {
+  navigationRef.current?.dispatch(StackActions.pop(1));
+}
 export function goBack() {
   if (navigationRef.current.canGoBack()) {
     navigationRef.current.goBack();

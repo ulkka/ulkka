@@ -9,6 +9,7 @@ import Snackbar from 'react-native-snackbar';
 import {useDispatch} from 'react-redux';
 import {createCommunity} from '../../redux/reducers/CommunitySlice';
 import communityApi from '../../services/CommunityApi';
+import {Platform} from 'react-native';
 
 export default function CreateCommunity({navigation}) {
   const dispatch = useDispatch();
@@ -173,6 +174,7 @@ export default function CreateCommunity({navigation}) {
           setIsCommunityTitleValid(null);
           setCommunityTitleErrorMessage('');
         }}
+        inputStyle={{textAlign: 'center', lineHeight: 24}}
         errorMessage={
           isCommunityTitleValid == null
             ? null
@@ -189,8 +191,10 @@ export default function CreateCommunity({navigation}) {
         }}
         inputContainerStyle={{
           borderBottomColor: '#fff',
+          marginBottom: 20,
         }}
         onChangeText={(text) => setDescription(text)}
+        inputStyle={{textAlign: 'center', lineHeight: 24}}
         value={description}
         placeholder={'Description'}
         numberOfLines={10}
@@ -207,6 +211,7 @@ export default function CreateCommunity({navigation}) {
           backgroundColor: '#20bb29c4',
           borderRadius: 20,
         }}
+        containerStyle={{marginBottom: 20}}
         title="Create"
         onPress={() => submit()}
       />
@@ -226,7 +231,7 @@ export default function CreateCommunity({navigation}) {
         backgroundColor: '#fff',
       }}>
       <KeyboardAvoidingView
-        keyboardVerticalOffset={75}
+        keyboardVerticalOffset={Platform.OS == 'ios' ? 125 : 75}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
           flex: 1,

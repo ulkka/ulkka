@@ -6,7 +6,7 @@ import {searchCommunityTitle} from '../../redux/reducers/CommunitySlice';
 import {searchUserDisplayname} from '../../redux/reducers/UserSlice';
 import CommunityAvatar from '../../components/CommunityAvatar';
 import UserAvatar from '../../components/UserAvatar';
-import {push} from '../../navigation/Ref';
+import {push, pop} from '../../navigation/Ref';
 
 export default function LocalSearch(props) {
   const dispatch = useDispatch();
@@ -65,7 +65,10 @@ export default function LocalSearch(props) {
     const {_id: communityId, name: communityName} = community;
     return (
       <TouchableOpacity
-        onPress={() => push('CommunityNavigation', {communityId: communityId})}
+        onPress={() => {
+          pop();
+          push('CommunityNavigation', {communityId: communityId});
+        }}
         style={{
           flex: 1,
           width: '100%',

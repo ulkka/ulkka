@@ -361,7 +361,7 @@ export default function CreatePost({route}) {
   const PostDetail = (
     <View
       style={{
-        paddingTop: 100,
+        paddingTop: 70,
         flex: 4,
         justifyContent: 'space-evenly',
       }}>

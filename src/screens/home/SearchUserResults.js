@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 import {getSearchTerm} from '../../redux/reducers/SearchSlice';
 import {Icon, Divider} from 'react-native-elements';
 import UserAvatar from '../../components/UserAvatar';
-import {push} from '../../navigation/Ref';
+import {push, pop} from '../../navigation/Ref';
 import userApi from '../../services/UserApi';
 import FeedFooter from '../../components/Feed/FeedFooter';
 
@@ -12,7 +12,10 @@ const UserRow = ({user}) => {
   const {displayname, _id: userId} = user;
   return displayname ? (
     <TouchableOpacity
-      onPress={() => push('UserDetail', {userId: userId})}
+      onPress={() => {
+        pop();
+        push('UserDetail', {userId: userId});
+      }}
       style={{
         flex: 1,
         width: '100%',
