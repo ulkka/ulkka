@@ -42,7 +42,7 @@ const communityApi = {
     },
     async inviteUser(communityId, userId) {
       const client = await mainClient;
-      const response = await client.get(
+      const response = await client.post(
         `${COMMUNITY_URI}/${communityId}/invite/${userId}`,
       );
       return response;

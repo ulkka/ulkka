@@ -86,27 +86,15 @@ const Creator = memo(({isRegistered}) => {
         name={'plus'}
         color={'#555'}
         type="material-community"
-        size={Platform.OS == 'ios' ? 24 : 23}
+        size={Platform.OS == 'ios' ? 25 : 23}
       />
     </TouchableOpacity>
   );
 });
 
 const HeaderBar = (props) => {
-  const dispatch = useDispatch();
-  const searchMode = useSelector(getSearchMode);
   const isRegistered = useSelector(getRegistrationStatus);
   const registeredUser = useSelector(getRegisteredUser);
-
-  const _toggleSearch = () => {
-    const currentSearchMode = searchMode;
-    dispatch(setSearchMode(!currentSearchMode));
-    if (!currentSearchMode) navigate('Search');
-    else {
-      dispatch(resetSearch());
-      navigate('HomeFeed');
-    }
-  };
 
   const AccountComponent = () => {
     const avatar = isRegistered ? (
@@ -136,24 +124,13 @@ const HeaderBar = (props) => {
   };
 
   const SearchIcon = () => {
-    return !searchMode ? (
-      <Icon
-        name="search"
-        color="#555"
-        onPress={() => _toggleSearch()}
-        size={Platform.OS == 'ios' ? 24 : 21}
-      />
-    ) : (
-      <TouchableOpacity onPress={() => _toggleSearch()}>
-        <Text
-          style={{
-            fontSize: 13,
-            color: '#444',
-            fontWeight: 'bold',
-            paddingTop: 4,
-          }}>
-          Cancel
-        </Text>
+    return (
+      <TouchableOpacity onPress={() => navigate('Search')}>
+        <Icon
+          name="search"
+          color="#555"
+          size={Platform.OS == 'ios' ? 24 : 21}
+        />
       </TouchableOpacity>
     );
   };
@@ -228,21 +205,7 @@ const HeaderBar = (props) => {
         paddingTop: getStatusBarHeight(true),
       }}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" />
-      {searchMode ? (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            padding: 10,
-            justifyContent: 'space-evenly',
-          }}>
-          <Search />
-          <View style={{width: 15}}></View>
-          <SearchIcon />
-        </View>
-      ) : (
-        headerContents
-      )}
+      {headerContents}
     </View>
   );
 };

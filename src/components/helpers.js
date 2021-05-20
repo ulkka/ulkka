@@ -31,7 +31,7 @@ export function getColorFromTitle(text) {
   return color;
 }
 
-function getScreenFromLink(link) {
+export function getScreenFromLink(link) {
   const isPath = !link.startsWith('https://ulkka.in');
   const path = isPath ? link : link.replace('https://ulkka.in/', '/');
 

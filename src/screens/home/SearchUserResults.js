@@ -3,10 +3,10 @@ import {View, Text, TouchableOpacity, Platform, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getSearchTerm} from '../../redux/reducers/SearchSlice';
 import {Icon, Divider} from 'react-native-elements';
-import communityApi from '../../services/CommunityApi';
 import UserAvatar from '../../components/UserAvatar';
 import {push} from '../../navigation/Ref';
 import userApi from '../../services/UserApi';
+import FeedFooter from '../../components/Feed/FeedFooter';
 
 const UserRow = ({user}) => {
   const {displayname, _id: userId} = user;
@@ -105,7 +105,7 @@ export default memo(function SearchUserResults(props) {
         backgroundColor: '#fff',
         paddingTop: 50,
       }}>
-      {members?.length ? (
+      {members?.length || loading ? (
         <FlatList
           listKey="searchusersresult"
           renderItem={handlerRenderItem}
@@ -117,6 +117,9 @@ export default memo(function SearchUserResults(props) {
           initialNumToRender={10}
           maxToRenderPerBatch={10}
           ItemSeparatorComponent={separator}
+          ListFooterComponent={() => (
+            <FeedFooter complete={complete} loading={loading} text={' '} />
+          )}
         />
       ) : (
         complete && (

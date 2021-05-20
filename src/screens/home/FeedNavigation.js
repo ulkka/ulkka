@@ -4,6 +4,7 @@ import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import HomeCollapsibleTabView from './HomeCollapsibleTabView';
 import SearchScreen from './SearchScreen';
 import HeaderBar from '../../components/Header';
+import SearchBar from '../../components/Search';
 
 const StackNav = createStackNavigator();
 
@@ -18,18 +19,19 @@ function FeedNavigation() {
       <StackNav.Navigator
         initialRouteName="HomeFeed"
         screenOptions={{
-          header: () => <HeaderBar />,
           ...presets,
         }}>
         <StackNav.Screen
           name="HomeFeed"
           component={HomeCollapsibleTabView}
           title="Home"
+          options={{header: () => <HeaderBar />}}
         />
         <StackNav.Screen
           name="Search"
           component={SearchScreen}
           title="Search"
+          options={{header: () => <SearchBar />}}
         />
       </StackNav.Navigator>
     </View>

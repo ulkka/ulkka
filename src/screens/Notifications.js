@@ -25,6 +25,7 @@ import {
 import UserAvatar from '../components/UserAvatar';
 import PushNotification from 'react-native-push-notification';
 import analytics from '@react-native-firebase/analytics';
+import {navigateToLink, getScreenFromLink} from '../components/helpers';
 
 const B = (props) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
 const validRestOfTheTexts = [
@@ -61,15 +62,24 @@ export default function Notifications(props) {
     dispatch(markAllNotificationsRead());
   };
 
-  const markNotificationReadHandler = (id, postId) => {
+  const markNotificationReadHandler = (item) => {
+    const {_id: id, link} = item;
     dispatch(markNotificationRead(id));
-    if (postId) {
+
+    const entityType = getScreenFromLink(link);
+    if (entityType == 'PostDetail') {
       analytics().logEvent('postdetail_clickedfrom', {
         clicked_from: 'notification',
         screen: 'notifications',
       });
-      push('PostDetail', {postId: postId});
+    } else if (entityType == 'CommunityNavigation') {
+      analytics().logEvent('communitydetail_clickedfrom', {
+        clicked_from: 'notification',
+        screen: 'notifications',
+      });
     }
+
+    navigateToLink(link);
   };
 
   const handleLoadMore = () => {
@@ -79,12 +89,11 @@ export default function Notifications(props) {
   };
 
   const renderRow = ({item}) => {
-    const postId = item?.link?.split('/')[2];
     const username = item.text.split(' ')[0];
     const restOfTheText = item.text.replace(username, '');
     return (
       <TouchableOpacity
-        onPress={() => markNotificationReadHandler(item._id, postId)}
+        onPress={() => markNotificationReadHandler(item)}
         style={{
           backgroundColor: item.read ? '#fff' : '#ff450011',
           padding: 10,

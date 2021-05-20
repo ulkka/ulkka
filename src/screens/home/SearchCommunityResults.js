@@ -105,7 +105,7 @@ export default memo(function SearchCommunityResults(props) {
         backgroundColor: '#fff',
         paddingTop: 40,
       }}>
-      {communities?.length ? (
+      {communities?.length || loading ? (
         <FlatList
           listKey="communitysearchresults"
           renderItem={handlerRenderItem}

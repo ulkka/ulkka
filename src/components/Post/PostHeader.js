@@ -120,9 +120,9 @@ const PostHeader = (props) => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
       }}>
       {UserDisplayNameWithIcon}
+      <View style={{width: 5}}></View>
       <Icon
         name="circle"
         type="font-awesome"
@@ -130,6 +130,7 @@ const PostHeader = (props) => {
         color="#999"
         style={{paddingHorizontal: 10}}
       />
+      <View style={{width: 5}}></View>
       <TimeAgo time={createdAt} />
     </View>
   );

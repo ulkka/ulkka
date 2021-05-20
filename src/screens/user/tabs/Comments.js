@@ -201,6 +201,7 @@ const Comments = (props) => {
         ListFooterComponent={
           <FeedFooter
             complete={complete}
+            loading={loading}
             text={
               complete && !commentIds.length
                 ? 'No Comments Yet'

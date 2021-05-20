@@ -4,6 +4,7 @@ import {Icon, Divider} from 'react-native-elements';
 import communityApi from '../../services/CommunityApi';
 import UserAvatar from '../../components/UserAvatar';
 import {push} from '../../navigation/Ref';
+import FeedFooter from '../../components/Feed/FeedFooter';
 
 const UserRow = ({user}) => {
   const {displayname, _id: userId} = user;
@@ -100,7 +101,7 @@ export default function CommunityMembers(props) {
         backgroundColor: '#fff',
         paddingTop: 10,
       }}>
-      {members?.length ? (
+      {members?.length || loading ? (
         <FlatList
           listKey="blockedUsers"
           renderItem={handlerRenderItem}
@@ -112,6 +113,9 @@ export default function CommunityMembers(props) {
           initialNumToRender={10}
           maxToRenderPerBatch={10}
           ItemSeparatorComponent={separator}
+          ListFooterComponent={() => (
+            <FeedFooter complete={complete} loading={loading} text={' '} />
+          )}
         />
       ) : (
         <Text
