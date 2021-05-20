@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getCommunityModerators} from '../../../redux/reducers/CommunitySlice';
 import UserAvatar from '../../../components/UserAvatar';
-import {navigate} from '../../../navigation/Ref';
+import {push} from '../../../navigation/Ref';
 
 export default function CommunityModerators(props) {
   const {communityId} = props;
@@ -19,7 +19,7 @@ export default function CommunityModerators(props) {
     <View style={{flex: 1, backgroundColor: '#fff', padding: 10}}>
       <TouchableOpacity
         style={{flexDirection: 'row', alignItems: 'center'}}
-        onPress={() => navigate('UserDetail', {userId: adminId})}>
+        onPress={() => push('UserDetail', {userId: adminId})}>
         <UserAvatar seed={adminDisplayname} size={'large'} />
         <Text
           style={{

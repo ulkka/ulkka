@@ -11,7 +11,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Icon} from 'react-native-elements';
 import TimeAgo from '../components/TimeAgo';
-import {navigate} from '../navigation/Ref';
+import {push} from '../navigation/Ref';
 import {
   fetchAllNotifications,
   resetNotifications,
@@ -68,7 +68,7 @@ export default function Notifications(props) {
         clicked_from: 'notification',
         screen: 'notifications',
       });
-      navigate('PostDetail', {postId: postId});
+      push('PostDetail', {postId: postId});
     }
   };
 

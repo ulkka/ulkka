@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {navigate} from '../../navigation/Ref';
+import {push, navigate} from '../../navigation/Ref';
 
 export default function CommunitySettings(props) {
   return (
@@ -49,7 +49,7 @@ export default function CommunitySettings(props) {
       </TouchableOpacity>
       <View style={{height: 20}}></View>
       <TouchableOpacity
-        onPress={() => navigate('CommunityMembers')}
+        onPress={() => push('CommunityMembers')}
         style={{
           borderWidth: 1,
           borderColor: '#ccc',

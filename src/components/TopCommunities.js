@@ -24,7 +24,6 @@ export default memo(function TopCommunities(props) {
     return (
       <View
         style={{
-          //   minHeight: 150,
           flex: 1,
           backgroundColor: '#fff',
           alignItems: 'center',
@@ -34,7 +33,7 @@ export default memo(function TopCommunities(props) {
           borderColor: '#ddd',
           borderRadius: 5,
           margin: 7,
-          //  justifyContent: 'space-evenly',
+          justifyContent: 'space-evenly',
         }}>
         <CommunityAvatar communityId={id} size="medium" />
         <View style={{height: 10}}></View>

@@ -7,16 +7,14 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 import {Divider} from 'react-native-elements';
 import CommunityAvatar from '../../components/CommunityAvatar';
-import {navigate} from '../../navigation/Ref';
+import {push} from '../../navigation/Ref';
 
 const CommunityRow = ({community}) => {
   const {_id: communityId, name: communityName} = community;
 
   return communityName ? (
     <TouchableOpacity
-      onPress={() =>
-        navigate('CommunityNavigation', {communityId: communityId})
-      }
+      onPress={() => push('CommunityNavigation', {communityId: communityId})}
       style={{
         flex: 1,
         width: '100%',
