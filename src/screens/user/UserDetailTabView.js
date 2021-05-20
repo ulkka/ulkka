@@ -21,8 +21,8 @@ const COLLAPSED_HEIGHT = 40;
 
 export default function UserDetailTabView(props) {
   const initialLayout = useWindowDimensions();
-  const userId = props.route.params.userId;
-  const {navigation} = props;
+  const {userId} = props.route.params;
+  const navigation = props.navigation;
 
   const blockedUsers = useSelector(getBlockedUsers);
   const isUserBlocked = blockedUsers?.includes(userId);
@@ -98,7 +98,7 @@ export default function UserDetailTabView(props) {
             textTransform: 'none',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}
-          contentContainerStyle={{padding: 0, borderWidth: 1}}
+          contentContainerStyle={{padding: 0}}
           tabStyle={{
             padding: 5,
             height: COLLAPSED_HEIGHT,
@@ -112,57 +112,61 @@ export default function UserDetailTabView(props) {
     );
   };
 
+  const CommentScene = (
+    <Comments
+      scrollEventThrottle={8}
+      onScroll={Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrolling,
+              },
+            },
+          },
+        ],
+        {useNativeDriver: true},
+      )}
+      onMomentumScrollBegin={() => setIsScrolling(true)}
+      onMomentumScrollEnd={() => setIsScrolling(false)}
+      contentContainerStyle={{
+        paddingTop: headerHeight,
+      }}
+      userId={userId}
+    />
+  );
+
+  const PostScene = (
+    <Posts
+      scrollEventThrottle={16}
+      onScroll={Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrolling,
+              },
+            },
+          },
+        ],
+        {useNativeDriver: true},
+      )}
+      onMomentumScrollBegin={() => setIsScrolling(true)}
+      onMomentumScrollEnd={() => setIsScrolling(false)}
+      contentContainerStyle={{
+        paddingTop: headerHeight,
+      }}
+      userId={userId}
+      screenName={screenName}
+    />
+  );
+
   const renderScene = ({route}) => {
     switch (route.key) {
       case 'posts':
-        return (
-          <Posts
-            scrollEventThrottle={16}
-            onScroll={Animated.event(
-              [
-                {
-                  nativeEvent: {
-                    contentOffset: {
-                      y: scrolling,
-                    },
-                  },
-                },
-              ],
-              {useNativeDriver: true},
-            )}
-            onMomentumScrollBegin={() => setIsScrolling(true)}
-            onMomentumScrollEnd={() => setIsScrolling(false)}
-            contentContainerStyle={{
-              paddingTop: headerHeight,
-            }}
-            userId={userId}
-            screenName={screenName}
-          />
-        );
+        return PostScene;
       case 'comments':
-        return (
-          <Comments
-            scrollEventThrottle={8}
-            onScroll={Animated.event(
-              [
-                {
-                  nativeEvent: {
-                    contentOffset: {
-                      y: scrolling,
-                    },
-                  },
-                },
-              ],
-              {useNativeDriver: true},
-            )}
-            onMomentumScrollBegin={() => setIsScrolling(true)}
-            onMomentumScrollEnd={() => setIsScrolling(false)}
-            contentContainerStyle={{
-              paddingTop: headerHeight,
-            }}
-            userId={userId}
-          />
-        );
+        return CommentScene;
       default:
         return null;
     }
@@ -198,6 +202,7 @@ export default function UserDetailTabView(props) {
       renderTabBar={renderTabBar}
       onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
+      swipeEnabled={Platform.OS == 'android'}
       lazy={({route}) => route.key === 'comments'}
     />
   );

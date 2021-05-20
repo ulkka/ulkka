@@ -15,7 +15,6 @@ const SocialAuth = () => {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          console.log('press gauth');
           dispatch(socialAuth('Google'));
         }}
         style={{
@@ -29,7 +28,6 @@ const SocialAuth = () => {
           iconSize={20}
           style={{
             width: '80%',
-            height: 50,
           }}
         />
       </TouchableOpacity>
@@ -37,7 +35,6 @@ const SocialAuth = () => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            console.log('press apple Auth');
             dispatch(socialAuth('Apple'));
           }}
           style={{
@@ -52,7 +49,6 @@ const SocialAuth = () => {
             style={{
               backgroundColor: '#0a0a0a',
               width: '80%',
-              height: 50,
             }}
           />
         </TouchableOpacity>

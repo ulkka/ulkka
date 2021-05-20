@@ -1,8 +1,7 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {View, Text, Platform, ImageBackground} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import Feed from '../../../components/Feed/Feed';
-import CreatePostButtonOverlay from '../../../components/Post/CreatePostButtonOverlay';
 import {useSelector} from 'react-redux';
 import {getIsCurrentUserPartOfAnyCommunity} from '../../../redux/reducers/CommunitySlice';
 import TopCommunities from '../../../components/TopCommunities';
@@ -14,15 +13,10 @@ function Home(props) {
     getIsCurrentUserPartOfAnyCommunity,
   );
   const isRegistered = useSelector(getRegistrationStatus);
-  useEffect(() => {
-    if (!isRegistered) {
-      props.jumpTo('popular');
-    }
-  }, [isRegistered]);
+
   const homeFeedView = (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <Feed screen="home" {...props} />
-      <CreatePostButtonOverlay {...props} />
     </View>
   );
 
@@ -31,11 +25,9 @@ function Home(props) {
       style={{
         paddingTop: props.contentContainerStyle.paddingTop,
         flex: 1,
-
-        // backgroundColor: '#fff',
       }}>
       <ImageBackground
-        // blurRadius={1}
+        //  blurRadius={1}
         resizeMode="repeat"
         style={{
           //  flex: 1,
@@ -59,9 +51,10 @@ function Home(props) {
             }}>
             <Text
               style={{
-                fontSize: 28,
+                fontSize: 30,
                 fontWeight: 'bold',
-                color: '#222',
+                color: '#424242',
+                ...(Platform.OS == 'ios' && {letterSpacing: 1}),
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
               സ്വാഗതം!
@@ -168,13 +161,34 @@ function Home(props) {
                 raised
                 title="Sign up / Login"
                 buttonStyle={{
+                  width: 180,
                   borderRadius: 15,
                   backgroundColor: '#2a9df4',
                   paddingVertical: 10,
-                  paddingHorizontal: 30,
                 }}
-                titleStyle={{color: '#fff', fontSize: 14}}
+                titleStyle={{
+                  color: '#fff',
+                  fontSize: 14,
+                  ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
+                }}
                 onPress={() => showAuthScreen()}
+              />
+              <View style={{height: 20}}></View>
+              <Button
+                raised
+                title="See Popular Posts"
+                buttonStyle={{
+                  width: 180,
+                  borderRadius: 15,
+                  backgroundColor: '#2a9df4',
+                  paddingVertical: 10,
+                }}
+                titleStyle={{
+                  color: '#fff',
+                  fontSize: 14,
+                  ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
+                }}
+                onPress={() => props.jumpTo('popular')}
               />
             </View>
           )}

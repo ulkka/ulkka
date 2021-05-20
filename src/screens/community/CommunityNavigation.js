@@ -20,31 +20,17 @@ function CommunityNavigation(props) {
       <StackNav.Navigator
         initialRouteName="CommunityDetail"
         screenOptions={{
-          headerStyle:
-            Platform.OS == 'android'
-              ? {
-                  height: 40,
-                }
-              : {},
-          headerTitleStyle: {
-            fontSize: Platform.OS == 'ios' ? 17 : 15,
-            color: '#444',
-          },
+          headerBackTitle: 'Back',
+          ...(Platform.OS == 'android' && {
+            headerTitleStyle: {fontSize: 15, color: '#555'},
+            headerTitleAlign: 'center',
+            headerStyle: {height: 40},
+          }),
         }}>
         <StackNav.Screen
           name="CommunityDetail"
           component={CommunityDetailTabView}
           title="CommunityDetail"
-          options={{
-            headerBackTitle: 'Back',
-            headerTitle: '',
-            headerStyle:
-              Platform.OS == 'android'
-                ? {
-                    height: 40,
-                  }
-                : {},
-          }}
           initialParams={props.route.params}
         />
         <StackNav.Screen
@@ -52,15 +38,7 @@ function CommunityNavigation(props) {
           component={GrowCommunity}
           title="GrowComunity"
           options={{
-            headerBackTitle: 'Back',
             headerTitle: 'Grow Your Community',
-            headerStyle:
-              Platform.OS == 'android'
-                ? {
-                    height: 40,
-                  }
-                : {},
-            headerTitleAlign: 'center',
           }}
           initialParams={props.route.params}
         />

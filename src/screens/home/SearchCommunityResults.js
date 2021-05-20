@@ -6,6 +6,7 @@ import {Icon, Divider} from 'react-native-elements';
 import communityApi from '../../services/CommunityApi';
 import CommunityAvatar from '../../components/CommunityAvatar';
 import {push} from '../../navigation/Ref';
+import FeedFooter from '../../components/Feed/FeedFooter';
 
 const CommunityRow = ({community}) => {
   const {name, _id: communityId} = community;
@@ -116,6 +117,9 @@ export default memo(function SearchCommunityResults(props) {
           initialNumToRender={10}
           maxToRenderPerBatch={10}
           ItemSeparatorComponent={separator}
+          ListFooterComponent={() => (
+            <FeedFooter complete={complete} loading={loading} text={' '} />
+          )}
         />
       ) : (
         complete && (

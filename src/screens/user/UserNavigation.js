@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Platform} from 'react-native';
+import {View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import UserDetailTabView from './UserDetailTabView';
 import BlockedUsers from './BlockedUsers';
@@ -8,38 +8,21 @@ import UserCommunities from './UserCommunitiesTabView';
 const StackNav = createStackNavigator();
 
 function UserNavigation(props) {
-  const {userId} = props.route.params;
-
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <StackNav.Navigator
-        initialRouteName="CommunityDetail"
+        initialRouteName="UserDetailTabView"
         screenOptions={{
-          headerStyle:
-            Platform.OS == 'android'
-              ? {
-                  height: 40,
-                }
-              : {},
-          headerTitleStyle: {
-            fontSize: Platform.OS == 'ios' ? 17 : 15,
-            color: '#444',
-          },
+          headerBackTitle: 'Back',
+          ...(Platform.OS == 'android' && {
+            headerTitleStyle: {fontSize: 15, color: '#555'},
+            headerStyle: {height: 40},
+          }),
         }}>
         <StackNav.Screen
           name="UserDetailTabView"
           component={UserDetailTabView}
           title="UserDetailTabView"
-          options={{
-            headerBackTitle: 'Back',
-            headerTitle: '',
-            headerStyle:
-              Platform.OS == 'android'
-                ? {
-                    height: 40,
-                  }
-                : {},
-          }}
           initialParams={props.route.params}
         />
         <StackNav.Screen

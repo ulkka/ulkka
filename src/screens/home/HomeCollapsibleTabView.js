@@ -58,7 +58,7 @@ export default function HomeCollapsibleTabView(props) {
             textTransform: 'none',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}
-          contentContainerStyle={{padding: 0, borderWidth: 1}}
+          contentContainerStyle={{padding: 0}}
           tabStyle={{
             padding: 0,
             height: HEADER_HEIGHT,

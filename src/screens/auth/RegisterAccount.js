@@ -146,7 +146,7 @@ const RegisterAccount = () => {
           textAlign: 'center',
         }}>
         {'  '}
-        Please enter a display name to join {' \n'}Ulkka{'  '}
+        Enter a Cool Display Name
       </Text>
     </View>
   );
@@ -244,7 +244,7 @@ const RegisterAccount = () => {
       }}
       source={require('../../../assets/doodlebg.jpg')}>
       <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS == 'ios' ? 150 : 60}
+        keyboardVerticalOffset={60}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
           flex: 1,
@@ -253,27 +253,12 @@ const RegisterAccount = () => {
         }}>
         <View
           style={{
-            // flex: showTitle ? 3 : 0,
             justifyContent: 'center',
           }}>
           {Title}
         </View>
-        <View
-          style={
-            {
-              //flex: 1
-            }
-          }>
-          {showTitle && <ChangeAccount />}
-        </View>
-        <View
-          style={
-            {
-              // flex: showTitle ? 2 : 4
-            }
-          }>
-          {Register}
-        </View>
+        <View>{showTitle && <ChangeAccount />}</View>
+        <View>{Register}</View>
       </KeyboardAvoidingView>
     </ImageBackground>
   );

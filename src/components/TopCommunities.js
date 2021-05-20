@@ -36,7 +36,7 @@ export default memo(function TopCommunities(props) {
           justifyContent: 'space-evenly',
         }}>
         <CommunityAvatar communityId={id} size="medium" />
-        <View style={{height: 10}}></View>
+        <View style={{height: 15}}></View>
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
@@ -49,7 +49,7 @@ export default memo(function TopCommunities(props) {
           }}>
           {name}
         </Text>
-        <View style={{height: 3}}></View>
+        <View style={{height: 8}}></View>
         <Text
           style={{
             color: '#555',
@@ -81,23 +81,29 @@ export default memo(function TopCommunities(props) {
   const separator = () => <View style={{width: 20}}></View>;
   return nonMemberCommunities.length ? (
     <View
-      style={{paddingVertical: 10, backgroundColor: 'rgba(52, 52, 52, 0.05)'}}>
+      style={{
+        paddingVertical: 10,
+        backgroundColor: 'rgba(52, 52, 52, 0.05)',
+        justifyContent: 'space-evenly',
+      }}>
       <View style={{paddingHorizontal: 10}}>
         <Text style={{fontWeight: 'bold', color: '#777'}}>
           Suggested for You
         </Text>
       </View>
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        listKey="topCommunities"
-        renderItem={handlerRenderItem}
-        data={nonMemberCommunities}
-        keyExtractor={(item, index) => item._id}
-        initialNumToRender={10}
-        maxToRenderPerBatch={10}
-        //ItemSeparatorComponent={separator}
-      />
+      <View>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          listKey="topCommunities"
+          renderItem={handlerRenderItem}
+          data={nonMemberCommunities}
+          keyExtractor={(item, index) => item._id}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          //ItemSeparatorComponent={separator}
+        />
+      </View>
     </View>
   ) : (
     <View></View>

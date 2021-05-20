@@ -1,15 +1,8 @@
-import React, {useState, memo} from 'react';
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  StatusBar,
-  Platform,
-  Image,
-  View,
-} from 'react-native';
+import React, {memo} from 'react';
+import {TouchableOpacity, StatusBar, Platform, Image, View} from 'react-native';
 import {Icon, Text, Badge} from 'react-native-elements';
 import Search from './Search';
-import {showAuthScreen, push} from '../navigation/Ref';
+import {showAuthScreen, push, navigate} from '../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {showCreatorOverlay} from '../redux/reducers/CreatorOverlaySlice';
 import {
@@ -23,11 +16,11 @@ import {
 } from '../redux/reducers/SearchSlice';
 import {getUnreadNotificationCount} from '../redux/reducers/NotificationSlice';
 import UserAvatar from './UserAvatar';
-import {navigate} from '../navigation/Ref';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 const TitleComponent = memo(() => {
   return (
-    <SafeAreaView
+    <View
       style={{
         alignItems: 'center',
         justifyContent: 'center',
@@ -49,7 +42,7 @@ const TitleComponent = memo(() => {
         }}>
         Ulkka
       </Text>
-    </SafeAreaView>
+    </View>
   );
 });
 
@@ -210,26 +203,29 @@ const HeaderBar = (props) => {
   );
 
   const headerContents = (
-    <SafeAreaView
+    <View
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#fff',
         marginHorizontal: 8,
-        marginVertical: Platform.OS == 'ios' ? 5 : 5,
+        marginTop: Platform.OS == 'ios' ? 5 : 8,
+        marginBottom: Platform.OS == 'ios' ? 8 : 5,
       }}>
       {headerLeft}
       <View style={{flex: 1}}></View>
       {headerRight}
-    </SafeAreaView>
+    </View>
   );
 
   return (
-    <SafeAreaView
+    <View
       style={{
         backgroundColor: '#fff',
         paddingBottom: 2,
+        // will be 0 on Android, because You pass true to skipAndroid
+        paddingTop: getStatusBarHeight(true),
       }}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       {searchMode ? (
@@ -247,7 +243,7 @@ const HeaderBar = (props) => {
       ) : (
         headerContents
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

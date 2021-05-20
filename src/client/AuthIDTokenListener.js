@@ -23,14 +23,18 @@ const AuthIDTokenListener = () => {
 
   function handleAppStateChange(appState) {
     if (appState == 'active') {
-      auth().currentUser?.getIdToken();
+      auth()
+        .currentUser?.getIdToken()
+        .catch((error) => console.log('error getting id token', error));
       analytics().logAppOpen();
     }
   }
 
   async function handleIdTokenChange(user) {
     // token refreshed in mainClient.js refreshauthlogic
-    const idToken = await auth().currentUser?.getIdToken();
+    const idToken = await auth()
+      .currentUser?.getIdToken()
+      .catch((error) => console.log('error getting id token', error));
     if (idToken) {
       mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
       dispatch(updateIDToken(idToken));

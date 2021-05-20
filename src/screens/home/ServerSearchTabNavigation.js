@@ -37,7 +37,7 @@ export default function ServerSearchTabNavigation(props) {
             textTransform: 'none',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}
-          contentContainerStyle={{padding: 0, borderWidth: 1}}
+          contentContainerStyle={{padding: 0}}
           tabStyle={{
             padding: 5,
             height: 40,
@@ -62,7 +62,7 @@ export default function ServerSearchTabNavigation(props) {
     }
   };
 
-  const SearchResultTabView = (
+  return (
     <TabView
       style={styles.container}
       navigationState={{index, routes}}
@@ -70,11 +70,10 @@ export default function ServerSearchTabNavigation(props) {
       renderTabBar={renderTabBar}
       onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
+      swipeEnabled={Platform.OS == 'android'}
       lazy={({route}) => route.key === 'users'}
     />
   );
-
-  return SearchResultTabView;
 }
 
 const styles = StyleSheet.create({

@@ -37,7 +37,7 @@ const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 const AccountDetail = memo((props) => {
   const dispatch = useDispatch();
 
-  const {userId, titleShown} = props;
+  const {userId, titleShown, navigation} = props;
   const blockedUsers = useSelector(getBlockedUsers);
   const isUserBlocked = blockedUsers?.includes(userId);
   const isCurrentUserAdminOfAnyCommunity = useSelector(
@@ -50,11 +50,11 @@ const AccountDetail = memo((props) => {
 
   useEffect(() => {
     if (!isProfile) {
-      props.navigation.setOptions({
+      navigation.setOptions({
         headerRight: () => blockUserView(),
       });
     } else {
-      props.navigation.setOptions({
+      navigation.setOptions({
         headerRight: () => AccountSettings(),
       });
     }
@@ -67,7 +67,7 @@ const AccountDetail = memo((props) => {
 
   useEffect(() => {
     if (userDisplayname) {
-      props.navigation.setOptions({
+      navigation.setOptions({
         headerTitle: () => (
           <Animated.View style={[{opacity: opacity}]}>
             <Text

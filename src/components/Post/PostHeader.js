@@ -43,7 +43,9 @@ const PostHeader = (props) => {
   const isPostAuthorCurrentUser = authorId === registeredUser?._id;
 
   const PostAuthorAvatar = (
-    <UserAvatar seed={authorDisplayname} size="medium" />
+    <TouchableOpacity onPress={() => push('UserDetail', {userId: authorId})}>
+      <UserAvatar seed={authorDisplayname} size="medium" />
+    </TouchableOpacity>
   );
 
   const CommunityName = (

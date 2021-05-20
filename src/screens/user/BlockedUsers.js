@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -15,9 +15,13 @@ const UserRow = ({userId}) => {
   const userDisplayname = useSelector((state) =>
     getUserDisplayname(state, userId),
   );
-  if (userDisplayname === undefined) {
-    dispatch(fetchUserById(userId));
-  }
+
+  useEffect(() => {
+    if (userDisplayname === undefined) {
+      dispatch(fetchUserById(userId));
+    }
+  }, [userDisplayname]);
+
   return userDisplayname ? (
     <View
       style={{
@@ -53,7 +57,7 @@ const UserRow = ({userId}) => {
   );
 };
 
-export default function BlockedUsers(props) {
+export default function BlockedUsers() {
   const blockedUsers = useSelector(getBlockedUsers);
 
   const separator = () => {
@@ -61,6 +65,7 @@ export default function BlockedUsers(props) {
   };
 
   const handlerRenderItem = ({item}) => {
+    console.log('item before userrow', item);
     return <UserRow userId={item} />;
   };
 

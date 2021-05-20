@@ -23,7 +23,6 @@ export default function Login() {
   const Title = (
     <View
       style={{
-        height: (Dimensions.get('screen').height * 15) / 100,
         alignItems: 'center',
         justifyContent: 'center',
       }}>
@@ -84,16 +83,18 @@ export default function Login() {
         left: 0,
         top: 0,
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height - 50,
+        height:
+          Platform.OS == 'android'
+            ? Dimensions.get('window').height - 50
+            : '100%',
       }}
       source={require('../../../assets/doodlebg.jpg')}>
       <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS == 'android' ? -15 : -55}
+        keyboardVerticalOffset={Platform.OS == 'android' ? -15 : -80}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
           flex: 1,
-          // backgroundColor: '#fff',
-          //justifyContent: 'center',
+
           justifyContent: 'space-evenly',
         }}>
         <View
@@ -103,6 +104,7 @@ export default function Login() {
             justifyContent: 'center',
           }}>
           {AppIcon}
+          <View style={{height: 50}}></View>
           {Title}
         </View>
         <View

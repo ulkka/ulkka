@@ -29,7 +29,7 @@ const CommunityHeaderRight = memo(({communityId}) => {
 const CommunityDetail = memo((props) => {
   const dispatch = useDispatch();
 
-  const {communityId, titleShown} = props;
+  const {communityId, titleShown, navigation} = props;
 
   const communityTitle = useSelector((state) =>
     getCommunityTitle(state, communityId),
@@ -49,14 +49,16 @@ const CommunityDetail = memo((props) => {
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    props.navigation.setOptions({
+    navigation.setOptions({
+      headerShown: true,
       headerRight: () => <CommunityHeaderRight communityId={communityId} />,
     });
   }, []);
+  console.log('props in community detail', props);
 
   useEffect(() => {
     if (communityTitle) {
-      props.navigation.setOptions({
+      navigation.setOptions({
         headerTitle: () => (
           <Animated.View style={[{opacity: opacity}]}>
             <Text
@@ -125,25 +127,26 @@ const CommunityDetail = memo((props) => {
     </View>
   );
 
-  const memberCountField = communityMemberCount ? (
-    <Text
-      style={{
-        paddingTop: 15,
-        fontSize: 12,
-        color: '#555',
-        paddingLeft: 5,
-        ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-      }}>
-      {kFormatter(communityMemberCount)}{' '}
-      {communityMemberCount == 1 ? 'member' : 'members'}
-    </Text>
-  ) : (
-    <ActivityIndicator
-      size="small"
-      color="#4285f4"
-      style={{alignSelf: 'flex-start', paddingLeft: 5, paddingTop: 15}}
-    />
-  );
+  const memberCountField =
+    communityMemberCount !== undefined ? (
+      <Text
+        style={{
+          paddingTop: 15,
+          fontSize: 12,
+          color: '#555',
+          paddingLeft: 5,
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+        }}>
+        {kFormatter(communityMemberCount)}{' '}
+        {communityMemberCount == 1 ? 'member' : 'members'}
+      </Text>
+    ) : (
+      <ActivityIndicator
+        size="small"
+        color="#4285f4"
+        style={{alignSelf: 'flex-start', paddingLeft: 5, paddingTop: 15}}
+      />
+    );
 
   const descriptionField = communityDescription ? (
     <Hyperlink

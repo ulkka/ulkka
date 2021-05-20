@@ -43,6 +43,7 @@ export const fetchCommunityById = createAsyncThunk(
   async (communityId, {rejectWithValue}) => {
     try {
       const response = await communityApi.community.fetchById(communityId);
+      console.log('response fetching communityby id', response);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);

@@ -1,9 +1,8 @@
-import React, {memo} from 'react';
+import React from 'react';
 import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import UserNavigation from '../screens/user/UserNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
-import HeaderBar from '../components/Header';
 import CreatePost from '../screens/create/PostCreator';
 import CreateCommunity from '../screens/create/CreateCommunity';
 import PostDetail from '../screens/PostDetail';
@@ -12,16 +11,13 @@ import {isVisible} from '../redux/reducers/OptionSheetSlice';
 import OptionSheet from '../components/OptionSheet';
 import Notifications from '../screens/Notifications';
 import EmailLinkHandler from '../screens/auth/EmailLinkHandler';
-import HomeCollapsibleTabView from '../screens/home/HomeCollapsibleTabView';
 import FeedNavigation from '../screens/home/FeedNavigation';
 import ShareMenuHandler from '../components/ShareMenuHandler';
 import {
   NotificationHandler,
   ConfigurePushNotification,
 } from '../components/NotificationHandler';
-import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
-import Popular from '../screens/home/tabs/Popular';
-import Search from '../screens/home/SearchScreen';
+import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
 
 const StackNav = createStackNavigator();
 
@@ -30,58 +26,40 @@ const presets =
     ? TransitionPresets.ScaleFromCenterAndroid
     : TransitionPresets.SlideFromRightIOS;
 
-function HomeNavigation({navigation}) {
+function HomeNavigation() {
   const isOptionSheetVisible = useSelector(isVisible);
-  const isRegistered = useSelector(getRegistrationStatus);
-
-  const feedScreen = isRegistered ? HomeCollapsibleTabView : Popular;
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <StackNav.Navigator
         initialRouteName="Feed"
-        screenOptions={{
-          headerStyle:
-            Platform.OS == 'android'
-              ? {
-                  height: 40,
-                }
-              : {},
-          headerTitleStyle: {
-            fontSize: Platform.OS == 'ios' ? 17 : 15,
-            color: '#444',
-          },
+        screenOptions={() => ({
+          headerBackTitle: 'Back',
+          headerShown: false,
+          headerTitleAlign: 'center',
+          ...(Platform.OS == 'android' && {
+            headerTitleStyle: {fontSize: 15},
+            headerStyle: {height: 40},
+          }),
           ...presets,
-        }}>
-        <StackNav.Screen
-          name="Feed"
-          component={FeedNavigation}
-          title="Home"
-          options={{
-            header: () => <HeaderBar navigation={navigation} />,
-          }}
-        />
+        })}>
+        <StackNav.Screen name="Feed" component={FeedNavigation} title="Home" />
         <StackNav.Screen
           name="CommunityNavigation"
           component={CommunityNavigation}
           title="CommunityNavigation"
-          options={{
-            headerShown: false,
-          }}
         />
         <StackNav.Screen
           name="UserDetail"
           component={UserNavigation}
           title="UserDetail"
-          options={{
-            headerShown: false,
-          }}
         />
         <StackNav.Screen
           name="PostDetail"
           component={PostDetail}
           title="Post Detail"
           options={{
+            headerShown: true,
             headerTitle: '',
             headerBackTitle: '',
             headerBackTitleStyle: {
@@ -94,6 +72,7 @@ function HomeNavigation({navigation}) {
           component={Notifications}
           title="Notifications"
           options={{
+            headerShown: true,
             headerTitle: 'Notifications',
             headerBackTitle: '',
             headerBackTitleStyle: {
@@ -107,6 +86,7 @@ function HomeNavigation({navigation}) {
           component={CreatePost}
           title="Create Post"
           options={{
+            headerShown: true,
             headerTitle: 'Create Post',
             headerBackTitle: '',
             headerTitleAlign: 'center',
@@ -117,7 +97,7 @@ function HomeNavigation({navigation}) {
           component={CreateCommunity}
           title={'Create Community'}
           options={{
-            //headerShown: false,
+            headerShown: true,
             headerTitleAlign: 'center',
           }}
         />
@@ -127,6 +107,7 @@ function HomeNavigation({navigation}) {
       <ShareMenuHandler />
       <ConfigurePushNotification />
       <NotificationHandler />
+      <CreatePostButtonOverlay />
     </View>
   );
 }

@@ -25,7 +25,7 @@ import {deletePost, removePost} from '../redux/actions/PostActions';
 import {deleteComment, removeComment} from '../redux/actions/CommentActions';
 import {blockUser} from '../redux/reducers/UserSlice';
 import {signout} from '../redux/actions/AuthActions';
-import {navigate} from '../navigation/Ref';
+import {navigate, push} from '../navigation/Ref';
 
 export default function OptionSheet() {
   const dispatch = useDispatch();

@@ -22,8 +22,7 @@ const COLLAPSED_HEIGHT = 40;
 export default function CommunityDetailTabView(props) {
   const initialLayout = useWindowDimensions();
   console.log('props in community nav', props);
-
-  const communityId = props.route.params.communityId;
+  const {communityId} = props.route.params;
   const {navigation} = props;
 
   const isCommunityRemoved = useSelector(getIsCommunityRemoved);
@@ -33,24 +32,19 @@ export default function CommunityDetailTabView(props) {
   );
 
   console.log('communityId in tab view', communityId);
+  const routesArray = [
+    {key: 'posts', title: 'Posts'},
+    {key: 'about', title: 'About'},
+  ];
 
   const [index, setIndex] = useState(0);
-  const [routes, setRoutes] = useState([]);
+  const [routes, setRoutes] = useState(routesArray);
 
   const [headerHeight, setHeaderHeight] = useState(100);
   const [titleShown, setTitleShown] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
 
   const scrolling = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    if (headerHeight > 100) {
-      setRoutes([
-        {key: 'posts', title: 'Posts'},
-        {key: 'about', title: 'About'},
-      ]);
-    }
-  }, [headerHeight]);
 
   scrolling.addListener(({value}) => {
     if (value > headerHeight - COLLAPSED_HEIGHT && !titleShown) {
@@ -71,7 +65,7 @@ export default function CommunityDetailTabView(props) {
     scrolling.setValue(0);
     setIndex(index);
   };
-
+  console.log('props in community detail tab view', props);
   const renderTabBar = (props) => {
     return (
       <Animated.View
@@ -107,7 +101,7 @@ export default function CommunityDetailTabView(props) {
             textTransform: 'none',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}
-          contentContainerStyle={{padding: 0, borderWidth: 1}}
+          contentContainerStyle={{padding: 0}}
           tabStyle={{
             padding: 5,
             height: COLLAPSED_HEIGHT,
@@ -206,6 +200,7 @@ export default function CommunityDetailTabView(props) {
       renderTabBar={renderTabBar}
       onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
+      swipeEnabled={Platform.OS == 'android'}
     />
   );
 

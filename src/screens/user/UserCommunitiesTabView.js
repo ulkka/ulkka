@@ -36,7 +36,7 @@ export default function UserDetailTabView(props) {
             textTransform: 'none',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}
-          contentContainerStyle={{padding: 0, borderWidth: 1}}
+          contentContainerStyle={{padding: 0}}
           tabStyle={{
             padding: 5,
             height: 40,
@@ -70,6 +70,7 @@ export default function UserDetailTabView(props) {
       onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
       lazy={({route}) => route.key === 'comments'}
+      swipeEnabled={Platform.OS == 'android'}
     />
   );
 

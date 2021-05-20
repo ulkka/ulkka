@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {SearchBar} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getSearchTerm,
   setSearchTerm,
-  resetSearch,
   getServerSearch,
   setServerSearch,
 } from '../redux/reducers/SearchSlice';

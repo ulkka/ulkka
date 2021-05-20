@@ -8,7 +8,10 @@ import {
   getPostType,
   getPostisRemoved,
 } from '../../redux/selectors/PostSelectors';
-import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
+import {
+  getBlockedUsers,
+  getRegisteredUser,
+} from '../../redux/reducers/AuthSlice';
 import PostContent from './PostContent';
 import PostHeader from './PostHeader';
 import PostTitle from './PostTitle';
@@ -26,7 +29,11 @@ function PostCard(props) {
   const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
   const postType = useSelector((state) => getPostType(state, postId));
   const blockedUsers = useSelector(getBlockedUsers);
+  const registeredUser = useSelector(getRegisteredUser);
 
+  const registeredUserId = registeredUser?._id;
+
+  const isProfile = postAuthorId == registeredUserId;
   const isAuthorBlocked = blockedUsers?.includes(postAuthorId);
   const isPostTypeAllowed = allowedPostTypes.includes(postType);
   const errorFallback = (props: {error: Error, resetError: Function}) => (
@@ -88,7 +95,13 @@ function PostCard(props) {
       ) {
         return PostDeletedRemovedView;
       } else {
-        return PostCardView;
+        if (
+          isRemoved === true &&
+          screen.startsWith('UserDetail') &&
+          !isProfile
+        ) {
+          return <View></View>;
+        } else return PostCardView;
       }
     } else {
       return <View></View>;

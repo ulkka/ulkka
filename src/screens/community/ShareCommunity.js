@@ -34,13 +34,13 @@ const ShareCommunity = (props) => {
 
   const platFormIcon =
     os == 'ios' ? (
-      <Icon name="share-outline" type="ionicon" size={19} color="#666" />
+      <Icon name="ios-share" size={20} color="#666" />
     ) : (
       <Icon name="share" type="font-awesome" size={18} color="#666" />
     );
 
   async function buildLink(communityId) {
-    const socialTitle = 'Join the ' + communityTitle + ' community on Ulkka !';
+    const socialTitle = 'Join ' + communityTitle + ' community on Ulkka !';
     const socialDescription =
       communityMemberCount + ' members\n' + communityDescription;
     const config = {
@@ -95,7 +95,7 @@ const ShareCommunity = (props) => {
       });
   };
   return (
-    <TouchableOpacity style={{paddingRight: 10}} onPress={sharePost}>
+    <TouchableOpacity style={{paddingRight: 15}} onPress={sharePost}>
       {platFormIcon}
     </TouchableOpacity>
   );

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Platform, View} from 'react-native';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import analytics from '@react-native-firebase/analytics';
@@ -32,10 +33,10 @@ export default function Main() {
 
   const presets =
     Platform.OS == 'ios'
-      ? TransitionPresets.ModalPresentationIOS
+      ? TransitionPresets.ModalTransition
       : TransitionPresets.RevealFromBottomAndroid;
 
-  const AppNavigation = (
+  return (
     <View style={{flex: 1}}>
       {authStatus == 'UNAUTHENTICATED' ? (
         <NavigationContainer>
@@ -81,12 +82,8 @@ export default function Main() {
           <StackNav.Navigator
             initialRouteName="Main"
             screenOptions={() => ({
-              // cardStyle: {backgroundColor: 'transparent'},
-              gestureEnabled: true,
-              cardOverlayEnabled: true,
               ...TransitionPresets.ScaleFromCenterAndroid,
-            })}
-            mode="modal">
+            })}>
             <StackNav.Screen
               name="Main"
               component={HomeNavigation}
@@ -111,6 +108,4 @@ export default function Main() {
       )}
     </View>
   );
-
-  return AppNavigation;
 }

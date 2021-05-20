@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, KeyboardAvoidingView, Platform} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -24,11 +24,13 @@ export default function UpdateCommunityField(props) {
   };
 
   return (
-    <View
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS == 'android' ? 30 : 75}
       style={{
         flex: 1,
         backgroundColor: '#fff',
-        padding: 10,
+        padding: 20,
         justifyContent: 'space-between',
       }}>
       <Input
@@ -56,7 +58,7 @@ export default function UpdateCommunityField(props) {
       <Button
         raised
         title="Submit"
-        containerStyle={{width: 100, alignSelf: 'flex-end'}}
+        containerStyle={{width: 100, alignSelf: 'flex-end', marginBottom: 30}}
         buttonStyle={{
           backgroundColor: '#2a9df4',
           borderRadius: 15,
@@ -65,6 +67,6 @@ export default function UpdateCommunityField(props) {
         titleStyle={{color: '#fff', fontSize: 14}}
         onPress={submit}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 }

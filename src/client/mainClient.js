@@ -10,7 +10,9 @@ const refreshAuthLogic = async (failedRequest) => {
   const failedRequestStatus = failedRequest.response?.status;
   if (failedRequestStatus == 401) {
     // error code 401 means invalid/expired token
-    const idToken = await auth().currentUser?.getIdToken();
+    const idToken = await auth()
+      .currentUser?.getIdToken()
+      .catch((error) => console.log('error getting id token', error));
     failedRequest.response.config.headers['Authorization'] =
       'Bearer ' + idToken;
     mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
