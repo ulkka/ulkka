@@ -5,13 +5,14 @@ import {
   Platform,
   Text,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import {CommunityField} from '../../components/PostCreator/CommunityField';
 import FormData from 'form-data';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
-import {navigate} from '../../navigation/Ref';
+import {pop, push, showAuthScreen} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {createPost} from '../../redux/actions/PostActions';
 import {PostTitleField} from '../../components/PostCreator/PostTitleField';
@@ -27,7 +28,6 @@ import {
 import Snackbar from 'react-native-snackbar';
 import axios from 'axios';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
-import {showAuthScreen} from '../../navigation/Ref';
 import {
   isURLValid,
   removeEmptyLines,
@@ -40,7 +40,7 @@ export default function CreatePost({route}) {
 
   const {item} = route?.params;
   let postType = route?.params?.type ? route.params.type : 'text';
-
+  const [postId, setPostId] = useState('');
   const [type, setType] = useState(postType);
   const [community, setCommunity] = useState(route?.params?.community);
   const [title, setTitle] = useState('');
@@ -129,7 +129,7 @@ export default function CreatePost({route}) {
     }
   };
 
-  const postSuccess = () => {
+  const postSuccess = (newPostId) => {
     setLoading(false);
     var status = {
       type: 'success',
@@ -138,7 +138,10 @@ export default function CreatePost({route}) {
     };
     setStatusData(status);
     setUploadPercent(0);
-    setTimeout(() => navigate('Feed'), 2000);
+    setTimeout(() => {
+      pop();
+      push('PostDetail', {postId: newPostId});
+    }, 1000);
   };
 
   const postFail = (error) => {
@@ -234,7 +237,9 @@ export default function CreatePost({route}) {
         if (response.error) {
           postFail(response.error);
         } else {
-          postSuccess();
+          console.log('response after post creation', response);
+          const newPostId = response.payload.newPostId;
+          postSuccess(newPostId);
         }
       })
       .catch((error) => {
@@ -243,6 +248,7 @@ export default function CreatePost({route}) {
   };
 
   const submit = async () => {
+    Keyboard.dismiss();
     if (!isRegistered) {
       showSnackBar('Please login to create posts');
       return;

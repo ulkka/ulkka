@@ -7,6 +7,7 @@ import UserAvatar from '../../components/UserAvatar';
 import {push, pop} from '../../navigation/Ref';
 import userApi from '../../services/UserApi';
 import FeedFooter from '../../components/Feed/FeedFooter';
+import analytics from '@react-native-firebase/analytics';
 
 const UserRow = ({user}) => {
   const {displayname, _id: userId} = user;
@@ -56,6 +57,10 @@ export default memo(function SearchUserResults(props) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    analytics().logEvent('search', {
+      type: 'user',
+      value: term,
+    });
     searchUsers();
   }, []);
 

@@ -1,6 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {View, Text, KeyboardAvoidingView, Keyboard} from 'react-native';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
@@ -9,7 +15,7 @@ import Snackbar from 'react-native-snackbar';
 import {useDispatch} from 'react-redux';
 import {createCommunity} from '../../redux/reducers/CommunitySlice';
 import communityApi from '../../services/CommunityApi';
-import {Platform} from 'react-native';
+import {pop, push} from '../../navigation/Ref';
 
 export default function CreateCommunity({navigation}) {
   const dispatch = useDispatch();
@@ -112,14 +118,19 @@ export default function CreateCommunity({navigation}) {
     return true;
   };
 
-  const communityCreationSuccess = () => {
+  const communityCreationSuccess = (newCommunityId) => {
     var statusData = {
       type: 'success',
       message: 'Successfully Created Community',
       entity: title,
     };
     setStatus(statusData);
-    setTimeout(() => navigation.navigate('Feed'), 2000);
+    setTimeout(() => {
+      pop();
+      push('CommunityNavigation', {
+        communityId: newCommunityId,
+      });
+    }, 1500);
   };
 
   const submit = async () => {
@@ -130,7 +141,8 @@ export default function CreateCommunity({navigation}) {
       setLoading(true);
       await dispatch(createCommunity(payload)).then((response) => {
         if (!response.error) {
-          communityCreationSuccess();
+          const newCommunityId = response.payload._id;
+          communityCreationSuccess(newCommunityId);
         }
       });
       setLoading(false);

@@ -7,6 +7,7 @@ import communityApi from '../../services/CommunityApi';
 import CommunityAvatar from '../../components/CommunityAvatar';
 import {push, pop} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
+import analytics from '@react-native-firebase/analytics';
 
 const CommunityRow = ({community}) => {
   const {name, _id: communityId} = community;
@@ -56,6 +57,10 @@ export default memo(function SearchCommunityResults(props) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    analytics().logEvent('search', {
+      type: 'community',
+      value: term,
+    });
     searchCommunities();
   }, []);
 

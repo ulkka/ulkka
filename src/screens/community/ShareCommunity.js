@@ -29,7 +29,6 @@ const ShareCommunity = (props) => {
     getCommunityMemberCount(state, communityId),
   );
 
-  const shareTitle = communityTitle;
   const type = 'community';
 
   const platFormIcon =

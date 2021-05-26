@@ -58,7 +58,7 @@ const PostHeader = (props) => {
       }>
       <Text
         style={{
-          fontSize: 13,
+          fontSize: 12,
           fontWeight: 'bold',
           color: '#666',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -79,7 +79,7 @@ const PostHeader = (props) => {
           fontSize: isCommunityDetail ? 13 : 12,
           color: CommentAuthorDisplaynameColor,
           //color: '#888',
-          paddingRight: 4,
+          // paddingRight: 4,
           ...(isCommunityDetail && {fontWeight: 'bold'}),
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
@@ -122,7 +122,7 @@ const PostHeader = (props) => {
         alignItems: 'center',
       }}>
       {UserDisplayNameWithIcon}
-      <View style={{width: 5}}></View>
+
       <Icon
         name="circle"
         type="font-awesome"
@@ -130,7 +130,7 @@ const PostHeader = (props) => {
         color="#999"
         style={{paddingHorizontal: 10}}
       />
-      <View style={{width: 5}}></View>
+
       <TimeAgo time={createdAt} />
     </View>
   );

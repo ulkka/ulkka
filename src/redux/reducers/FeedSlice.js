@@ -283,6 +283,11 @@ export const slice = createSlice({
         screen.sort = sort;
       }
     },
+    [sortFeed.fulfilled]: (state, action) => {
+      const {type, sort} = action.meta.arg;
+      const screenType = type.split('-')[0];
+      analytics().logEvent('feed_sort', {screen: screenType, type: sort});
+    },
     [refreshFeed.rejected]: handleError,
     [refreshPostDetail.pending]: (state, action) => {
       const {type} = action.meta.arg;

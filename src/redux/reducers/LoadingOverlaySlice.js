@@ -7,6 +7,7 @@ import {
   sendEmailSignInLink,
 } from '../actions/AuthActions';
 import {blockUser, unblockUser} from './UserSlice';
+import {createCommunity} from './CommunitySlice';
 
 const showLoadingOverlay = (state) => {
   state.visible = true;
@@ -90,6 +91,15 @@ export const slice = createSlice({
       hideLoadingOverlay(state);
     },
     [unblockUser.rejected]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
+    [createCommunity.pending]: (state, action) => {
+      showLoadingOverlay(state);
+    },
+    [createCommunity.fulfilled]: (state, action) => {
+      hideLoadingOverlay(state);
+    },
+    [createCommunity.rejected]: (state, action) => {
       hideLoadingOverlay(state);
     },
   },

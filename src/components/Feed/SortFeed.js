@@ -1,6 +1,6 @@
-import React, {memo, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Platform} from 'react-native';
-import {Icon, BottomSheet, ListItem, Overlay} from 'react-native-elements';
+import {Icon, Overlay} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {sortFeed} from '../../redux/actions/FeedActions';
 import {getFeedSortMethod} from '../../redux/selectors/FeedSelectors';
@@ -12,16 +12,6 @@ export default function SortFeed(props) {
   const sortMethod = useSelector((state) => getFeedSortMethod(state, screen));
 
   const [isVisible, setIsVisible] = useState(false);
-  const list = [
-    {title: 'List Item 1'},
-    {title: 'List Item 2'},
-    {
-      title: 'Cancel',
-      containerStyle: {backgroundColor: 'red'},
-      titleStyle: {color: 'white'},
-      onPress: () => setIsVisible(false),
-    },
-  ];
 
   const getCurrentSortMethod = () => {
     switch (sortMethod) {

@@ -14,6 +14,7 @@ import {
   registerUser,
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
+import analytics from '@react-native-firebase/analytics';
 
 const communityAdapter = createEntityAdapter({
   selectId: (community) => community._id,
@@ -87,7 +88,6 @@ export const leaveCommunity = createAsyncThunk(
   async (communityId, {rejectWithValue}) => {
     try {
       const response = await communityApi.community.leave(communityId);
-      console.log('response after leaving community', response);
       return communityId;
     } catch (error) {
       return rejectWithValue(error);
@@ -196,6 +196,9 @@ export const slice = createSlice({
         changes: {role: 'member'},
       });
       Snackbar.show({text: 'Joined ' + name, duration: Snackbar.LENGTH_SHORT});
+      analytics().logEvent('community_join', {
+        title: name,
+      });
     },
     [leaveCommunity.fulfilled]: (state, action) => {
       const communityId = action.payload;
@@ -203,10 +206,16 @@ export const slice = createSlice({
         id: communityId,
         changes: {role: 'none'},
       });
+      analytics().logEvent('community_leave', {
+        item_id: communityId,
+      });
     },
     [createCommunity.fulfilled]: (state, action) => {
       const community = action.payload;
       communityAdapter.addOne(state, {...community, role: 'admin'});
+      analytics().logEvent('community_create', {
+        type: community.name,
+      });
     },
     [updateCommunityFields.fulfilled]: (state, action) => {
       const {_id: communityId} = action.payload.data;
@@ -222,9 +231,14 @@ export const slice = createSlice({
         text: 'Community ' + field + ' updated',
         duration: Snackbar.LENGTH_SHORT,
       });
+      analytics().logEvent('community_update', {
+        value: field,
+      });
     },
     [createCommunity.rejected]: handleError,
     [joinCommunity.rejected]: handleError,
+    [leaveCommunity.rejected]: handleError,
+    [updateCommunityFields.rejected]: handleError,
   },
 });
 
