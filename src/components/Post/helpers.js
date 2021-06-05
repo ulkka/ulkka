@@ -45,6 +45,13 @@ export function scaleHeightAndWidthAccordingToDimensions(data, type, screen) {
   let {height, width} = Dimensions.get('window');
 
   if (mediaDimensions?.height && mediaDimensions?.width) {
+    if (
+      typeof mediaDimensions?.height != 'number' ||
+      typeof mediaDimensions?.width != 'number'
+    ) {
+      return {height: 400, width: width};
+    }
+
     if (screen == 'PostDetail') {
       if (type != 'video' && !data?.ogVideo?.url) {
         height = (width * mediaDimensions.height) / mediaDimensions.width;

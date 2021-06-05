@@ -3,6 +3,9 @@ import postApi from '../../services/PostApi';
 import {normalize} from 'normalizr';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import RNFS from 'react-native-fs';
+import {hasAndroidPermission, savePicture, getAlbumFromType} from './common';
+import {Platform} from 'react-native';
+import Snackbar from 'react-native-snackbar';
 
 export function resetState(state, type) {
   postAdapter.removeAll(state);
@@ -169,10 +172,10 @@ export const downloadMedia = createAsyncThunk(
 
       console.log('file doesnt exist in cache so downloading');
 
-      const mediaCacheDirectoryPathExists = await RNFS.exists(
+      const mediaLibraryDirectoryPathExists = await RNFS.exists(
         mediaCacheDirectoryPath,
       );
-      if (!mediaCacheDirectoryPathExists) {
+      if (!mediaLibraryDirectoryPathExists) {
         console.log(
           'Media cache download folder does not exist. So creating one!',
         );
@@ -208,5 +211,93 @@ export const downloadMedia = createAsyncThunk(
       return access;
     },
     dispatchConditionRejection: true,
+  },
+);
+
+export const downloadMediaToLibrary = createAsyncThunk(
+  'posts/downloadMediaToLibrary',
+  async (postId, {rejectWithValue, getState}) => {
+    try {
+      const {bytes, secure_url: url} = getState().posts.entities[
+        postId
+      ]?.mediaMetadata;
+
+      const {type} = getState().posts.entities[postId];
+      console.log(
+        'Pictures library',
+        Platform.OS,
+        RNFS.LibraryDirectoryPath,
+        RNFS.PicturesDirectoryPath,
+      );
+      const picturesDirectoryPath =
+        Platform.OS == 'android'
+          ? RNFS.PicturesDirectoryPath
+          : RNFS.LibraryDirectoryPath;
+      const mediaLibraryDirectoryPath = picturesDirectoryPath + '/Ulkka';
+      const filename = url.split('/').pop();
+      const toFile = mediaLibraryDirectoryPath + '/' + filename;
+
+      let error = false;
+      if (Platform.OS === 'android') {
+        error = !(await hasAndroidPermission());
+        if (error) {
+          Snackbar.show({
+            text: 'Error saving file. Permission denied',
+            duration: Snackbar.LENGTH_SHORT,
+          });
+        }
+      }
+      const mediaLibraryDirectoryPathExists = await RNFS.exists(
+        mediaLibraryDirectoryPath,
+      );
+
+      if (!mediaLibraryDirectoryPathExists) {
+        if (Platform.OS == 'android') {
+          await hasAndroidPermission();
+        }
+        await RNFS.mkdir(mediaLibraryDirectoryPath);
+      }
+
+      await RNFS.downloadFile({
+        //  background: true,
+        fromUrl: url,
+        toFile: toFile,
+      })
+        .promise.then(async () => {
+          const res = await savePicture(
+            {
+              tag: Platform.OS == 'android' ? 'file://' + toFile : toFile,
+              album: getAlbumFromType(type),
+            },
+            rejectWithValue,
+          );
+
+          if (res.message == 'Rejected') {
+            error = true;
+          }
+        })
+        .catch((error) => {
+          return rejectWithValue(error);
+        });
+
+      let fileExists = await RNFS.exists(toFile);
+      let fileStat = fileExists && (await RNFS.stat(toFile));
+      if (fileExists && fileStat?.size == bytes && error === false) {
+        console.log(
+          'file downloaded successfully, so returning local uri',
+          toFile,
+        );
+        return {
+          postId: postId,
+          localUri: toFile,
+          type: type,
+        };
+      } else {
+        const error = {message: 'Download failed', name: 'DownloadError'};
+        return rejectWithValue(error);
+      }
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   },
 );

@@ -9,6 +9,7 @@ import {
   reportPost,
   downloadMedia,
   removePost,
+  downloadMediaToLibrary,
 } from '../actions/PostActions';
 import {postAdapter} from '../selectors/PostSelectors';
 import Snackbar from 'react-native-snackbar';
@@ -141,6 +142,16 @@ export const slice = createSlice({
           isDownloading: false,
           mediaError: true,
         },
+      });
+    },
+    [downloadMediaToLibrary.fulfilled]: (state, action) => {
+      const postId = action.payload;
+      Snackbar.show({
+        text: 'File saved to Library',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('media_download', {
+        item_id: postId,
       });
     },
     [votePost.rejected]: handleError,

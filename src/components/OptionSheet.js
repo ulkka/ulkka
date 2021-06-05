@@ -14,6 +14,7 @@ import Report from './Report';
 import {
   getPostAuthorId,
   getPostCommunityId,
+  getPostType,
 } from '../redux/selectors/PostSelectors';
 import {getUserRoleInCommunity} from '../redux/reducers/CommunitySlice';
 import {
@@ -21,12 +22,29 @@ import {
   getCommentPostCommunity,
 } from '../redux/selectors/CommentSelectors';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
-import {deletePost, removePost} from '../redux/actions/PostActions';
+import {
+  deletePost,
+  removePost,
+  downloadMediaToLibrary,
+} from '../redux/actions/PostActions';
 import {deleteComment, removeComment} from '../redux/actions/CommentActions';
 import {blockUser} from '../redux/reducers/UserSlice';
 import {signout} from '../redux/actions/AuthActions';
 import {navigate, push} from '../navigation/Ref';
 
+function getCapitalizedPostType(postType) {
+  switch (postType) {
+    case 'image':
+      return 'Image';
+    case 'video':
+      return 'Video';
+    case 'gif':
+      return 'GIF';
+
+    default:
+      break;
+  }
+}
 export default function OptionSheet() {
   const dispatch = useDispatch();
 
@@ -47,6 +65,8 @@ export default function OptionSheet() {
       : type == 'comment'
       ? useSelector((state) => getCommentPostCommunity(state, id))
       : null;
+
+  const postType = useSelector((state) => getPostType(state, id));
 
   const userRole = useSelector((state) =>
     getUserRoleInCommunity(state, communityId),
@@ -106,6 +126,19 @@ export default function OptionSheet() {
           },
         ]
       : [
+          type == 'post' &&
+            (postType == 'image' ||
+              postType == 'video' ||
+              postType == 'gif') && {
+              title: 'Save ' + getCapitalizedPostType(postType),
+              titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+              containerStyle: listItemStyle,
+              onPress: () => {
+                console.log('download media to library');
+                dispatch(downloadMediaToLibrary(id));
+                dispatch(hideOptionSheet());
+              },
+            },
           !currentUserisAuthor && {
             title: 'Block User',
             titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},

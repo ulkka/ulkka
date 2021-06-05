@@ -66,20 +66,19 @@ const ImagePostContent = (props) => {
       }
     </View>
   );
-
   return (
     <View
       style={{
         alignSelf: 'center',
-        height: height,
-        width: width,
+        height: height ? height : '300',
+        width: width ? width : '100%',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
       <FastImage
         style={{
-          height: height,
-          width: width,
+          height: height ? height : '300',
+          width: width ? width : '100%',
           alignSelf: 'center',
         }}
         onLoad={onLoad}

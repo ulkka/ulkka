@@ -88,7 +88,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This allows Ulkka to provide you with a better product experience. There are no ads in Ulkka</string>
+	<string>This permission is required to save files to your Photo Library</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
