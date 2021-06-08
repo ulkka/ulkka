@@ -13,6 +13,7 @@ import {feed} from './FeedSlice';
 import {communities} from './CommunitySlice';
 import {creatorOverlay} from './CreatorOverlaySlice';
 import {search} from './SearchSlice';
+import {communityCreatorPrompt} from './CommunityCreatorPromptSlice';
 
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
@@ -29,6 +30,7 @@ const AppReducers = combineReducers({
   comments,
   creatorOverlay,
   commentWriter,
+  communityCreatorPrompt,
   optionSheet,
   loadingOverlay,
 });

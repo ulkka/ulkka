@@ -1,13 +1,47 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Platform, FlatList} from 'react-native';
-import {Icon, Divider} from 'react-native-elements';
+import React, {useState, useEffect, memo} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  FlatList,
+  Alert,
+} from 'react-native';
+import {Divider, SearchBar} from 'react-native-elements';
+import {useSelector, useDispatch} from 'react-redux';
 import communityApi from '../../services/CommunityApi';
+import {
+  addAdmin,
+  getIsUserAdminOfCommunity,
+} from '../../redux/reducers/CommunitySlice';
 import UserAvatar from '../../components/UserAvatar';
 import {push} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
 
-const UserRow = ({user}) => {
+const UserRow = memo(({user, communityId}) => {
+  const dispatch = useDispatch();
   const {displayname, _id: userId} = user;
+  const isAdmin = useSelector((state) =>
+    getIsUserAdminOfCommunity(state, communityId, userId),
+  );
+  const [isBanned, setIsBanned] = useState(user.isBanned);
+
+  const makeAdmin = async (communityId, user) => {
+    dispatch(addAdmin({communityId, user}));
+  };
+
+  const banUser = async (communityId, userId) => {
+    const response = await communityApi.community
+      .banUser(communityId, userId)
+      .catch((error) => {
+        console.log('error banning user', error);
+      });
+    console.log('response banning user', response);
+    return response.status == 200;
+  };
+
+  if (isBanned) return <View></View>;
+  console.log('user in userrow community memebrs', user);
   return displayname ? (
     <TouchableOpacity
       onPress={() => push('UserDetail', {userId: userId})}
@@ -32,14 +66,78 @@ const UserRow = ({user}) => {
           {displayname}
         </Text>
       </View>
-      <View>
-        <Icon name="arrow-right" type="font-awesome" size={16} color="#555" />
+      <View style={{flexDirection: 'row'}}>
+        {!isAdmin && (
+          <TouchableOpacity
+            onPress={() => {
+              console.log('make admin pressed');
+              Alert.alert(
+                'Make ' + displayname + ' an admin of this community?',
+                'Admins can add/remove users and other admins, remove posts/comments from this community',
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'OK',
+                    onPress: async () => {
+                      const res = await makeAdmin(communityId, user);
+                      res && setIsAdmin(res);
+                    },
+                  },
+                ],
+                {cancelable: true},
+              );
+            }}
+            style={{
+              backgroundColor: '#289df4',
+              padding: 5,
+              borderRadius: 5,
+            }}>
+            <Text style={{fontSize: 10, color: '#fff'}}>Make Admin</Text>
+          </TouchableOpacity>
+        )}
+        <View style={{width: 15}}></View>
+        {!isAdmin && (
+          <TouchableOpacity
+            onPress={() => {
+              console.log('ban pressed');
+              Alert.alert(
+                'Ban ' + displayname + ' from this community?',
+                'Banned users cannot join, post or comment on this community.',
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      const res = banUser(communityId, userId);
+                      res && setIsBanned(true);
+                    },
+                  },
+                ],
+                {cancelable: true},
+              );
+            }}
+            style={{
+              backgroundColor: '#ff5544',
+              padding: 5,
+              borderRadius: 5,
+            }}>
+            <Text style={{fontSize: 10, color: '#fff'}}>Ban User</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </TouchableOpacity>
   ) : (
     <View></View>
   );
-};
+});
 
 export default function CommunityMembers(props) {
   const {communityId} = props.route.params;
@@ -49,17 +147,18 @@ export default function CommunityMembers(props) {
   const [complete, setComplete] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchCommunityMembers();
-  }, []);
+    fetchCommunityMembers(searchTerm);
+  }, [searchTerm]);
 
-  const fetchCommunityMembers = async () => {
+  const fetchCommunityMembers = async (text) => {
     if (!complete && !loading && !error) {
       const {page, limit} = metadata;
       setLoading(true);
       const response = await communityApi.community
-        .fetchMembers(communityId, page + 1, limit)
+        .search(communityId, text, page + 1, limit)
         .catch((error) => {
           setError(true);
           console.log('error fetching community members', error);
@@ -85,13 +184,26 @@ export default function CommunityMembers(props) {
   };
 
   const handlerRenderItem = ({item}) => {
-    return <UserRow user={item} />;
+    return <UserRow user={item} communityId={communityId} />;
   };
 
   const handleLoadMore = () => {
     if (!complete && !loading && !error) {
       fetchCommunityMembers();
     }
+  };
+
+  const resetState = () => {
+    setMembers([]);
+    setMetadata({page: 0, limit: 10, total: -1});
+    setLoading(false);
+    setComplete(false);
+    setError(false);
+  };
+  const handleSearch = async (text) => {
+    console.log('search etxt', text);
+    resetState();
+    setSearchTerm(text);
   };
 
   return (
@@ -101,9 +213,35 @@ export default function CommunityMembers(props) {
         backgroundColor: '#fff',
         paddingTop: 10,
       }}>
+      <SearchBar
+        lightTheme={true}
+        placeholder="Search Members"
+        containerStyle={{
+          backgroundColor: 'white',
+          borderTopColor: 'transparent',
+          borderBottomColor: 'transparent',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingVertical: 10,
+          paddingHorizontal: 20,
+        }}
+        value={searchTerm}
+        onChangeText={(text) => handleSearch(text)}
+        inputContainerStyle={{
+          height: 40,
+          backgroundColor: '#eee',
+        }}
+        inputStyle={{
+          fontSize: 12,
+          color: '#444',
+        }}
+        round={true}
+        searchIcon={{size: 15}}
+        showCancel={true}
+      />
       {members?.length || loading ? (
         <FlatList
-          listKey="blockedUsers"
+          listKey="communityMembers"
           renderItem={handlerRenderItem}
           data={members}
           keyExtractor={(item, index) => item + index}

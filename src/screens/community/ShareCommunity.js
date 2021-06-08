@@ -13,7 +13,14 @@ import {
 import analytics from '@react-native-firebase/analytics';
 
 const ShareCommunity = (props) => {
-  const {communityId} = props;
+  const {
+    communityId,
+    text,
+    flexDirection,
+    mode,
+    shareTextStyle,
+    iconSize,
+  } = props;
   const os = Platform.OS;
 
   const communityTitle = useSelector((state) =>
@@ -33,9 +40,18 @@ const ShareCommunity = (props) => {
 
   const platFormIcon =
     os == 'ios' ? (
-      <Icon name="ios-share" size={20} color="#666" />
+      <Icon
+        name="ios-share"
+        size={iconSize ? iconSize : 20}
+        color={mode == 'light' ? '#fff' : '#666'}
+      />
     ) : (
-      <Icon name="share" type="font-awesome" size={18} color="#666" />
+      <Icon
+        name="share"
+        type="font-awesome"
+        size={iconSize ? iconSize - 2 : 18}
+        color={mode == 'light' ? '#fff' : '#666'}
+      />
     );
 
   async function buildLink(communityId) {
@@ -79,6 +95,7 @@ const ShareCommunity = (props) => {
     const options = {
       title: 'Share',
       url: link,
+      message: 'Invitation to join ' + communityTitle + ' community on Ulkka !',
     };
     Share.open(options)
       .then((res) => {
@@ -94,8 +111,22 @@ const ShareCommunity = (props) => {
       });
   };
   return (
-    <TouchableOpacity style={{paddingRight: 15}} onPress={sharePost}>
+    <TouchableOpacity
+      onPress={sharePost}
+      style={{
+        flexDirection: flexDirection,
+        alignItems: 'center',
+      }}>
       {platFormIcon}
+      {text && (
+        <Text
+          style={{
+            ...shareTextStyle,
+            ...{color: mode == 'light' ? '#fff' : '#555'},
+          }}>
+          {text}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };

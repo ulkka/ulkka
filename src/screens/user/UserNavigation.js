@@ -24,6 +24,9 @@ function UserNavigation(props) {
           component={UserDetailTabView}
           title="UserDetailTabView"
           initialParams={props.route.params}
+          options={{
+            headerTitle: '',
+          }}
         />
         <StackNav.Screen
           name="BlockedUsers"

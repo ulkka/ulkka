@@ -17,12 +17,14 @@ import {createCommunity} from '../../redux/reducers/CommunitySlice';
 import communityApi from '../../services/CommunityApi';
 import {pop, push} from '../../navigation/Ref';
 
-export default function CreateCommunity({navigation}) {
+export default function CreateCommunity({navigation, route}) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [topic, setTopic] = useState('');
   const [status, setStatus] = useState({});
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(
+    route?.params?.name ? route.params?.name : '',
+  );
   const [description, setDescription] = useState('');
 
   const [isCommunityTitleValid, setIsCommunityTitleValid] = useState(null);
@@ -57,17 +59,17 @@ export default function CreateCommunity({navigation}) {
   const validateCommunityTitle = async (text) => {
     if (
       text.length < 4 ||
-      !/^([a-zA-Z0-9\u0D00-\u0D7F_.-]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _.-
+      !/^([a-zA-Z0-9\u0D00-\u0D7F_]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _
       text.length > 25
     ) {
       setIsCommunityTitleValid(false);
       setCommunityTitleErrorMessage(
-        'Invalid Community Title \nMin 4 characters, Max 25 characters\nNo spaces\nEnglish / Malayalam alphabets, numbers or _.-',
+        'Invalid Community Title \nMin 4 characters, Max 25 characters\nNo spaces\nEnglish / Malayalam alphabets, numbers or underscore',
       );
       return false;
     } else {
-      const response = await communityApi.community.communityTitleExists(text);
-      if (response.data.length == 0) {
+      const response = await communityApi.community.searchByName(text);
+      if (!response.data?._id) {
         console.log('community title response', response);
         setIsCommunityTitleValid(true);
         return true;
@@ -75,7 +77,7 @@ export default function CreateCommunity({navigation}) {
         console.log('community title already exists response', response);
         setIsCommunityTitleValid(false);
         setCommunityTitleErrorMessage(
-          'Community title is taken. Please enter another one',
+          'Community already exists. Please enter another title',
         );
         return false;
       }
@@ -186,6 +188,7 @@ export default function CreateCommunity({navigation}) {
           setIsCommunityTitleValid(null);
           setCommunityTitleErrorMessage('');
         }}
+        multiline={true}
         inputStyle={{textAlign: 'center', lineHeight: 24}}
         errorMessage={
           isCommunityTitleValid == null

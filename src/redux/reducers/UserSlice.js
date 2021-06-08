@@ -22,8 +22,8 @@ export const userAdapter = createEntityAdapter({
 });
 
 const addRegisteredUserToSlice = (state, action) => {
-  const registeredUser = action.payload.registeredUser;
-  registeredUser && userAdapter.upsertOne(state, registeredUser);
+  const {registeredUser, isRegistered} = action.payload;
+  isRegistered && userAdapter.upsertOne(state, registeredUser);
 };
 
 export const fetchUserById = createAsyncThunk(

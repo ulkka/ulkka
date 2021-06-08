@@ -71,6 +71,9 @@ export const getPostAuthorId = (state, id) => selectPostById(state, id)?.author;
 export const getPostCommunityId = (state, id) =>
   selectPostById(state, id)?.community;
 
+export const getPostIsPinned = (state, id) =>
+  selectPostById(state, id)?.isPinned;
+
 export const getPostAuthorDisplayname = createCachedSelector(
   (state) => state,
   getPostAuthorId,

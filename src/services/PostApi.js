@@ -51,6 +51,16 @@ const postApi = {
       );
       return response;
     },
+    async pin(postId) {
+      const client = await mainClient;
+      let response = await client.post(POST_URI + '/' + postId + '/pin');
+      return response;
+    },
+    async unpin(postId) {
+      const client = await mainClient;
+      let response = await client.post(POST_URI + '/' + postId + '/unpin');
+      return response;
+    },
   },
   comment: {
     async fetch(postId) {

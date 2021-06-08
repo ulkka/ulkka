@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState, useEffect} from 'react';
 import {View, Text, Platform, ImageBackground} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import Feed from '../../../components/Feed/Feed';
@@ -12,12 +12,55 @@ function Home(props) {
   const userHasJoinedCommunities = useSelector(
     getIsCurrentUserPartOfAnyCommunity,
   );
+  const [showRefresh, setShowRefresh] = useState(false);
+  const [
+    prevUserHasJoinedCommunities,
+    setPrevUserHasJoinedCommunities,
+  ] = useState(userHasJoinedCommunities);
+
+  useEffect(() => {
+    if (!prevUserHasJoinedCommunities && userHasJoinedCommunities) {
+      setShowRefresh(true);
+    }
+  }, [userHasJoinedCommunities]);
+
   const isRegistered = useSelector(getRegistrationStatus);
 
   const homeFeedView = (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <Feed screen="home" {...props} />
     </View>
+  );
+
+  const refreshButton = (
+    <Button
+      raised
+      type="solid"
+      activeOpacity={0.5}
+      titleStyle={{
+        color: '#fff',
+        fontWeight: '500',
+        fontSize: 13,
+        marginLeft: 5,
+      }}
+      containerStyle={{
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 5,
+        position: 'absolute',
+        top: 5,
+      }}
+      buttonStyle={{
+        borderRadius: 25,
+        paddingHorizontal: 20,
+        alignItems: 'center',
+        borderColor: '#222',
+        backgroundColor: '#289df4',
+      }}
+      icon={<Icon name="refresh" size={15} color="#fff" />}
+      title="Refresh"
+      onPress={() => setPrevUserHasJoinedCommunities(true)}
+    />
   );
 
   const emptyHomeFeedView = (
@@ -193,10 +236,12 @@ function Home(props) {
             </View>
           )}
         </View>
+        {showRefresh && refreshButton}
       </ImageBackground>
     </View>
   );
-  return userHasJoinedCommunities ? homeFeedView : emptyHomeFeedView;
+  return prevUserHasJoinedCommunities ? homeFeedView : emptyHomeFeedView;
+  //return emptyHomeFeedView;
 }
 
 export default memo(Home);

@@ -1,0 +1,95 @@
+import React, {memo, useState, useCallback} from 'react';
+import {View, Text, TouchableOpacity, Platform} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {navigateToURL} from './helpers';
+import analytics from '@react-native-firebase/analytics';
+import Autolink from 'react-native-autolink';
+import {searchCommunitiesByName} from '../redux/reducers/CommunitySlice';
+
+const AutolinkText = (props) => {
+  const dispatch = useDispatch();
+  const {enableShowMore, text, source, textStyle} = props;
+  console.log(
+    'props in grow community',
+    props,
+    textStyle ? textStyle : defaultTextStyle,
+  );
+  const defaultTextStyle = {
+    color: '#333',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: Platform.OS == 'ios' ? 19 : 21,
+    textAlign: 'justify',
+    paddingRight: 10,
+  };
+
+  //const [showMore, setShowMore] = useState(false);
+  const [textHidden, setTextHidden] = useState(true);
+  const showMore = text.length > 500 ? true : false;
+
+  const onTextLayout = useCallback((e) => {
+    console.log('text layouted');
+    const shouldShowMore = e.nativeEvent.lines.length > 5;
+    shouldShowMore && analytics().logEvent('comment_longtext');
+    setShowMore(shouldShowMore);
+  }, []);
+
+  const handlePress = (url, match) => {
+    console.log('url,match,', url, match);
+    if (match.url) {
+      navigateToURL(match.url, source);
+    } else if (match.hashtag) {
+      dispatch(searchCommunitiesByName(match.hashtag));
+    }
+  };
+
+  const textView = (
+    <View>
+      <Autolink
+        textProps={{
+          ...(textStyle ? {style: textStyle} : {style: defaultTextStyle}),
+          ...{
+            // onTextLayout: onTextLayout,
+            ellipsizeMode: 'tail',
+            numberOfLines: textHidden ? 10 : undefined,
+          },
+        }}
+        // Required: the text to parse for links
+        text={
+          enableShowMore ? (textHidden ? text.substring(0, 499) : text) : text
+        } //"This is the string to parse for urls #adada #അർജുൻ (https://github.com/joshswan/react-native-autolink), phone numbers (415-555-5555), emails (josh@example.com), mentions/handles (@twitter), and hashtags (#exciting)"
+        // Optional: enable email linking
+        email={false}
+        // Optional: enable hashtag linking to instagram
+        hashtag={'twitter'}
+        // Optional: enable @username linking to twitter
+        mention={false}
+        // Optional: enable phone linking
+        phone={false}
+        // Optional: enable URL linking
+        url
+        // Optional: custom linking matchers
+        // matchers={[HashTagMatcher]}
+        onPress={handlePress}
+      />
+      {showMore && (
+        <TouchableOpacity
+          style={{paddingVertical: 5}}
+          onPress={() => {
+            analytics().logEvent(source + '_toggletexthidden', {
+              value: !textHidden,
+            });
+            setTextHidden(!textHidden);
+          }}>
+          <Text style={{color: '#68cbf8'}}>
+            {textHidden ? 'See More' : 'See Less'}
+          </Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+
+  return <View>{textView}</View>;
+};
+
+export default memo(AutolinkText);

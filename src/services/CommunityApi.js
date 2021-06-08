@@ -79,6 +79,53 @@ const communityApi = {
         });
       return response;
     },
+    async addAsAdmin(communityId, userId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/addAsAdmin/${userId}`,
+      );
+      return response;
+    },
+    async dismissAsAdmin(communityId, userId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/dismissAsAdmin/${userId}`,
+      );
+      return response;
+    },
+    async banUser(communityId, userId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/ban/${userId}`,
+      );
+      return response;
+    },
+    async unbanUser(communityId, userId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/unban/${userId}`,
+      );
+      return response;
+    },
+    async search(communityId, text, page, limit) {
+      const client = await mainClient;
+      const response = await client.get(
+        `${COMMUNITY_URI}/${communityId}/searchMembersByName?displayname=${text}&page=${page}&limit=${limit}`,
+      );
+      return response;
+    },
+    async bannedMembers(communityId, page, limit) {
+      const client = await mainClient;
+      const response = await client.get(
+        `${COMMUNITY_URI}/${communityId}/bannedMembers?page=${page}&limit=${limit}`,
+      );
+      return response;
+    },
+    async searchByName(text) {
+      const client = await mainClient;
+      const response = await client.get(`${COMMUNITY_URI}/byName/${text}`);
+      return response;
+    },
   },
 };
 

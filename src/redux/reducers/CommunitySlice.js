@@ -15,6 +15,7 @@ import {
 } from '../actions/AuthActions';
 import Snackbar from 'react-native-snackbar';
 import analytics from '@react-native-firebase/analytics';
+import {push} from '../../navigation/Ref';
 
 const communityAdapter = createEntityAdapter({
   selectId: (community) => community._id,
@@ -129,9 +130,59 @@ export const updateCommunityFields = createAsyncThunk(
   },
 );
 
+export const addAdmin = createAsyncThunk(
+  'community/addAdmin',
+  async ({communityId, user}, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.addAsAdmin(
+        communityId,
+        user._id,
+      );
+      return {communityId, user};
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: ({communityId, user}, {getState}) => {
+      const authAccess = getState().authorization.isRegistered;
+      const userRoleInCommunity = getState().communities.entities[communityId]
+        .role;
+      const isAdmin = userRoleInCommunity == 'admin';
+      return authAccess && isAdmin;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const dismissAdmin = createAsyncThunk(
+  'community/dismissAdmin',
+  async ({communityId, user}, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.dismissAsAdmin(
+        communityId,
+        user._id,
+      );
+      return {communityId, user};
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: ({communityId, user}, {getState}) => {
+      const authAccess = getState().authorization.isRegistered;
+      const userRoleInCommunity = getState().communities.entities[communityId]
+        .role;
+      const isAdmin = userRoleInCommunity == 'admin';
+      return authAccess && isAdmin;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
 const addRegisteredUsersCommunities = (state, action) => {
-  const registeredUser = action.payload.registeredUser;
-  if (registeredUser) {
+  const {registeredUser, isRegistered} = action.payload;
+  if (isRegistered) {
     const joinedCommunities = registeredUser.joinedCommunities;
     joinedCommunities.map((community, index) => {
       communityAdapter.addOne(state, {...community, role: 'member'});
@@ -143,6 +194,23 @@ const addRegisteredUsersCommunities = (state, action) => {
     });
   }
 };
+
+export const searchCommunitiesByName = createAsyncThunk(
+  'community/searchCommunitiesByName',
+  async (text, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.searchByName(text);
+      console.log('response searching communitybyname', response);
+      if (response.status == 200 && response.data) {
+        const communityId = response.data._id;
+        push('CommunityNavigation', {communityId: communityId});
+      }
+      return {response, text};
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export const slice = createSlice({
   name: 'community',
@@ -235,6 +303,35 @@ export const slice = createSlice({
         value: field,
       });
     },
+    [addAdmin.fulfilled]: (state, action) => {
+      const {communityId, user} = action.payload;
+      const communityAdmins = communityAdapter
+        .getSelectors()
+        .selectById(state, communityId)?.admins;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {
+          admins: [...communityAdmins, user],
+        },
+      });
+    },
+    [dismissAdmin.fulfilled]: (state, action) => {
+      const {communityId, user} = action.payload;
+      const communityAdmins = communityAdapter
+        .getSelectors()
+        .selectById(state, communityId)?.admins;
+
+      const newAdmins = communityAdmins.filter(
+        (admin) => admin._id !== user._id,
+      );
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {
+          admins: newAdmins,
+        },
+      });
+    },
+
     [createCommunity.rejected]: handleError,
     [joinCommunity.rejected]: handleError,
     [leaveCommunity.rejected]: handleError,
@@ -297,3 +394,7 @@ export const getCommunityModerators = (state, id) =>
   selectCommunityById(state, id)?.admins;
 export const getCommunityMemberCount = (state, id) =>
   selectCommunityById(state, id)?.memberCount;
+export const getIsUserAdminOfCommunity = (state, communityId, userId) =>
+  selectCommunityById(state, communityId)?.admins?.find(
+    (admin) => admin._id === userId,
+  );

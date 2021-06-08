@@ -10,6 +10,8 @@ import {
   downloadMedia,
   removePost,
   downloadMediaToLibrary,
+  pinPost,
+  unpinPost,
 } from '../actions/PostActions';
 import {postAdapter} from '../selectors/PostSelectors';
 import Snackbar from 'react-native-snackbar';
@@ -153,6 +155,34 @@ export const slice = createSlice({
       analytics().logEvent('media_download', {
         item_id: postId,
       });
+    },
+    [pinPost.fulfilled]: (state, action) => {
+      const postId = action.payload;
+      postAdapter.updateOne(state, {
+        id: postId,
+        changes: {
+          isPinned: true,
+        },
+      });
+      Snackbar.show({
+        text: 'Post Pinned',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('post_pin');
+    },
+    [unpinPost.fulfilled]: (state, action) => {
+      const postId = action.payload;
+      postAdapter.updateOne(state, {
+        id: postId,
+        changes: {
+          isPinned: false,
+        },
+      });
+      Snackbar.show({
+        text: 'Post Unpinned',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('post_unpin');
     },
     [votePost.rejected]: handleError,
     [reportPost.rejected]: handleError,

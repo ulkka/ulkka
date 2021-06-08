@@ -18,10 +18,16 @@ import CreatePostOnCommunity from './CreatePostOnCommunity';
 
 const CommunityHeaderRight = memo(({communityId}) => {
   return (
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View
+      style={{flexDirection: 'row', alignItems: 'center', paddingRight: 15}}>
       <CreatePostOnCommunity communityId={communityId} />
       <View style={{width: 30}}></View>
-      <ShareCommunity communityId={communityId} />
+      <ShareCommunity
+        communityId={communityId}
+        text="Invite"
+        iconSize={16}
+        shareTextStyle={{fontSize: 11}}
+      />
     </View>
   );
 });

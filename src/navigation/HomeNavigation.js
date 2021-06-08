@@ -9,6 +9,8 @@ import PostDetail from '../screens/PostDetail';
 import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/OptionSheetSlice';
 import OptionSheet from '../components/OptionSheet';
+import {getCommunityCreatorPromptIsVisble} from '../redux/reducers/CommunityCreatorPromptSlice';
+import CommunityCreatorPrompt from '../components/CommunityCreatorPrompt';
 import Notifications from '../screens/Notifications';
 import EmailLinkHandler from '../screens/auth/EmailLinkHandler';
 import FeedNavigation from '../screens/home/FeedNavigation';
@@ -28,6 +30,9 @@ const presets =
 
 function HomeNavigation() {
   const isOptionSheetVisible = useSelector(isVisible);
+  const isCommunityCreatorPromptVisible = useSelector(
+    getCommunityCreatorPromptIsVisble,
+  );
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -103,6 +108,7 @@ function HomeNavigation() {
         />
       </StackNav.Navigator>
       {isOptionSheetVisible && <OptionSheet />}
+      {isCommunityCreatorPromptVisible && <CommunityCreatorPrompt />}
       <EmailLinkHandler />
       <ShareMenuHandler />
       <ConfigurePushNotification />

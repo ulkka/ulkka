@@ -144,6 +144,7 @@ const RegisterAccount = () => {
           lineHeight: 27,
           fontWeight: 'bold',
           textAlign: 'center',
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {'  '}
         Enter a Cool Display Name

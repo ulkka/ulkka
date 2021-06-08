@@ -11,7 +11,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Icon} from 'react-native-elements';
 import TimeAgo from '../components/TimeAgo';
-import {push} from '../navigation/Ref';
 import {
   fetchAllNotifications,
   resetNotifications,

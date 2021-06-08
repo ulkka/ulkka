@@ -28,10 +28,10 @@ const ExtraOptions = (props) => {
       onPress={() => dispatch(showOptionSheet({type: type, id: id}))}>
       {userRole == 'admin' ? (
         <Icon
-          raised={type == 'post'}
+          raised={false}
           name="shield"
           type="font-awesome"
-          size={18}
+          size={20}
           color="#02862acc"
         />
       ) : (

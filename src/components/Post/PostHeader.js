@@ -12,6 +12,7 @@ import {
   getPostCommunityName,
   getPostCreatedAt,
   getPostisRemoved,
+  getPostIsPinned,
 } from '../../redux/selectors/PostSelectors';
 import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import UserAvatar from '../UserAvatar';
@@ -42,6 +43,8 @@ const PostHeader = (props) => {
 
   const isPostAuthorCurrentUser = authorId === registeredUser?._id;
 
+  const isPinned = useSelector((state) => getPostIsPinned(state, postId));
+
   const PostAuthorAvatar = (
     <TouchableOpacity onPress={() => push('UserDetail', {userId: authorId})}>
       <UserAvatar seed={authorDisplayname} size="medium" />
@@ -63,7 +66,7 @@ const PostHeader = (props) => {
           color: '#666',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        {communityName ? communityName : 'Ulkka'}
+        {communityName ? '#' + communityName : 'Ulkka'}
       </Text>
     </TouchableOpacity>
   );
@@ -106,12 +109,6 @@ const PostHeader = (props) => {
       }}
       onPress={() => push('UserDetail', {userId: authorId})}>
       {UserDisplayName}
-      {
-        // PostAuthorAvatar
-      }
-      {
-        //PostAuthorIcon
-      }
     </TouchableOpacity>
   );
 
@@ -132,6 +129,18 @@ const PostHeader = (props) => {
       />
 
       <TimeAgo time={createdAt} />
+    </View>
+  );
+
+  const pinIcon = (
+    <View>
+      <Icon
+        name="pin"
+        type="material-community"
+        size={16}
+        color="#02862acc"
+        style={{paddingHorizontal: 10}}
+      />
     </View>
   );
 
@@ -162,6 +171,7 @@ const PostHeader = (props) => {
         </View>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        {isPinned && pinIcon}
         <CommunityMembershipToggler {...props} />
         {isRemoved && (
           <View

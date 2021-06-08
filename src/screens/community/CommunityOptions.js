@@ -104,15 +104,17 @@ const CommunityOptions = (props) => {
             }}
             icon={
               <Icon
-                name="info"
-                type="font-awesome"
+                name="lightning-bolt"
+                type="material-community"
                 color="#2a9df4"
-                size={13}
+                size={14}
                 style={{marginRight: 5}}
               />
             }
             titleStyle={{color: '#2a9df4', fontSize: 11}}
-            onPress={() => navigate('GrowCommunity')}
+            onPress={() =>
+              navigate('GrowCommunity', {communityId: communityId})
+            }
           />
         </View>
       );

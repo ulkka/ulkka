@@ -5,6 +5,8 @@ import CommunitySettings from './CommunitySettings';
 import UpdateCommunityField from './UpdateCommunityField';
 import ChangeCommunityIcon from './ChangeCommunityIcon';
 import CommunityMembers from './CommunityMembers';
+import CommunityAdminSettings from './CommunityAdminSettings';
+import BannedMembers from './BannedMembers';
 
 const StackNav = createStackNavigator();
 
@@ -100,6 +102,40 @@ function CommunitySettingsNavigation(props) {
           options={{
             headerBackTitle: 'Back',
             headerTitle: 'Community Members',
+            headerTitleAlign: 'center',
+            headerStyle:
+              Platform.OS == 'android'
+                ? {
+                    height: 40,
+                  }
+                : {},
+          }}
+          initialParams={{...props.route.params}}
+        />
+        <StackNav.Screen
+          name="CommunityAdminSettings"
+          component={CommunityAdminSettings}
+          title="CommunityAdminSettings"
+          options={{
+            headerBackTitle: 'Back',
+            headerTitle: 'Community Admins',
+            headerTitleAlign: 'center',
+            headerStyle:
+              Platform.OS == 'android'
+                ? {
+                    height: 40,
+                  }
+                : {},
+          }}
+          initialParams={{...props.route.params}}
+        />
+        <StackNav.Screen
+          name="BannedMembers"
+          component={BannedMembers}
+          title="Banned Users"
+          options={{
+            headerBackTitle: 'Back',
+            headerTitle: 'Banned Users',
             headerTitleAlign: 'center',
             headerStyle:
               Platform.OS == 'android'

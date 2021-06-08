@@ -15,6 +15,7 @@ import {
   getPostAuthorId,
   getPostCommunityId,
   getPostType,
+  getPostIsPinned,
 } from '../redux/selectors/PostSelectors';
 import {getUserRoleInCommunity} from '../redux/reducers/CommunitySlice';
 import {
@@ -26,6 +27,8 @@ import {
   deletePost,
   removePost,
   downloadMediaToLibrary,
+  pinPost,
+  unpinPost,
 } from '../redux/actions/PostActions';
 import {deleteComment, removeComment} from '../redux/actions/CommentActions';
 import {blockUser} from '../redux/reducers/UserSlice';
@@ -67,6 +70,8 @@ export default function OptionSheet() {
       : null;
 
   const postType = useSelector((state) => getPostType(state, id));
+
+  const isPostPinned = useSelector((state) => getPostIsPinned(state, id));
 
   const userRole = useSelector((state) =>
     getUserRoleInCommunity(state, communityId),
@@ -233,6 +238,17 @@ export default function OptionSheet() {
               );
             },
           },
+          userRole == 'admin' &&
+            type == 'post' && {
+              // show delete option only of current user is same as author
+              title: isPostPinned ? 'Unpin Post' : 'Pin Post',
+              titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+              containerStyle: listItemStyle,
+              onPress: () => {
+                isPostPinned ? dispatch(unpinPost(id)) : dispatch(pinPost(id));
+                dispatch(hideOptionSheet());
+              },
+            },
         ];
   const optionsListView = (
     <View

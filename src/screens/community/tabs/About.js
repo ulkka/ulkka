@@ -60,7 +60,7 @@ export default function About(props) {
             fontSize: 15,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          Moderators
+          Admins
         </Text>
         <Icon
           name={moderatorsCollapsed ? 'expand-more' : 'expand-less'}

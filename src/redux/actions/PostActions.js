@@ -125,6 +125,52 @@ export const removePost = createAsyncThunk(
   },
 );
 
+export const pinPost = createAsyncThunk(
+  'posts/pin',
+  async (id, {rejectWithValue}) => {
+    try {
+      let response = await postApi.post.pin(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (id, {getState}) => {
+      const isRegistered = getState().authorization.isRegistered;
+      const access = isRegistered ? true : false;
+
+      const communityId = getState().posts.entities[id]?.community;
+      const role = getState().communities.entities[communityId]?.role;
+      return access && role == 'admin';
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const unpinPost = createAsyncThunk(
+  'posts/unpin',
+  async (id, {rejectWithValue}) => {
+    try {
+      let response = await postApi.post.unpin(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (id, {getState}) => {
+      const isRegistered = getState().authorization.isRegistered;
+      const access = isRegistered ? true : false;
+
+      const communityId = getState().posts.entities[id]?.community;
+      const role = getState().communities.entities[communityId]?.role;
+      return access && role == 'admin';
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
 export const reportPost = createAsyncThunk(
   'posts/report',
   async ({id, option}, {rejectWithValue}) => {
