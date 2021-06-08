@@ -35,13 +35,24 @@ const AutolinkText = (props) => {
   }, []);
 
   const handlePress = (url, match) => {
-    console.log('url,match,', url, match);
-    if (match.url) {
+    if (match?.url) {
       navigateToURL(match.url, source);
-    } else if (match.hashtag) {
+    } else if (match?.hashtag) {
       dispatch(searchCommunitiesByName(match.hashtag));
+    } else if (url?.replacerArgs) {
+      dispatch(searchCommunitiesByName(url.replacerArgs[0].replace('ml/', '')));
     }
   };
+
+  const MlTagMatcher = [
+    {
+      pattern: /(^|\s)(ml\/[_a-z\u0D00-\u0D7F\d]+)/gm,
+      getLinkText: (replacerArgs) => {
+        return `${replacerArgs[0].replace('ml/', '#')}`;
+      },
+      onPress: handlePress,
+    },
+  ];
 
   const textView = (
     <View>
@@ -69,7 +80,7 @@ const AutolinkText = (props) => {
         // Optional: enable URL linking
         url
         // Optional: custom linking matchers
-        // matchers={[HashTagMatcher]}
+        matchers={MlTagMatcher}
         onPress={handlePress}
       />
       {showMore && (
