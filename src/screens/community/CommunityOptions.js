@@ -23,7 +23,7 @@ const CommunityOptions = (props) => {
 
   const leaveCommunityAlert = () => {
     Alert.alert(
-      'Leave ' + communityTitle + ' ?',
+      'Leave #' + communityTitle + ' ?',
       "Posts from this community won't show up in your home feed",
       [
         {

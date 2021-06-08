@@ -35,7 +35,7 @@ const CommunityRow = ({community}) => {
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          {name}
+          #{name}
         </Text>
       </View>
       <View>

@@ -47,7 +47,7 @@ export default memo(function TopCommunities(props) {
 
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          {name}
+          #{name}
         </Text>
         <View style={{height: 8}}></View>
         <Text

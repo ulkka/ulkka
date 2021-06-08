@@ -63,7 +63,7 @@ export default function CreatePostButtonOverlay(props) {
             alignSelf: 'center',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          {communityTitle ? 'Post on ' + communityTitle : 'Create Post'}
+          {communityTitle ? 'Post on #' + communityTitle : 'Create Post'}
         </Text>
       </View>
       <TouchableOpacity onPress={() => toggleOverlay()}>

@@ -13,6 +13,7 @@ import {
   getUserMemberCommunities,
   getUserModeratorCommunities,
 } from '../redux/reducers/CommunitySlice';
+import CommunityAvatar from '../components/CommunityAvatar';
 
 export default function SearchableDropdown(props) {
   const {allowOnlyMemberCommunities, allowOnlyModeratorCommunities} = props;
@@ -86,13 +87,17 @@ export default function SearchableDropdown(props) {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <Text
-              style={{
-                color: '#222',
-              }}>
-              {item.name}
-            </Text>
-
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <CommunityAvatar communityId={item._id} size="small" />
+              <View style={{width: 10}}></View>
+              <Text
+                style={{
+                  color: '#222',
+                  fontWeight: '600',
+                }}>
+                #{item.name}
+              </Text>
+            </View>
             <Icon
               name="arrow-right"
               type="font-awesome-5"
@@ -114,6 +119,7 @@ export default function SearchableDropdown(props) {
       }}>
       <SearchBar
         ref={searchBarRef}
+        autoFocus={true}
         showCancel={true}
         value={value}
         onChangeText={(text) => searchHandle(text)}
@@ -160,7 +166,7 @@ export default function SearchableDropdown(props) {
     <View
       style={{
         width: '100%',
-        padding: 10,
+        padding: 5,
       }}>
       <FlatList
         keyboardShouldPersistTaps="always"
@@ -171,7 +177,7 @@ export default function SearchableDropdown(props) {
         ItemSeparatorComponent={_itemSeperatorComponent}
         contentContainerStyle={{
           opacity: 0.8,
-          padding: 10,
+          padding: 5,
         }}
         renderItem={_renderItem()}
       />
@@ -195,7 +201,6 @@ export default function SearchableDropdown(props) {
 
   return (
     <Overlay
-      //  onShow={() => searchBarRef.current.focus()}
       statusBarTranslucent={true}
       transparent={true}
       animationType="slide"
@@ -211,7 +216,7 @@ export default function SearchableDropdown(props) {
       }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={30}
+        keyboardVerticalOffset={40}
         style={{
           flex: 1,
           height: 'auto',

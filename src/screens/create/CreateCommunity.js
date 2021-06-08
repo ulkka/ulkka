@@ -171,51 +171,70 @@ export default function CreateCommunity({navigation, route}) {
     </View>
   );
   const InputFields = (
-    <View style={{justifyContent: 'space-evenly', paddingTop: 80}}>
-      <Input
+    <View style={{justifyContent: 'space-evenly', paddingTop: 0}}>
+      <View
         style={{
-          height: 40,
-        }}
-        inputContainerStyle={{
+          flexDirection: 'row',
+          alignItems: 'center',
           borderBottomColor: '#ddd',
-        }}
-        onChangeText={(text) => setTitle(text)}
-        value={title}
-        placeholder={'Title'}
-        renderErrorMessage={true}
-        errorStyle={{color: 'red'}}
-        onFocus={() => {
-          setIsCommunityTitleValid(null);
-          setCommunityTitleErrorMessage('');
-        }}
-        multiline={true}
-        inputStyle={{textAlign: 'center', lineHeight: 24}}
-        errorMessage={
-          isCommunityTitleValid == null
-            ? null
-            : isCommunityTitleValid
-            ? null
-            : communityTitleErrorMessage
-        }
-      />
-      <Input
+          borderBottomWidth: 1,
+        }}>
+        <Text style={{fontWeight: 'bold', fontSize: 20, color: '#444'}}>#</Text>
+        <Input
+          inputContainerStyle={{
+            borderBottomColor: 'transparent',
+          }}
+          onChangeText={(text) => setTitle(text)}
+          value={title}
+          placeholder={'Title'}
+          renderErrorMessage={!!isCommunityTitleValid}
+          errorStyle={{color: 'red'}}
+          onFocus={() => {
+            setIsCommunityTitleValid(null);
+            setCommunityTitleErrorMessage('');
+          }}
+          multiline={true}
+          inputStyle={{
+            // textAlign: 'center',
+            justifyContent: 'center',
+            lineHeight: 24,
+          }}
+          errorMessage={
+            isCommunityTitleValid == null
+              ? null
+              : isCommunityTitleValid
+              ? null
+              : communityTitleErrorMessage
+          }
+        />
+      </View>
+      <View
         style={{
-          height: 'auto',
-          minHeight: 75,
-          marginBottom: 20,
-        }}
-        inputContainerStyle={{
-          borderBottomColor: '#fff',
-          marginBottom: 20,
-        }}
-        onChangeText={(text) => setDescription(text)}
-        inputStyle={{textAlign: 'center', lineHeight: 24}}
-        value={description}
-        placeholder={'Description'}
-        numberOfLines={10}
-        multiline={true}
-        maxLength={400}
-      />
+          marginTop: 30,
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+        }}>
+        <Input
+          style={{
+            height: 'auto',
+            minHeight: 75,
+            marginBottom: 20,
+          }}
+          inputContainerStyle={{
+            borderBottomColor: '#fff',
+            marginBottom: 20,
+          }}
+          onChangeText={(text) => setDescription(text)}
+          inputStyle={{
+            lineHeight: 24,
+          }}
+          value={description}
+          placeholder={'Description'}
+          numberOfLines={10}
+          multiline={true}
+          maxLength={400}
+        />
+      </View>
     </View>
   );
   const Submit = (

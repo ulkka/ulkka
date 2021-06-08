@@ -18,6 +18,7 @@ import {getRegisteredUser} from '../../redux/reducers/AuthSlice';
 import UserAvatar from '../UserAvatar';
 import CommunityMembershipToggler from './CommunityMembershipToggler';
 import CommunityAvatar from '../CommunityAvatar';
+import CommunityTitleBuilder from '../CommunityTitleBuilder';
 
 const PostHeader = (props) => {
   const {postId, screen} = props;
@@ -59,15 +60,15 @@ const PostHeader = (props) => {
           communityId: communityId,
         })
       }>
-      <Text
+      <CommunityTitleBuilder
+        communityId={communityId}
         style={{
           fontSize: 12,
           fontWeight: 'bold',
           color: '#666',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-        }}>
-        {communityName ? '#' + communityName : 'Ulkka'}
-      </Text>
+        }}
+      />
     </TouchableOpacity>
   );
 
@@ -81,8 +82,6 @@ const PostHeader = (props) => {
         style={{
           fontSize: isCommunityDetail ? 13 : 12,
           color: CommentAuthorDisplaynameColor,
-          //color: '#888',
-          // paddingRight: 4,
           ...(isCommunityDetail && {fontWeight: 'bold'}),
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
