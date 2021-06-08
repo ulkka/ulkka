@@ -48,7 +48,7 @@ const AutolinkText = (props) => {
     {
       pattern: /(^|\s)(ml\/[_a-z\u0D00-\u0D7F\d]+)/gm,
       getLinkText: (replacerArgs) => {
-        return `${replacerArgs[0].replace('ml/', '#')}`;
+        return `${replacerArgs[0]}`;
       },
       onPress: handlePress,
     },
