@@ -15,9 +15,9 @@ import {Icon, Input} from 'react-native-elements';
 import ChangeAccount from './ChangeAcount';
 import userApi from '../../services/UserApi';
 import {transformText} from '../../components/PostCreator/helpers';
-import Hyperlink from 'react-native-hyperlink';
 import {navigateToURL} from '../../components/helpers';
 import Snackbar from 'react-native-snackbar';
+import {TouchableOpacity} from 'react-native';
 
 const RegisterAccount = () => {
   const dispatch = useDispatch();
@@ -172,20 +172,41 @@ const RegisterAccount = () => {
             paddingHorizontal: 0,
           }}
         />
-        <Hyperlink
-          linkDefault={false}
-          linkStyle={{color: '#2980b9'}}
-          linkText={(url) =>
-            url == 'https://ulkka.in/terms.html'
-              ? 'Terms and Conditions'
-              : 'Privacy Policy'
-          }
-          onPress={(url, text) => navigateToURL(url, 'register_account')}>
-          <Text style={{color: '#000', fontSize: 10}}>
-            I have read and agree to the https://ulkka.in/terms.html{'\n'}and
-            https://ulkka.in/privacy-policy.html
-          </Text>
-        </Hyperlink>
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 10}}>I have read and agree to the </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigateToURL('https://ulkka.in/terms.html', 'registerAccount')
+              }>
+              <Text style={{color: '#2980b9', fontSize: 10}}>
+                Terms and Conditions
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 10}}>and </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigateToURL(
+                  'https://ulkka.in/privacy-policy.html',
+                  'registerAccount',
+                )
+              }>
+              <Text style={{color: '#2980b9', fontSize: 10}}>
+                Privacy Policy
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
       <View>
         <Button

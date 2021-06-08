@@ -4,8 +4,7 @@ import {Icon, Input} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {getUserBio, updateBio} from '../redux/reducers/UserSlice';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
-import Hyperlink from 'react-native-hyperlink';
-import {navigateToURL} from './helpers';
+import AutolinkText from './AutolinkText';
 
 const UserBioField = (props) => {
   const dispatch = useDispatch();
@@ -51,18 +50,15 @@ const UserBioField = (props) => {
   );
 
   const bioField = (
-    <Hyperlink
-      linkDefault={false}
-      linkStyle={{color: '#2980b9'}}
-      onPress={(url, text) => navigateToURL(url, 'bio')}>
-      <Text
-        style={{
-          fontSize: 12,
-          color: '#111',
-        }}>
-        {bio}
-      </Text>
-    </Hyperlink>
+    <AutolinkText
+      text={bio}
+      enableShowMore={true}
+      source={'bio'}
+      textStyle={{
+        fontSize: 12,
+        color: '#111',
+      }}
+    />
   );
   const AddBioIfProfile = isProfile && (
     <Text

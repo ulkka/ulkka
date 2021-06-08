@@ -1,35 +1,13 @@
-import React, {memo, useCallback} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import React, {memo} from 'react';
+import {View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {getPostDescription} from '../../redux/selectors/PostSelectors';
-import {
-  getPostTextShowMore,
-  getPostTextHidden,
-} from '../../redux/selectors/FeedSelectors';
-import {setShowMore, setTextHidden} from '../../redux/reducers/FeedSlice';
-import Hyperlink from 'react-native-hyperlink';
-import {navigateToURL} from '../helpers';
+
+import AutolinkText from '../AutolinkText';
 
 const TextPostContent = (props) => {
-  const dispatch = useDispatch();
-
-  const {postId, screen, screenId} = props;
+  const {postId} = props;
   const description = useSelector((state) => getPostDescription(state, postId));
-
-  const currentScreen = screenId ? screenId : screen;
-
-  const showMore = useSelector((state) =>
-    getPostTextShowMore(state, currentScreen, postId),
-  );
-  const textHidden = useSelector((state) =>
-    getPostTextHidden(state, currentScreen, postId),
-  );
-
-  const onTextLayout = useCallback((e) => {
-    if (e.nativeEvent.lines.length > 9) {
-      dispatch(setShowMore({postId: postId, type: currentScreen, value: true}));
-    }
-  }, []);
 
   return (
     <View
@@ -37,41 +15,17 @@ const TextPostContent = (props) => {
         alignItems: 'flex-start',
         paddingLeft: 5,
       }}>
-      <Hyperlink
-        linkDefault={false}
-        linkStyle={{color: '#2980b9'}}
-        onPress={(url, text) => navigateToURL(url, 'post_description')}>
-        <Text
-          onTextLayout={onTextLayout}
-          ellipsizeMode={'tail'}
-          numberOfLines={textHidden ? 10 : undefined}
-          style={{
-            fontSize: 14,
-            lineHeight: 22,
-            textAlign: 'justify',
-            paddingRight: 5,
-            color: '#444',
-          }}>
-          {description}
-        </Text>
-        {showMore && (
-          <TouchableOpacity
-            style={{paddingVertical: 5}}
-            onPress={() =>
-              dispatch(
-                setTextHidden({
-                  postId,
-                  type: currentScreen,
-                  value: !textHidden,
-                }),
-              )
-            }>
-            <Text style={{color: '#68cbf8'}}>
-              {textHidden ? 'See More' : 'See Less'}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </Hyperlink>
+      <AutolinkText
+        text={description}
+        enableShowMore={true}
+        source={'post_description'}
+        textStyle={{
+          fontSize: 14,
+          lineHeight: 22,
+          paddingRight: 5,
+          color: '#444',
+        }}
+      />
     </View>
   );
 };

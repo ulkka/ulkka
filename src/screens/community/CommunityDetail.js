@@ -8,13 +8,12 @@ import {
   getCommunityDescription,
   getCommunityMemberCount,
 } from '../../redux/reducers/CommunitySlice';
-import Hyperlink from 'react-native-hyperlink';
 import CommunityAvatar from '../../components/CommunityAvatar';
 import CommunityOptions from './CommunityOptions';
-import {navigateToURL} from '../../components/helpers';
 import {kFormatter} from '../../components/helpers';
 import ShareCommunity from './ShareCommunity';
 import CreatePostOnCommunity from './CreatePostOnCommunity';
+import AutolinkText from '../../components/AutolinkText';
 
 const CommunityHeaderRight = memo(({communityId}) => {
   return (
@@ -155,20 +154,17 @@ const CommunityDetail = memo((props) => {
     );
 
   const descriptionField = communityDescription ? (
-    <Hyperlink
-      linkDefault={false}
-      linkStyle={{color: '#2980b9'}}
-      onPress={(url, text) => navigateToURL(url, 'bio')}>
-      <Text
-        style={{
-          paddingTop: 10,
-          paddingLeft: 5,
+    <View style={{paddingTop: 10, paddingLeft: 5}}>
+      <AutolinkText
+        text={communityDescription}
+        enableShowMore={true}
+        source={'community_description'}
+        textStyle={{
           fontSize: 12,
           color: '#111',
-        }}>
-        {communityDescription}
-      </Text>
-    </Hyperlink>
+        }}
+      />
+    </View>
   ) : (
     <ActivityIndicator
       size="small"
