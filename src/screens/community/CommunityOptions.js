@@ -41,6 +41,8 @@ const CommunityOptions = (props) => {
   };
 
   switch (userRole) {
+    case 'banned':
+      return <View></View>;
     case 'member':
       return (
         <Button

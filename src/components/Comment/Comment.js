@@ -1,6 +1,5 @@
 import React, {useState, memo} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import Collapsible from 'react-native-collapsible';
 import {Icon} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import CommentMetadata from './CommentMetadata';
@@ -27,17 +26,24 @@ function Comment(props) {
   );
 
   const CommentView = (
-    <View style={{paddingLeft: 10}}>
+    <View
+      style={{
+        paddingLeft: 10,
+        paddingBottom: isCollapsed ? 7 : 0,
+        paddingTop: 7,
+      }}>
       <CommentMetadata
         commentId={commentId}
         onPressToggleCollapse={toggleCollapse}
         isCollapsed={isCollapsed}
       />
-      <Collapsible collapsed={isCollapsed} duration={50} collapsedHeight={5}>
-        <CommentBody commentId={commentId} />
-        <CommentFooter commentId={commentId} level={level} />
-        {children}
-      </Collapsible>
+      {!isCollapsed && (
+        <View style={{paddingLeft: 2}}>
+          <CommentBody commentId={commentId} />
+          <CommentFooter commentId={commentId} level={level} />
+          {children}
+        </View>
+      )}
     </View>
   );
   const DeletedCommentView = (
@@ -76,17 +82,19 @@ function Comment(props) {
           />
         </TouchableOpacity>
       </View>
-      <Collapsible collapsed={isCollapsed} duration={50} collapsedHeight={0}>
-        <View
-          pointerEvents="none"
-          style={{
-            paddingBottom: 5,
-            backgroundColor: '#fff9f9',
-          }}>
-          <CommentFooter commentId={commentId} level={level} />
+      {!isCollapsed && (
+        <View>
+          <View
+            pointerEvents="none"
+            style={{
+              paddingBottom: 5,
+              backgroundColor: '#fff9f9',
+            }}>
+            <CommentFooter commentId={commentId} level={level} />
+          </View>
+          <View style={{paddingLeft: 10}}>{children}</View>
         </View>
-        <View style={{paddingLeft: 10}}>{children}</View>
-      </Collapsible>
+      )}
     </View>
   );
 

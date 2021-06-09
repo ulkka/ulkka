@@ -8,7 +8,7 @@ const youtubeApiKeyiOS = 'AIzaSyANFC95iCrpKClkzIFJq0hQvsZml4qT_es';
 
 function YoutubeComponent(props) {
   const {videoId, height, width, imageUrl} = props;
-
+  console.log('running youtube comonpent');
   const playYoutubeVideo = () => {
     YouTubeStandaloneAndroid.playVideo({
       apiKey: youtubeApiKeyAndroid, // Your YouTube Developer API Key

@@ -60,10 +60,10 @@ const userApi = {
       );
       return response;
     },
-    async registerDeviceTokenForNotifications(userId, token) {
+    async registerDeviceTokenForNotifications(token) {
       const client = await mainClient;
       const response = client
-        .put('user/' + userId, {
+        .post(`${USER_URI}/registerMessageToken`, {
           pushMessageToken: token,
         })
         .catch((error) => {

@@ -8,6 +8,7 @@ import CommunityAvatar from '../../components/CommunityAvatar';
 import {push, pop} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
 import analytics from '@react-native-firebase/analytics';
+import {CommunityCreatorPromptView} from '../../components/CommunityCreatorPrompt';
 
 const CommunityRow = ({community}) => {
   const {name, _id: communityId} = community;
@@ -48,7 +49,7 @@ const CommunityRow = ({community}) => {
 };
 
 export default memo(function SearchCommunityResults(props) {
-  const term = useSelector(getSearchTerm);
+  const term = useSelector((state) => getSearchTerm(state, true));
 
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
   const [communities, setCommunities] = useState([]);
@@ -131,16 +132,19 @@ export default memo(function SearchCommunityResults(props) {
         />
       ) : (
         complete && (
-          <Text
+          <View
             style={{
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              paddingTop: '50%',
-              color: '#555',
-              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-            No matching results
-          </Text>
+            <CommunityCreatorPromptView
+              image="failSearchCommunity"
+              text={term}
+              shouldGoBack={true}
+              title="No communities found "
+            />
+          </View>
         )
       )}
     </View>

@@ -1,10 +1,10 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, Switch} from 'react-native';
-import {Icon, CheckBox} from 'react-native-elements';
-import {push, navigate} from '../../navigation/Ref';
+import React, {memo} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {Icon} from 'react-native-elements';
+import {navigate} from '../../navigation/Ref';
+import ToggleAdminNotifications from './ToggleAdminNotifications';
 
-export default function CommunitySettings(props) {
-  const isEnabled = true;
+export default memo(function CommunitySettings(props) {
   const optionViewStyle = {
     borderBottomWidth: 1,
     borderColor: '#ddd',
@@ -33,7 +33,7 @@ export default function CommunitySettings(props) {
       onPress: () => navigate('CommunityMembers'),
     },
     {
-      title: 'Community Admin',
+      title: 'Community Admins',
       onPress: () => navigate('CommunityAdminSettings'),
     },
     {
@@ -43,15 +43,7 @@ export default function CommunitySettings(props) {
     {
       title: 'Admin Notifications',
       onPress: () => navigate('BannedMembers'),
-      componentRight: (
-        <Switch
-          trackColor={{false: '#767577', true: '#289df4'}}
-          thumbColor={isEnabled ? '#eee' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          // onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-      ),
+      componentRight: () => <ToggleAdminNotifications {...props} />,
     },
   ];
   return (
@@ -64,7 +56,7 @@ export default function CommunitySettings(props) {
             style={optionViewStyle}>
             <Text>{setting.title}</Text>
             {setting.componentRight ? (
-              setting.componentRight
+              setting.componentRight()
             ) : (
               <Icon
                 name="arrow-right"
@@ -78,4 +70,4 @@ export default function CommunitySettings(props) {
       })}
     </View>
   );
-}
+});

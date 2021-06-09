@@ -2,16 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {View, Platform} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import userApi from '../services/UserApi';
-import {
-  getRegisteredUser,
-  getRegistrationStatus,
-} from '../redux/reducers/AuthSlice';
+import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 import {useSelector} from 'react-redux';
 
 export default function RegisterDeviceToken() {
   const [token, setToken] = useState('');
   const isRegistered = useSelector(getRegistrationStatus);
-  const registeredUser = useSelector(getRegisteredUser);
 
   useEffect(() => {
     // Get the device token
@@ -61,10 +57,7 @@ export default function RegisterDeviceToken() {
         .catch((error) => console.log('Error subscribing to topic', error));
     }
     if (isRegistered) {
-      userApi.user.registerDeviceTokenForNotifications(
-        registeredUser._id,
-        token,
-      );
+      userApi.user.registerDeviceTokenForNotifications(token);
       //ios asks for notifications only after registration
       if (Platform.OS == 'ios') {
         messaging()

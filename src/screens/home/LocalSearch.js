@@ -11,7 +11,7 @@ import {push, pop} from '../../navigation/Ref';
 export default function LocalSearch(props) {
   const dispatch = useDispatch();
 
-  const term = useSelector(getSearchTerm);
+  const term = useSelector((state) => getSearchTerm(state, true));
 
   const [results, setResults] = useState([]);
 
@@ -23,7 +23,7 @@ export default function LocalSearch(props) {
   );
 
   useEffect(() => {
-    let eachArraySize = 2;
+    let eachArraySize = 3;
     let reducedResults = [];
     if (!!term.length) {
       const reducedCommunities = communityResults

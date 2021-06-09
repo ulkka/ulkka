@@ -1,5 +1,12 @@
 import React, {useState, useEffect, memo} from 'react';
-import {View, Text, TouchableOpacity, Platform, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  FlatList,
+  Image,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getSearchTerm} from '../../redux/reducers/SearchSlice';
 import {Icon, Divider} from 'react-native-elements';
@@ -131,16 +138,30 @@ export default memo(function SearchUserResults(props) {
         />
       ) : (
         complete && (
-          <Text
+          <View
             style={{
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              paddingTop: '50%',
-              color: '#555',
-              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-            No matching results
-          </Text>
+            <Image
+              source={require('../../../assets/failSearchUsers.jpg')}
+              width={180}
+              height={100}
+              style={{borderRadius: 15}}
+            />
+            <Text
+              style={{
+                fontWeight: 'bold',
+                alignSelf: 'center',
+                paddingTop: '10%',
+                color: '#555',
+                fontSize: 18,
+                ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              }}>
+              No users found
+            </Text>
+          </View>
         )
       )}
     </View>

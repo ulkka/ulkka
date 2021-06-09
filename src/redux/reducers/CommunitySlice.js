@@ -212,6 +212,30 @@ export const searchCommunitiesByName = createAsyncThunk(
   },
 );
 
+export const toggleAdminNotifications = createAsyncThunk(
+  'community/toggleAdminNotifications',
+  async (communityId, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.toggleAdminNotifications(
+        communityId,
+      );
+      return communityId;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (communityId, {getState}) => {
+      const authAccess = getState().authorization.isRegistered;
+      const userRoleInCommunity = getState().communities.entities[communityId]
+        .role;
+      const isAdmin = userRoleInCommunity == 'admin';
+      return authAccess && isAdmin;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
 export const slice = createSlice({
   name: 'community',
   initialState: communityAdapter.getInitialState(),
@@ -219,7 +243,41 @@ export const slice = createSlice({
   extraReducers: {
     [fetchCommunityById.fulfilled]: (state, action) => {
       const community = action.payload;
-      community && communityAdapter.upsertOne(state, community);
+      if (community) {
+        const {_id: communityId, membership} = community;
+        communityAdapter.upsertOne(state, community);
+        if (membership) {
+          const {isAdmin, isBanned} = membership;
+          if (isAdmin)
+            communityAdapter.updateOne(state, {
+              id: communityId,
+              changes: {
+                role: 'admin',
+              },
+            });
+          else if (isBanned)
+            communityAdapter.updateOne(state, {
+              id: communityId,
+              changes: {
+                role: 'banned',
+              },
+            });
+          else
+            communityAdapter.updateOne(state, {
+              id: communityId,
+              changes: {
+                role: 'member',
+              },
+            });
+        } else {
+          communityAdapter.updateOne(state, {
+            id: communityId,
+            changes: {
+              role: 'none',
+            },
+          });
+        }
+      }
     },
     [fetchPostById.fulfilled]: (state, action) => {
       const {posts, postId, communities} = action.payload;
@@ -308,12 +366,18 @@ export const slice = createSlice({
       const communityAdmins = communityAdapter
         .getSelectors()
         .selectById(state, communityId)?.admins;
+
       communityAdapter.updateOne(state, {
         id: communityId,
         changes: {
           admins: [...communityAdmins, user],
         },
       });
+      Snackbar.show({
+        text: user.displayname + ' added as admin',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('communityAdmin_add');
     },
     [dismissAdmin.fulfilled]: (state, action) => {
       const {communityId, user} = action.payload;
@@ -330,8 +394,47 @@ export const slice = createSlice({
           admins: newAdmins,
         },
       });
+      Snackbar.show({
+        text: 'User dismissed as admin',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('communityAdmin_dismiss');
     },
-
+    [toggleAdminNotifications.pending]: (state, action) => {
+      const communityId = action.meta.arg;
+      const communityMembership = communityAdapter
+        .getSelectors()
+        .selectById(state, communityId)?.membership;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {
+          membership: {
+            subscribeToAdminNotification: !communityMembership.subscribeToAdminNotification,
+          },
+        },
+      });
+      analytics().logEvent('communityAdminNotifications_toggle', {
+        value: !communityMembership.subscribeToAdminNotification,
+      });
+    },
+    [toggleAdminNotifications.rejected]: (state, action) => {
+      const communityId = action.meta.arg;
+      const communityMembership = communityAdapter
+        .getSelectors()
+        .selectById(state, communityId)?.membership;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {
+          membership: {
+            subscribeToAdminNotification: !communityMembership.subscribeToAdminNotification,
+          },
+        },
+      });
+      Snackbar.show({
+        text: 'Sorry, Please try again later',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    },
     [createCommunity.rejected]: handleError,
     [joinCommunity.rejected]: handleError,
     [leaveCommunity.rejected]: handleError,
@@ -398,3 +501,5 @@ export const getIsUserAdminOfCommunity = (state, communityId, userId) =>
   selectCommunityById(state, communityId)?.admins?.find(
     (admin) => admin._id === userId,
   );
+export const getIsUserSubscribedToAdminNotifications = (state, id) =>
+  selectCommunityById(state, id)?.membership?.subscribeToAdminNotification;

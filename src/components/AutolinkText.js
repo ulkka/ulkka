@@ -9,11 +9,7 @@ import {searchCommunitiesByName} from '../redux/reducers/CommunitySlice';
 const AutolinkText = (props) => {
   const dispatch = useDispatch();
   const {enableShowMore, text, source, textStyle} = props;
-  console.log(
-    'props in grow community',
-    props,
-    textStyle ? textStyle : defaultTextStyle,
-  );
+
   const defaultTextStyle = {
     color: '#333',
     fontSize: 13,

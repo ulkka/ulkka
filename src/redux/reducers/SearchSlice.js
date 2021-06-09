@@ -38,6 +38,7 @@ export const {
   setServerSearch,
 } = slice.actions;
 
-export const getSearchTerm = (state) => state.search.term;
+export const getSearchTerm = (state, excludeHash) =>
+  !excludeHash ? state.search.term : state.search.term.replace('#', '');
 export const getSearchMode = (state) => state.search.searchMode;
 export const getServerSearch = (state) => state.search.serverSearch;

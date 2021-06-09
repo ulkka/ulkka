@@ -158,7 +158,7 @@ export default function CommunityMembers(props) {
       const {page, limit} = metadata;
       setLoading(true);
       const response = await communityApi.community
-        .search(communityId, text, page + 1, limit)
+        .searchMembers(communityId, text, page + 1, limit)
         .catch((error) => {
           setError(true);
           console.log('error fetching community members', error);

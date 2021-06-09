@@ -107,7 +107,7 @@ const communityApi = {
       );
       return response;
     },
-    async search(communityId, text, page, limit) {
+    async searchMembers(communityId, text, page, limit) {
       const client = await mainClient;
       const response = await client.get(
         `${COMMUNITY_URI}/${communityId}/searchMembersByName?displayname=${text}&page=${page}&limit=${limit}`,
@@ -124,6 +124,13 @@ const communityApi = {
     async searchByName(text) {
       const client = await mainClient;
       const response = await client.get(`${COMMUNITY_URI}/byName/${text}`);
+      return response;
+    },
+    async toggleAdminNotifications(communityId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/toggleAdminNotifications/`,
+      );
       return response;
     },
   },
