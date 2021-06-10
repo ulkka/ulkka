@@ -34,10 +34,8 @@ const AutolinkText = (props) => {
     if (match?.url) {
       navigateToURL(match.url, source);
     } else if (match?.matchedText) {
-      console.log('hashtag matched', match);
       dispatch(searchCommunitiesByName(match.matchedText));
     } else if (url?.matchedText) {
-      console.log('ml/ matched', url);
       dispatch(searchCommunitiesByName(url.matchedText));
     }
   };

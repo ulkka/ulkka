@@ -23,7 +23,7 @@ export async function savePicture({tag, album}, rejectWithValue) {
     return;
   }
 
-  return CameraRoll.save(tag, {album}).catch((error) => {
+  return CameraRoll.save(tag, {album, type: 'auto'}).catch((error) => {
     console.log('error saving image to camera roll', error.message);
 
     if (error.message == 'User cancelled image selection') {

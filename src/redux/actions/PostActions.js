@@ -273,10 +273,12 @@ export const downloadMediaToLibrary = createAsyncThunk(
       const picturesDirectoryPath =
         Platform.OS == 'android'
           ? RNFS.PicturesDirectoryPath
-          : // : RNFS.LibraryDirectoryPath;
-            RNFS.CachesDirectoryPath;
+          : RNFS.LibraryDirectoryPath;
       const mediaLibraryDirectoryPath = picturesDirectoryPath + '/Ulkka';
-      const filename = url.split('/').pop();
+      const filename =
+        Platform.OS == 'ios'
+          ? url.split('/').pop().replace('.', '').replaceAll(':', '')
+          : url.split('/').pop();
       const toFile = mediaLibraryDirectoryPath + '/' + filename;
 
       let error = false;
