@@ -57,7 +57,9 @@ const communityApi = {
     async search(term, page, limit) {
       const client = await mainClient;
       const response = await client.get(
-        `${COMMUNITY_URI}/search?text=${term}&page=${page}&limit=${limit}`,
+        `${COMMUNITY_URI}/search?text=${encodeURIComponent(
+          term,
+        )}&page=${page}&limit=${limit}`,
       );
       return response;
     },
