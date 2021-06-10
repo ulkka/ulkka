@@ -36,12 +36,12 @@ const UserRow = memo(({user, communityId}) => {
       .catch((error) => {
         console.log('error banning user', error);
       });
-    console.log('response banning user', response);
+
     return response.status == 200;
   };
 
   if (isBanned) return <View></View>;
-  console.log('user in userrow community memebrs', user);
+
   return displayname ? (
     <TouchableOpacity
       onPress={() => push('UserDetail', {userId: userId})}
@@ -70,7 +70,6 @@ const UserRow = memo(({user, communityId}) => {
         {!isAdmin && (
           <TouchableOpacity
             onPress={() => {
-              console.log('make admin pressed');
               Alert.alert(
                 'Make ' + displayname + ' an admin of this community?',
                 'Admins can add/remove users and other admins, remove posts/comments from this community',
@@ -201,7 +200,6 @@ export default function CommunityMembers(props) {
     setError(false);
   };
   const handleSearch = async (text) => {
-    console.log('search etxt', text);
     resetState();
     setSearchTerm(text);
   };

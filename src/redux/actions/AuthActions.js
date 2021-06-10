@@ -31,8 +31,6 @@ const getRegisteredUser = async (currentUser) => {
   let registeredUser = undefined;
   if (!currentUser.isAnonymous) {
     const response = await userApi.user.self();
-    console.log('response getting self route', response);
-
     if (response) {
       registeredUser = response.data;
     }
@@ -65,7 +63,6 @@ export const fulfillAuth = (state, action) => {
   } else {
     state.status = 'AUTHENTICATED';
   }
-  console.log('action,payload', action.payload);
   state.isRegistered = isRegistered;
   state.registeredUser = registeredUser;
 };

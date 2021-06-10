@@ -28,7 +28,7 @@ const coolColors = [
 export function getColorFromTitle(text) {
   const index = parseInt(text, 36) % 19;
   const color = coolColors[index];
-  return color ? color : coolColors[1];
+  return color ? color : coolColors[13];
 }
 
 export function getScreenFromLink(link) {

@@ -269,16 +269,12 @@ export const downloadMediaToLibrary = createAsyncThunk(
       ]?.mediaMetadata;
 
       const {type} = getState().posts.entities[postId];
-      console.log(
-        'Pictures library',
-        Platform.OS,
-        RNFS.LibraryDirectoryPath,
-        RNFS.PicturesDirectoryPath,
-      );
+
       const picturesDirectoryPath =
         Platform.OS == 'android'
           ? RNFS.PicturesDirectoryPath
-          : RNFS.LibraryDirectoryPath;
+          : // : RNFS.LibraryDirectoryPath;
+            RNFS.CachesDirectoryPath;
       const mediaLibraryDirectoryPath = picturesDirectoryPath + '/Ulkka';
       const filename = url.split('/').pop();
       const toFile = mediaLibraryDirectoryPath + '/' + filename;
@@ -295,6 +291,8 @@ export const downloadMediaToLibrary = createAsyncThunk(
       }
       const mediaLibraryDirectoryPathExists = await RNFS.exists(
         mediaLibraryDirectoryPath,
+      ).catch((error) =>
+        console.log('error creating media library path', error),
       );
 
       if (!mediaLibraryDirectoryPathExists) {
@@ -310,6 +308,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
         toFile: toFile,
       })
         .promise.then(async () => {
+          console.log('saving media to ', toFile);
           const res = await savePicture(
             {
               tag: Platform.OS == 'android' ? 'file://' + toFile : toFile,

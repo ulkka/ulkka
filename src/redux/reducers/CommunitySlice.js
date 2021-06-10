@@ -45,7 +45,6 @@ export const fetchCommunityById = createAsyncThunk(
   async (communityId, {rejectWithValue}) => {
     try {
       const response = await communityApi.community.fetchById(communityId);
-      console.log('response fetching communityby id', response);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -112,7 +111,6 @@ export const updateCommunityFields = createAsyncThunk(
         field,
         value,
       );
-      console.log('response after updating rules of community', response);
       return response;
     } catch (error) {
       return rejectWithValue(error);
@@ -200,7 +198,6 @@ export const searchCommunitiesByName = createAsyncThunk(
   async (text, {rejectWithValue}) => {
     try {
       const response = await communityApi.community.searchByName(text);
-      console.log('response searching communitybyname', response);
       if (response.status == 200 && response.data) {
         const communityId = response.data._id;
         push('CommunityNavigation', {communityId: communityId});
@@ -286,7 +283,6 @@ export const slice = createSlice({
     },
     [createPost.fulfilled]: (state, action) => {
       const newPostId = action.payload.newPostId;
-      console.log('community slice create post', action.payload);
       const newPost = action.payload.normalizedPost.posts[newPostId];
       const newCommunityId = newPost.community;
       const newCommunity =

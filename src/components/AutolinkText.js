@@ -33,10 +33,12 @@ const AutolinkText = (props) => {
   const handlePress = (url, match) => {
     if (match?.url) {
       navigateToURL(match.url, source);
-    } else if (match?.hashtag) {
-      dispatch(searchCommunitiesByName(match.hashtag));
-    } else if (url?.replacerArgs) {
-      dispatch(searchCommunitiesByName(url.replacerArgs[0].replace('ml/', '')));
+    } else if (match?.matchedText) {
+      console.log('hashtag matched', match);
+      dispatch(searchCommunitiesByName(match.matchedText));
+    } else if (url?.matchedText) {
+      console.log('ml/ matched', url);
+      dispatch(searchCommunitiesByName(url.matchedText));
     }
   };
 

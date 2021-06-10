@@ -31,8 +31,6 @@ export default function UserDetailTabView(props) {
     'UserDetail-' + userId + '-' + makeId(5),
   );
 
-  console.log('userId in tab view', userId);
-
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     {key: 'posts', title: 'Posts'},

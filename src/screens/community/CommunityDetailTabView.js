@@ -21,7 +21,6 @@ const COLLAPSED_HEIGHT = 40;
 
 export default function CommunityDetailTabView(props) {
   const initialLayout = useWindowDimensions();
-  console.log('props in community nav', props);
   const {communityId} = props.route.params;
   const {navigation} = props;
 
@@ -31,7 +30,6 @@ export default function CommunityDetailTabView(props) {
     'CommunityDetail-' + communityId + '-' + makeId(5),
   );
 
-  console.log('communityId in tab view', communityId);
   const routesArray = [
     {key: 'posts', title: 'Posts'},
     {key: 'about', title: 'About'},
@@ -65,7 +63,6 @@ export default function CommunityDetailTabView(props) {
     scrolling.setValue(0);
     setIndex(index);
   };
-  console.log('props in community detail tab view', props);
   const renderTabBar = (props) => {
     return (
       <Animated.View

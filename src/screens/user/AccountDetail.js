@@ -102,8 +102,6 @@ const AccountDetail = memo((props) => {
     }
   }, [titleShown]);
 
-  console.log('userId in account detail', userId, props);
-
   // Karma Animation
   const iconSize = useRef(new Animated.Value(8)).current; // Initial value for opacity: 0
   const easing = Easing.ease;

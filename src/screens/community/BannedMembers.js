@@ -24,7 +24,6 @@ const UserRow = memo(({user, communityId}) => {
       .catch((error) => {
         console.log('error banning user', error);
       });
-    console.log('response banning user', response);
     return response.status == 200;
   };
 

@@ -59,7 +59,6 @@ const CommunityDetail = memo((props) => {
       headerRight: () => <CommunityHeaderRight communityId={communityId} />,
     });
   }, []);
-  console.log('props in community detail', props);
 
   useEffect(() => {
     if (communityTitle) {
@@ -97,8 +96,6 @@ const CommunityDetail = memo((props) => {
       }).start();
     }
   }, [titleShown]);
-
-  console.log('communityId in community detail', communityId);
 
   const avatar = (
     <CommunityAvatar
