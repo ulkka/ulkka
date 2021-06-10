@@ -20,7 +20,7 @@ export const CommunityField = (props) => {
             alignItems: 'center',
           }}>
           <Text style={{color: '#555', fontSize: 18, fontWeight: 'bold'}}>
-            {!community?.name ? 'Select Community' : '#' + community.name}
+            {!community?.name ? 'Select Community' : community.name}
             {'  '}
           </Text>
           <View style={{width: 20}}></View>

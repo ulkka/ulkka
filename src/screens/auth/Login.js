@@ -76,7 +76,7 @@ export default function Login() {
 
   return (
     <ImageBackground
-      blurRadius={0.5}
+      blurRadius={1}
       resizeMode="repeat"
       style={{
         position: 'absolute',

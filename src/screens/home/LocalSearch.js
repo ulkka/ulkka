@@ -11,7 +11,7 @@ import {push, pop} from '../../navigation/Ref';
 export default function LocalSearch(props) {
   const dispatch = useDispatch();
 
-  const term = useSelector((state) => getSearchTerm(state, true));
+  const term = useSelector(getSearchTerm);
 
   const [results, setResults] = useState([]);
 
@@ -88,7 +88,7 @@ export default function LocalSearch(props) {
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            #{communityName}
+            {communityName}
           </Text>
         </View>
       </TouchableOpacity>

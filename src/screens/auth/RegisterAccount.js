@@ -167,6 +167,7 @@ const RegisterAccount = () => {
           checked={checked}
           onPress={() => setChecked(!checked)}
           checkedColor="#02862ad6"
+          uncheckedColor="#888"
           size={18}
           containerStyle={{
             paddingHorizontal: 0,
@@ -178,12 +179,26 @@ const RegisterAccount = () => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 10}}>I have read and agree to the </Text>
+            <Text
+              style={{
+                color: '#666',
+                fontSize: 10,
+                fontWeight: '700',
+                ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              }}>
+              I have read and agree to the{' '}
+            </Text>
             <TouchableOpacity
               onPress={() =>
                 navigateToURL('https://ulkka.in/terms.html', 'registerAccount')
               }>
-              <Text style={{color: '#2980b9', fontSize: 10}}>
+              <Text
+                style={{
+                  color: '#2980b9',
+                  fontSize: 10,
+                  fontWeight: '700',
+                  ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+                }}>
                 Terms and Conditions
               </Text>
             </TouchableOpacity>
@@ -193,7 +208,15 @@ const RegisterAccount = () => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 10}}>and </Text>
+            <Text
+              style={{
+                color: '#666',
+                fontSize: 10,
+                fontWeight: '700',
+                ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              }}>
+              and{' '}
+            </Text>
             <TouchableOpacity
               onPress={() =>
                 navigateToURL(
@@ -201,7 +224,13 @@ const RegisterAccount = () => {
                   'registerAccount',
                 )
               }>
-              <Text style={{color: '#2980b9', fontSize: 10}}>
+              <Text
+                style={{
+                  color: '#2980b9',
+                  fontSize: 10,
+                  fontWeight: '700',
+                  ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+                }}>
                 Privacy Policy
               </Text>
             </TouchableOpacity>
@@ -252,8 +281,9 @@ const RegisterAccount = () => {
   );
   return (
     <ImageBackground
-      blurRadius={0.5}
+      blurRadius={1}
       resizeMode="repeat"
+      imageStyle={{flex: 1}}
       style={{
         // flex: 1,
         position: 'absolute',

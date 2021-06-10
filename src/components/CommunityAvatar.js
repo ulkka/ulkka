@@ -16,7 +16,7 @@ const CommunityAvatar = (props) => {
   const {communityId, size} = props;
   const communityName = useSelector((state) =>
     getCommunityTitle(state, communityId),
-  );
+  ).replace('#', '');
   const communityIcon = useSelector((state) =>
     getCommunityIcon(state, communityId),
   );

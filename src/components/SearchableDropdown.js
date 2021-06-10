@@ -95,7 +95,7 @@ export default function SearchableDropdown(props) {
                   color: '#222',
                   fontWeight: '600',
                 }}>
-                #{item.name}
+                {item.name}
               </Text>
             </View>
             <Icon

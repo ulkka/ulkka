@@ -36,8 +36,9 @@ const CommunityDetail = memo((props) => {
 
   const {communityId, titleShown, navigation} = props;
 
-  const communityTitle =
-    '#' + useSelector((state) => getCommunityTitle(state, communityId));
+  const communityTitle = useSelector((state) =>
+    getCommunityTitle(state, communityId),
+  );
   const communityDescription = useSelector((state) =>
     getCommunityDescription(state, communityId),
   );

@@ -145,7 +145,7 @@ export default memo(function SearchUserResults(props) {
               justifyContent: 'center',
             }}>
             <Image
-              source={require('../../../assets/failSearchUsers.jpg')}
+              source={require('../../../assets/failSearchCommunity.jpg')}
               width={180}
               height={100}
               style={{borderRadius: 15}}
@@ -159,7 +159,7 @@ export default memo(function SearchUserResults(props) {
                 fontSize: 18,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              No users found
+              No matching users found
             </Text>
           </View>
         )

@@ -15,10 +15,10 @@ export const CommunityCreatorPromptView = (props) => {
     ? props.text.trim().replace(' ', '_')
     : useSelector(getCommunityCreatorPromptText);
   const {image, shouldGoBack, title} = props;
-  const imageRequirePath =
-    image == 'failSearchCommunity'
-      ? require('../../assets/failSearchCommunity.jpg')
-      : require('../../assets/evide.jpg');
+  const imageRequirePath = require('../../assets/evide.jpg');
+  //  image == 'failSearchCommunity'
+  //    ? require('../../assets/failSearchCommunity.jpg')
+  //    : require('../../assets/evide.jpg');
 
   return (
     <View
@@ -48,10 +48,11 @@ export const CommunityCreatorPromptView = (props) => {
         style={{
           color: '#555',
           fontWeight: 'bold',
+          textAlign: 'center',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {' '}
-        Would you like to create a community on this topic?
+        Would you like to create a community{'\n'}on this topic?
       </Text>
       <View style={{height: 20}}></View>
       <Button

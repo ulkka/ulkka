@@ -58,8 +58,8 @@ export default function CreateCommunity({navigation, route}) {
 
   const validateCommunityTitle = async (text) => {
     if (
-      text.length < 4 ||
-      !/^([a-zA-Z0-9\u0D00-\u0D7F_]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _
+      text.length < 5 ||
+      !/^(#[a-zA-Z0-9\u0D00-\u0D7F_]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _
       text.length > 25
     ) {
       setIsCommunityTitleValid(false);

@@ -36,7 +36,7 @@ const CommunityRow = ({community}) => {
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          #{name}
+          {name}
         </Text>
       </View>
       <View>
@@ -49,7 +49,7 @@ const CommunityRow = ({community}) => {
 };
 
 export default memo(function SearchCommunityResults(props) {
-  const term = useSelector((state) => getSearchTerm(state, true));
+  const term = useSelector(getSearchTerm);
 
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
   const [communities, setCommunities] = useState([]);
@@ -142,7 +142,7 @@ export default memo(function SearchCommunityResults(props) {
               image="failSearchCommunity"
               text={term}
               shouldGoBack={true}
-              title="No communities found "
+              title="No matching communities found!"
             />
           </View>
         )
