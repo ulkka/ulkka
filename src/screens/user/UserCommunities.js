@@ -32,7 +32,7 @@ const CommunityRow = ({community}) => {
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          #{communityName}
+          {communityName}
         </Text>
       </View>
     </TouchableOpacity>

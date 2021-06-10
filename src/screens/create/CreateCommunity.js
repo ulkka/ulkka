@@ -49,7 +49,7 @@ export default function CreateCommunity({navigation, route}) {
 
   const payloadCreator = () => {
     const payload = {
-      name: title,
+      name: '#' + title,
       type: topic,
       description: description,
     };

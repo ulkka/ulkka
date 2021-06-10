@@ -123,7 +123,9 @@ const communityApi = {
     },
     async searchByName(text) {
       const client = await mainClient;
-      const response = await client.get(`${COMMUNITY_URI}/byName/${text}`);
+      const response = await client.get(
+        `${COMMUNITY_URI}/byName?name=${encodeURIComponent(text)}`,
+      );
       return response;
     },
     async toggleAdminNotifications(communityId) {
