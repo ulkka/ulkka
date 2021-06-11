@@ -9,7 +9,7 @@ const TextPostContent = (props) => {
   const {postId} = props;
   const description = useSelector((state) => getPostDescription(state, postId));
 
-  return (
+  return description ? (
     <View
       style={{
         alignItems: 'flex-start',
@@ -27,6 +27,8 @@ const TextPostContent = (props) => {
         }}
       />
     </View>
+  ) : (
+    <View></View>
   );
 };
 

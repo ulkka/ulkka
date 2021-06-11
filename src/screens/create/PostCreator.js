@@ -191,10 +191,10 @@ export default function CreatePost({route}) {
     }
     switch (type) {
       case 'text':
-        if (!description) {
+        /* if (!description) {
           showSnackBar('Please add a description for the post');
           return false;
-        }
+        }*/
         return true;
       case 'link':
         if (!link) {

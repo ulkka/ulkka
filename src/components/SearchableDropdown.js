@@ -88,7 +88,11 @@ export default function SearchableDropdown(props) {
               justifyContent: 'space-between',
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <CommunityAvatar communityId={item._id} size="small" />
+              <CommunityAvatar
+                communityId={item._id}
+                size="small"
+                disableTouch={true}
+              />
               <View style={{width: 10}}></View>
               <Text
                 style={{

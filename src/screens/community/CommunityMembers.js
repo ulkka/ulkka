@@ -188,7 +188,7 @@ export default function CommunityMembers(props) {
 
   const handleLoadMore = () => {
     if (!complete && !loading && !error) {
-      fetchCommunityMembers();
+      fetchCommunityMembers(searchTerm);
     }
   };
 

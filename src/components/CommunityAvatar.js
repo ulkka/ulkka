@@ -13,7 +13,7 @@ import {mediaUrlWithWidth} from '../components/Post/helpers';
 import FastImage from 'react-native-fast-image';
 
 const CommunityAvatar = (props) => {
-  const {communityId, size} = props;
+  const {communityId, size, disableTouch} = props;
   const communityName = useSelector((state) =>
     getCommunityTitle(state, communityId),
   ).replace('#', '');
@@ -75,7 +75,7 @@ const CommunityAvatar = (props) => {
 
   return communityIcon?.length ? (
     <TouchableOpacity
-      disabled={size == 'large'}
+      disabled={size == 'large' || disableTouch}
       style={{
         height: getImageSize() + getBorderWidth(),
         width: getImageSize() + getBorderWidth(),
