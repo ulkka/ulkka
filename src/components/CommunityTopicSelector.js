@@ -85,7 +85,6 @@ export default function CommunityTopicSelector(props) {
       .fetchTopics()
       .catch((error) => console.log('error fetching community topics', error));
     const data = response?.data?.data;
-    console.log('community topic data', data);
     if (!!data?.length) {
       setItems[data];
     }
