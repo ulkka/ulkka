@@ -137,6 +137,13 @@ const communityApi = {
       );
       return response;
     },
+    async leaderboard(communityId, sort, from) {
+      const client = await mainClient;
+      const response = await client.get(
+        `${COMMUNITY_URI}/${communityId}/leaderboard?from=1322954194&sort=post`,
+      );
+      return response;
+    },
   },
 };
 

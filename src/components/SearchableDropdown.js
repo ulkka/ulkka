@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {SearchBar, Button, Icon, Divider, Overlay} from 'react-native-elements';
 import {useSelector} from 'react-redux';
@@ -98,6 +99,7 @@ export default function SearchableDropdown(props) {
                 style={{
                   color: '#222',
                   fontWeight: '600',
+                  ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                 }}>
                 {item.name}
               </Text>

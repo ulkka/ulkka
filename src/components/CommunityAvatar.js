@@ -104,26 +104,28 @@ const CommunityAvatar = (props) => {
       />
     </TouchableOpacity>
   ) : (
-    <Avatar
-      rounded
-      title={communityName ? communityName.substring(0, 2) : 'UL'}
-      titleStyle={{
-        textTransform: 'uppercase',
-        fontSize: getFontSize(),
-      }}
-      size={size}
+    <TouchableOpacity
+      disabled={size == 'large' || disableTouch}
       onPress={() =>
-        size != 'large' &&
         push('CommunityNavigation', {
           communityId: communityId,
         })
-      }
-      containerStyle={{
-        backgroundColor: getColorFromTitle(communityName),
-        borderWidth: 2,
-        borderColor: getBorderColor(),
-      }}
-    />
+      }>
+      <Avatar
+        rounded
+        title={communityName ? communityName.substring(0, 2) : 'UL'}
+        titleStyle={{
+          textTransform: 'uppercase',
+          fontSize: getFontSize(),
+        }}
+        size={size}
+        containerStyle={{
+          backgroundColor: getColorFromTitle(communityName),
+          borderWidth: 2,
+          borderColor: getBorderColor(),
+        }}
+      />
+    </TouchableOpacity>
   );
 };
 export default CommunityAvatar;

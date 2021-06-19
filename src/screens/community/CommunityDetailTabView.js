@@ -13,7 +13,7 @@ import Posts from './tabs/Posts';
 import {makeId} from '../../components/Post/helpers';
 import CommunityDetail from './CommunityDetail';
 import About from './tabs/About';
-import Leaderboard from './tabs/Leaderboard';
+import Leaderboard from './tabs/Leaderboard/Leaderboard';
 import {getIsCommunityRemoved} from '../../redux/reducers/CommunitySlice';
 import {useSelector} from 'react-redux';
 import {goBack} from '../../navigation/Ref';
