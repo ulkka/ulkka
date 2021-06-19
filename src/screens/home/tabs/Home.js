@@ -70,7 +70,7 @@ function Home(props) {
         flex: 1,
       }}>
       <ImageBackground
-        //  blurRadius={1}
+        blurRadius={0.5}
         resizeMode="repeat"
         style={{
           //  flex: 1,

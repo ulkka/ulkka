@@ -43,14 +43,14 @@ const validateMedia = (media, postType) => {
     }
   }
   if (type == 'video') {
-    if (size > 10000000) {
+    if (size > 50000000) {
       Snackbar.show({
-        text: 'Please select a video with size lesser than 10MB',
+        text: 'Please select a video with size lesser than 50MB',
         duration: Snackbar.LENGTH_SHORT,
       });
       analytics().logEvent('media_invalid', {
         type: type,
-        reason: 'size_greaterthan_10MB',
+        reason: 'size_greaterthan_50MB',
       });
       return false;
     }

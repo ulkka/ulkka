@@ -13,6 +13,7 @@ import Posts from './tabs/Posts';
 import {makeId} from '../../components/Post/helpers';
 import CommunityDetail from './CommunityDetail';
 import About from './tabs/About';
+import Leaderboard from './tabs/Leaderboard';
 import {getIsCommunityRemoved} from '../../redux/reducers/CommunitySlice';
 import {useSelector} from 'react-redux';
 import {goBack} from '../../navigation/Ref';
@@ -32,6 +33,7 @@ export default function CommunityDetailTabView(props) {
 
   const routesArray = [
     {key: 'posts', title: 'Posts'},
+    {key: 'leaderboard', title: 'Leaderboard'},
     {key: 'about', title: 'About'},
   ];
 
@@ -137,6 +139,30 @@ export default function CommunityDetailTabView(props) {
             }}
             communityId={communityId}
             screenName={screenName}
+          />
+        );
+      case 'leaderboard':
+        return (
+          <Leaderboard
+            scrollEventThrottle={8}
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      y: scrolling,
+                    },
+                  },
+                },
+              ],
+              {useNativeDriver: true},
+            )}
+            onMomentumScrollBegin={() => setIsScrolling(true)}
+            onMomentumScrollEnd={() => setIsScrolling(false)}
+            contentContainerStyle={{
+              paddingTop: headerHeight,
+            }}
+            communityId={communityId}
           />
         );
       case 'about':

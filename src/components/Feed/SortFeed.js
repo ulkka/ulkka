@@ -1,17 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Platform} from 'react-native';
-import {Icon, Overlay} from 'react-native-elements';
+import {Icon, Overlay, CheckBox, Button} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {sortFeed} from '../../redux/actions/FeedActions';
-import {getFeedSortMethod} from '../../redux/selectors/FeedSelectors';
+import {
+  getFeedSortMethod,
+  getFeedTopSortFrom,
+} from '../../redux/selectors/FeedSelectors';
 
-export default function SortFeed(props) {
+export default memo(function SortFeed(props) {
   const dispatch = useDispatch();
   const {screen} = props;
 
   const sortMethod = useSelector((state) => getFeedSortMethod(state, screen));
+  const topSortFrom = useSelector((state) => getFeedTopSortFrom(state, screen));
 
   const [isVisible, setIsVisible] = useState(false);
+  const [top, setTop] = useState(false);
 
   const getCurrentSortMethod = () => {
     switch (sortMethod) {
@@ -20,10 +25,31 @@ export default function SortFeed(props) {
       case 'new':
         return NewSortOption;
       case 'top':
-        return TopSortOption;
+        return TopSortOptionTitle;
       default:
         return HotSortOption;
     }
+  };
+
+  //const noSortView = <View style={{height: 1, backgroundColor: '#fff'}}></View>;
+
+  const close = () => {
+    setTop(false);
+    setIsVisible(false);
+  };
+
+  const updateSortMethodHandler = (method, from) => {
+    if (method == 'top') {
+      setTop(true);
+    } else {
+      close();
+      dispatch(sortFeed({type: screen, sort: method}));
+    }
+  };
+
+  const topSortHandler = (from) => {
+    close();
+    dispatch(sortFeed({type: screen, sort: 'top', from: from}));
   };
 
   const SelectSort = () => {
@@ -44,8 +70,6 @@ export default function SortFeed(props) {
     );
   };
 
-  const noSortView = <View style={{height: 1, backgroundColor: '#fff'}}></View>;
-
   const NewSortOption = (
     <View style={styles.optionView}>
       <View style={styles.iconViewStyle}>
@@ -64,6 +88,29 @@ export default function SortFeed(props) {
     </View>
   );
 
+  const getTopSortFromText = () => {
+    const from = topSortFrom;
+    switch (from) {
+      case 'today':
+        return 'Today';
+      case 'week':
+        return 'This Week';
+      case 'month':
+        return 'This Month';
+      case 'alltime':
+        return 'All Time';
+    }
+  };
+
+  const TopSortOptionTitle = (
+    <View style={styles.optionView}>
+      <View style={styles.iconViewStyle}>
+        <Icon name="trophy" type="font-awesome-5" color="#666" size={16} />
+      </View>
+      <Text style={styles.topOptionText}>Top Posts {getTopSortFromText()}</Text>
+    </View>
+  );
+
   const TopSortOption = (
     <View style={styles.optionView}>
       <View style={styles.iconViewStyle}>
@@ -74,11 +121,6 @@ export default function SortFeed(props) {
   );
 
   const separator = <View style={{height: 10}}></View>;
-
-  const updateSortMethodHandler = (method) => {
-    setIsVisible(false);
-    dispatch(sortFeed({type: screen, sort: method}));
-  };
 
   const sortOptions = (
     <View style={{padding: 10}}>
@@ -95,25 +137,179 @@ export default function SortFeed(props) {
       </TouchableOpacity>
     </View>
   );
+
+  const sortOptionsList = (
+    <View>
+      <View style={styles.titleView}>
+        <Text style={styles.title}>Sort By</Text>
+      </View>
+      {sortOptions}
+    </View>
+  );
+
+  const todayTopSort = (
+    <View style={styles.optionView}>
+      <CheckBox
+        center
+        title="Today"
+        titleProps={{style: styles.optionText}}
+        checkedIcon="dot-circle-o"
+        uncheckedIcon="circle-o"
+        checked={topSortFrom == 'today'}
+        containerStyle={{
+          backgroundColor: 'transparent',
+          padding: 0,
+          margin: 0,
+          marginLeft: 0,
+          borderWidth: 0,
+        }}
+        size={20}
+        checkedColor="#555"
+        uncheckedColor="#888"
+      />
+    </View>
+  );
+
+  const thisWeekTopSort = (
+    <View style={styles.optionView}>
+      <CheckBox
+        center
+        title="This Week"
+        titleProps={{style: styles.optionText}}
+        checkedIcon="dot-circle-o"
+        uncheckedIcon="circle-o"
+        checked={topSortFrom == 'week'}
+        containerStyle={{
+          backgroundColor: 'transparent',
+          padding: 0,
+          margin: 0,
+          marginLeft: 0,
+          borderWidth: 0,
+        }}
+        size={20}
+        checkedColor="#555"
+        uncheckedColor="#888"
+      />
+    </View>
+  );
+
+  const thisMonthTopSort = (
+    <View style={styles.optionView}>
+      <CheckBox
+        center
+        title="This Month"
+        titleProps={{style: styles.optionText}}
+        checkedIcon="dot-circle-o"
+        uncheckedIcon="circle-o"
+        checked={topSortFrom == 'month'}
+        containerStyle={{
+          backgroundColor: 'transparent',
+          padding: 0,
+          margin: 0,
+          marginLeft: 0,
+          borderWidth: 0,
+        }}
+        size={20}
+        checkedColor="#555"
+        uncheckedColor="#888"
+      />
+    </View>
+  );
+
+  const allTimeTopSort = (
+    <View style={styles.optionView}>
+      <CheckBox
+        center
+        title="All Time"
+        titleProps={{style: styles.optionText}}
+        checkedIcon="dot-circle-o"
+        uncheckedIcon="circle-o"
+        checked={topSortFrom == 'alltime'}
+        containerStyle={{
+          backgroundColor: 'transparent',
+          padding: 0,
+          margin: 0,
+          marginLeft: 0,
+          borderWidth: 0,
+        }}
+        size={20}
+        checkedColor="#555"
+        uncheckedColor="#888"
+      />
+    </View>
+  );
+
+  const topSortOptions = (
+    <View style={{padding: 10}}>
+      <TouchableOpacity onPress={() => topSortHandler('today')}>
+        {todayTopSort}
+      </TouchableOpacity>
+      {separator}
+      <TouchableOpacity onPress={() => topSortHandler('week')}>
+        {thisWeekTopSort}
+      </TouchableOpacity>
+      {separator}
+      <TouchableOpacity onPress={() => topSortHandler('month')}>
+        {thisMonthTopSort}
+      </TouchableOpacity>
+      {separator}
+      <TouchableOpacity onPress={() => topSortHandler('alltime')}>
+        {allTimeTopSort}
+      </TouchableOpacity>
+    </View>
+  );
+
+  const topSortOptionsList = (
+    <View>
+      <View style={styles.titleView}>
+        <Text style={styles.title}>Top Posts from</Text>
+      </View>
+      {topSortOptions}
+    </View>
+  );
+
   return (
     <View>
       <SelectSort />
       <Overlay
         isVisible={isVisible}
         statusBarTranslucent={true}
-        onBackdropPress={() => setIsVisible(false)}
+        onBackdropPress={() => close()}
         overlayStyle={styles.overlayStyle}
         backdropStyle={styles.backdropStyle}>
         <View>
-          <View style={styles.title}>
-            <Text>Sort By</Text>
-          </View>
-          {sortOptions}
+          {top ? topSortOptionsList : sortOptionsList}
+          <Button
+            raised
+            type="solid"
+            activeOpacity={0.5}
+            titleStyle={{
+              color: '#777',
+              fontWeight: '500',
+              fontSize: 12,
+              marginLeft: 5,
+            }}
+            containerStyle={{
+              alignItems: 'center',
+              alignSelf: 'center',
+              marginTop: 5,
+            }}
+            buttonStyle={{
+              borderRadius: 25,
+              paddingHorizontal: '45%',
+              paddingVertical: 8,
+              alignItems: 'center',
+              borderColor: '#222',
+              backgroundColor: '#eee',
+            }}
+            title="Close"
+            onPress={() => close()}
+          />
         </View>
       </Overlay>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   overlayStyle: {
@@ -127,13 +323,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     opacity: 0.2,
   },
-  title: {padding: 10, borderBottomWidth: 1, borderBottomColor: '#ddd'},
-  optionView: {paddingVertical: 10, flexDirection: 'row', alignItems: 'center'},
+  titleView: {padding: 10, borderBottomWidth: 1, borderBottomColor: '#ddd'},
+  title: {
+    textTransform: 'uppercase',
+    fontWeight: '700',
+    color: '#555',
+  },
+  optionView: {
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   optionText: {
     paddingLeft: 10,
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 13,
     color: '#555',
+    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+  },
+  topOptionText: {
+    paddingLeft: 10,
+    fontWeight: '700',
+    fontSize: 11,
+    color: '#555',
+    textTransform: 'uppercase',
     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
   },
   iconViewStyle: {

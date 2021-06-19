@@ -20,6 +20,7 @@ const initialState = {
     limit: 10,
   },
   sort: 'hot',
+  from: null,
   complete: false,
   loading: false,
   refreshing: false,
@@ -277,10 +278,11 @@ export const slice = createSlice({
       analytics().logEvent('feed_refresh', {screen: screenType});
     },
     [sortFeed.pending]: (state, action) => {
-      const {type, sort} = action.meta.arg;
+      const {type, sort, from} = action.meta.arg;
       const screen = state[type];
       if (screen) {
         screen.sort = sort;
+        screen.from = from;
       }
     },
     [sortFeed.fulfilled]: (state, action) => {
@@ -309,13 +311,6 @@ export const slice = createSlice({
       const {screenId, postId} = action.payload;
       const postEntity = intialEntityState(postId, 'PostDetail');
       feedAdapter.addOne(state[screenId], postEntity);
-    },
-    [createPost.fulfilled]: (state, action) => {
-      /*   const newPostId = action.payload.newPostId;
-      const homeScreen = state['home'];
-      const newPost = intialEntityState(newPostId);
-      homeScreen.entities[newPostId] = newPost;
-      homeScreen.ids.unshift(newPostId); // to bring the newly added post to the top of current users home feed*/
     },
     [deletePost.fulfilled]: (state, action) => {
       const postId = action.payload;

@@ -8,27 +8,30 @@ const POPULAR_URI = '/all';
 
 const feedApi = {
   main: {
-    async fetch(screen, page, limit, sort) {
+    async fetch(screen, page, limit, sort, from) {
       const client = await mainClient;
-      const sortPath = sort && `&sort=${sort}`;
+      //const sortPath = sort && `&sort=${sort}`;
       const mainUri = screen == 'popular' ? POPULAR_URI : HOME_URI;
-      const path = `${FEED_URI}${mainUri}?page=${page}&limit=${limit}&sort=${sort}`;
+      const fromPath = from ? `&from=${from}` : '';
+      const path = `${FEED_URI}${mainUri}?page=${page}&limit=${limit}&sort=${sort}${fromPath}`;
       const response = await client.get(path);
       return response;
     },
   },
   user: {
-    async fetch(userId, page, limit, sort) {
+    async fetch(userId, page, limit, sort, from) {
       const client = await mainClient;
-      const path = `${FEED_URI}${USER_URI}/${userId}?page=${page}&limit=${limit}&sort=${sort}`;
+      const fromPath = from ? `&from=${from}` : '';
+      const path = `${FEED_URI}${USER_URI}/${userId}?page=${page}&limit=${limit}&sort=${sort}${fromPath}`;
       const response = await client.get(path);
       return response;
     },
   },
   community: {
-    async fetch(communityId, page, limit, sort) {
+    async fetch(communityId, page, limit, sort, from) {
       const client = await mainClient;
-      const path = `${FEED_URI}${COMMUNITY_URI}/${communityId}?page=${page}&limit=${limit}&sort=${sort}`;
+      const fromPath = from ? `&from=${from}` : '';
+      const path = `${FEED_URI}${COMMUNITY_URI}/${communityId}?page=${page}&limit=${limit}&sort=${sort}${fromPath}`;
       const response = await client.get(path);
       return response;
     },

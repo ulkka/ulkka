@@ -18,20 +18,45 @@ const getFeedType = (type) => {
 
 const getFeedBasedOnType = async (getState, type) => {
   const {page, limit} = getState().feed[type].metadata;
-  const sort = getState().feed[type].sort;
+  const {sort, from} = getState().feed[type];
+  let fromTime;
+  switch (from) {
+    case 'today':
+      fromTime = Date.now() - 24 * 3600 * 1000;
+      break;
+    case 'week':
+      fromTime = Date.now() - 7 * 24 * 3600 * 1000;
+      break;
+    case 'month':
+      fromTime = Date.now() - 30 * 24 * 3600 * 1000;
+      break;
+  }
+
   const nextPage = page + 1;
   const feedType = getFeedType(type);
   let response = {};
   switch (feedType) {
     case 'main':
-      response = await feedApi.main.fetch(type, nextPage, limit, sort);
+      response = await feedApi.main.fetch(
+        type,
+        nextPage,
+        limit,
+        sort,
+        fromTime,
+      );
       return response;
     case 'UserDetail':
       const userId = type.substring(
         type.indexOf('-') + 1,
         type.lastIndexOf('-'),
       );
-      response = await feedApi.user.fetch(userId, nextPage, limit, sort);
+      response = await feedApi.user.fetch(
+        userId,
+        nextPage,
+        limit,
+        sort,
+        fromTime,
+      );
       return response;
     case 'CommunityDetail':
       const communityId = type.substring(
@@ -43,6 +68,7 @@ const getFeedBasedOnType = async (getState, type) => {
         nextPage,
         limit,
         sort,
+        fromTime,
       );
       return response;
   }

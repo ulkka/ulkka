@@ -113,6 +113,13 @@ function Feed(props) {
         renderItem={renderRow}
         // ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
+        ListEmptyComponent={() => {
+          if (screen == 'home' && loading == false && complete == true) {
+            return <TopCommunities />;
+          } else {
+            return <View></View>;
+          }
+        }}
         onEndReachedThreshold={screen == 'home' ? 0.7 : 0.5} //How far from the end (important note: in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback
         removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
         updateCellsBatchingPeriod={500}

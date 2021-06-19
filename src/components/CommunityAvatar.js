@@ -16,7 +16,7 @@ const CommunityAvatar = (props) => {
   const {communityId, size, disableTouch} = props;
   const communityName = useSelector((state) =>
     getCommunityTitle(state, communityId),
-  ).replace('#', '');
+  )?.replace('#', '');
   const communityIcon = useSelector((state) =>
     getCommunityIcon(state, communityId),
   );

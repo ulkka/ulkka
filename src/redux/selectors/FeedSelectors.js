@@ -19,6 +19,8 @@ export const isFeedComplete = (state, screen) => state.feed[screen]?.complete;
 
 export const getFeedSortMethod = (state, screen) => state.feed[screen]?.sort;
 
+export const getFeedTopSortFrom = (state, screen) => state.feed[screen]?.from;
+
 export const isFeedRefreshing = (state, screen) =>
   state.feed[screen]?.refreshing;
 
