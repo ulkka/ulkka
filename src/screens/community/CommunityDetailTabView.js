@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, memo} from 'react';
+import React, {useState, useRef, memo} from 'react';
 import {
   View,
   StyleSheet,
@@ -114,7 +114,24 @@ export default function CommunityDetailTabView(props) {
     );
   };
 
+  const LeaderboardComponent = memo(() => {
+    return (
+      <Leaderboard
+        contentContainerStyle={{
+          paddingTop: headerHeight,
+        }}
+        communityId={communityId}
+      />
+    );
+  });
+
   const renderScene = ({route}) => {
+    if (index != 1) {
+      if (routes.indexOf(route) == 1) {
+        return <View />;
+      }
+    }
+
     switch (route.key) {
       case 'posts':
         return (
@@ -142,14 +159,7 @@ export default function CommunityDetailTabView(props) {
           />
         );
       case 'leaderboard':
-        return (
-          <Leaderboard
-            contentContainerStyle={{
-              paddingTop: headerHeight,
-            }}
-            communityId={communityId}
-          />
-        );
+        return <LeaderboardComponent />;
       case 'about':
         return (
           <About

@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {TouchableOpacity, StatusBar, Platform, Image, View} from 'react-native';
 import {Icon, Text, Badge} from 'react-native-elements';
-import Search from './Search';
 import {showAuthScreen, push, navigate} from '../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {showCreatorOverlay} from '../redux/reducers/CreatorOverlaySlice';
@@ -9,11 +8,6 @@ import {
   getRegistrationStatus,
   getRegisteredUser,
 } from '../redux/reducers/AuthSlice';
-import {
-  getSearchMode,
-  setSearchMode,
-  resetSearch,
-} from '../redux/reducers/SearchSlice';
 import {getUnreadNotificationCount} from '../redux/reducers/NotificationSlice';
 import UserAvatar from './UserAvatar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
@@ -110,7 +104,7 @@ const HeaderBar = (props) => {
 
     return (
       <TouchableOpacity
-        hitSlop={{top: 20, bottom: 30, left: 20, right: 40}}
+        hitSlop={{top: 20, bottom: 10, left: 20, right: 40}}
         onPress={() => {
           isRegistered
             ? push('UserDetail', {

@@ -46,7 +46,6 @@ const UserRow = memo(({user, index}) => {
 
 export default memo(function Users(props) {
   const {communityId, range, metric, dimension, listEmptyText} = props;
-  console.log('props in leaderboard users', props);
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
   const [members, setMembers] = useState([]);
   const [complete, setComplete] = useState(false);
@@ -75,7 +74,6 @@ export default memo(function Users(props) {
         });
 
       const memberList = response?.data?.data;
-      console.log('response in leaderboard users', memberList);
       if (memberList?.length) {
         setMembers([...members, ...memberList]);
 
@@ -138,9 +136,10 @@ const styles = StyleSheet.create({
   },
   separator: {backgroundColor: '#fff', height: 10},
   emptyListText: {
+    fontSize: 13,
     fontWeight: 'bold',
     alignSelf: 'center',
-    paddingTop: '50%',
+    paddingTop: 10,
     color: '#555',
     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
   },

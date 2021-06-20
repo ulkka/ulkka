@@ -157,13 +157,7 @@ export default memo(function SortFeed(props) {
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={topSortFrom == 'today'}
-        containerStyle={{
-          backgroundColor: 'transparent',
-          padding: 0,
-          margin: 0,
-          marginLeft: 0,
-          borderWidth: 0,
-        }}
+        containerStyle={styles.checkboxContainer}
         size={20}
         checkedColor="#555"
         uncheckedColor="#888"
@@ -181,13 +175,7 @@ export default memo(function SortFeed(props) {
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={topSortFrom == 'week'}
-        containerStyle={{
-          backgroundColor: 'transparent',
-          padding: 0,
-          margin: 0,
-          marginLeft: 0,
-          borderWidth: 0,
-        }}
+        containerStyle={styles.checkboxContainer}
         size={20}
         checkedColor="#555"
         uncheckedColor="#888"
@@ -205,13 +193,7 @@ export default memo(function SortFeed(props) {
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={topSortFrom == 'month'}
-        containerStyle={{
-          backgroundColor: 'transparent',
-          padding: 0,
-          margin: 0,
-          marginLeft: 0,
-          borderWidth: 0,
-        }}
+        containerStyle={styles.checkboxContainer}
         size={20}
         checkedColor="#555"
         uncheckedColor="#888"
@@ -229,13 +211,7 @@ export default memo(function SortFeed(props) {
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={topSortFrom == 'alltime'}
-        containerStyle={{
-          backgroundColor: 'transparent',
-          padding: 0,
-          margin: 0,
-          marginLeft: 0,
-          borderWidth: 0,
-        }}
+        containerStyle={styles.checkboxContainer}
         size={20}
         checkedColor="#555"
         uncheckedColor="#888"
@@ -244,7 +220,7 @@ export default memo(function SortFeed(props) {
   );
 
   const topSortOptions = (
-    <View style={{padding: 10}}>
+    <View style={{flex: 1, padding: 10}}>
       {todayTopSort}
       {separator}
       {thisWeekTopSort}
@@ -330,6 +306,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   optionText: {
     paddingLeft: 10,
     fontWeight: 'bold',
@@ -347,5 +324,14 @@ const styles = StyleSheet.create({
   },
   iconViewStyle: {
     width: 20,
+  },
+  checkboxContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    backgroundColor: 'transparent',
+    padding: 0,
+    margin: 0,
+    marginLeft: 0,
+    borderWidth: 0,
   },
 });

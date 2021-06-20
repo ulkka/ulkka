@@ -29,7 +29,7 @@ function Leaderboard(props) {
             onEndReachedThreshold={0.5}
             initialNumToRender={10}
             maxToRenderPerBatch={10}
-            ListFooterComponent={() => (
+            ListFooterComponent={memo(() => (
               <Users
                 communityId={communityId}
                 range={range}
@@ -37,14 +37,14 @@ function Leaderboard(props) {
                 dimension={'post'}
                 listEmptyText={'No posts yet'}
               />
-            )}
-            ListHeaderComponent={() => {
+            ))}
+            ListHeaderComponent={memo(() => {
               return (
                 <View style={styles.listHeaderView}>
                   <Text style={styles.listTitle}>Posters</Text>
                 </View>
               );
-            }}
+            })}
           />
         </View>
         <View style={styles.singleListView}>
@@ -55,7 +55,7 @@ function Leaderboard(props) {
             onEndReachedThreshold={0.5}
             initialNumToRender={10}
             maxToRenderPerBatch={10}
-            ListFooterComponent={() => (
+            ListFooterComponent={memo(() => (
               <Users
                 communityId={communityId}
                 range={range}
@@ -63,14 +63,14 @@ function Leaderboard(props) {
                 dimension={'comment'}
                 listEmptyText={'No comments yet'}
               />
-            )}
-            ListHeaderComponent={() => {
+            ))}
+            ListHeaderComponent={memo(() => {
               return (
                 <View style={styles.listHeaderView}>
                   <Text style={styles.listTitle}>Commenters</Text>
                 </View>
               );
-            }}
+            })}
           />
         </View>
       </View>
