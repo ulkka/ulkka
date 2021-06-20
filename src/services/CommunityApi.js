@@ -137,10 +137,11 @@ const communityApi = {
       );
       return response;
     },
-    async leaderboard(communityId, sort, from) {
+    async leaderboard(communityId, field, from, page, limit) {
       const client = await mainClient;
+      const fromPath = from ? `&from=${from}` : '';
       const response = await client.get(
-        `${COMMUNITY_URI}/${communityId}/leaderboard?from=1322954194&sort=post`,
+        `${COMMUNITY_URI}/${communityId}/leaderboard?sort=${field}&page=${page}&limit=${limit}${fromPath}`,
       );
       return response;
     },

@@ -150,6 +150,7 @@ export default memo(function SortFeed(props) {
   const todayTopSort = (
     <View style={styles.optionView}>
       <CheckBox
+        onPress={() => topSortHandler('today')}
         center
         title="Today"
         titleProps={{style: styles.optionText}}
@@ -173,6 +174,7 @@ export default memo(function SortFeed(props) {
   const thisWeekTopSort = (
     <View style={styles.optionView}>
       <CheckBox
+        onPress={() => topSortHandler('week')}
         center
         title="This Week"
         titleProps={{style: styles.optionText}}
@@ -196,6 +198,7 @@ export default memo(function SortFeed(props) {
   const thisMonthTopSort = (
     <View style={styles.optionView}>
       <CheckBox
+        onPress={() => topSortHandler('month')}
         center
         title="This Month"
         titleProps={{style: styles.optionText}}
@@ -219,6 +222,7 @@ export default memo(function SortFeed(props) {
   const allTimeTopSort = (
     <View style={styles.optionView}>
       <CheckBox
+        onPress={() => topSortHandler('alltime')}
         center
         title="All Time"
         titleProps={{style: styles.optionText}}
@@ -241,21 +245,13 @@ export default memo(function SortFeed(props) {
 
   const topSortOptions = (
     <View style={{padding: 10}}>
-      <TouchableOpacity onPress={() => topSortHandler('today')}>
-        {todayTopSort}
-      </TouchableOpacity>
+      {todayTopSort}
       {separator}
-      <TouchableOpacity onPress={() => topSortHandler('week')}>
-        {thisWeekTopSort}
-      </TouchableOpacity>
+      {thisWeekTopSort}
       {separator}
-      <TouchableOpacity onPress={() => topSortHandler('month')}>
-        {thisMonthTopSort}
-      </TouchableOpacity>
+      {thisMonthTopSort}
       {separator}
-      <TouchableOpacity onPress={() => topSortHandler('alltime')}>
-        {allTimeTopSort}
-      </TouchableOpacity>
+      {allTimeTopSort}
     </View>
   );
 

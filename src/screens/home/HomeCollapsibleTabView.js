@@ -1,9 +1,17 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {Platform} from 'react-native';
-import {View, StyleSheet, Animated, useWindowDimensions} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Animated,
+  useWindowDimensions,
+  Platform,
+} from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view'; // Version can be specified in package.json
+import {useSelector} from 'react-redux';
+import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import Home from './tabs/Home';
 import Popular from './tabs/Popular';
+import UserCommunities from '../user/tabs/UserCommunities';
 
 const HEADER_HEIGHT = 35;
 const COLLAPSED_HEIGHT = 0;
@@ -11,16 +19,30 @@ const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 
 export default function HomeCollapsibleTabView(props) {
   const initialLayout = useWindowDimensions();
+  const registrationStatus = useSelector(getRegistrationStatus);
 
   const [tabShown, setTabShown] = useState(true);
 
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
+  const [routes, setRoutes] = useState([
     {key: 'home', title: 'Home', name: 'Home'},
     {key: 'popular', title: 'Popular', name: 'Popular'},
   ]);
 
   const translation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (registrationStatus) {
+      setRoutes([
+        ...routes,
+        {
+          key: 'communities',
+          title: 'Communities',
+          name: 'Communities',
+        },
+      ]);
+    }
+  }, []);
 
   useEffect(() => {
     Animated.timing(translation, {
@@ -117,6 +139,13 @@ export default function HomeCollapsibleTabView(props) {
             {...props}
           />
         );
+      case 'communities':
+        return (
+          <UserCommunities
+            type={'following'}
+            contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
+          />
+        );
       default:
         return null;
     }
@@ -130,7 +159,7 @@ export default function HomeCollapsibleTabView(props) {
       renderTabBar={renderTabBar}
       onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
-      lazy={({route}) => route.key === 'popular'}
+      lazy={({route}) => route.key === 'popular' || route.key === 'communities'}
     />
   );
 }

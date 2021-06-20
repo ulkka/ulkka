@@ -7,7 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view';
-import Posts from './tabs/Posts';
+import Posts from './tabs/Users';
 import Comments from './tabs/Comments';
 
 const COLLAPSED_HEIGHT = 40;

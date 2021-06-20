@@ -144,21 +144,6 @@ export default function CommunityDetailTabView(props) {
       case 'leaderboard':
         return (
           <Leaderboard
-            scrollEventThrottle={8}
-            onScroll={Animated.event(
-              [
-                {
-                  nativeEvent: {
-                    contentOffset: {
-                      y: scrolling,
-                    },
-                  },
-                },
-              ],
-              {useNativeDriver: true},
-            )}
-            onMomentumScrollBegin={() => setIsScrolling(true)}
-            onMomentumScrollEnd={() => setIsScrolling(false)}
             contentContainerStyle={{
               paddingTop: headerHeight,
             }}
@@ -224,6 +209,7 @@ export default function CommunityDetailTabView(props) {
       onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
       swipeEnabled={Platform.OS == 'android'}
+      lazy={({route}) => route.key === 'leaderboard'}
     />
   );
 

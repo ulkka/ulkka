@@ -21,20 +21,6 @@ import SortFeed from './SortFeed';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-const ListHeaderComponent = memo(() => {
-  return (
-    <View
-      style={{
-        height: 2,
-        backgroundColor: '#fff',
-      }}></View>
-  );
-});
-
-const separator = memo(() => {
-  return <Divider style={{backgroundColor: '#fafafa', height: 5}} />;
-});
-
 function Feed(props) {
   const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();

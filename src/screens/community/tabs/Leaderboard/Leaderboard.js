@@ -1,20 +1,107 @@
-import React, {memo} from 'react';
-import {View} from 'react-native';
+import React, {memo, useState} from 'react';
+import {View, Text, Platform, FlatList, StyleSheet} from 'react-native';
 import Sort from './Sort';
-import LeaderboardTabView from './LeaderboardTabView';
+import Users from './tabs/Users';
 
-export default memo(function Leaderboard(props) {
+function Leaderboard(props) {
+  const [metric, setMetric] = useState('');
+  const [range, setRange] = useState('week');
   const {communityId} = props;
 
   return (
     <View
       style={{
-        flex: 1,
-        backgroundColor: '#fff',
+        ...styles.container,
         paddingTop: props.contentContainerStyle.paddingTop,
       }}>
-      <Sort />
-      <LeaderboardTabView communityId={communityId} />
+      <Sort
+        metric={metric}
+        setMetric={setMetric}
+        range={range}
+        setRange={setRange}
+      />
+      <View style={styles.listView}>
+        <View style={styles.singleListView}>
+          <FlatList
+            listKey="leaderboardposters"
+            keyExtractor={(item, index) => item + index}
+            windowSize={15}
+            onEndReachedThreshold={0.5}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            ListFooterComponent={() => (
+              <Users
+                communityId={communityId}
+                range={range}
+                metric={metric}
+                dimension={'post'}
+                listEmptyText={'No posts yet'}
+              />
+            )}
+            ListHeaderComponent={() => {
+              return (
+                <View style={styles.listHeaderView}>
+                  <Text style={styles.listTitle}>Posters</Text>
+                </View>
+              );
+            }}
+          />
+        </View>
+        <View style={styles.singleListView}>
+          <FlatList
+            listKey="leaderboardcommenters"
+            keyExtractor={(item, index) => item + index}
+            windowSize={15}
+            onEndReachedThreshold={0.5}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            ListFooterComponent={() => (
+              <Users
+                communityId={communityId}
+                range={range}
+                metric={metric}
+                dimension={'comment'}
+                listEmptyText={'No comments yet'}
+              />
+            )}
+            ListHeaderComponent={() => {
+              return (
+                <View style={styles.listHeaderView}>
+                  <Text style={styles.listTitle}>Commenters</Text>
+                </View>
+              );
+            }}
+          />
+        </View>
+      </View>
     </View>
   );
+}
+
+export default memo(Leaderboard);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  listView: {flexDirection: 'row', flex: 1},
+  singleListView: {
+    flex: 1,
+    borderRightWidth: 1,
+    borderColor: '#eee',
+  },
+  listHeaderView: {
+    padding: 10,
+    flex: 1,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+  },
+  listTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#555',
+    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+  },
 });

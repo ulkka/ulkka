@@ -3,6 +3,7 @@ import {fetchPostById} from './PostActions';
 import feedApi from '../../services/FeedApi';
 import {normalize} from 'normalizr';
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {getTimestampFromRange} from '../../components/helpers';
 
 const getFeedType = (type) => {
   if (type.includes('CommunityDetail')) {
@@ -19,19 +20,7 @@ const getFeedType = (type) => {
 const getFeedBasedOnType = async (getState, type) => {
   const {page, limit} = getState().feed[type].metadata;
   const {sort, from} = getState().feed[type];
-  let fromTime;
-  switch (from) {
-    case 'today':
-      fromTime = Date.now() - 24 * 3600 * 1000;
-      break;
-    case 'week':
-      fromTime = Date.now() - 7 * 24 * 3600 * 1000;
-      break;
-    case 'month':
-      fromTime = Date.now() - 30 * 24 * 3600 * 1000;
-      break;
-  }
-
+  const fromTime = getTimestampFromRange(from);
   const nextPage = page + 1;
   const feedType = getFeedType(type);
   let response = {};

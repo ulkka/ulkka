@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
-import {Icon, Overlay, Divider} from 'react-native-elements';
-import {navigate, showAuthScreen} from '../../navigation/Ref';
-import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
+import {Icon, Overlay} from 'react-native-elements';
+import {navigate} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  showCreatorOverlay,
   hideCreatorOverlay,
   getEnableOverlay,
   toggleCreatorOverlay,
@@ -24,10 +22,7 @@ export default function CreatePostButtonOverlay(props) {
 
   const community = {name: communityTitle, _id: communityId};
 
-  const isRegistered = useSelector(getRegistrationStatus);
-
   const toggleOverlay = () => {
-    //setEnableOverLay(!enableOverlay);
     dispatch(toggleCreatorOverlay());
   };
   const styles = StyleSheet.create({
@@ -37,7 +32,6 @@ export default function CreatePostButtonOverlay(props) {
   });
 
   const createPost = (type) => {
-    //setEnableOverLay(false);
     dispatch(hideCreatorOverlay());
     navigate('CreatePost', {
       type: type,
@@ -143,102 +137,7 @@ export default function CreatePostButtonOverlay(props) {
       </TouchableOpacity>
     </View>
   );
-  const CreatePostIcon = (
-    <View
-      style={{
-        position: 'absolute',
-        alignSelf: 'center',
-        bottom: Platform.OS == 'ios' ? 15 : 0,
-        backgroundColor: 'transparent',
-        borderColor: '#eee',
-        borderRadius: 33,
-        shadowColor: '#000',
-        shadowOffset: {
-          height: 2,
-        },
-        shadowOpacity: 0.5,
-        elevation: 15,
-      }}>
-      <TouchableOpacity
-        onPress={() => {
-          isRegistered ? toggleOverlay() : showAuthScreen();
-        }}
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <Icon
-          activeOpacity={0}
-          name="plus"
-          type="font-awesome-5"
-          size={25}
-          color="#fff"
-          reverse
-          reverseColor="#FF4500"
-          style={{opacity: 0.9}}
-        />
-      </TouchableOpacity>
-    </View>
-  );
-  const Seperator = (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        paddingVertical: 15,
-      }}>
-      <Divider
-        style={{
-          backgroundColor: '#ccc',
-          height: 1,
-          width: '30%',
-        }}></Divider>
-      <Text>Or</Text>
-      <Divider
-        style={{
-          backgroundColor: '#ccc',
-          height: 1,
-          width: '30%',
-        }}></Divider>
-    </View>
-  );
 
-  const CreateCommunity = (
-    <TouchableOpacity
-      style={{
-        alignItems: 'center',
-      }}
-      onPress={() => {
-        // setEnableOverLay(false);
-        dispatch(hideCreatorOverlay());
-        navigate('Create Community');
-      }}>
-      <Icon reverse name="group" type="font-awesome" size={18} color={'#555'} />
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text
-          style={{
-            fontSize: 15,
-            color: '#555',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            padding: 5,
-            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-          }}>
-          Create Community
-        </Text>
-        <Icon
-          // reverse
-          name="arrow-right"
-          type="font-awesome"
-          size={16}
-          color={'#555'}
-          style={{paddingHorizontal: 5}}
-        />
-      </View>
-    </TouchableOpacity>
-  );
   const PopupView = (
     <Overlay
       isVisible={enableOverlay}
@@ -258,19 +157,11 @@ export default function CreatePostButtonOverlay(props) {
         backgroundColor: '#000',
         opacity: 0.2,
       }}>
-      <View style={{padding: 10}}>
+      <View style={{padding: 10, marginBottom: 15}}>
         {Header}
         {CreatePostChoices}
-        {!communityId && (
-          <View>
-            {Seperator}
-            {CreateCommunity}
-          </View>
-        )}
       </View>
     </Overlay>
   );
-  //return isRegistered ? (
   return <View>{PopupView}</View>;
-  // ) : null;
 }

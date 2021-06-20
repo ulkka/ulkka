@@ -86,3 +86,16 @@ export function kFormatter(num) {
 export function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+export function getTimestampFromRange(range) {
+  switch (range) {
+    case 'today':
+      return Date.now() - 24 * 3600 * 1000;
+    case 'week':
+      return Date.now() - 7 * 24 * 3600 * 1000;
+    case 'month':
+      return Date.now() - 30 * 24 * 3600 * 1000;
+    default:
+      return undefined;
+  }
+}
