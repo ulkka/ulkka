@@ -14,33 +14,42 @@ import {push} from '../../../../../navigation/Ref';
 import FeedFooter from '../../../../../components/Feed/FeedFooter';
 import {getTimestampFromRange} from '../../../../../components/helpers';
 
-const UserRow = memo(({user, index}) => {
-  const {displayname, _id: userId} = user;
-
+const UserRow = memo(({user, index, metric}) => {
+  const {displayname, _id: userId, count, voteCount} = user;
   return displayname ? (
     <TouchableOpacity
       onPress={() => push('UserDetail', {userId: userId})}
       style={styles.userRowContainer}>
-      <View style={styles.userRowView}>
-        <View style={styles.indexView}>
-          <Text style={styles.indexText}>{index + 1}.</Text>
+      <View style={styles.leftView}>
+        <View style={styles.userRowView}>
+          <View style={styles.indexView}>
+            <Text style={styles.indexText}>{index + 1}.</Text>
+          </View>
+          <UserAvatar seed={displayname} size={'small'} />
+          <Text
+            style={styles.displaynameText}
+            ellipsizeMode="tail"
+            numberOfLines={1}>
+            {displayname}
+          </Text>
         </View>
-        <UserAvatar seed={displayname} size={'small'} />
-        <Text style={styles.displaynameText}>{displayname}</Text>
+        {index < 3 && (
+          <View>
+            <Icon
+              size={18}
+              name="lightning-bolt"
+              type="material-community"
+              color={index == 0 ? 'gold' : index == 1 ? 'silver' : '#CD7F32'}
+            />
+          </View>
+        )}
       </View>
-      {index < 3 && (
-        <View>
-          <Icon
-            size={13}
-            name="lightning-bolt"
-            type="material-community"
-            color={index == 0 ? 'gold' : index == 1 ? 'silver' : '#CD7F32'}
-          />
-        </View>
-      )}
+      <View>
+        <Text style={styles.unitText}>{metric == '' ? count : voteCount}</Text>
+      </View>
     </TouchableOpacity>
   ) : (
-    <View></View>
+    <View />
   );
 });
 
@@ -74,6 +83,7 @@ export default memo(function Users(props) {
         });
 
       const memberList = response?.data?.data;
+      console.log('memberslist', memberList);
       if (memberList?.length) {
         setMembers([...members, ...memberList]);
 
@@ -93,7 +103,14 @@ export default memo(function Users(props) {
     return <Divider style={styles.separator} />;
   };
   const handlerRenderItem = ({item, index}) => {
-    return <UserRow user={item} communityId={communityId} index={index} />;
+    return (
+      <UserRow
+        user={item}
+        index={index}
+        dimension={dimension}
+        metric={metric}
+      />
+    );
   };
   const handleLoadMore = () => {
     if (!complete && !loading && !error) {
@@ -106,10 +123,10 @@ export default memo(function Users(props) {
       {members?.length || loading ? (
         <FlatList
           persistentScrollbar={true}
-          listKey="communityMembers"
+          listKey={'leaderboard' + dimension + metric}
           renderItem={handlerRenderItem}
           data={members}
-          keyExtractor={(item, index) => item + index}
+          keyExtractor={(item, index) => item._id + index}
           windowSize={15}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
@@ -136,7 +153,7 @@ const styles = StyleSheet.create({
   },
   separator: {backgroundColor: '#fff', height: 10},
   emptyListText: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: 'bold',
     alignSelf: 'center',
     paddingTop: 10,
@@ -144,8 +161,11 @@ const styles = StyleSheet.create({
     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
   },
   displaynameText: {
-    fontSize: 14,
-    padding: 8,
+    fontSize: 12,
+    paddingVertical: 8,
+    paddingLeft: 5,
+    paddingRight: 3,
+    maxWidth: 95,
     color: '#555',
     fontWeight: '700',
     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -156,12 +176,24 @@ const styles = StyleSheet.create({
     color: '#555',
     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
   },
-  indexView: {paddingRight: 10},
+  indexView: {paddingRight: 5},
   userRowView: {flexDirection: 'row', alignItems: 'center'},
   userRowContainer: {
     flex: 1,
-    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  leftView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  unitText: {
+    paddingRight: 5,
+    fontWeight: '700',
+    fontSize: 13,
+    color: '#555',
+    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
   },
 });

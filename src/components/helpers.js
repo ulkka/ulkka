@@ -96,6 +96,6 @@ export function getTimestampFromRange(range) {
     case 'month':
       return Date.now() - 30 * 24 * 3600 * 1000;
     default:
-      return undefined;
+      return 1619654400;
   }
 }

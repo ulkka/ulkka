@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
   },
   listTitle: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '700',
     color: '#555',
     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),

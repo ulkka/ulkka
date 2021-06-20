@@ -114,18 +114,8 @@ export default function CommunityDetailTabView(props) {
     );
   };
 
-  const LeaderboardComponent = memo(() => {
-    return (
-      <Leaderboard
-        contentContainerStyle={{
-          paddingTop: headerHeight,
-        }}
-        communityId={communityId}
-      />
-    );
-  });
-
   const renderScene = ({route}) => {
+    //return empty view for leaderboard route if not active, as it causes insane no of rerenders
     if (index != 1) {
       if (routes.indexOf(route) == 1) {
         return <View />;
@@ -159,11 +149,18 @@ export default function CommunityDetailTabView(props) {
           />
         );
       case 'leaderboard':
-        return <LeaderboardComponent />;
+        return (
+          <Leaderboard
+            contentContainerStyle={{
+              paddingTop: headerHeight,
+            }}
+            communityId={communityId}
+          />
+        );
       case 'about':
         return (
           <About
-            scrollEventThrottle={8}
+            scrollEventThrottle={16}
             onScroll={Animated.event(
               [
                 {
