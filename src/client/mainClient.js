@@ -25,7 +25,7 @@ const mainClient = axios.create({
   baseURL: axiosConfig.baseUrl,
   headers: {
     Accept: 'application/json',
-    version: 2,
+    version: 3,
   },
 });
 
