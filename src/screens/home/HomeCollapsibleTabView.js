@@ -12,6 +12,7 @@ import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import Home from './tabs/Home';
 import Popular from './tabs/Popular';
 import UserCommunities from '../user/tabs/UserCommunities';
+import analytics from '@react-native-firebase/analytics';
 
 const HEADER_HEIGHT = 35;
 const COLLAPSED_HEIGHT = 0;
@@ -53,6 +54,10 @@ export default function HomeCollapsibleTabView(props) {
   }, [tabShown]);
 
   const handleIndexChange = (index) => {
+    analytics().logScreenView({
+      screen_name: 'Home-' + routes[index].title,
+      screen_class: 'Home-' + routes[index].title,
+    });
     setTabShown(true);
     setIndex(index);
   };

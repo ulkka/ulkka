@@ -37,8 +37,8 @@ export default function GrowCommunity(props) {
           color: '#424242',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        2) Let others know about your community by sharing the community's
-        invite link on various social media platforms
+        2) Let others know about the community by sharing the community's invite
+        link on various social media platforms
       </Text>
       <View
         style={{
@@ -64,9 +64,9 @@ export default function GrowCommunity(props) {
       <View style={{height: 30}}></View>
       <AutolinkText
         text={
-          '3) Mention your community as  #' +
+          '3) Mention #' +
           communityTitle +
-          '  in comments of relevant posts and help more people discover your community'
+          '  in comments of relevant posts to help more people discover the community'
         }
         source="growCommunity"
         enableShowMore={false}
@@ -85,7 +85,7 @@ export default function GrowCommunity(props) {
           color: '#424242',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        4) You can also increase your community ranking to show up in the top
+        4) You can also increase the community ranking to show up in the top
         community recommendation by creating content and engagement regularly
       </Text>
     </View>

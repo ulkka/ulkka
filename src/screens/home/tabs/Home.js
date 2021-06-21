@@ -123,7 +123,7 @@ function Home(props) {
                 }}>
                 <Text
                   style={{
-                    fontSize: 15,
+                    fontSize: 16,
                     textAlign: 'center',
                     fontWeight: 'bold',
                     color: '#222',
@@ -131,8 +131,10 @@ function Home(props) {
                     paddingLeft: 15,
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
-                  Vote on posts to assist communities in bringing the best
-                  content to the top
+                  {
+                    // 'Vote on posts to assist communities in bringing the best content to the top\n\n'
+                    'വോട്ട് ചെയ്ത് നല്ല പോസ്റ്റുകൾ മുകളിലേക്കെത്തിക്കുവാൻ കമ്മ്യൂണിറ്റികളെ സഹായിക്കുക'
+                  }
                 </Text>
               </View>
               <View style={{flex: 1}}></View>
@@ -152,7 +154,7 @@ function Home(props) {
                 }}>
                 <Text
                   style={{
-                    fontSize: 15,
+                    fontSize: 16,
                     textAlign: 'center',
                     paddingLeft: 15,
                     fontWeight: 'bold',
@@ -160,8 +162,10 @@ function Home(props) {
                     lineHeight: 20,
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
-                  Join communities to keep this home feed up to date and filled
-                  with fresh content
+                  {
+                    //'Join communities to keep this home feed up to date and filled with fresh content\n\n'
+                    'ഫ്രഷ് പോസ്റ്റുകൾ കൊണ്ട് ഈ ഹോം ഫീഡ് നിറയ്ക്കാൻ കമ്മ്യൂണിറ്റികളിൽ ജോയിൻ ചെയ്യുക'
+                  }
                 </Text>
               </View>
               <View style={{flex: 1}}></View>
@@ -178,7 +182,7 @@ function Home(props) {
               <View style={{flex: 3}}>
                 <Text
                   style={{
-                    fontSize: 15,
+                    fontSize: 16,
                     textAlign: 'center',
                     paddingLeft: 15,
                     fontWeight: 'bold',
@@ -186,8 +190,10 @@ function Home(props) {
                     lineHeight: 20,
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
-                  Create awesome posts and comments to make your community happy
-                  and win more hearts
+                  {
+                    // 'Create awesome posts and comments to make your community happy and win more hearts\n\n'
+                    'അടിപൊളി പോസ്റ്റും കമന്റും ചെയ്തു കൂടുതൽ Hearts നേടുക '
+                  }
                 </Text>
               </View>
               <View style={{flex: 1}}></View>

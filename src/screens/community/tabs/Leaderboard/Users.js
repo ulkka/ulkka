@@ -8,11 +8,11 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Divider, Icon} from 'react-native-elements';
-import communityApi from '../../../../../services/CommunityApi';
-import UserAvatar from '../../../../../components/UserAvatar';
-import {push} from '../../../../../navigation/Ref';
-import FeedFooter from '../../../../../components/Feed/FeedFooter';
-import {getTimestampFromRange} from '../../../../../components/helpers';
+import communityApi from '../../../../services/CommunityApi';
+import UserAvatar from '../../../../components/UserAvatar';
+import {push} from '../../../../navigation/Ref';
+import FeedFooter from '../../../../components/Feed/FeedFooter';
+import {getTimestampFromRange} from '../../../../components/helpers';
 
 const UserRow = memo(({user, index, metric}) => {
   const {displayname, _id: userId, count, voteCount} = user;
@@ -83,7 +83,6 @@ export default memo(function Users(props) {
         });
 
       const memberList = response?.data?.data;
-      console.log('memberslist', memberList);
       if (memberList?.length) {
         setMembers([...members, ...memberList]);
 

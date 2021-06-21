@@ -16,6 +16,7 @@ import AccountDetail from './AccountDetail';
 import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
 import {useSelector} from 'react-redux';
 import {goBack} from '../../navigation/Ref';
+import analytics from '@react-native-firebase/analytics';
 
 const COLLAPSED_HEIGHT = 40;
 
@@ -59,6 +60,10 @@ export default function UserDetailTabView(props) {
   });
 
   const handleIndexChange = (index) => {
+    analytics().logScreenView({
+      screen_name: 'UserDetail-' + routes[index].title,
+      screen_class: 'UserDetail-' + routes[index].title,
+    });
     scrolling.setValue(0);
     setIndex(index);
   };

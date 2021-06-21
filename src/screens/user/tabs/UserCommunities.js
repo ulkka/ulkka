@@ -123,7 +123,6 @@ export default memo(function UserCommunities(props) {
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         ItemSeparatorComponent={separator}
-        ListEmptyComponent={<TopCommunities />}
         ListHeaderComponent={listHeader}
         ListFooterComponent={separator}
       />

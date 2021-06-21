@@ -64,7 +64,12 @@ const SharePost = (props) => {
     const socialTitle =
       postAuthorDisplayname + ' on Ulkka: "' + shareTitle + '"';
     const socialDescription =
-      voteCount + ' votes, ' + commentCount + ' comments - ' + socialTitle;
+      'Ulkka - മലയാളികളുടെ സ്വന്തം സോഷ്യൽ മീഡിയ!\n' +
+      voteCount +
+      ' votes, ' +
+      commentCount +
+      ' comments - ' +
+      socialTitle;
 
     const config = {
       link: 'https://ulkka.in/post/' + postId,

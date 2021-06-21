@@ -55,7 +55,8 @@ const ShareCommunity = (props) => {
     );
 
   async function buildLink(communityId) {
-    const socialTitle = 'Join ' + communityTitle + ' community on Ulkka !';
+    const socialTitle =
+      'Join ' + communityTitle + " community on Ulkka - God's Own Community!";
     const socialDescription =
       communityMemberCount + ' members\n' + communityDescription;
     const config = {
@@ -95,7 +96,10 @@ const ShareCommunity = (props) => {
     const options = {
       title: 'Share',
       url: link,
-      message: 'Invitation to join ' + communityTitle + ' community on Ulkka !',
+      message:
+        'Invitation to join ' +
+        communityTitle +
+        ' community on Ulkka !\nഅടിപൊളി മലയാളം കമ്മ്യൂണിറ്റികളുടെ ഭാഗമാകാൻ കേരളത്തിന്റെ സ്വന്തം സോഷ്യൽ മീഡിയയായ Ulkka ഇൻസ്റ്റാൾ ചെയ്യൂ',
     };
     Share.open(options)
       .then((res) => {

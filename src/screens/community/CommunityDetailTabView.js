@@ -17,6 +17,7 @@ import Leaderboard from './tabs/Leaderboard/Leaderboard';
 import {getIsCommunityRemoved} from '../../redux/reducers/CommunitySlice';
 import {useSelector} from 'react-redux';
 import {goBack} from '../../navigation/Ref';
+import analytics from '@react-native-firebase/analytics';
 
 const COLLAPSED_HEIGHT = 40;
 
@@ -62,6 +63,10 @@ export default function CommunityDetailTabView(props) {
   });
 
   const handleIndexChange = (index) => {
+    analytics().logScreenView({
+      screen_name: 'CommunityDetail-' + routes[index].title,
+      screen_class: 'CommunityDetail-' + routes[index].title,
+    });
     scrolling.setValue(0);
     setIndex(index);
   };

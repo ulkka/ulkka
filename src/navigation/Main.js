@@ -1,6 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 import {Platform, View} from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import analytics from '@react-native-firebase/analytics';
