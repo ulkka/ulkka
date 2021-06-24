@@ -23,7 +23,7 @@ export default function CreateCommunity({navigation, route}) {
   const [topic, setTopic] = useState('');
   const [status, setStatus] = useState({});
   const [title, setTitle] = useState(
-    route?.params?.name ? route.params?.name : '',
+    route?.params?.name ? route.params?.name.replaceAll('#', '') : '',
   );
   const [description, setDescription] = useState('');
 
