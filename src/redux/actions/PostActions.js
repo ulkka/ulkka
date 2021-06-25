@@ -298,6 +298,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
       );
 
       if (!mediaLibraryDirectoryPathExists) {
+        console.log('inside media library directory path exists');
         if (Platform.OS == 'android') {
           console.log('in android, handling android permission');
           await hasAndroidPermission();
