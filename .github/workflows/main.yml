@@ -62,3 +62,5 @@ jobs:
           # which file to upload
           file: android/app/build/outputs/apk/release/app-release.apk
           # file suffix
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
