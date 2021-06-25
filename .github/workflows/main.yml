@@ -1,8 +1,6 @@
 name: react-native-android-build-apk
 on:
   push:
-    branches:
-      - master
     tags:
       - v*
 jobs:
@@ -51,8 +49,17 @@ jobs:
           cd android && ./gradlew assembleRelease --no-daemon
           
       # Upload to Artifact
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+#       - name: Upload Artifact
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: app-release.apk
+#           path: android/app/build/outputs/apk/release/
+      - name: create release
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          name: app-release.apk
-          path: android/app/build/outputs/apk/release/
+          repo_token: "${{ secrets.GH_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            android/app/build/outputs/apk/release/*.apk
