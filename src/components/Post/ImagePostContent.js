@@ -16,7 +16,17 @@ import {
 
 const ImagePostContent = (props) => {
   const dispatch = useDispatch();
-  const {screen, postId, screenId, ogImageUrl, type, ogHeight, ogWidth} = props;
+  const {
+    screen,
+    postId,
+    screenId,
+    ogImageUrl,
+    type,
+    ogHeight,
+    ogWidth,
+    resizeMode,
+    borderRadius,
+  } = props;
 
   const mediaMetadata =
     type != 'link' &&
@@ -74,12 +84,14 @@ const ImagePostContent = (props) => {
         width: width ? width : '100%',
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: borderRadius,
       }}>
       <FastImage
         style={{
           height: height ? height : '300',
           width: width ? width : '100%',
           alignSelf: 'center',
+          borderRadius: borderRadius,
         }}
         onLoad={onLoad}
         source={{
@@ -87,7 +99,7 @@ const ImagePostContent = (props) => {
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.immutable,
         }}
-        resizeMode={FastImage.resizeMode.contain}
+        resizeMode={resizeMode ? resizeMode : FastImage.resizeMode.contain}
         onError={onError}
       />
       {loadingIndicator}

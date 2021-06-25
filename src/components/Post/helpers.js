@@ -6,9 +6,9 @@ export function mediaUrlWithWidth(url, width, type) {
     width < Dimensions.get('window').width
       ? parseInt(width)
       : parseInt(Dimensions.get('window').width);
-  const transformParams = type == 'video' ? 'w_' : 'q_100,w_';
+  const transformParams = type == 'video' ? 'w_' : 'q_80';
   const transformedUrl =
-    splitUrl[0] + 'upload/' + transformParams + lesserWidth + splitUrl[1];
+    splitUrl[0] + 'upload/' + transformParams + splitUrl[1]; //lesserWidth + splitUrl[1];
   return transformedUrl;
 }
 
@@ -65,7 +65,7 @@ export function scaleHeightAndWidthAccordingToDimensions(data, type, screen) {
     const heightPercentOfTotalWindowHeight =
       (height / Dimensions.get('window').height) * 100;
 
-    const heightThreshold = 75;
+    const heightThreshold = screen == 'PostDetail' ? 80 : 50;
     height =
       heightPercentOfTotalWindowHeight > heightThreshold
         ? Dimensions.get('window').height / (100 / heightThreshold)

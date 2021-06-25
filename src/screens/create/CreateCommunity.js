@@ -151,25 +151,6 @@ export default function CreateCommunity({navigation, route}) {
     }
   };
 
-  const Title = (
-    <View
-      style={{
-        flex: 2,
-        height: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <Text
-        style={{
-          fontSize: 18,
-          fontWeight: 'bold',
-          width: 180,
-          color: '#555',
-        }}>
-        Create Community
-      </Text>
-    </View>
-  );
   const InputFields = (
     <View style={{justifyContent: 'space-evenly', paddingTop: 0}}>
       <View
@@ -193,7 +174,7 @@ export default function CreateCommunity({navigation, route}) {
             setIsCommunityTitleValid(null);
             setCommunityTitleErrorMessage('');
           }}
-          multiline={true}
+          // multiline={true}
           inputStyle={{
             // textAlign: 'center',
             justifyContent: 'center',
@@ -206,6 +187,10 @@ export default function CreateCommunity({navigation, route}) {
               ? null
               : communityTitleErrorMessage
           }
+          returnKeyType="done"
+          onSubmitEditing={(e) => {
+            Keyboard.dismiss();
+          }}
         />
       </View>
       <View
@@ -252,7 +237,7 @@ export default function CreateCommunity({navigation, route}) {
     </View>
   );
   const Form = (
-    <View style={{justifyContent: 'space-evenly'}}>
+    <View style={{justifyContent: 'space-evenly', marginTop: 50}}>
       {InputFields}
       {Submit}
     </View>
@@ -269,11 +254,14 @@ export default function CreateCommunity({navigation, route}) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
           flex: 1,
+          backgroundColor: '#fff',
           width: '100%',
           padding: 25,
           justifyContent: 'space-evenly',
         }}>
-        <CommunityTopicSelector topic={topic} setTopic={setTopic} />
+        <View>
+          <CommunityTopicSelector topic={topic} setTopic={setTopic} />
+        </View>
         {Form}
       </KeyboardAvoidingView>
       <LoadingOverlay visible={loading} />

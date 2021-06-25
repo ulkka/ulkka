@@ -60,11 +60,16 @@ const validateMedia = (media, postType) => {
 
 export const MediaField = (props) => {
   const {mediaType, media, resetMedia, setMedia, type: postType} = props;
-
+  console.log('media type', mediaType);
   const pickMedia = (mediaType) => {
     ImagePicker.openPicker({
       writeTempFile: false,
       mediaType: mediaType,
+      ...(mediaType == 'photo' && {
+        cropping: true,
+        freeStyleCropEnabled: true,
+        cropperToolbarTitle: '',
+      }),
     })
       .then((media) => {
         // since ios and android responses are different and to accomodate gifs

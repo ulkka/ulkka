@@ -78,6 +78,8 @@ export default function Search() {
         round={true}
         searchIcon={{size: 15}}
         showCancel={true}
+        returnKeyType="search"
+        onSubmitEditing={() => dispatch(setServerSearch(true))}
       />
       <TouchableOpacity
         style={{paddingRight: 5, paddingLeft: 10}}

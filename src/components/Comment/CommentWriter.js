@@ -366,7 +366,7 @@ export default function CommentWriter(props) {
             onBlur={() => resetForm()}
             onFocus={() => activateForm()}
             value={comment}
-            onChangeText={(text) => setComment(removeEmptyLines(text))}
+            onChangeText={(text) => setComment(text)}
             renderErrorMessage={false}
           />
         </View>

@@ -13,6 +13,7 @@ const PostTitle = (props) => {
   const postTitle = useSelector((state) => getPostTitle(state, postId));
   return (
     <TouchableOpacity
+      disabled={screenType == 'PostDetail'}
       activeOpacity={0.7}
       onPress={() => {
         analytics().logEvent('postdetail_clickedfrom', {

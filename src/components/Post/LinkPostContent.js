@@ -18,12 +18,6 @@ const LinkPostContent = (props) => {
   const ogData = useSelector((state) => getPostOgData(state, postId));
   const link = useSelector((state) => getPostLink(state, postId));
 
-  const {height, width} = scaleHeightAndWidthAccordingToDimensions(
-    ogData,
-    'link',
-    screen,
-  );
-
   const title = ogData?.ogTitle;
   const description = ogData?.ogDescription;
   const url = ogData?.ogUrl ? ogData.ogUrl : link;
@@ -31,6 +25,14 @@ const LinkPostContent = (props) => {
   const imageUrl = ogData?.ogImage?.url;
   const domain = getHostnameFromRegex(url)?.replace('www.', '');
   const type = videoUrl ? 'video' : imageUrl ? 'image' : undefined;
+
+  const {height, width} =
+    type == 'video'
+      ? scaleHeightAndWidthAccordingToDimensions(ogData, 'link', screen)
+      : {
+          height: 120,
+          width: 120,
+        };
 
   const videoId = domain == 'youtube.com' && url.split('=')[1];
 
@@ -64,14 +66,15 @@ const LinkPostContent = (props) => {
     </View>
   );
 
+  const linkImageBorderRadius = 15;
   const LinkImage = (
     <TouchableOpacity
       activeOpacity={0.9}
       onPress={() => navigateToURL(link, 'image')}
       style={{
+        marginRight: 5,
         backgroundColor: '#222',
-        height: height - 10,
-        width: width - 10,
+        borderRadius: linkImageBorderRadius,
       }}>
       <ImagePostContent
         {...props}
@@ -79,6 +82,8 @@ const LinkPostContent = (props) => {
         ogHeight={height - 10}
         ogWidth={width - 10}
         type={'link'}
+        resizeMode="cover"
+        borderRadius={linkImageBorderRadius}
       />
     </TouchableOpacity>
   );
@@ -127,19 +132,6 @@ const LinkPostContent = (props) => {
     </View>
   );
 
-  const LinkDetails = (
-    <View
-      style={{
-        padding: 5,
-        alignItems: 'flex-start',
-        marginBottom: 5,
-      }}>
-      {title && LinkTitle}
-      {description && LinkDescription}
-      {LinkUrl}
-    </View>
-  );
-
   const linkMedia = (
     <View
       style={{
@@ -150,6 +142,29 @@ const LinkPostContent = (props) => {
       }}>
       {type && type == 'image' ? LinkImage : LinkVideo}
     </View>
+  );
+
+  const LinkDetails = (
+    <TouchableOpacity
+      onPress={() => navigateToURL(link, 'openLinkIcon')}
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <View
+        style={{
+          flex: 2,
+          padding: 5,
+          alignItems: 'flex-start',
+          marginBottom: 5,
+        }}>
+        {title && LinkTitle}
+        {description && LinkDescription}
+        {LinkUrl}
+      </View>
+      {type == 'image' && <View style={{flex: 1}}>{linkMedia}</View>}
+    </TouchableOpacity>
   );
 
   const openLink = (
@@ -174,7 +189,7 @@ const LinkPostContent = (props) => {
       style={{
         width: '100%',
         minHeight: 40,
-        backgroundColor: '#fff',
+        backgroundColor: '#fafafa',
         justifyContent: 'center',
         borderColor: '#eee',
         borderWidth: 1,
@@ -182,7 +197,7 @@ const LinkPostContent = (props) => {
         alignSelf: 'center',
         marginBottom: 7,
       }}>
-      {type && linkMedia}
+      {type == 'video' && linkMedia}
       {LinkDetails}
       {openLink}
     </View>

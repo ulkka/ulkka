@@ -12,7 +12,7 @@ import {navigate, goBack} from '../navigation/Ref';
 export const CommunityCreatorPromptView = (props) => {
   const dispatch = useDispatch();
   const text = props?.text
-    ? props.text.trim().replace(' ', '_').replaceAll('#', '')
+    ? props.text?.trim()?.replace(' ', '_')?.replaceAll('#', '')
     : useSelector(getCommunityCreatorPromptText);
   const {image, shouldGoBack, title} = props;
   const imageRequirePath = require('../../assets/evide.jpg');

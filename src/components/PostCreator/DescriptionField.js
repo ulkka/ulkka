@@ -9,8 +9,8 @@ export const DescriptionField = (props) => {
     <View
       style={{
         // flex: 3,
-        marginTop: 30,
-        marginBottom: Platform.OS == 'ios' ? 0 : 40,
+        marginTop: 40,
+        marginBottom: Platform.OS == 'ios' ? 30 : 60,
         justifyContent: 'center',
       }}>
       <Input
