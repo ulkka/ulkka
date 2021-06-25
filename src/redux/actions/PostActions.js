@@ -299,6 +299,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
 
       if (!mediaLibraryDirectoryPathExists) {
         if (Platform.OS == 'android') {
+          console.log('in android, handling android permission');
           await hasAndroidPermission();
         }
         await RNFS.mkdir(mediaLibraryDirectoryPath);

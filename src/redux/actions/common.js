@@ -8,8 +8,11 @@ import CameraRoll from '@react-native-community/cameraroll';
 export async function hasAndroidPermission() {
   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
 
+  console.log('inside handle android permission');
+
   const hasPermission = await PermissionsAndroid.check(permission);
   if (hasPermission) {
+    console.log('has permission');
     return true;
   }
 
