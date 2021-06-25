@@ -54,9 +54,12 @@ jobs:
 #         with:
 #           name: app-release.apk
 #           path: android/app/build/outputs/apk/release/
-      - name: Create a Release
-        uses: elgohr/Github-Release-Action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: create release
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          args: MyReleaseMessage
+          repo_token: "${{ secrets.GH_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            android/app/build/outputs/apk/release/*.apk
