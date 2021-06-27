@@ -97,13 +97,13 @@ export default memo(function UserCommunities(props) {
   const sortComparer = (a, b) =>
     b.role == 'admin'
       ? a.role == 'admin'
-        ? a.name > b.name
+        ? a.name.toLowerCase() > b.name.toLowerCase()
           ? 1
           : -1
         : 1
       : a.role == 'admin'
       ? -1
-      : a.name > b.name
+      : a.name.toLowerCase() > b.name.toLowerCase()
       ? 1
       : -1;
 

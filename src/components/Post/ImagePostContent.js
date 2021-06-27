@@ -45,6 +45,7 @@ const ImagePostContent = (props) => {
     type == 'link'
       ? ogImageUrl
       : mediaUrlWithWidth(mediaMetadata.secure_url, width);
+  //: mediaMetadata.secure_url;
 
   const currentScreen = screenId ? screenId : screen;
 

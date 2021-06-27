@@ -21,7 +21,6 @@ const CommentBody = (props) => {
           fontSize: 13,
           fontWeight: '400',
           lineHeight: Platform.OS == 'ios' ? 19 : 21,
-          textAlign: 'justify',
           paddingRight: 10,
         }}
       />

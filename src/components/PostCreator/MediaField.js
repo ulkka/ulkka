@@ -65,11 +65,12 @@ export const MediaField = (props) => {
     ImagePicker.openPicker({
       writeTempFile: false,
       mediaType: mediaType,
-      ...(mediaType == 'photo' && {
-        cropping: true,
-        freeStyleCropEnabled: true,
-        cropperToolbarTitle: '',
-      }),
+      ...(mediaType == 'photo' &&
+        Platform.OS == 'android' && {
+          cropping: true,
+          freeStyleCropEnabled: true,
+          cropperToolbarTitle: '',
+        }),
     })
       .then((media) => {
         // since ios and android responses are different and to accomodate gifs
