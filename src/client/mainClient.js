@@ -95,7 +95,7 @@ mainClient.interceptors.response.use(
 );
 
 // RNFirebase Perf interceptors end
-/*
+
 // Intercept all requests
 mainClient.interceptors.request.use(
   (config) => {
@@ -123,4 +123,3 @@ mainClient.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-*/

@@ -5,12 +5,18 @@ import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 import {showCreatorOverlay} from '../redux/reducers/CreatorOverlaySlice';
 import {showAuthScreen} from './Ref';
 import {Badge} from 'react-native-elements';
+import {
+  getFocusedRouteNameFromRoute,
+  getPathFromState,
+} from '@react-navigation/native';
 
 function MainBottomTabBar({state, descriptors, navigation}) {
   const dispatch = useDispatch();
   const isRegistered = useSelector(getRegistrationStatus);
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const [hidden, setHidden] = useState(false);
+
+  let communityId = '';
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
@@ -55,6 +61,12 @@ function MainBottomTabBar({state, descriptors, navigation}) {
             : route.name;
 
         const isFocused = state.index === index;
+
+        const focusedRouteName = getFocusedRouteNameFromRoute(route);
+        if (isFocused && focusedRouteName == 'CommunityNavigation') {
+          const path = route.state && getPathFromState(route.state);
+          communityId = path.split('=')[1];
+        }
         const {
           requireAuth,
           tabBarIcon: icon,
@@ -67,8 +79,11 @@ function MainBottomTabBar({state, descriptors, navigation}) {
             showAuthScreen();
           } else {
             if (route.name == 'CreatePost') {
-              console.log('routing to create post');
-              dispatch(showCreatorOverlay());
+              if (communityId) {
+                dispatch(showCreatorOverlay(communityId));
+              } else {
+                dispatch(showCreatorOverlay());
+              }
             } else {
               setHidden(route.name == 'Search');
               const event = navigation.emit({

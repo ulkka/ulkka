@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {TouchableOpacity, Platform} from 'react-native';
+import {TouchableOpacity, Platform, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import Share from 'react-native-share';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
@@ -41,16 +41,17 @@ const ShareCommunity = (props) => {
   const platFormIcon =
     os == 'ios' ? (
       <Icon
-        name="ios-share"
+        name="envelope-open"
+        type="font-awesome"
         size={iconSize ? iconSize : 20}
-        color={mode == 'light' ? '#fff' : '#666'}
+        color={mode == 'light' ? '#fff' : '#444'}
       />
     ) : (
       <Icon
-        name="share"
+        name="envelope-open"
         type="font-awesome"
         size={iconSize ? iconSize - 2 : 18}
-        color={mode == 'light' ? '#fff' : '#666'}
+        color={mode == 'light' ? '#fff' : '#444'}
       />
     );
 
@@ -122,11 +123,12 @@ const ShareCommunity = (props) => {
         alignItems: 'center',
       }}>
       {platFormIcon}
+      <View style={{height: 2}}></View>
       {text && (
         <Text
           style={{
             ...shareTextStyle,
-            ...{color: mode == 'light' ? '#fff' : '#555'},
+            ...{color: mode == 'light' ? '#fff' : '#333'},
           }}>
           {text}
         </Text>

@@ -91,6 +91,27 @@ export default memo(function UserCommunities(props) {
         />
       </View>
       <TopCommunities />
+      {memberCommunities.length > 0 && (
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 10,
+            borderBottomWidth: 1,
+            borderBottomColor: '#eee',
+          }}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 14,
+              color: '#555',
+              textTransform: 'uppercase',
+              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+            }}>
+            My communities
+          </Text>
+        </View>
+      )}
     </View>
   );
 

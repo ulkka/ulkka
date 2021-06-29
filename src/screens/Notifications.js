@@ -77,7 +77,6 @@ export default function Notifications(props) {
         screen: 'notifications',
       });
     }
-
     navigateToLink(link);
   };
 
@@ -135,34 +134,6 @@ export default function Notifications(props) {
     );
   };
 
-  const markAllReadButton = (
-    <Button
-      raised
-      type="solid"
-      activeOpacity={0.5}
-      titleStyle={{
-        color: '#0099ff',
-        fontWeight: '500',
-        fontSize: 13,
-      }}
-      containerStyle={{
-        alignItems: 'center',
-        width: 130,
-        alignSelf: 'center',
-        borderRadius: 15,
-        marginTop: 10,
-        position: 'absolute',
-        bottom: 10,
-      }}
-      buttonStyle={{
-        alignItems: 'center',
-        borderColor: '#222',
-      }}
-      title="Mark All Read"
-      onPress={() => markAllNotificationsReadHandler()}
-    />
-  );
-
   const refreshButton = needsRefresh && (
     <Button
       raised
@@ -208,32 +179,11 @@ export default function Notifications(props) {
     </View>
   );
 
-  const header = (
-    <View
-      style={{
-        alignItems: 'center',
-        padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee',
-      }}>
-      <Text
-        style={{
-          fontWeight: 'bold',
-          fontSize: 16,
-          color: '#444',
-          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-        }}>
-        Notifications
-      </Text>
-    </View>
-  );
-
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff', // will be 0 on Android, because You pass true to skipAndroid
-        //  paddingTop: getStatusBarHeight(true),
+        backgroundColor: '#fff',
       }}>
       {notifications?.length ? (
         <View style={{flex: 1}}>

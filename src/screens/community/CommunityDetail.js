@@ -19,12 +19,12 @@ const CommunityHeaderRight = memo(({communityId}) => {
   return (
     <View
       style={{flexDirection: 'row', alignItems: 'center', paddingRight: 15}}>
-      <CreatePostOnCommunity communityId={communityId} />
-      <View style={{width: 30}}></View>
+      {/*<CreatePostOnCommunity communityId={communityId} />
+      <View style={{width: 30}}></View>*/}
       <ShareCommunity
         communityId={communityId}
         text="Invite"
-        iconSize={16}
+        iconSize={20}
         shareTextStyle={{fontSize: 11}}
       />
     </View>

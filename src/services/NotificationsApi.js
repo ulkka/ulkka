@@ -26,6 +26,7 @@ const notificationsApi = {
     return response;
   },
   async markRead(id) {
+    if (id === undefined) throw new Error('Notification ID is undefined');
     const client = await mainClient;
     let response = await client.post(`${NOTIFICATIONS_URI}/${id}/markRead`);
 
