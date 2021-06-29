@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image'; // delete extra lines from android/app/proguard-rules.pro if uninstalling
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -13,6 +13,7 @@ import {
   scaleHeightAndWidthAccordingToDimensions,
   mediaUrlWithWidth,
 } from './helpers';
+import {navigate} from '../../navigation/Ref';
 
 const ImagePostContent = (props) => {
   const dispatch = useDispatch();
@@ -78,7 +79,15 @@ const ImagePostContent = (props) => {
     </View>
   );
   return (
-    <View
+    <TouchableOpacity
+      disabled={type === 'link'}
+      onPress={() =>
+        navigate('ImageZoomer', {
+          height: height,
+          width: width,
+          imageUrl: imageUrl,
+        })
+      }
       style={{
         alignSelf: 'center',
         height: height ? height : '300',
@@ -103,9 +112,10 @@ const ImagePostContent = (props) => {
         resizeMode={resizeMode ? resizeMode : FastImage.resizeMode.contain}
         onError={onError}
       />
+
       {loadingIndicator}
       {error && <MediaLoadError type="Image" />}
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -18,6 +18,7 @@ import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay'
 import BottomTabNavigation from './BottomTabNavigation';
 import PostDetail from '../screens/PostDetail';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
+import ImageZoomer from '../components/Post/ImageZoomer';
 
 const StackNav = createStackNavigator();
 
@@ -88,6 +89,14 @@ function HomeNavigation() {
           name="CommunityNavigation"
           component={CommunityNavigation}
           title="CommunityNavigation"
+        />
+        <StackNav.Screen
+          name="ImageZoomer"
+          component={ImageZoomer}
+          title="ImageZoomer"
+          options={{
+            ...TransitionPresets.ScaleFromCenterAndroid,
+          }}
         />
       </StackNav.Navigator>
       {isOptionSheetVisible && <OptionSheet />}
