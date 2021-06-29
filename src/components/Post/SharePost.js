@@ -108,7 +108,7 @@ const SharePost = (props) => {
     const message = title + '\n' + postDescription;
     const link = await buildLink(postId);
     const options = {
-      title: 'Share',
+      title: 'Share this Post',
       message: message,
       subject: shareTitle,
       url: link,

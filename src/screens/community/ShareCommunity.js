@@ -95,7 +95,7 @@ const ShareCommunity = (props) => {
   const sharePost = async () => {
     const link = await buildLink(communityId);
     const options = {
-      title: 'Share',
+      title: 'Invite friends to ' + communityTitle + ' community',
       url: link,
       message:
         'Invitation to join ' +

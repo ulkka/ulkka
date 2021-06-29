@@ -80,7 +80,7 @@ const ImagePostContent = (props) => {
   );
   return (
     <TouchableOpacity
-      disabled={type === 'link'}
+      disabled={type === 'link' || !loaded || error}
       onPress={() =>
         navigate('ImageZoomer', {
           height: height,
