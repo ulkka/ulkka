@@ -125,10 +125,8 @@ function MainBottomTabBar({state, descriptors, navigation}) {
                 textStyle={{fontSize: 10}}
                 containerStyle={{
                   position: 'absolute',
-                  // borderWidth: 1,
                   top: -10,
-                  right: 25,
-                  // width: 30,
+                  right: 31,
                 }}
               />
             ) : null}

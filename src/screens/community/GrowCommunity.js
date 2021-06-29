@@ -23,7 +23,6 @@ export default function GrowCommunity(props) {
         blurRadius={0.5}
         resizeMode="repeat"
         style={{
-          //  flex: 1,
           width: '100%',
           height: '100%',
           alignItems: 'center',
