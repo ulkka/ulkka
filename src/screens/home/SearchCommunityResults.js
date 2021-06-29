@@ -15,7 +15,7 @@ const CommunityRow = ({community}) => {
   return name ? (
     <TouchableOpacity
       onPress={() => {
-        pop();
+        // pop();
         push('CommunityNavigation', {communityId: communityId});
       }}
       style={{

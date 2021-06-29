@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import HomeCollapsibleTabView from './HomeCollapsibleTabView';
-import UserNavigation from '../user/UserNavigation';
-import CommunityNavigation from '../community/CommunityNavigation';
-import PostDetail from '../PostDetail';
+import UserNavigation from '../screens/user/UserNavigation';
+import CommunityNavigation from '../screens/community/CommunityNavigation';
+import Notifications from '../screens/Notifications';
+import PostDetail from '../screens/PostDetail';
 
 const StackNav = createStackNavigator();
 
@@ -13,11 +13,11 @@ const presets =
     ? TransitionPresets.ScaleFromCenterAndroid
     : TransitionPresets.SlideFromRightIOS;
 
-function FeedNavigation() {
+function NotificationNavigation() {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <StackNav.Navigator
-        initialRouteName="HomeFeed"
+        initialRouteName="Notifications"
         screenOptions={{
           headerBackTitle: 'Back',
           headerShown: false,
@@ -29,9 +29,10 @@ function FeedNavigation() {
           ...presets,
         }}>
         <StackNav.Screen
-          name="HomeFeed"
-          component={HomeCollapsibleTabView}
-          title="Home"
+          name="Notifications"
+          component={Notifications}
+          title="Notifications"
+          options={{headerShown: true}}
         />
         <StackNav.Screen
           name="CommunityNavigation"
@@ -61,4 +62,4 @@ function FeedNavigation() {
   );
 }
 
-export default FeedNavigation;
+export default NotificationNavigation;

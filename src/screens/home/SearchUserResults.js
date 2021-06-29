@@ -21,7 +21,7 @@ const UserRow = ({user}) => {
   return displayname ? (
     <TouchableOpacity
       onPress={() => {
-        pop();
+        //   pop();
         push('UserDetail', {userId: userId});
       }}
       style={{

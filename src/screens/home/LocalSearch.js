@@ -66,7 +66,7 @@ export default function LocalSearch(props) {
     return (
       <TouchableOpacity
         onPress={() => {
-          pop();
+          //  pop();
           push('CommunityNavigation', {communityId: communityId});
         }}
         style={{
@@ -164,13 +164,14 @@ export default function LocalSearch(props) {
       }}>
       <View>
         <FlatList
+          keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="always"
           listKey="searchResult"
           renderItem={handlerRenderItem}
           data={results}
           keyExtractor={(item, index) => item._id}
           windowSize={15}
-          //onEndReached={handleLoadMore}
+          showsVerticalScrollIndicator={false}
           onEndReachedThreshold={0.5}
           initialNumToRender={10}
           maxToRenderPerBatch={10}

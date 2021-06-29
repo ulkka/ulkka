@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import {Icon, Overlay} from 'react-native-elements';
-import {navigate} from '../../navigation/Ref';
+import {push, navigate} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   hideCreatorOverlay,
@@ -33,7 +33,7 @@ export default function CreatePostButtonOverlay(props) {
 
   const createPost = (type) => {
     dispatch(hideCreatorOverlay());
-    navigate('CreatePost', {
+    push('CreatePost', {
       type: type,
       community: community,
     });

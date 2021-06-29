@@ -1,7 +1,7 @@
 import React, {useEffect, useCallback} from 'react';
 import {View} from 'react-native';
 import ShareMenu from 'react-native-share-menu';
-import {navigate} from '../navigation/Ref';
+import {navigate, push} from '../navigation/Ref';
 import analytics from '@react-native-firebase/analytics';
 
 type SharedItem = {
@@ -16,7 +16,7 @@ const ShareMenuHandler: () => React$Node = () => {
     }
     analytics().logEvent('externalapp_sharefrom', {type: item.mimeType});
 
-    navigate('CreatePost', {
+    push('CreatePost', {
       type: 'text',
       item: item,
     });

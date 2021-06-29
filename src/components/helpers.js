@@ -1,5 +1,5 @@
 import {Linking} from 'react-native';
-import {navigate} from '../navigation/Ref';
+import {navigate, push} from '../navigation/Ref';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import analytics from '@react-native-firebase/analytics';
 
@@ -57,7 +57,7 @@ export function navigateToLink(link) {
       : 'home'; // placeholder field
   let params = {};
   params[field] = entityId;
-  navigate(screen, params);
+  push(screen, params);
 }
 
 export const navigateToURL = async (url, clickedFrom) => {

@@ -70,7 +70,7 @@ function Home(props) {
         flex: 1,
       }}>
       <ImageBackground
-        blurRadius={0.5}
+        // blurRadius={0.5}
         resizeMode="repeat"
         style={{
           //  flex: 1,
@@ -132,8 +132,8 @@ function Home(props) {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    // 'Vote on posts to assist communities in bringing the best content to the top\n\n'
-                    'വോട്ട് ചെയ്ത് നല്ല പോസ്റ്റുകൾ മുകളിലേക്കെത്തിക്കുവാൻ കമ്മ്യൂണിറ്റികളെ സഹായിക്കുക'
+                    'Vote on posts to assist communities in bringing the best content to the top'
+                    //'വോട്ട് ചെയ്ത് നല്ല പോസ്റ്റുകൾ മുകളിലേക്കെത്തിക്കുവാൻ കമ്മ്യൂണിറ്റികളെ സഹായിക്കുക'
                   }
                 </Text>
               </View>
@@ -163,8 +163,8 @@ function Home(props) {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    //'Join communities to keep this home feed up to date and filled with fresh content\n\n'
-                    'ഫ്രഷ് പോസ്റ്റുകൾ കൊണ്ട് ഈ ഹോം ഫീഡ് നിറയ്ക്കാൻ കമ്മ്യൂണിറ്റികളിൽ ജോയിൻ ചെയ്യുക'
+                    'Join communities to keep this home feed up to date and filled with fresh content'
+                    //'ഫ്രഷ് പോസ്റ്റുകൾ കൊണ്ട് ഈ ഹോം ഫീഡ് നിറയ്ക്കാൻ കമ്മ്യൂണിറ്റികളിൽ ജോയിൻ ചെയ്യുക'
                   }
                 </Text>
               </View>
@@ -191,8 +191,8 @@ function Home(props) {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    // 'Create awesome posts and comments to make your community happy and win more hearts\n\n'
-                    'അടിപൊളി പോസ്റ്റും കമന്റും ചെയ്തു കൂടുതൽ Hearts നേടുക '
+                    'Create awesome posts and comments to make your community happy and win more hearts'
+                    // 'അടിപൊളി പോസ്റ്റും കമന്റും ചെയ്തു കൂടുതൽ Hearts നേടുക '
                   }
                 </Text>
               </View>

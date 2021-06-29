@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TouchableOpacity, Platform} from 'react-native';
+import {View, Text, TouchableOpacity, Keyboard} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -12,11 +12,14 @@ import {
   resetSearch,
 } from '../redux/reducers/SearchSlice';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {navigate} from '../navigation/Ref';
-
+import {useIsFocused} from '@react-navigation/native';
+import {goBack} from '../navigation/Ref';
 export default function Search() {
   const dispatch = useDispatch();
 
+  const isFocused = useIsFocused();
+
+  console.log('isFocused', isFocused);
   const term = useSelector(getSearchTerm);
   const serverSearch = useSelector(getServerSearch);
   const searchMode = useSelector(getSearchMode);
@@ -33,23 +36,33 @@ export default function Search() {
     }
   }, [layout]);
 
+  useEffect(() => {
+    if (isFocused) {
+      layout && searchRef.current.focus();
+    } else {
+      setLayout(false);
+    }
+  }, [isFocused]);
+
   const cancelSearchHandler = () => {
     dispatch(resetSearch());
-    navigate('HomeFeed');
+    goBack();
+    // Keyboard.dismiss();
   };
 
-  return searchMode ? (
+  return (
+    //searchMode ? (
     <View
       style={{
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center',
         paddingTop: getStatusBarHeight(true) + 10,
-        // padding: 5,
         paddingBottom: 10,
         paddingHorizontal: 10,
       }}>
       <SearchBar
+        // autoFocus={true}
         ref={searchRef}
         onLayout={() => setLayout(true)}
         onFocus={() => serverSearch && dispatch(setServerSearch(false))}
@@ -79,23 +92,29 @@ export default function Search() {
         searchIcon={{size: 15}}
         showCancel={true}
         returnKeyType="search"
+        onClear={() => {
+          serverSearch && dispatch(setServerSearch(false));
+          searchRef.current.focus();
+        }}
         onSubmitEditing={() => dispatch(setServerSearch(true))}
       />
-      <TouchableOpacity
-        style={{paddingRight: 5, paddingLeft: 10}}
-        onPress={cancelSearchHandler}>
-        <Text
-          style={{
-            fontSize: 13,
-            fontWeight: 'bold',
-            color: '#555',
-            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-          }}>
-          Cancel
-        </Text>
-      </TouchableOpacity>
+      {
+        <TouchableOpacity
+          style={{paddingRight: 5, paddingLeft: 10}}
+          onPress={cancelSearchHandler}>
+          <Text
+            style={{
+              fontSize: 13,
+              fontWeight: 'bold',
+              color: '#555',
+              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+            }}>
+            Cancel
+          </Text>
+        </TouchableOpacity>
+      }
     </View>
-  ) : (
-    <View></View>
-  );
+  ); //: (
+  // <View></View>
+  // );
 }

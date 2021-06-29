@@ -13,6 +13,7 @@ import Home from './tabs/Home';
 import Popular from './tabs/Popular';
 import UserCommunities from '../user/tabs/UserCommunities';
 import analytics from '@react-native-firebase/analytics';
+import HeaderBar from '../../components/Header';
 
 const HEADER_HEIGHT = 35;
 const COLLAPSED_HEIGHT = 0;
@@ -157,15 +158,20 @@ export default function HomeCollapsibleTabView(props) {
   };
 
   return (
-    <TabView
-      style={styles.container}
-      navigationState={{index, routes}}
-      renderScene={renderScene}
-      renderTabBar={renderTabBar}
-      onIndexChange={handleIndexChange}
-      initialLayout={initialLayout}
-      lazy={({route}) => route.key === 'popular' || route.key === 'communities'}
-    />
+    <View style={{flex: 1}}>
+      <HeaderBar />
+      <TabView
+        style={styles.container}
+        navigationState={{index, routes}}
+        renderScene={renderScene}
+        renderTabBar={renderTabBar}
+        onIndexChange={handleIndexChange}
+        initialLayout={initialLayout}
+        lazy={({route}) =>
+          route.key === 'popular' || route.key === 'communities'
+        }
+      />
+    </View>
   );
 }
 

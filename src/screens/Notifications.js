@@ -63,7 +63,7 @@ export default function Notifications(props) {
 
   const markNotificationReadHandler = (item) => {
     const {_id: id, link} = item;
-    dispatch(markNotificationRead(id));
+    id && dispatch(markNotificationRead(id));
 
     const entityType = getScreenFromLink(link);
     if (entityType == 'PostDetail') {
@@ -208,8 +208,33 @@ export default function Notifications(props) {
     </View>
   );
 
+  const header = (
+    <View
+      style={{
+        alignItems: 'center',
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+      }}>
+      <Text
+        style={{
+          fontWeight: 'bold',
+          fontSize: 16,
+          color: '#444',
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+        }}>
+        Notifications
+      </Text>
+    </View>
+  );
+
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff', // will be 0 on Android, because You pass true to skipAndroid
+        //  paddingTop: getStatusBarHeight(true),
+      }}>
       {notifications?.length ? (
         <View style={{flex: 1}}>
           <FlatList

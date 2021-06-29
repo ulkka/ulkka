@@ -1,16 +1,15 @@
 import React, {memo} from 'react';
 import {TouchableOpacity, StatusBar, Platform, Image, View} from 'react-native';
-import {Icon, Text, Badge} from 'react-native-elements';
-import {showAuthScreen, push, navigate} from '../navigation/Ref';
-import {useSelector, useDispatch} from 'react-redux';
-import {showCreatorOverlay} from '../redux/reducers/CreatorOverlaySlice';
+import {Icon, Text} from 'react-native-elements';
+import {showAuthScreen, push} from '../navigation/Ref';
+import {useSelector} from 'react-redux';
 import {
   getRegistrationStatus,
   getRegisteredUser,
 } from '../redux/reducers/AuthSlice';
-import {getUnreadNotificationCount} from '../redux/reducers/NotificationSlice';
 import UserAvatar from './UserAvatar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {kFormatter} from './helpers';
 
 const TitleComponent = memo(() => {
   return (
@@ -22,11 +21,6 @@ const TitleComponent = memo(() => {
         marginTop: 3,
         padding: 2,
       }}>
-      <Image
-        resizeMode={'contain'}
-        source={require('../../assets/ulkka_title_transparent.png')}
-        style={{height: 23, width: 24, marginLeft: 0, marginRight: 7}}
-      />
       <Text
         style={{
           fontSize: 19,
@@ -36,53 +30,12 @@ const TitleComponent = memo(() => {
         }}>
         Ulkka
       </Text>
+      <Image
+        resizeMode={'contain'}
+        source={require('../../assets/ulkka_title_transparent.png')}
+        style={{height: 23, width: 24, marginLeft: 7}}
+      />
     </View>
-  );
-});
-
-const Notifications = memo(() => {
-  const unReadNotificationCount = useSelector(getUnreadNotificationCount);
-  return (
-    <TouchableOpacity
-      onPress={() => navigate('Notifications')}
-      style={{paddingRight: 5}}>
-      <Icon
-        name={unReadNotificationCount ? 'bell' : 'bell-o'}
-        color={unReadNotificationCount ? '#222' : '#555'}
-        type="font-awesome"
-        size={Platform.OS == 'ios' ? 22 : 18}
-      />
-      {unReadNotificationCount ? (
-        <Badge
-          status="error"
-          value={unReadNotificationCount}
-          textStyle={{fontSize: 10}}
-          containerStyle={{
-            position: 'absolute',
-            top: -6,
-            right: -5,
-            width: 30,
-          }}
-        />
-      ) : null}
-    </TouchableOpacity>
-  );
-});
-
-const Creator = memo(({isRegistered}) => {
-  const dispatch = useDispatch();
-  return (
-    <TouchableOpacity
-      onPress={() =>
-        isRegistered ? dispatch(showCreatorOverlay()) : showAuthScreen()
-      }>
-      <Icon
-        name={'plus'}
-        color={'#555'}
-        type="material-community"
-        size={Platform.OS == 'ios' ? 25 : 23}
-      />
-    </TouchableOpacity>
   );
 });
 
@@ -92,14 +45,35 @@ const HeaderBar = (props) => {
 
   const AccountComponent = () => {
     const avatar = isRegistered ? (
-      <UserAvatar seed={registeredUser.displayname} size="header" />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <UserAvatar seed={registeredUser.displayname} size="header" />
+        <View
+          style={{
+            paddingHorizontal: 7,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 14,
+              color: '#333',
+              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+            }}>
+            {kFormatter(registeredUser.postKarma + registeredUser.commentKarma)}
+          </Text>
+          <View style={{width: 5}}></View>
+          <Icon name={'heart'} color={'red'} type="font-awesome" size={14} />
+        </View>
+      </View>
     ) : (
-      <Icon
-        name="account"
-        type="material-community"
-        color={'#555'}
-        size={Platform.OS == 'ios' ? 21 : 22}
-      />
+      <Icon name="account" type="material-community" color={'#555'} size={25} />
     );
 
     return (
@@ -117,58 +91,15 @@ const HeaderBar = (props) => {
     );
   };
 
-  const SearchIcon = () => {
-    return (
-      <TouchableOpacity onPress={() => navigate('Search')}>
-        <Icon
-          name="search"
-          color="#555"
-          size={Platform.OS == 'ios' ? 24 : 21}
-        />
-      </TouchableOpacity>
-    );
-  };
-
-  const registeredUserHeaderRight = (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-      }}>
-      <SearchIcon />
-      <View style={{width: 13}}></View>
-      <Creator isRegistered={isRegistered} />
-      <View style={{width: 15}}></View>
-      <Notifications />
-      <View style={{width: 12}}></View>
-      <AccountComponent />
-    </View>
-  );
-
-  const unregisteredUserHeaderRight = (
-    <View
-      style={{
-        flex: 1,
-        marginRight: 10,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-      }}>
-      <SearchIcon />
-      <View style={{width: 13}}></View>
-      <Creator isRegistered={isRegistered} />
-      <View style={{width: 12}}></View>
-      <AccountComponent />
-    </View>
-  );
-
-  const headerRight = isRegistered
-    ? registeredUserHeaderRight
-    : unregisteredUserHeaderRight;
+  const headerRight = <View style={{flex: 1}}></View>;
 
   const headerLeft = (
     <View style={{flex: 1, justifyContent: 'flex-start', flexDirection: 'row'}}>
+      <AccountComponent />
+    </View>
+  );
+  const headerCenter = (
+    <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
       <TitleComponent />
     </View>
   );
@@ -177,7 +108,6 @@ const HeaderBar = (props) => {
     <View
       style={{
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#fff',
         marginHorizontal: 8,
@@ -185,7 +115,7 @@ const HeaderBar = (props) => {
         marginBottom: Platform.OS == 'ios' ? 8 : 5,
       }}>
       {headerLeft}
-      <View style={{flex: 1}}></View>
+      {headerCenter}
       {headerRight}
     </View>
   );

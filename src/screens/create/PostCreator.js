@@ -12,7 +12,7 @@ import SearchableDropdown from '../../components/SearchableDropdown';
 import {CommunityField} from '../../components/PostCreator/CommunityField';
 import FormData from 'form-data';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
-import {pop, push, showAuthScreen} from '../../navigation/Ref';
+import {pop, push, showAuthScreen, navigate} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {createPost} from '../../redux/actions/PostActions';
 import {PostTitleField} from '../../components/PostCreator/PostTitleField';

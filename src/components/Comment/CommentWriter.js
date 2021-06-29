@@ -85,7 +85,6 @@ export default function CommentWriter(props) {
   useEffect(() => {
     if (!active) {
       inputRef.current.blur();
-      dispatch(prepareReply({postId: postId}));
       setExpanded(false);
     }
   }, [active]);
@@ -103,6 +102,11 @@ export default function CommentWriter(props) {
   };
 
   const resetForm = () => {
+    dispatch(prepareReply({postId: postId}));
+    dispatch(deactivate());
+  };
+
+  const formBlurred = () => {
     dispatch(deactivate());
   };
 
@@ -157,8 +161,9 @@ export default function CommentWriter(props) {
           color: reply_to == 'post' ? '#333' : '#666',
           fontSize: 12,
           fontWeight: '400',
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        {reply_to == 'post' ? 'Commenting on  ' : 'Replying to  '}
+        {reply_to == 'post' ? 'Commenting on ' : 'Replying to '}
       </Text>
       <Text
         ellipsizeMode={'tail'}
@@ -363,7 +368,7 @@ export default function CommentWriter(props) {
             disabled={false}
             maxLength={10000}
             multiline={true}
-            onBlur={() => resetForm()}
+            onBlur={() => formBlurred()}
             onFocus={() => activateForm()}
             value={comment}
             onChangeText={(text) => setComment(text)}

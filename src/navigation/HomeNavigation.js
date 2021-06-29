@@ -1,25 +1,23 @@
 import React from 'react';
 import {View, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import UserNavigation from '../screens/user/UserNavigation';
-import CommunityNavigation from '../screens/community/CommunityNavigation';
 import CreatePost from '../screens/create/PostCreator';
 import CreateCommunity from '../screens/create/CreateCommunity';
-import PostDetail from '../screens/PostDetail';
 import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/OptionSheetSlice';
 import OptionSheet from '../components/OptionSheet';
 import {getCommunityCreatorPromptIsVisble} from '../redux/reducers/CommunityCreatorPromptSlice';
 import {CommunityCreatorPromptOverlay} from '../components/CommunityCreatorPrompt';
-import Notifications from '../screens/Notifications';
 import EmailLinkHandler from '../screens/auth/EmailLinkHandler';
-import FeedNavigation from '../screens/home/FeedNavigation';
 import ShareMenuHandler from '../components/ShareMenuHandler';
 import {
   NotificationHandler,
   ConfigurePushNotification,
 } from '../components/NotificationHandler';
 import CreatePostButtonOverlay from '../components/Post/CreatePostButtonOverlay';
+import BottomTabNavigation from './BottomTabNavigation';
+import PostDetail from '../screens/PostDetail';
+import CommunityNavigation from '../screens/community/CommunityNavigation';
 
 const StackNav = createStackNavigator();
 
@@ -48,43 +46,10 @@ function HomeNavigation() {
           }),
           ...presets,
         })}>
-        <StackNav.Screen name="Feed" component={FeedNavigation} title="Home" />
         <StackNav.Screen
-          name="CommunityNavigation"
-          component={CommunityNavigation}
-          title="CommunityNavigation"
-        />
-        <StackNav.Screen
-          name="UserDetail"
-          component={UserNavigation}
-          title="UserDetail"
-        />
-        <StackNav.Screen
-          name="PostDetail"
-          component={PostDetail}
-          title="Post Detail"
-          options={{
-            headerShown: true,
-            headerTitle: '',
-            headerBackTitle: '',
-            headerBackTitleStyle: {
-              fontSize: 16,
-            },
-          }}
-        />
-        <StackNav.Screen
-          name="Notifications"
-          component={Notifications}
-          title="Notifications"
-          options={{
-            headerShown: true,
-            headerTitle: 'Notifications',
-            headerBackTitle: '',
-            headerBackTitleStyle: {
-              fontSize: 16,
-            },
-            headerTitleAlign: 'center',
-          }}
+          name="Feed"
+          component={BottomTabNavigation}
+          title="Home"
         />
         <StackNav.Screen
           name="CreatePost"
@@ -105,6 +70,24 @@ function HomeNavigation() {
             headerShown: true,
             headerTitleAlign: 'center',
           }}
+        />
+        <StackNav.Screen
+          name="PostDetail"
+          component={PostDetail}
+          title="Post Detail"
+          options={{
+            headerShown: true,
+            headerTitle: '',
+            headerBackTitle: '',
+            headerBackTitleStyle: {
+              fontSize: 16,
+            },
+          }}
+        />
+        <StackNav.Screen
+          name="CommunityNavigation"
+          component={CommunityNavigation}
+          title="CommunityNavigation"
         />
       </StackNav.Navigator>
       {isOptionSheetVisible && <OptionSheet />}
