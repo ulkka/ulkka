@@ -44,14 +44,14 @@ const ShareCommunity = (props) => {
         name="envelope-open"
         type="font-awesome"
         size={iconSize ? iconSize : 20}
-        color={mode == 'light' ? '#fff' : '#444'}
+        color={'#02862a'}
       />
     ) : (
       <Icon
         name="envelope-open"
         type="font-awesome"
         size={iconSize ? iconSize - 2 : 18}
-        color={mode == 'light' ? '#fff' : '#444'}
+        color={'#02862a'}
       />
     );
 
@@ -121,6 +121,7 @@ const ShareCommunity = (props) => {
       style={{
         flexDirection: flexDirection,
         alignItems: 'center',
+        paddingRight: 2,
       }}>
       {platFormIcon}
       <View style={{height: 2}}></View>

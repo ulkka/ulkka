@@ -24,7 +24,7 @@ const CommunityHeaderRight = memo(({communityId}) => {
       <ShareCommunity
         communityId={communityId}
         text="Invite"
-        iconSize={20}
+        iconSize={19}
         shareTextStyle={{fontSize: 11}}
       />
     </View>

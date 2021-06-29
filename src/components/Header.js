@@ -10,6 +10,7 @@ import {
 import UserAvatar from './UserAvatar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {kFormatter} from './helpers';
+import ReferralButton from './ReferralButton';
 
 const TitleComponent = memo(() => {
   return (
@@ -91,7 +92,15 @@ const HeaderBar = (props) => {
     );
   };
 
-  const headerRight = <View style={{flex: 1}}></View>;
+  const headerRight = (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'flex-end',
+      }}>
+      <ReferralButton />
+    </View>
+  );
 
   const headerLeft = (
     <View style={{flex: 1, justifyContent: 'flex-start', flexDirection: 'row'}}>
@@ -113,6 +122,7 @@ const HeaderBar = (props) => {
         marginHorizontal: 8,
         marginTop: Platform.OS == 'ios' ? 5 : 8,
         marginBottom: Platform.OS == 'ios' ? 8 : 5,
+        justifyContent: 'center',
       }}>
       {headerLeft}
       {headerCenter}
