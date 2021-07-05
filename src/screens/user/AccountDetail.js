@@ -47,20 +47,33 @@ const AccountDetail = memo((props) => {
   const registeredUserId = registeredUser?._id;
   const isProfile = userId == registeredUserId;
 
+  const userTotalKarma = useSelector((state) =>
+    getUserTotalKarma(state, userId),
+  );
+  const userCreatedAt = useSelector((state) => getUserCreatedAt(state, userId));
+  const userDisplayname = useSelector((state) =>
+    getUserDisplayname(state, userId),
+  );
+
+  useEffect(() => {
+    if (!isUserBlocked) {
+      dispatch(fetchUserById(userId));
+    }
+  }, []);
+
   useEffect(() => {
     if (!isProfile) {
-      navigation.setOptions({
-        headerRight: () => blockUserView(),
-      });
+      if (userDisplayname) {
+        navigation.setOptions({
+          headerRight: () => blockUserView(),
+        });
+      }
     } else {
       navigation.setOptions({
         headerRight: () => AccountSettings(),
       });
     }
-    if (!isUserBlocked) {
-      dispatch(fetchUserById(userId));
-    }
-  }, []);
+  }, [userDisplayname]);
 
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -132,14 +145,40 @@ const AccountDetail = memo((props) => {
     heartBeat();
   }, []);
   // Animation over
+  const blockUserAlert = () => {
+    Alert.alert(
+      userDisplayname ? 'Block ' + userDisplayname + ' ?' : 'Block User ?',
+      "You won't be able to see posts and comments from this user and they won't be able to see your posts and comments on Ulkka. We won't let them know that you've blocked them",
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => dispatch(blockUser(userId)),
+        },
+      ],
+      {cancelable: true},
+    );
+  };
 
-  const userTotalKarma = useSelector((state) =>
-    getUserTotalKarma(state, userId),
-  );
-  const userCreatedAt = useSelector((state) => getUserCreatedAt(state, userId));
-  const userDisplayname = useSelector((state) =>
-    getUserDisplayname(state, userId),
-  );
+  const blockUserView = () => {
+    return (
+      <TouchableOpacity
+        hitSlop={{top: 20, bottom: 30, left: 20, right: 20}}
+        style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
+        onPress={() => blockUserAlert()}>
+        <Icon
+          raised
+          name="user-slash"
+          type="font-awesome-5"
+          size={14}
+          color={'#ff2222'}
+        />
+      </TouchableOpacity>
+    );
+  };
 
   const userKarmaField =
     userTotalKarma || userTotalKarma === 0 ? (
@@ -212,24 +251,6 @@ const AccountDetail = memo((props) => {
     <ActivityIndicator size="small" color="#4285f4" />
   );
 
-  const blockUserAlert = () => {
-    Alert.alert(
-      'Block ' + userDisplayname + ' ?',
-      "You won't be able to see posts and comments from this user and they won't be able to see your posts and comments on Ulkka. We won't let them know that you've blocked them",
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => dispatch(blockUser(userId)),
-        },
-      ],
-      {cancelable: true},
-    );
-  };
-
   const AccountSettings = () => (
     <TouchableOpacity
       hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
@@ -238,23 +259,6 @@ const AccountDetail = memo((props) => {
       <Icon name="gear" type="font-awesome" size={24} color={'#666'} />
     </TouchableOpacity>
   );
-
-  const blockUserView = () => {
-    return (
-      <TouchableOpacity
-        hitSlop={{top: 20, bottom: 30, left: 20, right: 20}}
-        style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
-        onPress={() => blockUserAlert()}>
-        <Icon
-          raised
-          name="user-slash"
-          type="font-awesome-5"
-          size={14}
-          color={'#ff2222'}
-        />
-      </TouchableOpacity>
-    );
-  };
 
   return isUserBlocked ? (
     <View

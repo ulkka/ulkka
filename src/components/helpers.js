@@ -35,8 +35,12 @@ export function getScreenFromLink(link) {
   const isPath = !link.startsWith('https://ulkka.in');
   const path = isPath ? link : link.replace('https://ulkka.in/', '/');
 
-  const entity = link && path.substring(1, path.lastIndexOf('/'));
-  const entityId = link && path.substring(path.lastIndexOf('/') + 1);
+  const splitPath = path?.split('/');
+  const entity = link && splitPath[1];
+  const entityId = link && splitPath[2];
+  const detailedEntityId =
+    link && splitPath?.length > 2 ? splitPath[3] : undefined;
+
   const screen =
     entity == 'post' && entityId && entityId != ''
       ? 'PostDetail'
@@ -44,11 +48,22 @@ export function getScreenFromLink(link) {
       ? 'CommunityNavigation'
       : 'Feed';
 
-  return {screen, entityId};
+  return {screen, entityId, detailedEntityId};
+}
+
+export function getUriImage(uri) {
+  return typeof uri == 'string' &&
+    uri !== null &&
+    uri !== undefined &&
+    uri.split('http')[1] &&
+    uri.includes('/') &&
+    uri.includes('.')
+    ? uri
+    : '';
 }
 
 export function navigateToLink(link) {
-  const {screen, entityId} = getScreenFromLink(link);
+  const {screen, entityId, detailedEntityId} = getScreenFromLink(link);
   const field =
     screen == 'PostDetail'
       ? 'postId'
@@ -57,6 +72,9 @@ export function navigateToLink(link) {
       : 'home'; // placeholder field
   let params = {};
   params[field] = entityId;
+  if (detailedEntityId) {
+    params.commentId = detailedEntityId;
+  }
   push(screen, params);
 }
 

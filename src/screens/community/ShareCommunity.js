@@ -41,14 +41,14 @@ const ShareCommunity = (props) => {
   const platFormIcon =
     os == 'ios' ? (
       <Icon
-        name="envelope-open"
+        name="envelope-open-o"
         type="font-awesome"
         size={iconSize ? iconSize : 20}
         color={'#02862a'}
       />
     ) : (
       <Icon
-        name="envelope-open"
+        name="envelope-open-o"
         type="font-awesome"
         size={iconSize ? iconSize - 2 : 18}
         color={'#02862a'}
@@ -57,7 +57,9 @@ const ShareCommunity = (props) => {
 
   async function buildLink(communityId) {
     const socialTitle =
-      'Join ' + communityTitle + " community on Ulkka - God's Own Community!";
+      'Join ' +
+      communityTitle +
+      " community on Ulkka - Kerala's Own Community!";
     const socialDescription =
       communityMemberCount + ' members\n' + communityDescription;
     const config = {
@@ -100,7 +102,7 @@ const ShareCommunity = (props) => {
       message:
         'Invitation to join ' +
         communityTitle +
-        ' community on Ulkka !\nഅടിപൊളി മലയാളം കമ്മ്യൂണിറ്റികളുടെ ഭാഗമാകാൻ കേരളത്തിന്റെ സ്വന്തം സോഷ്യൽ മീഡിയയായ Ulkka ഇൻസ്റ്റാൾ ചെയ്യൂ',
+        " community on Ulkka - Kerala's Own Community",
     };
     Share.open(options)
       .then((res) => {

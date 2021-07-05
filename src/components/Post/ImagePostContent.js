@@ -14,6 +14,7 @@ import {
   mediaUrlWithWidth,
 } from './helpers';
 import {navigate} from '../../navigation/Ref';
+import {getUriImage} from '../helpers';
 
 const ImagePostContent = (props) => {
   const dispatch = useDispatch();
@@ -108,7 +109,7 @@ const ImagePostContent = (props) => {
         }}
         onLoad={onLoad}
         source={{
-          uri: imageUrl,
+          uri: getUriImage(imageUrl),
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.immutable,
         }}

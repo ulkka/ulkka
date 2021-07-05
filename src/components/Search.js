@@ -14,12 +14,12 @@ import {
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useIsFocused} from '@react-navigation/native';
 import {goBack} from '../navigation/Ref';
+
 export default function Search() {
   const dispatch = useDispatch();
 
   const isFocused = useIsFocused();
 
-  console.log('isFocused', isFocused);
   const term = useSelector(getSearchTerm);
   const serverSearch = useSelector(getServerSearch);
   const searchMode = useSelector(getSearchMode);

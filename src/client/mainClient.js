@@ -97,15 +97,29 @@ mainClient.interceptors.response.use(
 // RNFirebase Perf interceptors end
 
 // Intercept all requests
-/*
+
 mainClient.interceptors.request.use(
-  (config) => {
-    console.log('Request Config: ', config);
+  async (config) => {
+    const idTokenResult = await auth().currentUser.getIdTokenResult();
+    if (new Date(idTokenResult.expirationTime).getTime() < Date.now()) {
+      const idToken = await auth()
+        .currentUser.getIdToken(true)
+        .catch((error) => console.log('error refreshing token', error));
+      if (idToken) config.headers.Authorization = 'Bearer ' + idToken;
+    }
     return config;
   },
   (error) => Promise.reject(error),
 );
-
+/*
+mainClient.interceptors.request.use(
+  (config) => {
+    console.log('Request config : ', config);
+    return config;
+  },
+  (error) => Promise.reject(error),
+);*/
+/*
 // Intercept all responses
 mainClient.interceptors.response.use(
   async (response) => {

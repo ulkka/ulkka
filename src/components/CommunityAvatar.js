@@ -11,15 +11,29 @@ import {
 import {useSelector} from 'react-redux';
 import {mediaUrlWithWidth} from '../components/Post/helpers';
 import FastImage from 'react-native-fast-image';
+import {getUriImage} from './helpers';
 
 const CommunityAvatar = (props) => {
-  const {communityId, size, disableTouch} = props;
+  const {communityId, size, disableTouch, name, icon} = props;
   const communityName = useSelector((state) =>
     getCommunityTitle(state, communityId),
-  )?.replace('#', '');
+  );
+
+  const finalCommunityName = communityName
+    ? communityName?.replace('#', '').substring(0, 2)
+    : name
+    ? name?.replace('#', '').substring(0, 2)
+    : 'UL';
+
   const communityIcon = useSelector((state) =>
     getCommunityIcon(state, communityId),
   );
+  const finalCommunityIcon = communityIcon
+    ? communityIcon
+    : icon
+    ? icon
+    : undefined;
+
   const userRole = useSelector((state) =>
     getUserRoleInCommunity(state, communityId),
   );
@@ -73,7 +87,7 @@ const CommunityAvatar = (props) => {
     }
   };
 
-  return communityIcon?.length ? (
+  return finalCommunityIcon?.length ? (
     <TouchableOpacity
       disabled={size == 'large' || disableTouch}
       style={{
@@ -96,7 +110,9 @@ const CommunityAvatar = (props) => {
           overflow: 'hidden',
         }}
         source={{
-          uri: mediaUrlWithWidth(communityIcon, 100, 'avatar'),
+          uri: getUriImage(
+            mediaUrlWithWidth(finalCommunityIcon, 100, 'avatar'),
+          ),
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.immutable,
         }}
@@ -113,14 +129,14 @@ const CommunityAvatar = (props) => {
       }>
       <Avatar
         rounded
-        title={communityName ? communityName.substring(0, 2) : 'UL'}
+        title={finalCommunityName}
         titleStyle={{
           textTransform: 'uppercase',
           fontSize: getFontSize(),
         }}
         size={size}
         containerStyle={{
-          backgroundColor: getColorFromTitle(communityName),
+          backgroundColor: getColorFromTitle(finalCommunityName),
           borderWidth: 2,
           borderColor: getBorderColor(),
         }}

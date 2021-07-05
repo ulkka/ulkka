@@ -53,16 +53,16 @@ export default function ShowSubmitStatus(props) {
             textAlign: 'center',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          {status?.message}{' '}
+          {status?.message}
         </Text>
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 29,
             fontWeight: 'bold',
             paddingTop: 30,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          {status?.entity}{' '}
+          {status?.entity}
         </Text>
       </View>
     </Modal>

@@ -11,7 +11,7 @@ import analytics from '@react-native-firebase/analytics';
 import {CommunityCreatorPromptView} from '../../components/CommunityCreatorPrompt';
 
 const CommunityRow = ({community}) => {
-  const {name, _id: communityId} = community;
+  const {name, _id: communityId, icon} = community;
   return name ? (
     <TouchableOpacity
       onPress={() => {
@@ -28,7 +28,12 @@ const CommunityRow = ({community}) => {
         paddingHorizontal: 20,
       }}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <CommunityAvatar communityId={communityId} size="medium" />
+        <CommunityAvatar
+          communityId={communityId}
+          size="medium"
+          name={name}
+          icon={icon}
+        />
         <Text
           style={{
             padding: 10,

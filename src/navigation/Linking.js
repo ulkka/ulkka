@@ -7,7 +7,7 @@ const config = {
     Main: {
       screens: {
         CreatePost: 'create/post',
-        PostDetail: 'post/:postId',
+        PostDetail: 'post/:postId/:commentId?',
         Feed: {
           screens: {
             Home: '',

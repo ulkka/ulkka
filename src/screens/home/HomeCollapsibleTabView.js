@@ -104,7 +104,14 @@ export default function HomeCollapsibleTabView(props) {
   const handleOnScrollEndDrag = (event) => {
     const scrolling = event.nativeEvent.contentOffset.y;
     const Yvelocity = event.nativeEvent.velocity.y;
-    var direction = Yvelocity > 5 ? 'up' : 'down';
+    var direction =
+      Platform.OS == 'android'
+        ? Yvelocity > 5
+          ? 'up'
+          : 'down'
+        : Yvelocity < -3
+        ? 'up'
+        : 'down';
     if (
       (scrolling < 300 && !tabShown) ||
       (direction == 'up' && scrolling > 300 && !tabShown)
@@ -122,6 +129,10 @@ export default function HomeCollapsibleTabView(props) {
     }
   };
 
+  const handleShowTabBar = () => {
+    setTabShown(true);
+  };
+
   const renderScene = ({route, jumpTo}) => {
     switch (route.key) {
       case 'home':
@@ -130,6 +141,7 @@ export default function HomeCollapsibleTabView(props) {
             scrollEventThrottle={16}
             onScrollEndDrag={handleOnScrollEndDrag}
             onMomentumScrollEnd={handleOnMomentumScrollEnd}
+            showTabBar={handleShowTabBar}
             contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
             jumpTo={jumpTo}
             {...props}
@@ -141,6 +153,7 @@ export default function HomeCollapsibleTabView(props) {
             scrollEventThrottle={16}
             onScrollEndDrag={handleOnScrollEndDrag}
             onMomentumScrollEnd={handleOnMomentumScrollEnd}
+            showTabBar={handleShowTabBar}
             contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
             {...props}
           />

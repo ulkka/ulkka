@@ -54,10 +54,10 @@ export const fetchCommunityById = createAsyncThunk(
 
 export const fetchTopCommunities = createAsyncThunk(
   'community/fetchTop',
-  async (communityId, {rejectWithValue}) => {
+  async ({page, limit}, {rejectWithValue}) => {
     try {
-      const response = await communityApi.community.fetchTop(1, 10);
-      return response.data.data;
+      const response = await communityApi.community.fetchTop(page, limit);
+      return response;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -304,7 +304,7 @@ export const slice = createSlice({
       }
     },
     [fetchTopCommunities.fulfilled]: (state, action) => {
-      const topCommunities = action.payload;
+      const topCommunities = action.payload.data?.data;
       communityAdapter.upsertMany(state, topCommunities);
     },
     [loadAuth.fulfilled]: addRegisteredUsersCommunities,
@@ -461,7 +461,9 @@ export const getUserMemberCommunities = (state) =>
 
 export const getUserNonMemberCommunities = (state) =>
   selectAllCommunities(state).filter(
-    (community) => community.role == 'none' || community.role === undefined,
+    (community) =>
+      (community.role == 'none' || community.role === undefined) &&
+      community.memberCount,
   );
 
 export const getUserModeratorCommunities = (state) =>

@@ -13,7 +13,11 @@ import {
 import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 
 function getLinkFromRemoteMessage(remoteMessage) {
-  return remoteMessage.data?.link && remoteMessage.data?.link?.length
+  return remoteMessage.data?.detailedLink &&
+    remoteMessage.data?.detailedLink?.length &&
+    !remoteMessage.data.detailedLink?.includes('undefined')
+    ? remoteMessage.data.detailedLink
+    : remoteMessage.data?.link && remoteMessage.data?.link?.length
     ? remoteMessage.data.link
     : '/';
 }
@@ -25,9 +29,11 @@ const ConfigurePushNotification = () => {
     // (required) Called when a remote is received or opened, or local notification is opened
     onNotification: function (notification) {
       const {userInteraction} = notification;
+      console.log('notification', notification);
       if (userInteraction) {
-        dispatch(markNotificationRead(notification.data.notification_id));
-        navigateToLink(notification.data.link);
+        notification?.data?.notification_id &&
+          dispatch(markNotificationRead(notification.data.notification_id));
+        navigateToLink(getLinkFromRemoteMessage(notification));
       }
 
       // (required) Called when a remote is received or opened, or local notification is opened
@@ -96,10 +102,12 @@ const NotificationHandler = () => {
     messaging()
       .getInitialNotification()
       .then((remoteMessage) => {
+        console.log('remoteMesage', remoteMessage);
         if (remoteMessage) {
-          dispatch(
-            markNotificationRead(remoteMessage.notification?.notification_id),
-          );
+          remoteMessage?.notification?.notification_id &&
+            dispatch(
+              markNotificationRead(remoteMessage.notification.notification_id),
+            );
           navigateToLink(getLinkFromRemoteMessage(remoteMessage));
         }
       });

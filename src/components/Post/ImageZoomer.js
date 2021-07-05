@@ -11,11 +11,10 @@ import FastImage from 'react-native-fast-image'; // delete extra lines from andr
 import ImageZoom from 'react-native-image-pan-zoom';
 import {Icon} from 'react-native-elements';
 import {goBack, pop, push} from '../../navigation/Ref';
+import {getUriImage} from '../helpers';
 
 const ImageZoomer = ({route}) => {
   const {height, width, imageUrl, postId, screen} = route.params;
-
-  console.log('route params image zoomer', route.params);
 
   const footer = (
     <View
@@ -105,7 +104,7 @@ const ImageZoomer = ({route}) => {
             alignSelf: 'center',
           }}
           source={{
-            uri: imageUrl,
+            uri: getUriImage(imageUrl),
             priority: FastImage.priority.normal,
             cache: FastImage.cacheControl.immutable,
           }}

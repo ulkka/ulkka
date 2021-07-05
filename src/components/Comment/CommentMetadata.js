@@ -60,8 +60,9 @@ const CommentMetadata = (props) => {
           fontWeight: '300',
           fontWeight: '500',
           color: CommentAuthorDisplaynameColor,
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        {authorDisplayname} {Platform.OS != 'ios' && ' '}
+        {authorDisplayname}
       </Text>
       {CommentAuthorIcon}
     </View>

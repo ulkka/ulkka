@@ -3,6 +3,7 @@ import FastImage from 'react-native-fast-image';
 import {axiosConfig} from '../client/axiosConfig';
 import {getIDToken} from '../redux/reducers/AuthSlice';
 import {useSelector} from 'react-redux';
+import {getUriImage} from './helpers';
 
 export default function UserAvatar(props) {
   const {seed, size} = props;
@@ -37,7 +38,7 @@ export default function UserAvatar(props) {
         alignSelf: 'center',
       }}
       source={{
-        uri: avatarUri,
+        uri: getUriImage(avatarUri),
         priority: FastImage.priority.normal,
         cache: FastImage.cacheControl.immutable,
         headers: {

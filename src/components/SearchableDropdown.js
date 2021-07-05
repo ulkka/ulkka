@@ -10,6 +10,7 @@ import {
 import {SearchBar, Button, Icon, Divider, Overlay} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import mainClient from '../client/mainClient';
+import communityApi from '../services/CommunityApi';
 import {
   getUserMemberCommunities,
   getUserModeratorCommunities,
@@ -36,7 +37,7 @@ export default function SearchableDropdown(props) {
 
   useEffect(() => {
     if (
-      value.length > 2 &&
+      value.length > 0 &&
       !allowOnlyMemberCommunities &&
       !allowOnlyModeratorCommunities
     ) {
@@ -60,13 +61,13 @@ export default function SearchableDropdown(props) {
     setValue(text);
   };
 
-  const searchForCommunity = (term) => {
-    mainClient
-      .get('/community?query={"name":{"$regex":"' + term + '","$options":"i"}}')
-      .then((res) => {
-        console.log('res.data', res.data);
-        setItems(res.data);
-      });
+  const searchForCommunity = async (term) => {
+    const response = await communityApi.community
+      .search(term, 1, 10)
+      .catch((error) => console.log('error searching communities'));
+    if (response?.data?.data) {
+      setItems(response.data.data);
+    }
   };
 
   const setCommunityToPost = (community) => {
@@ -93,6 +94,8 @@ export default function SearchableDropdown(props) {
                 communityId={item._id}
                 size="small"
                 disableTouch={true}
+                name={item.name}
+                icon={item.icon}
               />
               <View style={{width: 10}}></View>
               <Text

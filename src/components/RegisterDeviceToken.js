@@ -56,7 +56,7 @@ export default function RegisterDeviceToken() {
         .then(() => console.log('Subscribed to topic!'))
         .catch((error) => console.log('Error subscribing to topic', error));
     }
-    if (isRegistered) {
+    if (isRegistered && token.length) {
       userApi.user.registerDeviceTokenForNotifications(token);
       //ios asks for notifications only after registration
       if (Platform.OS == 'ios') {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 export const CommunityField = (props) => {
@@ -19,9 +19,14 @@ export const CommunityField = (props) => {
             justifyContent: 'space-around',
             alignItems: 'center',
           }}>
-          <Text style={{color: '#555', fontSize: 18, fontWeight: 'bold'}}>
+          <Text
+            style={{
+              color: '#555',
+              fontSize: 18,
+              fontWeight: 'bold',
+              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+            }}>
             {!community?.name ? 'Select Community' : community.name}
-            {'  '}
           </Text>
           <View style={{width: 20}}></View>
           <Icon

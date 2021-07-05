@@ -23,9 +23,9 @@ const AuthIDTokenListener = () => {
 
   function handleAppStateChange(appState) {
     if (appState == 'active') {
-      auth()
+      /*auth()
         .currentUser?.getIdToken()
-        .catch((error) => console.log('error getting id token', error));
+        .catch((error) => console.log('error getting id token', error));*/
       analytics().logAppOpen();
     }
   }

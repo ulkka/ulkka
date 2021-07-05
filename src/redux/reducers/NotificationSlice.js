@@ -91,8 +91,10 @@ export const markNotificationRead = createAsyncThunk(
   'notifications/markRead',
   async (id, {rejectWithValue, dispatch}) => {
     try {
-      await notificationsApi.markRead(id);
-      dispatch(fetchUnreadNotificationCount());
+      if (id) {
+        await notificationsApi.markRead(id);
+        dispatch(fetchUnreadNotificationCount());
+      }
       return id;
     } catch (error) {
       return rejectWithValue(error);

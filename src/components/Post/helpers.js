@@ -1,7 +1,7 @@
 import {Dimensions} from 'react-native';
 
 export function mediaUrlWithWidth(url, width, type) {
-  let splitUrl = url.split('upload');
+  let splitUrl = url?.split('upload');
   const lesserWidth =
     width < Dimensions.get('window').width
       ? parseInt(width)
@@ -52,12 +52,6 @@ export function scaleHeightAndWidthAccordingToDimensions(data, type, screen) {
       return {height: 400, width: width};
     }
 
-    if (screen == 'PostDetail') {
-      if (type != 'video' && !data?.ogVideo?.url) {
-        height = (width * mediaDimensions.height) / mediaDimensions.width;
-        return {height, width};
-      }
-    }
     height = Math.ceil(
       (mediaDimensions.height * Dimensions.get('window').width) /
         mediaDimensions.width,
@@ -65,7 +59,7 @@ export function scaleHeightAndWidthAccordingToDimensions(data, type, screen) {
     const heightPercentOfTotalWindowHeight =
       (height / Dimensions.get('window').height) * 100;
 
-    const heightThreshold = screen == 'PostDetail' ? 80 : 50;
+    const heightThreshold = 50;
     height =
       heightPercentOfTotalWindowHeight > heightThreshold
         ? Dimensions.get('window').height / (100 / heightThreshold)

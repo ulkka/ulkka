@@ -34,7 +34,7 @@ const ReferralButton = (props) => {
         paddingRight: 3,
       }}>
       <Icon
-        name="envelope-open"
+        name="envelope-open-o"
         type="font-awesome"
         size={18}
         color={'#02862a'}

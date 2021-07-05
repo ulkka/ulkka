@@ -19,12 +19,10 @@ const TitleComponent = memo(() => {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        marginTop: 3,
-        padding: 2,
       }}>
       <Text
         style={{
-          fontSize: 19,
+          fontSize: 21,
           fontFamily: Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-condensed',
           fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
           color: '#424242',

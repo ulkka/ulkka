@@ -35,9 +35,11 @@ const communityApi = {
       const response = await client.get(`${COMMUNITY_URI}/${communityId}`);
       return response;
     },
-    async fetchTop() {
+    async fetchTop(page, limit) {
       const client = await mainClient;
-      const response = await client.get(`${COMMUNITY_URI}/top`);
+      const response = await client.get(
+        `${COMMUNITY_URI}/top?page=${page}&limit=${limit}`,
+      );
       return response;
     },
     async inviteUser(communityId, userId) {
@@ -61,6 +63,7 @@ const communityApi = {
           term,
         )}&page=${page}&limit=${limit}`,
       );
+
       return response;
     },
     async fetchTopics() {

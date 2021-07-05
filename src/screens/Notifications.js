@@ -34,6 +34,11 @@ const validRestOfTheTexts = [
   ' received a downvote on your comment',
   ' replied to your post',
   ' replied to your comment',
+  ' invited you to join',
+  ' was dismissed as admin of',
+  ' was promoted as an admin for',
+  ' posted in',
+  ' joined',
 ];
 export default function Notifications(props) {
   const dispatch = useDispatch();
@@ -104,7 +109,7 @@ export default function Notifications(props) {
         <View
           style={{flexDirection: 'row', alignItems: 'center', maxWidth: '80%'}}>
           {username.length >= 4 &&
-          validRestOfTheTexts.includes(restOfTheText) ? (
+          validRestOfTheTexts.find((text) => restOfTheText.includes(text)) ? (
             <UserAvatar seed={username} size="medium" />
           ) : (
             <Image

@@ -21,7 +21,7 @@ const AutolinkText = (props) => {
 
   //const [showMore, setShowMore] = useState(false);
   const [textHidden, setTextHidden] = useState(true);
-  const showMore = text.length > 500 ? true : false;
+  const showMore = text?.length > 500 ? true : false;
 
   const onTextLayout = useCallback((e) => {
     console.log('text layouted');
@@ -63,7 +63,7 @@ const AutolinkText = (props) => {
         }}
         // Required: the text to parse for links
         text={
-          enableShowMore ? (textHidden ? text.substring(0, 499) : text) : text
+          enableShowMore ? (textHidden ? text?.substring(0, 499) : text) : text
         } //"This is the string to parse for urls #adada #അർജുൻ (https://github.com/joshswan/react-native-autolink), phone numbers (415-555-5555), emails (josh@example.com), mentions/handles (@twitter), and hashtags (#exciting)"
         // Optional: enable email linking
         email={false}

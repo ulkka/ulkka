@@ -43,7 +43,7 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: [
     thunkMiddleware,
-    // loggerMiddleware
+    //loggerMiddleware
   ],
   //preloadedState,
 });

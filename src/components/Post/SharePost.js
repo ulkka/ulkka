@@ -13,6 +13,7 @@ import {
   getPostCommentCount,
   getPostVoteCount,
   getPostAuthorDisplayname,
+  getPostCommunityName,
 } from '../../redux/selectors/PostSelectors';
 import {mediaUrlWithWidth} from './helpers';
 import analytics from '@react-native-firebase/analytics';
@@ -49,6 +50,10 @@ const SharePost = (props) => {
     getPostAuthorDisplayname(state, postId),
   );
 
+  const postCommunityName = useSelector((state) =>
+    getPostCommunityName(state, postId),
+  );
+
   const shareTitle = title.substring(0, 150);
 
   const platFormIcon =
@@ -62,9 +67,15 @@ const SharePost = (props) => {
     const mediaUrl = mediaMetadata?.secure_url;
 
     const socialTitle =
-      postAuthorDisplayname + ' on Ulkka: "' + shareTitle + '"';
+      'Posted by ' +
+      postAuthorDisplayname +
+      ' on ' +
+      postCommunityName +
+      ': "' +
+      shareTitle +
+      '"';
     const socialDescription =
-      'Ulkka - മലയാളികളുടെ സ്വന്തം സോഷ്യൽ മീഡിയ!\n' +
+      "Ulkka - Kerala's Own Community!\n" +
       voteCount +
       ' votes, ' +
       commentCount +

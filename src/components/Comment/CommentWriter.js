@@ -147,6 +147,7 @@ export default function CommentWriter(props) {
     }
 
     dispatch(createReply(data));
+    resetForm();
   };
 
   const ReplyPrompt = (
@@ -361,9 +362,8 @@ export default function CommentWriter(props) {
               marginBottom: Platform.OS == 'ios' && comment != '' ? 10 : 0,
             }}
             inputStyle={{
-              fontSize: 13,
+              fontSize: 14,
               color: '#333',
-              textAlign: 'justify',
             }}
             disabled={false}
             maxLength={10000}

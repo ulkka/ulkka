@@ -29,7 +29,7 @@ import {Button} from 'react-native-elements';
 const PostDetail = ({route}) => {
   const dispatch = useDispatch();
 
-  const postId = route?.params?.postId;
+  const {postId, commentId} = route?.params;
   const [screenId, setScreenId] = useState(undefined);
   const [error, setError] = useState(undefined);
 
@@ -101,7 +101,12 @@ const PostDetail = ({route}) => {
         }>
         <PostCard postId={postId} screen={'PostDetail'} screenId={screenId} />
 
-        <CommentList postId={postId} key={postId} screenId={screenId} />
+        <CommentList
+          postId={postId}
+          key={postId}
+          screenId={screenId}
+          commentId={commentId}
+        />
       </ScrollView>
       <CommentWriter postId={postId} />
     </View>

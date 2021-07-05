@@ -1,6 +1,7 @@
 import React, {useEffect, useContext, memo} from 'react';
 import {View, FlatList, RefreshControl, Platform, Animated} from 'react-native';
-import {ThemeContext, Divider} from 'react-native-elements';
+import {ThemeContext} from 'react-native-elements';
+import {useScrollToTop} from '@react-navigation/native';
 import PostCard from '../Post/PostCard';
 import FeedFooter from './FeedFooter';
 import {useSelector, useDispatch} from 'react-redux';
@@ -28,6 +29,17 @@ function Feed(props) {
   const {screen} = props;
   const screenType = screen.split('-')[0];
 
+  const ref = React.useRef(null);
+  (screenType == 'home' || screenType == 'popular') &&
+    useScrollToTop(
+      React.useRef({
+        scrollToTop: () => {
+          ref.current?.scrollToOffset({offset: 0});
+          props.showTabBar();
+        },
+      }),
+    );
+
   const complete = useSelector((state) => isFeedComplete(state, screen));
   const loading = useSelector((state) => isFeedLoading(state, screen));
   const refreshing = useSelector((state) => isFeedRefreshing(state, screen));
@@ -39,8 +51,6 @@ function Feed(props) {
     waitForInteraction: false,
   });
   const onViewableItemsChangedRef = React.useRef(_onViewableItemsChanged());
-
-  const feedListRef = React.createRef();
 
   const topCommunitiesPosition = postIds?.length > 3 ? 3 : 0;
 
@@ -93,7 +103,7 @@ function Feed(props) {
         ListHeaderComponent={memo(() => (
           <SortFeed screen={screen} />
         ))}
-        ref={feedListRef}
+        ref={ref}
         listKey={screen}
         data={postIds}
         renderItem={renderRow}

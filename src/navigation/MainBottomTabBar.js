@@ -34,6 +34,11 @@ function MainBottomTabBar({state, descriptors, navigation}) {
   const _keyboardDidHide = () => {
     setHidden(false);
   };
+
+  useEffect(() => {
+    setHidden(state.index === 1 && !state.routes[1].state?.index);
+  }, [state]);
+
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
@@ -85,7 +90,6 @@ function MainBottomTabBar({state, descriptors, navigation}) {
                 dispatch(showCreatorOverlay());
               }
             } else {
-              setHidden(route.name == 'Search');
               const event = navigation.emit({
                 type: 'tabPress',
                 target: route.key,
