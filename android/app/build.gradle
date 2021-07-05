@@ -81,11 +81,11 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-  //   entryFile: "index.js",
+    entryFile: "index.js",
     enableHermes: true,  // clean and rebuild if changing 
 ]
 
-apply from: "../../node_modules/react-native/react.gradle"
+//apply from: "../../node_modules/react-native/react.gradle" // commented to fix hermes crash on release https://github.com/facebook/react-native/issues/24505
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 
@@ -139,8 +139,8 @@ android {
         applicationId "in.ulkka"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 36
-        versionName "0.3.6"
+        versionCode 38
+        versionName "0.3.8"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }

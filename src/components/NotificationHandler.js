@@ -4,23 +4,13 @@ import messaging from '@react-native-firebase/messaging';
 import {useDispatch, useSelector} from 'react-redux';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
-import {navigateToLink} from './helpers';
+import {navigateToLink, getLinkFromRemoteMessage} from './helpers';
 import {
   incrementNotificationCount,
   fetchUnreadNotificationCount,
   markNotificationRead,
 } from '../redux/reducers/NotificationSlice';
 import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
-
-function getLinkFromRemoteMessage(remoteMessage) {
-  return remoteMessage.data?.detailedLink &&
-    remoteMessage.data?.detailedLink?.length &&
-    !remoteMessage.data.detailedLink?.includes('undefined')
-    ? remoteMessage.data.detailedLink
-    : remoteMessage.data?.link && remoteMessage.data?.link?.length
-    ? remoteMessage.data.link
-    : '/';
-}
 
 const ConfigurePushNotification = () => {
   const dispatch = useDispatch();
@@ -29,7 +19,6 @@ const ConfigurePushNotification = () => {
     // (required) Called when a remote is received or opened, or local notification is opened
     onNotification: function (notification) {
       const {userInteraction} = notification;
-      console.log('notification', notification);
       if (userInteraction) {
         notification?.data?.notification_id &&
           dispatch(markNotificationRead(notification.data.notification_id));
@@ -102,7 +91,6 @@ const NotificationHandler = () => {
     messaging()
       .getInitialNotification()
       .then((remoteMessage) => {
-        console.log('remoteMesage', remoteMessage);
         if (remoteMessage) {
           remoteMessage?.notification?.notification_id &&
             dispatch(

@@ -24,7 +24,11 @@ import {
 import UserAvatar from '../components/UserAvatar';
 import PushNotification from 'react-native-push-notification';
 import analytics from '@react-native-firebase/analytics';
-import {navigateToLink, getScreenFromLink} from '../components/helpers';
+import {
+  navigateToLink,
+  getScreenFromLink,
+  getLinkFromRemoteMessage,
+} from '../components/helpers';
 
 const B = (props) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
 const validRestOfTheTexts = [
@@ -68,6 +72,7 @@ export default function Notifications(props) {
 
   const markNotificationReadHandler = (item) => {
     const {_id: id, link} = item;
+    console.log('iyem', item);
     id && dispatch(markNotificationRead(id));
 
     const entityType = getScreenFromLink(link);
@@ -82,7 +87,7 @@ export default function Notifications(props) {
         screen: 'notifications',
       });
     }
-    navigateToLink(link);
+    navigateToLink(getLinkFromRemoteMessage({data: item}));
   };
 
   const handleLoadMore = () => {

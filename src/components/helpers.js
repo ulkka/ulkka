@@ -31,6 +31,27 @@ export function getColorFromTitle(text) {
   return color ? color : coolColors[13];
 }
 
+export function getUriImage(uri) {
+  return typeof uri == 'string' &&
+    uri !== null &&
+    uri !== undefined &&
+    uri.split('http')[1] &&
+    uri.includes('/') &&
+    uri.includes('.')
+    ? uri
+    : '';
+}
+
+export function getLinkFromRemoteMessage(remoteMessage) {
+  return remoteMessage.data?.detailedLink &&
+    remoteMessage.data?.detailedLink?.length &&
+    !remoteMessage.data.detailedLink?.includes('undefined')
+    ? remoteMessage.data.detailedLink
+    : remoteMessage.data?.link && remoteMessage.data?.link?.length
+    ? remoteMessage.data.link
+    : '/';
+}
+
 export function getScreenFromLink(link) {
   const isPath = !link.startsWith('https://ulkka.in');
   const path = isPath ? link : link.replace('https://ulkka.in/', '/');
@@ -49,17 +70,6 @@ export function getScreenFromLink(link) {
       : 'Feed';
 
   return {screen, entityId, detailedEntityId};
-}
-
-export function getUriImage(uri) {
-  return typeof uri == 'string' &&
-    uri !== null &&
-    uri !== undefined &&
-    uri.split('http')[1] &&
-    uri.includes('/') &&
-    uri.includes('.')
-    ? uri
-    : '';
 }
 
 export function navigateToLink(link) {
