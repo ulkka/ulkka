@@ -79,11 +79,7 @@ const HeaderBar = (props) => {
       <TouchableOpacity
         hitSlop={{top: 20, bottom: 10, left: 20, right: 40}}
         onPress={() => {
-          isRegistered
-            ? push('UserDetail', {
-                userId: registeredUser?._id,
-              })
-            : showAuthScreen();
+          isRegistered ? props.navigation.openDrawer() : showAuthScreen();
         }}>
         {avatar}
       </TouchableOpacity>

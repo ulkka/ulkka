@@ -67,7 +67,10 @@ function Feed(props) {
   };
 
   const renderRow = ({item, index}) => {
-    if (index == topCommunitiesPosition && screen == 'home') {
+    if (
+      index == topCommunitiesPosition &&
+      (screen == 'home' || screen == 'popular')
+    ) {
       return (
         <View>
           <TopCommunities />

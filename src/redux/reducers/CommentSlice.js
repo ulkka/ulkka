@@ -178,20 +178,42 @@ export const slice = createSlice({
       });
       analytics().logEvent('comment_remove');
     },
-    [voteComment.fulfilled]: (state, action) => {
-      const id = action.payload.data._id;
+    [voteComment.pending]: (state, action) => {
+      const {id, voteType: newUserVote} = action.meta.arg;
+
       const comment = state.entities[id];
       const currentUserVote = comment.userVote ? comment.userVote : 0; // handling undefined userVote
-      const newUserVote = action.payload.data.userVote;
       const diff = currentUserVote - newUserVote;
       const newVoteCount = state.entities[id].voteCount - diff;
+
       commentAdapter.updateOne(state, {
         id: id,
         changes: {
           userVote: newUserVote,
           voteCount: newVoteCount,
+          voteIsLoading: true,
+          pastUserVote: currentUserVote,
+          pastVoteCount: state.entities[id].voteCount,
         },
       });
+
+      analytics().logEvent('comment_vote', {
+        type: newUserVote,
+        level: comment.level,
+      });
+    },
+    [voteComment.fulfilled]: (state, action) => {
+      const id = action.payload.data._id;
+      const comment = state.entities[id];
+
+      commentAdapter.updateOne(state, {
+        id: id,
+        changes: {
+          voteIsLoading: false,
+        },
+      });
+
+      const newUserVote = action.payload.data.userVote;
       analytics().logEvent('comment_vote', {
         type: newUserVote,
         level: comment.level,
@@ -224,7 +246,26 @@ export const slice = createSlice({
         reason: selectedReportOption,
       });
     },
-    [voteComment.rejected]: handleError,
+    [voteComment.rejected]: (state, action) => {
+      const {name: errorName} = action.error;
+      if (errorName == 'RejectWithValue') {
+        const {id: commentId} = action.meta.arg;
+        const comment = commentAdapter
+          .getSelectors()
+          .selectById(state, commentId);
+
+        const {pastUserVote, pastVoteCount} = comment; // handling undefined userVote
+        commentAdapter.updateOne(state, {
+          id: commentId,
+          changes: {
+            userVote: pastUserVote ? pastUserVote : 0,
+            voteCount: pastVoteCount,
+            voteIsLoading: false,
+          },
+        });
+      }
+      handleError(state, action);
+    },
     [reportComment.rejected]: handleError,
     [fetchComments.rejected]: (state, action) => {
       const {name: errorName} = action.error;

@@ -7,8 +7,6 @@ import {
   Platform,
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view'; // Version can be specified in package.json
-import {useSelector} from 'react-redux';
-import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import Home from './tabs/Home';
 import Popular from './tabs/Popular';
 import UserCommunities from '../user/tabs/UserCommunities';
@@ -21,7 +19,6 @@ const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 
 export default function HomeCollapsibleTabView(props) {
   const initialLayout = useWindowDimensions();
-  const registrationStatus = useSelector(getRegistrationStatus);
 
   const [tabShown, setTabShown] = useState(true);
 
@@ -33,7 +30,7 @@ export default function HomeCollapsibleTabView(props) {
 
   const translation = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (registrationStatus) {
       setRoutes([
         ...routes,
@@ -44,7 +41,7 @@ export default function HomeCollapsibleTabView(props) {
         },
       ]);
     }
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     Animated.timing(translation, {
@@ -172,7 +169,7 @@ export default function HomeCollapsibleTabView(props) {
 
   return (
     <View style={{flex: 1}}>
-      <HeaderBar />
+      <HeaderBar navigation={props.navigation} />
       <TabView
         style={styles.container}
         navigationState={{index, routes}}

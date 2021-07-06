@@ -80,12 +80,11 @@ export const slice = createSlice({
       });
       analytics().logEvent('post_remove');
     },
-    [votePost.fulfilled]: (state, action) => {
-      const postId = action.payload?.data?._id;
+    [votePost.pending]: (state, action) => {
+      const {id: postId, voteType: newUserVote} = action.meta.arg;
 
       const post = postAdapter.getSelectors().selectById(state, postId);
       const currentUserVote = post.userVote ? post.userVote : 0; // handling undefined userVote
-      const newUserVote = action.payload.data.userVote;
       const diff = currentUserVote - newUserVote;
       const newVoteCount = post.voteCount - diff;
 
@@ -94,8 +93,26 @@ export const slice = createSlice({
         changes: {
           userVote: newUserVote,
           voteCount: newVoteCount,
+          voteIsLoading: true,
+          pastUserVote: currentUserVote,
+          pastVoteCount: post.voteCount,
         },
       });
+    },
+    [votePost.fulfilled]: (state, action) => {
+      const postId = action.payload?.data?._id;
+
+      const post = postAdapter.getSelectors().selectById(state, postId);
+
+      postAdapter.updateOne(state, {
+        id: postId,
+        changes: {
+          voteIsLoading: false,
+        },
+      });
+
+      const newUserVote = action.payload.data.userVote;
+
       analytics().logEvent('post_vote', {
         type: newUserVote,
         post_type: post.type,
@@ -184,7 +201,25 @@ export const slice = createSlice({
       });
       analytics().logEvent('post_unpin');
     },
-    [votePost.rejected]: handleError,
+    [votePost.rejected]: (state, action) => {
+      const {name: errorName} = action.error;
+      if (errorName == 'RejectWithValue') {
+        const {id: postId} = action.meta.arg;
+        const post = postAdapter.getSelectors().selectById(state, postId);
+
+        const {pastUserVote, pastVoteCount} = post; // handling undefined userVote
+        postAdapter.updateOne(state, {
+          id: postId,
+          changes: {
+            userVote: pastUserVote ? pastUserVote : 0,
+            voteCount: pastVoteCount,
+            voteIsLoading: false,
+          },
+        });
+      }
+
+      handleError(state, action);
+    },
     [reportPost.rejected]: handleError,
     [fetchPostById.rejected]: handleError,
     [createPost.rejected]: handleError,

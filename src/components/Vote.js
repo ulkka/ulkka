@@ -7,10 +7,12 @@ import {voteComment} from '../redux/actions/CommentActions';
 import {
   getPostUserVote,
   getPostVoteCount,
+  getPostVoteIsLoading,
 } from '../redux/selectors/PostSelectors';
 import {
   getCommentUserVote,
   getCommentVoteCount,
+  getCommentVoteIsLoading,
 } from '../redux/selectors/CommentSelectors';
 import {kFormatter} from './helpers';
 
@@ -28,6 +30,11 @@ export function Vote(props) {
       ? useSelector((state) => getPostVoteCount(state, id))
       : useSelector((state) => getCommentVoteCount(state, id));
 
+  const voteIsLoading =
+    entityType == 'post'
+      ? useSelector((state) => getPostVoteIsLoading(state, id))
+      : useSelector((state) => getCommentVoteIsLoading(state, id));
+
   const vote = (type) => {
     let voteType = userVote == type ? 0 : type;
     const payload = {id: id, voteType: voteType};
@@ -41,6 +48,7 @@ export function Vote(props) {
 
   const UpvoteButton = (
     <TouchableOpacity
+      disabled={!!voteIsLoading}
       onPress={() => vote(1)}
       hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
       <Icon
@@ -65,6 +73,7 @@ export function Vote(props) {
 
   const DownVoteButton = (
     <TouchableOpacity
+      disabled={!!voteIsLoading}
       onPress={() => vote(-1)}
       hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
       <Icon

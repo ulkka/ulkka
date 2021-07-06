@@ -23,6 +23,9 @@ export const getPostUserVote = (state, id) =>
 export const getPostVoteCount = (state, id) =>
   selectPostById(state, id)?.voteCount;
 
+export const getPostVoteIsLoading = (state, id) =>
+  selectPostById(state, id)?.voteIsLoading;
+
 export const getPostCommentCount = (state, id) =>
   selectPostById(state, id)?.commentCount;
 

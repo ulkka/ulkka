@@ -5,13 +5,25 @@ import HomeCollapsibleTabView from './HomeCollapsibleTabView';
 import UserNavigation from '../user/UserNavigation';
 import CommunityNavigation from '../community/CommunityNavigation';
 import PostDetail from '../PostDetail';
+import CreateCommunity from '../create/CreateCommunity';
+import DrawerContent from '../../navigation/DrawerContent';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const StackNav = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const presets =
   Platform.OS == 'android'
     ? TransitionPresets.ScaleFromCenterAndroid
     : TransitionPresets.SlideFromRightIOS;
+
+function DrawerNavigation() {
+  return (
+    <Drawer.Navigator initialRouteName="Home" drawerContent={DrawerContent}>
+      <Drawer.Screen name="Home" component={HomeCollapsibleTabView} />
+    </Drawer.Navigator>
+  );
+}
 
 function FeedNavigation() {
   return (
@@ -30,7 +42,7 @@ function FeedNavigation() {
         }}>
         <StackNav.Screen
           name="HomeFeed"
-          component={HomeCollapsibleTabView}
+          component={DrawerNavigation}
           title="Home"
         />
         <StackNav.Screen

@@ -76,6 +76,7 @@ export const votePost = createAsyncThunk(
     condition: ({id, voteType}, {getState}) => {
       const isRegistered = getState().authorization.isRegistered;
       const access = isRegistered ? true : false;
+
       return access;
     },
     dispatchConditionRejection: true,

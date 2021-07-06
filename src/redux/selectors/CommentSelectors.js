@@ -30,6 +30,9 @@ export const getCommentUserVote = (state, id) =>
 export const getCommentVoteCount = (state, id) =>
   selectCommentById(state, id)?.voteCount;
 
+export const getCommentVoteIsLoading = (state, id) =>
+  selectCommentById(state, id)?.voteIsLoading;
+
 export const getCommentCreatedAt = (state, id) =>
   selectCommentById(state, id)?.created_at;
 

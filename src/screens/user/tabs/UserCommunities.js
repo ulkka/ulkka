@@ -27,7 +27,7 @@ const CommunityRow = memo(({community}) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <CommunityAvatar communityId={communityId} size="medium" />
+        <CommunityAvatar communityId={communityId} size="small" />
         <Text
           style={{
             padding: 10,
@@ -61,36 +61,39 @@ export default memo(function UserCommunities(props) {
   const memberCommunities = useSelector(getUserMemberCommunities);
 
   const separator = () => {
-    return <Divider style={{backgroundColor: '#fff', height: 20}} />;
+    return <Divider style={{backgroundColor: '#fff', height: 5}} />;
   };
 
   const handlerRenderItem = ({item, index}) => {
     return <CommunityRow community={item} />;
   };
 
+  const CreateCommunityButton = (
+    <View style={{paddingHorizontal: 20, paddingBottom: 15}}>
+      <Button
+        raised
+        title="Create Community"
+        buttonStyle={{
+          borderRadius: 15,
+          backgroundColor: '#2a9df4',
+          paddingVertical: 7,
+          alignItems: 'center',
+        }}
+        titleStyle={{
+          paddingLeft: 10,
+          color: '#fff',
+          fontSize: 14,
+          ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
+        }}
+        icon={<Icon name="plus" size={17} color="#fff" type="font-awesome" />}
+        onPress={() => navigate('Create Community')}
+      />
+    </View>
+  );
   const listHeader = (
-    <View style={{paddingVertical: 10}}>
-      <View style={{paddingHorizontal: 20, paddingBottom: 15}}>
-        <Button
-          raised
-          title="Create Community"
-          buttonStyle={{
-            borderRadius: 15,
-            backgroundColor: '#2a9df4',
-            paddingVertical: 7,
-            alignItems: 'center',
-          }}
-          titleStyle={{
-            paddingLeft: 10,
-            color: '#fff',
-            fontSize: 14,
-            ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
-          }}
-          icon={<Icon name="plus" size={17} color="#fff" type="font-awesome" />}
-          onPress={() => navigate('Create Community')}
-        />
-      </View>
-      <TopCommunities />
+    <View>
+      {CreateCommunityButton}
+      {<TopCommunities />}
       {memberCommunities.length > 0 && (
         <View
           style={{
@@ -133,7 +136,7 @@ export default memo(function UserCommunities(props) {
       style={{
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: 40,
+        paddingTop: 5,
       }}>
       <FlatList
         listKey="communities"
@@ -143,8 +146,8 @@ export default memo(function UserCommunities(props) {
         windowSize={15}
         initialNumToRender={10}
         maxToRenderPerBatch={10}
-        ItemSeparatorComponent={separator}
-        ListHeaderComponent={listHeader}
+        // ItemSeparatorComponent={separator}
+        // ListHeaderComponent={listHeader}
         ListFooterComponent={separator}
       />
     </View>
