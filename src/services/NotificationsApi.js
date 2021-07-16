@@ -28,7 +28,14 @@ const notificationsApi = {
   async markRead(id) {
     if (id === undefined) throw new Error('Notification ID is undefined');
     const client = await mainClient;
-    let response = await client.post(`${NOTIFICATIONS_URI}/${id}/markRead`);
+    let response = await client.post(
+      `${NOTIFICATIONS_URI}/${id}/markRead`,
+      null,
+      {
+        timeout: 1000,
+        timeoutErrorMessage: 'Mark Notification Read Request Timeout',
+      },
+    );
 
     return response;
   },

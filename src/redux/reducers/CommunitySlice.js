@@ -85,9 +85,10 @@ export const joinCommunity = createAsyncThunk(
 
 export const leaveCommunity = createAsyncThunk(
   'community/leave',
-  async (communityId, {rejectWithValue}) => {
+  async (communityId, {rejectWithValue, dispatch}) => {
     try {
       const response = await communityApi.community.leave(communityId);
+      await dispatch(unfavoriteCommunity(communityId));
       return communityId;
     } catch (error) {
       return rejectWithValue(error);
@@ -179,16 +180,13 @@ export const dismissAdmin = createAsyncThunk(
 );
 
 const addRegisteredUsersCommunities = (state, action) => {
-  const {registeredUser, isRegistered} = action.payload;
+  const {isRegistered, registeredUserCommunities} = action.payload;
   if (isRegistered) {
-    const joinedCommunities = registeredUser.joinedCommunities;
-    joinedCommunities.map((community, index) => {
-      communityAdapter.addOne(state, {...community, role: 'member'});
-    });
+    registeredUserCommunities.map((community, index) => {
+      const {isAdmin, isFavorite, communityDetail} = community;
+      const role = isAdmin ? 'admin' : 'member';
 
-    const adminCommunities = registeredUser.adminCommunities;
-    adminCommunities.map((community, index) => {
-      communityAdapter.upsertOne(state, {...community, role: 'admin'});
+      communityAdapter.addOne(state, {...communityDetail, role, isFavorite});
     });
   }
 };
@@ -228,6 +226,44 @@ export const toggleAdminNotifications = createAsyncThunk(
         .role;
       const isAdmin = userRoleInCommunity == 'admin';
       return authAccess && isAdmin;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const favoriteCommunity = createAsyncThunk(
+  'community/favorite',
+  async (communityId, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.favorite(communityId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (payload, {getState}) => {
+      const authAccess = getState().authorization.isRegistered;
+      return !!authAccess;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const unfavoriteCommunity = createAsyncThunk(
+  'community/unfavorite',
+  async (communityId, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.unfavorite(communityId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (payload, {getState}) => {
+      const authAccess = getState().authorization.isRegistered;
+      return !!authAccess;
     },
     dispatchConditionRejection: true,
   },
@@ -431,6 +467,46 @@ export const slice = createSlice({
         duration: Snackbar.LENGTH_SHORT,
       });
     },
+    [favoriteCommunity.fulfilled]: (state, action) => {
+      const communityId = action.meta.arg;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {
+          isFavorite: true,
+        },
+      });
+      const communityName = communityAdapter
+        .getSelectors()
+        .selectById(state, communityId)?.name;
+      Snackbar.show({
+        text: communityName + ' added to Favorites',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('community_favorite', {
+        title: communityName,
+      });
+    },
+    [unfavoriteCommunity.fulfilled]: (state, action) => {
+      const communityId = action.meta.arg;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {
+          isFavorite: false,
+        },
+      });
+      const communityName = communityAdapter
+        .getSelectors()
+        .selectById(state, communityId)?.name;
+      Snackbar.show({
+        text: communityName + ' removed from Favorites',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('community_unfavorite', {
+        title: communityName,
+      });
+    },
+    [favoriteCommunity.rejected]: handleError,
+    [unfavoriteCommunity.rejected]: handleError,
     [createCommunity.rejected]: handleError,
     [joinCommunity.rejected]: handleError,
     [leaveCommunity.rejected]: handleError,
@@ -501,3 +577,11 @@ export const getIsUserAdminOfCommunity = (state, communityId, userId) =>
   );
 export const getIsUserSubscribedToAdminNotifications = (state, id) =>
   selectCommunityById(state, id)?.membership?.subscribeToAdminNotification;
+
+export const getIsCommunityFavorite = (state, id) =>
+  selectCommunityById(state, id)?.isFavorite;
+
+export const getUserFavoriteCommunities = (state) =>
+  selectAllCommunities(state).filter(
+    (community) => community.isFavorite === true,
+  );

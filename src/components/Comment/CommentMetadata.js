@@ -105,14 +105,14 @@ const CommentMetadata = (props) => {
 
   const HeaderRight = (
     <TouchableOpacity
-      style={{flex: 1, alignItems: 'flex-end'}}
+      style={{flex: 1, alignItems: 'flex-end', marginRight: 11}}
       hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
       onPress={onPressToggleCollapse}>
       {
         <Icon
           name={isCollapsed ? 'expand-more' : 'expand-less'}
-          size={20}
-          color="#888"
+          size={23}
+          color="#777"
         />
       }
     </TouchableOpacity>

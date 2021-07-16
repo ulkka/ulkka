@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {View, Text, Platform, TouchableOpacity, Image} from 'react-native';
 import {useSelector} from 'react-redux';
-import {getUserMemberCommunities} from '../../../redux/reducers/CommunitySlice';
+import {getUserFavoriteCommunities} from '../../../redux/reducers/CommunitySlice';
 import {Divider, Button, Icon} from 'react-native-elements';
 import CommunityAvatar from '../../../components/CommunityAvatar';
 import {push, navigate} from '../../../navigation/Ref';
@@ -65,9 +65,9 @@ const CommunityRow = memo(({community, onlyIcons}) => {
   );
 });
 
-export default memo(function UserCommunities(props) {
+export default memo(function FavoriteCommunities(props) {
   const {type, contentContainerStyle, onlyIcons} = props;
-  const memberCommunities = useSelector(getUserMemberCommunities);
+  const memberCommunities = useSelector(getUserFavoriteCommunities);
 
   const separator = () => {
     return <Divider style={{backgroundColor: '#fff', height: 5}} />;
@@ -144,17 +144,11 @@ export default memo(function UserCommunities(props) {
     <View
       style={{
         alignItems: 'center',
-        paddingTop: 5,
+        padding: 10,
         paddingHorizontal: 15,
       }}>
-      <Image
-        source={require('../../../../assets/newMember.jpg')}
-        resizeMode="contain"
-        style={{borderRadius: 15, width: '100%'}}
-      />
-      <View style={{height: 5}}></View>
-      <Text style={{color: '#555', fontSize: 13}}>
-        You haven't joined any communities yet
+      <Text style={{color: '#555', fontSize: 12}}>
+        No communities favorited
       </Text>
     </View>
   );
@@ -167,7 +161,7 @@ export default memo(function UserCommunities(props) {
         ...contentContainerStyle,
       }}>
       <FlatList
-        listKey="mycommunities"
+        listKey="favorites"
         horizontal={type == 'row' ? true : false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}

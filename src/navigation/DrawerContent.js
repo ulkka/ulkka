@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import {useSelector} from 'react-redux';
 import UserAvatar from '../components/UserAvatar';
 import {kFormatter} from '../components/helpers';
 import UserCommunities from '../screens/user/tabs/UserCommunities';
+import FavoriteCommunities from '../screens/user/tabs/FavoriteCommunities';
 
 const UserSection = memo(() => {
   const registeredUser = useSelector(getRegisteredUser);
@@ -38,7 +39,22 @@ const UserSection = memo(() => {
         alignSelf: 'center',
       }}>
       <UserAvatar seed={displayname} size="superlarge" />
-      <View style={{height: 20}}></View>
+      <View style={{height: 10}}></View>
+      <View>
+        <Text
+          numberOfLines={1}
+          style={{
+            color: '#fff',
+            padding: 3,
+            fontSize: 16,
+            fontWeight: 'bold',
+
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          }}>
+          {registeredUser.displayname}
+        </Text>
+      </View>
+      <View style={{height: 10}}></View>
       <View
         style={{
           flexDirection: 'row',
@@ -48,14 +64,14 @@ const UserSection = memo(() => {
         <Text
           style={{
             fontWeight: 'bold',
-            fontSize: 22,
+            fontSize: 19,
             color: '#fff',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           {kFormatter(postKarma + commentKarma)}
         </Text>
         <View style={{width: 10}}></View>
-        <Icon name={'heart'} color={'red'} type="font-awesome" size={22} />
+        <Icon name={'heart'} color={'red'} type="font-awesome" size={19} />
       </View>
     </View>
   ) : (
@@ -73,12 +89,12 @@ const NavSection = memo(({navigation}) => {
       style={{
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
-        paddingBottom: 15,
+        paddingBottom: 10,
       }}>
       <TouchableOpacity
         style={{
           paddingHorizontal: 17,
-          paddingVertical: 12,
+          paddingVertical: 8,
           flexDirection: 'row',
           alignItems: 'center',
         }}
@@ -125,31 +141,49 @@ const NavSection = memo(({navigation}) => {
   );
 });
 
-const MyCommunities = memo(({navigation}) => {
+const CommunitiesList = memo(({ListIcon, title, ListComponent}) => {
   const isRegistered = useSelector(getRegistrationStatus);
-  const title = (
-    <View
+  const [expanded, setExpanded] = useState(true);
+
+  const toggleExpand = () => {
+    setExpanded(!expanded);
+  };
+  const titleView = (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => toggleExpand()}
       style={{
         padding: 8,
         paddingHorizontal: 17,
         width: '100%',
-        // alignItems: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: '#eee',
+        justifyContent: 'space-between',
+        height: 35,
       }}>
-      <Text
-        style={{
-          color: '#555',
-          fontWeight: 'bold',
-          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-        }}>
-        My Communities
-      </Text>
-    </View>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <ListIcon />
+        <View style={{width: 10}}></View>
+        <Text
+          style={{
+            color: '#555',
+            fontWeight: 'bold',
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          }}>
+          {title}
+        </Text>
+      </View>
+      <View>
+        <Icon name={expanded ? 'expand-less' : 'expand-more'} color="#777" />
+      </View>
+    </TouchableOpacity>
   );
+
   return isRegistered ? (
     <View style={{flex: 1}}>
-      {title}
-      <UserCommunities />
+      {titleView}
+      {expanded && <ListComponent />}
     </View>
   ) : (
     <View />
@@ -162,7 +196,33 @@ const ListView = ({navigation}) => {
     <View>
       <UserSection />
       <NavSection navigation={navigation} />
-      <MyCommunities navigation={navigation} />
+      <CommunitiesList
+        navigation={navigation}
+        ListComponent={() => <FavoriteCommunities />}
+        title="Favorites"
+        ListIcon={() => (
+          <Icon
+            name="star"
+            type="font-awesome"
+            color="#ffd000"
+            size={Platform.OS == 'ios' ? 20 : 17}
+          />
+        )}
+      />
+      <View style={{height: 10}}></View>
+      <CommunitiesList
+        navigation={navigation}
+        ListComponent={() => <UserCommunities />}
+        title="My Communities"
+        ListIcon={() => (
+          <Icon
+            name="group"
+            type="font-awesome"
+            color="#289df4"
+            size={Platform.OS == 'ios' ? 20 : 17}
+          />
+        )}
+      />
     </View>
   ) : (
     <View
@@ -218,6 +278,7 @@ function DrawerContent({descriptors, navigation, state, progress}) {
   return (
     <View style={{flex: 1}}>
       <FlatList
+        listKey="drawer"
         ListFooterComponent={() => <ListView navigation={navigation} />}
         contentContainerStyle={{paddingTop: getStatusBarHeight(true) + 10}}
       />

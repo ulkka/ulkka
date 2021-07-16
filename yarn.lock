@@ -1144,23 +1144,23 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/analytics@^11.4.1":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-11.4.1.tgz#89ff1ef40e6c01aa8587c4b21a141ed6a8ed3ad6"
-  integrity sha512-4dmjn//W5/LEvKTJxJMqOjiinXPPGoelBvZFGCNh65AjSOpgiRMMU03TKnDPkRBrJHJFGlEju9UUVQ8857FrGQ==
+"@react-native-firebase/analytics@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-12.0.0.tgz#25543adc04591f53d9278902462798d795acb40f"
+  integrity sha512-dBkKkGwyAS2QPanjJvMMPb2+PA7FAihIOwRriWW0OwfCm6FJpLDU/VpzsFsLmTL3qIgyaGijmF3HQXJ9SKOmCQ==
 
-"@react-native-firebase/app@^11.4.1":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-11.4.1.tgz#42d5b8ff0b8e17398e2d1b65ca698b9990a76bcf"
-  integrity sha512-RzG3kGzKwO/Ets3S4XxAoki4GhzaHRVrnUDyr7U1zOL46xqOMGD7MKTmpYBa9qzh5GOz3aQwlRvu1yRhPHNGKA==
+"@react-native-firebase/app@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-12.0.0.tgz#52b647a8fc65695eeec89f45bcd7538d727d5864"
+  integrity sha512-ONIQUOiApnCwN/Xxnl6o9305hsuUsQaCWOp8JdlIniNM7QkkIlGqYgnvPowjEXEJVhMVME/B6NSNSidnOd/hHw==
   dependencies:
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^11.4.1":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-11.4.1.tgz#2e9baa1cea5efb9963188d70fedc753701d472a4"
-  integrity sha512-PlPYx12oUx7Y6M1W9aZITsDPrhA85klgwvJT0xxwihuUmdL2EGpmwhI7cOgiWGO3e0hmMI9HuiDnDmcxw8J6cA==
+"@react-native-firebase/auth@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-12.0.0.tgz#3e31053318f4925e778822c978835c08b93c12e4"
+  integrity sha512-+tudhzegmLOfVKVAD+wgSUXMc5Hc0J3F7cqr8yxYa3vjJEsRTf+F0HsxQOMtJZ7TNIFWyVIoZqzmD4Tb04caCw==
 
 "@react-native-firebase/crashlytics@^12.0.0":
   version "12.0.0"
@@ -1169,25 +1169,25 @@
   dependencies:
     stacktrace-js "^2.0.0"
 
-"@react-native-firebase/dynamic-links@^11.4.1":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-11.4.1.tgz#5236c4091f9bddd6d34714150c24a5ca89705995"
-  integrity sha512-T9Xx2azLZGf9tKrg7SozB6d81Xl+XSqNnZqSDJZ62M1OwvxPYIolvsdWpRxpPOov1nLYGXWc9igqHpPYx3F/BQ==
+"@react-native-firebase/dynamic-links@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-12.0.0.tgz#db17ecb4fbb9830c9922d68a3451b573579f28e4"
+  integrity sha512-+gzosZ076nYna5clZFsPPMLKrIWTArlN+k6pZb4Kn5KHr+d5oXf+843NEG7NU2VIUtQK60Y7hsbUjPkqQ1mSFg==
 
-"@react-native-firebase/messaging@^11.4.1":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-11.4.1.tgz#c145b237e4b4e5cffa4a5ab7f8b6a765ad2ca867"
-  integrity sha512-PZE7lU0ywR+0Fj98RxBEhQcz5Mo75kuXvMW8h0p+l6byVmb94h72uW42v/SBdI0qTcw5glkTr2pHkDYDKdmHeg==
+"@react-native-firebase/messaging@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-12.0.0.tgz#6146b9572a289ffc7f89abd9c2b58d013ed36a22"
+  integrity sha512-rxanSjTfub75g5KgEtnmW7pFHNy5M0iEw+xCtlb/NLCQ4C9asCH3TGCAUqel9NbgsFzUv67WxrVOFRKHHrb4TA==
 
-"@react-native-firebase/perf@^11.4.1":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-11.4.1.tgz#d572c511501410fbd9c51d898c617637b38778fe"
-  integrity sha512-9nQhyuCkxn8zy5pEoZtWGJ3FkCnryZ9ydoROKfmg5dKIpkzeP6KsYjnL88lYDYs9gBYOVisOxNN2D/sMyc9gMA==
+"@react-native-firebase/perf@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-12.0.0.tgz#77558e7d170b52f18e91686366fb5353cdf5207b"
+  integrity sha512-WDZCCuVn3U15RXVVwYdYJOXObkltumTepyP0XcXD3Fs8TiDmlCKK7oIyBASSwqNGupsS6VRVCoD9DAWoAy8s1A==
 
-"@react-native-firebase/remote-config@^11.4.1":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-11.4.1.tgz#8340fd6186fdffc00933b9163864f1dc60b615b0"
-  integrity sha512-kiu5tHDIG6gbADu2mAIsr53hl0ON/wxAKNa4jh028jPeT+toJagbNuZI1kTKmRLtwbpZ+zOYAdFDbRoLFyAJbg==
+"@react-native-firebase/remote-config@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-12.0.0.tgz#170ebe7bbf65ed9308e6309016d241e04655f07c"
+  integrity sha512-lUkNg5MPi0pvzrR1jPk3Sz+9fE3rL5ulEHLMP1QTUMNY6VCLgW5J/kVu8jJkqAO9hUTJBy/q53K5zazxANBZ7g==
 
 "@react-navigation/bottom-tabs@^5.11.11":
   version "5.11.11"
@@ -6018,6 +6018,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-native-app-intro-slider@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-4.0.4.tgz#fa5cda7057db62c448ac975ffd2ba0cff94cc8d8"
+  integrity sha512-Zkjaol6X3BbZkHUpVDj2LjdidpS6rCgKi0fx80xgGKa0pHxBRd4swWTv2bHnnvu5k1/HXwYk0mY2TbK+2jHl5w==
+
 react-native-autolink@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-native-autolink/-/react-native-autolink-4.0.0.tgz#7005ec490b6bfe9d75ae4bcb3357da0175e6ec5c"
@@ -6085,10 +6090,18 @@ react-native-image-pan-zoom@^2.1.12:
   resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz#eb98bf56fb5610379bdbfdb63219cc1baca98fd2"
   integrity sha512-BF66XeP6dzuANsPmmFsJshM2Jyh/Mo1t8FsGc1L9Q9/sVP8MJULDabB1hms+eAoqgtyhMr5BuXV3E1hJ5U5H6Q==
 
-react-native-iphone-x-helper@^1.3.0:
+react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.3.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+
+react-native-keyboard-aware-scroll-view@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.9.4.tgz#83b356062123070c4b75f57d34dd276b9dd5796a"
+  integrity sha512-9Q8lxGvUdEnyL2Q0/VZdcEjHUGjm1lOAMd/3bNnhknoA7RqjJDaRGOQDhOAjVW1iwrKUct+B1old87nIsiX6iw==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-iphone-x-helper "^1.0.3"
 
 react-native-pager-view@^5.1.7:
   version "5.1.7"

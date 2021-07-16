@@ -2,8 +2,8 @@ import React, {memo} from 'react';
 import {TouchableOpacity, Platform, Text, View} from 'react-native';
 
 const CommentListTitle = (props) => {
-  const {listType, setListType} = props;
-  const isSingle = listType == 'single';
+  const {commentId, setCommentId} = props;
+  const isSingle = commentId ? true : false;
   return (
     <View
       style={{
@@ -24,7 +24,7 @@ const CommentListTitle = (props) => {
         {isSingle ? 'Single Comment Thread' : 'All Comments'}
       </Text>
       {isSingle && (
-        <TouchableOpacity onPress={() => setListType('all')}>
+        <TouchableOpacity onPress={() => setCommentId(undefined)}>
           <Text
             style={{
               color: '#289df4',

@@ -280,39 +280,41 @@ const RegisterAccount = () => {
     </View>
   );
   return (
-    <ImageBackground
-      blurRadius={1}
-      resizeMode="repeat"
-      imageStyle={{flex: 1}}
-      style={{
-        // flex: 1,
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height - 50,
-        alignItems: 'center',
-        // justifyContent: 'center',
-      }}
-      source={require('../../../assets/doodlebg.jpg')}>
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={60}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <ImageBackground
+        blurRadius={1}
+        resizeMode="repeat"
+        imageStyle={{flex: 1}}
         style={{
-          flex: 1,
+          // flex: 1,
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height - 50,
           alignItems: 'center',
-          justifyContent: 'space-evenly',
-        }}>
-        <View
+          // justifyContent: 'center',
+        }}
+        source={require('../../../assets/doodlebg.jpg')}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={60}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{
-            justifyContent: 'center',
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
           }}>
-          {Title}
-        </View>
-        <View>{showTitle && <ChangeAccount />}</View>
-        <View>{Register}</View>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+          <View
+            style={{
+              justifyContent: 'center',
+            }}>
+            {Title}
+          </View>
+          <View>{showTitle && <ChangeAccount />}</View>
+          <View>{Register}</View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </View>
   );
 };
 

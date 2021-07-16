@@ -19,7 +19,10 @@ const presets =
 
 function DrawerNavigation() {
   return (
-    <Drawer.Navigator initialRouteName="Home" drawerContent={DrawerContent}>
+    <Drawer.Navigator
+      initialRouteName="Home"
+      drawerContent={DrawerContent}
+      drawerType="slide">
       <Drawer.Screen name="Home" component={HomeCollapsibleTabView} />
     </Drawer.Navigator>
   );

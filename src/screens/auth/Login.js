@@ -75,49 +75,51 @@ export default function Login() {
   );
 
   return (
-    <ImageBackground
-      blurRadius={1}
-      resizeMode="repeat"
-      style={{
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: Dimensions.get('window').width,
-        height:
-          Platform.OS == 'android'
-            ? Dimensions.get('window').height - 50
-            : '100%',
-      }}
-      source={require('../../../assets/doodlebg.jpg')}>
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS == 'android' ? -15 : -80}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <ImageBackground
+        blurRadius={1}
+        resizeMode="repeat"
         style={{
-          flex: 1,
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          width: Dimensions.get('window').width,
+          height:
+            Platform.OS == 'android'
+              ? Dimensions.get('window').height - 50
+              : '100%',
+        }}
+        source={require('../../../assets/doodlebg.jpg')}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={Platform.OS == 'android' ? -15 : -80}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{
+            flex: 1,
 
-          justifyContent: 'space-evenly',
-        }}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          {AppIcon}
-          <View style={{height: 50}}></View>
-          {Title}
-        </View>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
             justifyContent: 'space-evenly',
           }}>
-          <EmailLinkSignIn />
-          {DividerView}
-          <SocialSignin />
-        </View>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {AppIcon}
+            <View style={{height: 50}}></View>
+            {Title}
+          </View>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
+            }}>
+            <EmailLinkSignIn />
+            {DividerView}
+            <SocialSignin />
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </View>
   );
 }

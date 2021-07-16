@@ -9,7 +9,6 @@ export const PostTitleField = (props) => {
   return (
     <View
       style={{
-        //  flex: 3,
         marginTop: 30,
         justifyContent: 'flex-end',
       }}>
@@ -22,7 +21,7 @@ export const PostTitleField = (props) => {
           lineHeight: 24,
           marginBottom: 10,
         }}
-        onChangeText={(text) => onChangeText(transformText(text))}
+        onChangeText={(text) => onChangeText(text)}
         value={title}
         numberOfLines={3}
         multiline={true}

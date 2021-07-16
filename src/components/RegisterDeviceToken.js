@@ -11,11 +11,7 @@ export default function RegisterDeviceToken() {
 
   useEffect(() => {
     // Get the device token
-    messaging()
-      .getToken()
-      .then((token) => {
-        return setToken(token);
-      });
+    getToken();
 
     // If using other push notification providers (ie Amazon SNS, etc)
     // you may need to get the APNs token instead for iOS:
@@ -26,6 +22,17 @@ export default function RegisterDeviceToken() {
       setToken(token);
     });
   }, []);
+
+  const getToken = async () => {
+    const isDeviceRegisteredForRemoteMessages = await messaging()
+      .isDeviceRegisteredForRemoteMessages;
+    isDeviceRegisteredForRemoteMessages &&
+      messaging()
+        .getToken()
+        .then((token) => {
+          return setToken(token);
+        });
+  };
 
   useEffect(() => {
     saveToken();
@@ -44,7 +51,7 @@ export default function RegisterDeviceToken() {
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
-      saveToken();
+      getToken();
       console.log('Notification Authorization status:', authStatus);
     }
   }

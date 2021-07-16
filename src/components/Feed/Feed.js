@@ -22,11 +22,26 @@ import SortFeed from './SortFeed';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
+const ListHeader = memo((props) => {
+  const {screen} = props;
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        backgroundColor: '#eee',
+        alignItems: 'center',
+      }}>
+      <SortFeed screen={screen} />
+    </View>
+  );
+});
+
 function Feed(props) {
   const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
 
   const {screen} = props;
+
   const screenType = screen.split('-')[0];
 
   const ref = React.useRef(null);
@@ -58,8 +73,12 @@ function Feed(props) {
 
   useEffect(() => {
     handleInitialiseFeed();
-    return () => dispatch(removeFeed(screen));
-  }, []);
+    if (screenType !== 'home' && screenType !== 'popular') {
+      return () => {
+        dispatch(removeFeed(screen));
+      };
+    }
+  }, [screen]);
 
   const handleInitialiseFeed = async () => {
     await dispatch(initialiseFeed(screen));
@@ -104,22 +123,21 @@ function Feed(props) {
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <AnimatedFlatList
         ListHeaderComponent={memo(() => (
-          <SortFeed screen={screen} />
+          <ListHeader screen={screen} />
         ))}
         ref={ref}
         listKey={screen}
         data={postIds}
         renderItem={renderRow}
-        // ItemSeparatorComponent={separator}
         onEndReached={handleLoadMore}
         ListEmptyComponent={() => {
-          if (screen == 'home' && loading == false && complete == true) {
+          if (screenType == 'home' && loading == false && complete == true) {
             return <TopCommunities />;
           } else {
             return <View></View>;
           }
         }}
-        onEndReachedThreshold={screen == 'home' ? 0.7 : 0.5} //How far from the end (important note: in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback
+        onEndReachedThreshold={screenType == 'home' ? 0.7 : 0.5} //How far from the end (important note: in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback
         removeClippedSubviews={Platform.OS == 'ios' ? false : true} // Pd: Don't enable this on iOS where this is buggy and views don't re-appear.
         updateCellsBatchingPeriod={500}
         windowSize={15}

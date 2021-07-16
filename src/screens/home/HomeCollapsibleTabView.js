@@ -9,7 +9,6 @@ import {
 import {TabView, TabBar} from 'react-native-tab-view'; // Version can be specified in package.json
 import Home from './tabs/Home';
 import Popular from './tabs/Popular';
-import UserCommunities from '../user/tabs/UserCommunities';
 import analytics from '@react-native-firebase/analytics';
 import HeaderBar from '../../components/Header';
 
@@ -29,19 +28,6 @@ export default function HomeCollapsibleTabView(props) {
   ]);
 
   const translation = useRef(new Animated.Value(0)).current;
-
-  /*useEffect(() => {
-    if (registrationStatus) {
-      setRoutes([
-        ...routes,
-        {
-          key: 'communities',
-          title: 'Communities',
-          name: 'Communities',
-        },
-      ]);
-    }
-  }, []);*/
 
   useEffect(() => {
     Animated.timing(translation, {
@@ -86,7 +72,7 @@ export default function HomeCollapsibleTabView(props) {
           contentContainerStyle={{padding: 0}}
           tabStyle={{
             padding: 0,
-            height: HEADER_HEIGHT,
+            height: SCROLLABLE_HEIGHT,
             justifyContent: 'flex-start',
           }}
           indicatorStyle={{
@@ -141,6 +127,7 @@ export default function HomeCollapsibleTabView(props) {
             showTabBar={handleShowTabBar}
             contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
             jumpTo={jumpTo}
+            screen="home"
             {...props}
           />
         );
@@ -151,17 +138,12 @@ export default function HomeCollapsibleTabView(props) {
             onScrollEndDrag={handleOnScrollEndDrag}
             onMomentumScrollEnd={handleOnMomentumScrollEnd}
             showTabBar={handleShowTabBar}
+            screen={'popular'}
             contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
             {...props}
           />
         );
-      case 'communities':
-        return (
-          <UserCommunities
-            type={'following'}
-            contentContainerStyle={{paddingTop: HEADER_HEIGHT}}
-          />
-        );
+
       default:
         return null;
     }
@@ -194,7 +176,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, .32)',
   },
   cover: {
-    height: HEADER_HEIGHT,
+    height: SCROLLABLE_HEIGHT,
   },
   header: {
     position: 'absolute',
@@ -204,7 +186,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   tabbar: {
-    height: HEADER_HEIGHT,
+    height: SCROLLABLE_HEIGHT,
     backgroundColor: '#fff',
     elevation: 0,
     shadowOpacity: 0,

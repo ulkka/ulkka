@@ -1,13 +1,13 @@
 import React, {memo} from 'react';
 import {TouchableOpacity, StatusBar, Platform, Image, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
-import {showAuthScreen, push} from '../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {
   getRegistrationStatus,
   getRegisteredUser,
 } from '../redux/reducers/AuthSlice';
 import UserAvatar from './UserAvatar';
+import {getUserTotalKarma} from '../redux/reducers/UserSlice';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {kFormatter} from './helpers';
 import ReferralButton from './ReferralButton';
@@ -23,7 +23,7 @@ const TitleComponent = memo(() => {
       <Text
         style={{
           fontSize: 21,
-          fontFamily: Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-condensed',
+          fontFamily: Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-medium',
           fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
           color: '#424242',
         }}>
@@ -37,6 +37,21 @@ const TitleComponent = memo(() => {
     </View>
   );
 });
+
+const UserKarma = ({userId}) => {
+  const karma = useSelector((state) => getUserTotalKarma(state, userId));
+  return (
+    <Text
+      style={{
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#333',
+        ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+      }}>
+      {kFormatter(karma)}
+    </Text>
+  );
+};
 
 const HeaderBar = (props) => {
   const isRegistered = useSelector(getRegistrationStatus);
@@ -58,15 +73,7 @@ const HeaderBar = (props) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 14,
-              color: '#333',
-              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-            }}>
-            {kFormatter(registeredUser.postKarma + registeredUser.commentKarma)}
-          </Text>
+          <UserKarma userId={registeredUser?._id} />
           <View style={{width: 5}}></View>
           <Icon name={'heart'} color={'red'} type="font-awesome" size={14} />
         </View>
@@ -79,7 +86,7 @@ const HeaderBar = (props) => {
       <TouchableOpacity
         hitSlop={{top: 20, bottom: 10, left: 20, right: 40}}
         onPress={() => {
-          isRegistered ? props.navigation.openDrawer() : showAuthScreen();
+          props.navigation.openDrawer();
         }}>
         {avatar}
       </TouchableOpacity>

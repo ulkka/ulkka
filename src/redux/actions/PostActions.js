@@ -273,7 +273,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
 
       const picturesDirectoryPath =
         Platform.OS == 'android'
-          ? RNFS.DownloadDirectoryPath
+          ? RNFS.ExternalDirectoryPath
           : RNFS.LibraryDirectoryPath;
       const mediaLibraryDirectoryPath = picturesDirectoryPath + '/Ulkka';
       const filename =
@@ -302,7 +302,9 @@ export const downloadMediaToLibrary = createAsyncThunk(
         if (Platform.OS == 'android') {
           await hasAndroidPermission();
         }
-        await RNFS.mkdir(mediaLibraryDirectoryPath);
+        await RNFS.mkdir(mediaLibraryDirectoryPath).catch((error) =>
+          console.log('error creating Ulkka folder', error),
+        );
       }
 
       await RNFS.downloadFile({
@@ -310,8 +312,15 @@ export const downloadMediaToLibrary = createAsyncThunk(
         fromUrl: url,
         toFile: toFile,
       })
-        .promise.then(async () => {
-          console.log('saving media to ', toFile);
+        .promise.then(async (result) => {
+          console.log(
+            'saving media to ',
+            toFile,
+            mediaLibraryDirectoryPath,
+            mediaLibraryDirectoryPathExists,
+            await RNFS.stat(mediaLibraryDirectoryPath),
+            result,
+          );
           const res = await savePicture(
             {
               tag: Platform.OS == 'android' ? 'file://' + toFile : toFile,
@@ -325,6 +334,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
           }
         })
         .catch((error) => {
+          console.log('error downloading', error);
           return rejectWithValue(error);
         });
 

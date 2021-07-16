@@ -25,7 +25,6 @@ const ConfigurePushNotification = () => {
         navigateToLink(getLinkFromRemoteMessage(notification));
       }
 
-      // (required) Called when a remote is received or opened, or local notification is opened
       // PushNotification.setApplicationIconBadgeNumber(1);
       notification.finish(PushNotificationIOS.FetchResult.NoData);
     },
@@ -53,7 +52,7 @@ const ConfigurePushNotification = () => {
      * - if you are not using remote notification or do not have Firebase installed, use this:
      *     requestPermissions: Platform.OS === 'ios'
      */
-    requestPermissions: !Platform.OS === 'ios',
+    requestPermissions: Platform.OS !== 'ios',
   });
 
   return null;

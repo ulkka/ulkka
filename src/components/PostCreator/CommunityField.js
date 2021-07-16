@@ -10,7 +10,6 @@ export const CommunityField = (props) => {
       <TouchableOpacity
         onPress={onPress}
         style={{
-          height: 50,
           alignSelf: 'center',
         }}>
         <View

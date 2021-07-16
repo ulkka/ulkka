@@ -38,6 +38,17 @@ const getRegisteredUser = async (currentUser) => {
   return registeredUser;
 };
 
+const getRegisteredUserCommunities = async (currentUser) => {
+  let registeredUserCommunities;
+  if (!currentUser.isAnonymous) {
+    const response = await userApi.user.selfCommunities();
+    if (response) {
+      registeredUserCommunities = response.data;
+    }
+  }
+  return registeredUserCommunities;
+};
+
 const isUserRegistered = async (registeredUser) => {
   const isRegistered = registeredUser?.displayname ? 1 : 0;
   return isRegistered;
@@ -48,10 +59,15 @@ const initAuth = async () => {
   const currentUser = await getCurrentUser();
   const registeredUser = await getRegisteredUser(currentUser);
   const isRegistered = await isUserRegistered(registeredUser);
+  let registeredUserCommunities;
+  if (isRegistered) {
+    registeredUserCommunities = await getRegisteredUserCommunities(currentUser);
+  }
   return {
     currentUser: currentUser,
     isRegistered: isRegistered,
     registeredUser: isRegistered ? registeredUser : undefined,
+    registeredUserCommunities,
   };
 };
 

@@ -148,6 +148,20 @@ const communityApi = {
       );
       return response;
     },
+    async favorite(communityId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/favorite`,
+      );
+      return response;
+    },
+    async unfavorite(communityId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/unfavorite`,
+      );
+      return response;
+    },
   },
 };
 

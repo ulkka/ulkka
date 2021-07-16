@@ -16,6 +16,7 @@ import analytics from '@react-native-firebase/analytics';
 import {firebase} from '@react-native-firebase/perf';
 import crashlytics from '@react-native-firebase/crashlytics';
 import CacheManagement from './components/CacheManagement';
+import AppIntroSlider from './components/AppIntroSliderView';
 
 export default function App() {
   const [maintenance, setMaintenance] = useState(false);
@@ -39,7 +40,7 @@ export default function App() {
     setMaintenance(value);
   };
 
-  return (
+  const RealApp = (
     <StoreProvider store={store}>
       <ThemeProvider theme={theme}>
         <View
@@ -62,4 +63,6 @@ export default function App() {
       </ThemeProvider>
     </StoreProvider>
   );
+  //return <AppIntroSlider />;
+  return RealApp;
 }

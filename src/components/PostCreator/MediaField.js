@@ -207,8 +207,7 @@ export const MediaField = (props) => {
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: '#eee',
-        aspectRatio: 1,
-        maxHeight: 300,
+        maxHeight: 380,
         marginBottom: 15,
       }}>
       {mediaType == 'video' ? (
@@ -227,7 +226,7 @@ export const MediaField = (props) => {
       style={{
         // flex: 3,
         marginTop: 20,
-        marginBottom: 40,
+        marginBottom: 20,
         alignItems: 'center',
         justifyContent: 'center',
       }}>

@@ -72,7 +72,6 @@ export default function Notifications(props) {
 
   const markNotificationReadHandler = (item) => {
     const {_id: id, link} = item;
-    console.log('iyem', item);
     id && dispatch(markNotificationRead(id));
 
     const entityType = getScreenFromLink(link);

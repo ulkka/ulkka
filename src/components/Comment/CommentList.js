@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {View, ActivityIndicator, Text, Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -18,9 +18,7 @@ import {Divider} from 'react-native-elements';
 function CommentList(props) {
   const dispatch = useDispatch();
 
-  const {postId, screenId, commentId} = props;
-
-  const [listType, setListType] = useState(commentId ? 'single' : 'all');
+  const {postId, screenId, commentId, setCommentId} = props;
 
   const loading = useSelector((state) => areCommentsLoading(state, postId));
   const parentCommentIds = useSelector((state) =>
@@ -115,12 +113,8 @@ function CommentList(props) {
         borderBottomColor: '#ddd',
         borderBottomWidth: 1,
       }}>
-      <CommentListTitle
-        commentId={commentId}
-        setListType={setListType}
-        listType={listType}
-      />
-      {listType == 'single' ? singleCommentThread() : multiCommentThread()}
+      <CommentListTitle commentId={commentId} setCommentId={setCommentId} />
+      {commentId ? singleCommentThread() : multiCommentThread()}
     </View>
   );
 

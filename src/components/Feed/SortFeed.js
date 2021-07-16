@@ -58,13 +58,12 @@ export default memo(function SortFeed(props) {
         onPress={() => setIsVisible(true)}
         style={{
           paddingHorizontal: 7,
-          backgroundColor: '#f5f5f5',
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'flex-start',
         }}>
         {getCurrentSortMethod()}
-        <View style={{width: 10}}></View>
+        <View style={{width: 7}}></View>
         <Icon name="caret-down" type="font-awesome" color="#666" size={16} />
       </TouchableOpacity>
     );
@@ -259,7 +258,6 @@ export default memo(function SortFeed(props) {
               color: '#777',
               fontWeight: '500',
               fontSize: 12,
-              marginLeft: 5,
             }}
             containerStyle={{
               alignItems: 'center',

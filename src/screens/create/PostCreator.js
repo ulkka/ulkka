@@ -1,18 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  KeyboardAvoidingView,
-  Platform,
-  Text,
-  ActivityIndicator,
-  Keyboard,
-} from 'react-native';
+import {View, Platform, Text, ActivityIndicator, Keyboard} from 'react-native';
 import {Button} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import {CommunityField} from '../../components/PostCreator/CommunityField';
 import FormData from 'form-data';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
-import {pop, push, showAuthScreen, navigate} from '../../navigation/Ref';
+import {pop, push, showAuthScreen} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {createPost} from '../../redux/actions/PostActions';
 import {PostTitleField} from '../../components/PostCreator/PostTitleField';
@@ -32,6 +25,7 @@ import {
   isURLValid,
   removeEmptyLines,
 } from '../../components/PostCreator/helpers';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default function CreatePost({route}) {
   const dispatch = useDispatch();
@@ -160,7 +154,7 @@ export default function CreatePost({route}) {
 
   const payloadCreator = (type, response) => {
     let payload = {};
-    payload.title = title.trim();
+    payload.title = removeEmptyLines(title.trim());
     payload.type = type;
     payload.community = community;
     switch (type) {
@@ -181,7 +175,7 @@ export default function CreatePost({route}) {
 
   const payloadValidator = (payload, type) => {
     const {community, title, description, link, mediaMetadata} = payload;
-    if (!community) {
+    if (!community?._id) {
       showSnackBar('Please select a valid community');
       return false;
     }
@@ -367,9 +361,10 @@ export default function CreatePost({route}) {
   const PostDetail = (
     <View
       style={{
-        paddingTop: 70,
-        flex: 4,
+        paddingTop: 20,
+        flex: 1,
         justifyContent: 'space-evenly',
+        //  borderWidth: 1,
       }}>
       <SearchableDropdown
         selectCommunityModalVisible={selectCommunityModalVisible}
@@ -382,26 +377,20 @@ export default function CreatePost({route}) {
       />
       <PostTitleField onChangeText={(text) => setTitle(text)} title={title} />
       {PostContentField()}
+      <SubmitButton onPress={() => submit()} />
     </View>
   );
 
   const createPostComponent = (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={Platform.OS == 'ios' ? 85 : 65}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{
-        flex: 1,
-        backgroundColor: '#fff',
-        width: '98%',
-        alignSelf: 'center',
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="always"
+      contentContainerStyle={{
         justifyContent: 'space-evenly',
+        flexGrow: 1,
+        paddingBottom: 10,
       }}>
-      {
-        //Title
-      }
       {PostDetail}
-      <SubmitButton onPress={() => submit()} />
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 
   const handlePostCreation = (

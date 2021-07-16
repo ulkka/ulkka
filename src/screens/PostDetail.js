@@ -29,7 +29,8 @@ import {Button} from 'react-native-elements';
 const PostDetail = ({route}) => {
   const dispatch = useDispatch();
 
-  const {postId, commentId} = route?.params;
+  const {postId} = route?.params;
+  const [commentId, setCommentId] = useState(route?.params?.commentId);
   const [screenId, setScreenId] = useState(undefined);
   const [error, setError] = useState(undefined);
 
@@ -106,6 +107,7 @@ const PostDetail = ({route}) => {
           key={postId}
           screenId={screenId}
           commentId={commentId}
+          setCommentId={setCommentId}
         />
       </ScrollView>
       <CommentWriter postId={postId} />

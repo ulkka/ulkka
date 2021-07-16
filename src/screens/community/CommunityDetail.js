@@ -12,15 +12,27 @@ import CommunityAvatar from '../../components/CommunityAvatar';
 import CommunityOptions from './CommunityOptions';
 import {kFormatter} from '../../components/helpers';
 import ShareCommunity from './ShareCommunity';
-import CreatePostOnCommunity from './CreatePostOnCommunity';
 import AutolinkText from '../../components/AutolinkText';
+import FavoriteCommunity from './FavoriteCommunity';
+import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 
 const CommunityHeaderRight = memo(({communityId}) => {
+  const isRegistered = useSelector(getRegistrationStatus);
   return (
     <View
-      style={{flexDirection: 'row', alignItems: 'center', paddingRight: 15}}>
-      {/*<CreatePostOnCommunity communityId={communityId} />
-      <View style={{width: 30}}></View>*/}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingRight: 15,
+      }}>
+      {!!isRegistered && (
+        <FavoriteCommunity
+          communityId={communityId}
+          text="Favorite"
+          shareTextStyle={{fontSize: 11}}
+        />
+      )}
+      <View style={{width: 20}}></View>
       <ShareCommunity
         communityId={communityId}
         text="Invite"
@@ -66,7 +78,10 @@ const CommunityDetail = memo((props) => {
         headerTitle: () => (
           <Animated.View style={[{opacity: opacity}]}>
             <Text
+              numberOfLines={1}
               style={{
+                maxWidth: 200,
+                marginRight: 40,
                 fontSize: 16,
                 color: '#444',
                 fontWeight: 'bold',
@@ -150,25 +165,26 @@ const CommunityDetail = memo((props) => {
       />
     );
 
-  const descriptionField = communityDescription ? (
-    <View style={{paddingTop: 10, paddingLeft: 5}}>
-      <AutolinkText
-        text={communityDescription}
-        enableShowMore={true}
-        source={'community_description'}
-        textStyle={{
-          fontSize: 12,
-          color: '#111',
-        }}
+  const descriptionField =
+    communityDescription || communityDescription === '' ? (
+      <View style={{paddingTop: 10, paddingLeft: 5}}>
+        <AutolinkText
+          text={communityDescription}
+          enableShowMore={true}
+          source={'community_description'}
+          textStyle={{
+            fontSize: 12,
+            color: '#111',
+          }}
+        />
+      </View>
+    ) : (
+      <ActivityIndicator
+        size="small"
+        color="#4285f4"
+        style={{alignSelf: 'flex-start', paddingLeft: 5, paddingTop: 10}}
       />
-    </View>
-  ) : (
-    <ActivityIndicator
-      size="small"
-      color="#4285f4"
-      style={{alignSelf: 'flex-start', paddingLeft: 5, paddingTop: 10}}
-    />
-  );
+    );
 
   return (
     <View

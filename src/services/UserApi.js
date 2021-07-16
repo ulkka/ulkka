@@ -20,6 +20,11 @@ const userApi = {
       let response = await client.get(`${USER_URI}/self`);
       return response;
     },
+    async selfCommunities() {
+      const client = await mainClient;
+      let response = await client.get(`${USER_URI}/self/communities`);
+      return response;
+    },
     async logout(pushMessageToken) {
       const client = await mainClient;
       let response = await client.post(`${USER_URI}/logout`, {

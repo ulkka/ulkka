@@ -27,6 +27,7 @@ const PostTitle = (props) => {
       <Text
         style={{
           fontSize: 15,
+          lineHeight: 20,
           paddingVertical: 10,
           marginLeft: 3,
           fontWeight: 'bold',

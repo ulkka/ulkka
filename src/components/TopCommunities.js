@@ -135,9 +135,7 @@ export default memo(function TopCommunities(props) {
         justifyContent: 'space-evenly',
       }}>
       <View style={{paddingHorizontal: 10}}>
-        <Text style={{fontWeight: 'bold', color: '#777'}}>
-          Suggested for You
-        </Text>
+        <Text style={{fontWeight: 'bold', color: '#777'}}>Top Communities</Text>
       </View>
       <View>
         <FlatList

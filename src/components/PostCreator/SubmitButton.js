@@ -7,7 +7,6 @@ export const SubmitButton = (props) => {
   return (
     <View
       style={{
-        flex: 1,
         width: '40%',
         alignSelf: 'center',
         justifyContent: 'center',
