@@ -1,45 +1,44 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  StatusBar,
-  Platform,
-} from 'react-native';
+import {View, Text, Image, StatusBar, Platform} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {Icon} from 'react-native-elements';
+import {storeData} from '../localStorage/helpers';
 
 const slides = [
   {
     key: 1,
-    title: 'Welcome to\nULKKA !',
-    text: 'Find your Tribe',
-    image: require('../../assets/welcome.jpg'),
-    backgroundColor: '#febe29',
+    title: 'Welcome to\nUlkka !',
+    image: require('../../assets/ulkka_transparent_512x512.png'),
+    backgroundColor: '#f5f5f5',
   },
   {
     key: 2,
-    title: 'Find your Community',
-    text: 'Other cool stuff',
-    // image: require('./assets/2.jpg'),
-    backgroundColor: '#febe29',
+    title: "Let's find your Tribe !",
+    image: require('../../assets/welcome.jpg'),
+    points: [
+      "Ulkka is a place where you can share anything that you find interesting on the internet with a community that's interested in the topic",
+      'You can share content including images, links, videos or text posts to an existing community (check the search bar) or create a brand new community and let users find it',
+    ],
+    backgroundColor: '#f5f5f5',
   },
   {
     key: 3,
     title: 'Win Hearts',
-    text: "I'm already out of descriptions\n\nLorem ipsum bla bla bla",
-    //image: require('./assets/3.jpg'),
-    backgroundColor: '#febe29',
+    icon: 'heart',
+    points: [
+      'You receive hearts when your posts and comments are upvoted by community members',
+      'Hearts represent your reputation in Ulkka and you can unlock features in Ulkka as you gain more hearts',
+      'Hearts may also be used to elect new admins to communities',
+    ],
+    backgroundColor: '#f5f5f5',
   },
 ];
 
 export default function AppIntroSliderView(props) {
-  const [showRealApp, setShowRealApp] = useState(false);
+  const {setIntroDone} = props;
 
   const renderItem = ({item}) => {
-    const {title, image, text, backgroundColor} = item;
+    const {title, image, text, backgroundColor, icon, points} = item;
     return (
       <View
         style={{
@@ -49,65 +48,87 @@ export default function AppIntroSliderView(props) {
           alignItems: 'center',
           justifyContent: 'space-evenly',
         }}>
-        {image && (
-          <Image
-            source={image}
-            style={{
-              borderRadius: 20,
-              //height: 200,
-              width: '80%',
-            }}
-          />
-        )}
-
         <View
           style={{
             flex: 3,
-            //  backgroundColor: backgroundColor,
-            // paddingTop: 100,
+
             alignItems: 'center',
             justifyContent: 'space-evenly',
           }}>
-          <View>
+          {image && (
             <Image
-              source={require('../../assets/ulkka_transparent_512x512.png')}
-              style={{height: 100}}
+              source={image}
               resizeMode="contain"
-            />
-            <StatusBar translucent backgroundColor={'#febe29'} />
-            <Text
               style={{
-                textAlign: 'center',
-                lineHeight: 35,
-                fontSize: 23,
-                padding: 30,
-                fontWeight: 'bold',
-                // textTransform: 'uppercase',
-                color: '#222',
-                ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-              }}>
-              {title}
-            </Text>
-          </View>
+                borderRadius: 10,
+                height: 150,
+              }}
+            />
+          )}
+          {icon && (
+            <Icon name={icon} size={125} color="red" type="font-awesome" />
+          )}
           <Text
             style={{
-              fontSize: 18,
+              textAlign: 'center',
+              lineHeight: 40,
+              fontSize: 25,
               padding: 30,
               fontWeight: 'bold',
-              // textTransform: 'uppercase',
-              color: '#222',
+              color: '#555',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            {text}
+            {title}
           </Text>
+          {text && (
+            <Text
+              style={{
+                fontSize: 18,
+                padding: 30,
+                fontWeight: 'bold',
+                lineHeight: 25,
+                textAlign: 'center',
+                color: '#555',
+                ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              }}>
+              {text}
+            </Text>
+          )}
+          {points && (
+            <View style={{paddingBottom: 80}}>
+              {points.map((point, index) => {
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      flexDirection: 'row',
+                      paddingHorizontal: 25,
+                      alignItems: 'center',
+                      paddingVertical: 10,
+                    }}>
+                    <Icon
+                      name="circle"
+                      type="font-awesome"
+                      size={15}
+                      color="#555"
+                    />
+                    <Text style={{paddingLeft: 15, lineHeight: 20}}>
+                      {point}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          )}
         </View>
       </View>
     );
   };
-  const onDone = () => {
+  const onDone = async () => {
     // User finished the introduction. Show real app through
     // navigation or simply by controlling state
-    setShowRealApp(true);
+    setIntroDone(true);
+    await storeData('introDone', '1');
   };
 
   const nextButton = () => {
@@ -121,14 +142,19 @@ export default function AppIntroSliderView(props) {
         }}>
         <Text
           style={{
-            color: '#222',
+            color: '#02862a',
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           Next
         </Text>
         <View style={{width: 15}}></View>
-        <Icon name="arrow-right" color="#222" type="font-awesome-5" size={16} />
+        <Icon
+          name="arrow-right"
+          color="#02862a"
+          type="font-awesome-5"
+          size={16}
+        />
       </View>
     );
   };
@@ -141,11 +167,11 @@ export default function AppIntroSliderView(props) {
           justifyContent: 'center',
           flexDirection: 'row',
         }}>
-        <Icon name="arrow-left" color="#222" type="font-awesome-5" size={16} />
+        <Icon name="arrow-left" color="#777" type="font-awesome-5" size={16} />
         <View style={{width: 15}}></View>
         <Text
           style={{
-            color: '#222',
+            color: '#777',
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -178,6 +204,7 @@ export default function AppIntroSliderView(props) {
   };
   return (
     <View style={{flex: 1}}>
+      <StatusBar backgroundColor="#f5f5f5" />
       <AppIntroSlider
         keyExtractor={(item) => item.key.toString()}
         renderItem={renderItem}

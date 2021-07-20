@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import {CheckBox, Divider, Button, Icon} from 'react-native-elements';
 import {hideOptionSheet} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch} from 'react-redux';
-import Snackbar from 'react-native-snackbar';
 import {reportPost} from '../redux/actions/PostActions';
 import {reportComment} from '../redux/actions/CommentActions';
-import analytics from '@react-native-firebase/analytics';
 
 const Report = (props) => {
   const dispatch = useDispatch();
@@ -133,7 +131,10 @@ const Report = (props) => {
         justifyContent: 'center',
         minHeight: 300,
       }}>
-      <ActivityIndicator size="large" color="#2a9df4" />
+      <Image
+        source={require('../../assets/loading.gif')}
+        style={{height: 40, width: 40}}
+      />
     </View>
   ) : (
     <View

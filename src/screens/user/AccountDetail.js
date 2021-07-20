@@ -2,7 +2,7 @@ import React, {useEffect, memo, useRef} from 'react';
 import {
   View,
   Text,
-  ActivityIndicator,
+  Image,
   TouchableOpacity,
   Alert,
   Platform,
@@ -219,7 +219,10 @@ const AccountDetail = memo((props) => {
         </View>
       </Tooltip>
     ) : (
-      <ActivityIndicator size="small" color="#4285f4" />
+      <Image
+        source={require('../../../assets/loading.gif')}
+        style={{height: 20, width: 20}}
+      />
     );
 
   const avatar = (
@@ -248,7 +251,10 @@ const AccountDetail = memo((props) => {
       <Text style={{color: '#555', fontSize: 11}}> ago</Text>
     </View>
   ) : (
-    <ActivityIndicator size="small" color="#4285f4" />
+    <Image
+      source={require('../../../assets/loading.gif')}
+      style={{height: 20, width: 20}}
+    />
   );
 
   const AccountSettings = () => (

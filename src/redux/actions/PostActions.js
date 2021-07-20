@@ -3,9 +3,15 @@ import postApi from '../../services/PostApi';
 import {normalize} from 'normalizr';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import RNFS from 'react-native-fs';
-import {hasAndroidPermission, savePicture, getAlbumFromType} from './common';
+import {
+  hasAndroidPermission,
+  savePicture,
+  getAlbumFromType,
+  requestPermissionAlert,
+} from './common';
 import {Platform} from 'react-native';
 import Snackbar from 'react-native-snackbar';
+import RNFetchBlob from 'rn-fetch-blob';
 
 export function resetState(state, type) {
   postAdapter.removeAll(state);
@@ -268,28 +274,22 @@ export const downloadMediaToLibrary = createAsyncThunk(
       const {bytes, secure_url: url} = getState().posts.entities[
         postId
       ]?.mediaMetadata;
-
       const {type} = getState().posts.entities[postId];
-
-      const picturesDirectoryPath =
+      const mediaLibraryDirectoryPath =
         Platform.OS == 'android'
-          ? RNFS.ExternalDirectoryPath
-          : RNFS.LibraryDirectoryPath;
-      const mediaLibraryDirectoryPath = picturesDirectoryPath + '/Ulkka';
-      const filename =
-        Platform.OS == 'ios'
-          ? url.split('/').pop().replace('.', '').replaceAll(':', '')
-          : url.split('/').pop();
-      const toFile = mediaLibraryDirectoryPath + '/' + filename;
-
-      let error = false;
+          ? RNFetchBlob.fs.dirs.DownloadDir + '/Ulkka/'
+          : RNFetchBlob.fs.dirs.LibraryDir + '/Ulkka/';
+      const filename = url.split('/').pop().replace('.', '').replace(/:/g, '');
+      const toFile = mediaLibraryDirectoryPath + filename;
       if (Platform.OS === 'android') {
-        error = !(await hasAndroidPermission());
-        if (error) {
+        let hasPermission = await hasAndroidPermission();
+        if (!hasPermission) {
+          requestPermissionAlert();
           Snackbar.show({
             text: 'Error saving file. Permission denied',
             duration: Snackbar.LENGTH_SHORT,
           });
+          return rejectWithValue('Permission denied');
         }
       }
       const mediaLibraryDirectoryPathExists = await RNFS.exists(
@@ -299,62 +299,58 @@ export const downloadMediaToLibrary = createAsyncThunk(
       );
 
       if (!mediaLibraryDirectoryPathExists) {
-        if (Platform.OS == 'android') {
-          await hasAndroidPermission();
+        if (Platform.OS === 'android') {
+          let hasPermission = await hasAndroidPermission();
+          if (!hasPermission) {
+            requestPermissionAlert();
+            Snackbar.show({
+              text: 'Error saving file. Permission denied',
+              duration: Snackbar.LENGTH_SHORT,
+            });
+            return rejectWithValue('Permission denied');
+          }
         }
         await RNFS.mkdir(mediaLibraryDirectoryPath).catch((error) =>
           console.log('error creating Ulkka folder', error),
         );
       }
 
-      await RNFS.downloadFile({
-        //  background: true,
-        fromUrl: url,
-        toFile: toFile,
+      const res = await RNFetchBlob.config({
+        path: toFile,
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true, // <-- this is the only thing required
+          // Optional, override notification setting (default to true)
+          notification: true,
+          // Optional, but recommended since android DownloadManager will fail when
+          // the url does not contains a file extension, by default the mime type will be text/plain
+          //mime: 'image/jpg',
+          description: 'Media downloaded by Ulkka',
+          path: toFile,
+        },
       })
-        .promise.then(async (result) => {
-          console.log(
-            'saving media to ',
-            toFile,
-            mediaLibraryDirectoryPath,
-            mediaLibraryDirectoryPathExists,
-            await RNFS.stat(mediaLibraryDirectoryPath),
-            result,
-          );
-          const res = await savePicture(
-            {
-              tag: Platform.OS == 'android' ? 'file://' + toFile : toFile,
-              album: getAlbumFromType(type),
-            },
-            rejectWithValue,
-          );
-
-          if (res.message == 'Rejected') {
-            error = true;
-          }
+        .fetch('GET', url, {
+          //some headers ..
         })
         .catch((error) => {
-          console.log('error downloading', error);
+          console.log('error downloading through rnfetchblob', error);
           return rejectWithValue(error);
         });
 
-      let fileExists = await RNFS.exists(toFile);
-      let fileStat = fileExists && (await RNFS.stat(toFile));
-      if (fileExists && fileStat?.size == bytes && error === false) {
-        console.log(
-          'file downloaded successfully, so returning local uri',
-          toFile,
+      if (res?.path) {
+        const result = await savePicture(
+          {
+            tag: toFile,
+            album: getAlbumFromType(type),
+          },
+          rejectWithValue,
         );
-        return {
-          postId: postId,
-          localUri: toFile,
-          type: type,
-        };
-      } else {
-        const error = {message: 'Download failed', name: 'DownloadError'};
-        return rejectWithValue(error);
+        if (result?.message == 'Rejected') {
+          return rejectWithValue(result?.message);
+        }
       }
     } catch (error) {
+      console.log('error try catch', error);
       return rejectWithValue(error);
     }
   },

@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  ActivityIndicator,
-  Platform,
-} from 'react-native';
+import {View, Text, Image, ScrollView, Platform} from 'react-native';
 import {Input} from 'react-native-elements';
 import utilityApi from '../../services/UtilityApi';
 import {isURLValid, transformText} from './helpers';
@@ -96,7 +89,10 @@ export const LinkField = (props) => {
         backgroundColor: '#fff',
         opacity: 0.8,
       }}>
-      <ActivityIndicator size="large" color="#4285f4" />
+      <Image
+        source={require('../../../assets/loading.gif')}
+        style={{height: 40, width: 40}}
+      />
     </View>
   ) : (
     <View

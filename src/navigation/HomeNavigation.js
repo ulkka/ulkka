@@ -19,6 +19,7 @@ import BottomTabNavigation from './BottomTabNavigation';
 import PostDetail from '../screens/PostDetail';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import ImageZoomer from '../components/Post/ImageZoomer';
+import ReviewRequestComponent from '../components/ReviewRequestComponent';
 
 const StackNav = createStackNavigator();
 
@@ -106,6 +107,7 @@ function HomeNavigation() {
       <ConfigurePushNotification />
       <NotificationHandler />
       <CreatePostButtonOverlay />
+      <ReviewRequestComponent />
     </View>
   );
 }

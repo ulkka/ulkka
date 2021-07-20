@@ -1,5 +1,5 @@
 import React, {useEffect, memo, useRef} from 'react';
-import {View, Text, Platform, Animated, ActivityIndicator} from 'react-native';
+import {View, Text, Platform, Animated, Image} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -158,10 +158,9 @@ const CommunityDetail = memo((props) => {
         {communityMemberCount == 1 ? 'member' : 'members'}
       </Text>
     ) : (
-      <ActivityIndicator
-        size="small"
-        color="#4285f4"
-        style={{alignSelf: 'flex-start', paddingLeft: 5, paddingTop: 15}}
+      <Image
+        source={require('../../../assets/loading.gif')}
+        style={{height: 20, width: 20, paddingLeft: 5, paddingTop: 15}}
       />
     );
 
@@ -179,10 +178,15 @@ const CommunityDetail = memo((props) => {
         />
       </View>
     ) : (
-      <ActivityIndicator
-        size="small"
-        color="#4285f4"
-        style={{alignSelf: 'flex-start', paddingLeft: 5, paddingTop: 10}}
+      <Image
+        source={require('../../../assets/loading.gif')}
+        style={{
+          height: 20,
+          width: 20,
+          paddingLeft: 5,
+          paddingTop: 15,
+          alignSelf: 'flex-start',
+        }}
       />
     );
 

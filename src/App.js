@@ -17,17 +17,24 @@ import {firebase} from '@react-native-firebase/perf';
 import crashlytics from '@react-native-firebase/crashlytics';
 import CacheManagement from './components/CacheManagement';
 import AppIntroSlider from './components/AppIntroSliderView';
+import {getData} from './localStorage/helpers';
 
 export default function App() {
   const [maintenance, setMaintenance] = useState(false);
-
+  const [introDone, setIntroDone] = useState(true);
   //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
+  // also check whether user has done app intro tutorial
   async function bootstrap() {
     if (utils().isRunningInTestLab || __DEV__) {
       console.log('debug mode or running in firebase testlab');
       await analytics().setAnalyticsCollectionEnabled(false);
       await firebase.perf().setPerformanceCollectionEnabled(false);
       await crashlytics().setCrashlyticsCollectionEnabled(false);
+    }
+
+    const introStatus = await getData('introDone');
+    if (introStatus === null) {
+      setIntroDone(false);
     }
   }
 
@@ -63,6 +70,6 @@ export default function App() {
       </ThemeProvider>
     </StoreProvider>
   );
-  //return <AppIntroSlider />;
-  return RealApp;
+  return introDone ? RealApp : <AppIntroSlider setIntroDone={setIntroDone} />;
+  //return RealApp;
 }

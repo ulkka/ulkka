@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Platform, Text, ActivityIndicator, Keyboard} from 'react-native';
+import {View, Platform, Text, Image, Keyboard} from 'react-native';
 import {Button} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import {CommunityField} from '../../components/PostCreator/CommunityField';
@@ -175,6 +175,7 @@ export default function CreatePost({route}) {
 
   const payloadValidator = (payload, type) => {
     const {community, title, description, link, mediaMetadata} = payload;
+    console.log(community);
     if (!community?._id) {
       showSnackBar('Please select a valid community');
       return false;
@@ -270,7 +271,7 @@ export default function CreatePost({route}) {
         let prePayload = {
           type: type,
           title: title,
-          community: community._id,
+          community: community,
         };
         var data = fileFormDataCreator();
         isPayloadValid = payloadValidator(prePayload, type);
@@ -444,7 +445,10 @@ export default function CreatePost({route}) {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <ActivityIndicator size="large" color="#2a9df4" />
+      <Image
+        source={require('../../../assets/loading.gif')}
+        style={{height: 40, width: 40}}
+      />
       <Text
         style={{padding: 50, fontSize: 15, fontWeight: 'bold', color: '#555'}}>
         {'  '}Loading...{'  '}

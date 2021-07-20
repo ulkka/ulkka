@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator, Text, Platform} from 'react-native';
+import {View, Image, Text, Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getParentCommentIdsOfPost,
@@ -48,7 +48,10 @@ function CommentList(props) {
         paddingTop: 25,
         paddingBottom: 100,
       }}>
-      <ActivityIndicator size="large" color="#4285f4" />
+      <Image
+        source={require('../../../assets/loading.gif')}
+        style={{height: 40, width: 40}}
+      />
     </View>
   );
 

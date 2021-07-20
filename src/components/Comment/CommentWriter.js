@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  Image,
 } from 'react-native';
 import {Icon, Input} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
@@ -29,15 +30,12 @@ import {
 } from '../../redux/reducers/AuthSlice';
 import {selectCommentById} from '../../redux/selectors/CommentSelectors';
 import {getUserDisplayname} from '../../redux/reducers/UserSlice';
-import {ActivityIndicator} from 'react-native';
 import {removeEmptyLines} from '../PostCreator/helpers';
 import UserAvatar from '../UserAvatar';
 import analytics from '@react-native-firebase/analytics';
 
 export default function CommentWriter(props) {
   const dispatch = useDispatch();
-
-  console.log('running comment writer');
 
   const {postId} = props;
   const commentId = useSelector(getCommentId);
@@ -234,7 +232,10 @@ export default function CommentWriter(props) {
           paddingVertical: 10,
           paddingHorizontal: 16,
         }}>
-        <ActivityIndicator size="small" color="#4285f4" />
+        <Image
+          source={require('../../../assets/loading.gif')}
+          style={{height: 20, width: 20}}
+        />
       </View>
     );
 

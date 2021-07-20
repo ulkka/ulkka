@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import {Overlay} from 'react-native-elements';
 import {Button} from 'react-native';
 
@@ -33,7 +33,10 @@ export const ShowSubmitProgress = (props) => {
             justifyContent: showUploadProgress ? 'flex-end' : 'center',
             marginBottom: 75,
           }}>
-          <ActivityIndicator size="large" color="#4285f4" />
+          <Image
+            source={require('../../../assets/loading.gif')}
+            style={{height: 40, width: 40}}
+          />
         </View>
         {showUploadProgress ? (
           <View

@@ -1,11 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {
-  ScrollView,
-  View,
-  RefreshControl,
-  Text,
-  ActivityIndicator,
-} from 'react-native';
+import {ScrollView, View, RefreshControl, Text, Image} from 'react-native';
 import CommentList from '../components/Comment/CommentList';
 import PostCard from '../components/Post/PostCard';
 import CommentWriter from '../components/Comment/CommentWriter';
@@ -77,7 +71,10 @@ const PostDetail = ({route}) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <ActivityIndicator size="large" color="#2a9df4" />
+      <Image
+        source={require('../../assets/loading.gif')}
+        style={{height: 40, width: 40}}
+      />
       <Text
         style={{padding: 50, fontSize: 15, fontWeight: 'bold', color: '#555'}}>
         {'  '}Loading...{'  '}

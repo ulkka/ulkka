@@ -4,9 +4,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator,
-  Platform,
   Image,
+  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Icon} from 'react-native-elements';
@@ -222,7 +221,10 @@ export default function Notifications(props) {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator size="large" color="#2a9df4" />
+          <Image
+            source={require('../../assets/loading.gif')}
+            style={{height: 40, width: 40}}
+          />
           <Text
             style={{
               padding: 50,

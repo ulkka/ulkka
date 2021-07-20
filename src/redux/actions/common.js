@@ -19,55 +19,73 @@ export async function hasAndroidPermission() {
   return status === 'granted';
 }
 
+export function requestPermissionAlert() {
+  analytics().logEvent('mediapermission_unavailable');
+  const title =
+    Platform.OS == 'ios'
+      ? 'Please allow access to your Photos'
+      : 'Please allow access to your Media Library';
+  const message =
+    Platform.OS == 'ios'
+      ? 'This allows Ulkka to save media to your Photo library'
+      : 'This allows Ulkka to share media from your library. Kindly enable Permissions->Storage in the application settings';
+  const settingsTitle =
+    Platform.OS == 'ios' ? 'Enable Library Access' : 'Go to Settings';
+
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: 'Cancel',
+        onPress: () => {
+          analytics().logEvent('mediapermission_deny');
+          console.log('Cancel Pressed');
+        },
+        style: 'cancel',
+      },
+      {
+        text: settingsTitle,
+        onPress: () => {
+          analytics().logEvent('mediapermission_settingsenable');
+          Linking.openSettings();
+        },
+        style: 'default',
+      },
+    ],
+    {cancelable: true},
+  );
+}
+
 export async function savePicture({tag, album}, rejectWithValue) {
   if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
+    requestPermissionAlert();
     return;
   }
 
-  return CameraRoll.save(tag, {album, type: 'auto'}).catch((error) => {
-    console.log('error saving image to camera roll', error);
-
-    if (error.message == 'User cancelled image selection') {
-      return;
-    }
-    const title =
-      Platform.OS == 'ios'
-        ? 'Please allow access to your Photos'
-        : 'Please allow access to your Media Library';
-    const message =
-      Platform.OS == 'ios'
-        ? 'This allows Ulkka to save media to your Photo library'
-        : 'This allows Ulkka to share media from your library. Kindly enable Permissions->Storage in the application settings';
-    const settingsTitle =
-      Platform.OS == 'ios' ? 'Enable Library Access' : 'Go to Settings';
-
-    analytics().logEvent('mediapermission_unavailable');
-
-    Alert.alert(
-      title,
-      message,
-      [
-        {
-          text: 'Cancel',
-          onPress: () => {
-            analytics().logEvent('mediapermission_deny');
-            console.log('Cancel Pressed');
-          },
-          style: 'cancel',
-        },
-        {
-          text: settingsTitle,
-          onPress: () => {
-            analytics().logEvent('mediapermission_settingsenable');
-            Linking.openSettings();
-          },
-          style: 'default',
-        },
-      ],
-      {cancelable: true},
-    );
-    return rejectWithValue(error);
+  const albumList = await CameraRoll.getAlbums({assetType: 'All'});
+  const isUlkkaAlbumAlreadyPresent = albumList.find((item, index) => {
+    return item.title == 'Ulkka';
   });
+
+  if (!isUlkkaAlbumAlreadyPresent) {
+    return CameraRoll.save(tag, {album}).catch((error) => {
+      console.log('error saving image to camera roll', error, tag, album);
+
+      if (error?.message == 'User cancelled image selection') {
+        return;
+      } else if (error?.message == 'Access to photo library was denied') {
+        requestPermissionAlert();
+        return {message: 'Rejected'};
+      }
+
+      Snackbar.show({
+        text: 'Something went wrong. Please try again later',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      return {message: 'Rejected'};
+    });
+  }
 }
 
 export function getAlbumFromType(type) {

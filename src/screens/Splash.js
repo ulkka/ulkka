@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View, Image} from 'react-native';
 
 export default function Splash() {
   return (
@@ -10,7 +10,10 @@ export default function Splash() {
         justifyContent: 'center',
         backgroundColor: '#fff',
       }}>
-      <ActivityIndicator size="large" color="#4285f4" />
+      <Image
+        source={require('../../assets/loading.gif')}
+        style={{height: 40, width: 40}}
+      />
     </View>
   );
 }
