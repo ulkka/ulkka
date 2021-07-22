@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {View, Platform} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import userApi from '../services/UserApi';
@@ -6,37 +6,32 @@ import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 import {useSelector} from 'react-redux';
 
 export default function RegisterDeviceToken() {
-  const [token, setToken] = useState('');
   const isRegistered = useSelector(getRegistrationStatus);
 
   useEffect(() => {
     // Get the device token
     getToken();
-
     // If using other push notification providers (ie Amazon SNS, etc)
     // you may need to get the APNs token instead for iOS:
     // if(Platform.OS == 'ios') { messaging().getAPNSToken().then(token => { return saveTokenToDatabase(token); }); }
 
     // Listen to whether the token changes
     return messaging().onTokenRefresh((token) => {
-      setToken(token);
+      saveToken(token);
     });
   }, []);
 
   const getToken = async () => {
     const isDeviceRegisteredForRemoteMessages = await messaging()
       .isDeviceRegisteredForRemoteMessages;
-    isDeviceRegisteredForRemoteMessages &&
-      messaging()
-        .getToken()
-        .then((token) => {
-          return setToken(token);
-        });
-  };
 
-  useEffect(() => {
-    saveToken();
-  }, [token]);
+    if (isDeviceRegisteredForRemoteMessages) {
+      const token = await messaging()
+        .getToken()
+        .catch((error) => console.log('error getting token', error));
+      saveToken(token);
+    }
+  };
 
   useEffect(() => {
     if (isRegistered) {
@@ -52,11 +47,10 @@ export default function RegisterDeviceToken() {
 
     if (enabled) {
       getToken();
-      console.log('Notification Authorization status:', authStatus);
     }
   }
 
-  const saveToken = async () => {
+  const saveToken = async (token) => {
     if (Platform.OS == 'android') {
       messaging()
         .subscribeToTopic('allDevices')
@@ -75,5 +69,5 @@ export default function RegisterDeviceToken() {
     }
   };
 
-  return <View></View>;
+  return <View />;
 }
