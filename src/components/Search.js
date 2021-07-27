@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TouchableOpacity, Keyboard} from 'react-native';
+import {View, Text, TouchableOpacity, Keyboard, Platform} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
