@@ -25,9 +25,15 @@ export default function App() {
   //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
   // also check whether user has done app intro tutorial
   async function bootstrap() {
-    if (utils().isRunningInTestLab || __DEV__) {
+    const appInstanceId = await analytics().getAppInstanceId();
+    console.log('appinstanceid', appInstanceId);
+    if ((await utils().isRunningInTestLab) || __DEV__) {
       console.log('debug mode or running in firebase testlab');
-      await analytics().setAnalyticsCollectionEnabled(false);
+      await analytics()
+        .logEvent('test_work')
+        .then(() => console.log('tested work'))
+        .catch((error) => console.log('error testing event', error));
+      // await analytics().setAnalyticsCollectionEnabled(false);
       await firebase.perf().setPerformanceCollectionEnabled(false);
       await crashlytics().setCrashlyticsCollectionEnabled(false);
     }
@@ -63,9 +69,6 @@ export default function App() {
           <CacheManagement />
           {!maintenance && <Main />}
           <RegisterDeviceToken />
-          {
-            // Platform.OS == 'ios' && <AppTrackingTransparencyIOS />
-          }
         </View>
       </ThemeProvider>
     </StoreProvider>

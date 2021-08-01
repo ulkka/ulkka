@@ -488,35 +488,35 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.8)
     - SDWebImageWebPCoder (~> 0.6.1)
-  - RNFBAnalytics (12.0.0):
+  - RNFBAnalytics (12.4.0):
     - Firebase/AnalyticsWithoutAdIdSupport (= 8.0.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (12.0.0):
+  - RNFBApp (12.4.0):
     - Firebase/CoreOnly (= 8.0.0)
     - React-Core
-  - RNFBAuth (12.0.0):
+  - RNFBAuth (12.4.0):
     - Firebase/Auth (= 8.0.0)
     - React-Core
     - RNFBApp
-  - RNFBCrashlytics (12.0.0):
+  - RNFBCrashlytics (12.4.0):
     - Firebase/Crashlytics (= 8.0.0)
     - React-Core
     - RNFBApp
-  - RNFBDynamicLinks (12.0.0):
+  - RNFBDynamicLinks (12.4.0):
     - Firebase/DynamicLinks (= 8.0.0)
     - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
-  - RNFBMessaging (12.0.0):
+  - RNFBMessaging (12.4.0):
     - Firebase/Messaging (= 8.0.0)
     - React-Core
     - RNFBApp
-  - RNFBPerf (12.0.0):
+  - RNFBPerf (12.4.0):
     - Firebase/Performance (= 8.0.0)
     - React-Core
     - RNFBApp
-  - RNFBRemoteConfig (12.0.0):
+  - RNFBRemoteConfig (12.4.0):
     - Firebase/RemoteConfig (= 8.0.0)
     - React-Core
     - RNFBApp
@@ -876,14 +876,14 @@ SPEC CHECKSUMS:
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
-  RNFBAnalytics: ad90c25562e306f161735d7528244f0ccf1d90f2
-  RNFBApp: cc2ff3f925840c53f0117d92e0f5e269b356d0f7
-  RNFBAuth: 6853dd2d92ed8635831679b695a6690151ae6b77
-  RNFBCrashlytics: e99a7bedc194c6ab325197f6d5b06e42ca583efc
-  RNFBDynamicLinks: 9110076a214ce2eb4f6e5be754b5269046f89e49
-  RNFBMessaging: ba11538f4d76a5ef89dc8c97dad04fbf2fa6ebef
-  RNFBPerf: 097e3a5cc809be6bf447c8149bfc8061cbd18b95
-  RNFBRemoteConfig: 02aab0053e290455aac75e9e3bde4b1658433b66
+  RNFBAnalytics: 20e4360063c9d2b8488b783c3ee55da0702d4914
+  RNFBApp: 2f9c9a30d60810b5606f5f3f6557bdbcf91585ca
+  RNFBAuth: 1ce0dd8e1694af251a50368d8b330cc1fd2afb16
+  RNFBCrashlytics: 2e986feb85e026d6cf7fb5c46321ae116b210af2
+  RNFBDynamicLinks: 9adbaef3d322cd8ee33227547629d7c9d16f6f10
+  RNFBMessaging: 8a3049cbe63a45e4880b46b6755a6b9046e4fc9d
+  RNFBPerf: 5ad384f827be9e0d68e1b8c4a1b272d7d81e4c44
+  RNFBRemoteConfig: eed6ddf9a8ad84876fdd0fff3b4c7b21d6338fcb
   RNFS: 93d5b5535eb39d98e6b19009faa8fe717f7ea45d
   RNGestureHandler: 5e58135436aacc1c5d29b75547d3d2b9430d052c
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
@@ -902,6 +902,6 @@ SPEC CHECKSUMS:
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
   YoutubePlayer-in-WKWebView: cfbf46da51d7370662a695a8f351e5fa1d3e1008
 
-PODFILE CHECKSUM: 948688e86392220117ed889a1d5fcc826e889c3c
+PODFILE CHECKSUM: a26e3ba9a4700263c19323619d5f0a05e2c5ee87
 
 COCOAPODS: 1.10.1
