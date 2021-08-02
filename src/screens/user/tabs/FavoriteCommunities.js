@@ -21,7 +21,7 @@ const CommunityRow = memo(({community, onlyIcons}) => {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 10,
-        height: 50,
+        //  height: 50,
       }}>
       <TouchableOpacity
         style={{flexDirection: 'row'}}

@@ -26,14 +26,16 @@ export default function App() {
   // also check whether user has done app intro tutorial
   async function bootstrap() {
     const appInstanceId = await analytics().getAppInstanceId();
-    console.log('appinstanceid', appInstanceId);
+    const isHermes = () => !!global.HermesInternal;
+    console.log('appinstanceid and isHermes', appInstanceId, isHermes());
     if ((await utils().isRunningInTestLab) || __DEV__) {
+      await analytics().setAnalyticsCollectionEnabled(true);
       console.log('debug mode or running in firebase testlab');
       await analytics()
         .logEvent('test_work')
         .then(() => console.log('tested work'))
-        .catch((error) => console.log('error testing event', error));
-      // await analytics().setAnalyticsCollectionEnabled(false);
+        .catch(error => console.log('error testing event', error));
+
       await firebase.perf().setPerformanceCollectionEnabled(false);
       await crashlytics().setCrashlyticsCollectionEnabled(false);
     }
@@ -49,7 +51,7 @@ export default function App() {
     SplashScreen.hide();
   }, []);
 
-  const toggleMaintenance = (value) => {
+  const toggleMaintenance = value => {
     setMaintenance(value);
   };
 

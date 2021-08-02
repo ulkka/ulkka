@@ -62,7 +62,8 @@ export default function GrowCommunity(props) {
               borderRadius: 10,
               alignSelf: 'flex-start',
               marginTop: 10,
-              backgroundColor: '#289df4',
+              borderWidth: 1,
+              borderColor: '#02862a',
             }}>
             <ShareCommunity
               communityId={communityId}
@@ -70,9 +71,10 @@ export default function GrowCommunity(props) {
               flexDirection={'row'}
               mode="light"
               shareTextStyle={{
-                fontWeight: 'bold',
+                // fontWeight: 'bold',
                 fontSize: 16,
-                paddingLeft: 5,
+                paddingLeft: 10,
+                color: '#02862a',
               }}
             />
           </View>

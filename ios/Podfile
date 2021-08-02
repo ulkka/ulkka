@@ -11,7 +11,10 @@ $RNFirebaseAnalyticsWithoutAdIdSupport = true
 target 'Ulkka' do
   config = use_native_modules!
 
-  use_react_native!(:path => config["reactNativePath"])
+  use_react_native!(:path => config["reactNativePath"],
+   # to enable hermes on iOS, change `false` to `true` and then install pods
+  :hermes_enabled => true
+)
 
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
@@ -56,7 +59,7 @@ target 'Ulkka' do
 # fix for atomic_notify one error after updating to 14.5 end
 
   post_install do |installer|
-    flipper_post_install(installer)
+    react_native_post_install(installer)
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
           config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
@@ -68,15 +71,6 @@ target 'Ulkka' do
 
     find_and_replace("Pods/RCT-Folly/folly/synchronization/DistributedMutex-inl.h",
                    "atomic_wait_until(&state, previous | data, deadline)", "folly::atomic_wait_until(&state, previous | data, deadline)")
-  end
-end
-
-target 'Ulkka-tvOS' do
-  # Pods for Ulkka-tvOS
-
-  target 'Ulkka-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
   end
 end
 

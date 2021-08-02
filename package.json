@@ -34,8 +34,8 @@
     "axios-auth-refresh": "^3.1.0",
     "normalizr": "^3.6.1",
     "re-reselect": "^4.0.0",
-    "react": "16.13.1",
-    "react-native": "^0.63.3",
+    "react": "17.0.1",
+    "react-native": "^0.64.2",
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-autolink": "^4.0.0",
     "react-native-elements": "^2.3.2",
@@ -69,14 +69,14 @@
     "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
+    "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.11.2",
     "@react-native-community/eslint-config": "^2.0.0",
-    "babel-jest": "^26.3.0",
-    "eslint": "^7.9.0",
-    "jest": "^26.4.2",
-    "metro-react-native-babel-preset": "^0.63.0",
-    "react-test-renderer": "16.13.1"
+    "babel-jest": "^26.6.3",
+    "eslint": "7.14.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.64.0",
+    "react-test-renderer": "17.0.1"
   },
   "jest": {
     "preset": "react-native"

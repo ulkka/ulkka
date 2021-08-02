@@ -131,7 +131,7 @@ const ShareCommunity = (props) => {
         <Text
           style={{
             ...shareTextStyle,
-            ...{color: mode == 'light' ? '#fff' : '#333'},
+            //...{color: mode == 'light' ? '#fff' : '#333'},
           }}>
           {text}
         </Text>

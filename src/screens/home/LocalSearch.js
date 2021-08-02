@@ -74,9 +74,13 @@ export default function LocalSearch(props) {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: 50,
         }}>
-        <View style={{padding: 10, flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            padding: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
           <View style={{width: 45, alignItems: 'center'}}>
             <CommunityAvatar
               communityId={communityId}
