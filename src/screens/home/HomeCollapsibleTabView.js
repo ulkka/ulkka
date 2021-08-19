@@ -37,7 +37,7 @@ export default function HomeCollapsibleTabView(props) {
     }).start();
   }, [tabShown]);
 
-  const handleIndexChange = (index) => {
+  const handleIndexChange = index => {
     analytics().logScreenView({
       screen_name: 'Home-' + routes[index].title,
       screen_class: 'Home-' + routes[index].title,
@@ -46,7 +46,7 @@ export default function HomeCollapsibleTabView(props) {
     setIndex(index);
   };
 
-  const renderTabBar = (props) => {
+  const renderTabBar = props => {
     return (
       <Animated.View
         style={[
@@ -84,7 +84,7 @@ export default function HomeCollapsibleTabView(props) {
     );
   };
 
-  const handleOnScrollEndDrag = (event) => {
+  const handleOnScrollEndDrag = event => {
     const scrolling = event.nativeEvent.contentOffset.y;
     const Yvelocity = event.nativeEvent.velocity.y;
     var direction =
@@ -105,7 +105,7 @@ export default function HomeCollapsibleTabView(props) {
     }
   };
 
-  const handleOnMomentumScrollEnd = (event) => {
+  const handleOnMomentumScrollEnd = event => {
     const scrolling = event.nativeEvent.contentOffset.y;
     if (scrolling < 300 && !tabShown) {
       setTabShown(true);
@@ -159,9 +159,7 @@ export default function HomeCollapsibleTabView(props) {
         renderTabBar={renderTabBar}
         onIndexChange={handleIndexChange}
         initialLayout={initialLayout}
-        lazy={({route}) =>
-          route.key === 'popular' || route.key === 'communities'
-        }
+        lazy={({route}) => route.key === 'popular'}
       />
     </View>
   );

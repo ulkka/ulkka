@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Platform} from 'react-native';
 import Main from './navigation/Main';
 import SplashScreen from 'react-native-splash-screen';
-import {Provider as StoreProvider} from 'react-redux';
+import {Provider as StoreProvider, useSelector} from 'react-redux';
 import store from './redux/reducers/index';
 import {ThemeProvider} from 'react-native-elements';
 import theme from './theme/main';
@@ -18,6 +18,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import CacheManagement from './components/CacheManagement';
 import AppIntroSlider from './components/AppIntroSliderView';
 import {getData} from './localStorage/helpers';
+import {getRegistrationStatus} from './redux/reducers/AuthSlice';
 
 export default function App() {
   const [maintenance, setMaintenance] = useState(false);
@@ -25,17 +26,9 @@ export default function App() {
   //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
   // also check whether user has done app intro tutorial
   async function bootstrap() {
-    const appInstanceId = await analytics().getAppInstanceId();
-    const isHermes = () => !!global.HermesInternal;
-    console.log('appinstanceid and isHermes', appInstanceId, isHermes());
     if ((await utils().isRunningInTestLab) || __DEV__) {
-      await analytics().setAnalyticsCollectionEnabled(true);
+      await analytics().setAnalyticsCollectionEnabled(false);
       console.log('debug mode or running in firebase testlab');
-      await analytics()
-        .logEvent('test_work')
-        .then(() => console.log('tested work'))
-        .catch(error => console.log('error testing event', error));
-
       await firebase.perf().setPerformanceCollectionEnabled(false);
       await crashlytics().setCrashlyticsCollectionEnabled(false);
     }
@@ -56,25 +49,41 @@ export default function App() {
   };
 
   const RealApp = (
+    <ThemeProvider theme={theme}>
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <AppMaintenanceHandler
+          handle={toggleMaintenance}
+          maintenance={maintenance}
+        />
+        <LoadingOverlay />
+        <AuthIDTokenListener />
+        <CacheManagement />
+        {!maintenance && <Main />}
+        <RegisterDeviceToken />
+      </View>
+    </ThemeProvider>
+  );
+
+  function IntroVsApp() {
+    const isRegistered = useSelector(getRegistrationStatus);
+
+    return isRegistered ? (
+      introDone ? (
+        RealApp
+      ) : (
+        <AppIntroSlider setIntroDone={setIntroDone} />
+      )
+    ) : (
+      RealApp
+    );
+  }
+
+  return (
     <StoreProvider store={store}>
-      <ThemeProvider theme={theme}>
-        <View
-          style={{
-            flex: 1,
-          }}>
-          <AppMaintenanceHandler
-            handle={toggleMaintenance}
-            maintenance={maintenance}
-          />
-          <LoadingOverlay />
-          <AuthIDTokenListener />
-          <CacheManagement />
-          {!maintenance && <Main />}
-          <RegisterDeviceToken />
-        </View>
-      </ThemeProvider>
+      <IntroVsApp />
     </StoreProvider>
   );
-  return introDone ? RealApp : <AppIntroSlider setIntroDone={setIntroDone} />;
-  //return RealApp;
 }

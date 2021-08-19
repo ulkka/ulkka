@@ -7,7 +7,7 @@ import TopCommunities from '../../../components/TopCommunities';
 import {getRegistrationStatus} from '../../../redux/reducers/AuthSlice';
 import {showAuthScreen} from '../../../navigation/Ref';
 
-const EmptyHomeFeedView = (props) => {
+const EmptyHomeFeedView = props => {
   const [showRefresh, setShowRefresh] = useState(false);
   const userHasJoinedCommunities = useSelector(
     getIsCurrentUserPartOfAnyCommunity,
@@ -64,7 +64,6 @@ const EmptyHomeFeedView = (props) => {
         blurRadius={0.5}
         resizeMode="repeat"
         style={{
-          //  flex: 1,
           width: '100%',
           height: '100%',
           alignItems: 'center',
@@ -91,7 +90,7 @@ const EmptyHomeFeedView = (props) => {
                 ...(Platform.OS == 'ios' && {letterSpacing: 1}),
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              സ്വാഗതം!
+              Welcome !
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
