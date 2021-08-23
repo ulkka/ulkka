@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {
   getCommentAuthorDisplayname,
@@ -13,17 +13,16 @@ import TimeAgo from '../TimeAgo';
 import {push} from '../../navigation/Ref';
 import UserAvatar from '../UserAvatar';
 
-const CommentMetadata = (props) => {
+const CommentMetadata = props => {
+  const {theme} = useContext(ThemeContext);
   const {isCollapsed, commentId, onPressToggleCollapse} = props;
 
-  const authorDisplayname = useSelector((state) =>
+  const authorDisplayname = useSelector(state =>
     getCommentAuthorDisplayname(state, commentId),
   );
-  const createdAt = useSelector((state) =>
-    getCommentCreatedAt(state, commentId),
-  );
-  const authorId = useSelector((state) => getCommentAuthorId(state, commentId));
-  const postAuthorId = useSelector((state) =>
+  const createdAt = useSelector(state => getCommentCreatedAt(state, commentId));
+  const authorId = useSelector(state => getCommentAuthorId(state, commentId));
+  const postAuthorId = useSelector(state =>
     getCommentPostAuthor(state, commentId),
   );
   const registeredUser = useSelector(getRegisteredUser);
@@ -43,10 +42,10 @@ const CommentMetadata = (props) => {
   );
 
   const CommentAuthorDisplaynameColor = isCommentAuthorCurrentUser
-    ? '#02862ad6'
+    ? theme.colors.green
     : isCommentAuthorPostAuthor
-    ? '#245a89d6'
-    : '#444';
+    ? theme.colors.blue
+    : theme.colors.black4;
 
   const CommentAuthor = (
     <View

@@ -1,6 +1,6 @@
-import React, {useState, memo} from 'react';
+import React, {useState, memo, useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import CommentMetadata from './CommentMetadata';
 import CommentBody from './CommentBody';
@@ -12,16 +12,17 @@ import {
 import analytics from '@react-native-firebase/analytics';
 
 function Comment(props) {
+  const {theme} = useContext(ThemeContext);
   const {commentId, children, level} = props;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapse = () => {
     analytics().logEvent('comment_togglecollapse', {value: !isCollapsed});
     setIsCollapsed(!isCollapsed);
   };
-  const isCommentDeleted = useSelector((state) =>
+  const isCommentDeleted = useSelector(state =>
     getCommentisDeleted(state, commentId),
   );
-  const isCommentRemoved = useSelector((state) =>
+  const isCommentRemoved = useSelector(state =>
     getCommentisRemoved(state, commentId),
   );
 
@@ -52,9 +53,9 @@ function Comment(props) {
         style={{
           paddingVertical: 5,
           paddingLeft: 5,
-          backgroundColor: '#fff9f9',
+          backgroundColor: theme.colors.reddishWhite,
           borderBottomWidth: 1,
-          borderBottomColor: '#fff9f9',
+          borderBottomColor: theme.colors.reddishWhite,
         }}>
         <TouchableOpacity
           hitSlop={{top: 10, left: 20, right: 20}}
@@ -66,7 +67,7 @@ function Comment(props) {
           }}>
           <Text
             style={{
-              color: '#444',
+              color: theme.colors.black4,
               letterSpacing: 0.5,
               fontWeight: '500',
               fontSize: 12,
@@ -88,7 +89,7 @@ function Comment(props) {
             pointerEvents="none"
             style={{
               paddingBottom: 5,
-              backgroundColor: '#fff9f9',
+              backgroundColor: theme.colors.reddishWhite,
             }}>
             <CommentFooter commentId={commentId} level={level} />
           </View>

@@ -9,23 +9,22 @@ import {
 } from '../../redux/selectors/CommentSelectors';
 import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
 
-const SingleCommentThread = memo((props) => {
+const SingleCommentThread = memo(props => {
   const {commentId, level} = props;
 
-  const replies = useSelector((state) => getCommentReplies(state, commentId));
-  const commentAuthorId = useSelector((state) =>
+  const replies = useSelector(state => getCommentReplies(state, commentId));
+  const commentAuthorId = useSelector(state =>
     getCommentAuthorId(state, commentId),
   );
   const blockedUsers = useSelector(getBlockedUsers);
   const isAuthorBlocked =
     blockedUsers && blockedUsers.includes(commentAuthorId);
 
-  console.log('running single comment thread', commentId);
   return !isAuthorBlocked ? (
     <Comment commentId={commentId} key={commentId} level={level}>
       {!replies || !replies?.length ? null : (
         <CommentGroup parent={commentId} key={commentId}>
-          {replies.map((replyId) => {
+          {replies.map(replyId => {
             return (
               <SingleCommentThread
                 commentId={replyId}

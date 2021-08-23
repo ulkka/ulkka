@@ -1,5 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {ImageBackground, Platform, TouchableOpacity} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import YouTube, {YouTubeStandaloneAndroid} from 'react-native-youtube';
 import {Icon} from 'react-native-elements';
 
@@ -7,6 +8,8 @@ const youtubeApiKeyAndroid = 'AIzaSyBNeBs2j1bztyv1MNSw6ri2Nq798P2zNH8';
 const youtubeApiKeyiOS = 'AIzaSyANFC95iCrpKClkzIFJq0hQvsZml4qT_es';
 
 function YoutubeComponent(props) {
+  const {theme} = useContext(ThemeContext);
+
   const {videoId, height, width, imageUrl} = props;
   const playYoutubeVideo = () => {
     YouTubeStandaloneAndroid.playVideo({
@@ -15,9 +18,7 @@ function YoutubeComponent(props) {
       autoplay: true, // Autoplay the video
       startTime: 0, // Starting point of video (in seconds)
       lightboxMode: true,
-    })
-      .then(() => console.log('Standalone Player Exited'))
-      .catch((errorMessage) => console.error(errorMessage));
+    }).catch(errorMessage => console.error(errorMessage));
   };
 
   const YTiOS = (

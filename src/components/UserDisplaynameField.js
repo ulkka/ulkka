@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon, Input} from 'react-native-elements';
+import {Icon, Input, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserDisplayname,
@@ -10,8 +10,9 @@ import {getRegisteredUser} from '../redux/reducers/AuthSlice';
 import userApi from '../services/UserApi';
 import {Platform} from 'react-native';
 
-const UserDisplaynameField = (props) => {
+const UserDisplaynameField = props => {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
   const {userId} = props;
   const [displaynameErrorMessage, setDisplaynameErrorMessage] = useState('');
   const [isDisplaynameValid, setIsDisplaynameValid] = useState(true);
@@ -22,7 +23,7 @@ const UserDisplaynameField = (props) => {
   const registeredUserId = registeredUser?._id;
   const isProfile = userId == registeredUserId;
 
-  const userDisplayname = useSelector((state) =>
+  const userDisplayname = useSelector(state =>
     getUserDisplayname(state, userId),
   );
 
@@ -30,7 +31,7 @@ const UserDisplaynameField = (props) => {
     setDisplaynameValue(userDisplayname);
   }, [userDisplayname]);
 
-  const validateDisplayName = async (text) => {
+  const validateDisplayName = async text => {
     if (
       text.length < 4 ||
       !/^([a-zA-Z0-9\u0D00-\u0D7F_.-]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _.-
@@ -44,11 +45,9 @@ const UserDisplaynameField = (props) => {
     } else {
       const response = await userApi.user.displaynameExists(text);
       if (response.data.length == 0) {
-        console.log('displayname response', response);
         setIsDisplaynameValid(true);
         return true;
       } else {
-        console.log('displayname already exists response', response);
         setIsDisplaynameValid(false);
         setDisplaynameErrorMessage(
           'Display name already in use. Please enter another one',
@@ -79,7 +78,8 @@ const UserDisplaynameField = (props) => {
           type="font-awesome"
           name="check"
           size={11}
-          color="#25D366"
+          color={theme.colors.green}
+          containerStyle={{borderWidth: 1, borderColor: theme.colors.grey5}}
         />
       </TouchableOpacity>
       <TouchableOpacity
@@ -87,7 +87,14 @@ const UserDisplaynameField = (props) => {
         onPress={() => {
           setDisplaynameEdit(false);
         }}>
-        <Icon raised type="font-awesome" name="remove" size={11} color="red" />
+        <Icon
+          raised
+          type="font-awesome"
+          name="remove"
+          size={11}
+          color="red"
+          containerStyle={{borderWidth: 1, borderColor: theme.colors.grey5}}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -97,7 +104,7 @@ const UserDisplaynameField = (props) => {
       style={{
         fontSize: 17,
         fontWeight: 'bold',
-        color: '#444',
+        color: theme.colors.black4,
         paddingLeft: 10,
         ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
       }}>
@@ -112,17 +119,24 @@ const UserDisplaynameField = (props) => {
       onPress={() => {
         setDisplaynameEdit(true);
       }}>
-      <Icon type="font-awesome" name="pencil" size={11} color="#555" />
+      <Icon
+        type="font-awesome"
+        name="pencil"
+        size={11}
+        color={theme.colors.black5}
+      />
     </TouchableOpacity>
   );
 
   const TextInputField = (
     <Input
+      keyboardAppearance={theme.dark ? 'dark' : 'light'}
+      placeholderTextColor={theme.colors.black7}
       containerStyle={{
         width: isDisplaynameValid ? 150 : 200,
       }}
       inputContainerStyle={{
-        borderBottomColor: '#eee',
+        borderBottomColor: theme.colors.grey2,
         height: 25,
       }}
       inputStyle={{
@@ -132,7 +146,7 @@ const UserDisplaynameField = (props) => {
       autoCapitalize="none"
       autoCorrect={false}
       autoFocus={true}
-      onChangeText={(text) => setDisplaynameValue(text)}
+      onChangeText={text => setDisplaynameValue(text)}
       maxLength={25}
       value={displaynameValue}
       errorStyle={{color: 'red'}}

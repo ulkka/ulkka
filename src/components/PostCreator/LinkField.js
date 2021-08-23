@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, Text, Image, ScrollView, Platform} from 'react-native';
-import {Input} from 'react-native-elements';
+import {Input, ThemeContext} from 'react-native-elements';
 import utilityApi from '../../services/UtilityApi';
 import {isURLValid, transformText} from './helpers';
 
-export const LinkField = (props) => {
+export const LinkField = props => {
+  const {theme} = useContext(ThemeContext);
+
   const [preview, setPreview] = useState(false);
   const [previewData, setPreviewData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -21,7 +23,7 @@ export const LinkField = (props) => {
     }
   }, [previewData]);
 
-  const getOgPreview = async (link) => {
+  const getOgPreview = async link => {
     setLoading(true);
     setPreview(false);
     setPreviewData(null);
@@ -39,7 +41,7 @@ export const LinkField = (props) => {
         setPreview(false);
         setPreviewData(null);
         setLoading(false);
-        console.log('Preview error');
+        console.error('Preview error');
       }
     } else {
       setLoading(false);
@@ -48,7 +50,8 @@ export const LinkField = (props) => {
 
   const ogTitleField = (
     <View style={{margin: 5}}>
-      <Text style={{fontWeight: 'bold', fontSize: 13, color: '#333'}}>
+      <Text
+        style={{fontWeight: 'bold', fontSize: 13, color: theme.colors.black3}}>
         {previewData == null ? '' : previewData.ogTitle}
       </Text>
     </View>
@@ -56,7 +59,7 @@ export const LinkField = (props) => {
 
   const ogDescriptionField = (
     <View style={{marginHorizontal: 5}}>
-      <Text style={{fontSize: 11, color: '#555'}}>
+      <Text style={{fontSize: 11, color: theme.colors.black5}}>
         {previewData == null ? '' : previewData.ogDescription}
       </Text>
     </View>
@@ -86,7 +89,7 @@ export const LinkField = (props) => {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         opacity: 0.8,
       }}>
       <Image
@@ -97,8 +100,8 @@ export const LinkField = (props) => {
   ) : (
     <View
       style={{
-        backgroundColor: '#fff',
-        borderColor: '#ccc',
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.grey4,
         flexDirection: 'row',
         justifyContent: 'center',
         borderWidth: 1,
@@ -131,16 +134,18 @@ export const LinkField = (props) => {
           marginTop: Platform.OS == 'ios' ? 50 : 95,
         }}>
         <Input
+          keyboardAppearance={theme.dark ? 'dark' : 'light'}
+          placeholderTextColor={theme.colors.black7}
           style={{
             height: 'auto',
             minHeight: 50,
           }}
           inputContainerStyle={{
-            borderBottomColor: '#fff',
+            borderBottomColor: theme.colors.primary,
           }}
           keyboardType="url"
           inputStyle={{textAlign: 'center'}}
-          onChangeText={(text) => onChangeText(transformText(text, 1))}
+          onChangeText={text => onChangeText(transformText(text, 1))}
           value={link}
           placeholder={'Add Link'}
           numberOfLines={2}

@@ -4,7 +4,7 @@ $FirebaseSDKVersion = '8.0.0'
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 $RNFirebaseAnalyticsWithoutAdIdSupport = true
 
@@ -75,7 +75,7 @@ target 'Ulkka' do
 end
 
 target 'Ulkka-Share' do
-   use_react_native!
+   use_react_native!(:hermes_enabled => true)
     pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
       # Manually link packages here to keep your extension bundle size minimal
 end

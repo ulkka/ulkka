@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {Icon, Text, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {votePost} from '../redux/actions/PostActions';
 import {voteComment} from '../redux/actions/CommentActions';
@@ -18,24 +18,25 @@ import {kFormatter} from './helpers';
 
 export function Vote(props) {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
   const {id, entityType} = props;
 
   const userVote =
     entityType == 'post'
-      ? useSelector((state) => getPostUserVote(state, id))
-      : useSelector((state) => getCommentUserVote(state, id));
+      ? useSelector(state => getPostUserVote(state, id))
+      : useSelector(state => getCommentUserVote(state, id));
 
   const voteCount =
     entityType == 'post'
-      ? useSelector((state) => getPostVoteCount(state, id))
-      : useSelector((state) => getCommentVoteCount(state, id));
+      ? useSelector(state => getPostVoteCount(state, id))
+      : useSelector(state => getCommentVoteCount(state, id));
 
   const voteIsLoading =
     entityType == 'post'
-      ? useSelector((state) => getPostVoteIsLoading(state, id))
-      : useSelector((state) => getCommentVoteIsLoading(state, id));
+      ? useSelector(state => getPostVoteIsLoading(state, id))
+      : useSelector(state => getCommentVoteIsLoading(state, id));
 
-  const vote = (type) => {
+  const vote = type => {
     let voteType = userVote == type ? 0 : type;
     const payload = {id: id, voteType: voteType};
     if (entityType == 'post') {
@@ -55,7 +56,7 @@ export function Vote(props) {
         name={userVote == 1 ? 'arrow-up-bold' : 'arrow-up-bold-outline'}
         type="material-community"
         size={20}
-        color={userVote == 1 ? '#ff4301' : '#888'}
+        color={userVote == 1 ? '#ff4301' : theme.colors.black8}
       />
     </TouchableOpacity>
   );
@@ -64,7 +65,12 @@ export function Vote(props) {
     <Text
       style={{
         fontWeight: 'bold',
-        color: userVote == 1 ? '#ff4301' : userVote == -1 ? '#3b5998' : '#888',
+        color:
+          userVote == 1
+            ? '#ff4301'
+            : userVote == -1
+            ? '#3b5998'
+            : theme.colors.black8,
         paddingHorizontal: 10,
       }}>
       {kFormatter(voteCount)}
@@ -80,7 +86,7 @@ export function Vote(props) {
         name={userVote == -1 ? 'arrow-down-bold' : 'arrow-down-bold-outline'}
         type="material-community"
         size={20}
-        color={userVote == -1 ? '#3b5998' : '#888'}
+        color={userVote == -1 ? '#3b5998' : theme.colors.black8}
       />
     </TouchableOpacity>
   );

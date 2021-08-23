@@ -1,4 +1,4 @@
-import React, {useEffect, memo} from 'react';
+import React, {useEffect, memo, useContext} from 'react';
 import {
   View,
   FlatList,
@@ -8,7 +8,7 @@ import {
   Image,
   Animated,
 } from 'react-native';
-import {Divider, Icon} from 'react-native-elements';
+import {Divider, Icon, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchUserComments} from '../../../redux/actions/CommentActions';
 import {
@@ -24,9 +24,11 @@ import analytics from '@react-native-firebase/analytics';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-const CommentRow = memo((props) => {
+const CommentRow = memo(props => {
+  const {theme} = useContext(ThemeContext);
+
   const {commentId} = props;
-  const comment = useSelector((state) => selectCommentById(state, commentId));
+  const comment = useSelector(state => selectCommentById(state, commentId));
   const createdAt = comment?.created_at;
   const text = comment?.text;
   const voteCount = comment?.voteCount;
@@ -41,7 +43,7 @@ const CommentRow = memo((props) => {
     <Text
       ellipsizeMode={'tail'}
       numberOfLines={5}
-      style={{padding: 5, color: '#333'}}>
+      style={{padding: 5, color: theme.colors.black3}}>
       {text}
     </Text>
   ) : (
@@ -69,9 +71,14 @@ const CommentRow = memo((props) => {
         }
         type="material-community"
         size={14}
-        color={'#888'}
+        color={theme.colors.black8}
       />
-      <Text style={{fontSize: 12, color: '#444', paddingHorizontal: 4}}>
+      <Text
+        style={{
+          fontSize: 12,
+          color: theme.colors.black4,
+          paddingHorizontal: 4,
+        }}>
         {voteCount}
       </Text>
     </View>
@@ -90,7 +97,8 @@ const CommentRow = memo((props) => {
       </Text>
     ) : (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{fontWeight: 'bold', padding: 5, color: '#444'}}>
+        <Text
+          style={{fontWeight: 'bold', padding: 5, color: theme.colors.black4}}>
           {postTitle}
         </Text>
         {isCommentRemoved && (
@@ -100,7 +108,9 @@ const CommentRow = memo((props) => {
               padding: 3,
               borderRadius: 5,
             }}>
-            <Text style={{fontSize: 10, color: '#444'}}>Comment Removed</Text>
+            <Text style={{fontSize: 10, color: theme.colors.black4}}>
+              Comment Removed
+            </Text>
           </View>
         )}
       </View>
@@ -126,7 +136,10 @@ const CommentRow = memo((props) => {
       disabled={isPostDeleted || isPostRemoved}
       style={{
         padding: 5,
-        backgroundColor: isPostDeleted || isCommentDeleted ? '#fff5f5' : '#fff',
+        backgroundColor:
+          isPostDeleted || isCommentDeleted
+            ? theme.colors.reddishWhite
+            : theme.colors.primary,
         borderRadius: 5,
         marginHorizontal: 3,
       }}
@@ -145,24 +158,25 @@ const CommentRow = memo((props) => {
 });
 
 const separator = memo(() => {
-  return <Divider style={{backgroundColor: '#fafafa', height: 5}} />;
+  const {theme} = useContext(ThemeContext);
+
+  return <Divider style={{backgroundColor: theme.colors.grey0, height: 5}} />;
 });
 
-const Comments = (props) => {
+const Comments = props => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
 
   const userId = props.userId;
 
-  const commentIds = useSelector((state) =>
+  const commentIds = useSelector(state =>
     getUserCommentsSelector(state, userId),
   );
-  const complete = useSelector((state) =>
+  const complete = useSelector(state =>
     getUserCommentsIsComplete(state, userId),
   );
-  const loading = useSelector((state) =>
-    getUserCommentsIsLoading(state, userId),
-  );
-  console.log('running comments tab');
+  const loading = useSelector(state => getUserCommentsIsLoading(state, userId));
 
   useEffect(() => {
     dispatch(fetchUserComments(userId));
@@ -173,7 +187,6 @@ const Comments = (props) => {
   };
 
   const handleLoadMore = () => {
-    console.log('loading more comments');
     if (!complete && !loading) {
       dispatch(fetchUserComments(userId));
     }
@@ -183,7 +196,7 @@ const Comments = (props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
       }}>
       <AnimatedFlatList
         listKey="userCommentList"
@@ -212,7 +225,12 @@ const Comments = (props) => {
         {...props}
       />
       {!complete && loading && (
-        <View style={{flex: 1, backgroundColor: '#fff', alignSelf: 'center'}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: theme.colors.primary,
+            alignSelf: 'center',
+          }}>
           <Image
             source={require('../../../../assets/loading.gif')}
             style={{height: 40, width: 40, paddingTop: 20}}

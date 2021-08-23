@@ -1,23 +1,14 @@
-import React, {memo, useState, useEffect} from 'react';
+import React, {memo, useState, useEffect, useContext} from 'react';
 import {View} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import Feed from '../../../components/Feed/Feed';
 import {useSelector} from 'react-redux';
 import {getIsCurrentUserPartOfAnyCommunity} from '../../../redux/reducers/CommunitySlice';
 import EmptyHomeFeedView from './EmptyHomeFeedView';
-import {
-  getAuthStatus,
-  getRegistrationStatus,
-} from '../../../redux/reducers/AuthSlice';
+import {getRegistrationStatus} from '../../../redux/reducers/AuthSlice';
 
 function Home(props) {
-  const isRegistered = useSelector(getRegistrationStatus);
-  useEffect(() => {
-    if (isRegistered !== 1) {
-      setTimeout(() => {
-        props.jumpTo('popular');
-      }, 25);
-    }
-  }, [isRegistered]);
+  const {theme} = useContext(ThemeContext);
 
   const userHasJoinedCommunities = useSelector(
     getIsCurrentUserPartOfAnyCommunity,
@@ -28,7 +19,7 @@ function Home(props) {
   ] = useState(userHasJoinedCommunities);
 
   const homeFeedView = (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
       <Feed {...props} />
     </View>
   );

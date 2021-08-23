@@ -202,7 +202,6 @@ export const downloadMedia = createAsyncThunk(
   'posts/downloadMedia',
   async (postId, {rejectWithValue, getState}) => {
     try {
-      console.log('cache directory', RNFS.CachesDirectoryPath);
       const {bytes, secure_url: url} = getState().posts.entities[
         postId
       ]?.mediaMetadata;
@@ -216,22 +215,16 @@ export const downloadMedia = createAsyncThunk(
       let fileStat = fileExists && (await RNFS.stat(toFile));
 
       if (fileExists && fileStat?.size == bytes) {
-        console.log('file exists in cache, so returning local uri already');
         return {
           postId: postId,
           localUri: toFile,
         };
       }
 
-      console.log('file doesnt exist in cache so downloading');
-
       const mediaLibraryDirectoryPathExists = await RNFS.exists(
         mediaCacheDirectoryPath,
       );
       if (!mediaLibraryDirectoryPathExists) {
-        console.log(
-          'Media cache download folder does not exist. So creating one!',
-        );
         await RNFS.mkdir(mediaCacheDirectoryPath);
       }
 
@@ -243,7 +236,6 @@ export const downloadMedia = createAsyncThunk(
       fileExists = await RNFS.exists(toFile);
       fileStat = fileExists && (await RNFS.stat(toFile));
       if (fileExists && fileStat?.size == bytes) {
-        console.log('file downloaded successfully, so returning local uri');
         return {
           postId: postId,
           localUri: toFile,
@@ -294,8 +286,8 @@ export const downloadMediaToLibrary = createAsyncThunk(
       }
       const mediaLibraryDirectoryPathExists = await RNFS.exists(
         mediaLibraryDirectoryPath,
-      ).catch((error) =>
-        console.log('error creating media library path', error),
+      ).catch(error =>
+        console.error('error creating media library path', error),
       );
 
       if (!mediaLibraryDirectoryPathExists) {
@@ -310,8 +302,8 @@ export const downloadMediaToLibrary = createAsyncThunk(
             return rejectWithValue('Permission denied');
           }
         }
-        await RNFS.mkdir(mediaLibraryDirectoryPath).catch((error) =>
-          console.log('error creating Ulkka folder', error),
+        await RNFS.mkdir(mediaLibraryDirectoryPath).catch(error =>
+          console.error('error creating Ulkka folder', error),
         );
       }
 
@@ -332,8 +324,8 @@ export const downloadMediaToLibrary = createAsyncThunk(
         .fetch('GET', url, {
           //some headers ..
         })
-        .catch((error) => {
-          console.log('error downloading through rnfetchblob', error);
+        .catch(error => {
+          console.error('error downloading through rnfetchblob', error);
           return rejectWithValue(error);
         });
 
@@ -350,7 +342,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
         }
       }
     } catch (error) {
-      console.log('error try catch', error);
+      console.error('error try catch', error);
       return rejectWithValue(error);
     }
   },

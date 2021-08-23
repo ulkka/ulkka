@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Platform} from 'react-native';
+import {View, Appearance, StatusBar} from 'react-native';
 import Main from './navigation/Main';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider as StoreProvider, useSelector} from 'react-redux';
 import store from './redux/reducers/index';
 import {ThemeProvider} from 'react-native-elements';
-import theme from './theme/main';
+import {light, dark} from './theme/main';
 import LoadingOverlay from './components/LoadingOverlay';
 import RegisterDeviceToken from './components/RegisterDeviceToken';
 //import ShareMenuHandler from './components/ShareMenuHandler';
@@ -23,12 +23,12 @@ import {getRegistrationStatus} from './redux/reducers/AuthSlice';
 export default function App() {
   const [maintenance, setMaintenance] = useState(false);
   const [introDone, setIntroDone] = useState(true);
+  const colorScheme = Appearance.getColorScheme();
   //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
   // also check whether user has done app intro tutorial
   async function bootstrap() {
     if ((await utils().isRunningInTestLab) || __DEV__) {
       await analytics().setAnalyticsCollectionEnabled(false);
-      console.log('debug mode or running in firebase testlab');
       await firebase.perf().setPerformanceCollectionEnabled(false);
       await crashlytics().setCrashlyticsCollectionEnabled(false);
     }
@@ -48,36 +48,45 @@ export default function App() {
     setMaintenance(value);
   };
 
-  const RealApp = (
-    <ThemeProvider theme={theme}>
-      <View
-        style={{
-          flex: 1,
-        }}>
-        <AppMaintenanceHandler
-          handle={toggleMaintenance}
-          maintenance={maintenance}
+  const RealApp = () => {
+    const isDark = true;
+    const theme = isDark ? dark : light;
+
+    return (
+      <ThemeProvider theme={theme} useDark={isDark}>
+        <StatusBar
+          barStyle={isDark ? 'light-content' : 'dark-content'}
+          backgroundColor={isDark ? '#111' : '#fefefe'}
         />
-        <LoadingOverlay />
-        <AuthIDTokenListener />
-        <CacheManagement />
-        {!maintenance && <Main />}
-        <RegisterDeviceToken />
-      </View>
-    </ThemeProvider>
-  );
+        <View
+          style={{
+            flex: 1,
+          }}>
+          <AppMaintenanceHandler
+            handle={toggleMaintenance}
+            maintenance={maintenance}
+          />
+          <LoadingOverlay />
+          <AuthIDTokenListener />
+          <CacheManagement />
+          {!maintenance && <Main />}
+          <RegisterDeviceToken />
+        </View>
+      </ThemeProvider>
+    );
+  };
 
   function IntroVsApp() {
     const isRegistered = useSelector(getRegistrationStatus);
 
     return isRegistered ? (
       introDone ? (
-        RealApp
+        <RealApp />
       ) : (
         <AppIntroSlider setIntroDone={setIntroDone} />
       )
     ) : (
-      RealApp
+      <RealApp />
     );
   }
 

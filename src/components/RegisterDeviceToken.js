@@ -16,7 +16,7 @@ export default function RegisterDeviceToken() {
     // if(Platform.OS == 'ios') { messaging().getAPNSToken().then(token => { return saveTokenToDatabase(token); }); }
 
     // Listen to whether the token changes
-    return messaging().onTokenRefresh((token) => {
+    return messaging().onTokenRefresh(token => {
       saveToken(token);
     });
   }, []);
@@ -28,7 +28,7 @@ export default function RegisterDeviceToken() {
     if (isDeviceRegisteredForRemoteMessages) {
       const token = await messaging()
         .getToken()
-        .catch((error) => console.log('error getting token', error));
+        .catch(error => console.error('error getting token', error));
       saveToken(token);
     }
   };
@@ -50,12 +50,12 @@ export default function RegisterDeviceToken() {
     }
   }
 
-  const saveToken = async (token) => {
+  const saveToken = async token => {
     if (Platform.OS == 'android') {
       messaging()
         .subscribeToTopic('allDevices')
-        .then(() => console.log('Subscribed to topic!'))
-        .catch((error) => console.log('Error subscribing to topic', error));
+        // .then(() => console.log('Subscribed to topic!'))
+        .catch(error => console.error('Error subscribing to topic', error));
     }
     if (isRegistered && token.length) {
       userApi.user.registerDeviceTokenForNotifications(token);
@@ -63,8 +63,8 @@ export default function RegisterDeviceToken() {
       if (Platform.OS == 'ios') {
         messaging()
           .subscribeToTopic('allDevices')
-          .then(() => console.log('Subscribed to topic!'))
-          .catch((error) => console.log('Error subscribing to topic', error));
+          // .then(() => console.log('Subscribed to topic!'))
+          .catch(error => console.error('Error subscribing to topic', error));
       }
     }
   };

@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, TouchableOpacity, Text, Platform} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
 import ExtraOptions from '../ExtraOptions';
 import {push} from '../../navigation/Ref';
@@ -19,31 +19,33 @@ import UserAvatar from '../UserAvatar';
 import CommunityMembershipToggler from './CommunityMembershipToggler';
 import CommunityAvatar from '../CommunityAvatar';
 
-const PostHeader = (props) => {
+const PostHeader = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {postId, screen} = props;
 
   const screenType = screen.split('-')[0];
 
   const isCommunityDetail = screenType == 'CommunityDetail';
 
-  const createdAt = useSelector((state) => getPostCreatedAt(state, postId));
+  const createdAt = useSelector(state => getPostCreatedAt(state, postId));
 
-  const communityId = useSelector((state) => getPostCommunityId(state, postId));
-  const communityName = useSelector((state) =>
+  const communityId = useSelector(state => getPostCommunityId(state, postId));
+  const communityName = useSelector(state =>
     getPostCommunityName(state, postId),
   );
 
-  const authorId = useSelector((state) => getPostAuthorId(state, postId));
-  const authorDisplayname = useSelector((state) =>
+  const authorId = useSelector(state => getPostAuthorId(state, postId));
+  const authorDisplayname = useSelector(state =>
     getPostAuthorDisplayname(state, postId),
   );
-  const isRemoved = useSelector((state) => getPostisRemoved(state, postId));
+  const isRemoved = useSelector(state => getPostisRemoved(state, postId));
 
   const registeredUser = useSelector(getRegisteredUser);
 
   const isPostAuthorCurrentUser = authorId === registeredUser?._id;
 
-  const isPinned = useSelector((state) => getPostIsPinned(state, postId));
+  const isPinned = useSelector(state => getPostIsPinned(state, postId));
 
   const PostAuthorAvatar = (
     <TouchableOpacity onPress={() => push('UserDetail', {userId: authorId})}>
@@ -63,7 +65,7 @@ const PostHeader = (props) => {
         style={{
           fontSize: 12,
           fontWeight: 'bold',
-          color: '#666',
+          color: theme.colors.black6,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {communityName ? communityName : 'Ulkka'}
@@ -72,8 +74,8 @@ const PostHeader = (props) => {
   );
 
   const CommentAuthorDisplaynameColor = isPostAuthorCurrentUser
-    ? '#02862aaa'
-    : '#777';
+    ? theme.colors.green
+    : theme.colors.black7;
 
   const UserDisplayName = (
     <View>
@@ -136,7 +138,7 @@ const PostHeader = (props) => {
         name="pin"
         type="material-community"
         size={16}
-        color="#02862acc"
+        color={theme.colors.green}
         style={{paddingHorizontal: 10}}
       />
     </View>
@@ -178,7 +180,9 @@ const PostHeader = (props) => {
               padding: 5,
               borderRadius: 5,
             }}>
-            <Text style={{fontSize: 12, color: '#444'}}>Post removed</Text>
+            <Text style={{fontSize: 12, color: theme.colors.black4}}>
+              Post removed
+            </Text>
           </View>
         )}
         <ExtraOptions id={postId} type={'post'} />

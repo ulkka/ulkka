@@ -1,12 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 
 function FeedFooterComponent(props) {
   const {complete, loading, text} = props;
+  const {theme} = useContext(ThemeContext);
   if (complete) {
     return (
       <View style={styles.listEmptyView}>
-        <Text style={styles.listEmptyText}>
+        <Text
+          style={{
+            flex: 1,
+            padding: 9,
+            justifyContent: 'center',
+            fontWeight: 'bold',
+            color: theme.colors.black4,
+          }}>
           {'  '}
           {text ? text : 'This feed is over'}
           {'  '}
@@ -36,13 +45,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     justifyContent: 'center',
   },
-  listEmptyText: {
-    flex: 1,
-    padding: 9,
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    color: '#444',
-  },
+
   loadingView: {
     flex: 1,
     height: 120,

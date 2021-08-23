@@ -1,8 +1,8 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, Text, Platform, TouchableOpacity, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getUserMemberCommunities} from '../../../redux/reducers/CommunitySlice';
-import {Divider, Button, Icon} from 'react-native-elements';
+import {Divider, Button, Icon, ThemeContext} from 'react-native-elements';
 import CommunityAvatar from '../../../components/CommunityAvatar';
 import {push, navigate} from '../../../navigation/Ref';
 import TopCommunities from '../../../components/TopCommunities';
@@ -10,6 +10,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import FavoriteCommunity from '../../community/FavoriteCommunity';
 
 const CommunityRow = memo(({community, onlyIcons}) => {
+  const {theme} = useContext(ThemeContext);
   const {_id: communityId, name: communityName, role} = community;
 
   return communityName ? (
@@ -33,7 +34,7 @@ const CommunityRow = memo(({community, onlyIcons}) => {
               numberOfLines={1}
               style={{
                 padding: 10,
-                color: '#444',
+                color: theme.colors.black4,
                 maxWidth: 160,
                 fontWeight: 'bold',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -52,7 +53,7 @@ const CommunityRow = memo(({community, onlyIcons}) => {
                     paddingLeft: 10,
                   }),
                 }}
-                color="#02862acc"
+                color={theme.colors.green}
               />
             )}
           </View>
@@ -66,11 +67,15 @@ const CommunityRow = memo(({community, onlyIcons}) => {
 });
 
 export default memo(function UserCommunities(props) {
+  const {theme} = useContext(ThemeContext);
+
   const {type, contentContainerStyle, onlyIcons} = props;
   const memberCommunities = useSelector(getUserMemberCommunities);
 
   const separator = () => {
-    return <Divider style={{backgroundColor: '#fff', height: 5}} />;
+    return (
+      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
+    );
   };
 
   const handlerRenderItem = ({item, index}) => {
@@ -84,17 +89,24 @@ export default memo(function UserCommunities(props) {
         title="Create Community"
         buttonStyle={{
           borderRadius: 15,
-          backgroundColor: '#2a9df4',
+          backgroundColor: theme.colors.blue,
           paddingVertical: 7,
           alignItems: 'center',
         }}
         titleStyle={{
           paddingLeft: 10,
-          color: '#fff',
+          color: theme.colors.primary,
           fontSize: 14,
           ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
         }}
-        icon={<Icon name="plus" size={17} color="#fff" type="font-awesome" />}
+        icon={
+          <Icon
+            name="plus"
+            size={17}
+            color={theme.colors.primary}
+            type="font-awesome"
+          />
+        }
         onPress={() => navigate('Create Community')}
       />
     </View>
@@ -110,13 +122,13 @@ export default memo(function UserCommunities(props) {
             justifyContent: 'center',
             padding: 10,
             borderBottomWidth: 1,
-            borderBottomColor: '#eee',
+            borderBottomColor: theme.colors.grey2,
           }}>
           <Text
             style={{
               fontWeight: 'bold',
               fontSize: 14,
-              color: '#555',
+              color: theme.colors.black5,
               textTransform: 'uppercase',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
@@ -153,7 +165,7 @@ export default memo(function UserCommunities(props) {
         style={{borderRadius: 15, width: '100%'}}
       />
       <View style={{height: 5}}></View>
-      <Text style={{color: '#555', fontSize: 13}}>
+      <Text style={{color: theme.colors.black5, fontSize: 13}}>
         You haven't joined any communities yet
       </Text>
     </View>
@@ -180,7 +192,7 @@ export default memo(function UserCommunities(props) {
         // ItemSeparatorComponent={separator}
         // ListHeaderComponent={listHeader}
         ListEmptyComponent={listEmptyComponent}
-        ListFooterComponent={separator}
+        // ListFooterComponent={separator}
       />
     </View>
   );

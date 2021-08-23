@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Platform} from 'react-native';
-import {Input} from 'react-native-elements';
+import {Input, ThemeContext} from 'react-native-elements';
 
-export const DescriptionField = (props) => {
+export const DescriptionField = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {onChangeText, description} = props;
   return (
     <View
@@ -13,12 +15,14 @@ export const DescriptionField = (props) => {
         justifyContent: 'center',
       }}>
       <Input
+        placeholderTextColor={theme.colors.black7}
+        keyboardAppearance={theme.dark ? 'dark' : 'light'}
         inputContainerStyle={{
-          borderBottomColor: '#fff',
+          borderBottomColor: theme.colors.primary,
           minHeight: 100,
         }}
         inputStyle={{textAlign: 'center', lineHeight: 24}}
-        onChangeText={(text) => onChangeText(text)}
+        onChangeText={text => onChangeText(text)}
         value={description}
         placeholder={'Description'}
         multiline={true}

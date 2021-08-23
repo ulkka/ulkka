@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, Image} from 'react-native';
-import {Overlay} from 'react-native-elements';
+import {Overlay, ThemeContext} from 'react-native-elements';
 import {Button} from 'react-native';
 
-export const uploadProgress = (_setUploadProgress) => (progressEvent) => {
+export const uploadProgress = _setUploadProgress => progressEvent => {
   const percentFraction = progressEvent.loaded / progressEvent.total;
   _setUploadProgress(parseInt(percentFraction * 100));
 };
 
-export const ShowSubmitProgress = (props) => {
+export const ShowSubmitProgress = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {percent, isVisible, onCancel, showUploadProgress} = props;
 
   return (
@@ -18,6 +20,7 @@ export const ShowSubmitProgress = (props) => {
       animationType="none"
       fullScreen
       overlayStyle={{
+        backgroundColor: theme.colors.grey4,
         opacity: 0.8,
       }}>
       <View
@@ -55,7 +58,7 @@ export const ShowSubmitProgress = (props) => {
                   flex: 1,
                   fontSize: 16,
                   fontWeight: 'bold',
-                  color: '#333',
+                  color: theme.colors.black3,
                 }}>
                 {percent != 100
                   ? percent + ' %   Uploaded  '
@@ -66,7 +69,11 @@ export const ShowSubmitProgress = (props) => {
               style={{
                 bottom: 20,
               }}>
-              <Button title="Cancel Upload" onPress={onCancel} />
+              <Button
+                title="Cancel Upload"
+                onPress={onCancel}
+                color={theme.colors.blue}
+              />
             </View>
           </View>
         ) : null}

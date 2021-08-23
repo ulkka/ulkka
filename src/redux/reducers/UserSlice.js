@@ -18,7 +18,7 @@ import {createCachedSelector} from 're-reselect';
 import {handleError} from '../actions/common';
 
 export const userAdapter = createEntityAdapter({
-  selectId: (user) => user._id,
+  selectId: user => user._id,
 });
 
 const addRegisteredUserToSlice = (state, action) => {
@@ -42,7 +42,6 @@ export const updateBio = createAsyncThunk(
   'user/updateBio',
   async ({id, bio}, {rejectWithValue}) => {
     try {
-      console.log('id,bio', id, bio);
       const response = await userApi.user.updateUserBio(id, bio);
       return {id, bio};
     } catch (error) {
@@ -55,7 +54,6 @@ export const updateDisplayname = createAsyncThunk(
   'user/updateDisplayname',
   async ({id, displayname}, {rejectWithValue}) => {
     try {
-      console.log('id,displayname', id, displayname);
       const response = await userApi.user.updateUserDisplayname(
         id,
         displayname,
@@ -184,7 +182,7 @@ export const {
   selectEntities: selectUserEntities,
   selectAll: selectAllUsers,
   selectTotal: selectTotalUsers,
-} = userAdapter.getSelectors((state) => state.users);
+} = userAdapter.getSelectors(state => state.users);
 
 export const getUserCreatedAt = (state, id) =>
   selectUserById(state, id)?.created_at;
@@ -204,6 +202,6 @@ export const getUserTotalKarma = createCachedSelector(
 )((state, id) => id);
 
 export const searchUserDisplayname = (state, value) =>
-  selectAllUsers(state).filter((user) =>
+  selectAllUsers(state).filter(user =>
     user.displayname.toLowerCase().includes(value),
   );

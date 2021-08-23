@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, StyleSheet, useWindowDimensions, Platform} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {TabView, TabBar} from 'react-native-tab-view';
 import SearchCommunityResults from './SearchCommunityResults';
 import SearchUserResults from './SearchUserResults';
@@ -7,6 +8,8 @@ import SearchUserResults from './SearchUserResults';
 const COLLAPSED_HEIGHT = 40;
 
 export default function ServerSearchTabNavigation(props) {
+  const {theme} = useContext(ThemeContext);
+
   const initialLayout = useWindowDimensions();
 
   const [index, setIndex] = useState(0);
@@ -15,21 +18,26 @@ export default function ServerSearchTabNavigation(props) {
     {key: 'users', title: 'Users'},
   ]);
 
-  const handleIndexChange = (index) => {
+  const handleIndexChange = index => {
     setIndex(index);
   };
 
-  const renderTabBar = (props) => {
+  const renderTabBar = props => {
     return (
       <View style={[styles.header]}>
         <View style={styles.overlay} />
 
         <TabBar
           {...props}
-          pressColor="#fff"
-          style={styles.tabbar}
+          pressColor={theme.colors.primary}
+          style={{
+            height: COLLAPSED_HEIGHT,
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          }}
           getLabelText={({route}) => route.title}
-          activeColor="#333"
+          activeColor={theme.colors.black3}
           inactiveColor="grey"
           labelStyle={{
             fontWeight: 'bold',
@@ -44,7 +52,7 @@ export default function ServerSearchTabNavigation(props) {
             justifyContent: 'flex-start',
           }}
           indicatorStyle={{
-            backgroundColor: 'powderblue',
+            backgroundColor: theme.colors.blue,
           }}
         />
       </View>
@@ -82,7 +90,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, .32)',
   },
   header: {
     position: 'absolute',
@@ -90,11 +97,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1,
-  },
-  tabbar: {
-    height: COLLAPSED_HEIGHT,
-    backgroundColor: '#fff',
-    elevation: 0,
-    shadowOpacity: 0,
   },
 });

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -7,12 +7,14 @@ import {
   unblockUser,
 } from '../../redux/reducers/UserSlice';
 import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
-import {Button, Divider} from 'react-native-elements';
+import {Button, Divider, ThemeContext} from 'react-native-elements';
 import UserAvatar from '../../components/UserAvatar';
 
 const UserRow = ({userId}) => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
-  const userDisplayname = useSelector((state) =>
+  const userDisplayname = useSelector(state =>
     getUserDisplayname(state, userId),
   );
 
@@ -34,7 +36,8 @@ const UserRow = ({userId}) => {
       }}>
       <View style={{padding: 10, flexDirection: 'row', alignItems: 'center'}}>
         <UserAvatar seed={userDisplayname} size={'large'} />
-        <Text style={{padding: 10, color: '#444', fontWeight: 'bold'}}>
+        <Text
+          style={{padding: 10, color: theme.colors.black4, fontWeight: 'bold'}}>
           {userDisplayname}
           {'     '}
         </Text>
@@ -44,7 +47,7 @@ const UserRow = ({userId}) => {
           title="Unblock"
           titleStyle={{
             fontSize: 13,
-            color: '#2a9df4',
+            color: theme.colors.blue,
             padding: 15,
             fontWeight: '600',
           }}
@@ -58,14 +61,17 @@ const UserRow = ({userId}) => {
 };
 
 export default function BlockedUsers() {
+  const {theme} = useContext(ThemeContext);
+
   const blockedUsers = useSelector(getBlockedUsers);
 
   const separator = () => {
-    return <Divider style={{backgroundColor: '#fff', height: 5}} />;
+    return (
+      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
+    );
   };
 
   const handlerRenderItem = ({item}) => {
-    console.log('item before userrow', item);
     return <UserRow userId={item} />;
   };
 
@@ -73,7 +79,7 @@ export default function BlockedUsers() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         paddingTop: 20,
       }}>
       {blockedUsers?.length ? (
@@ -93,7 +99,7 @@ export default function BlockedUsers() {
             fontWeight: 'bold',
             alignSelf: 'center',
             paddingTop: '50%',
-            color: '#555',
+            color: theme.colors.black5,
           }}>
           No blocked users{'  '}
         </Text>

@@ -1,6 +1,10 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useContext} from 'react';
 import {Platform, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import analytics from '@react-native-firebase/analytics';
 import {enableScreens} from 'react-native-screens';
@@ -12,6 +16,7 @@ import Splash from '../screens/Splash';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadAuth} from '../redux/actions/AuthActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
+import {ThemeContext} from 'react-native-elements';
 
 //import {useReduxDevToolsExtension} from '@react-navigation/devtools';
 
@@ -21,6 +26,7 @@ enableScreens();
 
 export default function Main() {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
   // useReduxDevToolsExtension(navigationRef);
   const authStatus = useSelector(getAuthStatus);
 
@@ -38,7 +44,7 @@ export default function Main() {
   return (
     <View style={{flex: 1}}>
       {authStatus == 'UNAUTHENTICATED' ? (
-        <NavigationContainer>
+        <NavigationContainer theme={theme}>
           <StackNav.Navigator initialRouteName="Splash">
             <StackNav.Screen
               name="Splash"
@@ -53,6 +59,7 @@ export default function Main() {
       ) : (
         <NavigationContainer
           linking={linking}
+          theme={theme.dark ? DarkTheme : DefaultTheme}
           //  fallback={<Splash />}
           ref={navigationRef}
           onReady={async () => {

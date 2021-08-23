@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform, Animated} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import CommunityRules from './CommunityRules';
 import CommunityModerators from './CommunityModerators';
 
 export default function About(props) {
   const {communityId} = props;
+  const {theme} = useContext(ThemeContext);
+
   const [rulesCollapsed, setRulesCollapsed] = useState(true);
   const [moderatorsCollapsed, setModeratorsCollapsed] = useState(true);
 
@@ -13,22 +15,24 @@ export default function About(props) {
     <View>
       <TouchableOpacity
         style={{
-          backgroundColor: rulesCollapsed ? '#fff' : '#fafafa',
+          backgroundColor: rulesCollapsed
+            ? theme.colors.primary
+            : theme.colors.grey0,
           borderBottomWidth: 1,
-          borderBottomColor: '#eee',
+          borderBottomColor: theme.colors.grey2,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: 20,
         }}
         onPress={() => {
-          console.log('pressed');
           setRulesCollapsed(!rulesCollapsed);
         }}>
         <Text
           style={{
             fontWeight: 'bold',
             fontSize: 15,
+            color: theme.colors.black5,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           Rules
@@ -42,22 +46,24 @@ export default function About(props) {
     <View>
       <TouchableOpacity
         style={{
-          backgroundColor: moderatorsCollapsed ? '#fff' : '#fafafa',
+          backgroundColor: moderatorsCollapsed
+            ? theme.colors.primary
+            : theme.colors.grey0,
           borderBottomWidth: 1,
-          borderBottomColor: '#eee',
+          borderBottomColor: theme.colors.grey2,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: 20,
         }}
         onPress={() => {
-          console.log('pressed');
           setModeratorsCollapsed(!moderatorsCollapsed);
         }}>
         <Text
           style={{
             fontWeight: 'bold',
             fontSize: 15,
+            color: theme.colors.black5,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           Admins
@@ -78,7 +84,7 @@ export default function About(props) {
       style={{
         flex: 1,
         marginTop: 10,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         paddingHorizontal: 5,
       }}
       {...props}>

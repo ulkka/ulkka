@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, TouchableOpacity, Text, Platform} from 'react-native';
-import {Button, Overlay} from 'react-native-elements';
+import {Button, Overlay, ThemeContext} from 'react-native-elements';
 import Rate, {AndroidMarket} from 'react-native-rate';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -12,6 +12,7 @@ import {
 
 export default function ReviewRequestComponent() {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
   const isVisible = useSelector(getIsVisible);
   const [visible, setVisible] = useState(false);
 
@@ -42,7 +43,7 @@ export default function ReviewRequestComponent() {
         preferInApp: true,
       }),
     };
-    Rate.rate(options, (success) => {
+    Rate.rate(options, success => {
       if (success) {
         // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
         dispatch(reviewDone());
@@ -55,13 +56,13 @@ export default function ReviewRequestComponent() {
   return (
     <Overlay
       statusBarTranslucent={true}
-      isVisible={!!visible}
-      overlayStyle={{borderRadius: 25, backgroundColor: '#f5f5f5'}}>
+      isVisible={!!isVisible}
+      overlayStyle={{borderRadius: 25, backgroundColor: theme.colors.grey1}}>
       <View style={{width: '80%', padding: 15, alignItems: 'center'}}>
         <View style={{padding: 10}}>
           <Text
             style={{
-              color: '#555',
+              color: theme.colors.black5,
               fontSize: 17,
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -70,7 +71,12 @@ export default function ReviewRequestComponent() {
           </Text>
         </View>
         <View style={{padding: 10}}>
-          <Text style={{color: '#444', textAlign: 'center', fontSize: 13}}>
+          <Text
+            style={{
+              color: theme.colors.black4,
+              textAlign: 'center',
+              fontSize: 13,
+            }}>
             If you are enjoying Ulkka, would you mind taking a moment to rate
             it?{'\n'}Thanks for your Support!
           </Text>
@@ -91,9 +97,9 @@ export default function ReviewRequestComponent() {
               paddingHorizontal: 20,
               borderWidth: 1,
               borderRadius: 10,
-              borderColor: '#aaa',
+              borderColor: theme.colors.grey6,
             }}>
-            <Text style={{color: '#444'}}>Later</Text>
+            <Text style={{color: theme.colors.black4}}>Later</Text>
           </TouchableOpacity>
           <View style={{width: 100}}></View>
           <TouchableOpacity
@@ -103,9 +109,11 @@ export default function ReviewRequestComponent() {
               paddingHorizontal: 20,
               borderWidth: 1,
               borderRadius: 10,
-              borderColor: '#289df4',
+              borderColor: theme.colors.blue,
             }}>
-            <Text style={{fontWeight: 'bold', color: '#289df4'}}>Yes</Text>
+            <Text style={{fontWeight: 'bold', color: theme.colors.blue}}>
+              Yes
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

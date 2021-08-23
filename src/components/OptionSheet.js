@@ -1,6 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Alert, TouchableOpacity} from 'react-native';
-import {ListItem, Divider, Button, Overlay} from 'react-native-elements';
+import {
+  ListItem,
+  Divider,
+  Button,
+  Overlay,
+  ThemeContext,
+} from 'react-native-elements';
 import {
   hideOptionSheet,
   isVisible,
@@ -50,6 +56,7 @@ function getCapitalizedPostType(postType) {
 }
 export default function OptionSheet() {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
 
   const visible = useSelector(isVisible);
   const id = useSelector(getId);
@@ -57,23 +64,23 @@ export default function OptionSheet() {
   const isReport = useSelector(getReport);
   const authorId =
     type == 'post'
-      ? useSelector((state) => getPostAuthorId(state, id))
+      ? useSelector(state => getPostAuthorId(state, id))
       : type == 'comment'
-      ? useSelector((state) => getCommentAuthorId(state, id))
+      ? useSelector(state => getCommentAuthorId(state, id))
       : null;
 
   const communityId =
     type == 'post'
-      ? useSelector((state) => getPostCommunityId(state, id))
+      ? useSelector(state => getPostCommunityId(state, id))
       : type == 'comment'
-      ? useSelector((state) => getCommentPostCommunity(state, id))
+      ? useSelector(state => getCommentPostCommunity(state, id))
       : null;
 
-  const postType = useSelector((state) => getPostType(state, id));
+  const postType = useSelector(state => getPostType(state, id));
 
-  const isPostPinned = useSelector((state) => getPostIsPinned(state, id));
+  const isPostPinned = useSelector(state => getPostIsPinned(state, id));
 
-  const userRole = useSelector((state) =>
+  const userRole = useSelector(state =>
     getUserRoleInCommunity(state, communityId),
   );
 
@@ -83,6 +90,7 @@ export default function OptionSheet() {
 
   const listItemStyle = {
     borderRadius: 5,
+    backgroundColor: theme.colors.primary,
   };
 
   const signoutConfirmationAlert = () => {
@@ -116,7 +124,11 @@ export default function OptionSheet() {
           {
             // dont show report option if current user same as author
             title: 'Blocked Users',
-            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            titleStyle: {
+              fontSize: 14,
+              fontWeight: '500',
+              color: theme.colors.black4,
+            },
             containerStyle: listItemStyle,
             onPress: () => {
               dispatch(hideOptionSheet());
@@ -125,7 +137,11 @@ export default function OptionSheet() {
           },
           {
             title: 'Logout',
-            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            titleStyle: {
+              fontSize: 14,
+              fontWeight: '500',
+              color: theme.colors.black4,
+            },
             containerStyle: listItemStyle,
             onPress: () => signoutConfirmationAlert(),
           },
@@ -136,17 +152,24 @@ export default function OptionSheet() {
               postType == 'video' ||
               postType == 'gif') && {
               title: 'Save ' + getCapitalizedPostType(postType),
-              titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+              titleStyle: {
+                fontSize: 14,
+                fontWeight: '500',
+                color: theme.colors.black4,
+              },
               containerStyle: listItemStyle,
               onPress: () => {
-                console.log('download media to library');
                 dispatch(downloadMediaToLibrary(id));
                 dispatch(hideOptionSheet());
               },
             },
           !currentUserisAuthor && {
             title: 'Block User',
-            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            titleStyle: {
+              fontSize: 14,
+              fontWeight: '500',
+              color: theme.colors.black4,
+            },
             containerStyle: listItemStyle,
             onPress: () => {
               Alert.alert(
@@ -176,14 +199,22 @@ export default function OptionSheet() {
           !currentUserisAuthor && {
             // dont show report option if current user same as author
             title: type == 'post' ? 'Report Post' : 'Report Comment',
-            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            titleStyle: {
+              fontSize: 14,
+              fontWeight: '500',
+              color: theme.colors.black4,
+            },
             containerStyle: listItemStyle,
             onPress: () => dispatch(showReportOptions({type: type, id: id})),
           },
           currentUserisAuthor && {
             // show delete option only of current user is same as author
             title: type == 'post' ? 'Delete Post' : 'Delete Comment',
-            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            titleStyle: {
+              fontSize: 14,
+              fontWeight: '500',
+              color: theme.colors.black4,
+            },
             containerStyle: listItemStyle,
             onPress: () => {
               Alert.alert(
@@ -212,7 +243,11 @@ export default function OptionSheet() {
           userRole == 'admin' && {
             // show delete option only of current user is same as author
             title: type == 'post' ? 'Remove Post' : 'Remove Comment',
-            titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+            titleStyle: {
+              fontSize: 14,
+              fontWeight: '500',
+              color: theme.colors.black4,
+            },
             containerStyle: listItemStyle,
             onPress: () => {
               Alert.alert(
@@ -242,7 +277,11 @@ export default function OptionSheet() {
             type == 'post' && {
               // show delete option only of current user is same as author
               title: isPostPinned ? 'Unpin Post' : 'Pin Post',
-              titleStyle: {fontSize: 14, fontWeight: '500', color: '#444'},
+              titleStyle: {
+                fontSize: 14,
+                fontWeight: '500',
+                color: theme.colors.black4,
+              },
               containerStyle: listItemStyle,
               onPress: () => {
                 isPostPinned ? dispatch(unpinPost(id)) : dispatch(pinPost(id));
@@ -286,7 +325,10 @@ export default function OptionSheet() {
       />
       <Button
         title="Cancel"
-        containerStyle={{backgroundColor: '#fff', marginBottom: 15}}
+        containerStyle={{
+          backgroundColor: theme.colors.primary,
+          marginBottom: 15,
+        }}
         titleStyle={{fontSize: 14, color: '#EC5152', fontWeight: '600'}}
         onPress={() => dispatch(hideOptionSheet())}
       />
@@ -298,6 +340,7 @@ export default function OptionSheet() {
       statusBarTranslucent={true}
       onBackdropPress={() => dispatch(hideOptionSheet())}
       overlayStyle={{
+        backgroundColor: theme.colors.primary,
         position: 'absolute',
         bottom: 0,
         width: '97%',
@@ -305,7 +348,7 @@ export default function OptionSheet() {
         borderTopRightRadius: 10,
       }}
       backdropStyle={{
-        backgroundColor: '#000',
+        backgroundColor: theme.colors.black0,
         opacity: 0.2,
       }}>
       <View>{isReport ? <Report id={id} type={type} /> : optionsListView}</View>

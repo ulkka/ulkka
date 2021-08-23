@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon, Input} from 'react-native-elements';
+import {Icon, Input, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {getUserBio, updateBio} from '../redux/reducers/UserSlice';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
 import AutolinkText from './AutolinkText';
 
-const UserBioField = (props) => {
+const UserBioField = props => {
+  const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
   const {userId} = props;
 
@@ -17,7 +18,7 @@ const UserBioField = (props) => {
   const registeredUserId = registeredUser?._id;
   const isProfile = userId == registeredUserId;
 
-  const bio = useSelector((state) => getUserBio(state, userId));
+  const bio = useSelector(state => getUserBio(state, userId));
 
   useEffect(() => {
     setBioValue(bio);
@@ -36,7 +37,8 @@ const UserBioField = (props) => {
           type="font-awesome"
           name="check"
           size={11}
-          color="#25D366"
+          color={theme.colors.green}
+          containerStyle={{borderWidth: 1, borderColor: theme.colors.grey5}}
         />
       </TouchableOpacity>
       <TouchableOpacity
@@ -44,7 +46,14 @@ const UserBioField = (props) => {
         onPress={() => {
           setBioEdit(false);
         }}>
-        <Icon raised type="font-awesome" name="remove" size={11} color="red" />
+        <Icon
+          raised
+          type="font-awesome"
+          name="remove"
+          size={11}
+          color="red"
+          containerStyle={{borderWidth: 1, borderColor: theme.colors.grey5}}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -56,7 +65,7 @@ const UserBioField = (props) => {
       source={'bio'}
       textStyle={{
         fontSize: 12,
-        color: '#111',
+        color: theme.colors.black1,
       }}
     />
   );
@@ -64,7 +73,7 @@ const UserBioField = (props) => {
     <Text
       style={{
         fontSize: 12,
-        color: '#555',
+        color: theme.colors.black5,
       }}>
       Add bio
     </Text>
@@ -76,7 +85,12 @@ const UserBioField = (props) => {
       onPress={() => {
         setBioEdit(true);
       }}>
-      <Icon type="font-awesome" name="pencil" size={11} color="#555" />
+      <Icon
+        type="font-awesome"
+        name="pencil"
+        size={11}
+        color={theme.colors.black5}
+      />
     </TouchableOpacity>
   );
 
@@ -87,16 +101,23 @@ const UserBioField = (props) => {
       onPress={() => {
         setBioEdit(true);
       }}>
-      <Icon type="font-awesome" name="plus-circle" size={15} color="#2980b9" />
+      <Icon
+        type="font-awesome"
+        name="plus-circle"
+        size={15}
+        color={theme.colors.blue}
+      />
     </TouchableOpacity>
   );
 
   const TextInputField = (
     <View style={{flex: 1}}>
       <Input
+        keyboardAppearance={theme.dark ? 'dark' : 'light'}
+        placeholderTextColor={theme.colors.black7}
         autoCorrect={false}
         inputContainerStyle={{
-          borderBottomColor: '#eee',
+          borderBottomColor: theme.colors.grey2,
           height: 'auto',
         }}
         inputStyle={{
@@ -109,7 +130,7 @@ const UserBioField = (props) => {
           width: '95%',
         }}
         placeholder="A little description of yourself"
-        onChangeText={(text) => setBioValue(text)}
+        onChangeText={text => setBioValue(text)}
         maxLength={150}
         value={bioValue}
       />

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   View,
@@ -7,19 +7,26 @@ import {
   Keyboard,
   ImageBackground,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
-import {Button, CheckBox} from 'react-native-elements';
+import {
+  Button,
+  CheckBox,
+  ThemeContext,
+  Icon,
+  Input,
+} from 'react-native-elements';
 import {registerUser} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
-import {Icon, Input} from 'react-native-elements';
 import ChangeAccount from './ChangeAcount';
 import userApi from '../../services/UserApi';
 import {transformText} from '../../components/PostCreator/helpers';
 import {navigateToURL} from '../../components/helpers';
 import Snackbar from 'react-native-snackbar';
-import {TouchableOpacity} from 'react-native';
 
 const RegisterAccount = () => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const displaynameField = useRef(null);
   const renderErrorMessage = true;
@@ -49,7 +56,7 @@ const RegisterAccount = () => {
   const keyboardDidShow = () => setShowTitle(false);
   const keyboardDidHide = () => setShowTitle(true);
 
-  const validateDisplayName = async (text) => {
+  const validateDisplayName = async text => {
     if (
       text.length < 4 ||
       !/^([a-zA-Z0-9\u0D00-\u0D7F_.-]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _.-
@@ -63,11 +70,9 @@ const RegisterAccount = () => {
     } else {
       const response = await userApi.user.displaynameExists(text);
       if (response.data.length == 0) {
-        console.log('displayname response', response);
         setIsDisplaynameValid(true);
         return true;
       } else {
-        console.log('displayname already exists response', response);
         setIsDisplaynameValid(false);
         setDisplaynameErrorMessage(
           'Display name already in use. Please enter another one',
@@ -84,15 +89,16 @@ const RegisterAccount = () => {
   const DisplayNameField = (
     <Input
       label="Display Name"
-      labelStyle={{color: '#444', marginBottom: 5}}
+      labelStyle={{color: theme.colors.black4, marginBottom: 5}}
       ref={displaynameField}
       placeholder="Nickname / വട്ടപ്പേര്"
-      placeholderTextColor="#666"
+      keyboardAppearance={theme.dark ? 'dark' : 'light'}
+      placeholderTextColor={theme.colors.black7}
       autoCapitalize="none"
       autoCorrect={false}
       containerStyle={{width: 320}}
       inputContainerStyle={{
-        borderBottomColor: '#ddd',
+        borderBottomColor: theme.colors.grey3,
         backgroundColor: 'rgba(52, 52, 52, 0.1)',
         borderRadius: 5,
         paddingHorizontal: 10,
@@ -102,7 +108,7 @@ const RegisterAccount = () => {
         <Icon
           name="user-alt"
           size={20}
-          color={isDisplaynameValid ? 'green' : '#555'}
+          color={isDisplaynameValid ? 'green' : theme.colors.black5}
           type="font-awesome-5"
         />
       }
@@ -126,7 +132,7 @@ const RegisterAccount = () => {
         setDisplaynameErrorMessage('');
       }}
       renderErrorMessage={renderErrorMessage}
-      onChangeText={(text) => {
+      onChangeText={text => {
         setDisplayname(transformText(text, 1));
       }}
       value={displayname}
@@ -140,7 +146,7 @@ const RegisterAccount = () => {
       <Text
         style={{
           fontSize: 18,
-          color: '#444',
+          color: theme.colors.black4,
           lineHeight: 27,
           fontWeight: 'bold',
           textAlign: 'center',
@@ -166,7 +172,7 @@ const RegisterAccount = () => {
         <CheckBox
           checked={checked}
           onPress={() => setChecked(!checked)}
-          checkedColor="#02862ad6"
+          checkedColor={theme.colors.green}
           uncheckedColor="#888"
           size={18}
           containerStyle={{
@@ -181,7 +187,7 @@ const RegisterAccount = () => {
             }}>
             <Text
               style={{
-                color: '#666',
+                color: theme.colors.black6,
                 fontSize: 10,
                 fontWeight: '700',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -194,7 +200,7 @@ const RegisterAccount = () => {
               }>
               <Text
                 style={{
-                  color: '#2980b9',
+                  color: theme.colors.blue,
                   fontSize: 10,
                   fontWeight: '700',
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -210,7 +216,7 @@ const RegisterAccount = () => {
             }}>
             <Text
               style={{
-                color: '#666',
+                color: theme.colors.black6,
                 fontSize: 10,
                 fontWeight: '700',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -226,7 +232,7 @@ const RegisterAccount = () => {
               }>
               <Text
                 style={{
-                  color: '#2980b9',
+                  color: theme.colors.blue,
                   fontSize: 10,
                   fontWeight: '700',
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -239,26 +245,20 @@ const RegisterAccount = () => {
       </View>
       <View>
         <Button
-          raised
           type="solid"
           activeOpacity={0.5}
-          disabledTitleStyle={{color: '#777', fontWeight: '400'}}
+          disabledTitleStyle={{color: theme.colors.black6, fontWeight: '400'}}
           titleStyle={{
-            color: '#0099ff',
+            color: theme.colors.blue,
             fontWeight: '500',
           }}
-          containerStyle={{
-            alignItems: 'center',
-            width: 180,
-            alignSelf: 'center',
-            borderRadius: 25,
-          }}
-          style={{
-            width: '80%',
-          }}
+          // style={{
+          //   width: '80%',
+          // }}
           buttonStyle={{
-            alignItems: 'center',
-            borderColor: '#222',
+            borderWidth: 1,
+            borderRadius: 25,
+            borderColor: theme.colors.grey3,
           }}
           title="Create Account"
           onPress={async () => {
@@ -271,16 +271,14 @@ const RegisterAccount = () => {
                   'Please agree to the Terms & Conditions and Privacy Policy',
                 duration: Snackbar.LENGTH_SHORT,
               });
-            isDisplayNameValid && checked
-              ? register()
-              : console.log('its not valid');
+            if (isDisplayNameValid && checked) register();
           }}
         />
       </View>
     </View>
   );
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
       <ImageBackground
         blurRadius={1}
         resizeMode="repeat"
@@ -295,7 +293,11 @@ const RegisterAccount = () => {
           alignItems: 'center',
           // justifyContent: 'center',
         }}
-        source={require('../../../assets/doodlebg.jpg')}>
+        source={
+          theme.dark
+            ? require('../../../assets/doodlebg_dark.jpg')
+            : require('../../../assets/doodlebg.jpg')
+        }>
         <KeyboardAvoidingView
           keyboardVerticalOffset={60}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import {Icon, Input} from 'react-native-elements';
+import {Icon, Input, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   prepareReply,
@@ -35,23 +35,24 @@ import UserAvatar from '../UserAvatar';
 import analytics from '@react-native-firebase/analytics';
 
 export default function CommentWriter(props) {
+  const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
 
   const {postId} = props;
   const commentId = useSelector(getCommentId);
-  const parentComment = useSelector((state) =>
+  const parentComment = useSelector(state =>
     selectCommentById(state, commentId),
   );
 
-  const title = useSelector((state) => getPostTitle(state, postId));
-  const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
+  const title = useSelector(state => getPostTitle(state, postId));
+  const postAuthorId = useSelector(state => getPostAuthorId(state, postId));
   const parentAuthorId = parentComment ? parentComment.author : postAuthorId;
 
   const registrationStatus = useSelector(getRegistrationStatus);
   const registeredUser = useSelector(getRegisteredUser);
 
   const parentCommentAuthorDisplayname = parentAuthorId
-    ? useSelector((state) => getUserDisplayname(state, parentAuthorId))
+    ? useSelector(state => getUserDisplayname(state, parentAuthorId))
     : '';
 
   const reply_to = parentComment != undefined ? 'comment' : 'post';
@@ -108,19 +109,19 @@ export default function CommentWriter(props) {
     dispatch(deactivate());
   };
 
-  const confirmAndResetForm = () => {
-    Alert.alert('Discard Comment ?', null, [
-      {
-        text: 'Keep Writing',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'default',
-      },
-      {text: 'Discard', onPress: () => resetForm()},
-    ]);
-  };
+  // const confirmAndResetForm = () => {
+  //   Alert.alert('Discard Comment ?', null, [
+  //     {
+  //       text: 'Keep Writing',
+  //       onPress: () => console.log('Cancel Pressed'),
+  //       style: 'default',
+  //     },
+  //     {text: 'Discard', onPress: () => resetForm()},
+  //   ]);
+  // };
 
   const activateForm = () => {
-    dispatch(activate()).then((result) => {
+    dispatch(activate()).then(result => {
       if (result.error) {
         inputRef.current.blur();
       } else {
@@ -157,7 +158,7 @@ export default function CommentWriter(props) {
       }}>
       <Text
         style={{
-          color: reply_to == 'post' ? '#333' : '#666',
+          color: reply_to == 'post' ? theme.colors.black3 : theme.colors.black6,
           fontSize: 12,
           fontWeight: '400',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -168,7 +169,7 @@ export default function CommentWriter(props) {
         ellipsizeMode={'tail'}
         numberOfLines={1}
         style={{
-          color: reply_to == 'post' ? '#245a89d6' : '#02862ad6',
+          color: reply_to == 'post' ? theme.colors.blue : theme.colors.green,
           fontSize: 12,
           fontWeight: '600',
           width: 200,
@@ -187,7 +188,7 @@ export default function CommentWriter(props) {
           name={expanded ? 'compress' : 'expand'}
           size={18}
           type="font-awesome"
-          color="#555"
+          color={theme.colors.black5}
         />
       </TouchableOpacity>
     </View>
@@ -201,7 +202,7 @@ export default function CommentWriter(props) {
           analytics().logEvent('commentwriter_close', {value: comment.length});
           resetForm();
         }}>
-        <Icon name="close" size={20} color="#444" />
+        <Icon name="close" size={20} color={theme.colors.black4} />
       </TouchableOpacity>
     </View>
   );
@@ -210,11 +211,11 @@ export default function CommentWriter(props) {
       style={{
         padding: 5,
         borderWidth: 1,
-        borderColor: '#eee',
+        borderColor: theme.colors.grey2,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
       }}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {close}
@@ -243,20 +244,22 @@ export default function CommentWriter(props) {
       <View
         style={{
           alignItems: 'center',
-          backgroundColor: 'white',
-          borderColor: '#666',
+          backgroundColor: theme.colors.primary,
+          borderColor: theme.colors.black6,
           marginRight: 8,
           marginTop: 3,
           marginBottom: 8,
           borderRadius: 25,
-          shadowColor: '#000',
+          borderWidth: 1,
+          borderColor: theme.colors.grey2,
+          shadowColor: theme.colors.black0,
           shadowOffset: {
-            width: 2,
-            height: 2,
+            width: 1,
+            height: 1,
           },
           shadowOpacity: 0.3,
-          shadowRadius: 3.84,
-          elevation: 5,
+          shadowRadius: 1,
+          elevation: 2,
         }}>
         <TouchableOpacity
           onPress={() => submitComment()}
@@ -268,7 +271,7 @@ export default function CommentWriter(props) {
           }}>
           <Text
             style={{
-              color: disableForm ? '#666' : '#02862ad6',
+              color: disableForm ? theme.colors.black6 : theme.colors.green,
               fontWeight: 'bold',
               fontSize: 15,
               letterSpacing: 0.25,
@@ -302,11 +305,11 @@ export default function CommentWriter(props) {
       style={{
         position: 'absolute',
         borderBottomWidth: Platform.OS === 'ios' ? 0 : 1,
-        borderBottomColor: '#eee',
+        borderBottomColor: theme.colors.grey2,
         bottom: 0,
         alignSelf: 'center',
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         width: '100%',
         borderTopStartRadius: 10,
         borderTopEndRadius: 10,
@@ -318,9 +321,9 @@ export default function CommentWriter(props) {
         style={{
           padding: 5,
           paddingBottom: Platform.OS === 'ios' && !active ? 15 : 7,
-          backgroundColor: '#fff',
+          backgroundColor: theme.colors.primary,
           borderTopWidth: 1,
-          borderTopColor: '#eee',
+          borderTopColor: theme.colors.grey2,
         }}>
         <View
           pointerEvents={initialized ? 'auto' : 'none'}
@@ -338,15 +341,21 @@ export default function CommentWriter(props) {
               {registrationStatus == 1 ? (
                 <UserAvatar size="large" seed={registeredUser?.displayname} />
               ) : (
-                <Icon name="account-circle" size={38} color="#555" />
+                <Icon
+                  name="account-circle"
+                  size={38}
+                  color={theme.colors.black5}
+                />
               )}
             </View>
           )}
           <Input
             ref={inputRef}
+            keyboardAppearance={theme.dark ? 'dark' : 'light'}
+            placeholderTextColor={theme.colors.black7}
             placeholder="Add a comment ..."
             containerStyle={{
-              backgroundColor: '#eee',
+              backgroundColor: theme.colors.grey2,
               borderRadius: 10,
             }}
             inputContainerStyle={{
@@ -364,7 +373,7 @@ export default function CommentWriter(props) {
             }}
             inputStyle={{
               fontSize: 14,
-              color: '#333',
+              color: theme.colors.black3,
             }}
             disabled={false}
             maxLength={10000}
@@ -372,7 +381,7 @@ export default function CommentWriter(props) {
             onBlur={() => formBlurred()}
             onFocus={() => activateForm()}
             value={comment}
-            onChangeText={(text) => setComment(text)}
+            onChangeText={text => setComment(text)}
             renderErrorMessage={false}
           />
         </View>

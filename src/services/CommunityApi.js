@@ -79,8 +79,8 @@ const communityApi = {
       payload[field] = value;
       const response = await client
         .put(`${COMMUNITY_URI}/${communityId}`, payload)
-        .catch((error) => {
-          console.log('error updating community rule', error);
+        .catch(error => {
+          console.error('error updating community rule', error);
         });
       return response;
     },

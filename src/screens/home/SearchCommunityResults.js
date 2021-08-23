@@ -1,8 +1,8 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {useState, useEffect, memo, useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform, FlatList} from 'react-native';
+import {ThemeContext, Icon, Divider} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getSearchTerm} from '../../redux/reducers/SearchSlice';
-import {Icon, Divider} from 'react-native-elements';
 import communityApi from '../../services/CommunityApi';
 import CommunityAvatar from '../../components/CommunityAvatar';
 import {push, pop} from '../../navigation/Ref';
@@ -11,6 +11,8 @@ import analytics from '@react-native-firebase/analytics';
 import {CommunityCreatorPromptView} from '../../components/CommunityCreatorPrompt';
 
 const CommunityRow = ({community}) => {
+  const {theme} = useContext(ThemeContext);
+
   const {name, _id: communityId, icon} = community;
   return name ? (
     <TouchableOpacity
@@ -37,7 +39,7 @@ const CommunityRow = ({community}) => {
         <Text
           style={{
             padding: 10,
-            color: '#444',
+            color: theme.colors.black4,
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -45,7 +47,12 @@ const CommunityRow = ({community}) => {
         </Text>
       </View>
       <View>
-        <Icon name="arrow-right" type="font-awesome" size={16} color="#555" />
+        <Icon
+          name="arrow-right"
+          type="font-awesome"
+          size={16}
+          color={theme.colors.black5}
+        />
       </View>
     </TouchableOpacity>
   ) : (
@@ -54,6 +61,8 @@ const CommunityRow = ({community}) => {
 };
 
 export default memo(function SearchCommunityResults(props) {
+  const {theme} = useContext(ThemeContext);
+
   const term = useSelector(getSearchTerm);
 
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
@@ -76,9 +85,9 @@ export default memo(function SearchCommunityResults(props) {
       setLoading(true);
       const response = await communityApi.community
         .search(term, page + 1, limit)
-        .catch((error) => {
+        .catch(error => {
           setError(true);
-          console.log('error searching community', error);
+          console.error('error searching community', error);
         });
       const communityList = response?.data?.data;
       if (communityList?.length) {
@@ -99,7 +108,9 @@ export default memo(function SearchCommunityResults(props) {
   };
 
   const separator = () => {
-    return <Divider style={{backgroundColor: '#fff', height: 5}} />;
+    return (
+      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
+    );
   };
 
   const handlerRenderItem = ({item}) => {
@@ -116,7 +127,7 @@ export default memo(function SearchCommunityResults(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         paddingTop: 40,
       }}>
       {communities?.length || loading ? (

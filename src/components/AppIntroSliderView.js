@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {View, Text, Image, StatusBar, Platform} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {storeData} from '../localStorage/helpers';
 
 const slides = [
@@ -9,7 +9,6 @@ const slides = [
     key: 1,
     title: 'Welcome to\nUlkka !',
     image: require('../../assets/ulkka_transparent_512x512.png'),
-    backgroundColor: '#f5f5f5',
   },
   {
     key: 2,
@@ -19,7 +18,6 @@ const slides = [
       "Ulkka is a place where you can share anything that you find interesting on the internet with a community that's interested in the topic",
       'You can share content including images, links, videos or text posts to an existing community (check the search bar) or create a brand new community and let users find it',
     ],
-    backgroundColor: '#f5f5f5',
   },
   {
     key: 3,
@@ -30,12 +28,12 @@ const slides = [
       'Hearts represent your reputation in Ulkka and you can unlock features in Ulkka as you gain more hearts',
       'Hearts may also be used to elect new admins to communities',
     ],
-    backgroundColor: '#f5f5f5',
   },
 ];
 
 export default function AppIntroSliderView(props) {
   const {setIntroDone} = props;
+  const {theme} = useContext(ThemeContext);
 
   const renderItem = ({item}) => {
     const {title, image, text, backgroundColor, icon, points} = item;
@@ -43,7 +41,7 @@ export default function AppIntroSliderView(props) {
       <View
         style={{
           flex: 1,
-          backgroundColor: backgroundColor,
+          backgroundColor: theme.colors.grey1,
           paddingTop: 100,
           alignItems: 'center',
           justifyContent: 'space-evenly',
@@ -75,7 +73,7 @@ export default function AppIntroSliderView(props) {
               fontSize: 25,
               padding: 30,
               fontWeight: 'bold',
-              color: '#555',
+              color: theme.colors.black5,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
             {title}
@@ -88,7 +86,7 @@ export default function AppIntroSliderView(props) {
                 fontWeight: 'bold',
                 lineHeight: 25,
                 textAlign: 'center',
-                color: '#555',
+                color: theme.colors.black5,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
               {text}
@@ -110,7 +108,7 @@ export default function AppIntroSliderView(props) {
                       name="circle"
                       type="font-awesome"
                       size={15}
-                      color="#555"
+                      color={theme.colors.black5}
                     />
                     <Text style={{paddingLeft: 15, lineHeight: 20}}>
                       {point}
@@ -142,7 +140,7 @@ export default function AppIntroSliderView(props) {
         }}>
         <Text
           style={{
-            color: '#02862a',
+            color: theme.colors.green,
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -151,7 +149,7 @@ export default function AppIntroSliderView(props) {
         <View style={{width: 15}}></View>
         <Icon
           name="arrow-right"
-          color="#02862a"
+          color={theme.colors.green}
           type="font-awesome-5"
           size={16}
         />
@@ -171,7 +169,7 @@ export default function AppIntroSliderView(props) {
         <View style={{width: 15}}></View>
         <Text
           style={{
-            color: '#777',
+            color: theme.colors.black6,
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -189,11 +187,16 @@ export default function AppIntroSliderView(props) {
           justifyContent: 'center',
           flexDirection: 'row',
         }}>
-        <Icon name="check" color="#02862a" type="font-awesome-5" size={16} />
+        <Icon
+          name="check"
+          color={theme.colors.green}
+          type="font-awesome-5"
+          size={16}
+        />
         <View style={{width: 10}}></View>
         <Text
           style={{
-            color: '#02862a',
+            color: theme.colors.green,
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -204,9 +207,9 @@ export default function AppIntroSliderView(props) {
   };
   return (
     <View style={{flex: 1}}>
-      <StatusBar backgroundColor="#f5f5f5" />
+      <StatusBar backgroundColor={theme.colors.grey1} />
       <AppIntroSlider
-        keyExtractor={(item) => item.key.toString()}
+        keyExtractor={item => item.key.toString()}
         renderItem={renderItem}
         data={slides}
         onDone={onDone}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {getSearchTerm, setServerSearch} from '../../redux/reducers/SearchSlice';
 import {searchCommunityTitle} from '../../redux/reducers/CommunitySlice';
 import CommunityAvatar from '../../components/CommunityAvatar';
@@ -17,6 +17,7 @@ import communityApi from '../../services/CommunityApi';
 
 export default function LocalSearch(props) {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
 
   const term = useSelector(getSearchTerm);
 
@@ -25,7 +26,7 @@ export default function LocalSearch(props) {
   const [error, setError] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const communityResults = useSelector((state) =>
+  const communityResults = useSelector(state =>
     searchCommunityTitle(state, term.toLowerCase()),
   );
 
@@ -50,9 +51,9 @@ export default function LocalSearch(props) {
     setLoading(true);
     const response = await communityApi.community
       .search(term, 1, 5)
-      .catch((error) => {
+      .catch(error => {
         setError(true);
-        console.log('error searching for communities');
+        console.error('error searching for communities', error);
       });
     if (response?.data?.data) {
       setResults(response.data.data);
@@ -92,7 +93,7 @@ export default function LocalSearch(props) {
           <Text
             style={{
               padding: 10,
-              color: '#444',
+              color: theme.colors.black4,
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
@@ -120,7 +121,7 @@ export default function LocalSearch(props) {
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#298df4',
+        borderColor: theme.colors.blue,
         borderRadius: 15,
       }}
       onPress={() => dispatch(setServerSearch(true))}>
@@ -129,7 +130,7 @@ export default function LocalSearch(props) {
       <Text
         style={{
           fontWeight: 'bold',
-          color: '#298df4',
+          color: theme.colors.blue,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         More results for "{term}..."
@@ -150,7 +151,7 @@ export default function LocalSearch(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         paddingHorizontal: 15,
       }}>
       <View>

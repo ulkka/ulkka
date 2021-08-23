@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {useState, useEffect, memo, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-import {Divider, Icon} from 'react-native-elements';
+import {Divider, Icon, ThemeContext} from 'react-native-elements';
 import communityApi from '../../../../services/CommunityApi';
 import UserAvatar from '../../../../components/UserAvatar';
 import {push} from '../../../../navigation/Ref';
@@ -15,6 +15,8 @@ import FeedFooter from '../../../../components/Feed/FeedFooter';
 import {getTimestampFromRange} from '../../../../components/helpers';
 
 const UserRow = memo(({user, index, metric}) => {
+  const {theme} = useContext(ThemeContext);
+
   const {displayname, _id: userId, count, voteCount} = user;
   return displayname ? (
     <TouchableOpacity
@@ -23,11 +25,28 @@ const UserRow = memo(({user, index, metric}) => {
       <View style={styles.leftView}>
         <View style={styles.userRowView}>
           <View style={styles.indexView}>
-            <Text style={styles.indexText}>{index + 1}.</Text>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 14,
+                color: theme.colors.black5,
+                ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              }}>
+              {index + 1}.
+            </Text>
           </View>
           <UserAvatar seed={displayname} size={'small'} />
           <Text
-            style={styles.displaynameText}
+            style={{
+              fontSize: 12,
+              paddingVertical: 8,
+              paddingLeft: 5,
+              paddingRight: 3,
+              maxWidth: 95,
+              color: theme.colors.black5,
+              fontWeight: '700',
+              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+            }}
             ellipsizeMode="tail"
             numberOfLines={1}>
             {displayname}
@@ -45,7 +64,16 @@ const UserRow = memo(({user, index, metric}) => {
         )}
       </View>
       <View>
-        <Text style={styles.unitText}>{metric == '' ? count : voteCount}</Text>
+        <Text
+          style={{
+            paddingRight: 5,
+            fontWeight: '700',
+            fontSize: 13,
+            color: theme.colors.black5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          }}>
+          {metric == '' ? count : voteCount}
+        </Text>
       </View>
     </TouchableOpacity>
   ) : (
@@ -54,6 +82,8 @@ const UserRow = memo(({user, index, metric}) => {
 });
 
 export default memo(function Users(props) {
+  const {theme} = useContext(ThemeContext);
+
   const {communityId, range, metric, dimension, listEmptyText} = props;
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
   const [members, setMembers] = useState([]);
@@ -77,9 +107,9 @@ export default memo(function Users(props) {
       setLoading(true);
       const response = await communityApi.community
         .leaderboard(communityId, field, from, page + 1, limit)
-        .catch((error) => {
+        .catch(error => {
           setError(true);
-          console.log('error fetching community members', error);
+          console.error('error fetching community members', error);
         });
 
       const memberList = response?.data?.data;
@@ -99,7 +129,9 @@ export default memo(function Users(props) {
   };
 
   const separator = () => {
-    return <Divider style={styles.separator} />;
+    return (
+      <Divider style={{backgroundColor: theme.colors.primary, height: 10}} />
+    );
   };
   const handlerRenderItem = ({item, index}) => {
     return (
@@ -118,7 +150,13 @@ export default memo(function Users(props) {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.primary,
+        marginTop: 10,
+        paddingHorizontal: 10,
+      }}>
       {members?.length || loading ? (
         <FlatList
           persistentScrollbar={true}
@@ -137,44 +175,23 @@ export default memo(function Users(props) {
           )}
         />
       ) : (
-        <Text style={styles.emptyListText}>{listEmptyText}</Text>
+        <Text
+          style={{
+            fontSize: 12,
+            fontWeight: 'bold',
+            alignSelf: 'center',
+            paddingTop: 10,
+            color: theme.colors.black5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          }}>
+          {listEmptyText}
+        </Text>
       )}
     </View>
   );
 });
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 10,
-    paddingHorizontal: 10,
-  },
-  separator: {backgroundColor: '#fff', height: 10},
-  emptyListText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    paddingTop: 10,
-    color: '#555',
-    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-  },
-  displaynameText: {
-    fontSize: 12,
-    paddingVertical: 8,
-    paddingLeft: 5,
-    paddingRight: 3,
-    maxWidth: 95,
-    color: '#555',
-    fontWeight: '700',
-    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-  },
-  indexText: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    color: '#555',
-    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-  },
   indexView: {paddingRight: 5},
   userRowView: {flexDirection: 'row', alignItems: 'center'},
   userRowContainer: {
@@ -187,12 +204,5 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  unitText: {
-    paddingRight: 5,
-    fontWeight: '700',
-    fontSize: 13,
-    color: '#555',
-    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
   },
 });

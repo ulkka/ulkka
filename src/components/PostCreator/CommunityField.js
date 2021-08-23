@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 
-export const CommunityField = (props) => {
+export const CommunityField = props => {
   const {onPress, community} = props;
+  const {theme} = useContext(ThemeContext);
 
   return (
     <View style={{}}>
@@ -20,7 +21,7 @@ export const CommunityField = (props) => {
           }}>
           <Text
             style={{
-              color: '#555',
+              color: theme.colors.black5,
               fontSize: 18,
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -31,7 +32,7 @@ export const CommunityField = (props) => {
           <Icon
             name="angle-down"
             size={18}
-            color="#333"
+            color={theme.colors.black3}
             type="font-awesome-5"
           />
         </View>

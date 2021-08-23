@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {useState, useEffect, memo, useContext} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {getSearchTerm} from '../../redux/reducers/SearchSlice';
-import {Icon, Divider} from 'react-native-elements';
+import {Icon, Divider, ThemeContext} from 'react-native-elements';
 import UserAvatar from '../../components/UserAvatar';
 import {push, pop} from '../../navigation/Ref';
 import userApi from '../../services/UserApi';
@@ -17,6 +17,8 @@ import FeedFooter from '../../components/Feed/FeedFooter';
 import analytics from '@react-native-firebase/analytics';
 
 const UserRow = ({user}) => {
+  const {theme} = useContext(ThemeContext);
+
   const {displayname, _id: userId} = user;
   return displayname ? (
     <TouchableOpacity
@@ -38,7 +40,7 @@ const UserRow = ({user}) => {
         <Text
           style={{
             padding: 10,
-            color: '#444',
+            color: theme.colors.black4,
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -46,7 +48,12 @@ const UserRow = ({user}) => {
         </Text>
       </View>
       <View>
-        <Icon name="arrow-right" type="font-awesome" size={16} color="#555" />
+        <Icon
+          name="arrow-right"
+          type="font-awesome"
+          size={16}
+          color={theme.colors.black5}
+        />
       </View>
     </TouchableOpacity>
   ) : (
@@ -55,6 +62,8 @@ const UserRow = ({user}) => {
 };
 
 export default memo(function SearchUserResults(props) {
+  const {theme} = useContext(ThemeContext);
+
   const term = useSelector(getSearchTerm);
 
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
@@ -77,9 +86,9 @@ export default memo(function SearchUserResults(props) {
       setLoading(true);
       const response = await userApi.user
         .search(term, page + 1, limit)
-        .catch((error) => {
+        .catch(error => {
           setError(true);
-          console.log('error fetching community members', error);
+          console.error('error fetching community members', error);
         });
       const memberList = response?.data?.data;
       if (memberList?.length) {
@@ -100,7 +109,9 @@ export default memo(function SearchUserResults(props) {
   };
 
   const separator = () => {
-    return <Divider style={{backgroundColor: '#fff', height: 5}} />;
+    return (
+      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
+    );
   };
 
   const handlerRenderItem = ({item}) => {
@@ -117,7 +128,7 @@ export default memo(function SearchUserResults(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         paddingTop: 50,
       }}>
       {members?.length || loading ? (
@@ -155,7 +166,7 @@ export default memo(function SearchUserResults(props) {
                 fontWeight: 'bold',
                 alignSelf: 'center',
                 paddingTop: '10%',
-                color: '#555',
+                color: theme.colors.black5,
                 fontSize: 18,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>

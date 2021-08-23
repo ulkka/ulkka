@@ -84,7 +84,7 @@ export const slice = createSlice({
 
       let updates = [];
 
-      changed.map((item) => {
+      changed.map(item => {
         const {key: postId, isViewable} = item;
         const post = feedAdapter.getSelectors().selectById(screen, postId);
         if (!post) {
@@ -215,10 +215,6 @@ export const slice = createSlice({
         const postIds = action.payload.postIds;
         postIds.map((postId, index) => {
           if (screen.ids.includes(postId)) {
-            console.log(
-              'found duplicate id in feed array, so skipping',
-              postId,
-            );
           } else {
             posts[postId] = intialEntityState(postId, screen);
           }

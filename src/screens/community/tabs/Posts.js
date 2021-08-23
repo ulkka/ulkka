@@ -4,8 +4,6 @@ import Feed from '../../../components/Feed/Feed';
 function Posts(props) {
   const {screenName} = props;
 
-  console.log('ruuning posts tab in community', screenName);
-
   return <Feed screen={screenName} {...props} />;
 }
 

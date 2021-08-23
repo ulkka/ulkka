@@ -1,6 +1,6 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import {View} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Button, ThemeContext} from 'react-native-elements';
 import {Input, Icon} from 'react-native-elements';
 import {sendEmailSignInLink} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
@@ -8,13 +8,15 @@ import {transformText} from '../../components/PostCreator/helpers';
 
 const EmailLinkSignIn = () => {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
+
   const emailFieldRef = useRef(null);
   const renderErrorMessage = false;
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
 
-  const validateEmail = (email) => {
+  const validateEmail = email => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   };
@@ -22,8 +24,9 @@ const EmailLinkSignIn = () => {
     <View>
       <Input
         label="Email"
-        labelStyle={{color: '#333', marginBottom: 5}}
-        placeholderTextColor="#666"
+        labelStyle={{color: theme.colors.black3, marginBottom: 5}}
+        keyboardAppearance={theme.dark ? 'dark' : 'light'}
+        placeholderTextColor={theme.colors.black7}
         ref={emailFieldRef}
         placeholder="example@domain.com"
         keyboardType="email-address"
@@ -33,7 +36,7 @@ const EmailLinkSignIn = () => {
         containerStyle={{width: 320}}
         inputContainerStyle={{
           borderBottomColor: 'transparent',
-          backgroundColor: 'rgba(52, 52, 52, 0.1)',
+          backgroundColor: theme.colors.transparentBlack,
           borderRadius: 5,
           paddingHorizontal: 10,
           marginBottom: 10,
@@ -43,7 +46,7 @@ const EmailLinkSignIn = () => {
           <Icon
             name="mail"
             size={20}
-            color={disabled ? '#ff9999' : '#02862ad6'}
+            color={disabled ? '#ff9999' : theme.colors.green}
           />
         }
         errorStyle={{color: 'red'}}
@@ -53,7 +56,7 @@ const EmailLinkSignIn = () => {
           !email.length && setDisabled(true);
           setEmailErrorMessage('');
         }}
-        onChangeText={(text) => {
+        onChangeText={text => {
           setDisabled(!validateEmail(text));
           setEmail(transformText(text, 1));
         }}
@@ -61,39 +64,27 @@ const EmailLinkSignIn = () => {
       />
       <Button
         title="Send Login Link"
-        raised
         type="solid"
         activeOpacity={0.5}
-        disabledTitleStyle={{color: '#777', fontWeight: '400'}}
+        disabledTitleStyle={{color: theme.colors.black6, fontWeight: '400'}}
         titleStyle={{
-          color: '#0099ff',
+          color: theme.colors.blue,
           fontWeight: '500',
         }}
         disabledStyle={{
-          alignItems: 'center',
-          width: 265,
-          alignSelf: 'center',
-          borderRadius: 25,
-          backgroundColor: '#eee',
+          backgroundColor: theme.colors.grey2,
         }}
-        containerStyle={{
-          alignItems: 'center',
-          width: 265,
-          alignSelf: 'center',
-          borderRadius: 25,
-        }}
-        style={{
-          width: '80%',
-        }}
+        containerStyle={{marginHorizontal: 25}}
         buttonStyle={{
-          alignItems: 'center',
-          borderColor: '#222',
+          borderRadius: 25,
+          borderWidth: 1,
+          borderColor: theme.colors.grey2,
         }}
         disabled={disabled}
         onPress={() => {
           emailFieldRef.current.blur();
           if (email.length) {
-            dispatch(sendEmailSignInLink(email)).then((res) => {
+            dispatch(sendEmailSignInLink(email)).then(res => {
               if (res?.error) {
                 setEmailErrorMessage(res?.payload);
               }

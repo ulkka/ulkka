@@ -1,13 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, Image} from 'react-native';
-import {CheckBox, Divider, Button, Icon} from 'react-native-elements';
+import {
+  CheckBox,
+  Divider,
+  Button,
+  Icon,
+  ThemeContext,
+} from 'react-native-elements';
 import {hideOptionSheet} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch} from 'react-redux';
 import {reportPost} from '../redux/actions/PostActions';
 import {reportComment} from '../redux/actions/CommentActions';
 
-const Report = (props) => {
+const Report = props => {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
 
   const {id, type} = props;
   const [selectedReportOption, setSelectedReportOption] = useState('');
@@ -51,7 +58,6 @@ const Report = (props) => {
     <View
       style={{
         flexDirection: 'row',
-
         justifyContent: 'space-evenly',
       }}>
       <Button
@@ -70,12 +76,14 @@ const Report = (props) => {
       <Button
         title="Report"
         disabled={selectedReportOption == ''}
+        disabledStyle={{backgroundColor: 'transparent'}}
+        disabledTitleStyle={{color: theme.colors.black7}}
         containerStyle={{
           marginBottom: 15,
         }}
         titleStyle={{
           fontSize: 14,
-          color: '#2a9df4',
+          color: theme.colors.blue,
           padding: 4,
           fontWeight: '600',
         }}
@@ -93,13 +101,18 @@ const Report = (props) => {
         alignItems: 'center',
         paddingBottom: 20,
       }}>
-      <Icon name="flag" type="font-awesome" size={17} color="#555" />
+      <Icon
+        name="flag"
+        type="font-awesome"
+        size={17}
+        color={theme.colors.black5}
+      />
       <Text
         style={{
           fontSize: 16,
           fontWeight: 'bold',
           padding: 10,
-          color: '#555',
+          color: theme.colors.black5,
         }}>
         Report{' '}
       </Text>
@@ -112,13 +125,17 @@ const Report = (props) => {
       checkedIcon="dot-circle-o"
       uncheckedIcon="circle-o"
       title={l.title}
-      checkedColor="#2a9df4"
+      checkedColor={theme.colors.blue}
       checked={l.title == selectedReportOption}
-      textStyle={{fontWeight: '300', fontWeight: '400'}}
+      textStyle={{
+        fontWeight: '300',
+        fontWeight: '400',
+        color: theme.colors.black5,
+      }}
       containerStyle={{
-        backgroundColor: '#fafafa',
+        backgroundColor: theme.colors.grey0,
         borderRadius: 12,
-        borderColor: '#eee',
+        borderColor: theme.colors.grey2,
       }}
       onPress={() => setSelectedReportOption(l.title)}
     />
@@ -128,6 +145,7 @@ const Report = (props) => {
     <View
       style={{
         flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
         minHeight: 300,
       }}>

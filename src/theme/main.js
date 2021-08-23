@@ -1,11 +1,116 @@
 //import { DefaultTheme } from 'react-native-paper';
 
-const theme = {
-    colors: {
-        primary: "#fff",
-        accent: "#f1c40f",
-        background: "#fff"
-    },
+export const light = {
+  dark: false,
+  colors: {
+    primary: '#fff',
+    background: '#fff',
+    text: '#444',
+    // secondary,
+    // white;
+    // black;
+
+    black0: '#000',
+    black1: '#111',
+    black2: '#222',
+    black3: '#333',
+    black4: '#444',
+    black5: '#555',
+    black6: '#666',
+    black7: '#777',
+    black8: '#888',
+    grey0: '#fafafa',
+    grey1: '#f5f5f5',
+    grey2: '#eee',
+    grey3: '#ddd',
+    grey4: '#ccc',
+    grey5: '#bbb',
+    grey6: '#aaa',
+    green: '#02862a',
+    blue: '#2a9df4',
+    transparentBlack: 'rgba(52, 52, 52, 0.1)',
+    reddishWhite: '#fff9f9',
+    // grey5;
+    // greyOutline;
+    // searchBg;
+    // success;
+    // error;
+    // warning;
+    // divider;
+    // platform: {
+    //   ios: {
+    //     primary;
+    //     secondary;
+    //     grey;
+    //     searchBg;
+    //     success;
+    //     error;
+    //     warning;
+    //   };
+    //   android: {
+    //     // Same as ios
+    //   };
+    //   web: {
+    //     // Same as ios
+    //   };
+    // };
+  },
 };
 
-export default theme;
+export const dark = {
+  dark: true,
+  colors: {
+    primary: '#111',
+    text: '#ddd',
+    background: '#111',
+    black0: '#fff',
+    black1: '#fafafa',
+    black2: '#f5f5f5',
+    black3: '#eee',
+    black4: '#ddd',
+    black5: '#ccc',
+    black6: '#bbb',
+    black7: '#aaa',
+    black8: '#999',
+    // secondary,
+    // white;
+    // black;
+    grey0: '#222',
+    grey1: '#222',
+    grey2: '#333',
+    grey3: '#444',
+    grey4: '#555',
+    grey5: '#666',
+    grey6: '#777',
+    notification: 'green',
+    green: '#25d366',
+    blue: '#2a9df4',
+    transparentBlack: 'rgba(180, 180, 180, 0.2)',
+    reddishWhite: '#210100',
+    // grey5;
+    // greyOutline;
+    // searchBg;
+    // success;
+    // error;
+    // warning;
+    // divider;
+    // platform: {
+    //   ios: {
+    //     primary;
+    //     secondary;
+    //     grey;
+    //     searchBg;
+    //     success;
+    //     error;
+    //     warning;
+    //   };
+    //   android: {
+    //     // Same as ios
+    //   };
+    //   web: {
+    //     // Same as ios
+    //   };
+    // };
+  },
+};
+//export default theme;

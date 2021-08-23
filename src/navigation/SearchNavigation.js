@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Platform} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import SearchScreen from '../screens/home/SearchScreen';
 import UserNavigation from '../screens/user/UserNavigation';
@@ -14,8 +15,10 @@ const presets =
     : TransitionPresets.SlideFromRightIOS;
 
 function SearchNavigation() {
+  const {theme} = useContext(ThemeContext);
+
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
       <StackNav.Navigator
         initialRouteName="SearchScreen"
         screenOptions={{

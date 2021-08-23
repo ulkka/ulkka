@@ -39,12 +39,10 @@ export const linking = {
     }
   },
   subscribe(listener) {
-    const onReceiveURL = (link) => {
-      console.log('onReceiveurl link', link);
+    const onReceiveURL = link => {
       if (auth().isSignInWithEmailLink(link.url)) {
         //let email link auth handler handle this from screens/auth/EmailLinkHandler
       } else {
-        console.log('listening to link', link);
         listener(link.url);
       }
     };
@@ -53,7 +51,7 @@ export const linking = {
 
     dynamicLinks()
       .getInitialLink()
-      .then((link) => link && onReceiveURL(link));
+      .then(link => link && onReceiveURL(link));
 
     return () => unsubscribe();
   },

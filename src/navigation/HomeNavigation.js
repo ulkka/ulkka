@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Platform} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import CreatePost from '../screens/create/PostCreator';
 import CreateCommunity from '../screens/create/CreateCommunity';
@@ -29,13 +30,15 @@ const presets =
     : TransitionPresets.SlideFromRightIOS;
 
 function HomeNavigation() {
+  const {theme} = useContext(ThemeContext);
+
   const isOptionSheetVisible = useSelector(isVisible);
   const isCommunityCreatorPromptVisible = useSelector(
     getCommunityCreatorPromptIsVisble,
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
       <StackNav.Navigator
         initialRouteName="Feed"
         screenOptions={() => ({

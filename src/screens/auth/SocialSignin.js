@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, TouchableOpacity, Platform} from 'react-native';
-import {SocialIcon} from 'react-native-elements';
+import {SocialIcon, ThemeContext} from 'react-native-elements';
 import {socialAuth} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 
 const SocialAuth = () => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
 
   return (
@@ -50,8 +52,10 @@ const SocialAuth = () => {
             button
             type="apple"
             iconSize={20}
+            fontStyle={{color: theme.colors.grey1}}
+            iconStyle={{color: theme.colors.grey1}}
             style={{
-              backgroundColor: '#0a0a0a',
+              backgroundColor: theme.colors.black2,
               width: '80%',
             }}
           />

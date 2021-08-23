@@ -1,5 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {Switch} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getIsUserSubscribedToAdminNotifications,
@@ -7,10 +8,12 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 
 export default memo(function ToggleAdminNotifications({route}) {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
 
   const {communityId} = route.params;
-  const isEnabled = useSelector((state) =>
+  const isEnabled = useSelector(state =>
     getIsUserSubscribedToAdminNotifications(state, communityId),
   );
 
@@ -19,9 +22,9 @@ export default memo(function ToggleAdminNotifications({route}) {
   };
   return (
     <Switch
-      trackColor={{false: '#767577', true: '#289df4'}}
-      thumbColor={isEnabled ? '#eee' : '#f4f3f4'}
-      ios_backgroundColor="#3e3e3e"
+      trackColor={{false: '#767577', true: theme.colors.blue}}
+      thumbColor={isEnabled ? theme.colors.grey2 : theme.colors.grey1}
+      ios_backgroundColor={theme.colors.black4}
       onValueChange={toggleSwitch}
       value={isEnabled}
     />

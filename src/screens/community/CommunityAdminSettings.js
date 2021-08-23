@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform, Alert} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {
   getCommunityModerators,
   dismissAdmin,
@@ -11,8 +12,10 @@ import {useSelector, useDispatch} from 'react-redux';
 
 export default function CommunityAdminSettings(props) {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
+
   const {communityId} = props.route.params;
-  const communityAdmins = useSelector((state) =>
+  const communityAdmins = useSelector(state =>
     getCommunityModerators(state, communityId),
   );
   const registeredUser = useSelector(getRegisteredUser);
@@ -23,8 +26,8 @@ export default function CommunityAdminSettings(props) {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff', padding: 12}}>
-      {communityAdmins.map((communityAdmin) => {
+    <View style={{flex: 1, backgroundColor: theme.colors.primary, padding: 12}}>
+      {communityAdmins.map(communityAdmin => {
         const {displayname: adminDisplayname, _id: adminId} = communityAdmin;
 
         return (
@@ -47,7 +50,7 @@ export default function CommunityAdminSettings(props) {
               <Text
                 style={{
                   padding: 10,
-                  color: '#444',
+                  color: theme.colors.black4,
                   fontWeight: 'bold',
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                 }}>
@@ -58,7 +61,6 @@ export default function CommunityAdminSettings(props) {
               <View>
                 <TouchableOpacity
                   onPress={() => {
-                    console.log('make admin pressed');
                     Alert.alert(
                       'Dismiss ' +
                         adminDisplayname +
@@ -85,11 +87,11 @@ export default function CommunityAdminSettings(props) {
                     );
                   }}
                   style={{
-                    backgroundColor: '#289df4',
+                    backgroundColor: theme.colors.blue,
                     padding: 5,
                     borderRadius: 5,
                   }}>
-                  <Text style={{fontSize: 10, color: '#fff'}}>
+                  <Text style={{fontSize: 10, color: theme.colors.primary}}>
                     Dismiss as Admin
                   </Text>
                 </TouchableOpacity>

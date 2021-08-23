@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
-import {TouchableOpacity, StatusBar, Platform, Image, View} from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import React, {memo, useContext} from 'react';
+import {TouchableOpacity, Platform, Image, View} from 'react-native';
+import {Icon, Text, ThemeContext} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {
   getRegistrationStatus,
@@ -13,6 +13,7 @@ import {kFormatter} from './helpers';
 import ReferralButton from './ReferralButton';
 
 const TitleComponent = memo(() => {
+  const {theme} = useContext(ThemeContext);
   return (
     <View
       style={{
@@ -25,7 +26,7 @@ const TitleComponent = memo(() => {
           fontSize: 21,
           fontFamily: Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-medium',
           fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
-          color: '#424242',
+          color: theme.colors.black4,
         }}>
         Ulkka
       </Text>
@@ -39,13 +40,14 @@ const TitleComponent = memo(() => {
 });
 
 const UserKarma = ({userId}) => {
-  const karma = useSelector((state) => getUserTotalKarma(state, userId));
+  const {theme} = useContext(ThemeContext);
+  const karma = useSelector(state => getUserTotalKarma(state, userId));
   return (
     <Text
       style={{
         fontWeight: 'bold',
         fontSize: 14,
-        color: '#333',
+        color: theme.colors.black3,
         ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
       }}>
       {kFormatter(karma)}
@@ -53,7 +55,8 @@ const UserKarma = ({userId}) => {
   );
 };
 
-const HeaderBar = (props) => {
+const HeaderBar = props => {
+  const {theme} = useContext(ThemeContext);
   const isRegistered = useSelector(getRegistrationStatus);
   const registeredUser = useSelector(getRegisteredUser);
 
@@ -79,7 +82,12 @@ const HeaderBar = (props) => {
         </View>
       </View>
     ) : (
-      <Icon name="account" type="material-community" color={'#555'} size={25} />
+      <Icon
+        name="account"
+        type="material-community"
+        color={theme.colors.black5}
+        size={25}
+      />
     );
 
     return (
@@ -119,7 +127,7 @@ const HeaderBar = (props) => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         marginHorizontal: 8,
         marginTop: Platform.OS == 'ios' ? 5 : 8,
         marginBottom: Platform.OS == 'ios' ? 8 : 5,
@@ -134,12 +142,11 @@ const HeaderBar = (props) => {
   return (
     <View
       style={{
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         paddingBottom: 2,
         // will be 0 on Android, because You pass true to skipAndroid
         paddingTop: getStatusBarHeight(true),
       }}>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       {headerContents}
     </View>
   );

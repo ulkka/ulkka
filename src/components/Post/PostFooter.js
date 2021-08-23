@@ -1,10 +1,13 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View} from 'react-native';
 import Vote from '../Vote';
 import PostTotalComments from './PostTotalComments';
 import SharePost from './SharePost';
+import {ThemeContext} from 'react-native-elements';
 
-const PostFooter = (props) => {
+const PostFooter = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {postId} = props;
 
   return (
@@ -13,7 +16,7 @@ const PostFooter = (props) => {
         flexDirection: 'row',
         padding: 10,
         borderTopWidth: 1,
-        borderTopColor: '#fafafa',
+        borderTopColor: theme.colors.grey0,
         justifyContent: 'space-evenly',
       }}>
       <Vote

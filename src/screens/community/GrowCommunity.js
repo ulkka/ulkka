@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, Platform, ImageBackground} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import ShareCommunity from './ShareCommunity';
 import AutolinkText from '../../components/AutolinkText';
 import {useSelector} from 'react-redux';
 import {getCommunityTitle} from '../../redux/reducers/CommunitySlice';
 
 export default function GrowCommunity(props) {
+  const {theme} = useContext(ThemeContext);
+
   const {communityId} = props.route.params;
-  const communityTitle = useSelector((state) =>
+  const communityTitle = useSelector(state =>
     getCommunityTitle(state, communityId),
   );
 
@@ -16,7 +18,7 @@ export default function GrowCommunity(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         justifyContent: 'space-evenly',
       }}>
       <ImageBackground
@@ -28,7 +30,11 @@ export default function GrowCommunity(props) {
           alignItems: 'center',
           justifyContent: 'space-evenly',
         }}
-        source={require('../../../assets/doodlebg.jpg')}>
+        source={
+          theme.dark
+            ? require('../../../assets/doodlebg_dark.jpg')
+            : require('../../../assets/doodlebg.jpg')
+        }>
         <View>
           <Icon name="rocket" type="font-awesome" size={120} color="red" />
         </View>
@@ -37,7 +43,7 @@ export default function GrowCommunity(props) {
             style={{
               fontSize: 16,
               fontWeight: 'bold',
-              color: '#424242',
+              color: theme.colors.black4,
 
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
@@ -49,7 +55,7 @@ export default function GrowCommunity(props) {
             style={{
               fontSize: 16,
               fontWeight: 'bold',
-              color: '#424242',
+              color: theme.colors.black4,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
             2) Let others know about the community by sharing the community's
@@ -63,7 +69,7 @@ export default function GrowCommunity(props) {
               alignSelf: 'flex-start',
               marginTop: 10,
               borderWidth: 1,
-              borderColor: '#02862a',
+              borderColor: theme.colors.green,
             }}>
             <ShareCommunity
               communityId={communityId}
@@ -74,7 +80,7 @@ export default function GrowCommunity(props) {
                 // fontWeight: 'bold',
                 fontSize: 16,
                 paddingLeft: 10,
-                color: '#02862a',
+                color: theme.colors.green,
               }}
             />
           </View>
@@ -90,7 +96,7 @@ export default function GrowCommunity(props) {
             textStyle={{
               fontSize: 16,
               fontWeight: 'bold',
-              color: '#424242',
+              color: theme.colors.black4,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}
           />
@@ -99,7 +105,7 @@ export default function GrowCommunity(props) {
             style={{
               fontSize: 16,
               fontWeight: 'bold',
-              color: '#424242',
+              color: theme.colors.black4,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
             4) You can also increase the community ranking to show up in the top

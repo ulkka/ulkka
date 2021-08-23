@@ -1,17 +1,19 @@
-import React, {memo, useState, useCallback} from 'react';
+import React, {memo, useState, useCallback, useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {navigateToURL} from './helpers';
 import analytics from '@react-native-firebase/analytics';
 import Autolink from 'react-native-autolink';
 import {searchCommunitiesByName} from '../redux/reducers/CommunitySlice';
+import {ThemeContext} from 'react-native-elements';
 
-const AutolinkText = (props) => {
+const AutolinkText = props => {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
   const {enableShowMore, text, source, textStyle} = props;
 
   const defaultTextStyle = {
-    color: '#333',
+    color: theme.colors.black3,
     fontSize: 13,
     fontWeight: '400',
     lineHeight: Platform.OS == 'ios' ? 19 : 21,
@@ -23,8 +25,7 @@ const AutolinkText = (props) => {
   const [textHidden, setTextHidden] = useState(true);
   const showMore = text?.length > 500 ? true : false;
 
-  const onTextLayout = useCallback((e) => {
-    console.log('text layouted');
+  const onTextLayout = useCallback(e => {
     const shouldShowMore = e.nativeEvent.lines.length > 5;
     shouldShowMore && analytics().logEvent('comment_longtext');
     setShowMore(shouldShowMore);
@@ -43,7 +44,7 @@ const AutolinkText = (props) => {
   const MlTagMatcher = [
     {
       pattern: /(^|\s)(ml\/[_a-z\u0D00-\u0D7F\d]+)/gm,
-      getLinkText: (replacerArgs) => {
+      getLinkText: replacerArgs => {
         return `${replacerArgs[0]}`;
       },
       onPress: handlePress,
@@ -61,6 +62,7 @@ const AutolinkText = (props) => {
             numberOfLines: textHidden ? 10 : undefined,
           },
         }}
+        linkStyle={{color: theme.colors.blue}}
         // Required: the text to parse for links
         text={
           enableShowMore ? (textHidden ? text?.substring(0, 499) : text) : text
@@ -88,7 +90,7 @@ const AutolinkText = (props) => {
             });
             setTextHidden(!textHidden);
           }}>
-          <Text style={{color: '#68cbf8'}}>
+          <Text style={{color: theme.colors.blue}}>
             {textHidden ? 'See More' : 'See Less'}
           </Text>
         </TouchableOpacity>

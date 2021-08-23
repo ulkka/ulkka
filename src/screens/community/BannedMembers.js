@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {useState, useEffect, memo, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,15 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-import {Divider} from 'react-native-elements';
+import {Divider, ThemeContext} from 'react-native-elements';
 import communityApi from '../../services/CommunityApi';
 import UserAvatar from '../../components/UserAvatar';
 import {push} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
 
 const UserRow = memo(({user, communityId}) => {
+  const {theme} = useContext(ThemeContext);
+
   const {displayname, _id: userId} = user;
 
   const [isBanned, setIsBanned] = useState(user.isBanned);
@@ -21,8 +23,8 @@ const UserRow = memo(({user, communityId}) => {
   const unbanUser = async (communityId, userId) => {
     const response = await communityApi.community
       .unbanUser(communityId, userId)
-      .catch((error) => {
-        console.log('error banning user', error);
+      .catch(error => {
+        console.error('error banning user', error);
       });
     return response.status == 200;
   };
@@ -45,7 +47,7 @@ const UserRow = memo(({user, communityId}) => {
         <Text
           style={{
             padding: 10,
-            color: '#444',
+            color: theme.colors.black4,
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -55,7 +57,6 @@ const UserRow = memo(({user, communityId}) => {
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
           onPress={() => {
-            console.log('ban pressed');
             Alert.alert(
               'Lift ban of ' + displayname + ' from this community?',
               null,
@@ -77,7 +78,7 @@ const UserRow = memo(({user, communityId}) => {
             );
           }}
           style={{
-            backgroundColor: '#289df4',
+            backgroundColor: theme.colors.blue,
             padding: 5,
             borderRadius: 5,
           }}>
@@ -85,7 +86,7 @@ const UserRow = memo(({user, communityId}) => {
             style={{
               paddingHorizontal: 5,
               fontSize: 10,
-              color: '#fff',
+              color: theme.colors.primary,
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
@@ -100,6 +101,8 @@ const UserRow = memo(({user, communityId}) => {
 });
 
 export default function BannedMembers(props) {
+  const {theme} = useContext(ThemeContext);
+
   const {communityId} = props.route.params;
 
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
@@ -112,15 +115,15 @@ export default function BannedMembers(props) {
     fetchBannedCommunityMembers();
   }, []);
 
-  const fetchBannedCommunityMembers = async (text) => {
+  const fetchBannedCommunityMembers = async text => {
     if (!complete && !loading && !error) {
       const {page, limit} = metadata;
       setLoading(true);
       const response = await communityApi.community
         .bannedMembers(communityId, page + 1, limit)
-        .catch((error) => {
+        .catch(error => {
           setError(true);
-          console.log('error fetching community members', error);
+          console.error('error fetching community members', error);
         });
       const memberList = response?.data?.data;
       if (memberList?.length) {
@@ -139,7 +142,9 @@ export default function BannedMembers(props) {
   };
 
   const separator = () => {
-    return <Divider style={{backgroundColor: '#fff', height: 5}} />;
+    return (
+      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
+    );
   };
 
   const handlerRenderItem = ({item}) => {
@@ -156,7 +161,7 @@ export default function BannedMembers(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         paddingTop: 10,
       }}>
       {members?.length || loading ? (
@@ -181,7 +186,7 @@ export default function BannedMembers(props) {
             fontWeight: 'bold',
             alignSelf: 'center',
             paddingTop: '50%',
-            color: '#555',
+            color: theme.colors.black5,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           No banned users{'  '}

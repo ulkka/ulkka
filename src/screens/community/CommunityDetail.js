@@ -1,6 +1,6 @@
-import React, {useEffect, memo, useRef} from 'react';
+import React, {useEffect, memo, useRef, useContext} from 'react';
 import {View, Text, Platform, Animated, Image} from 'react-native';
-import {Divider} from 'react-native-elements';
+import {Divider, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   fetchCommunityById,
@@ -43,19 +43,21 @@ const CommunityHeaderRight = memo(({communityId}) => {
   );
 });
 
-const CommunityDetail = memo((props) => {
+const CommunityDetail = memo(props => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
 
   const {communityId, titleShown, navigation} = props;
 
-  const communityTitle = useSelector((state) =>
+  const communityTitle = useSelector(state =>
     getCommunityTitle(state, communityId),
   );
-  const communityDescription = useSelector((state) =>
+  const communityDescription = useSelector(state =>
     getCommunityDescription(state, communityId),
   );
 
-  const communityMemberCount = useSelector((state) =>
+  const communityMemberCount = useSelector(state =>
     getCommunityMemberCount(state, communityId),
   );
 
@@ -83,7 +85,7 @@ const CommunityDetail = memo((props) => {
                 maxWidth: 200,
                 marginRight: 40,
                 fontSize: 16,
-                color: '#444',
+                color: theme.colors.black4,
                 fontWeight: 'bold',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
@@ -125,7 +127,7 @@ const CommunityDetail = memo((props) => {
       style={{
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#444',
+        color: theme.colors.black4,
         paddingLeft: 10,
         ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
       }}>
@@ -150,7 +152,7 @@ const CommunityDetail = memo((props) => {
         style={{
           paddingTop: 15,
           fontSize: 12,
-          color: '#555',
+          color: theme.colors.black5,
           paddingLeft: 5,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
@@ -173,7 +175,7 @@ const CommunityDetail = memo((props) => {
           source={'community_description'}
           textStyle={{
             fontSize: 12,
-            color: '#111',
+            color: theme.colors.black1,
           }}
         />
       </View>
@@ -193,8 +195,8 @@ const CommunityDetail = memo((props) => {
   return (
     <View
       style={{
-        backgroundColor: '#fafafa',
-        borderColor: '#eee',
+        backgroundColor: theme.colors.grey0,
+        borderColor: theme.colors.grey2,
         borderBottomWidth: 1,
         borderTopWidth: 1,
         paddingVertical: 20,

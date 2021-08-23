@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {useState, useEffect, memo, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-import {Divider, SearchBar} from 'react-native-elements';
+import {Divider, SearchBar, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import communityApi from '../../services/CommunityApi';
 import {
@@ -19,9 +19,11 @@ import {push} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
 
 const UserRow = memo(({user, communityId}) => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const {displayname, _id: userId} = user;
-  const isAdmin = useSelector((state) =>
+  const isAdmin = useSelector(state =>
     getIsUserAdminOfCommunity(state, communityId, userId),
   );
   const [isBanned, setIsBanned] = useState(user.isBanned);
@@ -33,8 +35,8 @@ const UserRow = memo(({user, communityId}) => {
   const banUser = async (communityId, userId) => {
     const response = await communityApi.community
       .banUser(communityId, userId)
-      .catch((error) => {
-        console.log('error banning user', error);
+      .catch(error => {
+        console.error('error banning user', error);
       });
 
     return response.status == 200;
@@ -59,7 +61,7 @@ const UserRow = memo(({user, communityId}) => {
         <Text
           style={{
             padding: 10,
-            color: '#444',
+            color: theme.colors.black4,
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -91,18 +93,19 @@ const UserRow = memo(({user, communityId}) => {
               );
             }}
             style={{
-              backgroundColor: '#289df4',
+              backgroundColor: theme.colors.blue,
               padding: 5,
               borderRadius: 5,
             }}>
-            <Text style={{fontSize: 10, color: '#fff'}}>Make Admin</Text>
+            <Text style={{fontSize: 10, color: theme.colors.primary}}>
+              Make Admin
+            </Text>
           </TouchableOpacity>
         )}
         <View style={{width: 15}}></View>
         {!isAdmin && (
           <TouchableOpacity
             onPress={() => {
-              console.log('ban pressed');
               Alert.alert(
                 'Ban ' + displayname + ' from this community?',
                 'Banned users cannot join, post or comment on this community.',
@@ -128,7 +131,9 @@ const UserRow = memo(({user, communityId}) => {
               padding: 5,
               borderRadius: 5,
             }}>
-            <Text style={{fontSize: 10, color: '#fff'}}>Ban User</Text>
+            <Text style={{fontSize: 10, color: theme.colors.primary}}>
+              Ban User
+            </Text>
           </TouchableOpacity>
         )}
       </View>
@@ -139,6 +144,8 @@ const UserRow = memo(({user, communityId}) => {
 });
 
 export default function CommunityMembers(props) {
+  const {theme} = useContext(ThemeContext);
+
   const {communityId} = props.route.params;
 
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
@@ -152,15 +159,15 @@ export default function CommunityMembers(props) {
     fetchCommunityMembers(searchTerm);
   }, [searchTerm]);
 
-  const fetchCommunityMembers = async (text) => {
+  const fetchCommunityMembers = async text => {
     if (!complete && !loading && !error) {
       const {page, limit} = metadata;
       setLoading(true);
       const response = await communityApi.community
         .searchMembers(communityId, text, page + 1, limit)
-        .catch((error) => {
+        .catch(error => {
           setError(true);
-          console.log('error fetching community members', error);
+          console.error('error fetching community members', error);
         });
       const memberList = response?.data?.data;
       if (memberList?.length) {
@@ -179,7 +186,9 @@ export default function CommunityMembers(props) {
   };
 
   const separator = () => {
-    return <Divider style={{backgroundColor: '#fff', height: 5}} />;
+    return (
+      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
+    );
   };
 
   const handlerRenderItem = ({item}) => {
@@ -199,7 +208,7 @@ export default function CommunityMembers(props) {
     setComplete(false);
     setError(false);
   };
-  const handleSearch = async (text) => {
+  const handleSearch = async text => {
     resetState();
     setSearchTerm(text);
   };
@@ -208,14 +217,16 @@ export default function CommunityMembers(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         paddingTop: 10,
       }}>
       <SearchBar
+        keyboardAppearance={theme.dark ? 'dark' : 'light'}
+        placeholderTextColor={theme.colors.black7}
         lightTheme={true}
         placeholder="Search Members"
         containerStyle={{
-          backgroundColor: 'white',
+          backgroundColor: theme.colors.primary,
           borderTopColor: 'transparent',
           borderBottomColor: 'transparent',
           alignItems: 'center',
@@ -224,17 +235,17 @@ export default function CommunityMembers(props) {
           paddingHorizontal: 20,
         }}
         value={searchTerm}
-        onChangeText={(text) => handleSearch(text)}
+        onChangeText={text => handleSearch(text)}
         inputContainerStyle={{
           height: 40,
-          backgroundColor: '#eee',
+          backgroundColor: theme.colors.grey2,
         }}
         inputStyle={{
           fontSize: 12,
-          color: '#444',
+          color: theme.colors.black4,
         }}
         round={true}
-        searchIcon={{size: 15}}
+        searchIcon={{size: 15, color: theme.colors.black7}}
         showCancel={true}
       />
       {members?.length || loading ? (
@@ -259,7 +270,7 @@ export default function CommunityMembers(props) {
             fontWeight: 'bold',
             alignSelf: 'center',
             paddingTop: '50%',
-            color: '#555',
+            color: theme.colors.black5,
           }}>
           No members yet{'  '}
         </Text>

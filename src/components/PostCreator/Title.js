@@ -11,7 +11,7 @@ export const Title = (
       alignItems: 'center',
       justifyContent: 'center',
     }}>
-    {/*  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#444' }}>
+    {/*  <Text style={{ fontSize: 16, fontWeight: 'bold', color: theme.colors.black4 }}>
           Create Post
       </Text>*/}
   </View>

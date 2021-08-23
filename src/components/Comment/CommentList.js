@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View, Image, Text, Platform} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getParentCommentIdsOfPost,
@@ -17,15 +18,15 @@ import {Divider} from 'react-native-elements';
 
 function CommentList(props) {
   const dispatch = useDispatch();
-
+  const {theme} = useContext(ThemeContext);
   const {postId, screenId, commentId, setCommentId} = props;
 
-  const loading = useSelector((state) => areCommentsLoading(state, postId));
-  const parentCommentIds = useSelector((state) =>
+  const loading = useSelector(state => areCommentsLoading(state, postId));
+  const parentCommentIds = useSelector(state =>
     getParentCommentIdsOfPost(state, postId),
   );
 
-  const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
+  const refreshing = useSelector(state => isFeedRefreshing(state, screenId));
 
   const isRegistered = useSelector(getRegistrationStatus);
 
@@ -67,7 +68,7 @@ function CommentList(props) {
               postId={postId}
               level={0}
             />
-            <Divider style={{backgroundColor: '#fafafa', height: 5}} />
+            <Divider style={{backgroundColor: theme.colors.grey0, height: 5}} />
           </View>
         );
       })
@@ -83,7 +84,7 @@ function CommentList(props) {
           postId={postId}
           level={0}
         />
-        <Divider style={{backgroundColor: '#fafafa', height: 5}} />
+        <Divider style={{backgroundColor: theme.colors.grey0, height: 5}} />
       </View>
     );
   }
@@ -98,7 +99,7 @@ function CommentList(props) {
       }}>
       <Text
         style={{
-          color: '#555',
+          color: theme.colors.black5,
           fontWeight: 'bold',
           fontSize: 14,
           textAlign: 'center',
@@ -112,8 +113,8 @@ function CommentList(props) {
   const nonEmptyCommentView = (
     <View
       style={{
-        marginBottom: Platform.OS == 'ios' ? 35 : 15,
-        borderBottomColor: '#ddd',
+        marginBottom: Platform.OS == 'ios' ? 15 : 15,
+        borderBottomColor: theme.colors.grey3,
         borderBottomWidth: 1,
       }}>
       <CommentListTitle commentId={commentId} setCommentId={setCommentId} />

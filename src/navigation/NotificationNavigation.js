@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Platform} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import UserNavigation from '../screens/user/UserNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
@@ -14,8 +15,10 @@ const presets =
     : TransitionPresets.SlideFromRightIOS;
 
 function NotificationNavigation() {
+  const {theme} = useContext(ThemeContext);
+
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
       <StackNav.Navigator
         initialRouteName="Notifications"
         screenOptions={{

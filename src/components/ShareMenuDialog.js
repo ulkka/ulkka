@@ -4,7 +4,6 @@ import {ShareMenuReactView} from 'react-native-share-menu';
 
 const ShareMenuDialog = () => {
   useEffect(() => {
-    console.log('in share menu dialog');
     ShareMenuReactView.data().then(() => {
       ShareMenuReactView.continueInApp();
     });

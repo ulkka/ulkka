@@ -1,8 +1,10 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, Text} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 
 function TimeAgo(props) {
-  const DisplayTime = (props) => {
+  const {theme} = useContext(ThemeContext);
+  const DisplayTime = props => {
     var currentTime = Date.now();
     var posted_at = new Date(props.time).getTime();
     var delta = Math.abs(currentTime - posted_at) / 1000;
@@ -39,7 +41,7 @@ function TimeAgo(props) {
       <Text
         style={{
           fontSize: props.size ? props.size : 11,
-          color: props.color ? props.color : '#555',
+          color: props.color ? props.color : theme.colors.black5,
         }}>
         <DisplayTime time={props.time} />
       </Text>

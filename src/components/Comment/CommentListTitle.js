@@ -1,7 +1,9 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {TouchableOpacity, Platform, Text, View} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 
-const CommentListTitle = (props) => {
+const CommentListTitle = props => {
+  const {theme} = useContext(ThemeContext);
   const {commentId, setCommentId} = props;
   const isSingle = commentId ? true : false;
   return (
@@ -9,7 +11,7 @@ const CommentListTitle = (props) => {
       style={{
         paddingVertical: 10,
         paddingHorizontal: 10,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: theme.colors.grey1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -17,7 +19,7 @@ const CommentListTitle = (props) => {
       <Text
         style={{
           fontWeight: 'bold',
-          color: '#777',
+          color: theme.colors.black6,
           fontSize: isSingle ? 12 : 13,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
@@ -27,7 +29,7 @@ const CommentListTitle = (props) => {
         <TouchableOpacity onPress={() => setCommentId(undefined)}>
           <Text
             style={{
-              color: '#289df4',
+              color: theme.colors.blue,
               fontWeight: 'bold',
               fontSize: 12,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, TouchableOpacity, Platform} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import analytics from '@react-native-firebase/analytics';
 
-const ScrollToTop = (props) => {
+const ScrollToTop = props => {
   const {listRef, visible, screen} = props;
-
+  const {theme} = useContext(ThemeContext);
   const scrollAllTheWayUp = () => {
     analytics().logEvent('scrollToTop', {screen: screen});
     listRef.current.scrollToIndex({
@@ -30,7 +30,7 @@ const ScrollToTop = (props) => {
         name="angle-double-up"
         type="font-awesome-5"
         size={18}
-        color="#555"
+        color={theme.colors.black5}
         reverse
         style={{opacity: 0.55}}
       />

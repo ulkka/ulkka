@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,9 +7,15 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {SearchBar, Button, Icon, Divider, Overlay} from 'react-native-elements';
+import {
+  SearchBar,
+  Button,
+  Icon,
+  Divider,
+  Overlay,
+  ThemeContext,
+} from 'react-native-elements';
 import {useSelector} from 'react-redux';
-import mainClient from '../client/mainClient';
 import communityApi from '../services/CommunityApi';
 import {
   getUserMemberCommunities,
@@ -18,6 +24,8 @@ import {
 import CommunityAvatar from '../components/CommunityAvatar';
 
 export default function SearchableDropdown(props) {
+  const {theme} = useContext(ThemeContext);
+
   const {allowOnlyMemberCommunities, allowOnlyModeratorCommunities} = props;
   const [visible, setVisible] = useState(props.selectCommunityModalVisible);
   const userMemberCommunities = useSelector(getUserMemberCommunities);
@@ -44,33 +52,33 @@ export default function SearchableDropdown(props) {
       searchForCommunity(value);
     } else if (allowOnlyMemberCommunities) {
       const filteredMemberCommunities = userMemberCommunities.filter(
-        (community) =>
+        community =>
           community.name.toLowerCase().startsWith(value.toLowerCase()),
       );
       setItems(filteredMemberCommunities);
     } else if (allowOnlyModeratorCommunities) {
       const filteredMemberCommunities = userModeratorCommunites.filter(
-        (community) =>
+        community =>
           community.name.toLowerCase().startsWith(value.toLowerCase()),
       );
       setItems(filteredMemberCommunities);
     }
   }, [value]);
 
-  const searchHandle = (text) => {
+  const searchHandle = text => {
     setValue(text);
   };
 
-  const searchForCommunity = async (term) => {
+  const searchForCommunity = async term => {
     const response = await communityApi.community
       .search(term, 1, 10)
-      .catch((error) => console.log('error searching communities'));
+      .catch(error => console.error('error searching communities'));
     if (response?.data?.data) {
       setItems(response.data.data);
     }
   };
 
-  const setCommunityToPost = (community) => {
+  const setCommunityToPost = community => {
     setValue('');
     props.setSelectCommunityModalVisible(false);
     props.setCommunity(community);
@@ -100,7 +108,7 @@ export default function SearchableDropdown(props) {
               <View style={{width: 10}}></View>
               <Text
                 style={{
-                  color: '#222',
+                  color: theme.colors.black2,
                   fontWeight: '600',
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                 }}>
@@ -110,7 +118,7 @@ export default function SearchableDropdown(props) {
             <Icon
               name="arrow-right"
               type="font-awesome-5"
-              color="#333"
+              color={theme.colors.black3}
               size={12}
               style={{padding: 5}}
             />
@@ -131,12 +139,14 @@ export default function SearchableDropdown(props) {
         autoFocus={true}
         showCancel={true}
         value={value}
-        onChangeText={(text) => searchHandle(text)}
+        onChangeText={text => searchHandle(text)}
         placeholder="Search Community"
         round={true}
-        lightTheme={true}
+        lightTheme={!theme.dark}
+        keyboardAppearance={theme.dark ? 'dark' : 'light'}
+        placeholderTextColor={theme.colors.black7}
         containerStyle={{
-          backgroundColor: 'white',
+          backgroundColor: theme.colors.primary,
           borderTopColor: 'transparent',
           borderBottomColor: 'transparent',
           alignItems: 'center',
@@ -145,13 +155,13 @@ export default function SearchableDropdown(props) {
         }}
         inputContainerStyle={{
           height: 30,
-          backgroundColor: '#eee',
+          backgroundColor: theme.colors.grey2,
         }}
         inputStyle={{
           fontSize: 15,
+          color: theme.colors.black5,
         }}
-        round={true}
-        searchIcon={{size: 15}}
+        searchIcon={{size: 18, color: theme.colors.black7}}
       />
     </View>
   );
@@ -165,7 +175,7 @@ export default function SearchableDropdown(props) {
         }}>
         <Divider
           style={{
-            backgroundColor: '#ddd',
+            backgroundColor: theme.colors.grey3,
           }}
         />
       </View>
@@ -182,7 +192,7 @@ export default function SearchableDropdown(props) {
         scrollEnabled={true}
         showsVerticalScrollIndicator={true}
         data={items}
-        keyExtractor={(item) => item._id}
+        keyExtractor={item => item._id}
         ItemSeparatorComponent={_itemSeperatorComponent}
         contentContainerStyle={{
           opacity: 0.8,
@@ -199,7 +209,7 @@ export default function SearchableDropdown(props) {
         title="Close"
         color="red"
         titleStyle={{
-          color: 'green',
+          color: theme.colors.green,
         }}
         onPress={() => {
           toggleModal();
@@ -218,11 +228,12 @@ export default function SearchableDropdown(props) {
       overlayStyle={{
         height: '90%',
         width: '75%',
-        backgroundColor: 'white',
+        backgroundColor: theme.colors.primary,
         borderRadius: 25,
         alignItems: 'center',
         justifyContent: 'space-between',
-      }}>
+      }}
+      backdropStyle={{backgroundColor: theme.colors.grey4, opacity: 0.3}}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={40}

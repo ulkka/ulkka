@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,21 +6,26 @@ import {
   useWindowDimensions,
   Platform,
 } from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {TabView, TabBar} from 'react-native-tab-view'; // Version can be specified in package.json
 import Home from './tabs/Home';
 import Popular from './tabs/Popular';
 import analytics from '@react-native-firebase/analytics';
 import HeaderBar from '../../components/Header';
+import {useSelector} from 'react-redux';
+import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 
 const HEADER_HEIGHT = 35;
 const COLLAPSED_HEIGHT = 0;
 const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 
 export default function HomeCollapsibleTabView(props) {
+  const {theme} = useContext(ThemeContext);
+
   const initialLayout = useWindowDimensions();
+  const isRegistered = useSelector(getRegistrationStatus);
 
   const [tabShown, setTabShown] = useState(true);
-
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState([
     {key: 'home', title: 'Home', name: 'Home'},
@@ -58,11 +63,16 @@ export default function HomeCollapsibleTabView(props) {
         <View style={styles.overlay} />
         <TabBar
           {...props}
-          pressColor="#fff"
-          style={styles.tabbar}
+          pressColor={theme.colors.primary}
+          style={{
+            height: SCROLLABLE_HEIGHT,
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          }}
           getLabelText={({route}) => route.title}
-          activeColor="#333"
-          inactiveColor="grey"
+          activeColor={theme.colors.black3}
+          inactiveColor={theme.colors.black7}
           labelStyle={{
             fontWeight: 'bold',
             fontSize: 14,
@@ -76,8 +86,8 @@ export default function HomeCollapsibleTabView(props) {
             justifyContent: 'flex-start',
           }}
           indicatorStyle={{
-            height: 3,
-            backgroundColor: 'powderblue',
+            height: 2,
+            backgroundColor: theme.colors.blue,
           }}
         />
       </Animated.View>
@@ -152,15 +162,19 @@ export default function HomeCollapsibleTabView(props) {
   return (
     <View style={{flex: 1}}>
       <HeaderBar navigation={props.navigation} />
-      <TabView
-        style={styles.container}
-        navigationState={{index, routes}}
-        renderScene={renderScene}
-        renderTabBar={renderTabBar}
-        onIndexChange={handleIndexChange}
-        initialLayout={initialLayout}
-        lazy={({route}) => route.key === 'popular'}
-      />
+      {isRegistered ? (
+        <TabView
+          style={styles.container}
+          navigationState={{index, routes}}
+          renderScene={renderScene}
+          renderTabBar={renderTabBar}
+          onIndexChange={handleIndexChange}
+          initialLayout={initialLayout}
+          lazy={({route}) => route.key === 'popular'}
+        />
+      ) : (
+        <Popular screen="popular" showTabBar={handleShowTabBar} />
+      )}
     </View>
   );
 }
@@ -171,7 +185,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, .32)',
   },
   cover: {
     height: SCROLLABLE_HEIGHT,
@@ -182,11 +195,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1,
-  },
-  tabbar: {
-    height: SCROLLABLE_HEIGHT,
-    backgroundColor: '#fff',
-    elevation: 0,
-    shadowOpacity: 0,
   },
 });

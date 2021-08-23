@@ -1,4 +1,4 @@
-import React, {useState, useRef, memo} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   Text,
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view';
-import {Button} from 'react-native-elements';
+import {Button, ThemeContext} from 'react-native-elements';
 import Posts from './tabs/Posts';
 import {makeId} from '../../components/Post/helpers';
 import CommunityDetail from './CommunityDetail';
@@ -22,6 +22,8 @@ import analytics from '@react-native-firebase/analytics';
 const COLLAPSED_HEIGHT = 40;
 
 export default function CommunityDetailTabView(props) {
+  const {theme} = useContext(ThemeContext);
+
   const initialLayout = useWindowDimensions();
   const {communityId} = props.route.params;
   const {navigation} = props;
@@ -62,7 +64,7 @@ export default function CommunityDetailTabView(props) {
     extrapolate: 'clamp',
   });
 
-  const handleIndexChange = (index) => {
+  const handleIndexChange = index => {
     analytics().logScreenView({
       screen_name: 'CommunityDetail-' + routes[index].title,
       screen_class: 'CommunityDetail-' + routes[index].title,
@@ -70,10 +72,10 @@ export default function CommunityDetailTabView(props) {
     scrolling.setValue(0);
     setIndex(index);
   };
-  const renderTabBar = (props) => {
+  const renderTabBar = props => {
     return (
       <Animated.View
-        onLayout={(event) => {
+        onLayout={event => {
           const height = event.nativeEvent.layout.height;
           setHeaderHeight(height);
         }}
@@ -94,10 +96,15 @@ export default function CommunityDetailTabView(props) {
         <TabBar
           {...props}
           onTabPress={({preventDefault}) => isScrolling && preventDefault()}
-          pressColor="#fff"
-          style={styles.tabbar}
+          pressColor={theme.colors.primary}
+          style={{
+            height: COLLAPSED_HEIGHT,
+            backgroundColor: theme.colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          }}
           getLabelText={({route}) => route.title}
-          activeColor="#333"
+          activeColor={theme.colors.black3}
           inactiveColor="grey"
           labelStyle={{
             fontWeight: 'bold',
@@ -112,7 +119,7 @@ export default function CommunityDetailTabView(props) {
             justifyContent: 'flex-start',
           }}
           indicatorStyle={{
-            backgroundColor: 'powderblue',
+            backgroundColor: theme.colors.blue,
           }}
         />
       </Animated.View>
@@ -196,9 +203,10 @@ export default function CommunityDetailTabView(props) {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        backgroundColor: '#fafafa',
+        backgroundColor: theme.colors.grey0,
       }}>
-      <Text style={{fontWeight: 'bold', fontSize: 20, color: '#555'}}>
+      <Text
+        style={{fontWeight: 'bold', fontSize: 20, color: theme.colors.black5}}>
         {'  '}
         Community not available{'  '}
       </Text>
@@ -206,7 +214,7 @@ export default function CommunityDetailTabView(props) {
         title="Go Back"
         type="outline"
         raised
-        titleStyle={{fontSize: 15, color: '#2a9df4', padding: 4}}
+        titleStyle={{fontSize: 15, color: theme.colors.blue, padding: 4}}
         onPress={() => goBack()}
       />
     </View>
@@ -234,7 +242,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, .32)',
   },
   header: {
     position: 'absolute',
@@ -242,11 +249,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1,
-  },
-  tabbar: {
-    height: COLLAPSED_HEIGHT,
-    backgroundColor: '#fff',
-    elevation: 0,
-    shadowOpacity: 0,
   },
 });

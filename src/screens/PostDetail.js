@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useState, useContext} from 'react';
 import {ScrollView, View, RefreshControl, Text, Image} from 'react-native';
 import CommentList from '../components/Comment/CommentList';
 import PostCard from '../components/Post/PostCard';
@@ -18,9 +18,11 @@ import {
 } from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
 import {goBack} from '../navigation/Ref';
-import {Button} from 'react-native-elements';
+import {Button, ThemeContext} from 'react-native-elements';
 
 const PostDetail = ({route}) => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
 
   const {postId} = route?.params;
@@ -28,13 +30,13 @@ const PostDetail = ({route}) => {
   const [screenId, setScreenId] = useState(undefined);
   const [error, setError] = useState(undefined);
 
-  const isPostDeleted = useSelector((state) => getPostisDeleted(state, postId));
-  const isPostRemoved = useSelector((state) => getPostisRemoved(state, postId));
-  const refreshing = useSelector((state) => isFeedRefreshing(state, screenId));
-  const loading = useSelector((state) => isFeedLoading(state, screenId));
+  const isPostDeleted = useSelector(state => getPostisDeleted(state, postId));
+  const isPostRemoved = useSelector(state => getPostisRemoved(state, postId));
+  const refreshing = useSelector(state => isFeedRefreshing(state, screenId));
+  const loading = useSelector(state => isFeedLoading(state, screenId));
 
   const blockedUsers = useSelector(getBlockedUsers);
-  const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
+  const postAuthorId = useSelector(state => getPostAuthorId(state, postId));
   const isAuthorBlocked = blockedUsers?.includes(postAuthorId);
 
   useEffect(() => {
@@ -55,19 +57,17 @@ const PostDetail = ({route}) => {
   };
 
   const handleRefresh = () => {
-    dispatch(refreshPostDetail({type: screenId, postId})).then((res) => {
+    dispatch(refreshPostDetail({type: screenId, postId})).then(res => {
       const err = res.error !== undefined;
       setError(err);
     });
   };
 
-  console.log('running post detail -', screenId);
-
   const refreshingPostView = (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         justifyContent: 'center',
         alignItems: 'center',
       }}>
@@ -76,7 +76,12 @@ const PostDetail = ({route}) => {
         style={{height: 40, width: 40}}
       />
       <Text
-        style={{padding: 50, fontSize: 15, fontWeight: 'bold', color: '#555'}}>
+        style={{
+          padding: 50,
+          fontSize: 15,
+          fontWeight: 'bold',
+          color: theme.colors.black5,
+        }}>
         {'  '}Loading...{'  '}
       </Text>
     </View>
@@ -87,9 +92,9 @@ const PostDetail = ({route}) => {
         style={{
           alignSelf: 'center',
           borderBottomWidth: 1,
-          borderColor: '#ddd',
+          borderColor: theme.colors.grey3,
           borderRadius: 10,
-          backgroundColor: '#fff',
+          backgroundColor: theme.colors.primary,
           width: '100%',
           flex: 1,
           marginBottom: 45,
@@ -117,9 +122,10 @@ const PostDetail = ({route}) => {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        backgroundColor: '#fafafa',
+        backgroundColor: theme.colors.grey0,
       }}>
-      <Text style={{fontWeight: 'bold', fontSize: 20, color: '#555'}}>
+      <Text
+        style={{fontWeight: 'bold', fontSize: 20, color: theme.colors.black5}}>
         {'  '}
         Post not available{'  '}
       </Text>
@@ -127,7 +133,7 @@ const PostDetail = ({route}) => {
         title="Go Back"
         type="outline"
         raised
-        titleStyle={{fontSize: 15, color: '#2a9df4', padding: 4}}
+        titleStyle={{fontSize: 15, color: theme.colors.blue, padding: 4}}
         onPress={() => goBack()}
       />
     </View>

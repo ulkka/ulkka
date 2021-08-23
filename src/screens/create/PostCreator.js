@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, Platform, Text, Image, Keyboard} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Button, ThemeContext} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import {CommunityField} from '../../components/PostCreator/CommunityField';
 import FormData from 'form-data';
@@ -28,6 +28,8 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default function CreatePost({route}) {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
 
   const isRegistered = useSelector(getRegistrationStatus);
@@ -51,13 +53,13 @@ export default function CreatePost({route}) {
     setSelectCommunityModalVisible,
   ] = useState(false);
 
-  const getTypeFromMime = (mimeType) => {
+  const getTypeFromMime = mimeType => {
     return mimeType.substring(mimeType.lastIndexOf('/') + 1) == 'gif'
       ? 'gif'
       : mimeType.substring(0, mimeType.indexOf('/'));
   };
 
-  const getLinkFromText = (text) => {
+  const getLinkFromText = text => {
     return text.indexOf('https://') == 0
       ? text.substring(
           0,
@@ -68,7 +70,6 @@ export default function CreatePost({route}) {
 
   useEffect(() => {
     if (item) {
-      console.log('shared item', item);
       handleSharedItem(item);
     }
   }, [item]);
@@ -76,7 +77,6 @@ export default function CreatePost({route}) {
   function handleSharedItem(item) {
     const {data, mimeType} = item;
     const type = getTypeFromMime(mimeType);
-    console.log('type', type);
     switch (type) {
       case 'image':
       case 'video':
@@ -93,7 +93,6 @@ export default function CreatePost({route}) {
       case 'text':
         const sharedText = item.data;
         const link = getLinkFromText(sharedText);
-        console.log('link', link);
         if (link.length) {
           // checking if shared text is link
           setLink(link);
@@ -105,7 +104,7 @@ export default function CreatePost({route}) {
     }
   }
 
-  const showSnackBar = (message) => {
+  const showSnackBar = message => {
     if (Platform.OS == 'ios') {
       Snackbar.show({
         text: message,
@@ -123,7 +122,7 @@ export default function CreatePost({route}) {
     }
   };
 
-  const postSuccess = (newPostId) => {
+  const postSuccess = newPostId => {
     setLoading(false);
     var status = {
       type: 'success',
@@ -138,15 +137,15 @@ export default function CreatePost({route}) {
     }, 1000);
   };
 
-  const postFail = (error) => {
-    console.log('Posting to server error - ', error);
+  const postFail = error => {
+    console.error('Posting to server error - ', error);
     setUploadPercent(0);
     setLoading(false);
     showSnackBar('Request failed. Please try again later');
   };
 
-  const uploadCancelled = (error) => {
-    console.log('Media Upload Cancelled - ', error);
+  const uploadCancelled = error => {
+    console.error('Media Upload Cancelled - ', error);
     setLoading(false);
     setUploadPercent(0);
     showSnackBar('Upload Cancelled');
@@ -175,7 +174,6 @@ export default function CreatePost({route}) {
 
   const payloadValidator = (payload, type) => {
     const {community, title, description, link, mediaMetadata} = payload;
-    console.log(community);
     if (!community?._id) {
       showSnackBar('Please select a valid community');
       return false;
@@ -226,18 +224,17 @@ export default function CreatePost({route}) {
     return source;
   }
 
-  const dispatchPost = (payload) => {
+  const dispatchPost = payload => {
     dispatch(createPost(payload))
-      .then((response) => {
+      .then(response => {
         if (response.error) {
           postFail(response.error);
         } else {
-          console.log('response after post creation', response);
           const newPostId = response.payload.newPostId;
           postSuccess(newPostId);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         postFail(error);
       });
   };
@@ -249,7 +246,6 @@ export default function CreatePost({route}) {
       return;
     }
     setLoading(true);
-    console.log('Uploading post type - ', type);
     let response = {};
     let payload = {};
     let isPayloadValid = false;
@@ -277,15 +273,13 @@ export default function CreatePost({route}) {
         isPayloadValid = payloadValidator(prePayload, type);
         if (isPayloadValid) {
           if (data) {
-            console.log('uploading media ', media);
             let source = createNewAxiosClientSource();
             response = await utilityApi.media.upload(
               data,
-              uploadProgress((percent) => setUploadPercent(percent)),
+              uploadProgress(percent => setUploadPercent(percent)),
               source.token,
               type,
             );
-            console.log('response after media upload', response);
           } else {
             showSnackBar('Please select ' + type);
             setLoading(false);
@@ -319,17 +313,17 @@ export default function CreatePost({route}) {
       case 'text':
         return (
           <DescriptionField
-            onChangeText={(text) => setDescription(text)}
+            onChangeText={text => setDescription(text)}
             description={description}
           />
         );
       case 'link':
         return (
           <LinkField
-            onChangeText={(text) => setLink(text)}
+            onChangeText={text => setLink(text)}
             link={link}
             title={title}
-            changeTitle={(text) => setTitle(text)}
+            changeTitle={text => setTitle(text)}
           />
         );
       case 'image':
@@ -340,7 +334,7 @@ export default function CreatePost({route}) {
             media={media}
             type={type}
             resetMedia={() => setMedia(null)}
-            setMedia={(media) => setMedia(media)}
+            setMedia={media => setMedia(media)}
           />
         );
       case 'video':
@@ -350,7 +344,7 @@ export default function CreatePost({route}) {
             media={media}
             type={type}
             resetMedia={() => setMedia(null)}
-            setMedia={(media) => setMedia(media)}
+            setMedia={media => setMedia(media)}
           />
         );
 
@@ -376,7 +370,7 @@ export default function CreatePost({route}) {
         onPress={() => setSelectCommunityModalVisible(true)}
         community={community}
       />
-      <PostTitleField onChangeText={(text) => setTitle(text)} title={title} />
+      <PostTitleField onChangeText={text => setTitle(text)} title={title} />
       {PostContentField()}
       <SubmitButton onPress={() => submit()} />
     </View>
@@ -398,7 +392,7 @@ export default function CreatePost({route}) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
       }}>
       {createPostComponent}
       <ShowSubmitStatus data={statusData} />
@@ -416,21 +410,26 @@ export default function CreatePost({route}) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         alignItems: 'center',
         justifyContent: 'space-evenly',
       }}>
-      <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+      <Text
+        style={{fontSize: 16, fontWeight: 'bold', color: theme.colors.black5}}>
         Please login or create an account to create posts{'    '}
       </Text>
       <Button
-        raised
         title="Join Ulkka!"
         titleStyle={{
           fontSize: 14,
-          color: '#EC5152',
+          color: theme.colors.green,
           padding: 4,
           fontWeight: '600',
+        }}
+        buttonStyle={{
+          backgroundColor: theme.colors.grey2,
+          width: 150,
+          borderRadius: 15,
         }}
         onPress={() => showAuthScreen()}
       />
@@ -441,7 +440,7 @@ export default function CreatePost({route}) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         justifyContent: 'center',
         alignItems: 'center',
       }}>
@@ -450,7 +449,12 @@ export default function CreatePost({route}) {
         style={{height: 40, width: 40}}
       />
       <Text
-        style={{padding: 50, fontSize: 15, fontWeight: 'bold', color: '#555'}}>
+        style={{
+          padding: 50,
+          fontSize: 15,
+          fontWeight: 'bold',
+          color: theme.colors.black5,
+        }}>
         {'  '}Loading...{'  '}
       </Text>
     </View>

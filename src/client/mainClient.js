@@ -6,13 +6,13 @@ import perf from '@react-native-firebase/perf';
 
 // Function that will be called to refresh authorization
 // new token will be added to header in AuthIDTokenListener.js
-const refreshAuthLogic = async (failedRequest) => {
+const refreshAuthLogic = async failedRequest => {
   const failedRequestStatus = failedRequest.response?.status;
   if (failedRequestStatus == 401) {
     // error code 401 means invalid/expired token
     const idToken = await auth()
       .currentUser?.getIdToken()
-      .catch((error) => console.log('error getting id token', error));
+      .catch(error => console.error('error getting id token', error));
     failedRequest.response.config.headers['Authorization'] =
       'Bearer ' + idToken;
     mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
@@ -99,17 +99,17 @@ mainClient.interceptors.response.use(
 // Intercept all requests
 
 mainClient.interceptors.request.use(
-  async (config) => {
+  async config => {
     const idTokenResult = await auth().currentUser.getIdTokenResult();
     if (new Date(idTokenResult.expirationTime).getTime() < Date.now()) {
       const idToken = await auth()
         .currentUser.getIdToken(true)
-        .catch((error) => console.log('error refreshing token', error));
+        .catch(error => console.error('error refreshing token', error));
       if (idToken) config.headers.Authorization = 'Bearer ' + idToken;
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  error => Promise.reject(error),
 );
 /*
 mainClient.interceptors.request.use(

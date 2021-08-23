@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,12 @@ import {
   Modal,
   Platform,
 } from 'react-native';
-import {Button, Icon, Divider} from 'react-native-elements';
+import {Button, Icon, Divider, ThemeContext} from 'react-native-elements';
 import communityApi from '../services/CommunityApi';
 
-const TopicField = (props) => {
+const TopicField = props => {
   const {onPress, topic} = props;
+  const {theme} = useContext(ThemeContext);
 
   return (
     <View>
@@ -29,7 +30,7 @@ const TopicField = (props) => {
           }}>
           <Text
             style={{
-              color: '#555',
+              color: theme.colors.black5,
               fontSize: 18,
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -40,7 +41,7 @@ const TopicField = (props) => {
           <Icon
             name="angle-down"
             size={18}
-            color="#333"
+            color={theme.colors.black3}
             type="font-awesome-5"
           />
         </View>
@@ -51,6 +52,7 @@ const TopicField = (props) => {
 
 export default function CommunityTopicSelector(props) {
   const {topic, setTopic} = props;
+  const {theme} = useContext(ThemeContext);
   const [visible, setVisible] = useState(false);
   //const [items, setItems] = useState([]);
   const [items, setItems] = useState([
@@ -83,7 +85,7 @@ export default function CommunityTopicSelector(props) {
   const fetchCommunityTopics = async () => {
     const response = await communityApi.community
       .fetchTopics()
-      .catch((error) => console.log('error fetching community topics', error));
+      .catch(error => console.error('error fetching community topics', error));
     const data = response?.data?.data;
     if (!!data?.length) {
       setItems[data];
@@ -94,7 +96,7 @@ export default function CommunityTopicSelector(props) {
     setVisible(!visible);
   };
 
-  const setCommunityTopic = (topic) => {
+  const setCommunityTopic = topic => {
     setVisible(false);
     setTopic(topic);
   };
@@ -113,14 +115,14 @@ export default function CommunityTopicSelector(props) {
             }}>
             <Text
               style={{
-                color: '#222',
+                color: theme.colors.black2,
               }}>
               {item}
             </Text>
             <Icon
               name="arrow-right"
               type="font-awesome-5"
-              color="#333"
+              color={theme.colors.black3}
               size={12}
               style={{padding: 5}}
             />
@@ -139,7 +141,7 @@ export default function CommunityTopicSelector(props) {
         }}>
         <Divider
           style={{
-            backgroundColor: '#ddd',
+            backgroundColor: theme.colors.grey3,
           }}
         />
       </View>
@@ -150,6 +152,7 @@ export default function CommunityTopicSelector(props) {
       <View style={{alignSelf: 'center', paddingBottom: 20}}>
         <Text
           style={{
+            color: theme.colors.black4,
             fontSize: 16,
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -171,7 +174,7 @@ export default function CommunityTopicSelector(props) {
         scrollEnabled={true}
         showsVerticalScrollIndicator={true}
         data={items}
-        keyExtractor={(item) => item}
+        keyExtractor={item => item}
         ItemSeparatorComponent={_itemSeperatorComponent}
         // ListHeaderComponent={ListHeaderComponent}
         contentContainerStyle={{
@@ -189,7 +192,7 @@ export default function CommunityTopicSelector(props) {
         title="Close"
         color="red"
         titleStyle={{
-          color: 'green',
+          color: theme.colors.green,
         }}
         onPress={() => {
           toggleModal();
@@ -210,12 +213,12 @@ export default function CommunityTopicSelector(props) {
             style={{
               margin: 45,
               height: '90%',
-              backgroundColor: 'white',
+              backgroundColor: theme.colors.primary,
               borderRadius: 25,
               padding: 30,
               alignItems: 'center',
               justifyContent: 'space-between',
-              shadowColor: '#000',
+              shadowColor: theme.colors.black0,
               shadowOffset: {
                 width: 2,
                 height: 2,

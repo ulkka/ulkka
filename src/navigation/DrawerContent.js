@@ -1,19 +1,12 @@
-import React, {memo, useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Platform,
-  FlatList,
-  SafeAreaView,
-} from 'react-native';
+import React, {memo, useState, useContext} from 'react';
+import {View, Text, TouchableOpacity, Platform, FlatList} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {push, navigate, showAuthScreen} from '../navigation/Ref';
 import {
   getRegisteredUser,
   getRegistrationStatus,
 } from '../redux/reducers/AuthSlice';
-import {Icon, Button} from 'react-native-elements';
+import {Icon, Button, ThemeContext} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import UserAvatar from '../components/UserAvatar';
 import {kFormatter} from '../components/helpers';
@@ -21,6 +14,8 @@ import UserCommunities from '../screens/user/tabs/UserCommunities';
 import FavoriteCommunities from '../screens/user/tabs/FavoriteCommunities';
 
 const UserSection = memo(() => {
+  const {theme} = useContext(ThemeContext);
+
   const registeredUser = useSelector(getRegisteredUser);
   const isRegistered = useSelector(getRegistrationStatus);
   const {displayname, postKarma, commentKarma} = registeredUser;
@@ -31,7 +26,7 @@ const UserSection = memo(() => {
         padding: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: theme.colors.black3,
         borderRadius: 250,
         height: 200,
         width: 200,
@@ -44,7 +39,7 @@ const UserSection = memo(() => {
         <Text
           numberOfLines={1}
           style={{
-            color: '#fff',
+            color: theme.colors.primary,
             padding: 3,
             fontSize: 16,
             fontWeight: 'bold',
@@ -65,7 +60,7 @@ const UserSection = memo(() => {
           style={{
             fontWeight: 'bold',
             fontSize: 19,
-            color: '#fff',
+            color: theme.colors.primary,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
           {kFormatter(postKarma + commentKarma)}
@@ -80,6 +75,8 @@ const UserSection = memo(() => {
 });
 
 const NavSection = memo(({navigation}) => {
+  const {theme} = useContext(ThemeContext);
+
   const registeredUser = useSelector(getRegisteredUser);
   const isRegistered = useSelector(getRegistrationStatus);
   const {_id} = registeredUser;
@@ -88,7 +85,7 @@ const NavSection = memo(({navigation}) => {
     <View
       style={{
         borderBottomWidth: 1,
-        borderBottomColor: '#eee',
+        borderBottomColor: theme.colors.grey2,
         paddingBottom: 10,
       }}>
       <TouchableOpacity
@@ -102,11 +99,16 @@ const NavSection = memo(({navigation}) => {
           navigation.closeDrawer();
           push('UserDetail', {userId: _id});
         }}>
-        <Icon name="user" type="font-awesome" color={'#444'} size={23} />
+        <Icon
+          name="user"
+          type="font-awesome"
+          color={theme.colors.black4}
+          size={23}
+        />
         <View style={{width: 10}}></View>
         <Text
           style={{
-            color: '#444',
+            color: theme.colors.black4,
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -124,11 +126,16 @@ const NavSection = memo(({navigation}) => {
           navigation.closeDrawer();
           navigate('Create Community');
         }}>
-        <Icon name="hashtag" type="font-awesome" color="#444" size={18} />
+        <Icon
+          name="hashtag"
+          type="font-awesome"
+          color={theme.colors.black4}
+          size={18}
+        />
         <View style={{width: 10}}></View>
         <Text
           style={{
-            color: '#444',
+            color: theme.colors.black4,
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -142,6 +149,8 @@ const NavSection = memo(({navigation}) => {
 });
 
 const CommunitiesList = memo(({ListIcon, title, ListComponent}) => {
+  const {theme} = useContext(ThemeContext);
+
   const isRegistered = useSelector(getRegistrationStatus);
   const [expanded, setExpanded] = useState(true);
 
@@ -158,7 +167,7 @@ const CommunitiesList = memo(({ListIcon, title, ListComponent}) => {
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#eee',
+        backgroundColor: theme.colors.grey2,
         justifyContent: 'space-between',
         height: 35,
       }}>
@@ -167,7 +176,7 @@ const CommunitiesList = memo(({ListIcon, title, ListComponent}) => {
         <View style={{width: 10}}></View>
         <Text
           style={{
-            color: '#555',
+            color: theme.colors.black5,
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -191,9 +200,11 @@ const CommunitiesList = memo(({ListIcon, title, ListComponent}) => {
 });
 
 const ListView = ({navigation}) => {
+  const {theme} = useContext(ThemeContext);
+
   const isRegistered = useSelector(getRegistrationStatus);
   return isRegistered ? (
-    <View>
+    <View style={{backgroundColor: theme.colors.grey1}}>
       <UserSection />
       <NavSection navigation={navigation} />
       <CommunitiesList
@@ -209,7 +220,7 @@ const ListView = ({navigation}) => {
           />
         )}
       />
-      <View style={{height: 10}}></View>
+      <View style={{height: 5, backgroundColor: theme.colors.grey1}}></View>
       <CommunitiesList
         navigation={navigation}
         ListComponent={() => <UserCommunities />}
@@ -228,6 +239,7 @@ const ListView = ({navigation}) => {
     <View
       style={{
         paddingBottom: 5,
+        backgroundColor: theme.colors.grey1,
       }}>
       <TouchableOpacity
         style={{
@@ -244,29 +256,33 @@ const ListView = ({navigation}) => {
             height: 200,
             width: 200,
             borderRadius: 200,
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backgroundColor: theme.colors.black2,
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Icon name="user" type="font-awesome" color={'#289df4'} size={100} />
+          <Icon
+            name="user"
+            type="font-awesome"
+            color={theme.colors.blue}
+            size={100}
+          />
         </View>
         <View style={{height: 30}}></View>
         <Button
-          raised
           title="Login / Register"
           buttonStyle={{
             borderRadius: 15,
-            backgroundColor: '#2a9df4',
+            backgroundColor: theme.colors.blue,
             paddingVertical: 7,
             paddingHorizontal: 40,
             alignItems: 'center',
           }}
           titleStyle={{
-            color: '#fff',
+            color: theme.colors.primary,
             fontSize: 14,
             ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
           }}
-          // icon={<Icon name="plus" size={17} color="#fff" type="font-awesome" />}
+          // icon={<Icon name="plus" size={17} color={theme.colors.primary} type="font-awesome" />}
           onPress={() => showAuthScreen()}
         />
       </TouchableOpacity>
@@ -280,7 +296,9 @@ function DrawerContent({descriptors, navigation, state, progress}) {
       <FlatList
         listKey="drawer"
         ListFooterComponent={() => <ListView navigation={navigation} />}
-        contentContainerStyle={{paddingTop: getStatusBarHeight(true) + 10}}
+        contentContainerStyle={{
+          paddingTop: getStatusBarHeight(true) + 10,
+        }}
       />
     </View>
   );

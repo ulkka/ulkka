@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Alert, View} from 'react-native';
-import {Button, Icon} from 'react-native-elements';
+import {Button, Icon, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getCommunityTitle,
@@ -10,14 +10,16 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 import {navigate} from '../../navigation/Ref';
 
-const CommunityOptions = (props) => {
+const CommunityOptions = props => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const {communityId} = props;
 
-  const communityTitle = useSelector((state) =>
+  const communityTitle = useSelector(state =>
     getCommunityTitle(state, communityId),
   );
-  const userRole = useSelector((state) =>
+  const userRole = useSelector(state =>
     getUserRoleInCommunity(state, communityId),
   );
 
@@ -46,7 +48,6 @@ const CommunityOptions = (props) => {
     case 'member':
       return (
         <Button
-          raised
           title="Joined"
           containerStyle={{
             borderWidth: 1,
@@ -70,7 +71,7 @@ const CommunityOptions = (props) => {
             title="Settings"
             containerStyle={{
               borderWidth: 1,
-              borderColor: '#02862ad6',
+              borderColor: theme.colors.green,
               marginHorizontal: 10,
             }}
             buttonStyle={{
@@ -82,12 +83,12 @@ const CommunityOptions = (props) => {
               <Icon
                 name="gear"
                 type="font-awesome"
-                color="#02862ad6"
+                color={theme.colors.green}
                 size={13}
                 style={{marginRight: 5}}
               />
             }
-            titleStyle={{color: '#02862ad6', fontSize: 11}}
+            titleStyle={{color: theme.colors.green, fontSize: 11}}
             onPress={() => navigate('CommunitySettings')}
           />
           <View style={{height: 15}}></View>
@@ -96,7 +97,7 @@ const CommunityOptions = (props) => {
             title="Grow"
             containerStyle={{
               borderWidth: 1,
-              borderColor: '#2a9df4',
+              borderColor: theme.colors.blue,
               marginHorizontal: 10,
             }}
             buttonStyle={{
@@ -108,12 +109,12 @@ const CommunityOptions = (props) => {
               <Icon
                 name="lightning-bolt"
                 type="material-community"
-                color="#2a9df4"
+                color={theme.colors.blue}
                 size={14}
                 style={{marginRight: 5}}
               />
             }
-            titleStyle={{color: '#2a9df4', fontSize: 11}}
+            titleStyle={{color: theme.colors.blue, fontSize: 11}}
             onPress={() =>
               navigate('GrowCommunity', {communityId: communityId})
             }
@@ -130,12 +131,12 @@ const CommunityOptions = (props) => {
             marginHorizontal: 10,
           }}
           buttonStyle={{
-            backgroundColor: '#2a9df4',
+            backgroundColor: theme.colors.blue,
             borderRadius: 15,
             paddingHorizontal: 20,
             paddingVertical: 5,
           }}
-          titleStyle={{color: '#fff', fontSize: 12}}
+          titleStyle={{color: theme.colors.primary, fontSize: 12}}
           onPress={() => dispatch(joinCommunity(communityId))}
         />
       );

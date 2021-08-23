@@ -1,4 +1,4 @@
-import React, {useEffect, memo, useRef} from 'react';
+import React, {useEffect, memo, useRef, useContext} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {Icon, Divider, Tooltip} from 'react-native-elements';
+import {Icon, Divider, Tooltip, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserCreatedAt,
@@ -33,8 +33,9 @@ import {getIsCurrentUserAdminOfAnyCommunity} from '../../redux/reducers/Communit
 
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
-const AccountDetail = memo((props) => {
+const AccountDetail = memo(props => {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
 
   const {userId, titleShown, navigation} = props;
   const blockedUsers = useSelector(getBlockedUsers);
@@ -47,11 +48,9 @@ const AccountDetail = memo((props) => {
   const registeredUserId = registeredUser?._id;
   const isProfile = userId == registeredUserId;
 
-  const userTotalKarma = useSelector((state) =>
-    getUserTotalKarma(state, userId),
-  );
-  const userCreatedAt = useSelector((state) => getUserCreatedAt(state, userId));
-  const userDisplayname = useSelector((state) =>
+  const userTotalKarma = useSelector(state => getUserTotalKarma(state, userId));
+  const userCreatedAt = useSelector(state => getUserCreatedAt(state, userId));
+  const userDisplayname = useSelector(state =>
     getUserDisplayname(state, userId),
   );
 
@@ -85,7 +84,7 @@ const AccountDetail = memo((props) => {
             <Text
               style={{
                 fontSize: 16,
-                color: '#444',
+                color: theme.colors.black4,
                 fontWeight: 'bold',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
@@ -119,7 +118,7 @@ const AccountDetail = memo((props) => {
   const easing = Easing.ease;
   const duration = Platform.OS == 'ios' ? 210 : 250;
   const useNativeDriver = false;
-  const beat = (iconSize) =>
+  const beat = iconSize =>
     Animated.timing(iconSize, {
       toValue: 14,
       duration: duration,
@@ -127,7 +126,7 @@ const AccountDetail = memo((props) => {
       easing: easing,
     });
 
-  const beatBack = (iconSize) =>
+  const beatBack = iconSize =>
     Animated.timing(iconSize, {
       toValue: 9,
       duration: duration,
@@ -184,11 +183,11 @@ const AccountDetail = memo((props) => {
     userTotalKarma || userTotalKarma === 0 ? (
       <Tooltip
         popover={
-          <Text style={{color: '#eee', lineHeight: 20}}>
+          <Text style={{color: theme.colors.grey2, lineHeight: 20}}>
             Get upvotes on your posts and comments to win more hearts!
           </Text>
         }
-        backgroundColor="#555"
+        backgroundColor={theme.colors.black5}
         height={80}
         width={200}>
         <View
@@ -200,7 +199,7 @@ const AccountDetail = memo((props) => {
           <Text
             style={{
               fontSize: 15,
-              color: '#555',
+              color: theme.colors.black5,
               fontWeight: 'bold',
               letterSpacing: 0.5,
               paddingRight: 0,
@@ -246,9 +245,9 @@ const AccountDetail = memo((props) => {
       style={{
         flexDirection: 'row',
       }}>
-      <Text style={{color: '#555', fontSize: 11}}>Joined </Text>
+      <Text style={{color: theme.colors.black5, fontSize: 11}}>Joined </Text>
       <TimeAgo time={userCreatedAt} />
-      <Text style={{color: '#555', fontSize: 11}}> ago</Text>
+      <Text style={{color: theme.colors.black5, fontSize: 11}}> ago</Text>
     </View>
   ) : (
     <Image
@@ -262,7 +261,12 @@ const AccountDetail = memo((props) => {
       hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
       style={{marginRight: 15, flexDirection: 'row', alignItems: 'center'}}
       onPress={() => dispatch(showOptionSheet({type: 'user', id: userId}))}>
-      <Icon name="gear" type="font-awesome" size={24} color={'#666'} />
+      <Icon
+        name="gear"
+        type="font-awesome"
+        size={24}
+        color={theme.colors.black6}
+      />
     </TouchableOpacity>
   );
 
@@ -270,13 +274,13 @@ const AccountDetail = memo((props) => {
     <View
       style={{
         height: 180,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
       }}>
       <Text
         style={{
-          color: '#555',
+          color: theme.colors.black5,
           fontSize: 20,
           fontWeight: 'bold',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -287,8 +291,8 @@ const AccountDetail = memo((props) => {
   ) : (
     <View
       style={{
-        backgroundColor: '#fff',
-        borderColor: '#eee',
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.grey2,
         borderBottomWidth: 1,
         borderTopWidth: 1,
         paddingVertical: 20,

@@ -9,13 +9,11 @@ export async function hasAndroidPermission() {
   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
 
   const hasPermission = await PermissionsAndroid.check(permission);
-  console.log('hasPermission', hasPermission);
   if (hasPermission) {
     return true;
   }
 
   const status = await PermissionsAndroid.request(permission);
-  console.log('permission status', status);
   return status === 'granted';
 }
 
@@ -40,7 +38,6 @@ export function requestPermissionAlert() {
         text: 'Cancel',
         onPress: () => {
           analytics().logEvent('mediapermission_deny');
-          console.log('Cancel Pressed');
         },
         style: 'cancel',
       },
@@ -69,8 +66,8 @@ export async function savePicture({tag, album}, rejectWithValue) {
   });
 
   if (!isUlkkaAlbumAlreadyPresent) {
-    return CameraRoll.save(tag, {album}).catch((error) => {
-      console.log('error saving image to camera roll', error, tag, album);
+    return CameraRoll.save(tag, {album}).catch(error => {
+      console.error('error saving image to camera roll', error, tag, album);
 
       if (error?.message == 'User cancelled image selection') {
         return;

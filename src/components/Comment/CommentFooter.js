@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import Vote from '../Vote';
 import ExtraOptions from '../ExtraOptions';
 import {prepareReply} from '../../redux/reducers/CommentWriterSlice';
@@ -8,7 +8,8 @@ import {useDispatch} from 'react-redux';
 
 const COMMENT_LEVEL_LIMIT = 15;
 
-const CommentFooter = (props) => {
+const CommentFooter = props => {
+  const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
 
   const {commentId, level} = props;
@@ -21,7 +22,12 @@ const CommentFooter = (props) => {
         dispatch(prepareReply({commentId: commentId}));
       }}>
       <Icon name="reply" type="font-awesome" size={14} color="#777" />
-      <Text style={{paddingHorizontal: 10, color: '#444', fontSize: 12}}>
+      <Text
+        style={{
+          paddingHorizontal: 10,
+          color: theme.colors.black4,
+          fontSize: 12,
+        }}>
         Reply
       </Text>
     </TouchableOpacity>

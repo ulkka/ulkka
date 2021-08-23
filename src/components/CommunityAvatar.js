@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Avatar} from 'react-native-elements';
+import {Avatar, ThemeContext} from 'react-native-elements';
 import {getColorFromTitle} from './helpers';
 import {push} from '../navigation/Ref';
 import {
@@ -13,9 +13,10 @@ import {mediaUrlWithWidth} from '../components/Post/helpers';
 import FastImage from 'react-native-fast-image';
 import {getUriImage} from './helpers';
 
-const CommunityAvatar = (props) => {
+const CommunityAvatar = props => {
+  const {theme} = useContext(ThemeContext);
   const {communityId, size, disableTouch, name, icon} = props;
-  const communityName = useSelector((state) =>
+  const communityName = useSelector(state =>
     getCommunityTitle(state, communityId),
   );
 
@@ -25,7 +26,7 @@ const CommunityAvatar = (props) => {
     ? name?.replace('#', '').substring(0, 2)
     : 'UL';
 
-  const communityIcon = useSelector((state) =>
+  const communityIcon = useSelector(state =>
     getCommunityIcon(state, communityId),
   );
   const finalCommunityIcon = communityIcon
@@ -34,7 +35,7 @@ const CommunityAvatar = (props) => {
     ? icon
     : undefined;
 
-  const userRole = useSelector((state) =>
+  const userRole = useSelector(state =>
     getUserRoleInCommunity(state, communityId),
   );
 
@@ -79,11 +80,11 @@ const CommunityAvatar = (props) => {
   const getBorderColor = () => {
     switch (userRole) {
       case 'member':
-        return '#2a9df4';
+        return theme.colors.blue;
       case 'admin':
-        return '#02862acc';
+        return theme.colors.green;
       default:
-        return '#444';
+        return '#454545';
     }
   };
 

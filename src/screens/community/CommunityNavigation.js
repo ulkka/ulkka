@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Platform} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import CommunityDetailTabView from './CommunityDetailTabView';
 import CommunitySettingsNavigation from './CommunitySettingsNavigation';
@@ -10,8 +11,10 @@ import GrowCommunity from './GrowCommunity';
 const StackNav = createStackNavigator();
 
 function CommunityNavigation(props) {
+  const {theme} = useContext(ThemeContext);
+
   const {communityId} = props.route.params;
-  const userRole = useSelector((state) =>
+  const userRole = useSelector(state =>
     getUserRoleInCommunity(state, communityId),
   );
 
@@ -22,7 +25,7 @@ function CommunityNavigation(props) {
         screenOptions={{
           headerBackTitle: 'Back',
           ...(Platform.OS == 'android' && {
-            headerTitleStyle: {fontSize: 15, color: '#555'},
+            headerTitleStyle: {fontSize: 15, color: theme.colors.black5},
             headerTitleAlign: 'center',
             headerStyle: {height: 40},
           }),

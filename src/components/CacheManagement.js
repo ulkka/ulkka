@@ -23,18 +23,11 @@ export default function CacheManagement(props) {
         var secondsDifference = Math.floor(difference / 1000);
 
         if (secondsDifference > cacheExpiryDurationSeconds) {
-          console.log(
-            'deleting old cached file of expiry seconds',
-            cacheExpiryDurationSeconds,
-            item,
-          );
-          RNFS.unlink(item.path).catch((error) =>
+          RNFS.unlink(item.path).catch(error =>
             console.warn('file doesnt exist', error, item),
           );
         }
       });
-    } else {
-      console.log('media folder doesnt exists yet');
     }
   };
 

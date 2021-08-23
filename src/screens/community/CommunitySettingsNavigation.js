@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Platform} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import CommunitySettings from './CommunitySettings';
 import UpdateCommunityField from './UpdateCommunityField';
@@ -11,6 +12,8 @@ import BannedMembers from './BannedMembers';
 const StackNav = createStackNavigator();
 
 function CommunitySettingsNavigation(props) {
+  const {theme} = useContext(ThemeContext);
+
   return (
     <View style={{flex: 1}}>
       <StackNav.Navigator
@@ -24,7 +27,7 @@ function CommunitySettingsNavigation(props) {
               : {},
           headerTitleStyle: {
             fontSize: Platform.OS == 'ios' ? 17 : 15,
-            color: '#444',
+            color: theme.colors.black4,
           },
         }}>
         <StackNav.Screen

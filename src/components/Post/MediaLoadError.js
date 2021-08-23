@@ -1,17 +1,18 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {downloadMedia} from '../../redux/actions/PostActions';
 
-const MediaLoadError = (props) => {
+const MediaLoadError = props => {
+  const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
   const {type, postId} = props;
   return type == 'Image' ? (
     <View
       style={{
         position: 'absolute',
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         padding: 5,
         opacity: 0.7,
         borderRadius: 10,
@@ -24,12 +25,17 @@ const MediaLoadError = (props) => {
       onPress={() => dispatch(downloadMedia(postId))}
       style={{
         position: 'absolute',
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         padding: 10,
         opacity: 0.7,
         borderRadius: 10,
       }}>
-      <Icon type="font-awesome" name="warning" color="#222" size={22} />
+      <Icon
+        type="font-awesome"
+        name="warning"
+        color={theme.colors.black2}
+        size={22}
+      />
       <Text style={{padding: 5, fontSize: 13}}>Error loading</Text>
       <View
         style={{

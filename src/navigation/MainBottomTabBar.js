@@ -1,16 +1,18 @@
-import React, {useEffect, useState, memo} from 'react';
+import React, {useEffect, useState, memo, useContext} from 'react';
 import {View, TouchableOpacity, Keyboard, Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 import {showCreatorOverlay} from '../redux/reducers/CreatorOverlaySlice';
 import {showAuthScreen} from './Ref';
-import {Badge} from 'react-native-elements';
+import {Badge, ThemeContext} from 'react-native-elements';
 import {
   getFocusedRouteNameFromRoute,
   getPathFromState,
 } from '@react-navigation/native';
 
 function MainBottomTabBar({state, descriptors, navigation}) {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const isRegistered = useSelector(getRegistrationStatus);
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -49,8 +51,8 @@ function MainBottomTabBar({state, descriptors, navigation}) {
     <View
       style={{
         flexDirection: 'row',
-        backgroundColor: '#fff',
-        borderTopColor: '#f5f5f5',
+        backgroundColor: theme.colors.primary,
+        borderTopColor: theme.colors.grey1,
         borderTopWidth: 1,
         alignItems: 'center',
         paddingVertical: 8,
@@ -127,6 +129,7 @@ function MainBottomTabBar({state, descriptors, navigation}) {
                 status="error"
                 value={tabBarBadge}
                 textStyle={{fontSize: 10}}
+                badgeStyle={{backgroundColor: 'red', borderWidth: 0}}
                 containerStyle={{
                   position: 'absolute',
                   top: -10,
@@ -136,9 +139,19 @@ function MainBottomTabBar({state, descriptors, navigation}) {
             ) : null}
             {isFocused
               ? activeTabBarIcon
-                ? activeTabBarIcon({color: isFocused ? '#333' : '#888'})
-                : icon({color: isFocused ? '#333' : '#888'})
-              : icon({color: isFocused ? '#333' : '#888'})}
+                ? activeTabBarIcon({
+                    color: isFocused
+                      ? theme.colors.black3
+                      : theme.colors.black8,
+                  })
+                : icon({
+                    color: isFocused
+                      ? theme.colors.black3
+                      : theme.colors.black8,
+                  })
+              : icon({
+                  color: isFocused ? theme.colors.black3 : theme.colors.black8,
+                })}
           </TouchableOpacity>
         );
       })}

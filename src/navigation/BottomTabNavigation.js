@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import CreatePost from '../screens/create/PostCreator';
 import {useSelector} from 'react-redux';
 import FeedNavigation from '../screens/home/FeedNavigation';
@@ -13,9 +13,11 @@ import {getUnreadNotificationCount} from '../redux/reducers/NotificationSlice';
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigation() {
+  const {theme} = useContext(ThemeContext);
+
   const unReadNotificationCount = useSelector(getUnreadNotificationCount);
 
-  const getTabBarVisibility = (route) => {
+  const getTabBarVisibility = route => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName === 'PostDetail') {
       return false;
@@ -24,7 +26,7 @@ export default function BottomTabNavigation() {
   };
 
   return (
-    <BottomTab.Navigator tabBar={(props) => <MainBottomTabBar {...props} />}>
+    <BottomTab.Navigator tabBar={props => <MainBottomTabBar {...props} />}>
       <BottomTab.Screen
         name="Home"
         component={FeedNavigation}

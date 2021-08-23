@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Icon} from 'react-native-elements';
+import {Button, Icon, ThemeContext} from 'react-native-elements';
 import TimeAgo from '../components/TimeAgo';
 import {
   fetchAllNotifications,
@@ -29,7 +29,7 @@ import {
   getLinkFromRemoteMessage,
 } from '../components/helpers';
 
-const B = (props) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
+const B = props => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
 const validRestOfTheTexts = [
   ' received an upvote on your post',
   ' received a downvote on your post',
@@ -44,6 +44,8 @@ const validRestOfTheTexts = [
   ' joined',
 ];
 export default function Notifications(props) {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const notifications = useSelector(selectAllNotifications);
   const isLoading = useSelector(isNotificationsLoading);
@@ -69,7 +71,7 @@ export default function Notifications(props) {
     dispatch(markAllNotificationsRead());
   };
 
-  const markNotificationReadHandler = (item) => {
+  const markNotificationReadHandler = item => {
     const {_id: id, link} = item;
     id && dispatch(markNotificationRead(id));
 
@@ -101,7 +103,7 @@ export default function Notifications(props) {
       <TouchableOpacity
         onPress={() => markNotificationReadHandler(item)}
         style={{
-          backgroundColor: item.read ? '#fff' : '#ff450011',
+          backgroundColor: item.read ? theme.colors.primary : '#ff450011',
           padding: 10,
           height: 70,
           flex: 1,
@@ -112,7 +114,7 @@ export default function Notifications(props) {
         <View
           style={{flexDirection: 'row', alignItems: 'center', maxWidth: '80%'}}>
           {username.length >= 4 &&
-          validRestOfTheTexts.find((text) => restOfTheText.includes(text)) ? (
+          validRestOfTheTexts.find(text => restOfTheText.includes(text)) ? (
             <UserAvatar seed={username} size="medium" />
           ) : (
             <Image
@@ -123,7 +125,7 @@ export default function Notifications(props) {
           )}
           <Text
             style={{
-              color: '#333',
+              color: theme.colors.black3,
               paddingLeft: 5,
               fontSize: 13,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -148,7 +150,7 @@ export default function Notifications(props) {
       type="solid"
       activeOpacity={0.5}
       titleStyle={{
-        color: '#555',
+        color: theme.colors.black5,
         fontWeight: '500',
         fontSize: 12,
         marginRight: 10,
@@ -164,9 +166,9 @@ export default function Notifications(props) {
       }}
       buttonStyle={{
         alignItems: 'center',
-        borderColor: '#222',
+        borderColor: theme.colors.black2,
       }}
-      icon={<Icon name="refresh" size={15} color="#187bcd" />}
+      icon={<Icon name="refresh" size={15} color={theme.colors.blue} />}
       iconRight
       title="You have new notifications"
       onPress={() => initialiseNotifications()}
@@ -180,7 +182,8 @@ export default function Notifications(props) {
         alignItems: 'center',
         justifyContent: 'space-evenly',
       }}>
-      <Text style={{fontWeight: 'bold', color: '#555', fontSize: 16}}>
+      <Text
+        style={{fontWeight: 'bold', color: theme.colors.black5, fontSize: 16}}>
         {'   '}
         No Notifications Yet!{'  '}
       </Text>
@@ -191,7 +194,7 @@ export default function Notifications(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
       }}>
       {notifications?.length ? (
         <View style={{flex: 1}}>
@@ -217,7 +220,7 @@ export default function Notifications(props) {
         <View
           style={{
             flex: 1,
-            backgroundColor: '#fff',
+            backgroundColor: theme.colors.primary,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -230,7 +233,7 @@ export default function Notifications(props) {
               padding: 50,
               fontSize: 15,
               fontWeight: 'bold',
-              color: '#555',
+              color: theme.colors.black5,
             }}>
             {'  '}Loading...{'  '}
           </Text>

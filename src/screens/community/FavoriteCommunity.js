@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, Platform, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getIsCommunityFavorite,
@@ -10,14 +10,14 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 
 export default function FavoriteCommunity(props) {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const {communityId, text, shareTextStyle} = props;
-  const isFavorite = useSelector((state) =>
+  const isFavorite = useSelector(state =>
     getIsCommunityFavorite(state, communityId),
   );
-  const role = useSelector((state) =>
-    getUserRoleInCommunity(state, communityId),
-  );
+  const role = useSelector(state => getUserRoleInCommunity(state, communityId));
 
   const favoriteButton = (
     <TouchableOpacity
@@ -36,7 +36,7 @@ export default function FavoriteCommunity(props) {
       <Icon
         name={isFavorite ? 'star' : 'star-o'}
         type="font-awesome"
-        color={isFavorite ? '#ffe01b' : '#777'}
+        color={isFavorite ? '#ffe01b' : theme.colors.black6}
         size={Platform.OS == 'ios' ? 20 : 17}
       />
       {text && (
@@ -46,7 +46,7 @@ export default function FavoriteCommunity(props) {
             style={{
               ...shareTextStyle,
               ...{
-                color: '#333',
+                color: theme.colors.black3,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               },
             }}>

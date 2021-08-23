@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, Text, Modal, Platform} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 
 export default function ShowSubmitStatus(props) {
+  const {theme} = useContext(ThemeContext);
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState(new Map());
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function ShowSubmitStatus(props) {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#eee',
+          backgroundColor: theme.colors.grey2,
           opacity: 0.9,
         }}>
         {status?.type == 'success' ? (
@@ -38,7 +39,7 @@ export default function ShowSubmitStatus(props) {
             name="check-circle"
             size={100}
             type="font-awesome5"
-            color="green"
+            color={theme.colors.green}
           />
         ) : (
           <Icon name="error" size={100} color="red" />
@@ -46,6 +47,7 @@ export default function ShowSubmitStatus(props) {
 
         <Text
           style={{
+            color: theme.colors.black4,
             fontSize: 20,
             fontWeight: 'bold',
             paddingTop: 50,
@@ -57,6 +59,7 @@ export default function ShowSubmitStatus(props) {
         </Text>
         <Text
           style={{
+            color: theme.colors.black4,
             fontSize: 29,
             fontWeight: 'bold',
             paddingTop: 30,

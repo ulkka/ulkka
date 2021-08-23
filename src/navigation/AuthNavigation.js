@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useContext} from 'react';
 import {Platform, SafeAreaView} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
   getAuthStatus,
@@ -12,6 +13,8 @@ import Login from '../screens/auth/Login';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
 
 export const AuthNavigation = () => {
+  const {theme} = useContext(ThemeContext);
+
   const StackNav = createStackNavigator();
   const isRegistered = useSelector(getRegistrationStatus);
   const authStatus = useSelector(getAuthStatus);
@@ -25,7 +28,7 @@ export const AuthNavigation = () => {
       : {height: 40};
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: theme.colors.primary}}>
       <StackNav.Navigator
         screenOptions={{
           headerBackTitle: '',
@@ -34,7 +37,7 @@ export const AuthNavigation = () => {
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontSize: Platform.OS == 'ios' ? 17 : 15,
-            color: '#444',
+            color: theme.colors.black4,
           },
         }}>
         <StackNav.Screen

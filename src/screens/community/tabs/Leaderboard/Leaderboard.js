@@ -1,10 +1,13 @@
-import React, {memo, useState, useEffect} from 'react';
+import React, {memo, useState, useEffect, useContext} from 'react';
 import {View, Text, Platform, FlatList, StyleSheet} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import Sort from './Sort';
 import Users from './Users';
 import analytics from '@react-native-firebase/analytics';
 
 function Leaderboard(props) {
+  const {theme} = useContext(ThemeContext);
+
   const [metric, setMetric] = useState('');
   const [range, setRange] = useState('week');
   const {communityId} = props;
@@ -18,7 +21,8 @@ function Leaderboard(props) {
   return (
     <View
       style={{
-        ...styles.container,
+        flex: 1,
+        backgroundColor: theme.colors.primary,
         paddingTop: props.contentContainerStyle.paddingTop,
       }}>
       <Sort
@@ -28,9 +32,28 @@ function Leaderboard(props) {
         setRange={setRange}
       />
       <View style={styles.listView}>
-        <View style={styles.singleListView}>
-          <View style={styles.listHeaderView}>
-            <Text style={styles.listTitle}>Posters</Text>
+        <View
+          style={{
+            flex: 1,
+            borderRightWidth: 1,
+            borderColor: theme.colors.grey2,
+          }}>
+          <View
+            style={{
+              padding: 10,
+              alignItems: 'center',
+              borderBottomWidth: 1,
+              borderColor: theme.colors.grey2,
+            }}>
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: '700',
+                color: theme.colors.black5,
+                ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              }}>
+              Posters
+            </Text>
           </View>
           <FlatList
             listKey="leaderboardposters"
@@ -50,9 +73,28 @@ function Leaderboard(props) {
             ))}
           />
         </View>
-        <View style={styles.singleListView}>
-          <View style={styles.listHeaderView}>
-            <Text style={styles.listTitle}>Commenters</Text>
+        <View
+          style={{
+            flex: 1,
+            borderRightWidth: 1,
+            borderColor: theme.colors.grey2,
+          }}>
+          <View
+            style={{
+              padding: 10,
+              alignItems: 'center',
+              borderBottomWidth: 1,
+              borderColor: theme.colors.grey2,
+            }}>
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: '700',
+                color: theme.colors.black5,
+                ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+              }}>
+              Commenters
+            </Text>
           </View>
           <FlatList
             listKey="leaderboardcommenters"
@@ -80,26 +122,5 @@ function Leaderboard(props) {
 export default memo(Leaderboard);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
   listView: {flexDirection: 'row', flex: 1},
-  singleListView: {
-    flex: 1,
-    borderRightWidth: 1,
-    borderColor: '#eee',
-  },
-  listHeaderView: {
-    padding: 10,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
-  listTitle: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#555',
-    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-  },
 });

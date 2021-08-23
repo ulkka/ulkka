@@ -1,13 +1,15 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {navigate} from '../../navigation/Ref';
 import ToggleAdminNotifications from './ToggleAdminNotifications';
 
 export default memo(function CommunitySettings(props) {
+  const {theme} = useContext(ThemeContext);
+
   const optionViewStyle = {
     borderBottomWidth: 1,
-    borderColor: '#ddd',
+    borderColor: theme.colors.grey3,
     paddingVertical: 20,
     paddingHorizontal: 10,
     flexDirection: 'row',
@@ -47,14 +49,15 @@ export default memo(function CommunitySettings(props) {
     },
   ];
   return (
-    <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
+    <View
+      style={{flex: 1, backgroundColor: theme.colors.primary, paddingTop: 10}}>
       {settingsList.map((setting, index) => {
         return (
           <TouchableOpacity
             key={index}
             onPress={setting.onPress}
             style={optionViewStyle}>
-            <Text>{setting.title}</Text>
+            <Text style={{color: theme.colors.black4}}>{setting.title}</Text>
             {setting.componentRight ? (
               setting.componentRight()
             ) : (
@@ -62,7 +65,7 @@ export default memo(function CommunitySettings(props) {
                 name="arrow-right"
                 type="font-awesome"
                 size={18}
-                color="#444"
+                color={theme.colors.black4}
               />
             )}
           </TouchableOpacity>

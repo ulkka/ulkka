@@ -1,8 +1,8 @@
-import React, {useEffect, useState, memo} from 'react';
+import React, {useEffect, useState, memo, useContext} from 'react';
 import {View, Text, Platform, Image} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
-import {Button} from 'react-native-elements';
+import {Button, ThemeContext} from 'react-native-elements';
 import {
   fetchTopCommunities,
   getUserNonMemberCommunities,
@@ -13,7 +13,7 @@ import {kFormatter} from './helpers';
 
 export default memo(function TopCommunities(props) {
   const dispatch = useDispatch();
-
+  const {theme} = useContext(ThemeContext);
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
   const [complete, setComplete] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,9 +29,9 @@ export default memo(function TopCommunities(props) {
       setLoading(true);
       const response = await dispatch(
         fetchTopCommunities({page: page + 1, limit}),
-      ).catch((error) => {
+      ).catch(error => {
         setError(true);
-        console.log('error fetching top communities ', error);
+        console.error('error fetching top communities ', error);
       });
       const topCommunitiesList = response?.payload?.data?.data;
       if (topCommunitiesList?.length) {
@@ -55,12 +55,12 @@ export default memo(function TopCommunities(props) {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#fff',
+          backgroundColor: theme.colors.primary,
           alignItems: 'center',
           padding: 10,
           width: 125,
           borderWidth: 1,
-          borderColor: '#ddd',
+          borderColor: theme.colors.grey3,
           borderRadius: 5,
           margin: 7,
           justifyContent: 'space-evenly',
@@ -71,7 +71,7 @@ export default memo(function TopCommunities(props) {
           numberOfLines={1}
           ellipsizeMode="tail"
           style={{
-            color: '#555',
+            color: theme.colors.black5,
             fontWeight: 'bold',
             textAlign: 'center',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -81,7 +81,7 @@ export default memo(function TopCommunities(props) {
         <View style={{height: 8}}></View>
         <Text
           style={{
-            color: '#555',
+            color: theme.colors.black5,
             fontSize: 11,
             //fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -96,11 +96,11 @@ export default memo(function TopCommunities(props) {
             title="Join"
             buttonStyle={{
               borderRadius: 15,
-              backgroundColor: '#2a9df4',
+              backgroundColor: theme.colors.blue,
               paddingHorizontal: 25,
               paddingVertical: 2,
             }}
-            titleStyle={{color: '#fff', fontSize: 12}}
+            titleStyle={{color: theme.colors.primary, fontSize: 12}}
             onPress={() => dispatch(joinCommunity(id))}
           />
         </View>
@@ -135,7 +135,9 @@ export default memo(function TopCommunities(props) {
         justifyContent: 'space-evenly',
       }}>
       <View style={{paddingHorizontal: 10}}>
-        <Text style={{fontWeight: 'bold', color: '#777'}}>Top Communities</Text>
+        <Text style={{fontWeight: 'bold', color: theme.colors.black6}}>
+          Top Communities
+        </Text>
       </View>
       <View>
         <FlatList

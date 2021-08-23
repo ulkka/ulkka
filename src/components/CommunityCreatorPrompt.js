@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, Platform, Image} from 'react-native';
-import {Overlay, Button} from 'react-native-elements';
+import {Overlay, Button, ThemeContext} from 'react-native-elements';
 import {
   resetCommunityCreatorPrompt,
   getCommunityCreatorPromptIsVisble,
@@ -9,7 +9,9 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {navigate, goBack} from '../navigation/Ref';
 
-export const CommunityCreatorPromptView = (props) => {
+export const CommunityCreatorPromptView = props => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const text = props?.text
     ? props.text.trim().replace(' ', '_').replace(/#/g, '')
@@ -37,7 +39,7 @@ export const CommunityCreatorPromptView = (props) => {
       <Text
         style={{
           fontSize: 16,
-          color: '#444',
+          color: theme.colors.black4,
           fontWeight: 'bold',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
@@ -46,7 +48,7 @@ export const CommunityCreatorPromptView = (props) => {
       <View style={{height: 10}}></View>
       <Text
         style={{
-          color: '#555',
+          color: theme.colors.black5,
           fontWeight: 'bold',
           textAlign: 'center',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -61,12 +63,12 @@ export const CommunityCreatorPromptView = (props) => {
         buttonStyle={{
           width: 180,
           borderRadius: 15,
-          backgroundColor: '#2a9df4',
+          backgroundColor: theme.colors.blue,
           paddingVertical: 10,
         }}
         titleStyle={{
           textTransform: 'uppercase',
-          color: '#fff',
+          color: theme.colors.primary,
           fontSize: 13,
           ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
         }}
@@ -78,17 +80,16 @@ export const CommunityCreatorPromptView = (props) => {
       <View style={{height: 15}}></View>
       {shouldGoBack ? (
         <Button
-          raised
           title="Go Back"
           buttonStyle={{
             width: 180,
             borderRadius: 15,
-            backgroundColor: '#ccc',
+            backgroundColor: theme.colors.grey4,
             paddingVertical: 10,
           }}
           titleStyle={{
             textTransform: 'uppercase',
-            color: '#fff',
+            color: theme.colors.primary,
             fontSize: 13,
             ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
           }}
@@ -99,17 +100,18 @@ export const CommunityCreatorPromptView = (props) => {
         />
       ) : (
         <Button
-          raised
           title="No Thanks"
           buttonStyle={{
+            borderWidth: 1,
+            borderColor: theme.colors.grey2,
             width: 180,
             borderRadius: 15,
-            backgroundColor: '#ccc',
+            backgroundColor: theme.colors.grey4,
             paddingVertical: 10,
           }}
           titleStyle={{
             textTransform: 'uppercase',
-            color: '#fff',
+            color: theme.colors.primary,
             fontSize: 13,
             ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
           }}
@@ -121,6 +123,7 @@ export const CommunityCreatorPromptView = (props) => {
 };
 
 export function CommunityCreatorPromptOverlay(props) {
+  const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
   const isVisible = useSelector(getCommunityCreatorPromptIsVisble);
 
@@ -130,6 +133,7 @@ export function CommunityCreatorPromptOverlay(props) {
       statusBarTranslucent={true}
       onBackdropPress={() => dispatch(resetCommunityCreatorPrompt())}
       overlayStyle={{
+        backgroundColor: theme.colors.primary,
         position: 'absolute',
         bottom: 0,
         width: '97%',
@@ -137,7 +141,7 @@ export function CommunityCreatorPromptOverlay(props) {
         borderTopRightRadius: 10,
       }}
       backdropStyle={{
-        backgroundColor: '#000',
+        backgroundColor: theme.colors.black0,
         opacity: 0.2,
       }}>
       <CommunityCreatorPromptView />

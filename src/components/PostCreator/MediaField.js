@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Image,
@@ -7,7 +7,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-crop-picker';
 import Snackbar from 'react-native-snackbar';
@@ -58,10 +58,11 @@ const validateMedia = (media, postType) => {
   return true;
 };
 
-export const MediaField = (props) => {
+export const MediaField = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {mediaType, media, resetMedia, setMedia, type: postType} = props;
-  console.log('media type', mediaType);
-  const pickMedia = (mediaType) => {
+  const pickMedia = mediaType => {
     ImagePicker.openPicker({
       writeTempFile: false,
       mediaType: mediaType,
@@ -72,9 +73,8 @@ export const MediaField = (props) => {
           cropperToolbarTitle: '',
         }),
     })
-      .then((media) => {
+      .then(media => {
         // since ios and android responses are different and to accomodate gifs
-        console.log('Selected Media - ', media);
         const isMediaValid = validateMedia(media, postType);
         if (isMediaValid) {
           if ('filename' in media) {
@@ -95,8 +95,8 @@ export const MediaField = (props) => {
           setMedia(media);
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(error => {
+        console.error(error);
 
         if (error.message == 'User cancelled image selection') {
           return;
@@ -122,7 +122,6 @@ export const MediaField = (props) => {
               text: 'Cancel',
               onPress: () => {
                 analytics().logEvent('mediapermission_deny');
-                console.log('Cancel Pressed');
               },
               style: 'cancel',
             },
@@ -152,7 +151,7 @@ export const MediaField = (props) => {
         name="close"
         type="font-awesome"
         size={16}
-        color="lightblue"
+        color={theme.colors.blue}
         reverse
       />
     </TouchableOpacity>
@@ -193,7 +192,7 @@ export const MediaField = (props) => {
         name="plus-square"
         size={40}
         reverse
-        color="lightblue"
+        color={theme.colors.blue}
         type="font-awesome"
       />
     </TouchableOpacity>
@@ -206,7 +205,7 @@ export const MediaField = (props) => {
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#eee',
+        borderColor: theme.colors.grey2,
         maxHeight: 380,
         marginBottom: 15,
       }}>

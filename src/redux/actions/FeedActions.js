@@ -5,7 +5,7 @@ import {normalize} from 'normalizr';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {getTimestampFromRange} from '../../components/helpers';
 
-const getFeedType = (type) => {
+const getFeedType = type => {
   if (type.includes('CommunityDetail')) {
     return 'CommunityDetail';
   }
@@ -137,7 +137,6 @@ export const refreshPostDetail = createAsyncThunk(
 export const initPostDetail = createAsyncThunk(
   'feed/initPost',
   async ({screenId, postId}) => {
-    console.log('initialising post detail', screenId, postId);
     return {screenId, postId};
   },
 );

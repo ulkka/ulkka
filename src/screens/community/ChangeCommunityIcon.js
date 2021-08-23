@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, TouchableOpacity, Linking, Alert, Platform} from 'react-native';
-import {Icon, Button, Avatar} from 'react-native-elements';
+import {Icon, Button, Avatar, ThemeContext} from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import analytics from '@react-native-firebase/analytics';
 import utilityApi from '../../services/UtilityApi';
@@ -17,6 +17,8 @@ import {
 } from '../../redux/reducers/LoadingOverlaySlice';
 
 export default function ChangeCommunityIcon(props) {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const {communityId, field} = props.route.params;
 
@@ -70,9 +72,7 @@ export default function ChangeCommunityIcon(props) {
     return true;
   };
 
-  console.log('props in change community icon', props);
-
-  const pickMedia = (mediaType) => {
+  const pickMedia = mediaType => {
     ImagePicker.openPicker({
       writeTempFile: false,
       mediaType: mediaType,
@@ -80,9 +80,8 @@ export default function ChangeCommunityIcon(props) {
       cropperCircleOverlay: true,
       cropperToolbarTitle: '',
     })
-      .then((media) => {
+      .then(media => {
         // since ios and android responses are different and to accomodate gifs
-        console.log('Selected Media - ', media);
         const isMediaValid = validateMedia(media, 'image');
         if (isMediaValid) {
           if ('filename' in media) {
@@ -103,8 +102,8 @@ export default function ChangeCommunityIcon(props) {
           setMedia(media);
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(error => {
+        console.error(error);
 
         if (error.message == 'User cancelled image selection') {
           return;
@@ -130,7 +129,7 @@ export default function ChangeCommunityIcon(props) {
               text: 'Cancel',
               onPress: () => {
                 analytics().logEvent('mediapermission_deny');
-                console.log('Cancel Pressed');
+                console.error('Cancel Pressed');
               },
               style: 'cancel',
             },
@@ -156,7 +155,7 @@ export default function ChangeCommunityIcon(props) {
         name="plus-square"
         size={40}
         reverse
-        color="lightblue"
+        color={theme.colors.blue}
         type="font-awesome"
       />
     </TouchableOpacity>
@@ -227,7 +226,6 @@ export default function ChangeCommunityIcon(props) {
     var data = fileFormDataCreator();
     if (data) {
       const response = await utilityApi.media.upload(data, null, null, 'image');
-      console.log('submitted icon', response);
       const {secure_url} = response.data;
       if (secure_url) {
         await dispatch(
@@ -261,7 +259,7 @@ export default function ChangeCommunityIcon(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         alignItems: 'center',
         justifyContent: 'space-evenly',
       }}>
@@ -271,11 +269,11 @@ export default function ChangeCommunityIcon(props) {
         title="Submit"
         containerStyle={{width: 100, alignSelf: 'center'}}
         buttonStyle={{
-          backgroundColor: '#2a9df4',
+          backgroundColor: theme.colors.blue,
           borderRadius: 15,
           paddingHorizontal: 20,
         }}
-        titleStyle={{color: '#fff', fontSize: 14}}
+        titleStyle={{color: theme.colors.primary, fontSize: 14}}
         onPress={submit}
       />
     </View>

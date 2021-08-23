@@ -70,7 +70,7 @@ const NotificationHandler = () => {
     });
 
     PushNotification.channelExists('default-channel', function (exists) {
-      console.log('channel exists', exists); // true/false
+      // console.log('channel exists', exists); // true/false
     });
 
     PushNotification.createChannel(
@@ -83,13 +83,13 @@ const NotificationHandler = () => {
         importance: 4, // (optional) default: 4. Int value of the Android notification importance
         vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
       },
-      (created) => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+      // (created) => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
     );
 
     // Check whether an initial notification is available
     messaging()
       .getInitialNotification()
-      .then((remoteMessage) => {
+      .then(remoteMessage => {
         if (remoteMessage) {
           remoteMessage?.notification?.notification_id &&
             dispatch(
@@ -100,7 +100,7 @@ const NotificationHandler = () => {
       });
 
     // Check whether a notification arrived while app is on foreground
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
       dispatch(incrementNotificationCount(remoteMessage.data?.notification_id));
 
       const notificationObject = {
@@ -139,7 +139,7 @@ const NotificationHandler = () => {
     }
   }, [isRegistered]);
 
-  const fetchUnreadNotificationCountHandler = async (appState) => {
+  const fetchUnreadNotificationCountHandler = async appState => {
     if (appState == 'active' && isRegistered) {
       dispatch(fetchUnreadNotificationCount());
     }

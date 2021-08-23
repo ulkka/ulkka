@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {signout} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
-import {Button} from 'react-native-elements';
+import {Button, ThemeContext} from 'react-native-elements';
 import analytics from '@react-native-firebase/analytics';
 
 export default function ChangeAccount() {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
+
   const email = auth().currentUser.email;
   return (
     <View
@@ -16,17 +18,17 @@ export default function ChangeAccount() {
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#fff',
+        borderColor: theme.colors.primary,
         borderRadius: 15,
         paddingHorizontal: 10,
-        backgroundColor: '#eee',
+        backgroundColor: theme.colors.grey2,
       }}>
       <Text
         style={{
           fontSize: 15,
           fontWeight: '500',
           paddingHorizontal: 15,
-          color: 'green',
+          color: theme.colors.green,
         }}>
         {' '}
         {email}
@@ -39,7 +41,7 @@ export default function ChangeAccount() {
           dispatch(signout('norestart'));
         }}
         type="clear"
-        titleStyle={{color: '#6874e8', fontSize: 14}}
+        titleStyle={{color: theme.colors.blue, fontSize: 14}}
       />
     </View>
   );

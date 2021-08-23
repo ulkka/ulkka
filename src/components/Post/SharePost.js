@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {TouchableOpacity, Platform} from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {Icon, Text, ThemeContext} from 'react-native-elements';
 import Share from 'react-native-share';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {useSelector} from 'react-redux';
@@ -31,26 +31,26 @@ function getShareOGImageUrl(type, mediaUrl, ogData) {
   }
 }
 
-const SharePost = (props) => {
+const SharePost = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {postId} = props;
   const os = Platform.OS;
 
-  const title = useSelector((state) => getPostTitle(state, postId));
-  const description = useSelector((state) => getPostDescription(state, postId));
-  const mediaMetadata = useSelector((state) =>
+  const title = useSelector(state => getPostTitle(state, postId));
+  const description = useSelector(state => getPostDescription(state, postId));
+  const mediaMetadata = useSelector(state =>
     getPostMediaMetadata(state, postId),
   );
-  const ogData = useSelector((state) => getPostOgData(state, postId));
-  const type = useSelector((state) => getPostType(state, postId));
-  const voteCount = useSelector((state) => getPostVoteCount(state, postId));
-  const commentCount = useSelector((state) =>
-    getPostCommentCount(state, postId),
-  );
-  const postAuthorDisplayname = useSelector((state) =>
+  const ogData = useSelector(state => getPostOgData(state, postId));
+  const type = useSelector(state => getPostType(state, postId));
+  const voteCount = useSelector(state => getPostVoteCount(state, postId));
+  const commentCount = useSelector(state => getPostCommentCount(state, postId));
+  const postAuthorDisplayname = useSelector(state =>
     getPostAuthorDisplayname(state, postId),
   );
 
-  const postCommunityName = useSelector((state) =>
+  const postCommunityName = useSelector(state =>
     getPostCommunityName(state, postId),
   );
 
@@ -125,16 +125,15 @@ const SharePost = (props) => {
       url: link,
     };
     Share.open(options)
-      .then((res) => {
-        console.log(res);
+      .then(res => {
         analytics().logShare({
           content_type: type,
           item_id: postId,
           method: res.app,
         });
       })
-      .catch((err) => {
-        err && console.log(err);
+      .catch(err => {
+        err && console.error(err);
       });
   };
   return (
@@ -148,7 +147,7 @@ const SharePost = (props) => {
           fontWeight: 'bold',
           paddingLeft: os == 'ios' ? 8 : 12,
           paddingTop: os == 'ios' ? 4 : 0,
-          color: '#777',
+          color: theme.colors.black6,
         }}>
         Share
       </Text>

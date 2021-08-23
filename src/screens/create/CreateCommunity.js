@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {
   View,
@@ -7,7 +7,7 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import {Button, Input} from 'react-native-elements';
+import {Button, Input, ThemeContext} from 'react-native-elements';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
 import CommunityTopicSelector from '../../components/CommunityTopicSelector';
@@ -18,6 +18,8 @@ import communityApi from '../../services/CommunityApi';
 import {pop, push} from '../../navigation/Ref';
 
 export default function CreateCommunity({navigation, route}) {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [topic, setTopic] = useState('');
@@ -56,7 +58,7 @@ export default function CreateCommunity({navigation, route}) {
     return payload;
   };
 
-  const validateCommunityTitle = async (text) => {
+  const validateCommunityTitle = async text => {
     if (
       text.length < 5 ||
       !/^(#[a-zA-Z0-9\u0D00-\u0D7F_]+)$/.test(text) || // reg exp to check characters are english or malayalam alphabets, numbers or _
@@ -70,11 +72,9 @@ export default function CreateCommunity({navigation, route}) {
     } else {
       const response = await communityApi.community.searchByName(text);
       if (!response.data?._id) {
-        console.log('community title response', response);
         setIsCommunityTitleValid(true);
         return true;
       } else {
-        console.log('community title already exists response', response);
         setIsCommunityTitleValid(false);
         setCommunityTitleErrorMessage(
           'Community already exists. Please enter another title',
@@ -84,7 +84,7 @@ export default function CreateCommunity({navigation, route}) {
     }
   };
 
-  const payloadValidator = async (payload) => {
+  const payloadValidator = async payload => {
     if (!payload.type) {
       Snackbar.show({
         text: 'Please select a valid topic for the community',
@@ -101,7 +101,6 @@ export default function CreateCommunity({navigation, route}) {
     }
     if (payload.name) {
       const isTitleValid = await validateCommunityTitle(payload.name);
-      console.log('isTitleVlid', isTitleValid);
       if (!isTitleValid) {
         Snackbar.show({
           text: 'Please select a valid title for the community',
@@ -120,7 +119,7 @@ export default function CreateCommunity({navigation, route}) {
     return true;
   };
 
-  const communityCreationSuccess = (newCommunityId) => {
+  const communityCreationSuccess = newCommunityId => {
     var statusData = {
       type: 'success',
       message: 'Successfully Created Community',
@@ -141,7 +140,7 @@ export default function CreateCommunity({navigation, route}) {
     const isPayloadValid = await payloadValidator(payload);
     if (isPayloadValid) {
       setLoading(true);
-      await dispatch(createCommunity(payload)).then((response) => {
+      await dispatch(createCommunity(payload)).then(response => {
         if (!response.error) {
           const newCommunityId = response.payload._id;
           communityCreationSuccess(newCommunityId);
@@ -157,15 +156,24 @@ export default function CreateCommunity({navigation, route}) {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          borderBottomColor: '#ddd',
+          borderBottomColor: theme.colors.grey3,
           borderBottomWidth: 1,
         }}>
-        <Text style={{fontWeight: 'bold', fontSize: 20, color: '#444'}}>#</Text>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: 20,
+            color: theme.colors.black4,
+          }}>
+          #
+        </Text>
         <Input
+          keyboardAppearance={theme.dark ? 'dark' : 'light'}
+          placeholderTextColor={theme.colors.black7}
           inputContainerStyle={{
             borderBottomColor: 'transparent',
           }}
-          onChangeText={(text) => setTitle(text)}
+          onChangeText={text => setTitle(text)}
           value={title}
           placeholder={'Title'}
           renderErrorMessage={!!isCommunityTitleValid}
@@ -188,7 +196,7 @@ export default function CreateCommunity({navigation, route}) {
               : communityTitleErrorMessage
           }
           returnKeyType="done"
-          onSubmitEditing={(e) => {
+          onSubmitEditing={e => {
             Keyboard.dismiss();
           }}
         />
@@ -200,16 +208,18 @@ export default function CreateCommunity({navigation, route}) {
           alignItems: 'flex-start',
         }}>
         <Input
+          keyboardAppearance={theme.dark ? 'dark' : 'light'}
+          placeholderTextColor={theme.colors.black7}
           style={{
             height: 'auto',
             minHeight: 75,
             marginBottom: 20,
           }}
           inputContainerStyle={{
-            borderBottomColor: '#fff',
+            borderBottomColor: theme.colors.primary,
             marginBottom: 20,
           }}
-          onChangeText={(text) => setDescription(text)}
+          onChangeText={text => setDescription(text)}
           inputStyle={{
             lineHeight: 24,
           }}
@@ -223,14 +233,19 @@ export default function CreateCommunity({navigation, route}) {
     </View>
   );
   const Submit = (
-    <View style={{width: '35%', alignSelf: 'center'}}>
+    <View style={{width: '50%', alignSelf: 'center'}}>
       <Button
-        raised
         buttonStyle={{
-          backgroundColor: '#20bb29c4',
+          backgroundColor: theme.colors.primary,
           borderRadius: 20,
+          borderColor: theme.colors.grey3,
+          borderWidth: 1,
+          //padding:20
         }}
-        containerStyle={{marginBottom: 20}}
+        titleStyle={{
+          color: theme.colors.green,
+          fontWeight: 'bold',
+        }}
         title="Create"
         onPress={() => submit()}
       />
@@ -247,14 +262,14 @@ export default function CreateCommunity({navigation, route}) {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
       }}>
       <KeyboardAvoidingView
         keyboardVerticalOffset={Platform.OS == 'ios' ? 125 : 75}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
           flex: 1,
-          backgroundColor: '#fff',
+          backgroundColor: theme.colors.primary,
           width: '100%',
           padding: 25,
           justifyContent: 'space-evenly',

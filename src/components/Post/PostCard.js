@@ -24,10 +24,10 @@ const allowedPostTypes = ['text', 'image', 'link', 'gif', 'video'];
 function PostCard(props) {
   const {theme} = useContext(ThemeContext);
   const {postId, screen, screenName} = props;
-  const isDeleted = useSelector((state) => getPostisDeleted(state, postId));
-  const isRemoved = useSelector((state) => getPostisRemoved(state, postId));
-  const postAuthorId = useSelector((state) => getPostAuthorId(state, postId));
-  const postType = useSelector((state) => getPostType(state, postId));
+  const isDeleted = useSelector(state => getPostisDeleted(state, postId));
+  const isRemoved = useSelector(state => getPostisRemoved(state, postId));
+  const postAuthorId = useSelector(state => getPostAuthorId(state, postId));
+  const postType = useSelector(state => getPostType(state, postId));
   const blockedUsers = useSelector(getBlockedUsers);
   const registeredUser = useSelector(getRegisteredUser);
 
@@ -41,7 +41,7 @@ function PostCard(props) {
   );
 
   const errorHandler = (error: Error, stackTrace: string) => {
-    console.log('error displaying post content', error);
+    console.error('error displaying post content', error);
     crashlytics().recordError(error);
   };
 
@@ -53,7 +53,7 @@ function PostCard(props) {
         width: '100%',
         paddingTop: 10,
         paddingBottom: 3,
-        borderBottomColor: '#fafafa',
+        borderBottomColor: theme.colors.grey0,
         borderBottomWidth: 1,
       }}>
       <View style={{paddingHorizontal: 5}}>
@@ -72,12 +72,12 @@ function PostCard(props) {
         paddingVertical: 30,
         borderRadius: 10,
         paddingHorizontal: 10,
-        backgroundColor: '#ffeded',
+        backgroundColor: theme.colors.reddishWhite,
         alignItems: 'center',
       }}>
       <Text
         style={{
-          color: '#666',
+          color: theme.colors.black6,
           letterSpacing: 0.5,
           fontWeight: '500',
           textDecorationLine: 'line-through',

@@ -16,7 +16,7 @@ import {
 import {navigate} from '../../navigation/Ref';
 import {getUriImage} from '../helpers';
 
-const ImagePostContent = (props) => {
+const ImagePostContent = props => {
   const dispatch = useDispatch();
   const {
     screen,
@@ -31,8 +31,7 @@ const ImagePostContent = (props) => {
   } = props;
 
   const mediaMetadata =
-    type != 'link' &&
-    useSelector((state) => getPostMediaMetadata(state, postId));
+    type != 'link' && useSelector(state => getPostMediaMetadata(state, postId));
 
   const {height, width} =
     type == 'link'
@@ -51,16 +50,16 @@ const ImagePostContent = (props) => {
 
   const currentScreen = screenId ? screenId : screen;
 
-  const loaded = useSelector((state) =>
+  const loaded = useSelector(state =>
     getIsPostInFeedLoaded(state, currentScreen, postId),
   );
 
-  const error = useSelector((state) =>
+  const error = useSelector(state =>
     getIsPostInFeedError(state, currentScreen, postId),
   );
 
   const onError = () => {
-    console.log('error loading image');
+    console.error('error loading image');
     dispatch(setError({postId: postId, type: currentScreen}));
   };
   const onLoad = () =>

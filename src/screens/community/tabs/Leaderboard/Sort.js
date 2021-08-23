@@ -1,8 +1,15 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, Platform, StyleSheet} from 'react-native';
-import {Icon, CheckBox, Overlay, Button} from 'react-native-elements';
+import {
+  Icon,
+  CheckBox,
+  Overlay,
+  Button,
+  ThemeContext,
+} from 'react-native-elements';
 
 export default memo(function Sort(props) {
+  const {theme} = useContext(ThemeContext);
   const {metric, setMetric, range, setRange} = props;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -24,7 +31,7 @@ export default memo(function Sort(props) {
     }
   };
 
-  const topSortHandler = (from) => {
+  const topSortHandler = from => {
     close();
     setRange(from);
   };
@@ -35,13 +42,21 @@ export default memo(function Sort(props) {
         onPress={() => setMetric('')}
         center
         title="Top Creators"
-        titleProps={{style: styles.checkboxTitle}}
+        titleProps={{
+          style: {
+            paddingLeft: 10,
+            fontWeight: 'bold',
+            fontSize: 12,
+            color: theme.colors.black5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          },
+        }}
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={metric === ''}
         containerStyle={styles.checkBoxContainerStyle}
         size={14}
-        checkedColor="#555"
+        checkedColor={theme.colors.black5}
         uncheckedColor="#888"
       />
     </TouchableOpacity>
@@ -53,13 +68,21 @@ export default memo(function Sort(props) {
         onPress={() => setMetric('Vote')}
         center
         title="Most Voted"
-        titleProps={{style: styles.checkboxTitle}}
+        titleProps={{
+          style: {
+            paddingLeft: 10,
+            fontWeight: 'bold',
+            fontSize: 12,
+            color: theme.colors.black5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          },
+        }}
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={metric == 'Vote'}
         containerStyle={styles.checkBoxContainerStyle}
         size={14}
-        checkedColor="#555"
+        checkedColor={theme.colors.black5}
         uncheckedColor="#888"
       />
     </TouchableOpacity>
@@ -69,9 +92,22 @@ export default memo(function Sort(props) {
     <TouchableOpacity
       onPress={() => setIsVisible(true)}
       style={styles.selectRangeView}>
-      <Text style={styles.selectRangeText}>{getTopSortTitleFromRange()}</Text>
+      <Text
+        style={{
+          fontWeight: 'bold',
+          fontSize: 12,
+          color: theme.colors.black5,
+          ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+        }}>
+        {getTopSortTitleFromRange()}
+      </Text>
       <View style={styles.horizontalSeperator}></View>
-      <Icon name="caret-down" type="font-awesome" color="#666" size={16} />
+      <Icon
+        name="caret-down"
+        type="font-awesome"
+        color={theme.colors.black6}
+        size={16}
+      />
     </TouchableOpacity>
   );
 
@@ -83,13 +119,21 @@ export default memo(function Sort(props) {
         onPress={() => topSortHandler('today')}
         center
         title="Today"
-        titleProps={{style: styles.optionText}}
+        titleProps={{
+          style: {
+            paddingLeft: 10,
+            fontWeight: 'bold',
+            fontSize: 13,
+            color: theme.colors.black5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          },
+        }}
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={range == 'today'}
         containerStyle={styles.checkBoxContainerStyle}
         size={20}
-        checkedColor="#555"
+        checkedColor={theme.colors.black5}
         uncheckedColor="#888"
       />
     </View>
@@ -101,13 +145,21 @@ export default memo(function Sort(props) {
         onPress={() => topSortHandler('week')}
         center
         title="This Week"
-        titleProps={{style: styles.optionText}}
+        titleProps={{
+          style: {
+            paddingLeft: 10,
+            fontWeight: 'bold',
+            fontSize: 13,
+            color: theme.colors.black5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          },
+        }}
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={range == 'week'}
         containerStyle={styles.checkBoxContainerStyle}
         size={20}
-        checkedColor="#555"
+        checkedColor={theme.colors.black5}
         uncheckedColor="#888"
       />
     </View>
@@ -119,13 +171,21 @@ export default memo(function Sort(props) {
         onPress={() => topSortHandler('month')}
         center
         title="This Month"
-        titleProps={{style: styles.optionText}}
+        titleProps={{
+          style: {
+            paddingLeft: 10,
+            fontWeight: 'bold',
+            fontSize: 13,
+            color: theme.colors.black5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          },
+        }}
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={range == 'month'}
         containerStyle={styles.checkBoxContainerStyle}
         size={20}
-        checkedColor="#555"
+        checkedColor={theme.colors.black5}
         uncheckedColor="#888"
       />
     </View>
@@ -137,13 +197,21 @@ export default memo(function Sort(props) {
         onPress={() => topSortHandler('alltime')}
         center
         title="All Time"
-        titleProps={{style: styles.optionText}}
+        titleProps={{
+          style: {
+            paddingLeft: 10,
+            fontWeight: 'bold',
+            fontSize: 13,
+            color: theme.colors.black5,
+            ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
+          },
+        }}
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={range == 'alltime'}
         containerStyle={styles.checkBoxContainerStyle}
         size={20}
-        checkedColor="#555"
+        checkedColor={theme.colors.black5}
         uncheckedColor="#888"
       />
     </View>
@@ -163,15 +231,35 @@ export default memo(function Sort(props) {
 
   const topSortOptionsList = (
     <View>
-      <View style={styles.titleView}>
-        <Text style={styles.title}>Select Time Period</Text>
+      <View
+        style={{
+          padding: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: theme.colors.grey3,
+        }}>
+        <Text
+          style={{
+            fontSize: 13,
+            textTransform: 'uppercase',
+            fontWeight: '700',
+            color: theme.colors.black5,
+          }}>
+          Select Time Period
+        </Text>
       </View>
       {topSortOptions}
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flexDirection: 'row',
+        backgroundColor: theme.colors.grey2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 15,
+      }}>
       <View style={styles.sortOptionView}>{topCreators}</View>
       <View style={styles.sortOptionView}>{mostVoted}</View>
       <View style={styles.sortOptionView}>{selectRange}</View>
@@ -180,17 +268,38 @@ export default memo(function Sort(props) {
         isVisible={isVisible}
         statusBarTranslucent={true}
         onBackdropPress={() => close()}
-        overlayStyle={styles.overlayStyle}
-        backdropStyle={styles.backdropStyle}>
+        overlayStyle={{
+          position: 'absolute',
+          bottom: 0,
+          width: '97%',
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+          backgroundColor: theme.colors.grey2,
+        }}
+        backdropStyle={{
+          backgroundColor: theme.colors.black0,
+          opacity: 0.2,
+        }}>
         <View>
           {topSortOptionsList}
           <Button
             raised
             type="solid"
             activeOpacity={0.5}
-            titleStyle={styles.buttonTitleStyle}
+            titleStyle={{
+              color: theme.colors.black5,
+              fontWeight: '500',
+              fontSize: 12,
+            }}
             containerStyle={styles.buttonContainerStyle}
-            buttonStyle={styles.buttonStyle}
+            buttonStyle={{
+              borderRadius: 25,
+              paddingHorizontal: '45%',
+              paddingVertical: 8,
+              alignItems: 'center',
+              borderColor: theme.colors.black2,
+              backgroundColor: theme.colors.grey4,
+            }}
             title="Close"
             onPress={() => close()}
           />
@@ -201,13 +310,6 @@ export default memo(function Sort(props) {
 });
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(96, 96, 96, 0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 15,
-  },
   overlayStyle: {
     position: 'absolute',
     bottom: 0,
@@ -215,45 +317,16 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
-  backdropStyle: {
-    backgroundColor: '#000',
-    opacity: 0.2,
-  },
-  titleView: {padding: 10, borderBottomWidth: 1, borderBottomColor: '#ddd'},
-  title: {
-    fontSize: 13,
-    textTransform: 'uppercase',
-    fontWeight: '700',
-    color: '#555',
-  },
+
   optionView: {
     flex: 1,
     paddingVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  optionText: {
-    paddingLeft: 10,
-    fontWeight: 'bold',
-    fontSize: 13,
-    color: '#555',
-    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-  },
+
   sortOptionView: {flex: 1, alignItems: 'center'},
-  buttonStyle: {
-    borderRadius: 25,
-    paddingHorizontal: '45%',
-    paddingVertical: 8,
-    alignItems: 'center',
-    borderColor: '#222',
-    backgroundColor: '#eee',
-  },
-  buttonTitleStyle: {
-    color: '#777',
-    fontWeight: '500',
-    fontSize: 12,
-    marginLeft: 5,
-  },
+
   buttonContainerStyle: {
     alignItems: 'center',
     alignSelf: 'center',
@@ -269,12 +342,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     alignItems: 'flex-start',
   },
-  selectRangeText: {
-    fontWeight: 'bold',
-    fontSize: 12,
-    color: '#555',
-    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-  },
+
   horizontalSeperator: {width: 10},
   verticalSeperator: {
     height: 10,
@@ -284,13 +352,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
-  checkboxTitle: {
-    paddingLeft: 10,
-    fontWeight: 'bold',
-    fontSize: 12,
-    color: '#555',
-    ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-  },
+
   metricOptionView: {
     alignItems: 'center',
     flexDirection: 'row',

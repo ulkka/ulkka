@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View} from 'react-native';
-import {Icon, Button} from 'react-native-elements';
+import {Icon, Button, ThemeContext} from 'react-native-elements';
 
-export const SubmitButton = (props) => {
+export const SubmitButton = props => {
   const {onPress} = props;
+  const {theme} = useContext(ThemeContext);
+
   return (
     <View
       style={{
@@ -13,18 +15,23 @@ export const SubmitButton = (props) => {
       }}>
       <Button
         icon={
-          <Icon name="send" size={15} color={'#77c063'} type="font-awesome" />
+          <Icon
+            name="send"
+            size={15}
+            color={theme.colors.green}
+            type="font-awesome"
+          />
         }
-        raised
         title="Post"
         buttonStyle={{
-          backgroundColor: '#fff',
+          backgroundColor: theme.colors.primary,
           borderRadius: 20,
-          borderColor: '#ddd',
+          borderColor: theme.colors.grey3,
+          borderWidth: 1,
           //padding:20
         }}
         titleStyle={{
-          color: '#77c063',
+          color: theme.colors.green,
           fontWeight: 'bold',
           paddingLeft: 20,
         }}

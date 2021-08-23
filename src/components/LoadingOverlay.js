@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Image, Modal} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/LoadingOverlaySlice';
 
 export default function LoadingOverlay() {
+  const {theme} = useContext(ThemeContext);
+
   const visible = useSelector(isVisible);
 
   const LoadingView = (
@@ -12,7 +15,7 @@ export default function LoadingOverlay() {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         opacity: 0.8,
       }}>
       <Image

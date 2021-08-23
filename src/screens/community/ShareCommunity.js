@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {TouchableOpacity, Platform, View} from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {Icon, Text, ThemeContext} from 'react-native-elements';
 import Share from 'react-native-share';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {useSelector} from 'react-redux';
@@ -12,7 +12,9 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 import analytics from '@react-native-firebase/analytics';
 
-const ShareCommunity = (props) => {
+const ShareCommunity = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {
     communityId,
     text,
@@ -23,16 +25,16 @@ const ShareCommunity = (props) => {
   } = props;
   const os = Platform.OS;
 
-  const communityTitle = useSelector((state) =>
+  const communityTitle = useSelector(state =>
     getCommunityTitle(state, communityId),
   );
-  const communityIcon = useSelector((state) =>
+  const communityIcon = useSelector(state =>
     getCommunityIcon(state, communityId),
   );
-  const communityDescription = useSelector((state) =>
+  const communityDescription = useSelector(state =>
     getCommunityDescription(state, communityId),
   );
-  const communityMemberCount = useSelector((state) =>
+  const communityMemberCount = useSelector(state =>
     getCommunityMemberCount(state, communityId),
   );
 
@@ -44,14 +46,14 @@ const ShareCommunity = (props) => {
         name="envelope-open-o"
         type="font-awesome"
         size={iconSize ? iconSize : 20}
-        color={'#02862a'}
+        color={theme.colors.green}
       />
     ) : (
       <Icon
         name="envelope-open-o"
         type="font-awesome"
         size={iconSize ? iconSize - 2 : 18}
-        color={'#02862a'}
+        color={theme.colors.green}
       />
     );
 
@@ -105,16 +107,15 @@ const ShareCommunity = (props) => {
         " community on Ulkka - Kerala's Own Community",
     };
     Share.open(options)
-      .then((res) => {
-        console.log(res);
+      .then(res => {
         analytics().logShare({
           content_type: type,
           item_id: communityTitle,
           method: res.app,
         });
       })
-      .catch((err) => {
-        err && console.log(err);
+      .catch(err => {
+        err && console.error(err);
       });
   };
   return (
@@ -131,7 +132,7 @@ const ShareCommunity = (props) => {
         <Text
           style={{
             ...shareTextStyle,
-            //...{color: mode == 'light' ? '#fff' : '#333'},
+            //...{color: mode == 'light' ? theme.colors.primary : theme.colors.black3},
           }}>
           {text}
         </Text>

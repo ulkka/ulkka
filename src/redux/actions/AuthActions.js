@@ -27,7 +27,7 @@ const getCurrentUser = async () => {
   return currentUser;
 };
 
-const getRegisteredUser = async (currentUser) => {
+const getRegisteredUser = async currentUser => {
   let registeredUser = undefined;
   if (!currentUser.isAnonymous) {
     const response = await userApi.user.self();
@@ -38,7 +38,7 @@ const getRegisteredUser = async (currentUser) => {
   return registeredUser;
 };
 
-const getRegisteredUserCommunities = async (currentUser) => {
+const getRegisteredUserCommunities = async currentUser => {
   let registeredUserCommunities;
   if (!currentUser.isAnonymous) {
     const response = await userApi.user.selfCommunities();
@@ -49,7 +49,7 @@ const getRegisteredUserCommunities = async (currentUser) => {
   return registeredUserCommunities;
 };
 
-const isUserRegistered = async (registeredUser) => {
+const isUserRegistered = async registeredUser => {
   const isRegistered = registeredUser?.displayname ? 1 : 0;
   return isRegistered;
 };
@@ -177,7 +177,7 @@ export const sendEmailSignInLink = createAsyncThunk(
             title: `Login link sent to ${email}`,
             message:
               'Please check your email and click on the link to login/register',
-          }).catch((error) => {
+          }).catch(error => {
             Alert.alert(
               `Login link sent to ${email}.`,
               'Please check your email and click on the link to login/register',
@@ -185,7 +185,7 @@ export const sendEmailSignInLink = createAsyncThunk(
           });
         });
     } catch (error) {
-      console.log(error?.message);
+      console.error(error?.message);
       return rejectWithValue(error);
     }
   },
@@ -207,8 +207,8 @@ const cleanupNotifications = async () => {
   PushNotification.removeAllDeliveredNotifications();
   const pushMessageToken = await messaging()
     .getToken()
-    .catch((error) => {
-      console.log('error getting pushmessage token while signing out', error);
+    .catch(error => {
+      console.error('error getting pushmessage token while signing out', error);
       return '';
     });
 

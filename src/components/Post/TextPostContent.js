@@ -1,13 +1,16 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getPostDescription} from '../../redux/selectors/PostSelectors';
 
 import AutolinkText from '../AutolinkText';
 
-const TextPostContent = (props) => {
+const TextPostContent = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {postId} = props;
-  const description = useSelector((state) => getPostDescription(state, postId));
+  const description = useSelector(state => getPostDescription(state, postId));
 
   return description ? (
     <View
@@ -23,7 +26,7 @@ const TextPostContent = (props) => {
           fontSize: 14,
           lineHeight: 22,
           paddingRight: 5,
-          color: '#444',
+          color: theme.colors.black5,
         }}
       />
     </View>

@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -14,11 +14,12 @@ import {
   getUserRoleInCommunity,
 } from '../../redux/reducers/CommunitySlice';
 
-const CommunityMembershipToggler = (props) => {
+const CommunityMembershipToggler = props => {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
   const {postId, screen} = props;
-  const communityId = useSelector((state) => getPostCommunityId(state, postId));
-  const userRole = useSelector((state) =>
+  const communityId = useSelector(state => getPostCommunityId(state, postId));
+  const userRole = useSelector(state =>
     getUserRoleInCommunity(state, communityId),
   );
   const screenType = screen.split('-')[0];
@@ -35,7 +36,7 @@ const CommunityMembershipToggler = (props) => {
         name="check"
         type="font-awesome"
         size={9}
-        color="#02862a99"
+        color={theme.colors.green}
       />
     </TouchableOpacity>
   );
@@ -52,7 +53,7 @@ const CommunityMembershipToggler = (props) => {
         name="plus"
         type="font-awesome"
         size={9}
-        color="#2a9df4"
+        color={theme.colors.blue}
       />
     </TouchableOpacity>
   );

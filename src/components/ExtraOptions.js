@@ -1,23 +1,24 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import {showOptionSheet} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPostCommunityId} from '../redux/selectors/PostSelectors';
 import {getCommentPostCommunity} from '../redux/selectors/CommentSelectors';
 import {getUserRoleInCommunity} from '../redux/reducers/CommunitySlice';
 
-const ExtraOptions = (props) => {
+const ExtraOptions = props => {
   const dispatch = useDispatch();
+  const {theme} = useContext(ThemeContext);
   const {type, id} = props;
   const communityId =
     type == 'post'
-      ? useSelector((state) => getPostCommunityId(state, id))
+      ? useSelector(state => getPostCommunityId(state, id))
       : type == 'comment'
-      ? useSelector((state) => getCommentPostCommunity(state, id))
+      ? useSelector(state => getCommentPostCommunity(state, id))
       : null;
 
-  const userRole = useSelector((state) =>
+  const userRole = useSelector(state =>
     getUserRoleInCommunity(state, communityId),
   );
 
@@ -32,7 +33,7 @@ const ExtraOptions = (props) => {
           name="shield"
           type="font-awesome"
           size={20}
-          color="#02862acc"
+          color={theme.colors.green}
         />
       ) : (
         <Icon name="more-horiz" size={18} color="#888" />

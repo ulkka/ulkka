@@ -13,7 +13,7 @@ const utilityApi = {
         .post(UTILITY_URI + OGPREVIEW, {
           url: link,
         })
-        .catch((error) => ({error: error}));
+        .catch(error => ({error: error}));
       return result;
     },
   },
@@ -27,9 +27,9 @@ const utilityApi = {
           onUploadProgress: callback,
           cancelToken: cancelToken,
         })
-        .catch((error) => {
+        .catch(error => {
           if (axios.isCancel(error)) {
-            console.log('axios is cancel error', error);
+            console.error('axios is cancel error', error);
             return {
               message: error.message,
               error: error,

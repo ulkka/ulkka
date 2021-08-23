@@ -1,5 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import LinkPostContent from './LinkPostContent';
 import TextPostContent from './TextPostContent';
@@ -10,9 +11,10 @@ import {getPostType} from '../../redux/selectors/PostSelectors';
 import analytics from '@react-native-firebase/analytics';
 
 function PostContent(props) {
+  const {theme} = useContext(ThemeContext);
   const {postId, screen} = props;
 
-  const type = useSelector((state) => getPostType(state, postId));
+  const type = useSelector(state => getPostType(state, postId));
 
   const ContentType =
     type == 'image' || type == 'video' || type == 'gif' ? 'media' : 'textual';
@@ -27,7 +29,6 @@ function PostContent(props) {
 
   const onPressHandler = () => {
     if (type == 'video' || type == 'link') {
-      console.log('video/link type, so not navigating');
     } else {
       const screenType = screen.split('-')[0];
       analytics().logEvent('postdetail_clickedfrom', {
@@ -38,14 +39,15 @@ function PostContent(props) {
     }
   };
 
-  const PostContentWrapper = (props) => {
+  const PostContentWrapper = props => {
     return (
       <View
         style={{
           paddingBottom: type == 'text' ? 10 : 0,
           width: '100%',
           paddingHorizontal: ContentType == 'media' ? 0 : 4,
-          backgroundColor: ContentType == 'media' ? '#0a0a0a' : '#fff',
+          backgroundColor:
+            ContentType == 'media' ? theme.colors.black1 : theme.colors.primary,
           alignSelf: 'center',
         }}>
         <TouchableOpacity
@@ -55,7 +57,7 @@ function PostContent(props) {
               ? true
               : false
           }
-          underlayColor="#fff"
+          underlayColor={theme.colors.primary}
           onPress={onPressHandler}>
           {props.children}
         </TouchableOpacity>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
-import {Icon, Overlay} from 'react-native-elements';
+import {Icon, Overlay, ThemeContext} from 'react-native-elements';
 import {push, navigate} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -13,10 +13,10 @@ import {getCommunityTitle} from '../../redux/reducers/CommunitySlice';
 
 export default function CreatePostButtonOverlay(props) {
   const dispatch = useDispatch();
-
+  const {theme} = useContext(ThemeContext);
   const enableOverlay = useSelector(getEnableOverlay);
   const communityId = useSelector(getCreatorCommunityId);
-  const communityTitle = useSelector((state) =>
+  const communityTitle = useSelector(state =>
     getCommunityTitle(state, communityId),
   );
 
@@ -28,10 +28,11 @@ export default function CreatePostButtonOverlay(props) {
   const styles = StyleSheet.create({
     postType: {
       paddingTop: 10,
+      color: theme.colors.black4,
     },
   });
 
-  const createPost = (type) => {
+  const createPost = type => {
     dispatch(hideCreatorOverlay());
     push('CreatePost', {
       type: type,
@@ -53,7 +54,7 @@ export default function CreatePostButtonOverlay(props) {
             flex: 1,
             fontSize: 15,
             fontWeight: 'bold',
-            color: '#333',
+            color: theme.colors.black3,
             alignSelf: 'center',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
@@ -83,7 +84,7 @@ export default function CreatePostButtonOverlay(props) {
           name="text"
           type="material-community"
           size={18}
-          color={'#444'}
+          color={theme.colors.black4}
         />
         <Text style={styles.postType}>Text</Text>
       </TouchableOpacity>
@@ -95,7 +96,7 @@ export default function CreatePostButtonOverlay(props) {
           name="link"
           type="font-awesome-5"
           size={18}
-          color={'#444'}
+          color={theme.colors.black4}
         />
         <Text style={styles.postType}>Link</Text>
       </TouchableOpacity>
@@ -107,7 +108,7 @@ export default function CreatePostButtonOverlay(props) {
           name="image"
           type="font-awesome-5"
           size={18}
-          color={'#444'}
+          color={theme.colors.black4}
         />
         <Text style={styles.postType}>Image</Text>
       </TouchableOpacity>
@@ -119,7 +120,7 @@ export default function CreatePostButtonOverlay(props) {
           name="image-filter-tilt-shift"
           type="material-community"
           size={18}
-          color={'#444'}
+          color={theme.colors.black4}
         />
         <Text style={styles.postType}>GIF</Text>
       </TouchableOpacity>
@@ -131,7 +132,7 @@ export default function CreatePostButtonOverlay(props) {
           name="video"
           type="font-awesome-5"
           size={18}
-          color={'#444'}
+          color={theme.colors.black4}
         />
         <Text style={styles.postType}>Video</Text>
       </TouchableOpacity>
@@ -144,6 +145,7 @@ export default function CreatePostButtonOverlay(props) {
       statusBarTranslucent={true}
       onBackdropPress={toggleOverlay}
       overlayStyle={{
+        backgroundColor: theme.colors.primary,
         flex: 1,
         position: 'absolute',
         bottom: 0,
@@ -154,7 +156,7 @@ export default function CreatePostButtonOverlay(props) {
         justifyContent: 'space-evenly',
       }}
       backdropStyle={{
-        backgroundColor: '#000',
+        backgroundColor: theme.colors.black0,
         opacity: 0.2,
       }}>
       <View style={{padding: 10, marginBottom: 15}}>

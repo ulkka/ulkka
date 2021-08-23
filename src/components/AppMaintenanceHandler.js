@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, Text, Platform} from 'react-native';
 import remoteConfig from '@react-native-firebase/remote-config';
-import {Button, Icon} from 'react-native-elements';
+import {Button, Icon, ThemeContext} from 'react-native-elements';
 import {navigateToURL} from '../components/helpers';
 
-const AppMaintenanceHandler = (props) => {
+const AppMaintenanceHandler = props => {
+  const {theme} = useContext(ThemeContext);
   const {handle, maintenance} = props;
   const [updateRequired, setUpdateRequired] = useState(false);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
@@ -16,29 +17,24 @@ const AppMaintenanceHandler = (props) => {
         maintenance_mode: false,
       })
       .then(() => remoteConfig().fetchAndActivate())
-      .then((fetchedRemotely) => {
+      .then(fetchedRemotely => {
         if (fetchedRemotely) {
-          console.log('Configs were retrieved from the backend and activated.');
           setUpdateRequired(
             remoteConfig().getValue('mandatory_update').asBoolean(),
           );
           setMaintenanceMode(
             remoteConfig().getValue('maintenance_mode').asBoolean(),
           );
-        } else {
-          console.log(
-            'No configs were fetched from the backend, and the local configs were already activated',
-          );
         }
       })
-      .catch((error) =>
-        console.log(
+      .catch(error =>
+        console.error(
           'error fetching and activating from remote config in AppMaintenanceHandler',
           error,
         ),
       )
-      .catch((error) =>
-        console.log(
+      .catch(error =>
+        console.error(
           'error setting remote config defaults in AppMaintenanceHandler',
           error,
         ),
@@ -77,7 +73,7 @@ const AppMaintenanceHandler = (props) => {
       <Text
         style={{
           fontSize: 18,
-          color: '#444',
+          color: theme.colors.black4,
           textAlign: 'justify',
           lineHeight: 24,
         }}>
@@ -93,7 +89,7 @@ const AppMaintenanceHandler = (props) => {
           }}
           titleStyle={{
             fontSize: 17,
-            color: '#02862ad6',
+            color: theme.colors.green,
             padding: 4,
             fontWeight: '600',
           }}

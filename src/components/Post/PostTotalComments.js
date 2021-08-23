@@ -1,20 +1,20 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {Icon, Text, ThemeContext} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostCommentCount} from '../../redux/selectors/PostSelectors';
 import analytics from '@react-native-firebase/analytics';
 import {kFormatter} from '../helpers';
 
-const PostTotalComments = (props) => {
+const PostTotalComments = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {postId, screen} = props;
 
   const screenType = screen.split('-')[0];
 
-  const commentCount = useSelector((state) =>
-    getPostCommentCount(state, postId),
-  );
+  const commentCount = useSelector(state => getPostCommentCount(state, postId));
 
   return (
     <TouchableOpacity
@@ -39,11 +39,16 @@ const PostTotalComments = (props) => {
       <Icon
         name="comment-outline"
         type="material-community"
-        color="#000"
+        color={theme.colors.black0}
         size={18}
         color="#888"
       />
-      <Text style={{fontWeight: 'bold', color: '#888', paddingLeft: 15}}>
+      <Text
+        style={{
+          fontWeight: 'bold',
+          color: theme.colors.black8,
+          paddingLeft: 15,
+        }}>
         {kFormatter(commentCount)}
       </Text>
     </TouchableOpacity>

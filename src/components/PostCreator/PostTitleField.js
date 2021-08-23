@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View} from 'react-native';
-import {Input} from 'react-native-elements';
+import {Input, ThemeContext} from 'react-native-elements';
 import {transformText} from './helpers';
 
-export const PostTitleField = (props) => {
+export const PostTitleField = props => {
   const {title, onChangeText} = props;
+  const {theme} = useContext(ThemeContext);
 
   return (
     <View
@@ -13,15 +14,17 @@ export const PostTitleField = (props) => {
         justifyContent: 'flex-end',
       }}>
       <Input
+        placeholderTextColor={theme.colors.black7}
+        keyboardAppearance={theme.dark ? 'dark' : 'light'}
         inputContainerStyle={{
-          borderBottomColor: '#ddd',
+          borderBottomColor: theme.colors.grey3,
         }}
         inputStyle={{
           textAlign: 'center',
           lineHeight: 24,
           marginBottom: 10,
         }}
-        onChangeText={(text) => onChangeText(text)}
+        onChangeText={text => onChangeText(text)}
         value={title}
         numberOfLines={3}
         multiline={true}

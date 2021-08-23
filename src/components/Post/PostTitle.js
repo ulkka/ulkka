@@ -1,16 +1,19 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {Text, TouchableOpacity, Platform} from 'react-native';
+import {ThemeContext} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostTitle} from '../../redux/selectors/PostSelectors';
 import analytics from '@react-native-firebase/analytics';
 
-const PostTitle = (props) => {
+const PostTitle = props => {
+  const {theme} = useContext(ThemeContext);
+
   const {postId, screen} = props;
 
   const screenType = screen.split('-')[0];
 
-  const postTitle = useSelector((state) => getPostTitle(state, postId));
+  const postTitle = useSelector(state => getPostTitle(state, postId));
   return (
     <TouchableOpacity
       disabled={screenType == 'PostDetail'}
@@ -31,7 +34,7 @@ const PostTitle = (props) => {
           paddingVertical: 10,
           marginLeft: 3,
           fontWeight: 'bold',
-          color: '#555',
+          color: theme.colors.black5,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {postTitle}

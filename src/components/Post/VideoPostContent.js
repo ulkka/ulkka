@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useContext} from 'react';
 import {
   View,
   ImageBackground,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import MediaLoadError from './MediaLoadError';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -33,7 +33,9 @@ import {
   mediaUrlWithWidth,
 } from './helpers';
 
-const VideoPostContent = (props) => {
+const VideoPostContent = props => {
+  const {theme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const {
     ogImageUrl,
@@ -47,20 +49,17 @@ const VideoPostContent = (props) => {
   } = props;
 
   const mediaMetadata =
-    type != 'link' &&
-    useSelector((state) => getPostMediaMetadata(state, postId));
+    type != 'link' && useSelector(state => getPostMediaMetadata(state, postId));
 
-  const isDownloading = useSelector((state) =>
+  const isDownloading = useSelector(state =>
     getPostMediaIsDownloading(state, postId),
   );
-  const localUri = useSelector((state) => getPostMediaLocalUri(state, postId));
-  const downloaded = useSelector((state) =>
+  const localUri = useSelector(state => getPostMediaLocalUri(state, postId));
+  const downloaded = useSelector(state =>
     getPostMediaIsDownloaded(state, postId),
   );
 
-  const isMediaError = useSelector((state) =>
-    getPostIsMediaError(state, postId),
-  );
+  const isMediaError = useSelector(state => getPostIsMediaError(state, postId));
 
   const {height, width} =
     type == 'link'
@@ -79,11 +78,11 @@ const VideoPostContent = (props) => {
 
   const currentScreen = screenId ? screenId : screen;
 
-  const paused = useSelector((state) =>
+  const paused = useSelector(state =>
     getIsPostInFeedPaused(state, currentScreen, postId),
   );
 
-  const isViewable = useSelector((state) =>
+  const isViewable = useSelector(state =>
     getIsPostInFeedIsViewable(state, currentScreen, postId),
   );
   useEffect(() => {
@@ -152,7 +151,12 @@ const VideoPostContent = (props) => {
       onPress={togglePlay}>
       {paused &&
         Platform.OS != 'ios' && ( // dot show play button when on ios
-          <Icon name="play" type="font-awesome-5" size={40} color="#fff" />
+          <Icon
+            name="play"
+            type="font-awesome-5"
+            size={40}
+            color={theme.colors.primary}
+          />
         )}
     </TouchableOpacity>
   );
@@ -161,7 +165,7 @@ const VideoPostContent = (props) => {
     <View
       style={{
         alignSelf: 'center',
-        backgroundColor: 'black',
+        backgroundColor: theme.colors.black0,
         height: height,
         width: width,
       }}>

@@ -22,13 +22,14 @@ import SortFeed from './SortFeed';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-const ListHeader = memo((props) => {
+const ListHeader = memo(props => {
+  const {theme} = useContext(ThemeContext);
   const {screen} = props;
   return (
     <View
       style={{
         flexDirection: 'row',
-        backgroundColor: '#eee',
+        backgroundColor: theme.colors.grey1,
         alignItems: 'center',
       }}>
       <SortFeed screen={screen} />
@@ -39,26 +40,26 @@ const ListHeader = memo((props) => {
 function Feed(props) {
   const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
-
   const {screen} = props;
 
   const screenType = screen.split('-')[0];
 
   const ref = React.useRef(null);
+
   (screenType == 'home' || screenType == 'popular') &&
     useScrollToTop(
       React.useRef({
         scrollToTop: () => {
-          ref.current?.scrollToOffset({offset: 0});
+          ref?.current?.scrollToOffset({offset: 0});
           props.showTabBar();
         },
       }),
     );
 
-  const complete = useSelector((state) => isFeedComplete(state, screen));
-  const loading = useSelector((state) => isFeedLoading(state, screen));
-  const refreshing = useSelector((state) => isFeedRefreshing(state, screen));
-  const postIds = useSelector((state) => getFeedPostIds(state, screen));
+  const complete = useSelector(state => isFeedComplete(state, screen));
+  const loading = useSelector(state => isFeedLoading(state, screen));
+  const refreshing = useSelector(state => isFeedRefreshing(state, screen));
+  const postIds = useSelector(state => getFeedPostIds(state, screen));
 
   const viewabilityConfigRef = React.useRef({
     minimumViewTime: 250,
@@ -68,8 +69,6 @@ function Feed(props) {
   const onViewableItemsChangedRef = React.useRef(_onViewableItemsChanged());
 
   const topCommunitiesPosition = postIds?.length > 3 ? 3 : 0;
-
-  console.log('running feed', screen);
 
   useEffect(() => {
     handleInitialiseFeed();
@@ -114,13 +113,13 @@ function Feed(props) {
   };
 
   function _onViewableItemsChanged() {
-    return (items) => {
+    return items => {
       dispatch(setViewableItems({items: items, type: screen}));
     };
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
       <AnimatedFlatList
         ListHeaderComponent={memo(() => (
           <ListHeader screen={screen} />
@@ -153,8 +152,8 @@ function Feed(props) {
             text="No more posts"
           />
         ))}
-        onScrollToIndexFailed={(info) =>
-          console.log('scroll to index failed', info)
+        onScrollToIndexFailed={info =>
+          console.info('scroll to index failed', info)
         }
         refreshControl={
           <RefreshControl

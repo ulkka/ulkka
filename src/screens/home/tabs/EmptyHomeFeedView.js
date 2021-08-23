@@ -1,6 +1,6 @@
-import React, {memo, useState, useEffect} from 'react';
+import React, {memo, useState, useEffect, useContext} from 'react';
 import {View, Text, Platform, ImageBackground} from 'react-native';
-import {Icon, Button} from 'react-native-elements';
+import {Icon, Button, ThemeContext} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getIsCurrentUserPartOfAnyCommunity} from '../../../redux/reducers/CommunitySlice';
 import TopCommunities from '../../../components/TopCommunities';
@@ -8,6 +8,8 @@ import {getRegistrationStatus} from '../../../redux/reducers/AuthSlice';
 import {showAuthScreen} from '../../../navigation/Ref';
 
 const EmptyHomeFeedView = props => {
+  const {theme} = useContext(ThemeContext);
+
   const [showRefresh, setShowRefresh] = useState(false);
   const userHasJoinedCommunities = useSelector(
     getIsCurrentUserPartOfAnyCommunity,
@@ -29,7 +31,7 @@ const EmptyHomeFeedView = props => {
       type="solid"
       activeOpacity={0.5}
       titleStyle={{
-        color: '#fff',
+        color: theme.colors.primary,
         fontWeight: '500',
         fontSize: 13,
         marginLeft: 5,
@@ -45,10 +47,10 @@ const EmptyHomeFeedView = props => {
         borderRadius: 25,
         paddingHorizontal: 20,
         alignItems: 'center',
-        borderColor: '#222',
-        backgroundColor: '#289df4',
+        borderColor: theme.colors.black2,
+        backgroundColor: theme.colors.blue,
       }}
-      icon={<Icon name="refresh" size={15} color="#fff" />}
+      icon={<Icon name="refresh" size={15} color={theme.colors.primary} />}
       title="Refresh"
       onPress={() => setPrevUserHasJoinedCommunities(true)}
     />
@@ -69,7 +71,11 @@ const EmptyHomeFeedView = props => {
           alignItems: 'center',
           justifyContent: 'space-evenly',
         }}
-        source={require('../../../../assets/doodlebg.jpg')}>
+        source={
+          theme.dark
+            ? require('../../../../assets/doodlebg_dark.jpg')
+            : require('../../../../assets/doodlebg.jpg')
+        }>
         <View
           style={{
             flex: 2,
@@ -86,7 +92,7 @@ const EmptyHomeFeedView = props => {
               style={{
                 fontSize: 30,
                 fontWeight: 'bold',
-                color: '#424242',
+                color: theme.colors.black4,
                 ...(Platform.OS == 'ios' && {letterSpacing: 1}),
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
@@ -116,7 +122,7 @@ const EmptyHomeFeedView = props => {
                     fontSize: 16,
                     textAlign: 'center',
                     fontWeight: 'bold',
-                    color: '#222',
+                    color: theme.colors.black2,
                     lineHeight: 20,
                     paddingLeft: 15,
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
@@ -148,7 +154,7 @@ const EmptyHomeFeedView = props => {
                     textAlign: 'center',
                     paddingLeft: 15,
                     fontWeight: 'bold',
-                    color: '#222',
+                    color: theme.colors.black2,
                     lineHeight: 20,
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
@@ -176,7 +182,7 @@ const EmptyHomeFeedView = props => {
                     textAlign: 'center',
                     paddingLeft: 15,
                     fontWeight: 'bold',
-                    color: '#222',
+                    color: theme.colors.black2,
                     lineHeight: 20,
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
@@ -202,11 +208,11 @@ const EmptyHomeFeedView = props => {
                 buttonStyle={{
                   width: 180,
                   borderRadius: 15,
-                  backgroundColor: '#2a9df4',
+                  backgroundColor: theme.colors.blue,
                   paddingVertical: 10,
                 }}
                 titleStyle={{
-                  color: '#fff',
+                  color: theme.colors.primary,
                   fontSize: 14,
                   ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
                 }}
@@ -219,11 +225,11 @@ const EmptyHomeFeedView = props => {
                 buttonStyle={{
                   width: 180,
                   borderRadius: 15,
-                  backgroundColor: '#2a9df4',
+                  backgroundColor: theme.colors.blue,
                   paddingVertical: 10,
                 }}
                 titleStyle={{
-                  color: '#fff',
+                  color: theme.colors.primary,
                   fontSize: 14,
                   ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
                 }}

@@ -36,11 +36,9 @@ const userApi = {
       const client = await mainClient;
       let response = await client.get(`${USER_URI}?query={"email":"${email}"}`);
       const userExists = response.data?.length;
-      console.log('userby email response', response);
       if (userExists) {
         const userId = response.data[0]._id;
         response = await this.getUserById(userId);
-        console.log('userbyid response', response);
         return response;
       } else {
         return 0;
@@ -71,8 +69,11 @@ const userApi = {
         .post(`${USER_URI}/registerMessageToken`, {
           pushMessageToken: token,
         })
-        .catch((error) => {
-          console.log('error saving device token for push notification', error);
+        .catch(error => {
+          console.error(
+            'error saving device token for push notification',
+            error,
+          );
         });
       return response;
     },

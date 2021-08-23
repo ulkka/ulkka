@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Icon, ThemeContext} from 'react-native-elements';
 import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
 import {useSelector} from 'react-redux';
@@ -12,11 +12,12 @@ import {
 import {navigateToURL} from '../helpers';
 import YoutubeComponent from './YoutubeComponent';
 
-const LinkPostContent = (props) => {
+const LinkPostContent = props => {
+  const {theme} = useContext(ThemeContext);
   const {screen, postId} = props;
 
-  const ogData = useSelector((state) => getPostOgData(state, postId));
-  const link = useSelector((state) => getPostLink(state, postId));
+  const ogData = useSelector(state => getPostOgData(state, postId));
+  const link = useSelector(state => getPostLink(state, postId));
 
   const title = ogData?.ogTitle;
   const description = ogData?.ogDescription;
@@ -40,7 +41,7 @@ const LinkPostContent = (props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#222',
+        backgroundColor: theme.colors.black2,
         width: width - 10,
         height: height - 10,
         alignItems: 'center',
@@ -73,7 +74,7 @@ const LinkPostContent = (props) => {
       onPress={() => navigateToURL(link, 'image')}
       style={{
         marginRight: 5,
-        backgroundColor: '#222',
+        backgroundColor: theme.colors.black2,
         borderRadius: linkImageBorderRadius,
       }}>
       <ImagePostContent
@@ -97,7 +98,7 @@ const LinkPostContent = (props) => {
         style={{
           fontWeight: 'bold',
           fontSize: 13,
-          color: '#333',
+          color: theme.colors.black3,
         }}
         ellipsizeMode="tail"
         numberOfLines={3}>
@@ -111,7 +112,7 @@ const LinkPostContent = (props) => {
       <Text
         style={{
           fontSize: 11,
-          color: '#444',
+          color: theme.colors.black4,
           //textAlign: 'left'
         }}
         ellipsizeMode="tail"
@@ -124,7 +125,7 @@ const LinkPostContent = (props) => {
   const LinkUrl = (
     <View style={{marginVertical: 10, marginHorizontal: 5}}>
       <Text
-        style={{fontSize: 9, color: '#555', maxWidth: '70%'}}
+        style={{fontSize: 9, color: theme.colors.black5, maxWidth: '70%'}}
         ellipsizeMode="tail"
         numberOfLines={1}>
         {link}
@@ -175,13 +176,18 @@ const LinkPostContent = (props) => {
         position: 'absolute',
         top: 5,
         right: 5,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.primary,
         padding: 3,
         paddingLeft: 5,
         opacity: 0.7,
         borderRadius: 7,
       }}>
-      <Icon type="font-awesome" name="external-link" size={18} color="#444" />
+      <Icon
+        type="font-awesome"
+        name="external-link"
+        size={18}
+        color={theme.colors.black4}
+      />
     </TouchableOpacity>
   );
   return (
@@ -189,9 +195,9 @@ const LinkPostContent = (props) => {
       style={{
         width: '100%',
         minHeight: 40,
-        backgroundColor: '#fafafa',
+        backgroundColor: theme.colors.grey0,
         justifyContent: 'center',
-        borderColor: '#eee',
+        borderColor: theme.colors.grey2,
         borderWidth: 1,
         borderRadius: 5,
         alignSelf: 'center',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -8,11 +8,13 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import {Divider} from 'react-native-elements';
+import {Divider, ThemeContext} from 'react-native-elements';
 import EmailLinkSignIn from './EmailLinkSignin';
 import SocialSignin from './SocialSignin';
 
 export default function Login() {
+  const {theme} = useContext(ThemeContext);
+
   const AppIcon = (
     <Image
       source={require('../../../assets/ulkka_transparent_512x512.png')}
@@ -29,7 +31,7 @@ export default function Login() {
       <Text
         style={{
           fontWeight: 'bold',
-          color: '#333',
+          color: theme.colors.black3,
           fontSize: 20,
         }}>
         {'  '}
@@ -51,14 +53,14 @@ export default function Login() {
         style={{
           width: '25%',
           height: 1,
-          backgroundColor: '#888',
+          backgroundColor: theme.colors.black8,
         }}
       />
       <Text
         style={{
           paddingHorizontal: 10,
           fontWeight: 'bold',
-          color: '#444',
+          color: theme.colors.black4,
           fontSize: 14,
         }}>
         {' '}
@@ -68,16 +70,16 @@ export default function Login() {
         style={{
           width: '25%',
           height: 1,
-          backgroundColor: '#888',
+          backgroundColor: theme.colors.black8,
         }}
       />
     </View>
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
       <ImageBackground
-        blurRadius={1}
+        //  blurRadius={1}
         resizeMode="repeat"
         style={{
           position: 'absolute',
@@ -89,7 +91,11 @@ export default function Login() {
               ? Dimensions.get('window').height - 50
               : '100%',
         }}
-        source={require('../../../assets/doodlebg.jpg')}>
+        source={
+          theme.dark
+            ? require('../../../assets/doodlebg_dark.jpg')
+            : require('../../../assets/doodlebg.jpg')
+        }>
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS == 'android' ? -15 : -80}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
