@@ -31,7 +31,7 @@ export default memo(function TopCommunities(props) {
         fetchTopCommunities({page: page + 1, limit}),
       ).catch(error => {
         setError(true);
-        console.error('error fetching top communities ', error);
+        console.warn('error fetching top communities ', error);
       });
       const topCommunitiesList = response?.payload?.data?.data;
       if (topCommunitiesList?.length) {

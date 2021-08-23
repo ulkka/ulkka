@@ -75,7 +75,7 @@ export default function SearchableDropdown(props) {
   const searchForCommunity = async term => {
     const response = await communityApi.community
       .search(term, 1, 10)
-      .catch(error => console.error('error searching communities'));
+      .catch(error => console.warn('error searching communities'));
     if (response?.data?.data) {
       setItems(response.data.data);
     }

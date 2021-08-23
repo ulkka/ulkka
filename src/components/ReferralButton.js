@@ -24,7 +24,7 @@ const ReferralButton = props => {
         });
       })
       .catch(err => {
-        err && console.error(err);
+        err && console.warn(err);
       });
   };
   return (

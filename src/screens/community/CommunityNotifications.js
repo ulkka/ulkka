@@ -34,7 +34,7 @@ export default function FavoriteCommunity(props) {
         raised
         name={isNotificationDisabled ? 'bell-slash' : 'bell-slash-o'}
         type="font-awesome"
-        color={isNotificationDisabled ? theme.colors.blue : theme.colors.black6}
+        color={isNotificationDisabled ? 'red' : theme.colors.black6}
         size={15}
       />
     </TouchableOpacity>

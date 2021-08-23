@@ -87,7 +87,7 @@ export default memo(function SearchCommunityResults(props) {
         .search(term, page + 1, limit)
         .catch(error => {
           setError(true);
-          console.error('error searching community', error);
+          console.warn('error searching community', error);
         });
       const communityList = response?.data?.data;
       if (communityList?.length) {

@@ -103,7 +103,7 @@ export default function ChangeCommunityIcon(props) {
         }
       })
       .catch(error => {
-        console.error(error);
+        console.warn(error);
 
         if (error.message == 'User cancelled image selection') {
           return;
@@ -129,7 +129,7 @@ export default function ChangeCommunityIcon(props) {
               text: 'Cancel',
               onPress: () => {
                 analytics().logEvent('mediapermission_deny');
-                console.error('Cancel Pressed');
+                console.warn('Cancel Pressed');
               },
               style: 'cancel',
             },

@@ -29,7 +29,7 @@ const utilityApi = {
         })
         .catch(error => {
           if (axios.isCancel(error)) {
-            console.error('axios is cancel error', error);
+            console.warn('axios is cancel error', error);
             return {
               message: error.message,
               error: error,

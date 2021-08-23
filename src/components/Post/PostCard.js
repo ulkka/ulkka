@@ -41,7 +41,7 @@ function PostCard(props) {
   );
 
   const errorHandler = (error: Error, stackTrace: string) => {
-    console.error('error displaying post content', error);
+    console.warn('error displaying post content', error);
     crashlytics().recordError(error);
   };
 

@@ -109,7 +109,7 @@ export default memo(function Users(props) {
         .leaderboard(communityId, field, from, page + 1, limit)
         .catch(error => {
           setError(true);
-          console.error('error fetching community members', error);
+          console.warn('error fetching community members', error);
         });
 
       const memberList = response?.data?.data;

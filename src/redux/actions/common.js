@@ -67,7 +67,7 @@ export async function savePicture({tag, album}, rejectWithValue) {
 
   if (!isUlkkaAlbumAlreadyPresent) {
     return CameraRoll.save(tag, {album}).catch(error => {
-      console.error('error saving image to camera roll', error, tag, album);
+      console.warn('error saving image to camera roll', error, tag, album);
 
       if (error?.message == 'User cancelled image selection') {
         return;

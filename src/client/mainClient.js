@@ -12,7 +12,7 @@ const refreshAuthLogic = async failedRequest => {
     // error code 401 means invalid/expired token
     const idToken = await auth()
       .currentUser?.getIdToken()
-      .catch(error => console.error('error getting id token', error));
+      .catch(error => console.warn('error getting id token', error));
     failedRequest.response.config.headers['Authorization'] =
       'Bearer ' + idToken;
     mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
@@ -104,7 +104,7 @@ mainClient.interceptors.request.use(
     if (new Date(idTokenResult.expirationTime).getTime() < Date.now()) {
       const idToken = await auth()
         .currentUser.getIdToken(true)
-        .catch(error => console.error('error refreshing token', error));
+        .catch(error => console.warn('error refreshing token', error));
       if (idToken) config.headers.Authorization = 'Bearer ' + idToken;
     }
     return config;

@@ -185,7 +185,7 @@ export const sendEmailSignInLink = createAsyncThunk(
           });
         });
     } catch (error) {
-      console.error(error?.message);
+      console.warn(error?.message);
       return rejectWithValue(error);
     }
   },
@@ -208,7 +208,7 @@ const cleanupNotifications = async () => {
   const pushMessageToken = await messaging()
     .getToken()
     .catch(error => {
-      console.error('error getting pushmessage token while signing out', error);
+      console.warn('error getting pushmessage token while signing out', error);
       return '';
     });
 

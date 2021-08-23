@@ -41,7 +41,7 @@ export const LinkField = props => {
         setPreview(false);
         setPreviewData(null);
         setLoading(false);
-        console.error('Preview error');
+        console.warn('Preview error');
       }
     } else {
       setLoading(false);

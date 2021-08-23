@@ -36,7 +36,7 @@ const UserRow = memo(({user, communityId}) => {
     const response = await communityApi.community
       .banUser(communityId, userId)
       .catch(error => {
-        console.error('error banning user', error);
+        console.warn('error banning user', error);
       });
 
     return response.status == 200;
@@ -167,7 +167,7 @@ export default function CommunityMembers(props) {
         .searchMembers(communityId, text, page + 1, limit)
         .catch(error => {
           setError(true);
-          console.error('error fetching community members', error);
+          console.warn('error fetching community members', error);
         });
       const memberList = response?.data?.data;
       if (memberList?.length) {

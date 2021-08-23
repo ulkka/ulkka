@@ -20,7 +20,7 @@ export default function MyAccount(props) {
     try {
       dispatch(signout());
     } catch (error) {
-      console.error(error);
+      console.warn(error);
     }
   };
 

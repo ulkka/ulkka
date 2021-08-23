@@ -96,7 +96,7 @@ export const MediaField = props => {
         }
       })
       .catch(error => {
-        console.error(error);
+        console.warn(error);
 
         if (error.message == 'User cancelled image selection') {
           return;

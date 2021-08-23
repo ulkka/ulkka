@@ -93,14 +93,14 @@ export const navigateToURL = async (url, clickedFrom) => {
   const resolvedUrl = await dynamicLinks()
     .resolveLink(url)
     .catch(error => {
-      console.error('not a dynamic link', error.message);
+      console.warn('not a dynamic link', error.message);
       return false;
     });
   if (resolvedUrl?.url?.startsWith('https://ulkka.in')) {
     navigateToLink(resolvedUrl.url);
   } else {
     Linking.openURL(url).catch(error =>
-      console.error('cannot open link', error),
+      console.warn('cannot open link', error),
     );
   }
 };

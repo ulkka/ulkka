@@ -287,7 +287,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
       const mediaLibraryDirectoryPathExists = await RNFS.exists(
         mediaLibraryDirectoryPath,
       ).catch(error =>
-        console.error('error creating media library path', error),
+        console.warn('error creating media library path', error),
       );
 
       if (!mediaLibraryDirectoryPathExists) {
@@ -303,7 +303,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
           }
         }
         await RNFS.mkdir(mediaLibraryDirectoryPath).catch(error =>
-          console.error('error creating Ulkka folder', error),
+          console.warn('error creating Ulkka folder', error),
         );
       }
 
@@ -325,7 +325,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
           //some headers ..
         })
         .catch(error => {
-          console.error('error downloading through rnfetchblob', error);
+          console.warn('error downloading through rnfetchblob', error);
           return rejectWithValue(error);
         });
 
@@ -342,7 +342,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
         }
       }
     } catch (error) {
-      console.error('error try catch', error);
+      console.warn('error try catch', error);
       return rejectWithValue(error);
     }
   },

@@ -59,7 +59,7 @@ const ImagePostContent = props => {
   );
 
   const onError = () => {
-    console.error('error loading image');
+    console.warn('error loading image');
     dispatch(setError({postId: postId, type: currentScreen}));
   };
   const onLoad = () =>

@@ -115,7 +115,7 @@ export default function OptionSheet() {
     try {
       dispatch(signout());
     } catch (error) {
-      console.error(error);
+      console.warn(error);
     }
   };
 

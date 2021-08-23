@@ -80,7 +80,7 @@ const communityApi = {
       const response = await client
         .put(`${COMMUNITY_URI}/${communityId}`, payload)
         .catch(error => {
-          console.error('error updating community rule', error);
+          console.warn('error updating community rule', error);
         });
       return response;
     },

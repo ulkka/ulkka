@@ -28,7 +28,7 @@ export default function RegisterDeviceToken() {
     if (isDeviceRegisteredForRemoteMessages) {
       const token = await messaging()
         .getToken()
-        .catch(error => console.error('error getting token', error));
+        .catch(error => console.warn('error getting token', error));
       saveToken(token);
     }
   };
@@ -55,7 +55,7 @@ export default function RegisterDeviceToken() {
       messaging()
         .subscribeToTopic('allDevices')
         // .then(() => console.log('Subscribed to topic!'))
-        .catch(error => console.error('Error subscribing to topic', error));
+        .catch(error => console.warn('Error subscribing to topic', error));
     }
     if (isRegistered && token.length) {
       userApi.user.registerDeviceTokenForNotifications(token);
@@ -64,7 +64,7 @@ export default function RegisterDeviceToken() {
         messaging()
           .subscribeToTopic('allDevices')
           // .then(() => console.log('Subscribed to topic!'))
-          .catch(error => console.error('Error subscribing to topic', error));
+          .catch(error => console.warn('Error subscribing to topic', error));
       }
     }
   };

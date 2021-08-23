@@ -31,7 +31,7 @@ const AuthIDTokenListener = () => {
     // token refreshed in mainClient.js refreshauthlogic
     const idToken = await auth()
       .currentUser?.getIdToken()
-      .catch(error => console.error('error getting id token', error));
+      .catch(error => console.warn('error getting id token', error));
     if (idToken) {
       mainClient.defaults.headers.common['Authorization'] = 'Bearer ' + idToken;
       dispatch(updateIDToken(idToken));

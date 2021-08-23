@@ -28,13 +28,13 @@ const AppMaintenanceHandler = props => {
         }
       })
       .catch(error =>
-        console.error(
+        console.warn(
           'error fetching and activating from remote config in AppMaintenanceHandler',
           error,
         ),
       )
       .catch(error =>
-        console.error(
+        console.warn(
           'error setting remote config defaults in AppMaintenanceHandler',
           error,
         ),

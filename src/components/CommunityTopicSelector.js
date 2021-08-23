@@ -85,7 +85,7 @@ export default function CommunityTopicSelector(props) {
   const fetchCommunityTopics = async () => {
     const response = await communityApi.community
       .fetchTopics()
-      .catch(error => console.error('error fetching community topics', error));
+      .catch(error => console.warn('error fetching community topics', error));
     const data = response?.data?.data;
     if (!!data?.length) {
       setItems[data];

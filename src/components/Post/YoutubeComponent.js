@@ -18,7 +18,7 @@ function YoutubeComponent(props) {
       autoplay: true, // Autoplay the video
       startTime: 0, // Starting point of video (in seconds)
       lightboxMode: true,
-    }).catch(errorMessage => console.error(errorMessage));
+    }).catch(errorMessage => console.warn(errorMessage));
   };
 
   const YTiOS = (

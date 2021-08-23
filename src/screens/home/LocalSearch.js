@@ -53,7 +53,7 @@ export default function LocalSearch(props) {
       .search(term, 1, 5)
       .catch(error => {
         setError(true);
-        console.error('error searching for communities', error);
+        console.warn('error searching for communities', error);
       });
     if (response?.data?.data) {
       setResults(response.data.data);

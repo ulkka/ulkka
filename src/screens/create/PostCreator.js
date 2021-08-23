@@ -138,14 +138,14 @@ export default function CreatePost({route}) {
   };
 
   const postFail = error => {
-    console.error('Posting to server error - ', error);
+    console.warn('Posting to server error - ', error);
     setUploadPercent(0);
     setLoading(false);
     showSnackBar('Request failed. Please try again later');
   };
 
   const uploadCancelled = error => {
-    console.error('Media Upload Cancelled - ', error);
+    console.warn('Media Upload Cancelled - ', error);
     setLoading(false);
     setUploadPercent(0);
     showSnackBar('Upload Cancelled');

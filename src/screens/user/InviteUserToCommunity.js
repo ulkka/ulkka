@@ -49,7 +49,7 @@ export default function InviteUserToCommunity(props) {
   const inviteUser = async () => {
     const response = await communityApi.community
       .inviteUser(community._id, userId)
-      .catch(error => console.error('error inviting user to community', error));
+      .catch(error => console.warn('error inviting user to community', error));
     Snackbar.show({
       text: userDisplayname + ' invited to ' + community.name,
       duration: Snackbar.LENGTH_SHORT,

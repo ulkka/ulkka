@@ -46,7 +46,7 @@ const RealApp = () => {
     try {
       await changeNavigationBarColor(isDark ? '#111111' : '#ffffff', !isDark);
     } catch (error) {
-      console.error('error changing navbar color', error);
+      console.warn('error changing navbar color', error);
     }
   };
 

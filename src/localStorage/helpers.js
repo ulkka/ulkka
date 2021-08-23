@@ -5,7 +5,7 @@ export const getData = async key => {
     const value = await AsyncStorage.getItem(key);
     return value;
   } catch (e) {
-    console.error('error getting value from async storage for key', key, e);
+    console.warn('error getting value from async storage for key', key, e);
   }
 };
 
@@ -14,6 +14,6 @@ export const storeData = async (key, value) => {
     await AsyncStorage.setItem(key, value);
   } catch (e) {
     // saving error
-    console.error('error saving key-value in async storage', key, value, e);
+    console.warn('error saving key-value in async storage', key, value, e);
   }
 };

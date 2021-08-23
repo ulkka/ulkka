@@ -70,7 +70,7 @@ const userApi = {
           pushMessageToken: token,
         })
         .catch(error => {
-          console.error(
+          console.warn(
             'error saving device token for push notification',
             error,
           );
