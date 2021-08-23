@@ -1,4 +1,4 @@
-import React, {useEffect, memo, useContext} from 'react';
+import React, {useEffect, memo} from 'react';
 import {
   View,
   FlatList,
@@ -8,7 +8,7 @@ import {
   Image,
   Animated,
 } from 'react-native';
-import {Divider, Icon, ThemeContext} from 'react-native-elements';
+import {Divider, Icon, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchUserComments} from '../../../redux/actions/CommentActions';
 import {
@@ -25,7 +25,7 @@ import analytics from '@react-native-firebase/analytics';
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const CommentRow = memo(props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {commentId} = props;
   const comment = useSelector(state => selectCommentById(state, commentId));
@@ -158,13 +158,13 @@ const CommentRow = memo(props => {
 });
 
 const separator = memo(() => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return <Divider style={{backgroundColor: theme.colors.grey0, height: 5}} />;
 });
 
 const Comments = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
 

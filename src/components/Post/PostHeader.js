@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, TouchableOpacity, Text, Platform} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import TimeAgo from '../TimeAgo';
 import ExtraOptions from '../ExtraOptions';
 import {push} from '../../navigation/Ref';
@@ -20,7 +20,7 @@ import CommunityMembershipToggler from './CommunityMembershipToggler';
 import CommunityAvatar from '../CommunityAvatar';
 
 const PostHeader = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {postId, screen} = props;
 

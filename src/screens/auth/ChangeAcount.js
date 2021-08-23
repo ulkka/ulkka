@@ -1,14 +1,14 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {signout} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
-import {Button, ThemeContext} from 'react-native-elements';
+import {Button, useTheme} from 'react-native-elements';
 import analytics from '@react-native-firebase/analytics';
 
 export default function ChangeAccount() {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const email = auth().currentUser.email;
   return (

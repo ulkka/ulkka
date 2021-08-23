@@ -1,13 +1,13 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon, Input, ThemeContext} from 'react-native-elements';
+import {Icon, Input, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {getUserBio, updateBio} from '../redux/reducers/UserSlice';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
 import AutolinkText from './AutolinkText';
 
 const UserBioField = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const dispatch = useDispatch();
   const {userId} = props;
 

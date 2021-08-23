@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {
   getCommentAuthorDisplayname,
@@ -14,7 +14,7 @@ import {push} from '../../navigation/Ref';
 import UserAvatar from '../UserAvatar';
 
 const CommentMetadata = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {isCollapsed, commentId, onPressToggleCollapse} = props;
 
   const authorDisplayname = useSelector(state =>

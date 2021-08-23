@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Avatar, ThemeContext} from 'react-native-elements';
+import {Avatar, useTheme} from 'react-native-elements';
 import {getColorFromTitle} from './helpers';
 import {push} from '../navigation/Ref';
 import {
@@ -14,7 +14,7 @@ import FastImage from 'react-native-fast-image';
 import {getUriImage} from './helpers';
 
 const CommunityAvatar = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {communityId, size, disableTouch, name, icon} = props;
   const communityName = useSelector(state =>
     getCommunityTitle(state, communityId),

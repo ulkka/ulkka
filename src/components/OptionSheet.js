@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Alert, TouchableOpacity} from 'react-native';
 import {
   ListItem,
   Divider,
   Button,
   Overlay,
-  ThemeContext,
+  useTheme,
 } from 'react-native-elements';
 import {
   hideOptionSheet,
@@ -56,7 +56,7 @@ function getCapitalizedPostType(postType) {
 }
 export default function OptionSheet() {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const visible = useSelector(isVisible);
   const id = useSelector(getId);

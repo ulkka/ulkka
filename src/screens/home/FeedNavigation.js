@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import HomeCollapsibleTabView from './HomeCollapsibleTabView';
 import UserNavigation from '../user/UserNavigation';
@@ -19,7 +19,7 @@ const presets =
     : TransitionPresets.SlideFromRightIOS;
 
 function DrawerNavigation() {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   return (
     <Drawer.Navigator
       drawerStyle={{backgroundColor: theme.colors.grey1}}
@@ -32,7 +32,7 @@ function DrawerNavigation() {
 }
 
 function FeedNavigation() {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View style={{flex: 1, backgroundColor: theme.colors.primary}}>

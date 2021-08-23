@@ -1,6 +1,6 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect} from 'react';
 import {View, Image, Text, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getParentCommentIdsOfPost,
@@ -18,7 +18,7 @@ import {Divider} from 'react-native-elements';
 
 function CommentList(props) {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {postId, screenId, commentId, setCommentId} = props;
 
   const loading = useSelector(state => areCommentsLoading(state, postId));

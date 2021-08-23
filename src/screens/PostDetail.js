@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState, useContext} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {ScrollView, View, RefreshControl, Text, Image} from 'react-native';
 import CommentList from '../components/Comment/CommentList';
 import PostCard from '../components/Post/PostCard';
@@ -18,10 +18,10 @@ import {
 } from '../redux/selectors/PostSelectors';
 import {makeId} from '../components/Post/helpers';
 import {goBack} from '../navigation/Ref';
-import {Button, ThemeContext} from 'react-native-elements';
+import {Button, useTheme} from 'react-native-elements';
 
 const PostDetail = ({route}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
 

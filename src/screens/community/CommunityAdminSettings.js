@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, TouchableOpacity, Platform, Alert} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {
   getCommunityModerators,
   dismissAdmin,
@@ -12,7 +12,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 export default function CommunityAdminSettings(props) {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {communityId} = props.route.params;
   const communityAdmins = useSelector(state =>

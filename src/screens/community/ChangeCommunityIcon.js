@@ -1,6 +1,6 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {View, TouchableOpacity, Linking, Alert, Platform} from 'react-native';
-import {Icon, Button, Avatar, ThemeContext} from 'react-native-elements';
+import {Icon, Button, Avatar, useTheme} from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import analytics from '@react-native-firebase/analytics';
 import utilityApi from '../../services/UtilityApi';
@@ -17,7 +17,7 @@ import {
 } from '../../redux/reducers/LoadingOverlaySlice';
 
 export default function ChangeCommunityIcon(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const {communityId, field} = props.route.params;

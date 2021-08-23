@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, Platform, Image} from 'react-native';
-import {Overlay, Button, ThemeContext} from 'react-native-elements';
+import {Overlay, Button, useTheme} from 'react-native-elements';
 import {
   resetCommunityCreatorPrompt,
   getCommunityCreatorPromptIsVisble,
@@ -10,7 +10,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {navigate, goBack} from '../navigation/Ref';
 
 export const CommunityCreatorPromptView = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const text = props?.text
@@ -123,7 +123,7 @@ export const CommunityCreatorPromptView = props => {
 };
 
 export function CommunityCreatorPromptOverlay(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const dispatch = useDispatch();
   const isVisible = useSelector(getCommunityCreatorPromptIsVisble);
 

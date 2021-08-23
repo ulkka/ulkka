@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Image, Modal} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/LoadingOverlaySlice';
 
 export default function LoadingOverlay() {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const visible = useSelector(isVisible);
 

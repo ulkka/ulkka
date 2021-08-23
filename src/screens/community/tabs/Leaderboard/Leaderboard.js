@@ -1,12 +1,12 @@
-import React, {memo, useState, useEffect, useContext} from 'react';
+import React, {memo, useState, useEffect} from 'react';
 import {View, Text, Platform, FlatList, StyleSheet} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import Sort from './Sort';
 import Users from './Users';
 import analytics from '@react-native-firebase/analytics';
 
 function Leaderboard(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const [metric, setMetric] = useState('');
   const [range, setRange] = useState('week');

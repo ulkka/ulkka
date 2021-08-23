@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity, Text, Platform} from 'react-native';
-import {Button, Overlay, ThemeContext} from 'react-native-elements';
+import {Button, Overlay, useTheme} from 'react-native-elements';
 import Rate, {AndroidMarket} from 'react-native-rate';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -12,7 +12,7 @@ import {
 
 export default function ReviewRequestComponent() {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const isVisible = useSelector(getIsVisible);
   const [visible, setVisible] = useState(false);
 

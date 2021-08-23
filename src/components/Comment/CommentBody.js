@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getCommentText} from '../../redux/selectors/CommentSelectors';
 
@@ -8,7 +8,7 @@ import AutolinkText from '../AutolinkText';
 
 const CommentBody = props => {
   const {commentId} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const text = useSelector(state => getCommentText(state, commentId));
 
   return (

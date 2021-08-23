@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Platform, Text, Image, Keyboard} from 'react-native';
-import {Button, ThemeContext} from 'react-native-elements';
+import {Button, useTheme} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import {CommunityField} from '../../components/PostCreator/CommunityField';
 import FormData from 'form-data';
@@ -28,7 +28,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default function CreatePost({route}) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
 

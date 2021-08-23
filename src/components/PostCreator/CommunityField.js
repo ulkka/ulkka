@@ -1,10 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 
 export const CommunityField = props => {
   const {onPress, community} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View style={{}}>

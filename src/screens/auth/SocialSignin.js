@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, TouchableOpacity, Platform} from 'react-native';
-import {SocialIcon, ThemeContext} from 'react-native-elements';
+import {SocialIcon, useTheme} from 'react-native-elements';
 import {socialAuth} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 
 const SocialAuth = () => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
 

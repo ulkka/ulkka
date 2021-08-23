@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useContext} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
   Platform,
 } from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {TabView, TabBar} from 'react-native-tab-view'; // Version can be specified in package.json
 import Home from './tabs/Home';
 import Popular from './tabs/Popular';
@@ -20,7 +20,7 @@ const COLLAPSED_HEIGHT = 0;
 const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 
 export default function HomeCollapsibleTabView(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const initialLayout = useWindowDimensions();
   const isRegistered = useSelector(getRegistrationStatus);

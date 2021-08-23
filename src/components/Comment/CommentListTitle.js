@@ -1,9 +1,9 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity, Platform, Text, View} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 
 const CommentListTitle = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {commentId, setCommentId} = props;
   const isSingle = commentId ? true : false;
   return (

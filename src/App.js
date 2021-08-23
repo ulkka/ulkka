@@ -37,7 +37,7 @@ const RealApp = () => {
   const theme = appTheme == 'auto' ? colorScheme : appTheme;
   const themeObject = theme === 'dark' ? dark : light;
   const isDark = theme === 'dark';
-  console.log('real app', isDark, theme, appTheme);
+
   return (
     <ThemeProvider theme={themeObject} useDark={isDark}>
       <StatusBar
@@ -62,10 +62,35 @@ const RealApp = () => {
   );
 };
 
+const ThemedAppIntroSlider = ({setIntroDone}) => {
+  const dispatch = useDispatch();
+
+  const colorScheme = Appearance.getColorScheme();
+  useEffect(() => {
+    dispatch(loadTheme());
+  }, []);
+
+  const appTheme = useSelector(getTheme);
+  const theme = appTheme == 'auto' ? colorScheme : appTheme;
+  const themeObject = theme === 'dark' ? dark : light;
+  const isDark = theme === 'dark';
+
+  return (
+    <ThemeProvider theme={themeObject} useDark={isDark}>
+      <StatusBar
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+        backgroundColor={isDark ? '#111' : '#fff'}
+      />
+      <AppIntroSlider setIntroDone={setIntroDone} />
+    </ThemeProvider>
+  );
+};
+
 export default function App() {
-  const [introDone, setIntroDone] = useState(true);
   //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
   // also check whether user has done app intro tutorial
+  const [introDone, setIntroDone] = useState(true);
+
   async function bootstrap() {
     if ((await utils().isRunningInTestLab) || __DEV__) {
       await analytics().setAnalyticsCollectionEnabled(false);
@@ -91,7 +116,7 @@ export default function App() {
       introDone ? (
         <RealApp />
       ) : (
-        <AppIntroSlider setIntroDone={setIntroDone} />
+        <ThemedAppIntroSlider setIntroDone={setIntroDone} />
       )
     ) : (
       <RealApp />

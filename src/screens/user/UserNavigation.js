@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import UserDetailTabView from './UserDetailTabView';
 import BlockedUsers from './BlockedUsers';
@@ -8,7 +8,7 @@ import BlockedUsers from './BlockedUsers';
 const StackNav = createStackNavigator();
 
 function UserNavigation(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View style={{flex: 1, backgroundColor: theme.colors.primary}}>

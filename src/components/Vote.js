@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Icon, Text, ThemeContext} from 'react-native-elements';
+import {Icon, Text, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {votePost} from '../redux/actions/PostActions';
 import {voteComment} from '../redux/actions/CommentActions';
@@ -18,7 +18,7 @@ import {kFormatter} from './helpers';
 
 export function Vote(props) {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {id, entityType} = props;
 
   const userVote =

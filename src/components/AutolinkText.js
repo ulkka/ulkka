@@ -1,4 +1,4 @@
-import React, {memo, useState, useCallback, useContext} from 'react';
+import React, {memo, useState, useCallback} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {navigateToURL} from './helpers';
@@ -6,11 +6,11 @@ import analytics from '@react-native-firebase/analytics';
 import Autolink from 'react-native-autolink';
 import {searchCommunitiesByName} from '../redux/reducers/CommunitySlice';
 import {searchUsersByName} from '../redux/reducers/UserSlice';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 
 const AutolinkText = props => {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {enableShowMore, text, source, textStyle} = props;
 
   const defaultTextStyle = {

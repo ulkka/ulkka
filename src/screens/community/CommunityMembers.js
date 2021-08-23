@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo, useContext} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-import {Divider, SearchBar, ThemeContext} from 'react-native-elements';
+import {Divider, SearchBar, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import communityApi from '../../services/CommunityApi';
 import {
@@ -19,7 +19,7 @@ import {push} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
 
 const UserRow = memo(({user, communityId}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const {displayname, _id: userId} = user;
@@ -144,7 +144,7 @@ const UserRow = memo(({user, communityId}) => {
 });
 
 export default function CommunityMembers(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {communityId} = props.route.params;
 

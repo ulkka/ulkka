@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import Vote from '../Vote';
 import ExtraOptions from '../ExtraOptions';
 import {prepareReply} from '../../redux/reducers/CommentWriterSlice';
@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 const COMMENT_LEVEL_LIMIT = 15;
 
 const CommentFooter = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const dispatch = useDispatch();
 
   const {commentId, level} = props;

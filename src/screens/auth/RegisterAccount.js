@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -9,13 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {
-  Button,
-  CheckBox,
-  ThemeContext,
-  Icon,
-  Input,
-} from 'react-native-elements';
+import {Button, CheckBox, useTheme, Icon, Input} from 'react-native-elements';
 import {registerUser} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 import ChangeAccount from './ChangeAcount';
@@ -25,7 +19,7 @@ import {navigateToURL} from '../../components/helpers';
 import Snackbar from 'react-native-snackbar';
 
 const RegisterAccount = () => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const displaynameField = useRef(null);

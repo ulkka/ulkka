@@ -1,4 +1,4 @@
-import React, {useState, useRef, useContext} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   Text,
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view';
-import {Button, ThemeContext} from 'react-native-elements';
+import {Button, useTheme} from 'react-native-elements';
 import Posts from './tabs/Posts';
 import {makeId} from '../../components/Post/helpers';
 import CommunityDetail from './CommunityDetail';
@@ -22,7 +22,7 @@ import analytics from '@react-native-firebase/analytics';
 const COLLAPSED_HEIGHT = 40;
 
 export default function CommunityDetailTabView(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const initialLayout = useWindowDimensions();
   const {communityId} = props.route.params;

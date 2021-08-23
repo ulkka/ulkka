@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import LinkPostContent from './LinkPostContent';
 import TextPostContent from './TextPostContent';
@@ -11,7 +11,7 @@ import {getPostType} from '../../redux/selectors/PostSelectors';
 import analytics from '@react-native-firebase/analytics';
 
 function PostContent(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {postId, screen} = props;
 
   const type = useSelector(state => getPostType(state, postId));

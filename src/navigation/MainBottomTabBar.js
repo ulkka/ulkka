@@ -1,17 +1,17 @@
-import React, {useEffect, useState, memo, useContext} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import {View, TouchableOpacity, Keyboard, Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {getRegistrationStatus} from '../redux/reducers/AuthSlice';
 import {showCreatorOverlay} from '../redux/reducers/CreatorOverlaySlice';
 import {showAuthScreen} from './Ref';
-import {Badge, ThemeContext} from 'react-native-elements';
+import {Badge, useTheme} from 'react-native-elements';
 import {
   getFocusedRouteNameFromRoute,
   getPathFromState,
 } from '@react-navigation/native';
 
 function MainBottomTabBar({state, descriptors, navigation}) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const isRegistered = useSelector(getRegistrationStatus);

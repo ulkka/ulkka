@@ -1,13 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getCommunityModerators} from '../../../redux/reducers/CommunitySlice';
 import UserAvatar from '../../../components/UserAvatar';
 import {push} from '../../../navigation/Ref';
 
 export default function CommunityModerators(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {communityId} = props;
   const communityAdmins = useSelector(state =>

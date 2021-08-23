@@ -1,15 +1,9 @@
-import React, {memo, useState, useContext} from 'react';
+import React, {memo, useState} from 'react';
 import {View, Text, TouchableOpacity, Platform, StyleSheet} from 'react-native';
-import {
-  Icon,
-  CheckBox,
-  Overlay,
-  Button,
-  ThemeContext,
-} from 'react-native-elements';
+import {Icon, CheckBox, Overlay, Button, useTheme} from 'react-native-elements';
 
 export default memo(function Sort(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {metric, setMetric, range, setRange} = props;
   const [isVisible, setIsVisible] = useState(false);
 

@@ -1,6 +1,6 @@
-import React, {useState, useEffect, memo, useContext} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {View, Text, TouchableOpacity, Platform, FlatList} from 'react-native';
-import {ThemeContext, Icon, Divider} from 'react-native-elements';
+import {useTheme, Icon, Divider} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getSearchTerm} from '../../redux/reducers/SearchSlice';
 import communityApi from '../../services/CommunityApi';
@@ -11,7 +11,7 @@ import analytics from '@react-native-firebase/analytics';
 import {CommunityCreatorPromptView} from '../../components/CommunityCreatorPrompt';
 
 const CommunityRow = ({community}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {name, _id: communityId, icon} = community;
   return name ? (
@@ -61,7 +61,7 @@ const CommunityRow = ({community}) => {
 };
 
 export default memo(function SearchCommunityResults(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const term = useSelector(getSearchTerm);
 

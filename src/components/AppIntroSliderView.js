@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, Image, StatusBar, Platform} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {storeData} from '../localStorage/helpers';
 
 const slides = [
@@ -33,7 +33,7 @@ const slides = [
 
 export default function AppIntroSliderView(props) {
   const {setIntroDone} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const renderItem = ({item}) => {
     const {title, image, text, backgroundColor, icon, points} = item;
@@ -41,7 +41,7 @@ export default function AppIntroSliderView(props) {
       <View
         style={{
           flex: 1,
-          backgroundColor: theme.colors.grey1,
+          backgroundColor: theme.colors.primary,
           paddingTop: 100,
           alignItems: 'center',
           justifyContent: 'space-evenly',
@@ -110,7 +110,12 @@ export default function AppIntroSliderView(props) {
                       size={15}
                       color={theme.colors.black5}
                     />
-                    <Text style={{paddingLeft: 15, lineHeight: 20}}>
+                    <Text
+                      style={{
+                        paddingLeft: 15,
+                        lineHeight: 20,
+                        color: theme.colors.black5,
+                      }}>
                       {point}
                     </Text>
                   </View>
@@ -217,6 +222,8 @@ export default function AppIntroSliderView(props) {
         renderNextButton={nextButton}
         renderPrevButton={prevButton}
         renderDoneButton={doneButton}
+        dotStyle={{backgroundColor: theme.colors.grey6}}
+        activeDotStyle={{backgroundColor: theme.colors.black2}}
       />
     </View>
   );

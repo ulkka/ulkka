@@ -1,10 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View} from 'react-native';
-import {Icon, Button, ThemeContext} from 'react-native-elements';
+import {Icon, Button, useTheme} from 'react-native-elements';
 
 export const SubmitButton = props => {
   const {onPress} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View

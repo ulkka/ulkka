@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
-import {Icon, Overlay, ThemeContext} from 'react-native-elements';
+import {Icon, Overlay, useTheme} from 'react-native-elements';
 import {push, navigate} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -13,7 +13,7 @@ import {getCommunityTitle} from '../../redux/reducers/CommunitySlice';
 
 export default function CreatePostButtonOverlay(props) {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const enableOverlay = useSelector(getEnableOverlay);
   const communityId = useSelector(getCreatorCommunityId);
   const communityTitle = useSelector(state =>

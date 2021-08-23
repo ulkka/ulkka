@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, TouchableOpacity, Platform} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import analytics from '@react-native-firebase/analytics';
 
 const ScrollToTop = props => {
   const {listRef, visible, screen} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const scrollAllTheWayUp = () => {
     analytics().logEvent('scrollToTop', {screen: screen});
     listRef.current.scrollToIndex({

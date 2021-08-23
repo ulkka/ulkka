@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import CommunitySettings from './CommunitySettings';
 import UpdateCommunityField from './UpdateCommunityField';
@@ -12,7 +12,7 @@ import BannedMembers from './BannedMembers';
 const StackNav = createStackNavigator();
 
 function CommunitySettingsNavigation(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View style={{flex: 1}}>

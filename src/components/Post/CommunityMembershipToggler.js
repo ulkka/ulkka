@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -16,7 +16,7 @@ import {
 
 const CommunityMembershipToggler = props => {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {postId, screen} = props;
   const communityId = useSelector(state => getPostCommunityId(state, postId));
   const userRole = useSelector(state =>

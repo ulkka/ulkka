@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useContext} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
   Icon,
   Divider,
   Overlay,
-  ThemeContext,
+  useTheme,
 } from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import communityApi from '../services/CommunityApi';
@@ -24,7 +24,7 @@ import {
 import CommunityAvatar from '../components/CommunityAvatar';
 
 export default function SearchableDropdown(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {allowOnlyMemberCommunities, allowOnlyModeratorCommunities} = props;
   const [visible, setVisible] = useState(props.selectCommunityModalVisible);

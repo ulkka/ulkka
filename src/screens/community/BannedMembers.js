@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo, useContext} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {
   View,
   Text,
@@ -7,14 +7,14 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-import {Divider, ThemeContext} from 'react-native-elements';
+import {Divider, useTheme} from 'react-native-elements';
 import communityApi from '../../services/CommunityApi';
 import UserAvatar from '../../components/UserAvatar';
 import {push} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
 
 const UserRow = memo(({user, communityId}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {displayname, _id: userId} = user;
 
@@ -101,7 +101,7 @@ const UserRow = memo(({user, communityId}) => {
 });
 
 export default function BannedMembers(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {communityId} = props.route.params;
 

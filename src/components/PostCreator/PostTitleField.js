@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View} from 'react-native';
-import {Input, ThemeContext} from 'react-native-elements';
+import {Input, useTheme} from 'react-native-elements';
 import {transformText} from './helpers';
 
 export const PostTitleField = props => {
   const {title, onChangeText} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View

@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import ImagePostContent from './ImagePostContent';
 import VideoPostContent from './VideoPostContent';
 import {useSelector} from 'react-redux';
@@ -13,7 +13,7 @@ import {navigateToURL} from '../helpers';
 import YoutubeComponent from './YoutubeComponent';
 
 const LinkPostContent = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {screen, postId} = props;
 
   const ogData = useSelector(state => getPostOgData(state, postId));

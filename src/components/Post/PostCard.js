@@ -1,6 +1,6 @@
-import React, {useContext, memo} from 'react';
+import React, {memo} from 'react';
 import {View, Text} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {
   getPostisDeleted,
@@ -22,7 +22,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 const allowedPostTypes = ['text', 'image', 'link', 'gif', 'video'];
 
 function PostCard(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {postId, screen, screenName} = props;
   const isDeleted = useSelector(state => getPostisDeleted(state, postId));
   const isRemoved = useSelector(state => getPostisRemoved(state, postId));

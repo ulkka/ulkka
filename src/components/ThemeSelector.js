@@ -1,12 +1,12 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, Platform} from 'react-native';
-import {ThemeContext, ButtonGroup, Icon} from 'react-native-elements';
+import {useTheme, ButtonGroup, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {getTheme, setTheme} from '../redux/reducers/ThemeSlice';
 
 export default function ThemeSelector(props) {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const buttons = ['auto', 'light', 'dark'];
   const currentTheme = useSelector(getTheme);
   const [selectedIndex, setSelectedIndex] = useState(

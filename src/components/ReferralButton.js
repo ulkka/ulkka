@@ -1,12 +1,12 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Icon, Text, ThemeContext} from 'react-native-elements';
+import {Icon, Text, useTheme} from 'react-native-elements';
 import Share from 'react-native-share';
 
 import analytics from '@react-native-firebase/analytics';
 
 const ReferralButton = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const sharePost = async () => {
     const link = 'https://ulkka.page.link/xi6d';

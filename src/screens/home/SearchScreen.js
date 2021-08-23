@@ -1,6 +1,6 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {getServerSearch, resetSearch} from '../../redux/reducers/SearchSlice';
 import ServerSearchTabNavigation from './ServerSearchTabNavigation';
@@ -8,7 +8,7 @@ import LocalSearch from './LocalSearch';
 import SearchBar from '../../components/Search';
 
 export default function SearchScreen(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const serverSearch = useSelector(getServerSearch);

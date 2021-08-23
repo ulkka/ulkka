@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon, Input, ThemeContext} from 'react-native-elements';
+import {Icon, Input, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserDisplayname,
@@ -12,7 +12,7 @@ import {Platform} from 'react-native';
 
 const UserDisplaynameField = props => {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {userId} = props;
   const [displaynameErrorMessage, setDisplaynameErrorMessage] = useState('');
   const [isDisplaynameValid, setIsDisplaynameValid] = useState(true);

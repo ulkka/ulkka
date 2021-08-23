@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useContext} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import {Icon, Input, ThemeContext} from 'react-native-elements';
+import {Icon, Input, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   prepareReply,
@@ -35,7 +35,7 @@ import UserAvatar from '../UserAvatar';
 import analytics from '@react-native-firebase/analytics';
 
 export default function CommentWriter(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const dispatch = useDispatch();
 
   const {postId} = props;

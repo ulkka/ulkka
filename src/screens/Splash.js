@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Image} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 export default function Splash() {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View

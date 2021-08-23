@@ -1,6 +1,6 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, useWindowDimensions, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {TabView, TabBar} from 'react-native-tab-view';
 import SearchCommunityResults from './SearchCommunityResults';
 import SearchUserResults from './SearchUserResults';
@@ -8,7 +8,7 @@ import SearchUserResults from './SearchUserResults';
 const COLLAPSED_HEIGHT = 40;
 
 export default function ServerSearchTabNavigation(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const initialLayout = useWindowDimensions();
 

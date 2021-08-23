@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useContext} from 'react';
+import React, {memo, useEffect} from 'react';
 import {
   View,
   ImageBackground,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Video from 'react-native-video';
 import {useIsFocused} from '@react-navigation/native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import MediaLoadError from './MediaLoadError';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -34,7 +34,7 @@ import {
 } from './helpers';
 
 const VideoPostContent = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const {

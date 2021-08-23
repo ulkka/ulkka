@@ -1,12 +1,12 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getCommunityRules} from '../../../redux/reducers/CommunitySlice';
 
 export default function CommunityRules(props) {
   const {communityId} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const communityRules = useSelector(state =>
     getCommunityRules(state, communityId),

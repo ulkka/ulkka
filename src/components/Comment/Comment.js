@@ -1,6 +1,6 @@
-import React, {useState, memo, useContext} from 'react';
+import React, {useState, memo} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import CommentMetadata from './CommentMetadata';
 import CommentBody from './CommentBody';
@@ -12,7 +12,7 @@ import {
 import analytics from '@react-native-firebase/analytics';
 
 function Comment(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {commentId, children, level} = props;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapse = () => {

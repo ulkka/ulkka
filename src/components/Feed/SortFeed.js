@@ -1,12 +1,6 @@
-import React, {useState, memo, useContext} from 'react';
+import React, {useState, memo} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Platform} from 'react-native';
-import {
-  Icon,
-  Overlay,
-  CheckBox,
-  Button,
-  ThemeContext,
-} from 'react-native-elements';
+import {Icon, Overlay, CheckBox, Button, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {sortFeed} from '../../redux/actions/FeedActions';
 import {
@@ -17,7 +11,7 @@ import {
 export default memo(function SortFeed(props) {
   const dispatch = useDispatch();
   const {screen} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const sortMethod = useSelector(state => getFeedSortMethod(state, screen));
   const topSortFrom = useSelector(state => getFeedTopSortFrom(state, screen));
 

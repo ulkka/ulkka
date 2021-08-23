@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {showOptionSheet} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPostCommunityId} from '../redux/selectors/PostSelectors';
@@ -9,7 +9,7 @@ import {getUserRoleInCommunity} from '../redux/reducers/CommunitySlice';
 
 const ExtraOptions = props => {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {type, id} = props;
   const communityId =
     type == 'post'

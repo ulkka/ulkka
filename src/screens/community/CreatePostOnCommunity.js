@@ -1,11 +1,11 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity, Text} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {showCreatorOverlay} from '../../redux/reducers/CreatorOverlaySlice';
 
 export default memo(function CreatePostOnCommunity(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const {communityId} = props;

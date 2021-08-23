@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -7,11 +7,11 @@ import {
   unblockUser,
 } from '../../redux/reducers/UserSlice';
 import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
-import {Button, Divider, ThemeContext} from 'react-native-elements';
+import {Button, Divider, useTheme} from 'react-native-elements';
 import UserAvatar from '../../components/UserAvatar';
 
 const UserRow = ({userId}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const userDisplayname = useSelector(state =>
@@ -61,7 +61,7 @@ const UserRow = ({userId}) => {
 };
 
 export default function BlockedUsers() {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const blockedUsers = useSelector(getBlockedUsers);
 

@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity, Platform, View} from 'react-native';
-import {Icon, Text, ThemeContext} from 'react-native-elements';
+import {Icon, Text, useTheme} from 'react-native-elements';
 import Share from 'react-native-share';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {useSelector} from 'react-redux';
@@ -13,7 +13,7 @@ import {
 import analytics from '@react-native-firebase/analytics';
 
 const ShareCommunity = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {
     communityId,

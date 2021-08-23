@@ -1,8 +1,8 @@
-import React, {useEffect, useState, memo, useContext} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import {View, Text, Platform, Image} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
-import {Button, ThemeContext} from 'react-native-elements';
+import {Button, useTheme} from 'react-native-elements';
 import {
   fetchTopCommunities,
   getUserNonMemberCommunities,
@@ -13,7 +13,7 @@ import {kFormatter} from './helpers';
 
 export default memo(function TopCommunities(props) {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
   const [complete, setComplete] = useState(false);
   const [loading, setLoading] = useState(false);

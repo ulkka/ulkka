@@ -1,8 +1,8 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, Text, Platform, TouchableOpacity, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getUserFavoriteCommunities} from '../../../redux/reducers/CommunitySlice';
-import {Divider, Button, Icon, ThemeContext} from 'react-native-elements';
+import {Divider, Button, Icon, useTheme} from 'react-native-elements';
 import CommunityAvatar from '../../../components/CommunityAvatar';
 import {push, navigate} from '../../../navigation/Ref';
 import TopCommunities from '../../../components/TopCommunities';
@@ -10,7 +10,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import FavoriteCommunity from '../../community/FavoriteCommunity';
 
 const CommunityRow = memo(({community, onlyIcons}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {_id: communityId, name: communityName, role} = community;
 
@@ -68,7 +68,7 @@ const CommunityRow = memo(({community, onlyIcons}) => {
 });
 
 export default memo(function FavoriteCommunities(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {type, contentContainerStyle, onlyIcons} = props;
   const memberCommunities = useSelector(getUserFavoriteCommunities);

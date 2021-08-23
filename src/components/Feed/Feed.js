@@ -1,6 +1,6 @@
-import React, {useEffect, useContext, memo} from 'react';
+import React, {useEffect, memo} from 'react';
 import {View, FlatList, RefreshControl, Platform, Animated} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useScrollToTop} from '@react-navigation/native';
 import PostCard from '../Post/PostCard';
 import FeedFooter from './FeedFooter';
@@ -23,7 +23,7 @@ import SortFeed from './SortFeed';
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ListHeader = memo(props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {screen} = props;
   return (
     <View
@@ -38,7 +38,7 @@ const ListHeader = memo(props => {
 });
 
 function Feed(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const dispatch = useDispatch();
   const {screen} = props;
 

@@ -1,6 +1,6 @@
-import React, {memo, useState, useEffect, useContext} from 'react';
+import React, {memo, useState, useEffect} from 'react';
 import {View} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import Feed from '../../../components/Feed/Feed';
 import {useSelector} from 'react-redux';
 import {getIsCurrentUserPartOfAnyCommunity} from '../../../redux/reducers/CommunitySlice';
@@ -8,7 +8,7 @@ import EmptyHomeFeedView from './EmptyHomeFeedView';
 import {getRegistrationStatus} from '../../../redux/reducers/AuthSlice';
 
 function Home(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const userHasJoinedCommunities = useSelector(
     getIsCurrentUserPartOfAnyCommunity,

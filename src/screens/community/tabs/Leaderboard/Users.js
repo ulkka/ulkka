@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo, useContext} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-import {Divider, Icon, ThemeContext} from 'react-native-elements';
+import {Divider, Icon, useTheme} from 'react-native-elements';
 import communityApi from '../../../../services/CommunityApi';
 import UserAvatar from '../../../../components/UserAvatar';
 import {push} from '../../../../navigation/Ref';
@@ -15,7 +15,7 @@ import FeedFooter from '../../../../components/Feed/FeedFooter';
 import {getTimestampFromRange} from '../../../../components/helpers';
 
 const UserRow = memo(({user, index, metric}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {displayname, _id: userId, count, voteCount} = user;
   return displayname ? (
@@ -82,7 +82,7 @@ const UserRow = memo(({user, index, metric}) => {
 });
 
 export default memo(function Users(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {communityId, range, metric, dimension, listEmptyText} = props;
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});

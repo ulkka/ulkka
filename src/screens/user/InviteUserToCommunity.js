@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Alert} from 'react-native';
-import {Icon, Button, ThemeContext} from 'react-native-elements';
+import {Icon, Button, useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getUserDisplayname} from '../../redux/reducers/UserSlice';
 import SearchableDropdown from '../../components/SearchableDropdown';
@@ -9,7 +9,7 @@ import Snackbar from 'react-native-snackbar';
 
 export default function InviteUserToCommunity(props) {
   const {userId} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const [
     selectCommunityModalVisible,

@@ -1,13 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, Platform, ImageBackground} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import ShareCommunity from './ShareCommunity';
 import AutolinkText from '../../components/AutolinkText';
 import {useSelector} from 'react-redux';
 import {getCommunityTitle} from '../../redux/reducers/CommunitySlice';
 
 export default function GrowCommunity(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {communityId} = props.route.params;
   const communityTitle = useSelector(state =>

@@ -1,11 +1,11 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {navigate} from '../../navigation/Ref';
 import ToggleAdminNotifications from './ToggleAdminNotifications';
 
 export default memo(function CommunitySettings(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const optionViewStyle = {
     borderBottomWidth: 1,

@@ -1,10 +1,10 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import Feed from '../../../components/Feed/Feed';
 
 function Popular(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View style={{flex: 1, backgroundColor: theme.colors.primary}}>

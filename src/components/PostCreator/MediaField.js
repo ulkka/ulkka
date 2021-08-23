@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   View,
   Image,
@@ -7,7 +7,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-crop-picker';
 import Snackbar from 'react-native-snackbar';
@@ -59,7 +59,7 @@ const validateMedia = (media, postType) => {
 };
 
 export const MediaField = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {mediaType, media, resetMedia, setMedia, type: postType} = props;
   const pickMedia = mediaType => {

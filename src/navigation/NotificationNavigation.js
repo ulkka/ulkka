@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import UserNavigation from '../screens/user/UserNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
@@ -15,7 +15,7 @@ const presets =
     : TransitionPresets.SlideFromRightIOS;
 
 function NotificationNavigation() {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View style={{flex: 1, backgroundColor: theme.colors.primary}}>

@@ -1,11 +1,11 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, ScrollView, Platform} from 'react-native';
-import {Input, ThemeContext} from 'react-native-elements';
+import {Input, useTheme} from 'react-native-elements';
 import utilityApi from '../../services/UtilityApi';
 import {isURLValid, transformText} from './helpers';
 
 export const LinkField = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const [preview, setPreview] = useState(false);
   const [previewData, setPreviewData] = useState(null);

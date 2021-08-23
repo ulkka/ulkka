@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,12 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import {Divider, ThemeContext} from 'react-native-elements';
+import {Divider, useTheme} from 'react-native-elements';
 import EmailLinkSignIn from './EmailLinkSignin';
 import SocialSignin from './SocialSignin';
 
 export default function Login() {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const AppIcon = (
     <Image

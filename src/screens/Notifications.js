@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Icon, ThemeContext} from 'react-native-elements';
+import {Button, Icon, useTheme} from 'react-native-elements';
 import TimeAgo from '../components/TimeAgo';
 import {
   fetchAllNotifications,
@@ -44,7 +44,7 @@ const validRestOfTheTexts = [
   ' joined',
 ];
 export default function Notifications(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const notifications = useSelector(selectAllNotifications);

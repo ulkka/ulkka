@@ -1,9 +1,9 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Modal, Platform} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 
 export default function ShowSubmitStatus(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState(new Map());
   useEffect(() => {

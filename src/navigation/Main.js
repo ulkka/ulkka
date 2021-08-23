@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useContext} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Platform, View} from 'react-native';
 import {
   NavigationContainer,
@@ -16,7 +16,7 @@ import Splash from '../screens/Splash';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadAuth} from '../redux/actions/AuthActions';
 import {getAuthStatus} from '../redux/reducers/AuthSlice';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 
 //import {useReduxDevToolsExtension} from '@react-navigation/devtools';
 
@@ -26,7 +26,7 @@ enableScreens();
 
 export default function Main() {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   // useReduxDevToolsExtension(navigationRef);
   const authStatus = useSelector(getAuthStatus);
 

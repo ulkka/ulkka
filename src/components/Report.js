@@ -1,12 +1,6 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {View, Text, Image} from 'react-native';
-import {
-  CheckBox,
-  Divider,
-  Button,
-  Icon,
-  ThemeContext,
-} from 'react-native-elements';
+import {CheckBox, Divider, Button, Icon, useTheme} from 'react-native-elements';
 import {hideOptionSheet} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch} from 'react-redux';
 import {reportPost} from '../redux/actions/PostActions';
@@ -14,7 +8,7 @@ import {reportComment} from '../redux/actions/CommentActions';
 
 const Report = props => {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {id, type} = props;
   const [selectedReportOption, setSelectedReportOption] = useState('');

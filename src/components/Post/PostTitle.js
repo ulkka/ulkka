@@ -1,13 +1,13 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {Text, TouchableOpacity, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {push} from '../../navigation/Ref';
 import {useSelector} from 'react-redux';
 import {getPostTitle} from '../../redux/selectors/PostSelectors';
 import analytics from '@react-native-firebase/analytics';
 
 const PostTitle = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {postId, screen} = props;
 

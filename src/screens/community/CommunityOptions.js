@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Alert, View} from 'react-native';
-import {Button, Icon, ThemeContext} from 'react-native-elements';
+import {Button, Icon, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getCommunityTitle,
@@ -12,7 +12,7 @@ import {navigate} from '../../navigation/Ref';
 import CommunityNotifications from './CommunityNotifications';
 
 const CommunityOptions = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const {communityId} = props;

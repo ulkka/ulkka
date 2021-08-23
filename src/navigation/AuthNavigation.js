@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Platform, SafeAreaView} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
   getAuthStatus,
@@ -13,7 +13,7 @@ import Login from '../screens/auth/Login';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
 
 export const AuthNavigation = () => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const StackNav = createStackNavigator();
   const isRegistered = useSelector(getRegistrationStatus);

@@ -1,9 +1,9 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View, Text} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 
 function TimeAgo(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const DisplayTime = props => {
     var currentTime = Date.now();
     var posted_at = new Date(props.time).getTime();

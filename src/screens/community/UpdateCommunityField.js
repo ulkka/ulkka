@@ -1,6 +1,6 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {View, KeyboardAvoidingView, Platform} from 'react-native';
-import {Input, Button, ThemeContext} from 'react-native-elements';
+import {Input, Button, useTheme} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   updateCommunityFields,
@@ -10,7 +10,7 @@ import {goBack} from '../../navigation/Ref';
 
 export default function UpdateCommunityField(props) {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {communityId, field} = props.route.params;
 

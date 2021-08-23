@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, Platform, TouchableOpacity} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getIsCommunityFavorite,
@@ -10,7 +10,7 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 
 export default function FavoriteCommunity(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const {communityId} = props;

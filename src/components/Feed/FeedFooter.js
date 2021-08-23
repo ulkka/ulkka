@@ -1,10 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 
 function FeedFooterComponent(props) {
   const {complete, loading, text} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   if (complete) {
     return (
       <View style={styles.listEmptyView}>

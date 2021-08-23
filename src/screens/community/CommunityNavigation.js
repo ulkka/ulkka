@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import CommunityDetailTabView from './CommunityDetailTabView';
 import CommunitySettingsNavigation from './CommunitySettingsNavigation';
@@ -11,7 +11,7 @@ import GrowCommunity from './GrowCommunity';
 const StackNav = createStackNavigator();
 
 function CommunityNavigation(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {communityId} = props.route.params;
   const userRole = useSelector(state =>

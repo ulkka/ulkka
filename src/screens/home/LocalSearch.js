@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {getSearchTerm, setServerSearch} from '../../redux/reducers/SearchSlice';
 import {searchCommunityTitle} from '../../redux/reducers/CommunitySlice';
 import CommunityAvatar from '../../components/CommunityAvatar';
@@ -17,7 +17,7 @@ import communityApi from '../../services/CommunityApi';
 
 export default function LocalSearch(props) {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const term = useSelector(getSearchTerm);
 

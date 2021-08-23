@@ -1,12 +1,12 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, Platform, Animated} from 'react-native';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import CommunityRules from './CommunityRules';
 import CommunityModerators from './CommunityModerators';
 
 export default function About(props) {
   const {communityId} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const [rulesCollapsed, setRulesCollapsed] = useState(true);
   const [moderatorsCollapsed, setModeratorsCollapsed] = useState(true);

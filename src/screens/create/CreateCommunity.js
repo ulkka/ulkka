@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {
   View,
@@ -7,7 +7,7 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import {Button, Input, ThemeContext} from 'react-native-elements';
+import {Button, Input, useTheme} from 'react-native-elements';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import ShowSubmitStatus from '../../components/PostCreator/ShowSubmitStatus';
 import CommunityTopicSelector from '../../components/CommunityTopicSelector';
@@ -18,7 +18,7 @@ import communityApi from '../../services/CommunityApi';
 import {pop, push} from '../../navigation/Ref';
 
 export default function CreateCommunity({navigation, route}) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);

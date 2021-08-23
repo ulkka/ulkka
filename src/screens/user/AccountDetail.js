@@ -1,4 +1,4 @@
-import React, {useEffect, memo, useRef, useContext} from 'react';
+import React, {useEffect, memo, useRef} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {Icon, Divider, Tooltip, ThemeContext} from 'react-native-elements';
+import {Icon, Divider, Tooltip, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserCreatedAt,
@@ -35,7 +35,7 @@ import {getIsCurrentUserAdminOfAnyCommunity} from '../../redux/reducers/Communit
 
 const AccountDetail = memo(props => {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {userId, titleShown, navigation} = props;
   const blockedUsers = useSelector(getBlockedUsers);

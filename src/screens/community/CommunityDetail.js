@@ -1,6 +1,6 @@
-import React, {useEffect, memo, useRef, useContext} from 'react';
+import React, {useEffect, memo, useRef} from 'react';
 import {View, Text, Platform, Animated, Image} from 'react-native';
-import {Divider, ThemeContext} from 'react-native-elements';
+import {Divider, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   fetchCommunityById,
@@ -44,7 +44,7 @@ const CommunityHeaderRight = memo(({communityId}) => {
 });
 
 const CommunityDetail = memo(props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
 

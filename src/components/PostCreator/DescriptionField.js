@@ -1,9 +1,9 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Platform} from 'react-native';
-import {Input, ThemeContext} from 'react-native-elements';
+import {Input, useTheme} from 'react-native-elements';
 
 export const DescriptionField = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {onChangeText, description} = props;
   return (

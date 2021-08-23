@@ -1,6 +1,6 @@
-import React, {useState, useRef, useContext} from 'react';
+import React, {useState, useRef} from 'react';
 import {View} from 'react-native';
-import {Button, ThemeContext} from 'react-native-elements';
+import {Button, useTheme} from 'react-native-elements';
 import {Input, Icon} from 'react-native-elements';
 import {sendEmailSignInLink} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
@@ -8,7 +8,7 @@ import {transformText} from '../../components/PostCreator/helpers';
 
 const EmailLinkSignIn = () => {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const emailFieldRef = useRef(null);
   const renderErrorMessage = false;

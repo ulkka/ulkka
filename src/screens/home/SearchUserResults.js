@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo, useContext} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {getSearchTerm} from '../../redux/reducers/SearchSlice';
-import {Icon, Divider, ThemeContext} from 'react-native-elements';
+import {Icon, Divider, useTheme} from 'react-native-elements';
 import UserAvatar from '../../components/UserAvatar';
 import {push, pop} from '../../navigation/Ref';
 import userApi from '../../services/UserApi';
@@ -17,7 +17,7 @@ import FeedFooter from '../../components/Feed/FeedFooter';
 import analytics from '@react-native-firebase/analytics';
 
 const UserRow = ({user}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {displayname, _id: userId} = user;
   return displayname ? (
@@ -62,7 +62,7 @@ const UserRow = ({user}) => {
 };
 
 export default memo(function SearchUserResults(props) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const term = useSelector(getSearchTerm);
 

@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity, Platform, Image, View} from 'react-native';
-import {Icon, Text, ThemeContext} from 'react-native-elements';
+import {Icon, Text, useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {
   getRegistrationStatus,
@@ -13,7 +13,7 @@ import {kFormatter} from './helpers';
 import ReferralButton from './ReferralButton';
 
 const TitleComponent = memo(() => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   return (
     <View
       style={{
@@ -40,7 +40,7 @@ const TitleComponent = memo(() => {
 });
 
 const UserKarma = ({userId}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const karma = useSelector(state => getUserTotalKarma(state, userId));
   return (
     <Text
@@ -56,7 +56,7 @@ const UserKarma = ({userId}) => {
 };
 
 const HeaderBar = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const isRegistered = useSelector(getRegistrationStatus);
   const registeredUser = useSelector(getRegisteredUser);
 

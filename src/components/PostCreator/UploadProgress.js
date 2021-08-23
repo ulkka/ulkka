@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, Image} from 'react-native';
-import {Overlay, ThemeContext} from 'react-native-elements';
+import {Overlay, useTheme} from 'react-native-elements';
 import {Button} from 'react-native';
 
 export const uploadProgress = _setUploadProgress => progressEvent => {
@@ -9,7 +9,7 @@ export const uploadProgress = _setUploadProgress => progressEvent => {
 };
 
 export const ShowSubmitProgress = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {percent, isVisible, onCancel, showUploadProgress} = props;
 
@@ -20,7 +20,7 @@ export const ShowSubmitProgress = props => {
       animationType="none"
       fullScreen
       overlayStyle={{
-        backgroundColor: theme.colors.grey4,
+        backgroundColor: theme.colors.grey2,
         opacity: 0.8,
       }}>
       <View

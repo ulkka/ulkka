@@ -1,4 +1,4 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {
   View,
   Dimensions,
@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image'; // delete extra lines from android/app/proguard-rules.pro if uninstalling
 import ImageZoom from 'react-native-image-pan-zoom';
-import {Icon, ThemeContext} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import {goBack, pop, push} from '../../navigation/Ref';
 import {getUriImage} from '../helpers';
 
 const ImageZoomer = ({route}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {height, width, imageUrl, postId, screen} = route.params;
 
   const footer = (

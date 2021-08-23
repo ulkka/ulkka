@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
-import {SearchBar, ThemeContext} from 'react-native-elements';
+import {SearchBar, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getSearchTerm,
@@ -17,7 +17,7 @@ import {goBack} from '../navigation/Ref';
 
 export default function Search() {
   const dispatch = useDispatch();
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const isFocused = useIsFocused();
 

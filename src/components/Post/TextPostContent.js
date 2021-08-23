@@ -1,13 +1,13 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {View} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {getPostDescription} from '../../redux/selectors/PostSelectors';
 
 import AutolinkText from '../AutolinkText';
 
 const TextPostContent = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const {postId} = props;
   const description = useSelector(state => getPostDescription(state, postId));

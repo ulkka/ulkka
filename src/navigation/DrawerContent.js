@@ -1,4 +1,4 @@
-import React, {memo, useState, useContext} from 'react';
+import React, {memo, useState} from 'react';
 import {View, Text, TouchableOpacity, Platform, FlatList} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {push, navigate, showAuthScreen} from '../navigation/Ref';
@@ -6,7 +6,7 @@ import {
   getRegisteredUser,
   getRegistrationStatus,
 } from '../redux/reducers/AuthSlice';
-import {Icon, Button, ThemeContext} from 'react-native-elements';
+import {Icon, Button, useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import UserAvatar from '../components/UserAvatar';
 import {kFormatter} from '../components/helpers';
@@ -15,7 +15,7 @@ import FavoriteCommunities from '../screens/user/tabs/FavoriteCommunities';
 import ThemeSelector from '../components/ThemeSelector';
 
 const UserSection = memo(() => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const registeredUser = useSelector(getRegisteredUser);
   const isRegistered = useSelector(getRegistrationStatus);
@@ -76,7 +76,7 @@ const UserSection = memo(() => {
 });
 
 const NavSection = memo(({navigation}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const registeredUser = useSelector(getRegisteredUser);
   const isRegistered = useSelector(getRegistrationStatus);
@@ -150,7 +150,7 @@ const NavSection = memo(({navigation}) => {
 });
 
 const CommunitiesList = memo(({ListIcon, title, ListComponent}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const isRegistered = useSelector(getRegistrationStatus);
   const [expanded, setExpanded] = useState(true);
@@ -201,7 +201,7 @@ const CommunitiesList = memo(({ListIcon, title, ListComponent}) => {
 });
 
 const ListView = ({navigation}) => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const isRegistered = useSelector(getRegistrationStatus);
   return isRegistered ? (

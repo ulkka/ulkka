@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Platform} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import CreatePost from '../screens/create/PostCreator';
 import CreateCommunity from '../screens/create/CreateCommunity';
@@ -30,7 +30,7 @@ const presets =
     : TransitionPresets.SlideFromRightIOS;
 
 function HomeNavigation() {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const isOptionSheetVisible = useSelector(isVisible);
   const isCommunityCreatorPromptVisible = useSelector(

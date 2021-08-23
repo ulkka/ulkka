@@ -1,11 +1,11 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Platform} from 'react-native';
 import remoteConfig from '@react-native-firebase/remote-config';
-import {Button, Icon, ThemeContext} from 'react-native-elements';
+import {Button, Icon, useTheme} from 'react-native-elements';
 import {navigateToURL} from '../components/helpers';
 
 const AppMaintenanceHandler = props => {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const {handle, maintenance} = props;
   const [updateRequired, setUpdateRequired] = useState(false);
   const [maintenanceMode, setMaintenanceMode] = useState(false);

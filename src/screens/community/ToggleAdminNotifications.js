@@ -1,6 +1,6 @@
-import React, {memo, useContext} from 'react';
+import React, {memo} from 'react';
 import {Switch} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getIsUserSubscribedToAdminNotifications,
@@ -8,7 +8,7 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 
 export default memo(function ToggleAdminNotifications({route}) {
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   const dispatch = useDispatch();
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,12 @@ import {
   Modal,
   Platform,
 } from 'react-native';
-import {Button, Icon, Divider, ThemeContext} from 'react-native-elements';
+import {Button, Icon, Divider, useTheme} from 'react-native-elements';
 import communityApi from '../services/CommunityApi';
 
 const TopicField = props => {
   const {onPress, topic} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
 
   return (
     <View>
@@ -52,7 +52,7 @@ const TopicField = props => {
 
 export default function CommunityTopicSelector(props) {
   const {topic, setTopic} = props;
-  const {theme} = useContext(ThemeContext);
+  const {theme} = useTheme();
   const [visible, setVisible] = useState(false);
   //const [items, setItems] = useState([]);
   const [items, setItems] = useState([
