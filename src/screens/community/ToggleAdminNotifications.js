@@ -23,8 +23,8 @@ export default memo(function ToggleAdminNotifications({route}) {
   return (
     <Switch
       trackColor={{false: theme.colors.black7, true: theme.colors.blue}}
-      thumbColor={isEnabled ? theme.colors.grey2 : theme.colors.grey1}
-      ios_backgroundColor={theme.colors.black4}
+      thumbColor={isEnabled ? theme.colors.black2 : theme.colors.black7}
+      // ios_backgroundColor={theme.colors.black4}
       onValueChange={toggleSwitch}
       value={isEnabled}
     />

@@ -91,6 +91,7 @@ export default function OptionSheet() {
   const listItemStyle = {
     borderRadius: 5,
     backgroundColor: theme.colors.primary,
+    paddingVertical: 20,
   };
 
   const signoutConfirmationAlert = () => {
@@ -299,10 +300,7 @@ export default function OptionSheet() {
         {list.map(
           (l, i) =>
             l?.title && (
-              <ListItem
-                key={i}
-                containerStyle={l.containerStyle}
-                bottomDivider={true}>
+              <ListItem key={i} containerStyle={l.containerStyle}>
                 <TouchableOpacity
                   hitSlop={{top: 20, bottom: 10, left: 40, right: 40}}
                   onPress={l.onPress}
@@ -317,12 +315,7 @@ export default function OptionSheet() {
             ),
         )}
       </View>
-      <Divider
-        style={{
-          height: 15,
-          backgroundColor: 'transparent',
-        }}
-      />
+      <Divider color={theme.colors.grey2} />
       <Button
         title="Cancel"
         containerStyle={{

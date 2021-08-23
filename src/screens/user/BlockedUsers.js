@@ -66,9 +66,7 @@ export default function BlockedUsers() {
   const blockedUsers = useSelector(getBlockedUsers);
 
   const separator = () => {
-    return (
-      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
-    );
+    return <Divider color={theme.colors.grey2} />;
   };
 
   const handlerRenderItem = ({item}) => {

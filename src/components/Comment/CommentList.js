@@ -68,7 +68,7 @@ function CommentList(props) {
               postId={postId}
               level={0}
             />
-            <Divider style={{backgroundColor: theme.colors.grey0, height: 5}} />
+            <Divider color={theme.colors.grey2} />
           </View>
         );
       })
@@ -84,7 +84,7 @@ function CommentList(props) {
           postId={postId}
           level={0}
         />
-        <Divider style={{backgroundColor: theme.colors.grey0, height: 5}} />
+        <Divider color={theme.colors.grey2} />
       </View>
     );
   }

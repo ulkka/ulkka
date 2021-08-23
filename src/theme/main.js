@@ -1,15 +1,9 @@
-//import { DefaultTheme } from 'react-native-paper';
-
 export const light = {
   dark: false,
   colors: {
     primary: '#fff',
     background: '#fff',
     text: '#444',
-    // secondary,
-    // white;
-    // black;
-
     black0: '#000',
     black1: '#111',
     black2: '#222',
@@ -30,30 +24,6 @@ export const light = {
     blue: '#2a9df4',
     transparentBlack: 'rgba(52, 52, 52, 0.1)',
     reddishWhite: '#fff9f9',
-    // grey5;
-    // greyOutline;
-    // searchBg;
-    // success;
-    // error;
-    // warning;
-    // divider;
-    // platform: {
-    //   ios: {
-    //     primary;
-    //     secondary;
-    //     grey;
-    //     searchBg;
-    //     success;
-    //     error;
-    //     warning;
-    //   };
-    //   android: {
-    //     // Same as ios
-    //   };
-    //   web: {
-    //     // Same as ios
-    //   };
-    // };
   },
 };
 
@@ -72,9 +42,7 @@ export const dark = {
     black6: '#bbb',
     black7: '#aaa',
     black8: '#999',
-    // secondary,
-    // white;
-    // black;
+
     grey0: '#222',
     grey1: '#222',
     grey2: '#333',
@@ -86,30 +54,5 @@ export const dark = {
     blue: '#2a9df4',
     transparentBlack: 'rgba(180, 180, 180, 0.2)',
     reddishWhite: '#210100',
-    // grey5;
-    // greyOutline;
-    // searchBg;
-    // success;
-    // error;
-    // warning;
-    // divider;
-    // platform: {
-    //   ios: {
-    //     primary;
-    //     secondary;
-    //     grey;
-    //     searchBg;
-    //     success;
-    //     error;
-    //     warning;
-    //   };
-    //   android: {
-    //     // Same as ios
-    //   };
-    //   web: {
-    //     // Same as ios
-    //   };
-    // };
   },
 };
-//export default theme;

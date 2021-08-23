@@ -108,9 +108,7 @@ export default memo(function SearchCommunityResults(props) {
   };
 
   const separator = () => {
-    return (
-      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
-    );
+    return <Divider color={theme.colors.grey2} />;
   };
 
   const handlerRenderItem = ({item}) => {

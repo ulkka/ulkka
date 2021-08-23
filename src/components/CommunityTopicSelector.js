@@ -139,11 +139,7 @@ export default function CommunityTopicSelector(props) {
           height: 30,
           justifyContent: 'center',
         }}>
-        <Divider
-          style={{
-            backgroundColor: theme.colors.grey3,
-          }}
-        />
+        <Divider color={theme.colors.grey2} />
       </View>
     );
   };

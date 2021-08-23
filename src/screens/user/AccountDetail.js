@@ -9,7 +9,7 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {Icon, Divider, Tooltip, useTheme} from 'react-native-elements';
+import {Icon, Tooltip, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserCreatedAt,
@@ -312,7 +312,7 @@ const AccountDetail = memo(props => {
           alignItems: 'center',
         }}>
         {userKarmaField}
-        <Divider width={28} height={0}></Divider>
+        <View style={{width: 28}} />
         {userJoinedTimeAgo}
       </View>
     </View>

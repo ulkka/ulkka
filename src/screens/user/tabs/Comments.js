@@ -160,7 +160,7 @@ const CommentRow = memo(props => {
 const separator = memo(() => {
   const {theme} = useTheme();
 
-  return <Divider style={{backgroundColor: theme.colors.grey0, height: 5}} />;
+  return <Divider color={theme.colors.grey2} />;
 });
 
 const Comments = props => {

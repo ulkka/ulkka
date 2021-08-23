@@ -59,14 +59,11 @@ export default function InviteUserToCommunity(props) {
   return (
     <View>
       <Button
-        raised
         title="Invite to Community"
-        containerStyle={{
+        buttonStyle={{
           borderWidth: 1,
           borderColor: theme.colors.green,
           marginHorizontal: 10,
-        }}
-        buttonStyle={{
           borderRadius: 15,
           paddingHorizontal: 15,
           paddingVertical: 5,

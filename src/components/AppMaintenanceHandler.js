@@ -81,9 +81,8 @@ const AppMaintenanceHandler = props => {
       </Text>
       {updateRequired && (
         <Button
-          raised
           title="Update App"
-          containerStyle={{
+          buttonStyle={{
             marginBottom: 15,
             borderRadius: 5,
           }}

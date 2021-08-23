@@ -2,10 +2,9 @@ import React, {memo} from 'react';
 import {View, Text, Platform, TouchableOpacity, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getUserMemberCommunities} from '../../../redux/reducers/CommunitySlice';
-import {Divider, Button, Icon, useTheme} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import CommunityAvatar from '../../../components/CommunityAvatar';
-import {push, navigate} from '../../../navigation/Ref';
-import TopCommunities from '../../../components/TopCommunities';
+import {push} from '../../../navigation/Ref';
 import {FlatList} from 'react-native-gesture-handler';
 import FavoriteCommunity from '../../community/FavoriteCommunity';
 
@@ -43,7 +42,6 @@ const CommunityRow = memo(({community, onlyIcons}) => {
             </Text>
             {role == 'admin' && (
               <Icon
-                raised={false}
                 name="shield"
                 type="font-awesome"
                 size={20}
@@ -72,72 +70,9 @@ export default memo(function UserCommunities(props) {
   const {type, contentContainerStyle, onlyIcons} = props;
   const memberCommunities = useSelector(getUserMemberCommunities);
 
-  const separator = () => {
-    return (
-      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
-    );
-  };
-
   const handlerRenderItem = ({item, index}) => {
     return <CommunityRow community={item} onlyIcons={onlyIcons} />;
   };
-
-  const CreateCommunityButton = (
-    <View style={{paddingHorizontal: 20, paddingBottom: 15}}>
-      <Button
-        raised
-        title="Create Community"
-        buttonStyle={{
-          borderRadius: 15,
-          backgroundColor: theme.colors.blue,
-          paddingVertical: 7,
-          alignItems: 'center',
-        }}
-        titleStyle={{
-          paddingLeft: 10,
-          color: theme.colors.primary,
-          fontSize: 14,
-          ...(Platform.OS == 'ios' && {fontWeight: 'bold'}),
-        }}
-        icon={
-          <Icon
-            name="plus"
-            size={17}
-            color={theme.colors.primary}
-            type="font-awesome"
-          />
-        }
-        onPress={() => navigate('Create Community')}
-      />
-    </View>
-  );
-  const listHeader = (
-    <View>
-      {CreateCommunityButton}
-      {<TopCommunities />}
-      {memberCommunities.length > 0 && (
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 10,
-            borderBottomWidth: 1,
-            borderBottomColor: theme.colors.grey2,
-          }}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 14,
-              color: theme.colors.black5,
-              textTransform: 'uppercase',
-              ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
-            }}>
-            My communities
-          </Text>
-        </View>
-      )}
-    </View>
-  );
 
   const sortComparer = (a, b) =>
     b.role == 'admin'

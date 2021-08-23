@@ -59,10 +59,11 @@ export default function UpdateCommunityField(props) {
         maxLength={1000}
       />
       <Button
-        raised
         title="Submit"
-        containerStyle={{width: 100, alignSelf: 'flex-end', marginBottom: 30}}
         buttonStyle={{
+          width: 100,
+          alignSelf: 'flex-end',
+          marginBottom: 30,
           backgroundColor: theme.colors.blue,
           borderRadius: 15,
           paddingHorizontal: 20,

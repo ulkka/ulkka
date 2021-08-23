@@ -27,7 +27,6 @@ const EmptyHomeFeedView = props => {
 
   const refreshButton = (
     <Button
-      raised
       type="solid"
       activeOpacity={0.5}
       titleStyle={{
@@ -203,7 +202,6 @@ const EmptyHomeFeedView = props => {
           ) : (
             <View style={{flex: 1, alignItems: 'center'}}>
               <Button
-                raised
                 title="Sign up / Login"
                 buttonStyle={{
                   width: 180,
@@ -220,7 +218,6 @@ const EmptyHomeFeedView = props => {
               />
               <View style={{height: 20}}></View>
               <Button
-                raised
                 title="See Popular Posts"
                 buttonStyle={{
                   width: 180,

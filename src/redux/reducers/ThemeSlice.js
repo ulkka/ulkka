@@ -7,7 +7,6 @@ export const setTheme = createAsyncThunk(
   'theme/set',
   async (theme, {rejectWithValue}) => {
     try {
-      console.log('setting theme', theme);
       await storeData('theme', theme);
       return theme;
     } catch (error) {
@@ -21,7 +20,6 @@ export const loadTheme = createAsyncThunk(
   async (theme, {rejectWithValue}) => {
     try {
       const theme = await getData('theme');
-      console.log('theme in asyncthunk', theme);
       if (!theme) {
         await storeData('theme', defaultTheme);
         return defaultTheme;

@@ -129,9 +129,7 @@ export default memo(function Users(props) {
   };
 
   const separator = () => {
-    return (
-      <Divider style={{backgroundColor: theme.colors.primary, height: 10}} />
-    );
+    return <Divider color={theme.colors.grey2} style={{height: 10}} />;
   };
   const handlerRenderItem = ({item, index}) => {
     return (

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {View, Text, Platform, TouchableOpacity, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getUserFavoriteCommunities} from '../../../redux/reducers/CommunitySlice';
-import {Divider, Button, Icon, useTheme} from 'react-native-elements';
+import {Button, Icon, useTheme} from 'react-native-elements';
 import CommunityAvatar from '../../../components/CommunityAvatar';
 import {push, navigate} from '../../../navigation/Ref';
 import TopCommunities from '../../../components/TopCommunities';
@@ -44,7 +44,6 @@ const CommunityRow = memo(({community, onlyIcons}) => {
             </Text>
             {role == 'admin' && (
               <Icon
-                raised={false}
                 name="shield"
                 type="font-awesome"
                 size={20}
@@ -72,12 +71,6 @@ export default memo(function FavoriteCommunities(props) {
 
   const {type, contentContainerStyle, onlyIcons} = props;
   const memberCommunities = useSelector(getUserFavoriteCommunities);
-
-  const separator = () => {
-    return (
-      <Divider style={{backgroundColor: theme.colors.primary, height: 5}} />
-    );
-  };
 
   const handlerRenderItem = ({item, index}) => {
     return <CommunityRow community={item} onlyIcons={onlyIcons} />;

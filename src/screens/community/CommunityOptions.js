@@ -52,13 +52,11 @@ const CommunityOptions = props => {
           <CommunityNotifications communityId={communityId} />
           <Button
             title="Joined"
-            containerStyle={{
+            buttonStyle={{
               height: 30,
               borderWidth: 1,
               borderColor: 'red',
               marginHorizontal: 10,
-            }}
-            buttonStyle={{
               borderRadius: 15,
               paddingHorizontal: 15,
               paddingVertical: 5,
@@ -72,15 +70,14 @@ const CommunityOptions = props => {
       return (
         <View>
           <Button
-            raised
             title="Settings"
             containerStyle={{
-              borderWidth: 1,
-              borderColor: theme.colors.green,
               marginHorizontal: 10,
             }}
             buttonStyle={{
-              borderRadius: 15,
+              borderColor: theme.colors.green,
+              borderWidth: 1,
+              borderRadius: 20,
               paddingHorizontal: 15,
               paddingVertical: 5,
             }}
@@ -98,14 +95,11 @@ const CommunityOptions = props => {
           />
           <View style={{height: 15}}></View>
           <Button
-            raised
             title="Grow"
-            containerStyle={{
+            buttonStyle={{
               borderWidth: 1,
               borderColor: theme.colors.blue,
               marginHorizontal: 10,
-            }}
-            buttonStyle={{
               borderRadius: 15,
               paddingHorizontal: 15,
               paddingVertical: 5,
@@ -130,7 +124,6 @@ const CommunityOptions = props => {
     default:
       return (
         <Button
-          raised
           title="Join"
           containerStyle={{
             marginHorizontal: 10,

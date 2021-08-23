@@ -58,7 +58,6 @@ export const CommunityCreatorPromptView = props => {
       </Text>
       <View style={{height: 20}}></View>
       <Button
-        raised
         title="Create Community"
         buttonStyle={{
           width: 180,

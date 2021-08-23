@@ -92,7 +92,6 @@ export default memo(function TopCommunities(props) {
         <View style={{height: 10}}></View>
         <View>
           <Button
-            raised
             title="Join"
             buttonStyle={{
               borderRadius: 15,

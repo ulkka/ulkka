@@ -265,10 +265,10 @@ export default function ChangeCommunityIcon(props) {
       }}>
       {media == null ? selectMediaButton : showSelectedMedia}
       <Button
-        raised
         title="Submit"
-        containerStyle={{width: 100, alignSelf: 'center'}}
         buttonStyle={{
+          width: 100,
+          alignSelf: 'center',
           backgroundColor: theme.colors.blue,
           borderRadius: 15,
           paddingHorizontal: 20,

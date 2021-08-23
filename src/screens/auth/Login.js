@@ -50,10 +50,9 @@ export default function Login() {
         alignItems: 'center',
       }}>
       <Divider
+        color={theme.colors.grey4}
         style={{
           width: '25%',
-          height: 1,
-          backgroundColor: theme.colors.black8,
         }}
       />
       <Text
@@ -67,10 +66,9 @@ export default function Login() {
         Or{' '}
       </Text>
       <Divider
+        color={theme.colors.grey4}
         style={{
           width: '25%',
-          height: 1,
-          backgroundColor: theme.colors.black8,
         }}
       />
     </View>

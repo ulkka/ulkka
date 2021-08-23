@@ -156,12 +156,7 @@ const Report = props => {
       }}>
       {TitleView}
       {reportOptionsListView}
-      <Divider
-        style={{
-          height: 15,
-          backgroundColor: 'transparent',
-        }}
-      />
+      <Divider color={theme.colors.grey2} />
       {ButtonsView}
     </View>
   );

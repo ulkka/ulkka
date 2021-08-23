@@ -13,9 +13,16 @@ export default function CommunityRules(props) {
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: theme.colors.primary, padding: 15}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.primary,
+        padding: 15,
+        marginHorizontal: 5,
+      }}>
       <Text
         style={{
+          color: theme.colors.black5,
           fontSize: 13,
           fontWeight: 'bold',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),

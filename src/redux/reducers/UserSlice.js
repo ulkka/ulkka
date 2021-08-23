@@ -111,7 +111,6 @@ export const searchUsersByName = createAsyncThunk(
   async (text, {rejectWithValue}) => {
     try {
       const response = await userApi.user.searchByName(text);
-      console.log('response', response, response.status, response.data);
       if (response.status == 200 && response.data) {
         const userId = response.data._id;
         push('UserDetail', {userId: userId});

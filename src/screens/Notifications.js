@@ -146,7 +146,6 @@ export default function Notifications(props) {
 
   const refreshButton = needsRefresh && (
     <Button
-      raised
       type="solid"
       activeOpacity={0.5}
       titleStyle={{
@@ -156,17 +155,15 @@ export default function Notifications(props) {
         marginRight: 10,
       }}
       containerStyle={{
-        alignItems: 'center',
-        width: '55%',
         alignSelf: 'center',
-        borderRadius: 15,
+        alignItems: 'center',
         marginTop: 5,
         position: 'absolute',
         top: 5,
-      }}
-      buttonStyle={{
+        borderRadius: 15,
         alignItems: 'center',
-        borderColor: theme.colors.black2,
+        borderColor: theme.colors.grey4,
+        borderWidth: 1,
       }}
       icon={<Icon name="refresh" size={15} color={theme.colors.blue} />}
       iconRight

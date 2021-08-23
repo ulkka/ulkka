@@ -44,7 +44,6 @@ export default memo(function CommunitySettings(props) {
     },
     {
       title: 'Admin Notifications',
-      onPress: () => navigate('BannedMembers'),
       componentRight: () => <ToggleAdminNotifications {...props} />,
     },
   ];

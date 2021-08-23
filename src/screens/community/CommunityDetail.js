@@ -1,6 +1,6 @@
 import React, {useEffect, memo, useRef} from 'react';
 import {View, Text, Platform, Animated, Image} from 'react-native';
-import {Divider, useTheme} from 'react-native-elements';
+import {useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   fetchCommunityById,
@@ -213,14 +213,6 @@ const CommunityDetail = memo(props => {
       </View>
       {memberCountField}
       {descriptionField}
-      <View
-        style={{
-          paddingHorizontal: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Divider width={28} height={0}></Divider>
-      </View>
     </View>
   );
 });
