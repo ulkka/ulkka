@@ -31,7 +31,7 @@ import UserDisplaynameField from '../../components/UserDisplaynameField';
 import InviteUserToCommunity from './InviteUserToCommunity';
 import {getIsCurrentUserAdminOfAnyCommunity} from '../../redux/reducers/CommunitySlice';
 
-const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+//const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 const AccountDetail = memo(props => {
   const dispatch = useDispatch();
@@ -208,12 +208,7 @@ const AccountDetail = memo(props => {
             {numberWithCommas(userTotalKarma)}
           </Text>
           <View style={{width: 20}}>
-            <AnimatedIcon
-              name="heart"
-              type="font-awesome"
-              size={iconSize}
-              color="#ff4301"
-            />
+            <Icon name="heart" type="font-awesome" size={14} color="#ff4301" />
           </View>
         </View>
       </Tooltip>
