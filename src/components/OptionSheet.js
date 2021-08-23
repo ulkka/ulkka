@@ -329,7 +329,7 @@ export default function OptionSheet() {
           backgroundColor: theme.colors.primary,
           marginBottom: 15,
         }}
-        titleStyle={{fontSize: 14, color: '#EC5152', fontWeight: '600'}}
+        titleStyle={{fontSize: 14, color: 'red', fontWeight: '600'}}
         onPress={() => dispatch(hideOptionSheet())}
       />
     </View>

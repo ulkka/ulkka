@@ -12,6 +12,7 @@ import UserAvatar from '../components/UserAvatar';
 import {kFormatter} from '../components/helpers';
 import UserCommunities from '../screens/user/tabs/UserCommunities';
 import FavoriteCommunities from '../screens/user/tabs/FavoriteCommunities';
+import ThemeSelector from '../components/ThemeSelector';
 
 const UserSection = memo(() => {
   const {theme} = useContext(ThemeContext);
@@ -83,11 +84,11 @@ const NavSection = memo(({navigation}) => {
 
   return isRegistered ? (
     <View
-      style={{
-        borderBottomWidth: 1,
-        borderBottomColor: theme.colors.grey2,
-        paddingBottom: 10,
-      }}>
+      style={
+        {
+          // paddingBottom: 8,
+        }
+      }>
       <TouchableOpacity
         style={{
           paddingHorizontal: 17,
@@ -207,6 +208,7 @@ const ListView = ({navigation}) => {
     <View style={{backgroundColor: theme.colors.grey1}}>
       <UserSection />
       <NavSection navigation={navigation} />
+      <ThemeSelector />
       <CommunitiesList
         navigation={navigation}
         ListComponent={() => <FavoriteCommunities />}

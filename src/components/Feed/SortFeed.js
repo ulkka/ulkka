@@ -385,7 +385,6 @@ export default memo(function SortFeed(props) {
         <View>
           {top ? topSortOptionsList : sortOptionsList}
           <Button
-            raised
             type="solid"
             activeOpacity={0.5}
             titleStyle={{
@@ -396,15 +395,16 @@ export default memo(function SortFeed(props) {
             containerStyle={{
               alignItems: 'center',
               alignSelf: 'center',
-              marginTop: 5,
+              marginVertical: 5,
             }}
             buttonStyle={{
+              borderWidth: 1,
               borderRadius: 25,
               paddingHorizontal: '45%',
               paddingVertical: 8,
               alignItems: 'center',
-              borderColor: theme.colors.black2,
-              backgroundColor: theme.colors.grey2,
+              borderColor: theme.colors.grey5,
+              backgroundColor: theme.colors.grey3,
             }}
             title="Close"
             onPress={() => close()}

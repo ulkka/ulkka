@@ -127,7 +127,7 @@ const UserRow = memo(({user, communityId}) => {
               );
             }}
             style={{
-              backgroundColor: '#ff5544',
+              backgroundColor: 'red',
               padding: 5,
               borderRadius: 5,
             }}>

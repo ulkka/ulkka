@@ -15,6 +15,7 @@ import {creatorOverlay} from './CreatorOverlaySlice';
 import {search} from './SearchSlice';
 import {communityCreatorPrompt} from './CommunityCreatorPromptSlice';
 import {reviewRequest} from './ReviewRequestSlice';
+import {theme} from './ThemeSlice';
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
 const loggerMiddleware = createLogger();
@@ -34,6 +35,7 @@ const AppReducers = combineReducers({
   optionSheet,
   loadingOverlay,
   reviewRequest,
+  theme,
 });
 
 const rootReducer = (state, action) => {

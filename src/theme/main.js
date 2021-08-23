@@ -82,7 +82,6 @@ export const dark = {
     grey4: '#555',
     grey5: '#666',
     grey6: '#777',
-    notification: 'green',
     green: '#25d366',
     blue: '#2a9df4',
     transparentBlack: 'rgba(180, 180, 180, 0.2)',

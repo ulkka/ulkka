@@ -67,7 +67,7 @@ const Report = props => {
         }}
         titleStyle={{
           fontSize: 14,
-          color: '#EC5152',
+          color: 'red',
           padding: 4,
           fontWeight: '600',
         }}

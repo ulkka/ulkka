@@ -18,7 +18,7 @@ import analytics from '@react-native-firebase/analytics';
 import {push} from '../../navigation/Ref';
 
 const communityAdapter = createEntityAdapter({
-  selectId: (community) => community._id,
+  selectId: community => community._id,
 });
 
 export const createCommunity = createAsyncThunk(
@@ -417,9 +417,7 @@ export const slice = createSlice({
         .getSelectors()
         .selectById(state, communityId)?.admins;
 
-      const newAdmins = communityAdmins.filter(
-        (admin) => admin._id !== user._id,
-      );
+      const newAdmins = communityAdmins.filter(admin => admin._id !== user._id);
       communityAdapter.updateOne(state, {
         id: communityId,
         changes: {
@@ -497,10 +495,10 @@ export const slice = createSlice({
       const communityName = communityAdapter
         .getSelectors()
         .selectById(state, communityId)?.name;
-      Snackbar.show({
-        text: communityName + ' removed from Favorites',
-        duration: Snackbar.LENGTH_SHORT,
-      });
+      // Snackbar.show({
+      //   text: communityName + ' removed from Favorites',
+      //   duration: Snackbar.LENGTH_SHORT,
+      // });
       analytics().logEvent('community_unfavorite', {
         title: communityName,
       });
@@ -522,31 +520,31 @@ export const {
   selectEntities: selectCommunityEntities,
   selectAll: selectAllCommunities,
   selectTotal: selectTotalCommunites,
-} = communityAdapter.getSelectors((state) => state.communities);
+} = communityAdapter.getSelectors(state => state.communities);
 
-export const getIsCurrentUserPartOfAnyCommunity = (state) =>
-  selectAllCommunities(state).find((community) => community.role == 'member');
+export const getIsCurrentUserPartOfAnyCommunity = state =>
+  selectAllCommunities(state).find(community => community.role == 'member');
 
-export const getIsCurrentUserAdminOfAnyCommunity = (state) =>
-  selectAllCommunities(state).find((community) => community.role == 'admin');
+export const getIsCurrentUserAdminOfAnyCommunity = state =>
+  selectAllCommunities(state).find(community => community.role == 'admin');
 
-export const getUserMemberCommunities = (state) =>
+export const getUserMemberCommunities = state =>
   selectAllCommunities(state).filter(
-    (community) => community.role != 'none' && community.role !== undefined,
+    community => community.role != 'none' && community.role !== undefined,
   );
 
-export const getUserNonMemberCommunities = (state) =>
+export const getUserNonMemberCommunities = state =>
   selectAllCommunities(state).filter(
-    (community) =>
+    community =>
       (community.role == 'none' || community.role === undefined) &&
       community.memberCount,
   );
 
-export const getUserModeratorCommunities = (state) =>
-  selectAllCommunities(state).filter((community) => community.role == 'admin');
+export const getUserModeratorCommunities = state =>
+  selectAllCommunities(state).filter(community => community.role == 'admin');
 
 export const searchCommunityTitle = (state, value) =>
-  selectAllCommunities(state).filter((community) =>
+  selectAllCommunities(state).filter(community =>
     community.name.toLowerCase().includes(value),
   );
 
@@ -573,7 +571,7 @@ export const getCommunityMemberCount = (state, id) =>
   selectCommunityById(state, id)?.memberCount;
 export const getIsUserAdminOfCommunity = (state, communityId, userId) =>
   selectCommunityById(state, communityId)?.admins?.find(
-    (admin) => admin._id === userId,
+    admin => admin._id === userId,
   );
 export const getIsUserSubscribedToAdminNotifications = (state, id) =>
   selectCommunityById(state, id)?.membership?.subscribeToAdminNotification;
@@ -581,7 +579,7 @@ export const getIsUserSubscribedToAdminNotifications = (state, id) =>
 export const getIsCommunityFavorite = (state, id) =>
   selectCommunityById(state, id)?.isFavorite;
 
-export const getUserFavoriteCommunities = (state) =>
+export const getUserFavoriteCommunities = state =>
   selectAllCommunities(state).filter(
-    (community) => community.isFavorite === true,
+    community => community.isFavorite === true,
   );

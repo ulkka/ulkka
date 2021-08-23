@@ -173,7 +173,7 @@ const AccountDetail = memo(props => {
           name="user-slash"
           type="font-awesome-5"
           size={14}
-          color={'#ff2222'}
+          color={'red'}
         />
       </TouchableOpacity>
     );

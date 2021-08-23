@@ -12,6 +12,7 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
+import {push} from '../../navigation/Ref';
 import userApi from '../../services/UserApi';
 import Snackbar from 'react-native-snackbar';
 import {createCachedSelector} from 're-reselect';
@@ -105,6 +106,23 @@ export const unblockUser = createAsyncThunk(
   },
 );
 
+export const searchUsersByName = createAsyncThunk(
+  'user/searchUsersByName',
+  async (text, {rejectWithValue}) => {
+    try {
+      const response = await userApi.user.searchByName(text);
+      console.log('response', response, response.status, response.data);
+      if (response.status == 200 && response.data) {
+        const userId = response.data._id;
+        push('UserDetail', {userId: userId});
+      }
+      return {response, text};
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const slice = createSlice({
   name: 'user',
   initialState: userAdapter.getInitialState(),
@@ -165,6 +183,15 @@ export const slice = createSlice({
         text: 'Display Name Changed',
         duration: Snackbar.LENGTH_SHORT,
       });
+    },
+    [searchUsersByName.fulfilled]: (state, action) => {
+      const {response, text} = action.payload;
+      if (response.data === null && response.status == 200) {
+        Snackbar.show({
+          text: 'User not found',
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      }
     },
     [fetchUserById.rejected]: handleError,
     [blockUser.rejected]: handleError,

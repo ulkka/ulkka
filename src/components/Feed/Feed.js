@@ -1,6 +1,6 @@
 import React, {useEffect, useContext, memo} from 'react';
 import {View, FlatList, RefreshControl, Platform, Animated} from 'react-native';
-import {ThemeContext} from 'react-native-elements';
+import {ThemeContext, useTheme} from 'react-native-elements';
 import {useScrollToTop} from '@react-navigation/native';
 import PostCard from '../Post/PostCard';
 import FeedFooter from './FeedFooter';

@@ -50,7 +50,7 @@ const CommentRow = memo(props => {
     <Text
       style={{
         padding: 5,
-        color: '#ff6565',
+        color: 'red',
         textDecorationLine: 'line-through',
         ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
       }}>
@@ -89,7 +89,7 @@ const CommentRow = memo(props => {
       <Text
         style={{
           fontWeight: 'bold',
-          color: '#ff6565',
+          color: 'red',
           textDecorationLine: 'line-through',
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>

@@ -114,7 +114,7 @@ export const handleError = (state, action) => {
             duration: Snackbar.LENGTH_LONG,
             action: {
               text: 'Sign in',
-              textColor: '#25D366',
+              textColor: '#02862a',
               onPress: () => showAuthScreen(),
             },
           }),

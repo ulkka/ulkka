@@ -5,6 +5,7 @@ import {navigateToURL} from './helpers';
 import analytics from '@react-native-firebase/analytics';
 import Autolink from 'react-native-autolink';
 import {searchCommunitiesByName} from '../redux/reducers/CommunitySlice';
+import {searchUsersByName} from '../redux/reducers/UserSlice';
 import {ThemeContext} from 'react-native-elements';
 
 const AutolinkText = props => {
@@ -32,7 +33,9 @@ const AutolinkText = props => {
   }, []);
 
   const handlePress = (url, match) => {
-    if (match?.url) {
+    if (match?.mention) {
+      dispatch(searchUsersByName(match.mention));
+    } else if (match?.url) {
       navigateToURL(match.url, source);
     } else if (match?.matchedText) {
       dispatch(searchCommunitiesByName(match.matchedText));
@@ -72,7 +75,7 @@ const AutolinkText = props => {
         // Optional: enable hashtag linking to instagram
         hashtag={'twitter'}
         // Optional: enable @username linking to twitter
-        mention={false}
+        mention={'twitter'}
         // Optional: enable phone linking
         phone={false}
         // Optional: enable URL linking

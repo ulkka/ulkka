@@ -101,6 +101,13 @@ const userApi = {
       const response = client.post(USER_URI + UNBLOCKUSER_URI + '/' + userId);
       return response;
     },
+    async searchByName(text) {
+      const client = await mainClient;
+      const response = await client.get(
+        `${USER_URI}/byName?name=${encodeURIComponent(text)}`,
+      );
+      return response;
+    },
   },
   post: {
     async fetchUserPosts(userId, page, limit) {

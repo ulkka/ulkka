@@ -9,6 +9,7 @@ import {
   leaveCommunity,
 } from '../../redux/reducers/CommunitySlice';
 import {navigate} from '../../navigation/Ref';
+import CommunityNotifications from './CommunityNotifications';
 
 const CommunityOptions = props => {
   const {theme} = useContext(ThemeContext);
@@ -47,21 +48,25 @@ const CommunityOptions = props => {
       return <View></View>;
     case 'member':
       return (
-        <Button
-          title="Joined"
-          containerStyle={{
-            borderWidth: 1,
-            borderColor: '#ff000055',
-            marginHorizontal: 10,
-          }}
-          buttonStyle={{
-            borderRadius: 15,
-            paddingHorizontal: 15,
-            paddingVertical: 5,
-          }}
-          titleStyle={{color: 'red', fontSize: 11}}
-          onPress={() => leaveCommunityAlert()}
-        />
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <CommunityNotifications communityId={communityId} />
+          <Button
+            title="Joined"
+            containerStyle={{
+              height: 30,
+              borderWidth: 1,
+              borderColor: 'red',
+              marginHorizontal: 10,
+            }}
+            buttonStyle={{
+              borderRadius: 15,
+              paddingHorizontal: 15,
+              paddingVertical: 5,
+            }}
+            titleStyle={{color: 'red', fontSize: 11}}
+            onPress={() => leaveCommunityAlert()}
+          />
+        </View>
       );
     case 'admin':
       return (
