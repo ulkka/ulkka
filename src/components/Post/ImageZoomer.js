@@ -92,11 +92,6 @@ const ImageZoomer = ({route}) => {
         flex: 1,
         backgroundColor: '#121212',
       }}>
-      <StatusBar
-        animated={true}
-        backgroundColor={theme.colors.black2}
-        showHideTransition="fade"
-      />
       <ImageZoom
         cropWidth={Dimensions.get('window').width}
         cropHeight={Dimensions.get('window').height - 125}

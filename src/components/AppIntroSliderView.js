@@ -212,7 +212,6 @@ export default function AppIntroSliderView(props) {
   };
   return (
     <View style={{flex: 1}}>
-      <StatusBar backgroundColor={theme.colors.grey1} />
       <AppIntroSlider
         keyExtractor={item => item.key.toString()}
         renderItem={renderItem}

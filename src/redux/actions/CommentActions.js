@@ -83,8 +83,8 @@ export const voteComment = createAsyncThunk(
   },
   {
     condition: ({id, voteType}, {getState}) => {
-      const authStatus = getState().authorization.status;
-      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      const isRegistered = getState().authorization.isRegistered;
+      const access = isRegistered ? true : false;
       return access;
     },
     dispatchConditionRejection: true,
