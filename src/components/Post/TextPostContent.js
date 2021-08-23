@@ -23,7 +23,7 @@ const TextPostContent = props => {
         enableShowMore={true}
         source={'post_description'}
         textStyle={{
-          fontSize: 14,
+          fontSize: 13,
           lineHeight: 22,
           paddingRight: 5,
           color: theme.colors.black5,

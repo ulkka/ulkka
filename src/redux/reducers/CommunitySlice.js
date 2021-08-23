@@ -269,6 +269,48 @@ export const unfavoriteCommunity = createAsyncThunk(
   },
 );
 
+export const enablePostNotification = createAsyncThunk(
+  'community/enablePostNotification',
+  async (communityId, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.enablePostNotification(
+        communityId,
+      );
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (payload, {getState}) => {
+      const authAccess = getState().authorization.isRegistered;
+      return !!authAccess;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
+export const disablePostNotification = createAsyncThunk(
+  'community/disablePostNotification',
+  async (communityId, {rejectWithValue}) => {
+    try {
+      const response = await communityApi.community.disablePostNotification(
+        communityId,
+      );
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (payload, {getState}) => {
+      const authAccess = getState().authorization.isRegistered;
+      return !!authAccess;
+    },
+    dispatchConditionRejection: true,
+  },
+);
+
 export const slice = createSlice({
   name: 'community',
   initialState: communityAdapter.getInitialState(),
@@ -503,6 +545,40 @@ export const slice = createSlice({
         title: communityName,
       });
     },
+    [enablePostNotification.fulfilled]: (state, action) => {
+      const communityId = action.meta.arg;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {disablePostNotification: false},
+      });
+      const communityName = communityAdapter
+        .getSelectors()
+        .selectById(state, communityId)?.name;
+      Snackbar.show({
+        text: 'Notification enabled for ' + communityName,
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('community_enablePostNotification', {
+        title: communityName,
+      });
+    },
+    [disablePostNotification.fulfilled]: (state, action) => {
+      const communityId = action.meta.arg;
+      communityAdapter.updateOne(state, {
+        id: communityId,
+        changes: {disablePostNotification: true},
+      });
+      const communityName = communityAdapter
+        .getSelectors()
+        .selectById(state, communityId)?.name;
+      Snackbar.show({
+        text: 'Notification disabled for ' + communityName,
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('community_disablePostNotification', {
+        title: communityName,
+      });
+    },
     [favoriteCommunity.rejected]: handleError,
     [unfavoriteCommunity.rejected]: handleError,
     [createCommunity.rejected]: handleError,
@@ -578,6 +654,9 @@ export const getIsUserSubscribedToAdminNotifications = (state, id) =>
 
 export const getIsCommunityFavorite = (state, id) =>
   selectCommunityById(state, id)?.isFavorite;
+
+export const getDisablePostNotification = (state, id) =>
+  selectCommunityById(state, id)?.disablePostNotification;
 
 export const getUserFavoriteCommunities = state =>
   selectAllCommunities(state).filter(

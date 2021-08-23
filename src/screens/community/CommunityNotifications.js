@@ -4,9 +4,10 @@ import {Icon, useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getIsCommunityFavorite,
-  favoriteCommunity,
-  unfavoriteCommunity,
+  enablePostNotification,
+  disablePostNotification,
   getUserRoleInCommunity,
+  getDisablePostNotification,
 } from '../../redux/reducers/CommunitySlice';
 
 export default function FavoriteCommunity(props) {
@@ -15,24 +16,26 @@ export default function FavoriteCommunity(props) {
   const dispatch = useDispatch();
   const {communityId} = props;
   const isNotificationDisabled = useSelector(state =>
-    getIsCommunityFavorite(state, communityId),
+    getDisablePostNotification(state, communityId),
   );
   const role = useSelector(state => getUserRoleInCommunity(state, communityId));
 
+  const togglePostNotification = () => {
+    if (!!isNotificationDisabled) {
+      dispatch(enablePostNotification(communityId));
+    } else {
+      dispatch(disablePostNotification(communityId));
+    }
+  };
+
   const favoriteButton = (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={togglePostNotification}>
       <Icon
         raised
-        name={isNotificationDisabled ? 'bell-slash-o' : 'bell'}
+        name={isNotificationDisabled ? 'bell-slash' : 'bell-slash-o'}
         type="font-awesome"
-        containerStyle={{
-          borderWidth: 1,
-          borderColor: isNotificationDisabled
-            ? theme.colors.black6
-            : theme.colors.blue,
-        }}
-        color={isNotificationDisabled ? theme.colors.black6 : theme.colors.blue}
-        size={Platform.OS == 'ios' ? 14 : 17}
+        color={isNotificationDisabled ? theme.colors.blue : theme.colors.black6}
+        size={15}
       />
     </TouchableOpacity>
   );

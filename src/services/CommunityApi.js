@@ -162,6 +162,20 @@ const communityApi = {
       );
       return response;
     },
+    async enablePostNotification(communityId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/enablePostNotification`,
+      );
+      return response;
+    },
+    async disablePostNotification(communityId) {
+      const client = await mainClient;
+      const response = await client.post(
+        `${COMMUNITY_URI}/${communityId}/disablePostNotification`,
+      );
+      return response;
+    },
   },
 };
 

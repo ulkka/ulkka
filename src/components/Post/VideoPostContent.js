@@ -151,12 +151,7 @@ const VideoPostContent = props => {
       onPress={togglePlay}>
       {paused &&
         Platform.OS != 'ios' && ( // dot show play button when on ios
-          <Icon
-            name="play"
-            type="font-awesome-5"
-            size={40}
-            color={theme.colors.primary}
-          />
+          <Icon name="play" type="font-awesome-5" size={40} color={'#fbfbfb'} />
         )}
     </TouchableOpacity>
   );

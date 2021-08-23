@@ -5,5 +5,5 @@
     <color name="splash_status_bar_color">#ffffff</color>
     <color name="background">#ffffff</color>
     <color name="navigationBarColor">#fff</color>
-    <color name="splashNavigationBarColor">#121212</color>
+    <color name="splashNavigationBarColor">#fff</color>
 </resources>

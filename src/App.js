@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Appearance, StatusBar} from 'react-native';
+import {View, Appearance, StatusBar, Platform} from 'react-native';
 import Main from './navigation/Main';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider as StoreProvider, useSelector, useDispatch} from 'react-redux';
@@ -20,6 +20,7 @@ import AppIntroSlider from './components/AppIntroSliderView';
 import {getData} from './localStorage/helpers';
 import {getRegistrationStatus} from './redux/reducers/AuthSlice';
 import {getTheme, loadTheme} from './redux/reducers/ThemeSlice';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 const RealApp = () => {
   const dispatch = useDispatch();
@@ -32,11 +33,22 @@ const RealApp = () => {
   useEffect(() => {
     dispatch(loadTheme());
   }, []);
-
   const appTheme = useSelector(getTheme);
   const theme = appTheme == 'auto' ? colorScheme : appTheme;
   const themeObject = theme === 'dark' ? dark : light;
   const isDark = theme === 'dark';
+
+  useEffect(() => {
+    if (Platform.OS == 'android') changeNavBarColor();
+  }, [appTheme]);
+
+  const changeNavBarColor = async () => {
+    try {
+      await changeNavigationBarColor(isDark ? '#111111' : '#ffffff', !isDark);
+    } catch (error) {
+      console.error('error changing navbar color', error);
+    }
+  };
 
   return (
     <ThemeProvider theme={themeObject} useDark={isDark}>

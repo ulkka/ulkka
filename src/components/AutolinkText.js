@@ -65,7 +65,10 @@ const AutolinkText = props => {
             numberOfLines: textHidden ? 10 : undefined,
           },
         }}
-        linkStyle={{color: theme.colors.blue}}
+        linkStyle={{
+          ...(textStyle ? textStyle : defaultTextStyle),
+          ...{color: theme.colors.blue},
+        }}
         // Required: the text to parse for links
         text={
           enableShowMore ? (textHidden ? text?.substring(0, 499) : text) : text

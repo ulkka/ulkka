@@ -114,7 +114,7 @@ export default function AppIntroSliderView(props) {
                       style={{
                         paddingLeft: 15,
                         lineHeight: 20,
-                        color: theme.colors.black5,
+                        color: theme.colors.black3,
                       }}>
                       {point}
                     </Text>
