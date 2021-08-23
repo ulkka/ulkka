@@ -59,7 +59,10 @@ export default function SearchableDropdown(props) {
     } else if (allowOnlyModeratorCommunities) {
       const filteredMemberCommunities = userModeratorCommunites.filter(
         community =>
-          community.name.toLowerCase().startsWith(value.toLowerCase()),
+          community.name
+            .replace('#', '')
+            .toLowerCase()
+            .startsWith(value.toLowerCase()),
       );
       setItems(filteredMemberCommunities);
     }

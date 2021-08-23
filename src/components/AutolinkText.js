@@ -11,7 +11,7 @@ import {useTheme} from 'react-native-elements';
 const AutolinkText = props => {
   const dispatch = useDispatch();
   const {theme} = useTheme();
-  const {enableShowMore, text, source, textStyle} = props;
+  const {enableShowMore, text, source, textStyle, disableMention} = props;
 
   const defaultTextStyle = {
     color: theme.colors.black3,
@@ -75,7 +75,7 @@ const AutolinkText = props => {
         // Optional: enable hashtag linking to instagram
         hashtag={'twitter'}
         // Optional: enable @username linking to twitter
-        mention={'twitter'}
+        mention={disableMention ? false : 'twitter'}
         // Optional: enable phone linking
         phone={false}
         // Optional: enable URL linking

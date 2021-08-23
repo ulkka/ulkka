@@ -61,6 +61,7 @@ const UserBioField = props => {
   const bioField = (
     <AutolinkText
       text={bio}
+      disableMention={true}
       enableShowMore={true}
       source={'bio'}
       textStyle={{

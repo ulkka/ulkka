@@ -170,6 +170,7 @@ const CommunityDetail = memo(props => {
     communityDescription || communityDescription === '' ? (
       <View style={{paddingTop: 10, paddingLeft: 5}}>
         <AutolinkText
+          disableMention={true}
           text={communityDescription}
           enableShowMore={true}
           source={'community_description'}

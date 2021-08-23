@@ -7,7 +7,7 @@ import {
   unblockUser,
 } from '../../redux/reducers/UserSlice';
 import {getBlockedUsers} from '../../redux/reducers/AuthSlice';
-import {Button, Divider, useTheme} from 'react-native-elements';
+import {Button, useTheme} from 'react-native-elements';
 import UserAvatar from '../../components/UserAvatar';
 
 const UserRow = ({userId}) => {
@@ -65,10 +65,6 @@ export default function BlockedUsers() {
 
   const blockedUsers = useSelector(getBlockedUsers);
 
-  const separator = () => {
-    return <Divider color={theme.colors.grey2} />;
-  };
-
   const handlerRenderItem = ({item}) => {
     return <UserRow userId={item} />;
   };
@@ -89,7 +85,7 @@ export default function BlockedUsers() {
           windowSize={15}
           initialNumToRender={10}
           maxToRenderPerBatch={10}
-          ItemSeparatorComponent={separator}
+          //  ItemSeparatorComponent={separator}
         />
       ) : (
         <Text
