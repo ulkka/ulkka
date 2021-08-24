@@ -4,7 +4,7 @@ import {
   View,
   RefreshControl,
   Text,
-  Image,
+  ActivityIndicator,
   Platform,
 } from 'react-native';
 import CommentList from '../components/Comment/CommentList';
@@ -78,10 +78,7 @@ const PostDetail = ({route}) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Image
-        source={require('../../assets/loading.gif')}
-        style={{height: 40, width: 40}}
-      />
+      <ActivityIndicator size="large" color={theme.colors.blue} />
       <Text
         style={{
           padding: 50,

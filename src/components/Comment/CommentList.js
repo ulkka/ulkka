@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Image, Text, Platform} from 'react-native';
+import {View, ActivityIndicator, Text, Platform} from 'react-native';
 import {useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -49,10 +49,7 @@ function CommentList(props) {
         paddingTop: 25,
         paddingBottom: 100,
       }}>
-      <Image
-        source={require('../../../assets/loading.gif')}
-        style={{height: 40, width: 40}}
-      />
+      <ActivityIndicator size="large" color={theme.colors.blue} />
     </View>
   );
 

@@ -126,21 +126,13 @@ const NotificationHandler = () => {
   }, []);
 
   useEffect(() => {
-    const subscriber = AppState.addEventListener(
-      'change',
-      fetchUnreadNotificationCountHandler,
-    );
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  useEffect(() => {
-    if (isRegistered) {
-      fetchUnreadNotificationCountHandler('active');
+    if (!!isRegistered) {
+      fetchUnreadNotificationCountHandler();
     }
   }, [isRegistered]);
 
-  const fetchUnreadNotificationCountHandler = async appState => {
-    if (appState == 'active' && isRegistered) {
+  const fetchUnreadNotificationCountHandler = async () => {
+    if (isRegistered) {
       dispatch(fetchUnreadNotificationCount());
     }
   };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, Platform} from 'react-native';
 import {useTheme, ButtonGroup, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
@@ -8,13 +8,10 @@ export default function ThemeSelector(props) {
   const dispatch = useDispatch();
   const {theme} = useTheme();
   const buttons = ['auto', 'light', 'dark'];
+
   const currentTheme = useSelector(getTheme);
-  const [selectedIndex, setSelectedIndex] = useState(
-    buttons.indexOf(currentTheme),
-  );
 
   const changeTheme = index => {
-    // setSelectedIndex(index);
     dispatch(setTheme(buttons[index]));
   };
   return (
@@ -54,9 +51,13 @@ export default function ThemeSelector(props) {
           borderColor: theme.colors.grey4,
           borderRadius: 10,
         }}
-        selectedButtonStyle={{backgroundColor: theme.colors.blue}}
-        buttonContainerStyle={{backgroundColor: theme.colors.grey2}}
-        innerBorderStyle={{color: theme.colors.grey4}}
+        selectedButtonStyle={{
+          backgroundColor: theme.colors.blue,
+        }}
+        buttonContainerStyle={{
+          backgroundColor: theme.colors.grey2,
+        }}
+        innerBorderStyle={{color: theme.colors.grey4, width: 2}}
         textStyle={{
           fontSize: 11,
           color: theme.colors.black5,

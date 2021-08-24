@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Icon, useTheme} from 'react-native-elements';
@@ -221,10 +222,7 @@ export default function Notifications(props) {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Image
-            source={require('../../assets/loading.gif')}
-            style={{height: 40, width: 40}}
-          />
+          <ActivityIndicator size="large" color={theme.colors.blue} />
           <Text
             style={{
               padding: 50,

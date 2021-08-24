@@ -88,7 +88,6 @@ export const leaveCommunity = createAsyncThunk(
   async (communityId, {rejectWithValue, dispatch}) => {
     try {
       const response = await communityApi.community.leave(communityId);
-      await dispatch(unfavoriteCommunity(communityId));
       return communityId;
     } catch (error) {
       return rejectWithValue(error);
@@ -404,7 +403,11 @@ export const slice = createSlice({
       const communityId = action.payload;
       communityAdapter.updateOne(state, {
         id: communityId,
-        changes: {role: 'none'},
+        changes: {
+          role: 'none',
+          isFavorite: false,
+          disablePostNotification: false,
+        },
       });
       analytics().logEvent('community_leave', {
         item_id: communityId,
@@ -537,10 +540,10 @@ export const slice = createSlice({
       const communityName = communityAdapter
         .getSelectors()
         .selectById(state, communityId)?.name;
-      // Snackbar.show({
-      //   text: communityName + ' removed from Favorites',
-      //   duration: Snackbar.LENGTH_SHORT,
-      // });
+      Snackbar.show({
+        text: communityName + ' removed from Favorites',
+        duration: Snackbar.LENGTH_SHORT,
+      });
       analytics().logEvent('community_unfavorite', {
         title: communityName,
       });
@@ -555,7 +558,7 @@ export const slice = createSlice({
         .getSelectors()
         .selectById(state, communityId)?.name;
       Snackbar.show({
-        text: 'Notification enabled for ' + communityName,
+        text: 'Turned on notifications for ' + communityName,
         duration: Snackbar.LENGTH_SHORT,
       });
       analytics().logEvent('community_enablePostNotification', {
@@ -572,7 +575,7 @@ export const slice = createSlice({
         .getSelectors()
         .selectById(state, communityId)?.name;
       Snackbar.show({
-        text: 'Notification disabled for ' + communityName,
+        text: 'Turned off notifications for ' + communityName,
         duration: Snackbar.LENGTH_SHORT,
       });
       analytics().logEvent('community_disablePostNotification', {

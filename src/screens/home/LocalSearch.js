@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   Platform,
-  Image,
+  ActivityIndicator,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {Icon, useTheme} from 'react-native-elements';
@@ -140,10 +140,7 @@ export default function LocalSearch(props) {
 
   const listHeader = (
     <View style={{padding: 10, alignItems: 'center', justifyContent: 'center'}}>
-      <Image
-        source={require('../../../assets/loading.gif')}
-        style={{height: 40, width: 40}}
-      />
+      <ActivityIndicator size="large" color={theme.colors.blue} />
     </View>
   );
 

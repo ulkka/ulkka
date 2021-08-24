@@ -1,5 +1,5 @@
 import React, {useEffect, useState, memo} from 'react';
-import {View, Text, Platform, Image} from 'react-native';
+import {View, Text, Platform, ActivityIndicator} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import {Button, useTheme} from 'react-native-elements';
@@ -117,10 +117,7 @@ export default memo(function TopCommunities(props) {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Image
-          source={require('../../assets/loading.gif')}
-          style={{height: 40, width: 40}}
-        />
+        <ActivityIndicator size="large" color={theme.colors.blue} />
       </View>
     ) : (
       <View />

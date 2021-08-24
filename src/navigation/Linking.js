@@ -53,6 +53,6 @@ export const linking = {
       .getInitialLink()
       .then(link => link && onReceiveURL(link));
 
-    return () => unsubscribe();
+    return unsubscribe;
   },
 };

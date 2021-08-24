@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import {useTheme} from 'react-native-elements';
 
 function FeedFooterComponent(props) {
@@ -27,10 +27,7 @@ function FeedFooterComponent(props) {
       <View style={styles.loadingView}>
         {
           // Activity indicator was causing scroll to flicker, check that if you put it back
-          <Image
-            source={require('../../../assets/loading.gif')}
-            style={{height: 40, width: 40}}
-          />
+          <ActivityIndicator size="large" color={theme.colors.blue} />
         }
       </View>
     ) : (

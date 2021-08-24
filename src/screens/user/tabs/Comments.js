@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Platform,
-  Image,
+  ActivityIndicator,
   Animated,
 } from 'react-native';
 import {Divider, Icon, useTheme} from 'react-native-elements';
@@ -231,10 +231,7 @@ const Comments = props => {
             backgroundColor: theme.colors.primary,
             alignSelf: 'center',
           }}>
-          <Image
-            source={require('../../../../assets/loading.gif')}
-            style={{height: 40, width: 40, paddingTop: 20}}
-          />
+          <ActivityIndicator size="large" color={theme.colors.blue} />
         </View>
       )}
     </View>

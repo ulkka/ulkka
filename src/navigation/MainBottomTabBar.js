@@ -21,12 +21,18 @@ function MainBottomTabBar({state, descriptors, navigation}) {
   let communityId = '';
 
   useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
-    Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
+    const keyboardShowSubscriber = Keyboard.addListener(
+      'keyboardDidShow',
+      _keyboardDidShow,
+    );
+    const keyboardHideSubscriber = Keyboard.addListener(
+      'keyboardDidHide',
+      _keyboardDidHide,
+    );
 
     return () => {
-      Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
-      Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+      keyboardShowSubscriber();
+      keyboardHideSubscriber();
     };
   }, []);
 

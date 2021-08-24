@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import {CheckBox, Divider, Button, Icon, useTheme} from 'react-native-elements';
 import {hideOptionSheet} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch} from 'react-redux';
@@ -143,10 +143,7 @@ const Report = props => {
         justifyContent: 'center',
         minHeight: 300,
       }}>
-      <Image
-        source={require('../../assets/loading.gif')}
-        style={{height: 40, width: 40}}
-      />
+      <ActivityIndicator size="large" color={theme.colors.blue} />
     </View>
   ) : (
     <View

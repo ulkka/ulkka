@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, Modal} from 'react-native';
+import {View, ActivityIndicator, Modal} from 'react-native';
 import {useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {isVisible} from '../redux/reducers/LoadingOverlaySlice';
@@ -18,10 +18,7 @@ export default function LoadingOverlay() {
         backgroundColor: theme.colors.primary,
         opacity: 0.8,
       }}>
-      <Image
-        source={require('../../assets/loading.gif')}
-        style={{height: 40, width: 40}}
-      />
+      <ActivityIndicator size="large" color={theme.colors.blue} />
     </View>
   );
   return (

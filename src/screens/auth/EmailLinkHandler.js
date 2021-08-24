@@ -24,7 +24,7 @@ const useEmailLinkEffect = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const handleDynamicLink = async (link) => {
+    const handleDynamicLink = async link => {
       // Check and handle if the link is a email login link
       if (auth().isSignInWithEmailLink(link.url)) {
         setLoading(true);
@@ -45,10 +45,10 @@ const useEmailLinkEffect = () => {
         method won't fire, we can handle the app being launched by a magic link like this */
     dynamicLinks()
       .getInitialLink()
-      .then((link) => link && handleDynamicLink(link));
+      .then(link => link && handleDynamicLink(link));
 
     // When the component is unmounted, remove the listener
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
 
   return {error, loading};

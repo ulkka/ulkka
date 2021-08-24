@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Platform, Text, Image, Keyboard} from 'react-native';
+import {View, Platform, Text, ActivityIndicator, Keyboard} from 'react-native';
 import {Button, useTheme} from 'react-native-elements';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import {CommunityField} from '../../components/PostCreator/CommunityField';
@@ -444,10 +444,7 @@ export default function CreatePost({route}) {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Image
-        source={require('../../../assets/loading.gif')}
-        style={{height: 40, width: 40}}
-      />
+      <ActivityIndicator size="large" color={theme.colors.blue} />
       <Text
         style={{
           padding: 50,

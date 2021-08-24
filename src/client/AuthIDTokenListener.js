@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
-import {View, AppState} from 'react-native';
+import {View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import mainClient from './mainClient';
-import analytics from '@react-native-firebase/analytics';
 import {useDispatch} from 'react-redux';
 import {updateIDToken} from '../redux/reducers/AuthSlice';
 
@@ -12,20 +11,6 @@ const AuthIDTokenListener = () => {
     const subscriber = auth().onIdTokenChanged(handleIdTokenChange);
     return subscriber; // unsubscribe on unmount
   }, []);
-
-  useEffect(() => {
-    const subscriber = AppState.addEventListener(
-      'change',
-      handleAppStateChange,
-    );
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  function handleAppStateChange(appState) {
-    if (appState == 'active') {
-      analytics().logAppOpen();
-    }
-  }
 
   async function handleIdTokenChange(user) {
     // token refreshed in mainClient.js refreshauthlogic

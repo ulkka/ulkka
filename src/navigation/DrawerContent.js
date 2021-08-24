@@ -287,6 +287,8 @@ const ListView = ({navigation}) => {
           // icon={<Icon name="plus" size={17} color={theme.colors.primary} type="font-awesome" />}
           onPress={() => showAuthScreen()}
         />
+        <View style={{height: 40}}></View>
+        <ThemeSelector />
       </TouchableOpacity>
     </View>
   );

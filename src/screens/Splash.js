@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 import {useTheme} from 'react-native-elements';
 export default function Splash() {
   const {theme} = useTheme();
@@ -12,10 +12,7 @@ export default function Splash() {
         justifyContent: 'center',
         backgroundColor: theme.colors.primary,
       }}>
-      <Image
-        source={require('../../assets/loading.gif')}
-        style={{height: 40, width: 40}}
-      />
+      <ActivityIndicator size="large" color={theme.colors.blue} />
     </View>
   );
 }
