@@ -31,6 +31,7 @@ export default function BottomTabNavigation() {
         name="Home"
         component={FeedNavigation}
         options={({route}) => ({
+          headerShown: false,
           tabBarVisible: getTabBarVisibility(route),
           requireAuth: false,
           tabBarIcon: ({color, size}) => (
@@ -55,6 +56,7 @@ export default function BottomTabNavigation() {
         name="Search"
         component={SearchNavigation}
         options={({route}) => ({
+          headerShown: false,
           tabBarVisible: getTabBarVisibility(route),
           requireAuth: false,
           unmountOnBlur: true,
@@ -89,6 +91,7 @@ export default function BottomTabNavigation() {
         name="Notifications"
         component={NotificationNavigation}
         options={{
+          headerShown: false,
           requireAuth: true,
           tabBarBadge: unReadNotificationCount,
           tabBarIcon: ({color, size}) => (
@@ -99,6 +102,7 @@ export default function BottomTabNavigation() {
           ),
         }}
         options={({route}) => ({
+          headerShown: false,
           tabBarVisible: getTabBarVisibility(route),
           unmountOnBlur: true,
           requireAuth: true,

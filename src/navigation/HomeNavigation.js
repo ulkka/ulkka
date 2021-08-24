@@ -44,6 +44,7 @@ function HomeNavigation() {
         screenOptions={() => ({
           headerBackTitle: 'Back',
           headerShown: false,
+
           headerTitleAlign: 'center',
           ...(Platform.OS == 'android' && {
             headerTitleStyle: {fontSize: 15},

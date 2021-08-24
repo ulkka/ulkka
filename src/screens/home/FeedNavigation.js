@@ -25,7 +25,8 @@ function DrawerNavigation() {
       drawerStyle={{backgroundColor: theme.colors.grey1}}
       initialRouteName="Home"
       drawerContent={DrawerContent}
-      drawerType="slide">
+      drawerType="slide"
+      screenOptions={{headerShown: false}}>
       <Drawer.Screen name="Home" component={HomeCollapsibleTabView} />
     </Drawer.Navigator>
   );
