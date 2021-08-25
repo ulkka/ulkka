@@ -62,7 +62,7 @@ const EmptyHomeFeedView = props => {
         flex: 1,
       }}>
       <ImageBackground
-        blurRadius={0.5}
+        blurRadius={1}
         resizeMode="repeat"
         style={{
           width: '100%',

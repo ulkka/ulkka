@@ -18,6 +18,7 @@ export default function FavoriteCommunity(props) {
   const isNotificationDisabled = useSelector(state =>
     getDisablePostNotification(state, communityId),
   );
+
   const role = useSelector(state => getUserRoleInCommunity(state, communityId));
 
   const togglePostNotification = () => {

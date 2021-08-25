@@ -56,8 +56,15 @@ export default function ThemeSelector(props) {
         }}
         buttonContainerStyle={{
           backgroundColor: theme.colors.grey2,
+          borderColor: theme.colors.grey4,
+          borderLeftWidth: 1,
+          borderRightWidth: 1,
         }}
-        innerBorderStyle={{color: theme.colors.grey4, width: 2}}
+        innerBorderStyle={{
+          color: theme.colors.grey4,
+          width: 1,
+          backgroundColor: theme.colors.grey4,
+        }}
         textStyle={{
           fontSize: 11,
           color: theme.colors.black5,

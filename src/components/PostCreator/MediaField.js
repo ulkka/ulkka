@@ -14,20 +14,34 @@ import Snackbar from 'react-native-snackbar';
 import analytics from '@react-native-firebase/analytics';
 
 const validateMedia = (media, postType) => {
-  const {mime: mimeType, size} = media;
+  const {mime: mimeType, size, filename} = media;
   const type = mimeType.split('/')[0];
   const format = mimeType.split('/')[1];
-  if (postType == 'gif' && format != 'gif') {
-    Snackbar.show({
-      text:
-        'Selected file is not a GIF. Please select a GIF file smaller than 10MB',
-      duration: Snackbar.LENGTH_LONG,
-    });
-    analytics().logEvent('media_invalid', {
-      type: type,
-      reason: 'format_not_gif',
-    });
-    return false;
+  const isFilenameGIF = filename.toLowerCase().endsWith('.gif');
+  if (postType == 'gif') {
+    if (isFilenameGIF) return true;
+    if (size > 10000000) {
+      Snackbar.show({
+        text: 'Please select an GIF with size lesser than 10MB',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      analytics().logEvent('media_invalid', {
+        type: type,
+        reason: 'size_greaterthan_10MB',
+      });
+      return false;
+    }
+    if (format.toLowerCase() != 'gif') {
+      Snackbar.show({
+        text: 'Selected file is not a GIF.',
+        duration: Snackbar.LENGTH_LONG,
+      });
+      analytics().logEvent('media_invalid', {
+        type: type,
+        reason: 'format_not_gif',
+      });
+      return false;
+    } else return true;
   }
   if (type == 'image') {
     if (size > 10000000) {

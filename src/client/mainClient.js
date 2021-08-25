@@ -25,7 +25,7 @@ const mainClient = axios.create({
   baseURL: axiosConfig.baseUrl,
   headers: {
     Accept: 'application/json',
-    version: 5,
+    version: 6,
   },
 });
 
@@ -97,7 +97,7 @@ mainClient.interceptors.response.use(
 // RNFirebase Perf interceptors end
 
 // Intercept all requests
-
+/*
 mainClient.interceptors.request.use(
   async config => {
     const idTokenResult = await auth().currentUser.getIdTokenResult();
@@ -111,30 +111,31 @@ mainClient.interceptors.request.use(
   },
   error => Promise.reject(error),
 );
-/*
+
 mainClient.interceptors.request.use(
-  (config) => {
+  config => {
     console.log('Request config : ', config);
     return config;
   },
-  (error) => Promise.reject(error),
-);*/
-/*
+  error => Promise.reject(error),
+);
+
 // Intercept all responses
 mainClient.interceptors.response.use(
-  async (response) => {
-    //console.log(response.data);
-    // console.log(response.status);
-    // console.log(response.statusText);
-    //console.log(response.headers);
-    // console.log(response.config);
+  async response => {
+    console.log(response.data);
+    console.log(response.status);
+    console.log(response.statusText);
+    console.log(response.headers);
+    console.log(response.config);
     return response;
   },
-  (error) => {
+  error => {
     console.log(error.response.status);
     console.log(error.response.config);
     console.log(error.response);
     console.log(error);
     return Promise.reject(error);
   },
-);*/
+);
+*/

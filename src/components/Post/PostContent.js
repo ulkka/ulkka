@@ -47,7 +47,7 @@ function PostContent(props) {
           width: '100%',
           paddingHorizontal: ContentType == 'media' ? 0 : 4,
           backgroundColor:
-            ContentType == 'media' ? theme.colors.black1 : theme.colors.primary,
+            ContentType == 'media' ? '#111' : theme.colors.primary,
           alignSelf: 'center',
         }}>
         <TouchableOpacity

@@ -182,10 +182,20 @@ const addRegisteredUsersCommunities = (state, action) => {
   const {isRegistered, registeredUserCommunities} = action.payload;
   if (isRegistered) {
     registeredUserCommunities.map((community, index) => {
-      const {isAdmin, isFavorite, communityDetail} = community;
+      const {
+        isAdmin,
+        isFavorite,
+        disablePostNotification,
+        communityDetail,
+      } = community;
       const role = isAdmin ? 'admin' : 'member';
 
-      communityAdapter.addOne(state, {...communityDetail, role, isFavorite});
+      communityAdapter.addOne(state, {
+        ...communityDetail,
+        role,
+        isFavorite,
+        disablePostNotification,
+      });
     });
   }
 };

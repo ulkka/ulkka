@@ -268,7 +268,7 @@ export default memo(function Sort(props) {
           width: '97%',
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
-          backgroundColor: theme.colors.grey2,
+          backgroundColor: theme.colors.grey1,
         }}
         backdropStyle={{
           backgroundColor: theme.colors.black0,

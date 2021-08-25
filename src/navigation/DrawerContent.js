@@ -205,7 +205,7 @@ const ListView = ({navigation}) => {
 
   const isRegistered = useSelector(getRegistrationStatus);
   return isRegistered ? (
-    <View style={{backgroundColor: theme.colors.grey1}}>
+    <View style={{backgroundColor: theme.colors.primary}}>
       <UserSection />
       <NavSection navigation={navigation} />
       <ThemeSelector />
@@ -241,7 +241,7 @@ const ListView = ({navigation}) => {
     <View
       style={{
         paddingBottom: 5,
-        backgroundColor: theme.colors.grey1,
+        backgroundColor: theme.colors.primary,
       }}>
       <TouchableOpacity
         style={{

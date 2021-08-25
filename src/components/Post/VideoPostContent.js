@@ -160,7 +160,7 @@ const VideoPostContent = props => {
     <View
       style={{
         alignSelf: 'center',
-        backgroundColor: theme.colors.black0,
+        backgroundColor: '#111',
         height: height,
         width: width,
       }}>
