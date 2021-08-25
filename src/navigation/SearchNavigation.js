@@ -34,7 +34,7 @@ function SearchNavigation() {
         <StackNav.Screen
           name="Search"
           component={SearchScreen}
-          title="Search1"
+          title="Search"
         />
         <StackNav.Screen
           name="CommunityNavigation"
