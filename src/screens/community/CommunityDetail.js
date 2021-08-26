@@ -125,7 +125,7 @@ const CommunityDetail = memo(props => {
   const communityTitleField = (
     <Text
       style={{
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
         color: theme.colors.black4,
         paddingLeft: 10,

@@ -43,7 +43,7 @@ const ImageZoomer = ({route}) => {
             reverse
             name="close"
             type="font-awesome"
-            color={theme.colors.black2}
+            color={'#222'}
             size={20}
             style={{opacity: 0.8}}
           />
@@ -58,7 +58,7 @@ const ImageZoomer = ({route}) => {
             }}
             style={{
               flexDirection: 'row',
-              backgroundColor: theme.colors.black2,
+              backgroundColor: '#222',
               justifyContent: 'center',
               alignItems: 'center',
               padding: 10,

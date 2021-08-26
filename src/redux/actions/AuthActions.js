@@ -4,7 +4,7 @@ import {appleAuth} from '@invertase/react-native-apple-authentication';
 import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
 import userApi from '../../services/UserApi';
-import {Alert} from 'react-native';
+import {Alert, Platform} from 'react-native';
 import {openInbox} from 'react-native-email-link';
 import PushNotification from 'react-native-push-notification';
 import analytics from '@react-native-firebase/analytics';
@@ -173,16 +173,23 @@ export const sendEmailSignInLink = createAsyncThunk(
         .sendSignInLinkToEmail(email, actionCodeSettings)
         .then(async () => {
           await analytics().logEvent('emaillink_send');
-          await openInbox({
-            title: `Login link sent to ${email}`,
-            message:
-              'Please check your email and click on the link to login/register',
-          }).catch(error => {
+          if (Platform.OS == 'ios') {
+            await openInbox({
+              title: `Login link sent to ${email}`,
+              message:
+                'Please check your email and click on the link to login/register',
+            }).catch(error => {
+              Alert.alert(
+                `Login link sent to ${email}.`,
+                'Please check your email and click on the link to login/register',
+              );
+            });
+          } else {
             Alert.alert(
               `Login link sent to ${email}.`,
-              'Please check your email and click on the link to login/register',
+              'Please check your email and click on the link to login/register. Email delivery may take upto 2 minutes',
             );
-          });
+          }
         });
     } catch (error) {
       console.warn(error?.message);

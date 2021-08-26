@@ -15,8 +15,8 @@ import {
   getUserCommentsSelector,
   getUserCommentsIsComplete,
   getUserCommentsIsLoading,
+  selectCommentById,
 } from '../../../redux/selectors/CommentSelectors';
-import {selectCommentById} from '../../../redux/selectors/CommentSelectors';
 import TimeAgo from '../../../components/TimeAgo';
 import {push} from '../../../navigation/Ref';
 import FeedFooter from '../../../components/Feed/FeedFooter';
@@ -148,7 +148,7 @@ const CommentRow = memo(props => {
           clicked_from: 'user_comments',
           screen: 'UserDetail',
         });
-        push('PostDetail', {postId: postId});
+        push('PostDetail', {postId: postId, commentId: commentId});
       }}>
       {postTitleField}
       {metadataRow}
