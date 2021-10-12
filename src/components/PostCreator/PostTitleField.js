@@ -1,7 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Input, useTheme} from 'react-native-elements';
-import {transformText} from './helpers';
 
 export const PostTitleField = props => {
   const {title, onChangeText} = props;

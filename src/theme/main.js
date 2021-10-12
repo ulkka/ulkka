@@ -51,7 +51,7 @@ export const dark = {
     grey5: '#666',
     grey6: '#777',
     green: '#25d366',
-    blue: '#2a9df4',
+    blue: '#1da1f2',
     transparentBlack: 'rgba(180, 180, 180, 0.2)',
     reddishWhite: '#210100',
   },

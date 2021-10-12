@@ -86,10 +86,12 @@ const SharePost = props => {
       link: 'https://ulkka.in/post/' + postId,
       android: {
         packageName: 'in.ulkka',
+        fallbackUrl: 'https://ulkka.in/post/' + postId,
       },
       ios: {
         bundleId: 'in.ulkka',
         appStoreId: '1563474580',
+        fallbackUrl: 'https://ulkka.in/post/' + postId,
       },
       // domainUriPrefix is created in your Firebase console
       domainUriPrefix: 'https://link.ulkka.in',

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Platform} from 'react-native';
+import {View} from 'react-native';
 import {Input, useTheme} from 'react-native-elements';
 
 export const DescriptionField = props => {
