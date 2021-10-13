@@ -14,10 +14,15 @@ import Snackbar from 'react-native-snackbar';
 import analytics from '@react-native-firebase/analytics';
 
 const validateMedia = (media, postType) => {
-  const {mime: mimeType, size, filename} = media;
+  const {mime: mimeType, size, filename, path} = media;
   const type = mimeType.split('/')[0];
   const format = mimeType.split('/')[1];
-  const isFilenameGIF = filename.toLowerCase().endsWith('.gif');
+
+  const isFilenameGIF =
+    Platform.OS == 'ios'
+      ? filename.toLowerCase().endsWith('.gif')
+      : path.toLowerCase().endsWith('.gif');
+
   if (postType == 'gif') {
     if (isFilenameGIF) return true;
     if (size > 10000000) {

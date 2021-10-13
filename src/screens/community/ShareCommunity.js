@@ -68,10 +68,12 @@ const ShareCommunity = props => {
       link: 'https://ulkka.in/community/' + communityId,
       android: {
         packageName: 'in.ulkka',
+        fallbackUrl: 'https://ulkka.in/community/' + communityId,
       },
       ios: {
         bundleId: 'in.ulkka',
         appStoreId: '1563474580',
+        fallbackUrl: 'https://ulkka.in/community/' + communityId,
       },
       // domainUriPrefix is created in your Firebase console
       domainUriPrefix: 'https://link.ulkka.in',
