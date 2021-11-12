@@ -20,7 +20,7 @@ const CommunityAvatar = props => {
     getCommunityTitle(state, communityId),
   );
 
-  const finalCommunityName = communityName
+  const shrunkCommunityName = communityName
     ? communityName?.replace('#', '').substring(0, 2)
     : name
     ? name?.replace('#', '').substring(0, 2)
@@ -87,7 +87,6 @@ const CommunityAvatar = props => {
         return '#454545';
     }
   };
-
   return finalCommunityIcon?.length ? (
     <TouchableOpacity
       disabled={size == 'large' || disableTouch}
@@ -130,14 +129,14 @@ const CommunityAvatar = props => {
       }>
       <Avatar
         rounded
-        title={finalCommunityName}
+        title={shrunkCommunityName}
         titleStyle={{
           textTransform: 'uppercase',
           fontSize: getFontSize(),
         }}
         size={size}
         containerStyle={{
-          backgroundColor: getColorFromTitle(finalCommunityName),
+          backgroundColor: getColorFromTitle(communityName),
           borderWidth: 2,
           borderColor: getBorderColor(),
         }}

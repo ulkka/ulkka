@@ -34,10 +34,19 @@ export default function FavoriteCommunity(props) {
         }
       }}>
       <Icon
+        //raised
+        reverse
+        borderRadius={1}
+        reverseColor={isFavorite ? '#444' : '#eee'}
+        containerStyle={{
+          margin: 0,
+          borderWidth: isFavorite ? 0.35 : 0,
+          borderColor: '#999',
+        }}
         name={isFavorite ? 'star' : 'star-o'}
         type="font-awesome"
-        color={isFavorite ? '#ffe01b' : theme.colors.black6}
-        size={Platform.OS == 'ios' ? 20 : 17}
+        color={isFavorite ? '#f9dc5f' : '#444'}
+        size={Platform.OS == 'ios' ? 14 : 12}
       />
       {text && (
         <View>

@@ -21,6 +21,7 @@ import PostDetail from '../screens/PostDetail';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import ImageZoomer from '../components/Post/ImageZoomer';
 import ReviewRequestComponent from '../components/ReviewRequestComponent';
+import CommunityExplorer from '../components/CommunityExplorer';
 
 const StackNav = createStackNavigator();
 
@@ -100,6 +101,16 @@ function HomeNavigation() {
           component={ImageZoomer}
           title="ImageZoomer"
           options={{
+            ...TransitionPresets.ScaleFromCenterAndroid,
+          }}
+        />
+        <StackNav.Screen
+          name="CommunityExplorer"
+          component={CommunityExplorer}
+          title="CommunityExplorer"
+          options={{
+            headerShown: true,
+            title: 'Explore',
             ...TransitionPresets.ScaleFromCenterAndroid,
           }}
         />

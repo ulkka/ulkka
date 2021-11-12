@@ -19,7 +19,7 @@ import {useSelector} from 'react-redux';
 import {goBack} from '../../navigation/Ref';
 import analytics from '@react-native-firebase/analytics';
 
-const COLLAPSED_HEIGHT = 40;
+const COLLAPSED_HEIGHT = 43;
 
 export default function CommunityDetailTabView(props) {
   const {theme} = useTheme();
@@ -114,9 +114,7 @@ export default function CommunityDetailTabView(props) {
           }}
           contentContainerStyle={{padding: 0}}
           tabStyle={{
-            padding: 5,
             height: COLLAPSED_HEIGHT,
-            justifyContent: 'flex-start',
           }}
           indicatorStyle={{
             backgroundColor: theme.colors.blue,

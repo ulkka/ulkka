@@ -43,23 +43,33 @@ const ShareCommunity = props => {
   const platFormIcon =
     os == 'ios' ? (
       <Icon
-        name="envelope-open-o"
-        type="font-awesome"
-        size={iconSize ? iconSize : 20}
-        color={theme.colors.green}
+        reverse
+        reverseColor={'#eee'}
+        containerStyle={{
+          margin: 0,
+        }}
+        name="share-outline"
+        type="ionicon"
+        size={iconSize ? iconSize : 12}
+        color={'#444'}
       />
     ) : (
       <Icon
+        reverse
+        reverseColor={'#eee'}
+        containerStyle={{
+          margin: 0,
+        }}
         name="envelope-open-o"
         type="font-awesome"
         size={iconSize ? iconSize - 2 : 18}
-        color={theme.colors.green}
+        color={'#444'}
       />
     );
 
   async function buildLink(communityId) {
     const socialTitle =
-      'Join ' +
+      'Invitation to join ' +
       communityTitle +
       " community on Ulkka - Kerala's Own Community!";
     const socialDescription =
@@ -129,7 +139,7 @@ const ShareCommunity = props => {
         paddingRight: 2,
       }}>
       {platFormIcon}
-      <View style={{height: 2}}></View>
+      {/* <View style={{height: 2}}></View> */}
       {text && (
         <Text
           style={{

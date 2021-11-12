@@ -10,34 +10,37 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 import CommunityAvatar from '../../components/CommunityAvatar';
 import CommunityOptions from './CommunityOptions';
-import {kFormatter} from '../../components/helpers';
+import {getColorFromTitle, kFormatter} from '../../components/helpers';
 import ShareCommunity from './ShareCommunity';
 import AutolinkText from '../../components/AutolinkText';
 import FavoriteCommunity from './FavoriteCommunity';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
+import {theme} from '../../redux/reducers/ThemeSlice';
 
 const CommunityHeaderRight = memo(({communityId}) => {
   const isRegistered = useSelector(getRegistrationStatus);
+  const {theme} = useTheme();
   return (
     <View
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        paddingRight: 15,
+        paddingRight: 10,
+        paddingBottom: 5,
       }}>
       {!!isRegistered && (
         <FavoriteCommunity
           communityId={communityId}
-          text="Favorite"
+          // text="Favorite"
           shareTextStyle={{fontSize: 11}}
         />
       )}
-      <View style={{width: 20}}></View>
+      <View style={{width: 15}}></View>
       <ShareCommunity
         communityId={communityId}
-        text="Invite"
-        iconSize={19}
-        shareTextStyle={{fontSize: 11}}
+        //   text="Invite"
+        iconSize={14}
+        shareTextStyle={{fontSize: 11, color: theme.colors.black3}}
       />
     </View>
   );
@@ -66,10 +69,15 @@ const CommunityDetail = memo(props => {
   }, []);
 
   const opacity = useRef(new Animated.Value(0)).current;
-
+  console.log(communityTitle, getColorFromTitle(communityTitle));
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
+      headerStyle: {
+        //backgroundColor: getColorFromTitle(communityTitle),
+        backgroundColor: '#fdd20e',
+        // height: 150,
+      },
       headerRight: () => <CommunityHeaderRight communityId={communityId} />,
     });
   }, []);
@@ -84,9 +92,12 @@ const CommunityDetail = memo(props => {
               style={{
                 maxWidth: 200,
                 marginRight: 40,
-                fontSize: 16,
-                color: theme.colors.black4,
+                fontSize: 15,
+                color: '#eee',
                 fontWeight: 'bold',
+                textShadowColor: '#555',
+                textShadowOffset: {width: 1, height: 2},
+                textShadowRadius: 4,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
               {communityTitle}
@@ -124,8 +135,10 @@ const CommunityDetail = memo(props => {
 
   const communityTitleField = (
     <Text
+      numberOfLines={1}
       style={{
-        fontSize: 16,
+        maxWidth: 200,
+        fontSize: 15,
         fontWeight: 'bold',
         color: theme.colors.black4,
         paddingLeft: 10,

@@ -24,6 +24,7 @@ export const light = {
     blue: '#2a9df4',
     transparentBlack: 'rgba(52, 52, 52, 0.1)',
     reddishWhite: '#fff9f9',
+    red: 'red',
   },
 };
 
@@ -54,5 +55,6 @@ export const dark = {
     blue: '#1da1f2',
     transparentBlack: 'rgba(180, 180, 180, 0.2)',
     reddishWhite: '#210100',
+    red: 'red',
   },
 };

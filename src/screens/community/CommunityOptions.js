@@ -56,7 +56,7 @@ const CommunityOptions = props => {
               height: 30,
               borderWidth: 1,
               borderColor: 'red',
-              marginHorizontal: 10,
+              marginRight: 5,
               borderRadius: 15,
               paddingHorizontal: 15,
               paddingVertical: 5,

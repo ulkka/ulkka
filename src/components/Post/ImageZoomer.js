@@ -29,7 +29,7 @@ const ImageZoomer = ({route}) => {
         left: 0,
         right: 0,
       }}>
-      <View style={{flex: 1}}></View>
+      <View style={{flex: 1}} />
       <View style={{flex: 1}}>
         <TouchableOpacity
           onPress={() => {
@@ -43,6 +43,7 @@ const ImageZoomer = ({route}) => {
             reverse
             name="close"
             type="font-awesome"
+            reverseColor={'#eee'}
             color={'#222'}
             size={20}
             style={{opacity: 0.8}}
@@ -68,18 +69,14 @@ const ImageZoomer = ({route}) => {
             }}>
             <Text
               style={{
-                color: theme.colors.grey2,
+                color: '#eee',
                 fontWeight: 'bold',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
               See Post
             </Text>
             <View style={{width: 10}}></View>
-            <Icon
-              name="arrow-forward-ios"
-              color={theme.colors.grey2}
-              size={14}
-            />
+            <Icon name="arrow-forward-ios" color={'#eee'} size={14} />
           </TouchableOpacity>
         )}
       </View>

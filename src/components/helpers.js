@@ -3,31 +3,32 @@ import {navigate, push} from '../navigation/Ref';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import analytics from '@react-native-firebase/analytics';
 
-const coolColors = [
-  '#FF420E',
-  '#695cff',
-  '#2450a4',
-  '#ff3781',
-  '#fea800',
-  '#ffd933',
-  '#f62a66',
-  '#fbb040',
-  '#8f3a84',
-  '#3a4750',
-  '#ff8f56',
-  '#be3144',
-  '#28cc9e',
-  '#f6c90e',
-  '#dd1616',
-  '#09229c',
-  '#eee14d',
-  '#0ad8ff',
-  '#8843eb',
+export const coolColors = [
+  '#e90c20dd',
+  '#695cffdd',
+  '#00B1D2dd',
+  '#963cbddd',
+  '#ff6f61dd',
+  '#feae51',
+  '#28cc9edd',
+  '#fdd20e',
+  '#f93822dd',
+  '#f9dc5c',
+  '#ffd933dd',
+  '#f62a66dd',
+  '#0ad8ffdd',
+  '#8843ebdd',
 ];
 
+const TSH = s => {
+  for (var i = 0, h = 9; i < s.length; )
+    h = Math.imul(h ^ s.charCodeAt(i++), 9 ** 9);
+  return h ^ (h >>> 9);
+};
 export function getColorFromTitle(text) {
-  const index = parseInt(text, 36) % 19;
+  const index = Math.abs(TSH(text) % coolColors.length);
   const color = coolColors[index];
+  console.log(text, index, color);
   return color ? color : coolColors[13];
 }
 

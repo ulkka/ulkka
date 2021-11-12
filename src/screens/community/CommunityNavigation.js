@@ -25,7 +25,10 @@ function CommunityNavigation(props) {
         screenOptions={{
           headerBackTitle: 'Back',
           ...(Platform.OS == 'android' && {
-            headerTitleStyle: {fontSize: 15, color: theme.colors.black5},
+            headerTitleStyle: {
+              fontSize: 15,
+              color: theme.colors.black5,
+            },
             headerTitleAlign: 'center',
             headerStyle: {height: 40},
           }),

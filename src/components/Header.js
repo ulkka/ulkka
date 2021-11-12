@@ -11,6 +11,7 @@ import {getUserTotalKarma} from '../redux/reducers/UserSlice';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {kFormatter} from './helpers';
 import ReferralButton from './ReferralButton';
+import CommunityExplorerButton from './CommunityExplorerButton';
 
 const TitleComponent = memo(() => {
   const {theme} = useTheme();
@@ -105,9 +106,13 @@ const HeaderBar = props => {
     <View
       style={{
         flex: 1,
-        alignItems: 'flex-end',
+        flexDirection: 'row',
+        //alignItems: 'center',
+        justifyContent: 'flex-end',
       }}>
-      <ReferralButton />
+      <CommunityExplorerButton />
+      {/* <View style={{width: 18}} />
+      <ReferralButton /> */}
     </View>
   );
 
