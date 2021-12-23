@@ -24,6 +24,8 @@ function CommunityNavigation(props) {
         initialRouteName="CommunityDetail"
         screenOptions={{
           headerBackTitle: 'Back',
+          headerBackTitleVisible: false,
+          //  headerBackTitleStyle: {color: '#eee'},
           ...(Platform.OS == 'android' && {
             headerTitleStyle: {
               fontSize: 15,

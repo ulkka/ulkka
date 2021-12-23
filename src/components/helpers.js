@@ -28,7 +28,6 @@ const TSH = s => {
 export function getColorFromTitle(text) {
   const index = Math.abs(TSH(text) % coolColors.length);
   const color = coolColors[index];
-  console.log(text, index, color);
   return color ? color : coolColors[13];
 }
 

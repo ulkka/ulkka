@@ -69,13 +69,12 @@ const CommunityDetail = memo(props => {
   }, []);
 
   const opacity = useRef(new Animated.Value(0)).current;
-  console.log(communityTitle, getColorFromTitle(communityTitle));
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
       headerStyle: {
-        //backgroundColor: getColorFromTitle(communityTitle),
-        backgroundColor: '#fdd20e',
+        backgroundColor: getColorFromTitle(communityTitle),
+        // backgroundColor: '#fdd20e',
         // height: 150,
       },
       headerRight: () => <CommunityHeaderRight communityId={communityId} />,
@@ -92,7 +91,7 @@ const CommunityDetail = memo(props => {
               style={{
                 maxWidth: 200,
                 marginRight: 40,
-                fontSize: 15,
+                fontSize: 16,
                 color: '#eee',
                 fontWeight: 'bold',
                 textShadowColor: '#555',
