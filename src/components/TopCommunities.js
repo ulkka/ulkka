@@ -12,6 +12,7 @@ import CommunityAvatar from './CommunityAvatar';
 import {kFormatter} from './helpers';
 
 const SingleCommunity = memo(({item}) => {
+  const dispatch = useDispatch();
   const {theme} = useTheme();
   const {_id: id, name, icon, memberCount} = item;
   return (
