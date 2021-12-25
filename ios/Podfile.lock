@@ -442,10 +442,10 @@ PODS:
     - React-Core
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-video (5.1.1):
+  - react-native-video (5.2.0-alpha1):
     - React-Core
-    - react-native-video/Video (= 5.1.1)
-  - react-native-video/Video (5.1.1):
+    - react-native-video/Video (= 5.2.0-alpha1)
+  - react-native-video/Video (5.2.0-alpha1):
     - React-Core
   - React-perflogger (0.65.0)
   - React-RCTActionSheet (0.65.0):
@@ -564,12 +564,12 @@ PODS:
   - RNGoogleSignin (4.0.3):
     - GoogleSignIn (~> 5.0.0)
     - React
-  - RNImageCropPicker (0.35.3):
+  - RNImageCropPicker (0.36.4):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.35.3)
+    - RNImageCropPicker/QBImagePickerController (= 0.36.4)
     - TOCropViewController
-  - RNImageCropPicker/QBImagePickerController (0.35.3):
+  - RNImageCropPicker/QBImagePickerController (0.36.4):
     - React-Core
     - React-RCTImage
     - TOCropViewController
@@ -919,7 +919,7 @@ SPEC CHECKSUMS:
   react-native-restart: 733a51ad137f15b0f8dc34c4082e55af7da00979
   react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-video: 0bb76b6d6b77da3009611586c7dbf817b947f30e
+  react-native-video: 3f739d35afe0cc643572c01822d8f062c3c6aca3
   React-perflogger: 494c61caaf9b7da0a0a612fa4ed570ab7ab5819b
   React-RCTActionSheet: 0ea18583618e2451889be1ce1f658ae8cb436b2e
   React-RCTAnimation: 487a44abe7f082afa2997add929765b9c81d4abc
@@ -949,7 +949,7 @@ SPEC CHECKSUMS:
   RNFS: 93d5b5535eb39d98e6b19009faa8fe717f7ea45d
   RNGestureHandler: 5e58135436aacc1c5d29b75547d3d2b9430d052c
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
-  RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
+  RNImageCropPicker: 73891a709e6fd8a47d32104d942757971f220aee
   RNRate: cb88d5a0aa7be8bfae67dafbbbba2c9cd5e6faf2
   RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
   RNScreens: eb0dfb2d6b21d2d7f980ad46b14eb306d2f1062e
@@ -964,6 +964,6 @@ SPEC CHECKSUMS:
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
   YoutubePlayer-in-WKWebView: cfbf46da51d7370662a695a8f351e5fa1d3e1008
 
-PODFILE CHECKSUM: a3701f248fd7d937654dbff9ee09d532a8a3a6dd
+PODFILE CHECKSUM: d857a14e1c25727623e58ef7a4b6ad6da60416dd
 
 COCOAPODS: 1.10.2

@@ -95,12 +95,12 @@ const AppMaintenanceHandler = props => {
           onPress={() => {
             Platform.OS == 'ios' &&
               navigateToURL(
-                'https://apps.apple.com/in/app/ulkka/id1563474580',
+                'https://apps.apple.com/in/app/ulkka/id1601976921',
                 'app_update',
               );
             Platform.OS == 'android' &&
               navigateToURL(
-                'https://play.google.com/store/apps/details?id=in.ulkka',
+                'https://play.google.com/store/apps/details?id=id.omong',
                 'app_update',
               );
           }}

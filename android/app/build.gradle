@@ -142,7 +142,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "in.ulkka"
+        applicationId "id.omong"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 49

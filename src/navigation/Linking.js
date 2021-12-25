@@ -24,11 +24,11 @@ const config = {
 };
 export const linking = {
   prefixes: [
-    'https://app.ulkka.in',
-    'https://ulkka.in',
-    'ulkka://',
-    'https://ulkka.page.link',
-    'https://ulkka-in.firebaseapp.com',
+    'https://app.omong.id',
+    'https://omong.id',
+    'omong://',
+    'https://omong.page.link',
+    'https://omong-id.firebaseapp.com',
   ],
   config,
   async getInitialURL() {

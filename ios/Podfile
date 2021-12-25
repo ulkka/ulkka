@@ -8,7 +8,7 @@ platform :ios, '11.0'
 
 $RNFirebaseAnalyticsWithoutAdIdSupport = true
 
-target 'Ulkka' do
+target 'Omong' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"],
@@ -23,7 +23,7 @@ target 'Ulkka' do
 
   pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
 
-  target 'UlkkaTests' do
+  target 'OmongTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -74,7 +74,7 @@ target 'Ulkka' do
   end
 end
 
-target 'Ulkka-Share' do
+target 'Omong-Share' do
    use_react_native!(:hermes_enabled => true)
     pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
       # Manually link packages here to keep your extension bundle size minimal

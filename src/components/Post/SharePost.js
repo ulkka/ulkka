@@ -75,7 +75,7 @@ const SharePost = props => {
       shareTitle +
       '"';
     const socialDescription =
-      "Ulkka - Kerala's Own Community!\n" +
+      "Omong - Indonesia's Own Community!\n" +
       voteCount +
       ' votes, ' +
       commentCount +
@@ -83,21 +83,21 @@ const SharePost = props => {
       socialTitle;
 
     const config = {
-      link: 'https://ulkka.in/post/' + postId,
+      link: 'https://omong.id/post/' + postId,
       android: {
-        packageName: 'in.ulkka',
-        fallbackUrl: 'https://ulkka.in/post/' + postId,
+        packageName: 'id.omong',
+        fallbackUrl: 'https://omong.id/post/' + postId,
       },
       ios: {
-        bundleId: 'in.ulkka',
-        appStoreId: '1563474580',
-        fallbackUrl: 'https://ulkka.in/post/' + postId,
+        bundleId: 'id.omong',
+        appStoreId: '1601976921',
+        fallbackUrl: 'https://omong.id/post/' + postId,
       },
       // domainUriPrefix is created in your Firebase console
-      domainUriPrefix: 'https://link.ulkka.in',
+      domainUriPrefix: 'https://link.omong.id',
       // optional setup which updates Firebase analytics campaign
       analytics: {
-        source: Platform.OS == 'ios' ? 'ulkka_ios' : 'ulkka_android',
+        source: Platform.OS == 'ios' ? 'omong_ios' : 'omong_android',
         medium: 'organic_social',
         campaign: 'share',
         content: type,

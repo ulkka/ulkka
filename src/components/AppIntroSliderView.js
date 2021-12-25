@@ -7,7 +7,7 @@ import {storeData} from '../localStorage/helpers';
 const slides = [
   {
     key: 1,
-    title: 'Welcome to\nUlkka !',
+    title: 'Welcome to\nOmong !',
     image: require('../../assets/ulkka_transparent_512x512.png'),
   },
   {
@@ -15,7 +15,7 @@ const slides = [
     title: "Let's find your Tribe !",
     image: require('../../assets/welcome.jpg'),
     points: [
-      "Ulkka is a place where you can share anything that you find interesting on the internet with a community that's interested in the topic",
+      "Omong is a place where you can share anything that you find interesting on the internet with a community that's interested in the topic",
       'You can share content including images, links, videos or text posts to an existing community (check the search bar) or create a brand new community and let users find it',
     ],
   },
@@ -25,7 +25,7 @@ const slides = [
     icon: 'heart',
     points: [
       'You receive hearts when your posts and comments are upvoted by community members',
-      'Hearts represent your reputation in Ulkka and you can unlock features in Ulkka as you gain more hearts',
+      'Hearts represent your reputation in Omong and you can unlock features in Omong as you gain more hearts',
       'Hearts may also be used to elect new admins to communities',
     ],
   },

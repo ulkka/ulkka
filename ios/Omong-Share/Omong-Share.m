@@ -1,6 +1,6 @@
 //
-//  Ulkka-Share.m
-//  Ulkka-Share
+//  Omong-Share.m
+//  Omong-Share
 //
 //  Created by Arjun on 10/04/21.
 //

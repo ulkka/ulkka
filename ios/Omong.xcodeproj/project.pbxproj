@@ -7,24 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* UlkkaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* UlkkaTests.m */; };
+		00E356F31AD99517003FC87E /* OmongTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* OmongTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1784BB47FA08D9C9A4A0AA23 /* libPods-Ulkka-Share.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DD539222EF51D08EAAF295B /* libPods-Ulkka-Share.a */; };
+		1784BB47FA08D9C9A4A0AA23 /* libPods-Omong-Share.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DD539222EF51D08EAAF295B /* libPods-Omong-Share.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* UlkkaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* UlkkaTests.m */; };
-		512442608C5DE0952D81AF87 /* libPods-Ulkka-UlkkaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1561533A2A66D6CE7A046963 /* libPods-Ulkka-UlkkaTests.a */; };
+		2DCD954D1E0B4F2C00145EB5 /* OmongTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* OmongTests.m */; };
+		512442608C5DE0952D81AF87 /* libPods-Omong-OmongTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1561533A2A66D6CE7A046963 /* libPods-Omong-OmongTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		D3A24EAF6C194A5F7E1E89B9 /* libPods-Ulkka.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABF186B2CA217DDF1C4906A /* libPods-Ulkka.a */; };
+		D3A24EAF6C194A5F7E1E89B9 /* libPods-Omong.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABF186B2CA217DDF1C4906A /* libPods-Omong.a */; };
 		DC9203D126398E9F00E1608B /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9203D026398E9F00E1608B /* ShareViewController.swift */; };
 		DC9203D326398EBB00E1608B /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9203D226398EBB00E1608B /* ReactShareViewController.swift */; };
 		DCB34888263BEC0400FE0894 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB34887263BEC0400FE0894 /* Empty.swift */; };
 		DCD3F8AD25308E6800F2B910 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */; };
 		DCE8D1BA2621B5B100E3B739 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCE8D1B82621B5B100E3B739 /* MainInterface.storyboard */; };
-		DCE8D1BE2621B5B100E3B739 /* Ulkka-Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DCE8D1B42621B5B000E3B739 /* Ulkka-Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DCE8D1BE2621B5B100E3B739 /* Omong-Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DCE8D1B42621B5B000E3B739 /* Omong-Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,21 +33,21 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = Ulkka;
+			remoteInfo = Omong;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "Ulkka-tvOS";
+			remoteInfo = "Omong-tvOS";
 		};
 		DCE8D1BC2621B5B100E3B739 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DCE8D1B32621B5B000E3B739;
-			remoteInfo = "Ulkka-Share";
+			remoteInfo = "Omong-Share";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -58,7 +58,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				DCE8D1BE2621B5B100E3B739 /* Ulkka-Share.appex in Embed App Extensions */,
+				DCE8D1BE2621B5B100E3B739 /* Omong-Share.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,55 +67,55 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* UlkkaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UlkkaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* OmongTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OmongTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* UlkkaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UlkkaTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* OmongTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OmongTests.m; sourceTree = "<group>"; };
 		0AF708BC14B04E6DAAD70239 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		0BF01C65A77A45F39A6AF2A8 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Ulkka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ulkka.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Ulkka/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Ulkka/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Ulkka/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Ulkka/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Ulkka/main.m; sourceTree = "<group>"; };
-		1561533A2A66D6CE7A046963 /* libPods-Ulkka-UlkkaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ulkka-UlkkaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1631240B1ADE508B7EF1C8A4 /* Pods-Ulkka-UlkkaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ulkka-UlkkaTests.release.xcconfig"; path = "Target Support Files/Pods-Ulkka-UlkkaTests/Pods-Ulkka-UlkkaTests.release.xcconfig"; sourceTree = "<group>"; };
-		17211D8091CC86AC54B9194E /* Pods-Ulkka.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ulkka.release.xcconfig"; path = "Target Support Files/Pods-Ulkka/Pods-Ulkka.release.xcconfig"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Omong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Omong.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Omong/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Omong/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Omong/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Omong/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Omong/main.m; sourceTree = "<group>"; };
+		1561533A2A66D6CE7A046963 /* libPods-Omong-OmongTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Omong-OmongTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1631240B1ADE508B7EF1C8A4 /* Pods-Omong-OmongTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Omong-OmongTests.release.xcconfig"; path = "Target Support Files/Pods-Omong-OmongTests/Pods-Omong-OmongTests.release.xcconfig"; sourceTree = "<group>"; };
+		17211D8091CC86AC54B9194E /* Pods-Omong.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Omong.release.xcconfig"; path = "Target Support Files/Pods-Omong/Pods-Omong.release.xcconfig"; sourceTree = "<group>"; };
 		194ED8D6A6D44E88B0FCDF64 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		22C14041299946A9858E0CC3 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* Ulkka-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ulkka-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* Ulkka-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ulkka-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* Omong-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Omong-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* Omong-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Omong-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		344950A048D14E8891C0DFA2 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		430B57C88304C9F2CA262FF2 /* Pods-Ulkka.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ulkka.debug.xcconfig"; path = "Target Support Files/Pods-Ulkka/Pods-Ulkka.debug.xcconfig"; sourceTree = "<group>"; };
+		430B57C88304C9F2CA262FF2 /* Pods-Omong.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Omong.debug.xcconfig"; path = "Target Support Files/Pods-Omong/Pods-Omong.debug.xcconfig"; sourceTree = "<group>"; };
 		52C71C17E12A4FF086728AF2 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		5E7A068CC359453BB208CAE4 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		6821FE635C4F44B4942E0805 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		6FE0CBF2B05045F580BD5A07 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		7DECC24591F8ADD79A0C78A9 /* Pods-Ulkka-Share.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ulkka-Share.release.xcconfig"; path = "Target Support Files/Pods-Ulkka-Share/Pods-Ulkka-Share.release.xcconfig"; sourceTree = "<group>"; };
+		7DECC24591F8ADD79A0C78A9 /* Pods-Omong-Share.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Omong-Share.release.xcconfig"; path = "Target Support Files/Pods-Omong-Share/Pods-Omong-Share.release.xcconfig"; sourceTree = "<group>"; };
 		7F5F4AC14B554008A8E744C6 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Ulkka/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8DD539222EF51D08EAAF295B /* libPods-Ulkka-Share.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ulkka-Share.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		94F414301AAC66B7D81E4DFB /* Pods-Ulkka-UlkkaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ulkka-UlkkaTests.debug.xcconfig"; path = "Target Support Files/Pods-Ulkka-UlkkaTests/Pods-Ulkka-UlkkaTests.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Omong/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8DD539222EF51D08EAAF295B /* libPods-Omong-Share.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Omong-Share.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94F414301AAC66B7D81E4DFB /* Pods-Omong-OmongTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Omong-OmongTests.debug.xcconfig"; path = "Target Support Files/Pods-Omong-OmongTests/Pods-Omong-OmongTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9574EEC137AA46E18405A3EC /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		A9D1679D557948EC89421E2D /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		ABC5C37C068C4B95BECEE080 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		BF26FC4D492C4463B96102E4 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
-		D1B685AECD0ECE74D8A4883B /* Pods-Ulkka-Share.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ulkka-Share.debug.xcconfig"; path = "Target Support Files/Pods-Ulkka-Share/Pods-Ulkka-Share.debug.xcconfig"; sourceTree = "<group>"; };
+		D1B685AECD0ECE74D8A4883B /* Pods-Omong-Share.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Omong-Share.debug.xcconfig"; path = "Target Support Files/Pods-Omong-Share/Pods-Omong-Share.debug.xcconfig"; sourceTree = "<group>"; };
 		D6C8F4B9C0644BA18D57125B /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		DC861F692621B9690084B027 /* Ulkka-Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Ulkka-Share.entitlements"; sourceTree = "<group>"; };
-		DC861FE02621BD8F0084B027 /* Ulkka-Share-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ulkka-Share-Bridging-Header.h"; sourceTree = "<group>"; };
+		DC861F692621B9690084B027 /* Omong-Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Omong-Share.entitlements"; sourceTree = "<group>"; };
+		DC861FE02621BD8F0084B027 /* Omong-Share-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Omong-Share-Bridging-Header.h"; sourceTree = "<group>"; };
 		DC9203D026398E9F00E1608B /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
 		DC9203D226398EBB00E1608B /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReactShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ReactShareViewController.swift"; sourceTree = "<group>"; };
-		DCB34886263BEC0400FE0894 /* Ulkka-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ulkka-Bridging-Header.h"; sourceTree = "<group>"; };
+		DCB34886263BEC0400FE0894 /* Omong-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Omong-Bridging-Header.h"; sourceTree = "<group>"; };
 		DCB34887263BEC0400FE0894 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 		DCBF758D253D890E00079307 /* libRNFBApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFBApp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		DCDDB8E3255D19120066F9DD /* Ulkka.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Ulkka.entitlements; path = Ulkka/Ulkka.entitlements; sourceTree = "<group>"; };
-		DCE8D1B42621B5B000E3B739 /* Ulkka-Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Ulkka-Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCDDB8E3255D19120066F9DD /* Omong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Omong.entitlements; path = Omong/Omong.entitlements; sourceTree = "<group>"; };
+		DCE8D1B42621B5B000E3B739 /* Omong-Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Omong-Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCE8D1B92621B5B100E3B739 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		DCE8D1BB2621B5B100E3B739 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA540965B9774AADAEB5C811 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		EABF186B2CA217DDF1C4906A /* libPods-Ulkka.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ulkka.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EABF186B2CA217DDF1C4906A /* libPods-Omong.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Omong.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -125,7 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				512442608C5DE0952D81AF87 /* libPods-Ulkka-UlkkaTests.a in Frameworks */,
+				512442608C5DE0952D81AF87 /* libPods-Omong-OmongTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3A24EAF6C194A5F7E1E89B9 /* libPods-Ulkka.a in Frameworks */,
+				D3A24EAF6C194A5F7E1E89B9 /* libPods-Omong.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,20 +155,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1784BB47FA08D9C9A4A0AA23 /* libPods-Ulkka-Share.a in Frameworks */,
+				1784BB47FA08D9C9A4A0AA23 /* libPods-Omong-Share.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* UlkkaTests */ = {
+		00E356EF1AD99517003FC87E /* OmongTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* UlkkaTests.m */,
+				00E356F21AD99517003FC87E /* OmongTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = UlkkaTests;
+			path = OmongTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -202,10 +202,10 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Ulkka */ = {
+		13B07FAE1A68108700A75B9A /* Omong */ = {
 			isa = PBXGroup;
 			children = (
-				DCDDB8E3255D19120066F9DD /* Ulkka.entitlements */,
+				DCDDB8E3255D19120066F9DD /* Omong.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -214,9 +214,9 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				DCB34887263BEC0400FE0894 /* Empty.swift */,
-				DCB34886263BEC0400FE0894 /* Ulkka-Bridging-Header.h */,
+				DCB34886263BEC0400FE0894 /* Omong-Bridging-Header.h */,
 			);
-			name = Ulkka;
+			name = Omong;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -225,9 +225,9 @@
 				DCBF758D253D890E00079307 /* libRNFBApp.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				EABF186B2CA217DDF1C4906A /* libPods-Ulkka.a */,
-				1561533A2A66D6CE7A046963 /* libPods-Ulkka-UlkkaTests.a */,
-				8DD539222EF51D08EAAF295B /* libPods-Ulkka-Share.a */,
+				EABF186B2CA217DDF1C4906A /* libPods-Omong.a */,
+				1561533A2A66D6CE7A046963 /* libPods-Omong-OmongTests.a */,
+				8DD539222EF51D08EAAF295B /* libPods-Omong-Share.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,12 +235,12 @@
 		52F949E132FA5342A9D6A9FA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				430B57C88304C9F2CA262FF2 /* Pods-Ulkka.debug.xcconfig */,
-				17211D8091CC86AC54B9194E /* Pods-Ulkka.release.xcconfig */,
-				94F414301AAC66B7D81E4DFB /* Pods-Ulkka-UlkkaTests.debug.xcconfig */,
-				1631240B1ADE508B7EF1C8A4 /* Pods-Ulkka-UlkkaTests.release.xcconfig */,
-				D1B685AECD0ECE74D8A4883B /* Pods-Ulkka-Share.debug.xcconfig */,
-				7DECC24591F8ADD79A0C78A9 /* Pods-Ulkka-Share.release.xcconfig */,
+				430B57C88304C9F2CA262FF2 /* Pods-Omong.debug.xcconfig */,
+				17211D8091CC86AC54B9194E /* Pods-Omong.release.xcconfig */,
+				94F414301AAC66B7D81E4DFB /* Pods-Omong-OmongTests.debug.xcconfig */,
+				1631240B1ADE508B7EF1C8A4 /* Pods-Omong-OmongTests.release.xcconfig */,
+				D1B685AECD0ECE74D8A4883B /* Pods-Omong-Share.debug.xcconfig */,
+				7DECC24591F8ADD79A0C78A9 /* Pods-Omong-Share.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -256,10 +256,10 @@
 			isa = PBXGroup;
 			children = (
 				DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */,
-				13B07FAE1A68108700A75B9A /* Ulkka */,
+				13B07FAE1A68108700A75B9A /* Omong */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* UlkkaTests */,
-				DCE8D1B52621B5B000E3B739 /* Ulkka-Share */,
+				00E356EF1AD99517003FC87E /* OmongTests */,
+				DCE8D1B52621B5B000E3B739 /* Omong-Share */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				52F949E132FA5342A9D6A9FA /* Pods */,
@@ -273,34 +273,34 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Ulkka.app */,
-				00E356EE1AD99517003FC87E /* UlkkaTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* Ulkka-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* Ulkka-tvOSTests.xctest */,
-				DCE8D1B42621B5B000E3B739 /* Ulkka-Share.appex */,
+				13B07F961A680F5B00A75B9A /* Omong.app */,
+				00E356EE1AD99517003FC87E /* OmongTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* Omong-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* Omong-tvOSTests.xctest */,
+				DCE8D1B42621B5B000E3B739 /* Omong-Share.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DCE8D1B52621B5B000E3B739 /* Ulkka-Share */ = {
+		DCE8D1B52621B5B000E3B739 /* Omong-Share */ = {
 			isa = PBXGroup;
 			children = (
-				DC861F692621B9690084B027 /* Ulkka-Share.entitlements */,
+				DC861F692621B9690084B027 /* Omong-Share.entitlements */,
 				DC9203D226398EBB00E1608B /* ReactShareViewController.swift */,
 				DC9203D026398E9F00E1608B /* ShareViewController.swift */,
 				DCE8D1B82621B5B100E3B739 /* MainInterface.storyboard */,
 				DCE8D1BB2621B5B100E3B739 /* Info.plist */,
-				DC861FE02621BD8F0084B027 /* Ulkka-Share-Bridging-Header.h */,
+				DC861FE02621BD8F0084B027 /* Omong-Share-Bridging-Header.h */,
 			);
-			path = "Ulkka-Share";
+			path = "Omong-Share";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* UlkkaTests */ = {
+		00E356ED1AD99517003FC87E /* OmongTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "UlkkaTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "OmongTests" */;
 			buildPhases = (
 				E65B37054D6476274166075F /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -314,14 +314,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = UlkkaTests;
-			productName = UlkkaTests;
-			productReference = 00E356EE1AD99517003FC87E /* UlkkaTests.xctest */;
+			name = OmongTests;
+			productName = OmongTests;
+			productReference = 00E356EE1AD99517003FC87E /* OmongTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* Ulkka */ = {
+		13B07F861A680F5B00A75B9A /* Omong */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Ulkka" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Omong" */;
 			buildPhases = (
 				E40BDAD7EF756DC96577F8B4 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -340,14 +340,14 @@
 			dependencies = (
 				DCE8D1BD2621B5B100E3B739 /* PBXTargetDependency */,
 			);
-			name = Ulkka;
-			productName = Ulkka;
-			productReference = 13B07F961A680F5B00A75B9A /* Ulkka.app */;
+			name = Omong;
+			productName = Omong;
+			productReference = 13B07F961A680F5B00A75B9A /* Omong.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* Ulkka-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* Omong-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ulkka-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Omong-tvOS" */;
 			buildPhases = (
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
@@ -359,14 +359,14 @@
 			);
 			dependencies = (
 			);
-			name = "Ulkka-tvOS";
-			productName = "Ulkka-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* Ulkka-tvOS.app */;
+			name = "Omong-tvOS";
+			productName = "Omong-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* Omong-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* Ulkka-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* Omong-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ulkka-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Omong-tvOSTests" */;
 			buildPhases = (
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
@@ -377,14 +377,14 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "Ulkka-tvOSTests";
-			productName = "Ulkka-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* Ulkka-tvOSTests.xctest */;
+			name = "Omong-tvOSTests";
+			productName = "Omong-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* Omong-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		DCE8D1B32621B5B000E3B739 /* Ulkka-Share */ = {
+		DCE8D1B32621B5B000E3B739 /* Omong-Share */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCE8D1BF2621B5B100E3B739 /* Build configuration list for PBXNativeTarget "Ulkka-Share" */;
+			buildConfigurationList = DCE8D1BF2621B5B100E3B739 /* Build configuration list for PBXNativeTarget "Omong-Share" */;
 			buildPhases = (
 				2032FA19D6786F3B7DE8FFA6 /* [CP] Check Pods Manifest.lock */,
 				DCE8D1B02621B5B000E3B739 /* Sources */,
@@ -397,9 +397,9 @@
 			);
 			dependencies = (
 			);
-			name = "Ulkka-Share";
-			productName = "Ulkka-Share";
-			productReference = DCE8D1B42621B5B000E3B739 /* Ulkka-Share.appex */;
+			name = "Omong-Share";
+			productName = "Omong-Share";
+			productReference = DCE8D1B42621B5B000E3B739 /* Omong-Share.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -437,7 +437,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Ulkka" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Omong" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -450,11 +450,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Ulkka */,
-				00E356ED1AD99517003FC87E /* UlkkaTests */,
-				2D02E47A1E0B4A5D006451C7 /* Ulkka-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* Ulkka-tvOSTests */,
-				DCE8D1B32621B5B000E3B739 /* Ulkka-Share */,
+				13B07F861A680F5B00A75B9A /* Omong */,
+				00E356ED1AD99517003FC87E /* OmongTests */,
+				2D02E47A1E0B4A5D006451C7 /* Omong-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* Omong-tvOSTests */,
+				DCE8D1B32621B5B000E3B739 /* Omong-Share */,
 			);
 		};
 /* End PBXProject section */
@@ -532,7 +532,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Ulkka-Share-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Omong-Share-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -559,7 +559,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ulkka-UlkkaTests/Pods-Ulkka-UlkkaTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Omong-OmongTests/Pods-Omong-OmongTests-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
@@ -608,7 +608,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ulkka-UlkkaTests/Pods-Ulkka-UlkkaTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Omong-OmongTests/Pods-Omong-OmongTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4A7F3404B425B34A790850B7 /* [CP] Copy Pods Resources */ = {
@@ -617,7 +617,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ulkka-Share/Pods-Ulkka-Share-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Omong-Share/Pods-Omong-Share-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -626,7 +626,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ulkka-Share/Pods-Ulkka-Share-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Omong-Share/Pods-Omong-Share-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4EB91788EED14D69F9093AC5 /* [CP] Copy Pods Resources */ = {
@@ -635,7 +635,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ulkka/Pods-Ulkka-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Omong/Pods-Omong-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
@@ -684,7 +684,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ulkka/Pods-Ulkka-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Omong/Pods-Omong-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8056C5A086F8E4DAE07D217D /* [CP-User] [RNFB] Crashlytics Configuration */ = {
@@ -720,7 +720,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ulkka-UlkkaTests/Pods-Ulkka-UlkkaTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Omong-OmongTests/Pods-Omong-OmongTests-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/double-conversion/double-conversion.framework/double-conversion",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes/hermes.framework/hermes",
@@ -733,7 +733,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ulkka-UlkkaTests/Pods-Ulkka-UlkkaTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Omong-OmongTests/Pods-Omong-OmongTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DC8620052621BEF70084B027 /* Bundle React Native code and images */ = {
@@ -760,7 +760,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ulkka/Pods-Ulkka-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Omong/Pods-Omong-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/double-conversion/double-conversion.framework/double-conversion",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes/hermes.framework/hermes",
@@ -773,7 +773,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ulkka/Pods-Ulkka-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Omong/Pods-Omong-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E40BDAD7EF756DC96577F8B4 /* [CP] Check Pods Manifest.lock */ = {
@@ -791,7 +791,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Ulkka-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Omong-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -813,7 +813,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Ulkka-UlkkaTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Omong-OmongTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -865,7 +865,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* UlkkaTests.m in Sources */,
+				00E356F31AD99517003FC87E /* OmongTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -892,7 +892,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* UlkkaTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* OmongTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -910,17 +910,17 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* Ulkka */;
+			target = 13B07F861A680F5B00A75B9A /* Omong */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* Ulkka-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* Omong-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 		DCE8D1BD2621B5B100E3B739 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DCE8D1B32621B5B000E3B739 /* Ulkka-Share */;
+			target = DCE8D1B32621B5B000E3B739 /* Omong-Share */;
 			targetProxy = DCE8D1BC2621B5B100E3B739 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -939,7 +939,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94F414301AAC66B7D81E4DFB /* Pods-Ulkka-UlkkaTests.debug.xcconfig */;
+			baseConfigurationReference = 94F414301AAC66B7D81E4DFB /* Pods-Omong-OmongTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -948,7 +948,7 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = UlkkaTests/Info.plist;
+				INFOPLIST_FILE = OmongTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -958,19 +958,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ulkka.app/Ulkka";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Omong.app/Omong";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1631240B1ADE508B7EF1C8A4 /* Pods-Ulkka-UlkkaTests.release.xcconfig */;
+			baseConfigurationReference = 1631240B1ADE508B7EF1C8A4 /* Pods-Omong-OmongTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = UlkkaTests/Info.plist;
+				INFOPLIST_FILE = OmongTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -980,25 +980,25 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ulkka.app/Ulkka";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Omong.app/Omong";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 430B57C88304C9F2CA262FF2 /* Pods-Ulkka.debug.xcconfig */;
+			baseConfigurationReference = 430B57C88304C9F2CA262FF2 /* Pods-Omong.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Ulkka/Ulkka.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Omong/Omong.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Ulkka/Info.plist;
+				INFOPLIST_FILE = Omong/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.1.4;
@@ -1007,10 +1007,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = in.ulkka;
-				PRODUCT_NAME = Ulkka;
+				PRODUCT_BUNDLE_IDENTIFIER = id.omong;
+				PRODUCT_NAME = Omong;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Ulkka-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Omong-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1019,18 +1019,18 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 17211D8091CC86AC54B9194E /* Pods-Ulkka.release.xcconfig */;
+			baseConfigurationReference = 17211D8091CC86AC54B9194E /* Pods-Omong.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Ulkka/Ulkka.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Omong/Omong.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Ulkka/Info.plist;
+				INFOPLIST_FILE = Omong/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.1.4;
@@ -1039,10 +1039,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = in.ulkka;
-				PRODUCT_NAME = Ulkka;
+				PRODUCT_BUNDLE_IDENTIFIER = id.omong;
+				PRODUCT_NAME = Omong;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Ulkka-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Omong-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1061,14 +1061,14 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "Ulkka-tvOS/Info.plist";
+				INFOPLIST_FILE = "Omong-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Ulkka-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Omong-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1089,14 +1089,14 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "Ulkka-tvOS/Info.plist";
+				INFOPLIST_FILE = "Omong-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Ulkka-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Omong-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1116,17 +1116,17 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "Ulkka-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "Omong-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Ulkka-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Omong-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ulkka-tvOS.app/Ulkka-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Omong-tvOS.app/Omong-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
@@ -1143,17 +1143,17 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "Ulkka-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "Omong-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Ulkka-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Omong-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ulkka-tvOS.app/Ulkka-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Omong-tvOS.app/Omong-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1273,7 +1273,7 @@
 		};
 		DCE8D1C02621B5B100E3B739 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1B685AECD0ECE74D8A4883B /* Pods-Ulkka-Share.debug.xcconfig */;
+			baseConfigurationReference = D1B685AECD0ECE74D8A4883B /* Pods-Omong-Share.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1283,7 +1283,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = "Ulkka-Share/Ulkka-Share.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Omong-Share/Omong-Share.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1291,17 +1291,17 @@
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
 				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Ulkka-Share/Info.plist";
+				INFOPLIST_FILE = "Omong-Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 0.1.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "in.ulkka.Ulkka-Share";
+				PRODUCT_BUNDLE_IDENTIFIER = "id.omong.Omong-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = "Ulkka-Share/Ulkka-Share-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Omong-Share/Omong-Share-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1310,7 +1310,7 @@
 		};
 		DCE8D1C12621B5B100E3B739 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7DECC24591F8ADD79A0C78A9 /* Pods-Ulkka-Share.release.xcconfig */;
+			baseConfigurationReference = 7DECC24591F8ADD79A0C78A9 /* Pods-Omong-Share.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1320,7 +1320,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = "Ulkka-Share/Ulkka-Share.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Omong-Share/Omong-Share.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -1329,15 +1329,15 @@
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
 				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Ulkka-Share/Info.plist";
+				INFOPLIST_FILE = "Omong-Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 0.1.4;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "in.ulkka.Ulkka-Share";
+				PRODUCT_BUNDLE_IDENTIFIER = "id.omong.Omong-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Ulkka-Share/Ulkka-Share-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Omong-Share/Omong-Share-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1347,7 +1347,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "UlkkaTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "OmongTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1356,7 +1356,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Ulkka" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Omong" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1365,7 +1365,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ulkka-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Omong-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1374,7 +1374,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ulkka-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Omong-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1383,7 +1383,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Ulkka" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Omong" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
@@ -1392,7 +1392,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DCE8D1BF2621B5B100E3B739 /* Build configuration list for PBXNativeTarget "Ulkka-Share" */ = {
+		DCE8D1BF2621B5B100E3B739 /* Build configuration list for PBXNativeTarget "Omong-Share" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCE8D1C02621B5B100E3B739 /* Debug */,

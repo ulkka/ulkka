@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Ulkka</string>
+	<string>Omong</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ulkkashare</string>
+				<string>omongshare</string>
 			</array>
 		</dict>
 		<dict>
@@ -47,7 +47,7 @@
 			<string>App Scheme</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ulkka</string>
+				<string>omong</string>
 			</array>
 		</dict>
 		<dict>
@@ -57,7 +57,7 @@
 			<string>Bundle ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>in.ulkka</string>
+				<string>id.omong</string>
 			</array>
 		</dict>
 	</array>
@@ -65,7 +65,7 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
-		<string>https://link.ulkka.in</string>
+		<string>https://link.omong.id</string>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>

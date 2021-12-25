@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o.apps.googleusercontent.com</string>
+	<string>413705214817-5hlot26lmlqmm9gffs173tc0kuvavtqr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>447961985601-gh4oquhfpdci2fhdfrsndgosdb41k0r2.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.413705214817-5hlot26lmlqmm9gffs173tc0kuvavtqr</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBwHvA-lc5jFSvMCiLD57zOvjJUrqgGduE</string>
+	<string>AIzaSyBC7hw1oQgI8ZnTTrTIggsqUpZIJYbiXoc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>447961985601</string>
+	<string>413705214817</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>in.ulkka</string>
+	<string>id.omong</string>
 	<key>PROJECT_ID</key>
-	<string>ulkka-in</string>
+	<string>omong-id</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ulkka-in.appspot.com</string>
+	<string>omong-id.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:447961985601:ios:5551f977ed89444ea2ccc0</string>
+	<string>1:413705214817:ios:f9b310013b629a96ac0320</string>
 </dict>
 </plist>

@@ -71,25 +71,25 @@ const ShareCommunity = props => {
     const socialTitle =
       'Invitation to join ' +
       communityTitle +
-      " community on Ulkka - Kerala's Own Community!";
+      " community on Omong - Indonesia's Own Community!";
     const socialDescription =
       communityMemberCount + ' members\n' + communityDescription;
     const config = {
-      link: 'https://ulkka.in/community/' + communityId,
+      link: 'https://omong.id/community/' + communityId,
       android: {
-        packageName: 'in.ulkka',
-        fallbackUrl: 'https://ulkka.in/community/' + communityId,
+        packageName: 'id.omong',
+        fallbackUrl: 'https://omong.id/community/' + communityId,
       },
       ios: {
-        bundleId: 'in.ulkka',
-        appStoreId: '1563474580',
-        fallbackUrl: 'https://ulkka.in/community/' + communityId,
+        bundleId: 'id.omong',
+        appStoreId: '1601976921',
+        fallbackUrl: 'https://omong.id/community/' + communityId,
       },
       // domainUriPrefix is created in your Firebase console
-      domainUriPrefix: 'https://link.ulkka.in',
+      domainUriPrefix: 'https://link.omong.id',
       // optional setup which updates Firebase analytics campaign
       analytics: {
-        source: Platform.OS == 'ios' ? 'ulkka_ios' : 'ulkka_android',
+        source: Platform.OS == 'ios' ? 'omong_ios' : 'omong_android',
         medium: 'organic_social',
         campaign: 'share',
         content: type,

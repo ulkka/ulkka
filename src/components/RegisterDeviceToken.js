@@ -29,6 +29,7 @@ export default function RegisterDeviceToken() {
       const token = await messaging()
         .getToken()
         .catch(error => console.warn('error getting token', error));
+      console.log('token', token);
       saveToken(token);
     }
   };

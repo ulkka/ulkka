@@ -20,6 +20,7 @@ GoogleSignin.configure({
 
 const getCurrentUser = async () => {
   let currentUser = await auth().currentUser;
+
   if (!currentUser) {
     await auth().signInAnonymously();
     currentUser = await auth().currentUser;
@@ -31,6 +32,7 @@ const getRegisteredUser = async currentUser => {
   let registeredUser = undefined;
   if (!currentUser.isAnonymous) {
     const response = await userApi.user.self();
+
     if (response) {
       registeredUser = response.data;
     }
@@ -57,8 +59,11 @@ const isUserRegistered = async registeredUser => {
 const initAuth = async () => {
   await auth().currentUser?.getIdToken(true);
   const currentUser = await getCurrentUser();
+
   const registeredUser = await getRegisteredUser(currentUser);
+
   const isRegistered = await isUserRegistered(registeredUser);
+
   let registeredUserCommunities;
   if (isRegistered) {
     registeredUserCommunities = await getRegisteredUserCommunities(currentUser);
@@ -152,12 +157,12 @@ export const emailLinkAuth = createAsyncThunk(
 const actionCodeSettings = {
   handleCodeInApp: true,
   // URL must be whitelisted in the Firebase Console.
-  url: 'https://ulkka.page.link/naxz',
+  url: 'https://link.omong.id/',
   iOS: {
-    bundleId: 'in.ulkka',
+    bundleId: 'id.omong',
   },
   android: {
-    packageName: 'in.ulkka',
+    packageName: 'id.omong',
     installApp: true,
     //  minimumVersion: '12',
   },

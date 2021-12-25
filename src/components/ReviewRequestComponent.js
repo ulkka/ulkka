@@ -32,12 +32,12 @@ export default function ReviewRequestComponent() {
 
   const rateApp = () => {
     const options = {
-      AppleAppID: '1563474580',
-      GooglePackageName: 'in.ulkka',
+      AppleAppID: '1601976921',
+      GooglePackageName: 'id.omong',
       // AmazonPackageName: 'com.mywebsite.myapp',
       // OtherAndroidURL: 'http://www.randomappstore.com/app/47172391',
       preferredAndroidMarket: AndroidMarket.Google,
-      fallbackPlatformURL: 'https://ulkka.in',
+      fallbackPlatformURL: 'https://omong.id',
       ...(Platform.OS == 'ios' && {
         openAppStoreIfInAppFails: true,
         preferInApp: true,

@@ -53,8 +53,8 @@ export function getLinkFromRemoteMessage(remoteMessage) {
 }
 
 export function getScreenFromLink(link) {
-  const isPath = !link.startsWith('https://ulkka.in');
-  const path = isPath ? link : link.replace('https://ulkka.in/', '/');
+  const isPath = !link.startsWith('https://omong.id');
+  const path = isPath ? link : link.replace('https://omong.id/', '/');
 
   const splitPath = path?.split('/');
   const entity = link && splitPath[1];
@@ -96,7 +96,7 @@ export const navigateToURL = async (url, clickedFrom) => {
       console.warn('not a dynamic link', error.message);
       return false;
     });
-  if (resolvedUrl?.url?.startsWith('https://ulkka.in')) {
+  if (resolvedUrl?.url?.startsWith('https://omong.id')) {
     navigateToLink(resolvedUrl.url);
   } else {
     Linking.openURL(url).catch(error =>

@@ -31,6 +31,7 @@ export default function App() {
   }
 
   useEffect(() => {
+    console.log('app.js');
     bootstrap();
     SplashScreen.hide();
   }, []);

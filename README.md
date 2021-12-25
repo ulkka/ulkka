@@ -1,4 +1,4 @@
-# Ulkka React Native App Repo!
+# Omong React Native App Repo!
 
 run 
 yarn install 

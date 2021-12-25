@@ -29,7 +29,7 @@ const TitleComponent = memo(() => {
           fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
           color: theme.colors.black4,
         }}>
-        Ulkka
+        Omong
       </Text>
       <Image
         resizeMode={'contain'}
