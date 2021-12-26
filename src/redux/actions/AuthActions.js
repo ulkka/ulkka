@@ -13,9 +13,9 @@ import {storeData} from '../../localStorage/helpers';
 GoogleSignin.configure({
   scopes: ['openid', 'email', 'profile'],
   iosClientId:
-    '447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o.apps.googleusercontent.com',
+    '413705214817-5hlot26lmlqmm9gffs173tc0kuvavtqr.apps.googleusercontent.com',
   webClientId:
-    '447961985601-gqn2649d8rek9gnl92am8fsm4an5poeo.apps.googleusercontent.com',
+    '413705214817-2pgh3sg6hdfhfegnvmcamv3jmg0m78jb.apps.googleusercontent.com',
 });
 
 const getCurrentUser = async () => {

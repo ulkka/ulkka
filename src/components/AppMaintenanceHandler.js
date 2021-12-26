@@ -95,7 +95,7 @@ const AppMaintenanceHandler = props => {
           onPress={() => {
             Platform.OS == 'ios' &&
               navigateToURL(
-                'https://apps.apple.com/in/app/ulkka/id1601976921',
+                'https://apps.apple.com/in/app/omong/id1601976921',
                 'app_update',
               );
             Platform.OS == 'android' &&

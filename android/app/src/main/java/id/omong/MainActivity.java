@@ -1,4 +1,4 @@
-package in.ulkka;
+package id.omong;
 
 import com.facebook.react.ReactActivity;
 

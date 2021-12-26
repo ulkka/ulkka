@@ -1,65 +1,48 @@
 {
   "project_info": {
-    "project_number": "447961985601",
-    "project_id": "ulkka-in",
-    "storage_bucket": "ulkka-in.appspot.com"
+    "project_number": "413705214817",
+    "project_id": "omong-id",
+    "storage_bucket": "omong-id.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:447961985601:android:61cc421c196270c4a2ccc0",
+        "mobilesdk_app_id": "1:413705214817:android:d65e3db7458cdc34ac0320",
         "android_client_info": {
-          "package_name": "in.ulkka"
+          "package_name": "id.omong"
         }
       },
       "oauth_client": [
         {
-          "client_id": "447961985601-gh4oquhfpdci2fhdfrsndgosdb41k0r2.apps.googleusercontent.com",
+          "client_id": "413705214817-g2ghj5at9hhie7p45bdt65cubnhttf2f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "in.ulkka",
-            "certificate_hash": "d22b9462877458744d1d3c64d11e8ce90c7fd223"
-          }
-        },
-        {
-          "client_id": "447961985601-gif6p4o3bhf8k0vtq6vcbsjmgq8ssa11.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "in.ulkka",
-            "certificate_hash": "5385b424a88dee195a0accf414f5afacd00eb876"
-          }
-        },
-        {
-          "client_id": "447961985601-tkn0upk0l3tivh2fgub8umgdub2ig367.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "in.ulkka",
+            "package_name": "id.omong",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "447961985601-gqn2649d8rek9gnl92am8fsm4an5poeo.apps.googleusercontent.com",
+          "client_id": "413705214817-2pgh3sg6hdfhfegnvmcamv3jmg0m78jb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA-Bsza0t1p3V5xLw67INIe2Iu9erYeZKs"
+          "current_key": "AIzaSyAMPYopS-drIxyMfhgusMmGvl8DUJsD0-I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "447961985601-gqn2649d8rek9gnl92am8fsm4an5poeo.apps.googleusercontent.com",
+              "client_id": "413705214817-2pgh3sg6hdfhfegnvmcamv3jmg0m78jb.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "447961985601-sd87di4nuogfqp85bqdaau1an0qr8k2o.apps.googleusercontent.com",
+              "client_id": "413705214817-5hlot26lmlqmm9gffs173tc0kuvavtqr.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "in.ulkka",
-                "app_store_id": "1563474580"
+                "bundle_id": "id.omong"
               }
             }
           ]

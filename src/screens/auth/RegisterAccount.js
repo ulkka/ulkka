@@ -190,7 +190,7 @@ const RegisterAccount = () => {
             </Text>
             <TouchableOpacity
               onPress={() =>
-                navigateToURL('https://ulkka.in/terms.html', 'registerAccount')
+                navigateToURL('https://omong.id/terms.html', 'registerAccount')
               }>
               <Text
                 style={{
@@ -220,7 +220,7 @@ const RegisterAccount = () => {
             <TouchableOpacity
               onPress={() =>
                 navigateToURL(
-                  'https://ulkka.in/privacy-policy.html',
+                  'https://omong.id/privacy-policy.html',
                   'registerAccount',
                 )
               }>
