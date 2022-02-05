@@ -70,7 +70,7 @@ const CommunityOptions = props => {
       return (
         <View>
           <Button
-            title="Settings"
+            title="Pengaturan"
             containerStyle={{
               marginHorizontal: 10,
             }}
@@ -95,7 +95,7 @@ const CommunityOptions = props => {
           />
           <View style={{height: 15}}></View>
           <Button
-            title="Grow"
+            title="Kembangkan"
             buttonStyle={{
               borderWidth: 1,
               borderColor: theme.colors.blue,
@@ -124,7 +124,7 @@ const CommunityOptions = props => {
     default:
       return (
         <Button
-          title="Join"
+          title="Bergabung"
           containerStyle={{
             marginHorizontal: 10,
           }}

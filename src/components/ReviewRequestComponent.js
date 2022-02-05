@@ -9,10 +9,12 @@ import {
   reviewLater,
   reviewDone,
 } from '../redux/reducers/ReviewRequestSlice';
+import {useTranslation} from 'react-i18next';
 
 export default function ReviewRequestComponent() {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
   const isVisible = useSelector(getIsVisible);
   const [visible, setVisible] = useState(false);
 
@@ -67,7 +69,7 @@ export default function ReviewRequestComponent() {
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            Enjoying Ulkka?
+            Enjoying Omong?
           </Text>
         </View>
         <View style={{padding: 10}}>
@@ -77,8 +79,7 @@ export default function ReviewRequestComponent() {
               textAlign: 'center',
               fontSize: 13,
             }}>
-            If you are enjoying Ulkka, would you mind taking a moment to rate
-            it?{'\n'}Thanks for your Support!
+            {t('Review Request Text')}
           </Text>
         </View>
         <View

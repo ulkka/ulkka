@@ -36,7 +36,7 @@ function CommunitySettingsNavigation(props) {
           title="CommunitySettings"
           options={{
             headerBackTitle: 'Back',
-            headerTitle: 'Community Settings',
+            headerTitle: 'Pengaturan Komunitas',
             headerTitleAlign: 'center',
             headerStyle:
               Platform.OS == 'android'

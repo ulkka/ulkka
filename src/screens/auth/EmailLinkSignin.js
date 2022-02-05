@@ -63,7 +63,7 @@ const EmailLinkSignIn = () => {
         value={email}
       />
       <Button
-        title="Send Login Link"
+        title="Kirim Tautan untuk Masuk"
         type="solid"
         activeOpacity={0.5}
         disabledTitleStyle={{color: theme.colors.black6, fontWeight: '400'}}

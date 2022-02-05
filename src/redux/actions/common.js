@@ -25,8 +25,8 @@ export function requestPermissionAlert() {
       : 'Please allow access to your Media Library';
   const message =
     Platform.OS == 'ios'
-      ? 'This allows Ulkka to save media to your Photo library'
-      : 'This allows Ulkka to share media from your library. Kindly enable Permissions->Storage in the application settings';
+      ? 'This allows Omong to save media to your Photo library'
+      : 'This allows Omong to share media from your library. Kindly enable Permissions->Storage in the application settings';
   const settingsTitle =
     Platform.OS == 'ios' ? 'Enable Library Access' : 'Go to Settings';
 
@@ -62,7 +62,7 @@ export async function savePicture({tag, album}, rejectWithValue) {
 
   const albumList = await CameraRoll.getAlbums({assetType: 'All'});
   const isUlkkaAlbumAlreadyPresent = albumList.find((item, index) => {
-    return item.title == 'Ulkka';
+    return item.title == 'Omong';
   });
 
   if (!isUlkkaAlbumAlreadyPresent) {
@@ -88,14 +88,14 @@ export async function savePicture({tag, album}, rejectWithValue) {
 export function getAlbumFromType(type) {
   switch (type) {
     case 'image':
-      return 'Ulkka Images';
+      return 'Omong Images';
     case 'video':
-      return 'Ulkka Videos';
+      return 'Omong Videos';
     case 'gif':
-      return 'Ulkka GIFs';
+      return 'Omong GIFs';
 
     default:
-      return 'Ulkka';
+      return 'Omong';
   }
 }
 

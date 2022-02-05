@@ -190,9 +190,10 @@ export const reportPost = createAsyncThunk(
   },
   {
     condition: (id, {getState}) => {
-      const isRegistered = getState().authorization.isRegistered;
-      const access = isRegistered ? true : false;
-      return access;
+      // const isRegistered = getState().authorization.isRegistered;
+      // const access = isRegistered ? true : false;
+      // return access;
+      return true;
     },
     dispatchConditionRejection: true,
   },
@@ -269,8 +270,8 @@ export const downloadMediaToLibrary = createAsyncThunk(
       const {type} = getState().posts.entities[postId];
       const mediaLibraryDirectoryPath =
         Platform.OS == 'android'
-          ? RNFetchBlob.fs.dirs.DownloadDir + '/Ulkka/'
-          : RNFetchBlob.fs.dirs.LibraryDir + '/Ulkka/';
+          ? RNFetchBlob.fs.dirs.DownloadDir + '/Omong/'
+          : RNFetchBlob.fs.dirs.LibraryDir + '/Omong/';
       const filename = url.split('/').pop().replace('.', '').replace(/:/g, '');
       const toFile = mediaLibraryDirectoryPath + filename;
       if (Platform.OS === 'android') {
@@ -303,7 +304,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
           }
         }
         await RNFS.mkdir(mediaLibraryDirectoryPath).catch(error =>
-          console.warn('error creating Ulkka folder', error),
+          console.warn('error creating Omong folder', error),
         );
       }
 
@@ -317,7 +318,7 @@ export const downloadMediaToLibrary = createAsyncThunk(
           // Optional, but recommended since android DownloadManager will fail when
           // the url does not contains a file extension, by default the mime type will be text/plain
           //mime: 'image/jpg',
-          description: 'Media downloaded by Ulkka',
+          description: 'Media downloaded by Omong',
           path: toFile,
         },
       })

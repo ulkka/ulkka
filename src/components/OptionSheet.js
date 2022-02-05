@@ -124,7 +124,7 @@ export default function OptionSheet() {
       ? [
           {
             // dont show report option if current user same as author
-            title: 'Blocked Users',
+            title: 'Anggota yang di blok',
             titleStyle: {
               fontSize: 14,
               fontWeight: '500',
@@ -137,7 +137,7 @@ export default function OptionSheet() {
             },
           },
           {
-            title: 'Logout',
+            title: 'Keluar',
             titleStyle: {
               fontSize: 14,
               fontWeight: '500',

@@ -66,7 +66,7 @@ export default function CreateCommunity({navigation, route}) {
     ) {
       setIsCommunityTitleValid(false);
       setCommunityTitleErrorMessage(
-        'Invalid Community Title \nMin 4 characters, Max 25 characters\nNo spaces\nEnglish / Malayalam alphabets, numbers or underscore',
+        'Invalid Community Title \nMin 4 characters, Max 25 characters\nNo spaces\nEnglish alphabets, numbers or underscore',
       );
       return false;
     } else {
@@ -122,7 +122,7 @@ export default function CreateCommunity({navigation, route}) {
   const communityCreationSuccess = newCommunityId => {
     var statusData = {
       type: 'success',
-      message: 'Successfully Created Community',
+      message: 'Sukses membuat komunitas!',
       entity: title,
     };
     setStatus(statusData);

@@ -97,7 +97,7 @@ mainClient.interceptors.response.use(
 // RNFirebase Perf interceptors end
 
 // Intercept all requests
-/*
+
 mainClient.interceptors.request.use(
   async config => {
     const idTokenResult = await auth().currentUser.getIdTokenResult();
@@ -138,4 +138,3 @@ mainClient.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-*/

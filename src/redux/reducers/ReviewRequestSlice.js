@@ -209,4 +209,4 @@ const slice = createSlice({
 export const reviewRequest = slice.reducer;
 export const {showReviewRequest, hideReviewRequest} = slice.actions;
 
-export const getIsVisible = (state) => state.reviewRequest.isVisible;
+export const getIsVisible = state => state.reviewRequest.isVisible;

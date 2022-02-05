@@ -11,9 +11,11 @@ import {
   getCommunityIcon,
 } from '../../redux/reducers/CommunitySlice';
 import analytics from '@react-native-firebase/analytics';
+import {useTranslation} from 'react-i18next';
 
 const ShareCommunity = props => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const {
     communityId,
@@ -69,9 +71,11 @@ const ShareCommunity = props => {
 
   async function buildLink(communityId) {
     const socialTitle =
-      'Invitation to join ' +
+      t('Share Community Message1') +
+      ' ' +
       communityTitle +
-      " community on Omong - Indonesia's Own Community!";
+      ' ' +
+      t('Share Community Message2');
     const socialDescription =
       communityMemberCount + ' members\n' + communityDescription;
     const config = {
@@ -114,9 +118,11 @@ const ShareCommunity = props => {
       title: 'Invite friends to ' + communityTitle + ' community',
       url: link,
       message:
-        'Invitation to join ' +
+        t('Share Community Message1') +
+        ' ' +
         communityTitle +
-        " community on Ulkka - Kerala's Own Community",
+        ' ' +
+        t('Share Community Message2'),
     };
     Share.open(options)
       .then(res => {

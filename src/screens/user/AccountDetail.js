@@ -147,7 +147,7 @@ const AccountDetail = memo(props => {
   const blockUserAlert = () => {
     Alert.alert(
       userDisplayname ? 'Block ' + userDisplayname + ' ?' : 'Block User ?',
-      "You won't be able to see posts and comments from this user and they won't be able to see your posts and comments on Ulkka. We won't let them know that you've blocked them",
+      "You won't be able to see posts and comments from this user and they won't be able to see your posts and comments on Omong. We won't let them know that you've blocked them",
       [
         {
           text: 'Cancel',

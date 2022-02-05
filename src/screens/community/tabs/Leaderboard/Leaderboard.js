@@ -52,7 +52,7 @@ function Leaderboard(props) {
                 color: theme.colors.black5,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              Posters
+              Pembuat Post
             </Text>
           </View>
           <FlatList
@@ -93,7 +93,7 @@ function Leaderboard(props) {
                 color: theme.colors.black5,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              Commenters
+              Pembuat Komentar
             </Text>
           </View>
           <FlatList

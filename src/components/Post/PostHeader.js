@@ -68,7 +68,7 @@ const PostHeader = props => {
           color: theme.colors.black6,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        {communityName ? communityName : 'Ulkka'}
+        {communityName ? communityName : 'Omong'}
       </Text>
     </TouchableOpacity>
   );

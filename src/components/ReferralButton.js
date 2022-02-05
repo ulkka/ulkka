@@ -2,19 +2,19 @@ import React, {memo} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Icon, Text, useTheme} from 'react-native-elements';
 import Share from 'react-native-share';
-
 import analytics from '@react-native-firebase/analytics';
+import {useTranslation} from 'react-i18next';
 
 const ReferralButton = props => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const sharePost = async () => {
-    const link = 'https://ulkka.page.link/xi6d';
+    const link = 'https://link.omong.id/BnhH';
     const options = {
-      title: 'Invite Friends to Ulkka',
+      title: 'Invite Friends to Omong',
       url: link,
-      message:
-        "Invitation to join Ulkka - Kerala's own Social Media!\nഅടിപൊളി മലയാളം കമ്മ്യൂണിറ്റികളുടെ ഭാഗമാകാൻ കേരളത്തിന്റെ സ്വന്തം സോഷ്യൽ മീഡിയയായ Ulkka ഇൻസ്റ്റാൾ ചെയ്യൂ",
+      message: t('Share Omong Message'),
     };
     Share.open(options)
       .then(res => {
@@ -44,6 +44,7 @@ const ReferralButton = props => {
         style={{
           color: theme.colors.black3,
           fontSize: 10,
+          marginTop: 5,
         }}>
         Invite
       </Text>

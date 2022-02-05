@@ -419,7 +419,7 @@ export default function CreatePost({route}) {
         Please login or create an account to create posts{'    '}
       </Text>
       <Button
-        title="Join Ulkka!"
+        title="Join Omong!"
         titleStyle={{
           fontSize: 14,
           color: theme.colors.green,

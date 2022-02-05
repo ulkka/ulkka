@@ -37,7 +37,7 @@ export default function CommunityDetailTabView(props) {
   const routesArray = [
     {key: 'posts', title: 'Posts'},
     {key: 'leaderboard', title: 'Leaderboard'},
-    {key: 'about', title: 'About'},
+    {key: 'about', title: 'Tentang'},
   ];
 
   const [index, setIndex] = useState(0);

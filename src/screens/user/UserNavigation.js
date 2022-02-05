@@ -35,7 +35,7 @@ function UserNavigation(props) {
           component={BlockedUsers}
           title="Blocked Users"
           options={{
-            headerTitle: 'Blocked Users',
+            headerTitle: 'Anggota yang di blok',
             headerBackTitle: '',
             headerBackTitleStyle: {
               fontSize: 16,

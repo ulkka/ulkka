@@ -56,7 +56,7 @@ const SingleCommunity = memo(({item}) => {
       <View style={{height: 10}}></View>
       <View>
         <Button
-          title="Join"
+          title="Bergabung"
           buttonStyle={{
             borderRadius: 15,
             backgroundColor: theme.colors.blue,
@@ -139,7 +139,7 @@ export default memo(function TopCommunities(props) {
       }}>
       <View style={{paddingHorizontal: 10}}>
         <Text style={{fontWeight: 'bold', color: theme.colors.black6}}>
-          Top Communities
+          Komunitas Populer
         </Text>
       </View>
       <View>

@@ -145,8 +145,8 @@ android {
         applicationId "id.omong"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 49
-        versionName "0.4.9"
+        versionCode 1
+        versionName "0.0.1"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         ndk {
@@ -169,11 +169,11 @@ android {
             keyPassword 'android'
         }
           release{
-             if (project.hasProperty('ULKKA_UPLOAD_STORE_FILE')) {
-                storeFile file(ULKKA_UPLOAD_STORE_FILE)
-                storePassword ULKKA_UPLOAD_STORE_PASSWORD
-                keyAlias ULKKA_UPLOAD_KEY_ALIAS
-                keyPassword ULKKA_UPLOAD_KEY_PASSWORD
+             if (project.hasProperty('OMONG_UPLOAD_STORE_FILE')) {
+                storeFile file(OMONG_UPLOAD_STORE_FILE)
+                storePassword OMONG_UPLOAD_STORE_PASSWORD
+                keyAlias OMONG_UPLOAD_KEY_ALIAS
+                keyPassword OMONG_UPLOAD_KEY_PASSWORD
             }
           }
     }

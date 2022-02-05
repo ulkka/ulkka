@@ -39,7 +39,7 @@ const UserDisplaynameField = props => {
     ) {
       setIsDisplaynameValid(false);
       setDisplaynameErrorMessage(
-        'Min 4 characters\nMax 25 characters \nEnglish / Malayalam alphabets, numbers or _.- ',
+        'Min 4 characters\nMax 25 characters \nEnglish alphabets, numbers or _.- ',
       );
       return false;
     } else {

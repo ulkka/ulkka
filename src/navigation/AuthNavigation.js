@@ -11,9 +11,11 @@ import {useSelector} from 'react-redux';
 import RegisterAccount from '../screens/auth/RegisterAccount';
 import Login from '../screens/auth/Login';
 import UserDetailTabView from '../screens/user/UserDetailTabView';
+import {useTranslation} from 'react-i18next';
 
 export const AuthNavigation = () => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const StackNav = createStackNavigator();
   const isRegistered = useSelector(getRegistrationStatus);
@@ -66,7 +68,7 @@ export const AuthNavigation = () => {
             headerTitle: isRegistered
               ? 'My Account'
               : authStatus != 'AUTHENTICATED'
-              ? 'Login / Register'
+              ? t('Login/Register')
               : 'Create Account',
           }}
           initialParams={{userId: registeredUser?._id}}

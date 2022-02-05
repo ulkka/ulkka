@@ -95,7 +95,7 @@ const EmptyHomeFeedView = props => {
                 ...(Platform.OS == 'ios' && {letterSpacing: 1}),
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              Welcome !
+              Selamat Datang !
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -127,7 +127,7 @@ const EmptyHomeFeedView = props => {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    'Vote on posts to assist communities in bringing the best content to the top'
+                    'Vote di postingan untuk membantu komunitas agar komentar terbaik ada di atas'
                     //'വോട്ട് ചെയ്ത് നല്ല പോസ്റ്റുകൾ മുകളിലേക്കെത്തിക്കുവാൻ കമ്മ്യൂണിറ്റികളെ സഹായിക്കുക'
                   }
                 </Text>
@@ -158,7 +158,7 @@ const EmptyHomeFeedView = props => {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    'Join communities to keep this home feed up to date and filled with fresh content'
+                    'Bergabung dengan komunitas agar halaman Home ini selalu up-to-date dan banyak konten baru setiap harinya!'
                     //'ഫ്രഷ് പോസ്റ്റുകൾ കൊണ്ട് ഈ ഹോം ഫീഡ് നിറയ്ക്കാൻ കമ്മ്യൂണിറ്റികളിൽ ജോയിൻ ചെയ്യുക'
                   }
                 </Text>
@@ -186,7 +186,7 @@ const EmptyHomeFeedView = props => {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    'Create awesome posts and comments to make your community happy and win more hearts'
+                    'Buat post dan komentar yang bagus untuk membuat komunitasmu senang dan dapatkan hati (like)!'
                     // 'അടിപൊളി പോസ്റ്റും കമന്റും ചെയ്തു കൂടുതൽ Hearts നേടുക '
                   }
                 </Text>

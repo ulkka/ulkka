@@ -114,8 +114,8 @@ export default function ChangeCommunityIcon(props) {
             : 'Please allow access to your Media Library';
         const message =
           Platform.OS == 'ios'
-            ? 'This allows Ulkka to share media from your library'
-            : 'This allows Ulkka to share media from your library. Kindly enable Permissions->Storage in the application settings';
+            ? 'This allows Omong to share media from your library'
+            : 'This allows Omong to share media from your library. Kindly enable Permissions->Storage in the application settings';
         const settingsTitle =
           Platform.OS == 'ios' ? 'Enable Library Access' : 'Go to Settings';
 

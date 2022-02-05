@@ -24,18 +24,33 @@ const TitleComponent = memo(() => {
       }}>
       <Text
         style={{
-          fontSize: 21,
-          fontFamily: Platform.OS == 'ios' ? 'Verdana' : 'sans-serif-medium',
+          fontSize: 25,
+          fontFamily:
+            Platform.OS == 'ios' ? 'chalkduster' : 'sans-serif-medium',
           fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
           color: theme.colors.black4,
         }}>
-        Omong
+        OM
       </Text>
       <Image
         resizeMode={'contain'}
         source={require('../../assets/ulkka_title_transparent.png')}
-        style={{height: 23, width: 24, marginLeft: 7}}
+        style={{
+          height: 30,
+          width: 30,
+          marginLeft: 0,
+        }}
       />
+      <Text
+        style={{
+          fontSize: 25,
+          fontFamily:
+            Platform.OS == 'ios' ? 'chalkduster' : 'sans-serif-medium',
+          fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
+          color: theme.colors.black4,
+        }}>
+        NG
+      </Text>
     </View>
   );
 });
@@ -110,9 +125,9 @@ const HeaderBar = props => {
         //alignItems: 'center',
         justifyContent: 'flex-end',
       }}>
-      <CommunityExplorerButton />
-      {/* <View style={{width: 18}} />
-      <ReferralButton /> */}
+      {/* <CommunityExplorerButton /> */}
+      <View style={{width: 18}} />
+      <ReferralButton />
     </View>
   );
 

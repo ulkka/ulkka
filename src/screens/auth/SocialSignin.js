@@ -26,7 +26,7 @@ const SocialAuth = () => {
         <SocialIcon
           title={
             Platform.OS == 'android'
-              ? 'Connect With Google'
+              ? 'Masuk dengan Google'
               : 'Sign in with Google'
           }
           button

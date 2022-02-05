@@ -46,7 +46,7 @@ function CommunityNavigation(props) {
           component={GrowCommunity}
           title="GrowComunity"
           options={{
-            headerTitle: 'Grow Your Community',
+            headerTitle: 'Kembangkan Komunitasmu',
           }}
           initialParams={props.route.params}
         />

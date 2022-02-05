@@ -7,26 +7,26 @@ import {storeData} from '../localStorage/helpers';
 const slides = [
   {
     key: 1,
-    title: 'Welcome to\nOmong !',
+    title: 'Selamat datang di\nOmong !',
     image: require('../../assets/ulkka_transparent_512x512.png'),
   },
   {
     key: 2,
-    title: "Let's find your Tribe !",
+    title: 'Yuk cari komunitasmu !',
     image: require('../../assets/welcome.jpg'),
     points: [
-      "Omong is a place where you can share anything that you find interesting on the internet with a community that's interested in the topic",
-      'You can share content including images, links, videos or text posts to an existing community (check the search bar) or create a brand new community and let users find it',
+      'Omong adalah tempat dimana kamu dapat membagikan apapun yang menurutmu menarik di internet dengan komunitas yang juga memiliki ketertarikan sama denganmu',
+      'Kamu dapat membagikan hal - hal seperti gambar, tautan, video atau tulisan kepada komunitas yang ada (Dapat kamu cari) atau juga bisa membuat komunitas baru untukmu dan orang - orang',
     ],
   },
   {
     key: 3,
-    title: 'Win Hearts',
+    title: 'Dapatkan Like!',
     icon: 'heart',
     points: [
-      'You receive hearts when your posts and comments are upvoted by community members',
-      'Hearts represent your reputation in Omong and you can unlock features in Omong as you gain more hearts',
-      'Hearts may also be used to elect new admins to communities',
+      'Kamu akan mendapatkan logo hati ketika post dan komentar kamu di upvote oleh komunitas',
+      'Hati menggambarkan reputasi kamu di Omong. Kamu dapat mengakses fitur - fitur spesial ketika kamu mendapatkan lebih banyak hati/like',
+      'Hati juga dapat digunakan untuk menunjuk admin baru ke dalam komunitas',
     ],
   },
 ];
@@ -149,7 +149,7 @@ export default function AppIntroSliderView(props) {
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          Next
+          Lanjut
         </Text>
         <View style={{width: 15}}></View>
         <Icon
@@ -178,7 +178,7 @@ export default function AppIntroSliderView(props) {
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          Back
+          Kembali
         </Text>
       </View>
     );

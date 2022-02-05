@@ -3,16 +3,20 @@ import {View, Text, Platform} from 'react-native';
 import {useTheme, ButtonGroup, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {getTheme, setTheme} from '../redux/reducers/ThemeSlice';
+import {useTranslation} from 'react-i18next';
 
 export default function ThemeSelector(props) {
   const dispatch = useDispatch();
   const {theme} = useTheme();
-  const buttons = ['auto', 'light', 'dark'];
+  const {t} = useTranslation();
+
+  const buttons = ['auto', t('Light'), t('Dark')];
+  const themes = ['auto', 'light', 'dark'];
 
   const currentTheme = useSelector(getTheme);
 
   const changeTheme = index => {
-    dispatch(setTheme(buttons[index]));
+    dispatch(setTheme(themes[index]));
   };
   return (
     <View
@@ -43,10 +47,10 @@ export default function ThemeSelector(props) {
       </View>
       <ButtonGroup
         onPress={changeTheme}
-        selectedIndex={buttons.indexOf(currentTheme)}
+        selectedIndex={themes.indexOf(currentTheme)}
         buttons={buttons}
         containerStyle={{
-          width: 125,
+          width: 143,
           height: 30,
           borderColor: theme.colors.grey4,
           borderRadius: 10,
@@ -57,12 +61,12 @@ export default function ThemeSelector(props) {
         buttonContainerStyle={{
           backgroundColor: theme.colors.grey2,
           borderColor: theme.colors.grey4,
-          borderLeftWidth: 1,
-          borderRightWidth: 1,
+          borderRightWidth: 0,
+          borderLeftWidth: 0,
         }}
         innerBorderStyle={{
           color: theme.colors.grey4,
-          width: 1,
+          width: 0,
           backgroundColor: theme.colors.grey4,
         }}
         textStyle={{

@@ -13,6 +13,8 @@ import {kFormatter} from '../components/helpers';
 import UserCommunities from '../screens/user/tabs/UserCommunities';
 import FavoriteCommunities from '../screens/user/tabs/FavoriteCommunities';
 import ThemeSelector from '../components/ThemeSelector';
+import LanguageSelector from '../components/LanguageSelector';
+import {t} from 'i18next';
 
 const UserSection = memo(() => {
   const {theme} = useTheme();
@@ -205,10 +207,14 @@ const ListView = ({navigation}) => {
 
   const isRegistered = useSelector(getRegistrationStatus);
   return isRegistered ? (
-    <View style={{backgroundColor: theme.colors.primary}}>
+    <View
+      style={{
+        backgroundColor: theme.colors.primary,
+      }}>
       <UserSection />
       <NavSection navigation={navigation} />
       <ThemeSelector />
+      <LanguageSelector />
       <CommunitiesList
         navigation={navigation}
         ListComponent={() => <FavoriteCommunities />}
@@ -271,7 +277,7 @@ const ListView = ({navigation}) => {
         </View>
         <View style={{height: 30}}></View>
         <Button
-          title="Login / Register"
+          title={t('Login/Register')}
           buttonStyle={{
             borderRadius: 15,
             backgroundColor: theme.colors.blue,
@@ -288,7 +294,15 @@ const ListView = ({navigation}) => {
           onPress={() => showAuthScreen()}
         />
         <View style={{height: 40}}></View>
-        <ThemeSelector />
+        <View
+          style={{
+            flex: 1,
+            //  alignItems: 'flex-start',
+            justifyContent: 'space-between',
+          }}>
+          <ThemeSelector />
+          <LanguageSelector />
+        </View>
       </TouchableOpacity>
     </View>
   );

@@ -15,13 +15,13 @@ export default memo(function Sort(props) {
     const from = range;
     switch (from) {
       case 'today':
-        return 'Today';
+        return 'Hari ini';
       case 'week':
-        return 'This Week';
+        return 'Minggu ini';
       case 'month':
-        return 'This Month';
+        return 'Bulan ini';
       case 'alltime':
-        return 'All Time';
+        return 'Sepanjang waktu';
     }
   };
 
@@ -61,7 +61,7 @@ export default memo(function Sort(props) {
       <CheckBox
         onPress={() => setMetric('Vote')}
         center
-        title="Most Voted"
+        title="Paling Banyak Divote"
         titleProps={{
           style: {
             paddingLeft: 10,
@@ -238,7 +238,7 @@ export default memo(function Sort(props) {
             fontWeight: '700',
             color: theme.colors.black5,
           }}>
-          Select Time Period
+          Pilih jangka waktu
         </Text>
       </View>
       {topSortOptions}

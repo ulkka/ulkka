@@ -47,8 +47,8 @@ export default function GrowCommunity(props) {
 
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            1) Invite users to join your community from their profile page in
-            Ulkka
+            1) Undang orang untuk bergabung dengan komunitasmu dari profil
+            mereka di Omong.
           </Text>
           <View style={{height: 30}}></View>
           <Text
@@ -58,8 +58,8 @@ export default function GrowCommunity(props) {
               color: theme.colors.black4,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            2) Let others know about the community by sharing the community's
-            invite link on various social media platforms
+            2) Sebar kepada orang lain tentang komunitasmu dengan membagikan
+            tautan undangan masuk komunitas di media sosial favoritmu
           </Text>
           <View
             style={{
@@ -73,7 +73,7 @@ export default function GrowCommunity(props) {
             }}>
             <ShareCommunity
               communityId={communityId}
-              text={'Share Invite Link'}
+              text={'Bagian Tautan untuk Bergabung'}
               flexDirection={'row'}
               mode="light"
               shareTextStyle={{
@@ -87,9 +87,9 @@ export default function GrowCommunity(props) {
           <View style={{height: 30}}></View>
           <AutolinkText
             text={
-              '3) Mention ' +
+              '3) Gunakan ' +
               communityTitle +
-              ' in comments of relevant posts to help more people discover the community'
+              ' di komentar di post yang relevan untuk membantu orang lain menemukan komunitasmu'
             }
             source="growCommunity"
             enableShowMore={false}
@@ -108,9 +108,9 @@ export default function GrowCommunity(props) {
               color: theme.colors.black4,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            4) You can also increase the community ranking to show up in the top
-            community recommendation by creating content and engagement
-            regularly
+            4) Kamu juga dapat meningkatkan peringkat komunitasmu untuk dapat
+            muncul di rekomendasi komunitas populer dengan membuat konten dan
+            berdiskusi di dalamnya secara rutin
           </Text>
         </View>
       </ImageBackground>

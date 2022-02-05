@@ -58,7 +58,7 @@ const RegisterAccount = () => {
     ) {
       setIsDisplaynameValid(false);
       setDisplaynameErrorMessage(
-        'Invalid Display Name \nMin 4 characters, Max 25 characters \nEnglish / Malayalam alphabets, numbers or _.- ',
+        'Invalid Display Name \nMin 4 characters, Max 25 characters \nEnglish alphabets, numbers or _.- ',
       );
       return false;
     } else {
@@ -69,7 +69,7 @@ const RegisterAccount = () => {
       } else {
         setIsDisplaynameValid(false);
         setDisplaynameErrorMessage(
-          'Display name already in use. Please enter another one',
+          'Nama profil already in use. Please enter another one',
         );
         return false;
       }
@@ -82,10 +82,10 @@ const RegisterAccount = () => {
 
   const DisplayNameField = (
     <Input
-      label="Display Name"
+      label="Nama Profil"
       labelStyle={{color: theme.colors.black4, marginBottom: 5}}
       ref={displaynameField}
-      placeholder="Nickname / വട്ടപ്പേര്"
+      placeholder=""
       keyboardAppearance={theme.dark ? 'dark' : 'light'}
       placeholderTextColor={theme.colors.black7}
       autoCapitalize="none"
@@ -147,7 +147,7 @@ const RegisterAccount = () => {
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {'  '}
-        Enter a Cool Display Name
+        Masukan nama yang keren buatmu
       </Text>
     </View>
   );
@@ -186,7 +186,7 @@ const RegisterAccount = () => {
                 fontWeight: '700',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              I have read and agree to the{' '}
+              Saya sudah membaca dan setuju dengan{' '}
             </Text>
             <TouchableOpacity
               onPress={() =>
@@ -199,7 +199,7 @@ const RegisterAccount = () => {
                   fontWeight: '700',
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                 }}>
-                Terms and Conditions
+                Syarat dan Ketentuan yang Berlaku
               </Text>
             </TouchableOpacity>
           </View>
@@ -215,7 +215,7 @@ const RegisterAccount = () => {
                 fontWeight: '700',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              and{' '}
+              dan{' '}
             </Text>
             <TouchableOpacity
               onPress={() =>
@@ -231,7 +231,7 @@ const RegisterAccount = () => {
                   fontWeight: '700',
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                 }}>
-                Privacy Policy
+                Kebijakan Privasi
               </Text>
             </TouchableOpacity>
           </View>

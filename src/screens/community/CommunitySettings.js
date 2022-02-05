@@ -19,31 +19,31 @@ export default memo(function CommunitySettings(props) {
 
   const settingsList = [
     {
-      title: 'Change Community Description',
+      title: 'Ganti deskripsi komunitas',
       onPress: () => navigate('UpdateCommunityDescription'),
     },
     {
-      title: 'Change Community Rules',
+      title: 'Ganti peraturan komunitas',
       onPress: () => navigate('UpdateCommunityRules'),
     },
     {
-      title: 'Change Community Icon',
+      title: 'Ganti icon komunitas',
       onPress: () => navigate('ChangeCommunityIcon'),
     },
     {
-      title: 'Community Members',
+      title: 'Anggota komunitas',
       onPress: () => navigate('CommunityMembers'),
     },
     {
-      title: 'Community Admins',
+      title: 'Admin komunitas',
       onPress: () => navigate('CommunityAdminSettings'),
     },
     {
-      title: 'Banned Users',
+      title: 'Anggota yang diblok',
       onPress: () => navigate('BannedMembers'),
     },
     {
-      title: 'Admin Notifications',
+      title: 'Notifikasi admin',
       componentRight: () => <ToggleAdminNotifications {...props} />,
     },
   ];

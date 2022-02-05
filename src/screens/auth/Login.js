@@ -35,7 +35,7 @@ export default function Login() {
           fontSize: 20,
         }}>
         {'  '}
-        Welcome to Ulkka{'  '}
+        Selamat datang di Omong!{'  '}
       </Text>
     </View>
   );
@@ -63,7 +63,7 @@ export default function Login() {
           fontSize: 14,
         }}>
         {' '}
-        Or{' '}
+        Atau{' '}
       </Text>
       <Divider
         color={theme.colors.grey4}

@@ -62,7 +62,7 @@ function MainBottomTabBar({state, descriptors, navigation}) {
         borderTopWidth: 1,
         alignItems: 'center',
         paddingVertical: 8,
-        ...(Platform.OS == 'ios' && {paddingBottom: 25}),
+        ...(Platform.OS == 'ios' && {paddingBottom: 35}),
       }}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
