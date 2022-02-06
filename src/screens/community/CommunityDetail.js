@@ -1,5 +1,5 @@
 import React, {useEffect, memo, useRef} from 'react';
-import {View, Text, Platform, Animated, Image} from 'react-native';
+import {View, Text, Platform, Animated, Image, StatusBar} from 'react-native';
 import {useTheme} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -16,6 +16,7 @@ import AutolinkText from '../../components/AutolinkText';
 import FavoriteCommunity from './FavoriteCommunity';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import {theme} from '../../redux/reducers/ThemeSlice';
+import {useTranslation} from 'react-i18next';
 
 const CommunityHeaderRight = memo(({communityId}) => {
   const isRegistered = useSelector(getRegistrationStatus);
@@ -48,7 +49,7 @@ const CommunityHeaderRight = memo(({communityId}) => {
 
 const CommunityDetail = memo(props => {
   const {theme} = useTheme();
-
+  const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const {communityId, titleShown, navigation} = props;
@@ -169,7 +170,7 @@ const CommunityDetail = memo(props => {
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {kFormatter(communityMemberCount)}{' '}
-        {communityMemberCount == 1 ? 'member' : 'members'}
+        {communityMemberCount == 1 ? t('member') : t('members')}
       </Text>
     ) : (
       <Image
@@ -215,6 +216,13 @@ const CommunityDetail = memo(props => {
         paddingVertical: 20,
         paddingHorizontal: 10,
       }}>
+      {Platform.OS == 'android' && (
+        <StatusBar
+          animated={true}
+          backgroundColor={getColorFromTitle(communityTitle)}
+          barStyle="light-content"
+        />
+      )}
       <View
         style={{
           flexDirection: 'row',

@@ -8,11 +8,13 @@ import ChangeCommunityIcon from './ChangeCommunityIcon';
 import CommunityMembers from './CommunityMembers';
 import CommunityAdminSettings from './CommunityAdminSettings';
 import BannedMembers from './BannedMembers';
+import {useTranslation} from 'react-i18next';
 
 const StackNav = createStackNavigator();
 
 function CommunitySettingsNavigation(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   return (
     <View style={{flex: 1}}>
@@ -36,7 +38,7 @@ function CommunitySettingsNavigation(props) {
           title="CommunitySettings"
           options={{
             headerBackTitle: 'Back',
-            headerTitle: 'Pengaturan Komunitas',
+            headerTitle: t('Community Settings'),
             headerTitleAlign: 'center',
             headerStyle:
               Platform.OS == 'android'

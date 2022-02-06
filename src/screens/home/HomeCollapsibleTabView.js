@@ -14,6 +14,7 @@ import analytics from '@react-native-firebase/analytics';
 import HeaderBar from '../../components/Header';
 import {useSelector} from 'react-redux';
 import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
+import {useTranslation} from 'react-i18next';
 
 const HEADER_HEIGHT = 35;
 const COLLAPSED_HEIGHT = 0;
@@ -21,6 +22,7 @@ const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 
 export default function HomeCollapsibleTabView(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const initialLayout = useWindowDimensions();
   const isRegistered = useSelector(getRegistrationStatus);
@@ -29,7 +31,7 @@ export default function HomeCollapsibleTabView(props) {
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState([
     {key: 'home', title: 'Home', name: 'Home'},
-    {key: 'popular', title: 'Popular', name: 'Popular'},
+    {key: 'popular', title: t('Populer'), name: 'Popular'},
   ]);
 
   const translation = useRef(new Animated.Value(0)).current;

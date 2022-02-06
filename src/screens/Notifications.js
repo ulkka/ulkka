@@ -29,6 +29,7 @@ import {
   getScreenFromLink,
   getLinkFromRemoteMessage,
 } from '../components/helpers';
+import {useTranslation} from 'react-i18next';
 
 const B = props => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
 const validRestOfTheTexts = [
@@ -46,6 +47,7 @@ const validRestOfTheTexts = [
 ];
 export default function Notifications(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
   const notifications = useSelector(selectAllNotifications);
@@ -183,7 +185,8 @@ export default function Notifications(props) {
       <Text
         style={{fontWeight: 'bold', color: theme.colors.black5, fontSize: 16}}>
         {'   '}
-        No Notifications Yet!{'  '}
+        {t('No Notifications Yet')}
+        {'  '}
       </Text>
     </View>
   );

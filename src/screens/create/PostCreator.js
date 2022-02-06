@@ -26,9 +26,11 @@ import {
   removeEmptyLines,
 } from '../../components/PostCreator/helpers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useTranslation} from 'react-i18next';
 
 export default function CreatePost({route}) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -126,7 +128,7 @@ export default function CreatePost({route}) {
     setLoading(false);
     var status = {
       type: 'success',
-      message: 'Successfully Posted to ',
+      message: t('Successfully Posted to'),
       entity: community.name,
     };
     setStatusData(status);
@@ -415,11 +417,17 @@ export default function CreatePost({route}) {
         justifyContent: 'space-evenly',
       }}>
       <Text
-        style={{fontSize: 16, fontWeight: 'bold', color: theme.colors.black5}}>
-        Please login or create an account to create posts{'    '}
+        style={{
+          fontSize: 16,
+          fontWeight: 'bold',
+          color: theme.colors.black5,
+          textAlign: 'center',
+        }}>
+        {t('Please login or create an account to create posts')}
+        {'    '}
       </Text>
       <Button
-        title="Join Omong!"
+        title="Join Omong"
         titleStyle={{
           fontSize: 14,
           color: theme.colors.green,

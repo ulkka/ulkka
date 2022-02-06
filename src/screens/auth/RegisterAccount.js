@@ -17,9 +17,11 @@ import userApi from '../../services/UserApi';
 import {transformText} from '../../components/PostCreator/helpers';
 import {navigateToURL} from '../../components/helpers';
 import Snackbar from 'react-native-snackbar';
+import {useTranslation} from 'react-i18next';
 
 const RegisterAccount = () => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
   const displaynameField = useRef(null);
@@ -82,7 +84,7 @@ const RegisterAccount = () => {
 
   const DisplayNameField = (
     <Input
-      label="Nama Profil"
+      label={t('Display Name')}
       labelStyle={{color: theme.colors.black4, marginBottom: 5}}
       ref={displaynameField}
       placeholder=""
@@ -147,7 +149,7 @@ const RegisterAccount = () => {
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {'  '}
-        Masukan nama yang keren buatmu
+        {t('Enter a Cool Display Name')}
       </Text>
     </View>
   );
@@ -186,8 +188,14 @@ const RegisterAccount = () => {
                 fontWeight: '700',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              Saya sudah membaca dan setuju dengan{' '}
+              {t('I have read and agree to the')}{' '}
             </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
             <TouchableOpacity
               onPress={() =>
                 navigateToURL('https://omong.id/terms.html', 'registerAccount')
@@ -199,15 +207,9 @@ const RegisterAccount = () => {
                   fontWeight: '700',
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                 }}>
-                Syarat dan Ketentuan yang Berlaku
+                {t('Terms and Conditions')}
               </Text>
             </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
             <Text
               style={{
                 color: theme.colors.black6,
@@ -215,7 +217,8 @@ const RegisterAccount = () => {
                 fontWeight: '700',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              dan{' '}
+              {' '}
+              {t('and')}{' '}
             </Text>
             <TouchableOpacity
               onPress={() =>
@@ -231,7 +234,7 @@ const RegisterAccount = () => {
                   fontWeight: '700',
                   ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                 }}>
-                Kebijakan Privasi
+                {t('Privacy Policy')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -246,9 +249,6 @@ const RegisterAccount = () => {
             color: theme.colors.blue,
             fontWeight: '500',
           }}
-          // style={{
-          //   width: '80%',
-          // }}
           buttonStyle={{
             borderWidth: 1,
             borderRadius: 25,

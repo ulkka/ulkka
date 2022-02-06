@@ -30,13 +30,13 @@ import UserBioField from '../../components/UserBioField';
 import UserDisplaynameField from '../../components/UserDisplaynameField';
 import InviteUserToCommunity from './InviteUserToCommunity';
 import {getIsCurrentUserAdminOfAnyCommunity} from '../../redux/reducers/CommunitySlice';
-
+import {useTranslation} from 'react-i18next';
 //const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 const AccountDetail = memo(props => {
   const dispatch = useDispatch();
   const {theme} = useTheme();
-
+  const {t} = useTranslation();
   const {userId, titleShown, navigation} = props;
   const blockedUsers = useSelector(getBlockedUsers);
   const isUserBlocked = blockedUsers?.includes(userId);
@@ -240,9 +240,14 @@ const AccountDetail = memo(props => {
       style={{
         flexDirection: 'row',
       }}>
-      <Text style={{color: theme.colors.black5, fontSize: 11}}>Joined </Text>
+      <Text style={{color: theme.colors.black5, fontSize: 11}}>
+        {t('Joined')}{' '}
+      </Text>
       <TimeAgo time={userCreatedAt} />
-      <Text style={{color: theme.colors.black5, fontSize: 11}}> ago</Text>
+      <Text style={{color: theme.colors.black5, fontSize: 11}}>
+        {' '}
+        {t('ago')}
+      </Text>
     </View>
   ) : (
     <Image

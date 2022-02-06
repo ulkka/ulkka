@@ -5,9 +5,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import {getUserBio, updateBio} from '../redux/reducers/UserSlice';
 import {getRegisteredUser} from '../redux/reducers/AuthSlice';
 import AutolinkText from './AutolinkText';
+import {useTranslation} from 'react-i18next';
 
 const UserBioField = props => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const {userId} = props;
 
@@ -76,7 +78,7 @@ const UserBioField = props => {
         fontSize: 12,
         color: theme.colors.black5,
       }}>
-      Add bio
+      {t('Add bio')}
     </Text>
   );
   const EditButton = (

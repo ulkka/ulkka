@@ -16,9 +16,10 @@ import {useDispatch} from 'react-redux';
 import {createCommunity} from '../../redux/reducers/CommunitySlice';
 import communityApi from '../../services/CommunityApi';
 import {pop, push} from '../../navigation/Ref';
-
+import {useTranslation} from 'react-i18next';
 export default function CreateCommunity({navigation, route}) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -122,7 +123,7 @@ export default function CreateCommunity({navigation, route}) {
   const communityCreationSuccess = newCommunityId => {
     var statusData = {
       type: 'success',
-      message: 'Sukses membuat komunitas!',
+      message: t('Successfully Created Community'),
       entity: title,
     };
     setStatus(statusData);

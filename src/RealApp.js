@@ -12,8 +12,10 @@ import analytics from '@react-native-firebase/analytics';
 import CacheManagement from './components/CacheManagement';
 import {getRegistrationStatus} from './redux/reducers/AuthSlice';
 import {loadTheme, getIsDark, getTheme} from './redux/reducers/ThemeSlice';
+import {loadLanguage} from './redux/reducers/LanguageSlice';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {fetchUnreadNotificationCount} from './redux/reducers/NotificationSlice';
+import EmailLinkHandler from './screens/auth/EmailLinkHandler';
 
 const RealApp = () => {
   const dispatch = useDispatch();
@@ -30,6 +32,7 @@ const RealApp = () => {
 
   useEffect(() => {
     dispatch(loadTheme());
+    dispatch(loadLanguage());
   }, []);
 
   useEffect(() => {
@@ -81,6 +84,7 @@ const RealApp = () => {
         <LoadingOverlay />
         <AuthIDTokenListener />
         <CacheManagement />
+        <EmailLinkHandler />
         {!maintenance && <Main />}
         <RegisterDeviceToken />
       </View>

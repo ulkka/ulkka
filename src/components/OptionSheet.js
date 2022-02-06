@@ -40,6 +40,7 @@ import {deleteComment, removeComment} from '../redux/actions/CommentActions';
 import {blockUser} from '../redux/reducers/UserSlice';
 import {signout} from '../redux/actions/AuthActions';
 import {navigate, push} from '../navigation/Ref';
+import {useTranslation} from 'react-i18next';
 
 function getCapitalizedPostType(postType) {
   switch (postType) {
@@ -49,7 +50,6 @@ function getCapitalizedPostType(postType) {
       return 'Video';
     case 'gif':
       return 'GIF';
-
     default:
       break;
   }
@@ -57,6 +57,7 @@ function getCapitalizedPostType(postType) {
 export default function OptionSheet() {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const visible = useSelector(isVisible);
   const id = useSelector(getId);
@@ -97,11 +98,11 @@ export default function OptionSheet() {
   const signoutConfirmationAlert = () => {
     dispatch(hideOptionSheet());
     Alert.alert(
-      'Log out ?',
+      t('Logout') + ' ?',
       null,
       [
         {
-          text: 'Cancel',
+          text: t('Cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
@@ -124,7 +125,7 @@ export default function OptionSheet() {
       ? [
           {
             // dont show report option if current user same as author
-            title: 'Anggota yang di blok',
+            title: t('Blocked Users'),
             titleStyle: {
               fontSize: 14,
               fontWeight: '500',
@@ -137,7 +138,7 @@ export default function OptionSheet() {
             },
           },
           {
-            title: 'Keluar',
+            title: t('Logout'),
             titleStyle: {
               fontSize: 14,
               fontWeight: '500',
@@ -152,7 +153,7 @@ export default function OptionSheet() {
             (postType == 'image' ||
               postType == 'video' ||
               postType == 'gif') && {
-              title: 'Save ' + getCapitalizedPostType(postType),
+              title: t('Save') + ' ' + getCapitalizedPostType(postType),
               titleStyle: {
                 fontSize: 14,
                 fontWeight: '500',
@@ -165,7 +166,7 @@ export default function OptionSheet() {
               },
             },
           !currentUserisAuthor && {
-            title: 'Block User',
+            title: t('Block User'),
             titleStyle: {
               fontSize: 14,
               fontWeight: '500',
@@ -174,11 +175,11 @@ export default function OptionSheet() {
             containerStyle: listItemStyle,
             onPress: () => {
               Alert.alert(
-                'Are you sure?',
-                "You won't be able to see posts and comments from this user and they won't be able to see your posts and comments on Omong. We won't let them know that you've blocked them",
+                t('Are you sure') + ' ?',
+                t('User Block Confirmation Detail'),
                 [
                   {
-                    text: 'Cancel',
+                    text: t('Cancel'),
                     onPress: () => dispatch(hideOptionSheet()),
                     style: 'cancel',
                   },
@@ -199,7 +200,7 @@ export default function OptionSheet() {
           },
           !currentUserisAuthor && {
             // dont show report option if current user same as author
-            title: type == 'post' ? 'Report Post' : 'Report Comment',
+            title: type == 'post' ? t('Report Post') : t('Report Comment'),
             titleStyle: {
               fontSize: 14,
               fontWeight: '500',
@@ -210,7 +211,7 @@ export default function OptionSheet() {
           },
           currentUserisAuthor && {
             // show delete option only of current user is same as author
-            title: type == 'post' ? 'Delete Post' : 'Delete Comment',
+            title: type == 'post' ? t('Delete Post') : t('Delete Comment'),
             titleStyle: {
               fontSize: 14,
               fontWeight: '500',
@@ -219,11 +220,11 @@ export default function OptionSheet() {
             containerStyle: listItemStyle,
             onPress: () => {
               Alert.alert(
-                'Delete ' + type + ' ?',
+                t('Delete') + ' ' + type + ' ?',
                 null,
                 [
                   {
-                    text: 'Cancel',
+                    text: t('Cancel'),
                     onPress: () => dispatch(hideOptionSheet()),
                     style: 'cancel',
                   },
@@ -243,7 +244,7 @@ export default function OptionSheet() {
           },
           userRole == 'admin' && {
             // show delete option only of current user is same as author
-            title: type == 'post' ? 'Remove Post' : 'Remove Comment',
+            title: type == 'post' ? t('Remove Post') : t('Remove Comment'),
             titleStyle: {
               fontSize: 14,
               fontWeight: '500',
@@ -252,11 +253,11 @@ export default function OptionSheet() {
             containerStyle: listItemStyle,
             onPress: () => {
               Alert.alert(
-                'Remove ' + type + ' ?',
+                t('Remove') + ' ' + type + ' ?',
                 null,
                 [
                   {
-                    text: 'Cancel',
+                    text: t('Cancel'),
                     onPress: () => dispatch(hideOptionSheet()),
                     style: 'cancel',
                   },
@@ -277,7 +278,7 @@ export default function OptionSheet() {
           userRole == 'admin' &&
             type == 'post' && {
               // show delete option only of current user is same as author
-              title: isPostPinned ? 'Unpin Post' : 'Pin Post',
+              title: isPostPinned ? t('Unpin Post') : t('Pin Post'),
               titleStyle: {
                 fontSize: 14,
                 fontWeight: '500',
@@ -317,7 +318,7 @@ export default function OptionSheet() {
       </View>
       <Divider color={theme.colors.grey2} />
       <Button
-        title="Cancel"
+        title={t('Cancel')}
         containerStyle={{
           backgroundColor: theme.colors.primary,
           marginBottom: 15,

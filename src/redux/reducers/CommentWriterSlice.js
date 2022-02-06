@@ -72,8 +72,8 @@ export const activate = createAsyncThunk(
   },
   {
     condition: (arg, {getState}) => {
-      const authStatus = getState().authorization.status;
-      const access = authStatus == 'AUTHENTICATED' ? true : false;
+      const isRegistered = getState().authorization.isRegistered;
+      const access = isRegistered ? true : false;
       return access;
     },
     dispatchConditionRejection: true,
@@ -130,13 +130,13 @@ export const slice = createSlice({
   },
 });
 
-export const getCommentId = (state) => state.commentWriter.comment_id;
+export const getCommentId = state => state.commentWriter.comment_id;
 
-export const isActive = (state) => state.commentWriter.active;
+export const isActive = state => state.commentWriter.active;
 
-export const isLoading = (state) => state.commentWriter.loading;
+export const isLoading = state => state.commentWriter.loading;
 
-export const getResetCommentToggle = (state) =>
+export const getResetCommentToggle = state =>
   state.commentWriter.resetCommentToggle;
 
 export const commentWriter = slice.reducer;

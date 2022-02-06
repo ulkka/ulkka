@@ -4,9 +4,11 @@ import {useTheme} from 'react-native-elements';
 import Sort from './Sort';
 import Users from './Users';
 import analytics from '@react-native-firebase/analytics';
+import {useTranslation} from 'react-i18next';
 
 function Leaderboard(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const [metric, setMetric] = useState('');
   const [range, setRange] = useState('week');
@@ -52,7 +54,7 @@ function Leaderboard(props) {
                 color: theme.colors.black5,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              Pembuat Post
+              {t('Posters')}
             </Text>
           </View>
           <FlatList
@@ -68,7 +70,7 @@ function Leaderboard(props) {
                 range={range}
                 metric={metric}
                 dimension={'post'}
-                listEmptyText={'No posts yet'}
+                listEmptyText={t('No posts yet')}
               />
             ))}
           />
@@ -93,7 +95,7 @@ function Leaderboard(props) {
                 color: theme.colors.black5,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              Pembuat Komentar
+              {t('Commenters')}
             </Text>
           </View>
           <FlatList
@@ -109,7 +111,7 @@ function Leaderboard(props) {
                 range={range}
                 metric={metric}
                 dimension={'comment'}
-                listEmptyText={'No comments yet'}
+                listEmptyText={t('No comments yet')}
               />
             ))}
           />

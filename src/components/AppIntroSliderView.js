@@ -3,37 +3,36 @@ import {View, Text, Image, StatusBar, Platform} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {Icon, useTheme} from 'react-native-elements';
 import {storeData} from '../localStorage/helpers';
-
-const slides = [
-  {
-    key: 1,
-    title: 'Selamat datang di\nOmong !',
-    image: require('../../assets/ulkka_transparent_512x512.png'),
-  },
-  {
-    key: 2,
-    title: 'Yuk cari komunitasmu !',
-    image: require('../../assets/welcome.jpg'),
-    points: [
-      'Omong adalah tempat dimana kamu dapat membagikan apapun yang menurutmu menarik di internet dengan komunitas yang juga memiliki ketertarikan sama denganmu',
-      'Kamu dapat membagikan hal - hal seperti gambar, tautan, video atau tulisan kepada komunitas yang ada (Dapat kamu cari) atau juga bisa membuat komunitas baru untukmu dan orang - orang',
-    ],
-  },
-  {
-    key: 3,
-    title: 'Dapatkan Like!',
-    icon: 'heart',
-    points: [
-      'Kamu akan mendapatkan logo hati ketika post dan komentar kamu di upvote oleh komunitas',
-      'Hati menggambarkan reputasi kamu di Omong. Kamu dapat mengakses fitur - fitur spesial ketika kamu mendapatkan lebih banyak hati/like',
-      'Hati juga dapat digunakan untuk menunjuk admin baru ke dalam komunitas',
-    ],
-  },
-];
+import {useTranslation} from 'react-i18next';
 
 export default function AppIntroSliderView(props) {
   const {setIntroDone} = props;
   const {theme} = useTheme();
+  const {t} = useTranslation();
+
+  const slides = [
+    {
+      key: 1,
+      title: t('Welcome to Omong'),
+      image: require('../../assets/ulkka_transparent_512x512.png'),
+    },
+    {
+      key: 2,
+      title: t("Let's find your Tribe"),
+      // image: require('../../assets/welcome.jpg'),
+      points: [t('Tutorial Page2 Point1'), t('Tutorial Page2 Point2')],
+    },
+    {
+      key: 3,
+      title: t('Win Hearts'),
+      icon: 'heart',
+      points: [
+        t('Tutorial Page3 Point1'),
+        t('Tutorial Page3 Point2'),
+        t('Tutorial Page3 Point3'),
+      ],
+    },
+  ];
 
   const renderItem = ({item}) => {
     const {title, image, text, backgroundColor, icon, points} = item;
@@ -149,7 +148,7 @@ export default function AppIntroSliderView(props) {
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          Lanjut
+          {t('Next')}
         </Text>
         <View style={{width: 15}}></View>
         <Icon
@@ -178,7 +177,7 @@ export default function AppIntroSliderView(props) {
             fontSize: 17,
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          Kembali
+          {t('Back')}
         </Text>
       </View>
     );

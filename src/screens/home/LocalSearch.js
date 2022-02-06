@@ -14,10 +14,12 @@ import {searchCommunityTitle} from '../../redux/reducers/CommunitySlice';
 import CommunityAvatar from '../../components/CommunityAvatar';
 import {push, pop} from '../../navigation/Ref';
 import communityApi from '../../services/CommunityApi';
+import {useTranslation} from 'react-i18next';
 
 export default function LocalSearch(props) {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const term = useSelector(getSearchTerm);
 
@@ -133,7 +135,7 @@ export default function LocalSearch(props) {
           color: theme.colors.blue,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        More results for "{term}..."
+        {t('More results for')} "{term}..."
       </Text>
     </TouchableOpacity>
   );

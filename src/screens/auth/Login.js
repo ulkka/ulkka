@@ -11,9 +11,11 @@ import {
 import {Divider, useTheme} from 'react-native-elements';
 import EmailLinkSignIn from './EmailLinkSignin';
 import SocialSignin from './SocialSignin';
+import {useTranslation} from 'react-i18next';
 
 export default function Login() {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const AppIcon = (
     <Image
@@ -35,7 +37,8 @@ export default function Login() {
           fontSize: 20,
         }}>
         {'  '}
-        Selamat datang di Omong!{'  '}
+        {t('Welcome to Omong')}
+        {'  '}
       </Text>
     </View>
   );
@@ -63,7 +66,7 @@ export default function Login() {
           fontSize: 14,
         }}>
         {' '}
-        Atau{' '}
+        {t('Or')}{' '}
       </Text>
       <Divider
         color={theme.colors.grey4}

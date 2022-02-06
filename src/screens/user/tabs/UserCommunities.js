@@ -7,6 +7,7 @@ import CommunityAvatar from '../../../components/CommunityAvatar';
 import {push} from '../../../navigation/Ref';
 import {FlatList} from 'react-native-gesture-handler';
 import FavoriteCommunity from '../../community/FavoriteCommunity';
+import {useTranslation} from 'react-i18next';
 
 const CommunityRow = memo(({community, onlyIcons}) => {
   const {theme} = useTheme();
@@ -66,7 +67,7 @@ const CommunityRow = memo(({community, onlyIcons}) => {
 
 export default memo(function UserCommunities(props) {
   const {theme} = useTheme();
-
+  const {t} = useTranslation();
   const {type, contentContainerStyle, onlyIcons} = props;
   const memberCommunities = useSelector(getUserMemberCommunities);
 
@@ -99,9 +100,14 @@ export default memo(function UserCommunities(props) {
         resizeMode="contain"
         style={{borderRadius: 15, width: '100%'}}
       />
-      <View style={{height: 5}}></View>
-      <Text style={{color: theme.colors.black5, fontSize: 13}}>
-        You haven't joined any communities yet
+      <View style={{height: 10}}></View>
+      <Text
+        style={{
+          color: theme.colors.black5,
+          fontSize: 13,
+          textAlign: 'center',
+        }}>
+        {t("You haven't joined any communities yet")}
       </Text>
     </View>
   );

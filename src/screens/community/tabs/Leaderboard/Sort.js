@@ -1,9 +1,12 @@
 import React, {memo, useState} from 'react';
 import {View, Text, TouchableOpacity, Platform, StyleSheet} from 'react-native';
 import {Icon, CheckBox, Overlay, Button, useTheme} from 'react-native-elements';
+import {useTranslation} from 'react-i18next';
 
 export default memo(function Sort(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
+
   const {metric, setMetric, range, setRange} = props;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -15,13 +18,13 @@ export default memo(function Sort(props) {
     const from = range;
     switch (from) {
       case 'today':
-        return 'Hari ini';
+        return t('Today');
       case 'week':
-        return 'Minggu ini';
+        return t('This Week');
       case 'month':
-        return 'Bulan ini';
+        return t('This Month');
       case 'alltime':
-        return 'Sepanjang waktu';
+        return t('All Time');
     }
   };
 
@@ -35,7 +38,7 @@ export default memo(function Sort(props) {
       <CheckBox
         onPress={() => setMetric('')}
         center
-        title="Top Creators"
+        title={t('Top Creators')}
         titleProps={{
           style: {
             paddingLeft: 10,
@@ -61,7 +64,7 @@ export default memo(function Sort(props) {
       <CheckBox
         onPress={() => setMetric('Vote')}
         center
-        title="Paling Banyak Divote"
+        title={t('Most Voted')}
         titleProps={{
           style: {
             paddingLeft: 10,
@@ -238,7 +241,7 @@ export default memo(function Sort(props) {
             fontWeight: '700',
             color: theme.colors.black5,
           }}>
-          Pilih jangka waktu
+          {t('Select Time Period')}
         </Text>
       </View>
       {topSortOptions}

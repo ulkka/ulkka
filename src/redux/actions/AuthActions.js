@@ -157,7 +157,7 @@ export const emailLinkAuth = createAsyncThunk(
 const actionCodeSettings = {
   handleCodeInApp: true,
   // URL must be whitelisted in the Firebase Console.
-  url: 'https://link.omong.id/',
+  url: 'https://link.omong.id/6Tkp',
   iOS: {
     bundleId: 'id.omong',
   },

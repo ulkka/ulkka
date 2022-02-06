@@ -5,9 +5,10 @@ import ShareCommunity from './ShareCommunity';
 import AutolinkText from '../../components/AutolinkText';
 import {useSelector} from 'react-redux';
 import {getCommunityTitle} from '../../redux/reducers/CommunitySlice';
-
+import {useTranslation} from 'react-i18next';
 export default function GrowCommunity(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const {communityId} = props.route.params;
   const communityTitle = useSelector(state =>
@@ -47,8 +48,7 @@ export default function GrowCommunity(props) {
 
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            1) Undang orang untuk bergabung dengan komunitasmu dari profil
-            mereka di Omong.
+            {t('Grow Community Point1')}
           </Text>
           <View style={{height: 30}}></View>
           <Text
@@ -58,8 +58,7 @@ export default function GrowCommunity(props) {
               color: theme.colors.black4,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            2) Sebar kepada orang lain tentang komunitasmu dengan membagikan
-            tautan undangan masuk komunitas di media sosial favoritmu
+            {t('Grow Community Point2')}
           </Text>
           <View
             style={{
@@ -73,7 +72,7 @@ export default function GrowCommunity(props) {
             }}>
             <ShareCommunity
               communityId={communityId}
-              text={'Bagian Tautan untuk Bergabung'}
+              text={t('Share Invite Link')}
               flexDirection={'row'}
               mode="light"
               shareTextStyle={{
@@ -87,9 +86,9 @@ export default function GrowCommunity(props) {
           <View style={{height: 30}}></View>
           <AutolinkText
             text={
-              '3) Gunakan ' +
+              t('Grow Community Point3 Part1') +
               communityTitle +
-              ' di komentar di post yang relevan untuk membantu orang lain menemukan komunitasmu'
+              t('Grow Community Point3 Part2')
             }
             source="growCommunity"
             enableShowMore={false}
@@ -108,9 +107,7 @@ export default function GrowCommunity(props) {
               color: theme.colors.black4,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            4) Kamu juga dapat meningkatkan peringkat komunitasmu untuk dapat
-            muncul di rekomendasi komunitas populer dengan membuat konten dan
-            berdiskusi di dalamnya secara rutin
+            {t('Grow Community Point4')}
           </Text>
         </View>
       </ImageBackground>

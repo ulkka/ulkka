@@ -6,6 +6,7 @@ import UserNavigation from '../screens/user/UserNavigation';
 import CommunityNavigation from '../screens/community/CommunityNavigation';
 import Notifications from '../screens/Notifications';
 import PostDetail from '../screens/PostDetail';
+import {useTranslation} from 'react-i18next';
 
 const StackNav = createStackNavigator();
 
@@ -16,6 +17,7 @@ const presets =
 
 function NotificationNavigation() {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   return (
     <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
@@ -35,7 +37,7 @@ function NotificationNavigation() {
           name="Notifications"
           component={Notifications}
           title="Notifications"
-          options={{headerShown: true}}
+          options={{headerShown: true, headerTitle: t('Notifications')}}
         />
         <StackNav.Screen
           name="CommunityNavigation"

@@ -14,10 +14,12 @@ import {
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useIsFocused} from '@react-navigation/native';
 import {goBack} from '../navigation/Ref';
+import {useTranslation} from 'react-i18next';
 
 export default function Search() {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const isFocused = useIsFocused();
 
@@ -112,7 +114,7 @@ export default function Search() {
               color: theme.colors.black5,
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            Cancel
+            {t('Cancel')}
           </Text>
         </TouchableOpacity>
       }

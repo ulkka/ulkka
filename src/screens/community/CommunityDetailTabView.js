@@ -18,11 +18,12 @@ import {getIsCommunityRemoved} from '../../redux/reducers/CommunitySlice';
 import {useSelector} from 'react-redux';
 import {goBack} from '../../navigation/Ref';
 import analytics from '@react-native-firebase/analytics';
-
+import {useTranslation} from 'react-i18next';
 const COLLAPSED_HEIGHT = 43;
 
 export default function CommunityDetailTabView(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const initialLayout = useWindowDimensions();
   const {communityId} = props.route.params;
@@ -37,7 +38,7 @@ export default function CommunityDetailTabView(props) {
   const routesArray = [
     {key: 'posts', title: 'Posts'},
     {key: 'leaderboard', title: 'Leaderboard'},
-    {key: 'about', title: 'Tentang'},
+    {key: 'about', title: t('About')},
   ];
 
   const [index, setIndex] = useState(0);

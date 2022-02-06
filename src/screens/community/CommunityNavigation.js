@@ -7,11 +7,12 @@ import CommunitySettingsNavigation from './CommunitySettingsNavigation';
 import {useSelector} from 'react-redux';
 import {getUserRoleInCommunity} from '../../redux/reducers/CommunitySlice';
 import GrowCommunity from './GrowCommunity';
-
+import {useTranslation} from 'react-i18next';
 const StackNav = createStackNavigator();
 
 function CommunityNavigation(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const {communityId} = props.route.params;
   const userRole = useSelector(state =>
@@ -46,7 +47,7 @@ function CommunityNavigation(props) {
           component={GrowCommunity}
           title="GrowComunity"
           options={{
-            headerTitle: 'Kembangkan Komunitasmu',
+            headerTitle: t('Grow Your Community'),
           }}
           initialParams={props.route.params}
         />

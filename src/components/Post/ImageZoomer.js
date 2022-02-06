@@ -12,9 +12,11 @@ import ImageZoom from 'react-native-image-pan-zoom';
 import {Icon, useTheme} from 'react-native-elements';
 import {goBack, pop, push} from '../../navigation/Ref';
 import {getUriImage} from '../helpers';
+import {useTranslation} from 'react-i18next';
 
 const ImageZoomer = ({route}) => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
   const {height, width, imageUrl, postId, screen} = route.params;
 
   const footer = (
@@ -73,7 +75,7 @@ const ImageZoomer = ({route}) => {
                 fontWeight: 'bold',
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              See Post
+              {t('See Post')}
             </Text>
             <View style={{width: 10}}></View>
             <Icon name="arrow-forward-ios" color={'#eee'} size={14} />

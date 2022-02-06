@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import {Button, Icon, Divider, useTheme} from 'react-native-elements';
 import communityApi from '../services/CommunityApi';
+import {useTranslation} from 'react-i18next';
 
 const TopicField = props => {
   const {onPress, topic} = props;
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   return (
     <View>
@@ -35,7 +37,7 @@ const TopicField = props => {
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            {!topic ? 'Select Topic' : topic}
+            {!topic ? t('Select Topic') : topic}
           </Text>
           <View style={{width: 20}}></View>
           <Icon

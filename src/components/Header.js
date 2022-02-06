@@ -24,11 +24,14 @@ const TitleComponent = memo(() => {
       }}>
       <Text
         style={{
-          fontSize: 25,
+          fontSize: Platform.OS == 'ios' ? 25 : 20,
+          includeFontPadding: false,
           fontFamily:
-            Platform.OS == 'ios' ? 'chalkduster' : 'sans-serif-medium',
-          fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
+            Platform.OS == 'ios' ? 'chalkduster' : 'PressStart2P-Regular',
           color: theme.colors.black4,
+          ...(Platform.OS == 'ios' && {
+            fontWeight: 500,
+          }),
         }}>
         OM
       </Text>
@@ -39,15 +42,21 @@ const TitleComponent = memo(() => {
           height: 30,
           width: 30,
           marginLeft: 0,
+          ...(Platform.OS == 'android' && {
+            marginRight: 2,
+          }),
         }}
       />
       <Text
         style={{
-          fontSize: 25,
+          fontSize: Platform.OS == 'ios' ? 25 : 20,
+          includeFontPadding: false,
           fontFamily:
-            Platform.OS == 'ios' ? 'chalkduster' : 'sans-serif-medium',
-          fontWeight: Platform.OS == 'ios' ? '500' : 'bold',
+            Platform.OS == 'ios' ? 'chalkduster' : 'PressStart2P-Regular',
           color: theme.colors.black4,
+          ...(Platform.OS == 'ios' && {
+            fontWeight: 500,
+          }),
         }}>
         NG
       </Text>

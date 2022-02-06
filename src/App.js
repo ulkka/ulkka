@@ -11,13 +11,12 @@ import {getData} from './localStorage/helpers';
 import {getRegistrationStatus} from './redux/reducers/AuthSlice';
 import RealApp from './RealApp';
 import ThemedAppIntroSlider from './ThemedAppIntroSlider';
-import '../assets/i18n/i18n';
+import './i18n/i18n';
 
 export default function App() {
   //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
   // also check whether user has done app intro tutorial
   const [introDone, setIntroDone] = useState(true);
-
   async function bootstrap() {
     if ((await utils().isRunningInTestLab) || __DEV__) {
       await analytics().setAnalyticsCollectionEnabled(false);

@@ -9,6 +9,7 @@ import {push, pop} from '../../navigation/Ref';
 import FeedFooter from '../../components/Feed/FeedFooter';
 import analytics from '@react-native-firebase/analytics';
 import {CommunityCreatorPromptView} from '../../components/CommunityCreatorPrompt';
+import {useTranslation} from 'react-i18next';
 
 const CommunityRow = ({community}) => {
   const {theme} = useTheme();
@@ -62,7 +63,7 @@ const CommunityRow = ({community}) => {
 
 export default memo(function SearchCommunityResults(props) {
   const {theme} = useTheme();
-
+  const {t} = useTranslation();
   const term = useSelector(getSearchTerm);
 
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
@@ -156,7 +157,7 @@ export default memo(function SearchCommunityResults(props) {
               image="failSearchCommunity"
               text={term}
               shouldGoBack={true}
-              title="No matching communities found!"
+              title={t('No matching communities found')}
             />
           </View>
         )

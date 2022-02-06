@@ -25,6 +25,8 @@
 		DCD3F8AD25308E6800F2B910 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCD3F8AC25308E6800F2B910 /* GoogleService-Info.plist */; };
 		DCE8D1BA2621B5B100E3B739 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCE8D1B82621B5B100E3B739 /* MainInterface.storyboard */; };
 		DCE8D1BE2621B5B100E3B739 /* Omong-Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DCE8D1B42621B5B000E3B739 /* Omong-Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		949BB411E24C444D8078A753 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A37B8C23E4B4114BBD191B0 /* PressStart2P-Regular.ttf */; };
+		14BC3340825D45109BE30420 /* BungeeShade-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCEC03372D04871B5F1B58C /* BungeeShade-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +120,8 @@
 		EABF186B2CA217DDF1C4906A /* libPods-Omong.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Omong.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		3A37B8C23E4B4114BBD191B0 /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; name = "PressStart2P-Regular.ttf"; path = "../assets/fonts/PressStart2P-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1FCEC03372D04871B5F1B58C /* BungeeShade-Regular.ttf */ = {isa = PBXFileReference; name = "BungeeShade-Regular.ttf"; path = "../assets/fonts/BungeeShade-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,8 @@
 				7F5F4AC14B554008A8E744C6 /* Octicons.ttf */,
 				ABC5C37C068C4B95BECEE080 /* SimpleLineIcons.ttf */,
 				52C71C17E12A4FF086728AF2 /* Zocial.ttf */,
+				3A37B8C23E4B4114BBD191B0 /* PressStart2P-Regular.ttf */,
+				1FCEC03372D04871B5F1B58C /* BungeeShade-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -474,6 +480,8 @@
 				DCD3F8AD25308E6800F2B910 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				949BB411E24C444D8078A753 /* PressStart2P-Regular.ttf in Resources */,
+				14BC3340825D45109BE30420 /* BungeeShade-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -994,14 +1002,14 @@
 				CODE_SIGN_ENTITLEMENTS = Omong/Omong.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Omong/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1027,13 +1035,13 @@
 				CODE_SIGN_ENTITLEMENTS = Omong/Omong.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Omong/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1286,7 +1294,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Omong-Share/Omong-Share.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
 				EXCLUDED_ARCHS = "";
@@ -1294,7 +1302,7 @@
 				INFOPLIST_FILE = "Omong-Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "id.omong.Omong-Share";
@@ -1324,7 +1332,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = CHF7KM5PF5;
 				EXCLUDED_ARCHS = "";
@@ -1332,7 +1340,7 @@
 				INFOPLIST_FILE = "Omong-Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "id.omong.Omong-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -1,5 +1,11 @@
 import React, {useEffect, useState, memo} from 'react';
-import {View, Text, Platform, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import {Button, useTheme} from 'react-native-elements';
@@ -10,13 +16,23 @@ import {
 } from '../redux/reducers/CommunitySlice';
 import CommunityAvatar from './CommunityAvatar';
 import {kFormatter} from './helpers';
+import {useTranslation} from 'react-i18next';
+import {t} from 'i18next';
+import {push} from '../navigation/Ref';
 
 const SingleCommunity = memo(({item}) => {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+
   const {_id: id, name, icon, memberCount} = item;
   return (
-    <View
+    <TouchableOpacity
+      onPress={() =>
+        push('CommunityNavigation', {
+          communityId: id,
+        })
+      }
+      activeOpacity={0.8}
       style={{
         flex: 1,
         backgroundColor: theme.colors.primary,
@@ -56,7 +72,7 @@ const SingleCommunity = memo(({item}) => {
       <View style={{height: 10}}></View>
       <View>
         <Button
-          title="Bergabung"
+          title={t('Join')}
           buttonStyle={{
             borderRadius: 15,
             backgroundColor: theme.colors.blue,
@@ -67,13 +83,15 @@ const SingleCommunity = memo(({item}) => {
           onPress={() => dispatch(joinCommunity(id))}
         />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 });
 
 export default memo(function TopCommunities(props) {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
+
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
   const [complete, setComplete] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -139,7 +157,7 @@ export default memo(function TopCommunities(props) {
       }}>
       <View style={{paddingHorizontal: 10}}>
         <Text style={{fontWeight: 'bold', color: theme.colors.black6}}>
-          Komunitas Populer
+          {t('Top Communities')}
         </Text>
       </View>
       <View>

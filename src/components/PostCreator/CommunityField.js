@@ -1,10 +1,11 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {Icon, useTheme} from 'react-native-elements';
-
+import {useTranslation} from 'react-i18next';
 export const CommunityField = props => {
   const {onPress, community} = props;
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   return (
     <View style={{}}>
@@ -26,7 +27,7 @@ export const CommunityField = props => {
               fontWeight: 'bold',
               ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
             }}>
-            {!community?.name ? 'Select Community' : community.name}
+            {!community?.name ? t('Select Community') : community.name}
           </Text>
           <View style={{width: 20}}></View>
           <Icon

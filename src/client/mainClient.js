@@ -112,29 +112,29 @@ mainClient.interceptors.request.use(
   error => Promise.reject(error),
 );
 
-mainClient.interceptors.request.use(
-  config => {
-    console.log('Request config : ', config);
-    return config;
-  },
-  error => Promise.reject(error),
-);
+// mainClient.interceptors.request.use(
+//   config => {
+//     console.log('Request config : ', config);
+//     return config;
+//   },
+//   error => Promise.reject(error),
+// );
 
-// Intercept all responses
-mainClient.interceptors.response.use(
-  async response => {
-    console.log(response.data);
-    console.log(response.status);
-    console.log(response.statusText);
-    console.log(response.headers);
-    console.log(response.config);
-    return response;
-  },
-  error => {
-    console.log(error.response.status);
-    console.log(error.response.config);
-    console.log(error.response);
-    console.log(error);
-    return Promise.reject(error);
-  },
-);
+// // Intercept all responses
+// mainClient.interceptors.response.use(
+//   async response => {
+//     console.log(response.data);
+//     console.log(response.status);
+//     console.log(response.statusText);
+//     console.log(response.headers);
+//     console.log(response.config);
+//     return response;
+//   },
+//   error => {
+//     console.log(error.response.status);
+//     console.log(error.response.config);
+//     console.log(error.response);
+//     console.log(error);
+//     return Promise.reject(error);
+//   },
+// );

@@ -3,9 +3,11 @@ import {View, TouchableOpacity, Platform} from 'react-native';
 import {SocialIcon, useTheme} from 'react-native-elements';
 import {socialAuth} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const SocialAuth = () => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -26,8 +28,8 @@ const SocialAuth = () => {
         <SocialIcon
           title={
             Platform.OS == 'android'
-              ? 'Masuk dengan Google'
-              : 'Sign in with Google'
+              ? t('Continue with Google')
+              : t('Sign in with Google')
           }
           button
           type="google"
@@ -48,7 +50,7 @@ const SocialAuth = () => {
             justifyContent: 'center',
           }}>
           <SocialIcon
-            title="Sign in with Apple"
+            title={t('Sign in with Apple')}
             button
             type="apple"
             iconSize={20}

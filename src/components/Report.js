@@ -5,10 +5,11 @@ import {hideOptionSheet} from '../redux/reducers/OptionSheetSlice';
 import {useDispatch} from 'react-redux';
 import {reportPost} from '../redux/actions/PostActions';
 import {reportComment} from '../redux/actions/CommentActions';
-
+import {useTranslation} from 'react-i18next';
 const Report = props => {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const {id, type} = props;
   const [selectedReportOption, setSelectedReportOption] = useState('');
@@ -16,25 +17,25 @@ const Report = props => {
 
   const list = [
     {
-      title: 'Sexual content',
+      title: t('Sexual content'),
     },
     {
-      title: 'Violent or repulsive content',
+      title: t('Violent or repulsive content'),
     },
     {
-      title: 'Hateful or abusive content',
+      title: t('Hateful or abusive content'),
     },
     {
-      title: 'Harmful or dangerous acts',
+      title: t('Harmful or dangerous acts'),
     },
     {
-      title: 'Spam or misleading',
+      title: t('Spam or misleading'),
     },
     {
-      title: 'Bullying or harassment',
+      title: t('Bullying or harassment'),
     },
     {
-      title: 'Intellectual property violation',
+      title: t('Intellectual property violation'),
     },
   ];
 
@@ -55,7 +56,7 @@ const Report = props => {
         justifyContent: 'space-evenly',
       }}>
       <Button
-        title="Cancel"
+        title={t('Cancel')}
         containerStyle={{
           marginBottom: 15,
         }}

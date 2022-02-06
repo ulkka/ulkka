@@ -3,9 +3,11 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon, useTheme} from 'react-native-elements';
 import {navigate} from '../../navigation/Ref';
 import ToggleAdminNotifications from './ToggleAdminNotifications';
+import {useTranslation} from 'react-i18next';
 
 export default memo(function CommunitySettings(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const optionViewStyle = {
     borderBottomWidth: 1,
@@ -19,31 +21,31 @@ export default memo(function CommunitySettings(props) {
 
   const settingsList = [
     {
-      title: 'Ganti deskripsi komunitas',
+      title: t('Change Community Description'),
       onPress: () => navigate('UpdateCommunityDescription'),
     },
     {
-      title: 'Ganti peraturan komunitas',
+      title: t('Change Community Rules'),
       onPress: () => navigate('UpdateCommunityRules'),
     },
     {
-      title: 'Ganti icon komunitas',
+      title: t('Change Community Icon'),
       onPress: () => navigate('ChangeCommunityIcon'),
     },
     {
-      title: 'Anggota komunitas',
+      title: t('Community Members'),
       onPress: () => navigate('CommunityMembers'),
     },
     {
-      title: 'Admin komunitas',
+      title: t('Community Admins'),
       onPress: () => navigate('CommunityAdminSettings'),
     },
     {
-      title: 'Anggota yang diblok',
+      title: t('Banned Users'),
       onPress: () => navigate('BannedMembers'),
     },
     {
-      title: 'Notifikasi admin',
+      title: t('Admin Notifications'),
       componentRight: () => <ToggleAdminNotifications {...props} />,
     },
   ];

@@ -84,7 +84,7 @@
 		<dict/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This permission is required to save files to your Photo Library</string>
 	<key>UIAppFonts</key>
@@ -105,6 +105,8 @@
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Fontisto.ttf</string>
+		<string>PressStart2P-Regular.ttf</string>
+		<string>BungeeShade-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

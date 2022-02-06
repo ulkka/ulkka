@@ -10,9 +10,11 @@ import {
 } from '../../redux/reducers/CommunitySlice';
 import {navigate} from '../../navigation/Ref';
 import CommunityNotifications from './CommunityNotifications';
+import {useTranslation} from 'react-i18next';
 
 const CommunityOptions = props => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
   const {communityId} = props;
@@ -26,15 +28,15 @@ const CommunityOptions = props => {
 
   const leaveCommunityAlert = () => {
     Alert.alert(
-      'Leave ' + communityTitle + ' ?',
-      "Posts from this community won't show up in your home feed",
+      t('Leave') + ' ' + communityTitle + ' ?',
+      t('Community Leave Confirmation Detail'),
       [
         {
           text: 'Cancel',
           style: 'cancel',
         },
         {
-          text: 'Leave',
+          text: 'OK',
           style: 'default',
           onPress: () => dispatch(leaveCommunity(communityId)),
         },
@@ -70,7 +72,7 @@ const CommunityOptions = props => {
       return (
         <View>
           <Button
-            title="Pengaturan"
+            title={t('Settings')}
             containerStyle={{
               marginHorizontal: 10,
             }}
@@ -95,7 +97,7 @@ const CommunityOptions = props => {
           />
           <View style={{height: 15}}></View>
           <Button
-            title="Kembangkan"
+            title={t('Grow')}
             buttonStyle={{
               borderWidth: 1,
               borderColor: theme.colors.blue,
@@ -124,7 +126,7 @@ const CommunityOptions = props => {
     default:
       return (
         <Button
-          title="Bergabung"
+          title={t('Join')}
           containerStyle={{
             marginHorizontal: 10,
           }}

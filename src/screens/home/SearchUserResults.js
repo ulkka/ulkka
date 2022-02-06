@@ -15,6 +15,7 @@ import {push, pop} from '../../navigation/Ref';
 import userApi from '../../services/UserApi';
 import FeedFooter from '../../components/Feed/FeedFooter';
 import analytics from '@react-native-firebase/analytics';
+import {useTranslation} from 'react-i18next';
 
 const UserRow = ({user}) => {
   const {theme} = useTheme();
@@ -63,7 +64,7 @@ const UserRow = ({user}) => {
 
 export default memo(function SearchUserResults(props) {
   const {theme} = useTheme();
-
+  const {t} = useTranslation();
   const term = useSelector(getSearchTerm);
 
   const [metadata, setMetadata] = useState({page: 0, limit: 10, total: -1});
@@ -168,7 +169,7 @@ export default memo(function SearchUserResults(props) {
                 fontSize: 18,
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              No matching users found
+              {t('No matching users found')}
             </Text>
           </View>
         )

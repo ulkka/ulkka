@@ -48,7 +48,7 @@ const useEmailLinkEffect = () => {
       .then(link => link && handleDynamicLink(link));
 
     // When the component is unmounted, remove the listener
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   return {error, loading};

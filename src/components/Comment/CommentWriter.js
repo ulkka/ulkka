@@ -307,7 +307,6 @@ export default function CommentWriter(props) {
         borderBottomWidth: Platform.OS === 'ios' ? 0 : 1,
         borderBottomColor: theme.colors.grey2,
         bottom: 0,
-        alignSelf: 'center',
         flex: 1,
         backgroundColor: theme.colors.primary,
         width: '100%',
@@ -319,8 +318,8 @@ export default function CommentWriter(props) {
         onPress={() => initializeForm()}
         activeOpacity={0.8}
         style={{
-          padding: 5,
-          paddingBottom: Platform.OS === 'ios' && !active ? 15 : 7,
+          padding: 15,
+          paddingBottom: Platform.OS === 'ios' && !active ? 25 : 7,
           backgroundColor: theme.colors.primary,
           borderTopWidth: 1,
           borderTopColor: theme.colors.grey2,

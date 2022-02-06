@@ -19,11 +19,15 @@ import {
 import {fetchFeed, refreshFeed} from '../../redux/actions/FeedActions';
 import TopCommunities from '../../components/TopCommunities';
 import SortFeed from './SortFeed';
+import {useTranslation} from 'react-i18next';
+import {t} from 'i18next';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ListHeader = memo(props => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
+
   const {screen} = props;
   return (
     <View
@@ -149,7 +153,7 @@ function Feed(props) {
           <FeedFooter
             complete={complete}
             loading={loading && !refreshing}
-            text="No more posts"
+            text={t('No more posts')}
           />
         ))}
         onScrollToIndexFailed={info =>

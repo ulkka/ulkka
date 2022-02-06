@@ -10,10 +10,12 @@ import {
   getCreatorCommunityId,
 } from '../../redux/reducers/CreatorOverlaySlice';
 import {getCommunityTitle} from '../../redux/reducers/CommunitySlice';
+import {useTranslation} from 'react-i18next';
 
 export default function CreatePostButtonOverlay(props) {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
   const enableOverlay = useSelector(getEnableOverlay);
   const communityId = useSelector(getCreatorCommunityId);
   const communityTitle = useSelector(state =>
@@ -58,7 +60,7 @@ export default function CreatePostButtonOverlay(props) {
             alignSelf: 'center',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          {communityTitle ? 'Post on ' + communityTitle : 'Create Post'}
+          {communityTitle ? 'Post on ' + communityTitle : t('Create Post')}
         </Text>
       </View>
       <TouchableOpacity onPress={() => toggleOverlay()}>

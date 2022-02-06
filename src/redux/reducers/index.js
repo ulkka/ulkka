@@ -16,6 +16,8 @@ import {search} from './SearchSlice';
 import {communityCreatorPrompt} from './CommunityCreatorPromptSlice';
 import {reviewRequest} from './ReviewRequestSlice';
 import {theme} from './ThemeSlice';
+import {language} from './LanguageSlice';
+
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 
 const loggerMiddleware = createLogger();
@@ -36,6 +38,7 @@ const AppReducers = combineReducers({
   loadingOverlay,
   reviewRequest,
   theme,
+  language,
 });
 
 const rootReducer = (state, action) => {
@@ -44,7 +47,10 @@ const rootReducer = (state, action) => {
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunkMiddleware, loggerMiddleware],
+  middleware: [
+    thunkMiddleware,
+    // loggerMiddleware
+  ],
   //preloadedState,
 });
 /*let store = createStore(

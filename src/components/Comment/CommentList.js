@@ -15,10 +15,13 @@ import {getRegistrationStatus} from '../../redux/reducers/AuthSlice';
 import CommentListTitle from './CommentListTitle';
 import SingleCommentThread from './SingleCommentThread';
 import {Divider} from 'react-native-elements';
+import {useTranslation} from 'react-i18next';
 
 function CommentList(props) {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
+
   const {postId, screenId, commentId, setCommentId} = props;
 
   const loading = useSelector(state => areCommentsLoading(state, postId));
@@ -102,7 +105,10 @@ function CommentList(props) {
           textAlign: 'center',
           lineHeight: 30,
         }}>
-        No comments yet {'\n'}Be the first to comment!{'  '}
+        {t('No comments yet')}
+        {'\n'}
+        {t('Be the first to comment')}
+        {'  '}
       </Text>
     </View>
   );

@@ -1,15 +1,19 @@
 import React from 'react';
 import {View, Text, Platform} from 'react-native';
 import {useTheme, ButtonGroup, Icon} from 'react-native-elements';
+import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {setLanguage, getLanguage} from '../redux/reducers/LanguageSlice';
 
 export default function LanguageSelector(props) {
+  const dispatch = useDispatch();
   const {theme} = useTheme();
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
   const buttons = ['en', 'id'];
+  const activeLanguage = useSelector(getLanguage);
 
   const changeLanguage = index => {
-    i18n.changeLanguage(buttons[index]).catch(err => console.log(err));
+    dispatch(setLanguage(buttons[index]));
   };
 
   return (
@@ -41,7 +45,7 @@ export default function LanguageSelector(props) {
       </View>
       <ButtonGroup
         onPress={changeLanguage}
-        selectedIndex={buttons.indexOf(i18n.language)}
+        selectedIndex={buttons.indexOf(activeLanguage)}
         buttons={buttons}
         containerStyle={{
           width: 75,

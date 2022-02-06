@@ -8,10 +8,11 @@ import {
 } from '../redux/reducers/CommunityCreatorPromptSlice';
 import {useSelector, useDispatch} from 'react-redux';
 import {navigate, goBack} from '../navigation/Ref';
+import {useTranslation} from 'react-i18next';
 
 export const CommunityCreatorPromptView = props => {
   const {theme} = useTheme();
-
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const text = props?.text
     ? props.text.trim().replace(' ', '_').replace(/#/g, '')
@@ -54,11 +55,11 @@ export const CommunityCreatorPromptView = props => {
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
         {' '}
-        Would you like to create a community{'\n'}on this topic?
+        {t('Interested in creating community')}
       </Text>
       <View style={{height: 20}}></View>
       <Button
-        title="Create Community"
+        title={t('Create Community')}
         buttonStyle={{
           width: 180,
           borderRadius: 15,
@@ -79,7 +80,7 @@ export const CommunityCreatorPromptView = props => {
       <View style={{height: 15}}></View>
       {shouldGoBack ? (
         <Button
-          title="Go Back"
+          title={t('Back')}
           buttonStyle={{
             width: 180,
             borderRadius: 15,

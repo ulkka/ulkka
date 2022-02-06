@@ -4,11 +4,13 @@ import {useTheme} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import UserDetailTabView from './UserDetailTabView';
 import BlockedUsers from './BlockedUsers';
+import {useTranslation} from 'react-i18next';
 
 const StackNav = createStackNavigator();
 
 function UserNavigation(props) {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   return (
     <View style={{flex: 1, backgroundColor: theme.colors.primary}}>
@@ -35,7 +37,7 @@ function UserNavigation(props) {
           component={BlockedUsers}
           title="Blocked Users"
           options={{
-            headerTitle: 'Anggota yang di blok',
+            headerTitle: t('Blocked Users'),
             headerBackTitle: '',
             headerBackTitleStyle: {
               fontSize: 16,

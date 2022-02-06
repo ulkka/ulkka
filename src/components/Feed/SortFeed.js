@@ -7,11 +7,14 @@ import {
   getFeedSortMethod,
   getFeedTopSortFrom,
 } from '../../redux/selectors/FeedSelectors';
+import {useTranslation} from 'react-i18next';
 
 export default memo(function SortFeed(props) {
   const dispatch = useDispatch();
   const {screen} = props;
   const {theme} = useTheme();
+  const {t} = useTranslation();
+
   const sortMethod = useSelector(state => getFeedSortMethod(state, screen));
   const topSortFrom = useSelector(state => getFeedTopSortFrom(state, screen));
 
@@ -92,7 +95,7 @@ export default memo(function SortFeed(props) {
           color: theme.colors.black5,
           ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
         }}>
-        New
+        {t('New')}
       </Text>
     </View>
   );
@@ -213,7 +216,7 @@ export default memo(function SortFeed(props) {
             fontWeight: '700',
             color: theme.colors.black5,
           }}>
-          Sort By
+          {t('Sort By')}
         </Text>
       </View>
       {sortOptions}
@@ -394,13 +397,13 @@ export default memo(function SortFeed(props) {
             buttonStyle={{
               borderWidth: 1,
               borderRadius: 25,
-              paddingHorizontal: '45%',
+              paddingHorizontal: '40%',
               paddingVertical: 8,
               alignItems: 'center',
               borderColor: theme.colors.grey5,
               backgroundColor: theme.colors.grey3,
             }}
-            title="Close"
+            title={t('Close')}
             onPress={() => close()}
           />
         </View>

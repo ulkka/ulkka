@@ -5,10 +5,12 @@ import {Input, Icon} from 'react-native-elements';
 import {sendEmailSignInLink} from '../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 import {transformText} from '../../components/PostCreator/helpers';
+import {useTranslation} from 'react-i18next';
 
 const EmailLinkSignIn = () => {
   const dispatch = useDispatch();
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const emailFieldRef = useRef(null);
   const renderErrorMessage = false;
@@ -63,7 +65,7 @@ const EmailLinkSignIn = () => {
         value={email}
       />
       <Button
-        title="Kirim Tautan untuk Masuk"
+        title={t('Send Login Link')}
         type="solid"
         activeOpacity={0.5}
         disabledTitleStyle={{color: theme.colors.black6, fontWeight: '400'}}

@@ -21,11 +21,14 @@ import TimeAgo from '../../../components/TimeAgo';
 import {push} from '../../../navigation/Ref';
 import FeedFooter from '../../../components/Feed/FeedFooter';
 import analytics from '@react-native-firebase/analytics';
+import {useTranslation} from 'react-i18next';
+import {t} from 'i18next';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const CommentRow = memo(props => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const {commentId} = props;
   const comment = useSelector(state => selectCommentById(state, commentId));
@@ -217,8 +220,8 @@ const Comments = props => {
             loading={loading}
             text={
               complete && !commentIds.length
-                ? 'No Comments Yet'
-                : 'No more comments'
+                ? t('No comments yet')
+                : t('No more comments')
             }
           />
         }

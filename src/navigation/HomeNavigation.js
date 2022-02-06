@@ -9,7 +9,6 @@ import {isVisible} from '../redux/reducers/OptionSheetSlice';
 import OptionSheet from '../components/OptionSheet';
 import {getCommunityCreatorPromptIsVisble} from '../redux/reducers/CommunityCreatorPromptSlice';
 import {CommunityCreatorPromptOverlay} from '../components/CommunityCreatorPrompt';
-import EmailLinkHandler from '../screens/auth/EmailLinkHandler';
 import ShareMenuHandler from '../components/ShareMenuHandler';
 import {
   NotificationHandler,
@@ -22,6 +21,7 @@ import CommunityNavigation from '../screens/community/CommunityNavigation';
 import ImageZoomer from '../components/Post/ImageZoomer';
 import ReviewRequestComponent from '../components/ReviewRequestComponent';
 import CommunityExplorer from '../components/CommunityExplorer';
+import {useTranslation} from 'react-i18next';
 
 const StackNav = createStackNavigator();
 
@@ -32,6 +32,7 @@ const presets =
 
 function HomeNavigation() {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const isOptionSheetVisible = useSelector(isVisible);
   const isCommunityCreatorPromptVisible = useSelector(
@@ -43,7 +44,7 @@ function HomeNavigation() {
       <StackNav.Navigator
         initialRouteName="Feed"
         screenOptions={() => ({
-          headerBackTitle: 'Back',
+          headerBackTitle: t('Back'),
           headerShown: false,
 
           headerTitleAlign: 'center',
@@ -64,7 +65,7 @@ function HomeNavigation() {
           title="Create Post"
           options={{
             headerShown: true,
-            headerTitle: 'Create Post',
+            headerTitle: t('Create Post'),
             headerBackTitle: '',
             headerTitleAlign: 'center',
           }}
@@ -76,6 +77,7 @@ function HomeNavigation() {
           options={{
             headerShown: true,
             headerTitleAlign: 'center',
+            headerTitle: t('Create Community'),
           }}
         />
         <StackNav.Screen
@@ -117,7 +119,6 @@ function HomeNavigation() {
       </StackNav.Navigator>
       {isOptionSheetVisible && <OptionSheet />}
       {isCommunityCreatorPromptVisible && <CommunityCreatorPromptOverlay />}
-      <EmailLinkHandler />
       <ShareMenuHandler />
       <ConfigurePushNotification />
       <NotificationHandler />

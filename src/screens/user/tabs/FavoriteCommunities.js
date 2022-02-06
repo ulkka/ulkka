@@ -8,6 +8,7 @@ import {push, navigate} from '../../../navigation/Ref';
 import TopCommunities from '../../../components/TopCommunities';
 import {FlatList} from 'react-native-gesture-handler';
 import FavoriteCommunity from '../../community/FavoriteCommunity';
+import {useTranslation} from 'react-i18next';
 
 const CommunityRow = memo(({community, onlyIcons}) => {
   const {theme} = useTheme();
@@ -68,7 +69,7 @@ const CommunityRow = memo(({community, onlyIcons}) => {
 
 export default memo(function FavoriteCommunities(props) {
   const {theme} = useTheme();
-
+  const {t} = useTranslation();
   const {type, contentContainerStyle, onlyIcons} = props;
   const memberCommunities = useSelector(getUserFavoriteCommunities);
 
@@ -154,7 +155,7 @@ export default memo(function FavoriteCommunities(props) {
         paddingHorizontal: 15,
       }}>
       <Text style={{color: theme.colors.black5, fontSize: 12}}>
-        No communities favorited
+        {t('No communities favorited')}
       </Text>
     </View>
   );

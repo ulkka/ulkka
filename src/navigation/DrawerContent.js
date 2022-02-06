@@ -115,7 +115,7 @@ const NavSection = memo(({navigation}) => {
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          My Profile
+          {t('My Profile')}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -142,7 +142,7 @@ const NavSection = memo(({navigation}) => {
             fontWeight: 'bold',
             ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
           }}>
-          Create Community
+          {t('Create Community')}
         </Text>
       </TouchableOpacity>
     </View>
@@ -232,7 +232,7 @@ const ListView = ({navigation}) => {
       <CommunitiesList
         navigation={navigation}
         ListComponent={() => <UserCommunities />}
-        title="My Communities"
+        title={t('My Communities')}
         ListIcon={() => (
           <Icon
             name="group"

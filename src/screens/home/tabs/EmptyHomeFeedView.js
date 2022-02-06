@@ -6,9 +6,11 @@ import {getIsCurrentUserPartOfAnyCommunity} from '../../../redux/reducers/Commun
 import TopCommunities from '../../../components/TopCommunities';
 import {getRegistrationStatus} from '../../../redux/reducers/AuthSlice';
 import {showAuthScreen} from '../../../navigation/Ref';
+import {useTranslation} from 'react-i18next';
 
 const EmptyHomeFeedView = props => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
 
   const [showRefresh, setShowRefresh] = useState(false);
   const userHasJoinedCommunities = useSelector(
@@ -62,7 +64,7 @@ const EmptyHomeFeedView = props => {
         flex: 1,
       }}>
       <ImageBackground
-        blurRadius={1}
+        blurRadius={Platform.OS == 'ios' ? 1 : 2}
         resizeMode="repeat"
         style={{
           width: '100%',
@@ -95,7 +97,7 @@ const EmptyHomeFeedView = props => {
                 ...(Platform.OS == 'ios' && {letterSpacing: 1}),
                 ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
               }}>
-              Selamat Datang !
+              {t('Welcome')}
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -127,7 +129,7 @@ const EmptyHomeFeedView = props => {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    'Vote di postingan untuk membantu komunitas agar komentar terbaik ada di atas'
+                    t('Empty Home Feed Point1')
                     //'വോട്ട് ചെയ്ത് നല്ല പോസ്റ്റുകൾ മുകളിലേക്കെത്തിക്കുവാൻ കമ്മ്യൂണിറ്റികളെ സഹായിക്കുക'
                   }
                 </Text>
@@ -158,7 +160,7 @@ const EmptyHomeFeedView = props => {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    'Bergabung dengan komunitas agar halaman Home ini selalu up-to-date dan banyak konten baru setiap harinya!'
+                    t('Empty Home Feed Point2')
                     //'ഫ്രഷ് പോസ്റ്റുകൾ കൊണ്ട് ഈ ഹോം ഫീഡ് നിറയ്ക്കാൻ കമ്മ്യൂണിറ്റികളിൽ ജോയിൻ ചെയ്യുക'
                   }
                 </Text>
@@ -186,7 +188,7 @@ const EmptyHomeFeedView = props => {
                     ...(Platform.OS == 'android' && {fontFamily: 'roboto'}),
                   }}>
                   {
-                    'Buat post dan komentar yang bagus untuk membuat komunitasmu senang dan dapatkan hati (like)!'
+                    t('Empty Home Feed Point3')
                     // 'അടിപൊളി പോസ്റ്റും കമന്റും ചെയ്തു കൂടുതൽ Hearts നേടുക '
                   }
                 </Text>
