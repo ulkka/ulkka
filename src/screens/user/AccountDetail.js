@@ -31,6 +31,7 @@ import UserDisplaynameField from '../../components/UserDisplaynameField';
 import InviteUserToCommunity from './InviteUserToCommunity';
 import {getIsCurrentUserAdminOfAnyCommunity} from '../../redux/reducers/CommunitySlice';
 import {useTranslation} from 'react-i18next';
+import {navigate} from '../../navigation/Ref';
 //const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 const AccountDetail = memo(props => {
@@ -164,18 +165,34 @@ const AccountDetail = memo(props => {
 
   const blockUserView = () => {
     return (
-      <TouchableOpacity
-        hitSlop={{top: 20, bottom: 30, left: 20, right: 20}}
-        style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
-        onPress={() => blockUserAlert()}>
-        <Icon
-          raised
-          name="user-slash"
-          type="font-awesome-5"
-          size={14}
-          color={'red'}
-        />
-      </TouchableOpacity>
+      <View style={{display: 'flex', flexDirection: 'row'}}>
+        <TouchableOpacity
+          hitSlop={{top: 20, bottom: 30, left: 20, right: 20}}
+          style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
+          onPress={() => blockUserAlert()}>
+          <Icon
+            raised
+            name="user-slash"
+            type="font-awesome-5"
+            size={14}
+            color={'red'}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          hitSlop={{top: 20, bottom: 30, left: 20, right: 20}}
+          style={{paddingRight: 5, flexDirection: 'row', alignItems: 'center'}}
+          onPress={() => {
+            navigate('ChatDetailNavigation', {username: userDisplayname});
+          }}>
+          <Icon
+            raised
+            name="envelope"
+            type="font-awesome-5"
+            size={14}
+            color={'#FF7BAC'}
+          />
+        </TouchableOpacity>
+      </View>
     );
   };
 

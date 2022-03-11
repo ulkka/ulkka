@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import UserDetailTabView from './UserDetailTabView';
 import BlockedUsers from './BlockedUsers';
 import {useTranslation} from 'react-i18next';
+import ChatDetailNavigation from '../messages/ChatDetailNavigation';
 
 const StackNav = createStackNavigator();
 
@@ -23,6 +24,12 @@ function UserNavigation(props) {
             headerStyle: {height: 40},
           }),
         }}>
+        <StackNav.Screen
+          name="ChatDetailNavigation"
+          component={ChatDetailNavigation}
+          options={{headerShown: false}}
+          initialParams={props.route.params}
+        />
         <StackNav.Screen
           name="UserDetailTabView"
           component={UserDetailTabView}

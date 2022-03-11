@@ -6,6 +6,7 @@ import CreatePost from '../screens/create/PostCreator';
 import {useSelector} from 'react-redux';
 import FeedNavigation from '../screens/home/FeedNavigation';
 import SearchNavigation from './SearchNavigation';
+import MessagesNavigation from './MessagesNavigation';
 import NotificationNavigation from './NotificationNavigation';
 import MainBottomTabBar from './MainBottomTabBar';
 import {getUnreadNotificationCount} from '../redux/reducers/NotificationSlice';
@@ -90,17 +91,6 @@ export default function BottomTabNavigation() {
       <BottomTab.Screen
         name="Notifications"
         component={NotificationNavigation}
-        options={{
-          headerShown: false,
-          requireAuth: true,
-          tabBarBadge: unReadNotificationCount,
-          tabBarIcon: ({color, size}) => (
-            <Icon name={'bell-o'} type="font-awesome" color={color} size={20} />
-          ),
-          activeTabBarIcon: ({color, size}) => (
-            <Icon name="bell" type="font-awesome" color={color} size={20} />
-          ),
-        }}
         options={({route}) => ({
           headerShown: false,
           tabBarVisible: getTabBarVisibility(route),
@@ -112,6 +102,27 @@ export default function BottomTabNavigation() {
           ),
           activeTabBarIcon: ({color, size}) => (
             <Icon name="bell" type="font-awesome" color={color} size={20} />
+          ),
+        })}
+      />
+      <BottomTab.Screen
+        name="MessagesNavigation"
+        component={MessagesNavigation}
+        options={({route}) => ({
+          headerShown: false,
+          tabBarVisible: getTabBarVisibility(route),
+          requireAuth: false,
+          unmountOnBlur: true,
+          tabBarIcon: ({color, size}) => (
+            <Icon name="envelope" type="font-awesome" color={color} size={22} />
+          ),
+          activeTabBarIcon: ({color, size}) => (
+            <Icon
+              name="envelope-open"
+              type="font-awesome"
+              color={color}
+              size={22}
+            />
           ),
         })}
       />

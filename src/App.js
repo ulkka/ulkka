@@ -12,6 +12,7 @@ import {getRegistrationStatus} from './redux/reducers/AuthSlice';
 import RealApp from './RealApp';
 import ThemedAppIntroSlider from './ThemedAppIntroSlider';
 import './i18n/i18n';
+import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 
 export default function App() {
   //function to disable GA/Crashytics & Firebase perf while running in Firebase testlab after submitting for publishing
@@ -52,7 +53,9 @@ export default function App() {
   return (
     <StoreProvider store={store}>
       <SafeAreaProvider>
-        <IntroVsApp />
+        <ActionSheetProvider>
+          <IntroVsApp />
+        </ActionSheetProvider>
       </SafeAreaProvider>
     </StoreProvider>
   );
